@@ -1,0 +1,12 @@
+[submodule "submodules/board-support"]
+	path = submodules/board-support
+	url = git@gitlab.com:lbl-bids/board-support.git
+[submodule "submodules/common-hdl"]
+	path = submodules/common-hdl
+	url = git@gitlab.com:lbl-bids/common-hdl.git
+[submodule "submodules/fpga-family"]
+	path = submodules/fpga-family
+	url = git@gitlab.com:lbl-bids/fpga-family.git
+[submodule "submodules/tools"]
+	path = submodules/tools
+	url = git@gitlab.com:lbl-bids/tools.git

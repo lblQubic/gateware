@@ -1,0 +1,20 @@
+{
+"test": {"access": "rw","addr_width": 0,"base_addr": 0,"data_width": 32,"sign": "unsigned","init": 0}
+,"test1": {"access": "r","addr_width": 0,"base_addr": 1,"data_width": 32,"sign": "unsigned","init": 0}
+,"test2": {"access": "rw","addr_width": 0,"base_addr": 2,"data_width": 32,"sign": "unsigned","init": 100}
+,"err": {"access": "rw","addr_width": 0,"base_addr": 3,"data_width": 32,"sign": "unsigned","init": 0}
+,"uartmode": {"access": "rw","addr_width": 0,"base_addr": 4,"data_width": 2,"sign": "unsigned","init": 0}
+,"xadctemp": {"access": "r","addr_width": 0,"base_addr": 5,"data_width": 16,"sign": "unsigned","init": 0}
+,"xadcupdate": {"access": "rw","addr_width": 0,"base_addr": 6,"data_width": 32,"sign": "unsigned","init": 500}
+,"xadcaux4": {"access": "r","addr_width": 0,"base_addr": 7,"data_width": 16,"sign": "unsigned","init": 0}
+,"xadcaux12": {"access": "r","addr_width": 0,"base_addr": 8,"data_width": 16,"sign": "unsigned","init": 0}
+,"i2cdatatx": {"access": "rw","addr_width": 0,"base_addr": 9,"data_width": 32,"sign": "unsigned","init": 0}
+,"i2cstart": {"access": "rw","addr_width": 0,"base_addr": 10,"data_width": 32,"sign": "unsigned","init": 0}
+,"i2cdatarx": {"access": "r","addr_width": 0,"base_addr": 11,"data_width": 32,"sign": "unsigned","init": 0}
+,"i2crxvalid": {"access": "r","addr_width": 0,"base_addr": 12,"data_width": 1,"sign": "unsigned","init": 0}
+,"clk4radio": {"access": "rw","addr_width": 0,"base_addr": 13,"data_width": 32,"sign": "unsigned","init": 2500}
+,"i2cmux_reset_b": {"access": "rw","addr_width": 0,"base_addr": 14,"data_width": 1,"sign": "unsigned","init": 0}
+,"fmcprsnt": {"access": "r","addr_width": 0,"base_addr": 15,"data_width": 2,"sign": "unsigned","init": 0}
+,"fmcdacen": {"access": "rw","addr_width": 0,"base_addr": 16,"data_width": 2,"sign": "unsigned","init": 0}
+,"fmcpgm2c": {"access": "r","addr_width": 0,"base_addr": 17,"data_width": 2,"sign": "unsigned","init": 0}
+}
