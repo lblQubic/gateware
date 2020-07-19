@@ -98,6 +98,22 @@ def ad7291cmd(r1w0,addr,data):
 def ad7291write(addr,data):
 	addrdata=((addr&0xff)<<16)+(data&0xffff)
 	devwrite(devaddr=0x2f,addrdata=addrdata,nack=4)
+def ad7291calc(val):
+	chan=(val>>12)&0xf
+	val12=val&0xfff
+	if chan in [0,1,2,3]:
+		voltage=val12*0.0006105
+	elif chan in [4,5,6]:
+		voltage=val12*0.001221
+	elif chan in [7]:
+		voltage=((4095-(val12+2047))*(-0.0016117))
+	elif chan in [8,9]:
+		voltage=val12/4.0
+	else:
+		print('which chan? chan=',chan)
+		voltage=0
+#	print(hex(val),chan,hex(val12),voltage)
+	return (chan,voltage)
 def ad7291read(addr):
 	addrdata=((addr&0xff))#<<16)
 	val=devread(devaddr=0x2f,addrdata=addrdata,nack=3)
@@ -138,10 +154,11 @@ if __name__=="__main__":
 		ad7291write(addr=0x0,data=0x0002)
 		for i in range(8):
 			ad7291write(addr=0x0,data=((1<<(i+8))+0x80))
-			vout=ad7291read(0x01)
-			temp=ad7291read(0x02)
-			tavr=ad7291read(0x03)
-			print(hex(vout),hex(temp),hex(tavr))
+			chv,vout=ad7291calc(ad7291read(0x01))
+			cht,temp=ad7291calc(ad7291read(0x02))
+			cha,tavr=ad7291calc(ad7291read(0x03))
+			print('%d %3.2f %d %4.2f %d %4.2f'%(chv,vout,cht,temp,cha,tavr))
+		#			print(hex(vout),hex(temp),hex(tavr))
 	if (0): # test on fmc120 eeprom
 		for page in range(16):
 			val=0
@@ -165,22 +182,31 @@ if __name__=="__main__":
 			print(hex(val))
 	if (1): # test on fmc120 spi
 		print('mux read',hex(i2cread(devaddr=0x74)))
-#		cpldwrite(addr=0x02,data=0x00)
+		cpldwrite(addr=0x02,data=0x00)
 		cpldwrite(addr=0x02,data=0x20)
+		dacwrite(addr=0x02,data=0x2082)
 #		lmkwrite(addr=0x15d,data=0x73)
-#		cpldwrite(addr=0x03,data=0x00)
-#		cpldwrite(addr=0x03,data=0x07)
-#		cpldwrite(addr=0x03,data=0x00)
-		cpldwrite(addr=0x01,data=0xff)
+		cpldwrite(addr=0x03,data=0x00)
+		cpldwrite(addr=0x03,data=0x07)
+		cpldwrite(addr=0x03,data=0x18)
+		cpldwrite(addr=0x01,data=0xf0)
+		lmkwrite(addr=0,data=0x90)
 		lmkwrite(addr=0,data=0x10)
+#		lmkwrite(addr=0x146,data=0x00)
+#		lmkwrite(addr=0x147,data=0x10)
+		lmkwrite(addr=0x148,data=0x33)
+#		lmkwrite(addr=0x149,data=0x00)
+#		lmkwrite(addr=0x14a,data=0x00)
+#		lmkwrite(addr=0x14b,data=0x05)
 #		time.sleep(1)
+	if (1): # test on fmc120 spi
 #		print('dacread',hex(int(dacread(addr=0x0))))
 #		dacwrite(addr=0x0,data=0x18)
 		lmkwrite(addr=0x10,data=0x1010)
 #		print('lmkread',hex(3),hex(int(lmkread(addr=3))));
 #		print('dacread',hex(int(dacread(addr=0x0))))
-		#for addr in range(3):
-		for addr in [0,3,4,5]:#range(3):
+		for addr in range(16):
+	#	for addr in [0,3]:#range(3):
 			adca=adcread(addr=addr,adca0b1=0)
 			lmk=lmkread(addr=addr)
 			dac=dacread(addr=addr)
@@ -233,10 +259,10 @@ if __name__=="__main__":
 		for addrstr,datastr in lmkinit:
 			addr=int(addrstr,0)
 			data=int(datastr,0)
-			lmkwrite(addr=addr,data=data)
-			print('lmk init addr %x data %x'%(addr,data))
-		#	print('lmkread',hex(addr),hex(int(lmkread(addr=addr))));
-	if (1):
+		#	lmkwrite(addr=addr,data=data)
+		#	print('lmk init addr %x data %x'%(addr,data))
+			print('lmkread',hex(addr),hex(int(lmkread(addr=addr))));
+	if (0):
 		for addr in [1,2,3,4,5,6,7,8,0x0e,0x0f]:
 			print('cpldread',hex(addr),hex(int(cpldread(addr=addr))))
 	if (0):

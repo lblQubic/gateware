@@ -3,7 +3,7 @@ module qubichw_config #(parameter DEBUG="false",parameter BAUD=9600)
 ,localbus.cfg lb
 ,dsp.cfg dsp
 );
-assign hw.vc707.fmc_vadj_on_b_ls=1'b1;
+//assign hw.vc707.fmc_vadj_on_b_ls=1'b0;
 wire mmcm_clk200;
 wire mmcm_clk100;
 wire mmcmlocked;
