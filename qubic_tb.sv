@@ -1,6 +1,6 @@
 //`include "constants.vams"
 `include "xc7vx485tffg1761pkg.vh"
-`timescale 1ns / 1ns
+`timescale 1ns / 100ps
 module qubic_tb();
 xc7vx485tffg1761pkg fpga();
 reg sysclk=0;
@@ -17,12 +17,29 @@ initial begin
 	end
 	$finish();
 end
+
+reg sgmiiclk=0;
+initial begin
+    forever #(4) sgmiiclk=~sgmiiclk;
+end
+reg si5324clk=0;
+initial begin
+    forever #(0.5) si5324clk=~si5324clk;
+end
 hw hw();
 vc707_sim vc707_sim(.fpga(fpga),.hw(hw.vc707.sim));
 assign hw.vc707.sysclk=sysclk;
+assign hw.vc707.sgmiiclk_q0_p=sgmiiclk;
+assign hw.vc707.sgmiiclk_q0_n=~sgmiiclk;
+assign hw.vc707.si5324_out_c_p=si5324clk;
+assign hw.vc707.si5324_out_c_n=~si5324clk;
+assign hw.vc707.pcie.clk_qo_p=1'b0;
+assign hw.vc707.pcie.clk_qo_n=1'b1;
+assign hw.vc707.sma_mgt_refclk_p=1'b0;
+assign hw.vc707.sma_mgt_refclk_n=1'b1;
 //assign hw.vc707.usb2uart.tx=0;
 //assign hw.vc707.usb2uart.rx=0;
-localparam BAUD=960000;
+localparam BAUD=9600000;
 qubic #(.BAUD(BAUD)) qubic(.fpga(fpga));
 
 reg [31:0] sysclkcnt=0;
@@ -53,15 +70,17 @@ uart (.clk(uartclk)
 ,.rxvalid(rxvalid)
 ,.txready(txready)
 );
-localparam LINES=7;
+localparam LINES=9;
 localparam TOTALBYTE=LINES*8;
 reg  [LINES*64-1:0] cmdsim={8'hff,24'hffffff,32'hffffffff
 ,8'hff,24'hffffff,32'hffffff00
+,64'h0100001400000001
 ,64'h010000090000e920
 ,64'h0000000900000000
 ,64'h0100000a00000013
 ,64'h00000000facefeed
 ,64'h00000001deadbeef
+,64'h0100001400000000
 };
 /*localparam TOTALBYTE=LINES*8-1;
 	{8'd1,24'h0,32'habcd1234
@@ -86,4 +105,10 @@ assign txdata=cmdsim[LINES*64-1:LINES*64-8];
 assign txstart=(txready_d&~txready_d2&(txcnt<=TOTALBYTE) )|uartclkcnt==4;
 assign hw.vc707.VP_0=1'b0;
 assign hw.vc707.VN_0=1'b1;
+
+
+
+assign hw.vc707.sfp.rx_n=hw.vc707.sfp.tx_n;
+assign hw.vc707.sfp.rx_p=hw.vc707.sfp.tx_p;
+assign hw.vc707.sfp.los=1'b0;
 endmodule

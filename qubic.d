@@ -11,7 +11,7 @@ submodules/common-hdl/uartrx.v
 submodules/common-hdl/uarttx.v
 submodules/common-hdl/uart.v
 submodules/common-hdl/localbus.vh
-ila.tcl
+ilaauto.tcl
 qubicdsp.sv
 xadc.tcl
 lbread.vh
@@ -24,3 +24,8 @@ submodules/board-support/fmc120/fmc120.sv
 submodules/common-hdl/i2cmaster.v
 submodules/common-hdl/i2cclk.v
 qubic.xdc
+submodules/fpga-family/gtx/gtxclks.v
+gticc_common.sv
+gticc_gt.sv
+gtreset.v
+ilaauto.vh

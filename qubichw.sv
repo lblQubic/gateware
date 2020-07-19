@@ -25,4 +25,5 @@ inout fmc_vadj_on_b_ls,phy_mdio,pmbus_alert,pmbus_clk,pmbus_data,user_clock_n,us
 ,input cpu_reset,fmc1_hpc_gbtclk0_m2c_c_n,fmc1_hpc_gbtclk0_m2c_c_p,fmc1_hpc_gbtclk1_m2c_c_n,fmc1_hpc_gbtclk1_m2c_c_p,fmc2_hpc_gbtclk0_m2c_c_n,fmc2_hpc_gbtclk0_m2c_c_p,fmc2_hpc_gbtclk1_m2c_c_n,fmc2_hpc_gbtclk1_m2c_c_p,gpio_dip_sw0,gpio_dip_sw1,gpio_dip_sw2,gpio_dip_sw3,gpio_dip_sw4,gpio_dip_sw5,gpio_dip_sw6,gpio_dip_sw7,gpio_sw_c,gpio_sw_e,gpio_sw_n,gpio_sw_s,gpio_sw_w,rec_clock_c_n,rec_clock_c_p,rotary_inca,rotary_incb,rotary_push,sgmii_rx_n,sgmii_rx_p,sgmiiclk_q0_n,sgmiiclk_q0_p,si5324_int_alm,si5324_out_c_n,si5324_out_c_p,sm_fan_tach,sma_mgt_refclk_n,sma_mgt_refclk_p,sma_mgt_rx_n,sma_mgt_rx_p,sma_mgt_tx_n,sma_mgt_tx_p,sysclk,VP_0,VN_0
 );
 */
+
 endinterface
