@@ -29,3 +29,5 @@ gticc_common.sv
 gticc_gt.sv
 gtreset.v
 ilaauto.vh
+sysclkmmcm.v
+gig_ethernet_pcs_pma.tcl

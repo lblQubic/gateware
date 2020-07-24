@@ -1,5 +1,7 @@
 TGT=qubic
-SYNTH_SOURCE = $(shell grep -v ".ucf\|.xdc" $(TGT).d)
+SYNTH_SOURCE = $(shell grep -v "\.ucf\|\.xdc\|\.d" $(TGT).d)
+#SYNTH_SOURCE += $(shell grep -v "\.ucf\|\.xdc\|\.d" $(SYNTH_D))
+#SYNTH_D = $(shell grep "\.d" $(TGT).d)
 SYNTH_CONSTR = $(shell grep ".ucf\|.xdc" $(TGT).d)
 SIM_SOURCE = $(shell grep -v .xdc $(TGT)_tb.d)
 SIM_CONSTR = $(shell grep .xdc $(TGT)_tb.d)
@@ -37,7 +39,7 @@ fname:
 test:
 	echo $(FNAME)
 
-$(TGT).bit: FNAME = $(TGT)_$(DATETIME)_$(COMMITNUM)
+$(TGT).bit: FNAME := $(TGT)_$(DATETIME)_$(COMMITNUM)
 $(TGT).bit: $(TGT).tcl $(SYNTH_SOURCE) bitclean gitcommit fname
 	echo $(FNAME)
 	time vivado -mode batch -source $<

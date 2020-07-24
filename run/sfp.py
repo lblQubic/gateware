@@ -12,5 +12,8 @@ if __name__=="__main__":
 	ser.write(addr=21,data=1)
 #	ser.write(addr=20,data=1)
 #	ser.write(addr=20,data=0)
-	ser.write(addr=18,data=0xfcfcabbc)
-	print([hex(int(i)) for i in ser.read(addr=19)])
+	for i in range(10):
+		data=int(random.random()*2**32)
+		ser.write(addr=18,data=data)
+		c,a,d=ser.read(addr=19)
+		print(hex(data),hex(int(d)))
