@@ -6,26 +6,32 @@ module qubichw_config #(parameter DEBUG="false",parameter BAUD=9600)
 //assign hw.vc707.fmc_vadj_on_b_ls=1'b0;
 wire mmcm_clk200;
 wire mmcm_clk100;
+wire mmcm_clk125;
 wire mmcmlocked;
 wire mmcmclkfbout,mmcmclkfbin;
 wire mmcme2_base_sysclk_reset;
 assign mmcme2_base_sysclk_reset=0;
 MMCME2_BASE #(.BANDWIDTH("OPTIMIZED")
-,.CLKIN1_PERIOD(5.0)   // 200MHz
-,.CLKFBOUT_MULT_F(6)     //
-,.DIVCLK_DIVIDE(1)         //
+,.CLKIN1_PERIOD(5.0)  // 200MHz
+,.CLKFBOUT_MULT_F(5)   //
+,.DIVCLK_DIVIDE(1)     //
 ,.CLKFBOUT_PHASE(0.0)
-,.CLKOUT0_DIVIDE_F(12)     //  100M
+,.CLKOUT0_DIVIDE_F(10)   // 100M
 ,.CLKOUT0_DUTY_CYCLE(0.5)
 ,.CLKOUT0_PHASE(0.0)
-,.CLKOUT1_DIVIDE(6)     // 200M
+,.CLKOUT1_DIVIDE(5)   // 200M
 ,.CLKOUT1_DUTY_CYCLE(0.5)
 ,.CLKOUT1_PHASE(0.0)
 ,.REF_JITTER1(0.0)
+,.CLKOUT2_DIVIDE(8)   // 125M 
+,.CLKOUT2_DUTY_CYCLE(0.5)
+,.CLKOUT2_PHASE(0.0)
+//,.REF_JITTER2(0.0)
 ,.STARTUP_WAIT("FALSE")
 ) mmcme2_base_sysclk (.CLKIN1(hw.vc707.sysclk)
 ,.CLKOUT0(mmcm_clk100)
 ,.CLKOUT1(mmcm_clk200)
+,.CLKOUT2(mmcm_clk125)
 ,.LOCKED(mmcmlocked)
 ,.CLKFBOUT(mmcmclkfbout)
 ,.CLKFBIN(mmcmclkfbin)
@@ -35,14 +41,22 @@ MMCME2_BASE #(.BANDWIDTH("OPTIMIZED")
 BUFG mmcmclkfb(.I(mmcmclkfbout),.O(mmcmclkfbin));
 wire clk200;
 wire clk100;
+wire clk125;
 wire uartclk=clk100;
 BUFG bufgclk100(.I(mmcm_clk100),.O(clk100));
+BUFG bufgclk125(.I(mmcm_clk125),.O(clk125));
 BUFG bufgclk200(.I(mmcm_clk200),.O(clk200));
 
 
+reg poweronreset_r=0;
+reg poweronreset_d=0;
+wire poweronreset=poweronreset_r&~poweronreset_d;
 reg [31:0] clk200cnt=0;
 always @(posedge clk200) begin
 	clk200cnt<=clk200cnt+1;
+	if (clk200cnt==100 & ~poweronreset_r)
+		poweronreset_r<=1'b1;
+	poweronreset_d<=poweronreset_r;
 end
 reg txreg=0;
 reg rxreg=0;
@@ -52,13 +66,13 @@ always @(posedge clk200) begin
 end
 wire uarttx;
 wire uartrx=hw.vc707.usb2uart.rx;
-assign hw.vc707.usb2uart.tx=lb.uartmode==0 ? hw.vc707.usb2uart.rx : lb.uartmode==1 ? uarttx : 1'b1;  //serial port loopback test
+assign hw.vc707.usb2uart.tx=lb.uartmode==0 ? hw.vc707.usb2uart.rx : lb.uartmode==1 ? uarttx : 1'b1; //serial port loopback test
 assign {hw.vc707.gpio_led_7,hw.vc707.gpio_led_6,hw.vc707.gpio_led_5,hw.vc707.gpio_led_4,hw.vc707.gpio_led_3,hw.vc707.gpio_led_2,hw.vc707.gpio_led_1,hw.vc707.gpio_led_0}=clk200cnt[27:20];
 // send serial port to gps
 wire [7:0] rxdata;
-//wire [7:0]  txdata=clk200cnt[25:18];//rxdata+1;
-//wire [7:0]  txdata=rxdata+1;
-wire [7:0]  txdata;
+//wire [7:0] txdata=clk200cnt[25:18];//rxdata+1;
+//wire [7:0] txdata=rxdata+1;
+wire [7:0] txdata;
 //wire txstart=&clk200cnt[15:0];//rxvalid;
 //wire txstart=rxvalid;
 wire txstart;
@@ -180,21 +194,21 @@ wire alarm_out;
 wire eos_out;
 wire busy_out;
 xadc_qubic xadc(
-  .di_in(di_in),              // input wire [15 : 0] di_in
-  .daddr_in(daddr_in),        // input wire [6 : 0] daddr_in
-  .den_in(den_in),            // input wire den_in
-  .dwe_in(dwe_in),            // input wire dwe_in
-  .drdy_out(drdy_out),        // output wire drdy_out
-  .do_out(do_out),            // output wire [15 : 0] do_out
-  .dclk_in(clk200),          // input wire dclk_in
-  .reset_in(reset_in),        // input wire reset_in
-  .vp_in(hw.vc707.VP_0),              // input wire vp_in
-  .vn_in(hw.vc707.VN_0),              // input wire vn_in
-  .channel_out(channel_out),  // output wire [4 : 0] channel_out
-  .eoc_out(eoc_out),          // output wire eoc_out
-  .alarm_out(alarm_out),      // output wire alarm_out
-  .eos_out(eos_out),          // output wire eos_out
-  .busy_out(busy_out)        // output wire busy_out
+ .di_in(di_in),       // input wire [15 : 0] di_in
+ .daddr_in(daddr_in),    // input wire [6 : 0] daddr_in
+ .den_in(den_in),      // input wire den_in
+ .dwe_in(dwe_in),      // input wire dwe_in
+ .drdy_out(drdy_out),    // output wire drdy_out
+ .do_out(do_out),      // output wire [15 : 0] do_out
+ .dclk_in(clk200),     // input wire dclk_in
+ .reset_in(reset_in),    // input wire reset_in
+ .vp_in(hw.vc707.VP_0),       // input wire vp_in
+ .vn_in(hw.vc707.VN_0),       // input wire vn_in
+ .channel_out(channel_out), // output wire [4 : 0] channel_out
+ .eoc_out(eoc_out),     // output wire eoc_out
+ .alarm_out(alarm_out),   // output wire alarm_out
+ .eos_out(eos_out),     // output wire eos_out
+ .busy_out(busy_out)    // output wire busy_out
 );
 reg [15:0] xadctemp=0;
 reg [15:0] xadcaux4=0;
@@ -213,7 +227,7 @@ assign lb.xadctemp=xadctemp;
 assign lb.xadcaux4=xadcaux4;
 assign lb.xadcaux12=xadcaux12;
 */
-reg  start=0;//lb.stb_i2cstart;
+reg start=0;//lb.stb_i2cstart;
 wire i2crxvalid_w;
 reg i2crxvalid_r=0;
 reg [31:0] i2cdatarx_r=0;
@@ -226,8 +240,8 @@ wire [15:0] dbdatacnt;
 wire [15:0] dbackcnt;
 wire dbtick1;
 wire dbtick0;
-wire  sda;
-wire  scl;
+wire sda;
+wire scl;
 wire dbidledone;
 wire dbstartdone;
 wire dbdatadone;
@@ -296,43 +310,148 @@ assign hw.fmc2.cpld_ctrl[1]=lb.fmccpldctrl[11:10]==0? 1'b0 : lb.fmccpldctrl[1:0]
 assign hw.fmc2.cpld_ctrl[2]=lb.fmccpldctrl[13:12]==0? 1'b0 : lb.fmccpldctrl[3:2]==1 ? 1'b1 : 1'bz;
 assign hw.fmc2.cpld_ctrl[3]=lb.fmccpldctrl[15:14]==0? 1'b0 : lb.fmccpldctrl[5:4]==1 ? 1'b1 : 1'bz;
 */
-generate
-if (DEBUG=="true") begin
-	ila_auto ila_auto(.clk(clk200)
-	,.probe0(rxdata)      // ILAWIDTH 8
-	,.probe1(txdata)      // ILAWIDTH 8
-	,.probe2(lbrcmd)      // ILAWIDTH 64
-	,.probe3(lbrready)      // ILAWIDTH 1
-	,.probe4(lbwcmd)      // ILAWIDTH 64
-	,.probe5(lbwvalid)      // ILAWIDTH 1
-	,.probe6(uartmode)    // ILAWIDTH 2
-	,.probe7(start)   // ILAWIDTH 1
-	,.probe8(lb.i2cdatatx)   // ILAWIDTH 32
-	,.probe9(lb.i2cdatarx)   // ILAWIDTH 32
-	,.probe10(i2crxvalid_r)   // ILAWIDTH 1
-	,.probe11(dbclkstate) //ILAWIDTH 2
-	,.probe12(dbstate) //ILAWIDTH 3
-	,.probe13(dbnext) //ILAWIDTH 3
-	,.probe14(sdatx) //ILAWIDTH 1
-	,.probe15(scl) //ILAWIDTH 1
-	,.probe16(dbdatacnt) //ILAWIDTH 16
-	,.probe17(dbackcnt) //ILAWIDTH 16
-	,.probe18(dbtick1) //ILAWIDTH 1
-	,.probe19(dbtick0) //ILAWIDTH 1
-	,.probe20(uartcnt) //ILAWIDTH 32
-	,.probe21(dbidledone) //ILAWIDTH 1
-	,.probe22(dbdatadone) //ILAWIDTH 1
-	,.probe23(dbackdone) //ILAWIDTH 1
-	,.probe24(dbstopdone) //ILAWIDTH 1
-	,.probe25(dbstartdone) //ILAWIDTH 1
-	,.probe26(sdarx) //ILAWIDTH 1
-	,.probe27(sdaasrx) //ILAWIDTH 1
-	,.probe28(dbclkcnt) //ILAWIDTH 32
-	,.probe29(i2cdatarx_w)   // ILAWIDTH 32
-	,.probe30(i2crxvalid_w)   // ILAWIDTH 1
-	,.probe31(hw.fmc1.cpld_ctrl) // ILAWIDTH 4
-	,.probe32(hw.fmc2.cpld_ctrl) // ILAWIDTH 4
-	);
+
+wire sgmiiclk;
+IBUFDS_GTE2 mgtrefclk0_113_sgmii(.I(hw.vc707.sgmiiclk_q0_p),.IB(hw.vc707.sgmiiclk_q0_n),.O(sgmiiclk),.ODIV2(),.CEB(1'b0));
+wire sma_mgt_refclk;
+IBUFDS_GTE2 mO1_113_sma(.I(hw.vc707.sma_mgt_refclk_p),.IB(hw.vc707.sma_mgt_refclk_n),.O(sma_mgt_refclk),.ODIV2(),.CEB(1'b0));
+wire si5324_out_c;
+IBUFDS_GTE2 mO0_114_pcie(.I(hw.vc707.si5324_out_c_p),.IB(hw.vc707.si5324_out_c_n),.O(si5324_out_c),.ODIV2(),.CEB(1'b0));
+wire pcie_clk_qo;
+IBUFDS_GTE2 mgtrefclk1_115_pcie(.I(hw.vc707.pcie.clk_qo_p),.IB(hw.vc707.pcie.clk_qo_n),.O(pcie_clk_qo),.ODIV2());
+wire sfpreconnected;
+wire hwreset=lb.stb_hwreset || poweronreset || sfpreconnected;
+wire pllreset;
+wire qplllock_113;
+wire qplloutclk_113;
+wire qplloutrefclk_113;
+wire qpllpd_113=1'b0;
+wire qpllrefclklost_113;
+wire qpllreset_113=pllreset;
+wire [2:0] qpllrefclksel_113=3'h1;
+gticc_common gticc_common_113(.QPLLLOCKDETCLK(clk200)
+,.GTNORTHREFCLK0(1'b0),.GTNORTHREFCLK1(1'b0),.GTREFCLK0(sgmiiclk),.GTREFCLK1(sma_mgt_refclk),.GTSOUTHREFCLK0(si5324_out_c),.GTSOUTHREFCLK1(1'b0)
+,.QPLLREFCLKSEL(qpllrefclksel_113)
+,.QPLLLOCK(qplllock_113)
+,.QPLLOUTCLK(qplloutclk_113)
+,.QPLLOUTREFCLK(qplloutrefclk_113)
+,.QPLLPD(qpllpd_113)
+,.QPLLREFCLKLOST(qpllrefclklost_113)
+,.QPLLRESET(qpllreset_113)
+);
+wire rdyfortxrxreset;
+wire pllresetdonestrobe;
+//reg pllresetdonestrobe_d=0;
+reg sfplos=0;
+reg sfplos_d=0;
+assign sfpreconnected=~sfplos&sfplos_d;
+always @(posedge clk200) begin
+	//pllresetdonestrobe_d<=pllresetdonestrobe;
+	sfplos<=hw.vc707.sfp.los;
+	sfplos_d<=sfplos;
 end
-endgenerate
+gtreset #(.RESETLENGTH(10))
+gtresetcommon(.readycriteria(mmcmlocked)
+,.stableclk(clk200)
+,.resetin(hwreset)
+,.resetout(pllreset)
+,.done()
+,.donecriteria(rdyfortxrxreset)
+,.donestrobe(pllresetdonestrobe)
+);
+
+wire txrxreset_0;
+wire txrxreset_1;
+wire txrxreset=txrxreset_0|txrxreset_1;
+wire txrxresetdone;
+wire txrxresetdonestrobe;
+wire txrxresetdonestrobe1;
+gtreset #(.RESETLENGTH(10))
+gtresetchannel0(.readycriteria(rdyfortxrxreset)
+,.resetout(txrxreset_0)
+,.resetin(pllresetdonestrobe)//||pllresetdonestrobe_d)
+,.done()
+,.donecriteria(txrxresetdone)
+,.donestrobe(txrxresetdonestrobe)
+,.stableclk(clk200));
+reg [0:0] resetcnt=0;
+gtreset #(.RESETLENGTH(10))
+gtresetchannel1(.readycriteria(rdyfortxrxreset&resetcnt)
+,.resetout(txrxreset_1)
+,.resetin(txrxresetdonestrobe)
+,.done()
+,.donecriteria(txrxresetdone)
+,.donestrobe(txrxresetdonestrobe1)
+,.stableclk(clk200));
+reg resetalign=0;
+reg [0:0] resetcnt_d=0;
+reg reset_d=0;
+wire txrxresetdone_1;
+always @(posedge clk200) begin
+	reset_d<=hwreset;
+	resetcnt <= hwreset&~reset_d ? 0 : txrxresetdone_1 ? 1'b1 : resetcnt;
+	resetcnt_d<=resetcnt;
+end
+wire cpllpd_sfp=1'b0;
+wire [2:0] cpllrefclksel_sfp=3'b1;
+wire cpllreset_sfp=pllreset;
+wire gtrxreset_sfp=txrxreset;
+wire gttxreset_sfp=txrxreset;
+wire rxpmareset_sfp=txrxreset;
+wire rxresetdone_sfp;
+wire txresetdone_sfp;
+wire rxusrclk_sfp;
+wire rxusrclk2_sfp;
+wire txusrclk_sfp;
+wire txusrclk2_sfp;
+wire cpllfbclklost_sfp;
+wire cplllock_sfp;
+wire cpllrefclklost_sfp;
+wire rxbyteisaligned_sfp;
+wire rxbyterealign_sfp;
+wire [3:0] rxchariscomma_sfp;
+wire [3:0] rxcharisk_sfp;
+wire rxcommadet_sfp;
+wire [31:0] rxdata_sfp;
+assign lb.sfptestrx=rxdata_sfp;
+wire rxuserrdy_sfp=1'b1;
+wire [3:0] txcharisk_sfp=4'b0;
+wire [31:0] txdata_sfp=lb.sfptesttx;//32'habcdbeef;
+wire txuserrdy_sfp=1'b1;
+assign rdyfortxrxreset=&{mmcmlocked,qplllock_113,~qpllrefclklost_113,cplllock_sfp,~cpllfbclklost_sfp,~cpllrefclklost_sfp};
+assign txrxresetdone=&{txresetdone_sfp,rxresetdone_sfp,rdyfortxrxreset,resetcnt_d};
+gticc_gt gticc_gt_sfp(.CPLLLOCKDETCLK(clk200)
+,.GTNORTHREFCLK0(1'b0),.GTNORTHREFCLK1(1'b0),.GTREFCLK0(sgmiiclk),.GTREFCLK1(sma_mgt_refclk),.GTSOUTHREFCLK0(si5324_out_c),.GTSOUTHREFCLK1(1'b0)
+,.GTXRXN(hw.vc707.sfp.rx_n),.GTXRXP(hw.vc707.sfp.rx_p),.GTXTXN(hw.vc707.sfp.tx_n),.GTXTXP(hw.vc707.sfp.tx_p)
+,.QPLLCLK(qplloutclk_113),.QPLLREFCLK(qplloutrefclk_113)
+,.CPLLPD(cpllpd_sfp)
+,.CPLLREFCLKSEL(cpllrefclksel_sfp) //asdfasdf
+,.CPLLLOCK(cplllock_sfp),.CPLLFBCLKLOST(cpllfbclklost_sfp),.CPLLREFCLKLOST(cpllrefclklost_sfp)
+,.CPLLRESET(cpllreset_sfp),.GTRXRESET(gtrxreset_sfp),.GTTXRESET(gttxreset_sfp),.RXPMARESET(rxpmareset_sfp)
+,.RXRESETDONE(rxresetdone_sfp),.TXRESETDONE(txresetdone_sfp)
+
+,.RXUSRCLK(rxusrclk_sfp),.RXUSRCLK2(rxusrclk2_sfp),.TXUSRCLK(txusrclk_sfp),.TXUSRCLK2(txusrclk2_sfp)
+
+,.RXBYTEISALIGNED(rxbyteisaligned_sfp)
+,.RXBYTEREALIGN(rxbyterealign_sfp)
+,.RXCHARISCOMMA(rxchariscomma_sfp)
+,.RXCHARISK(rxcharisk_sfp)
+,.RXCOMMADET(rxcommadet_sfp)
+,.RXDATA(rxdata_sfp)
+,.RXUSERRDY(rxuserrdy_sfp)
+,.TXCHARISK(rxbyteisaligned_sfp||resetalign ? txcharisk_sfp : 4'h1)
+,.TXDATA(rxbyteisaligned_sfp||resetalign ? txdata_sfp : 32'h000000bc)
+,.TXUSERRDY(txuserrdy_sfp)
+);
+gtreset #(.RESETLENGTH(10))
+gtresetalign(.readycriteria(txrxresetdone)
+,.resetout(resetalign)
+,.resetin(txrxresetdonestrobe1)
+,.done()
+,.donecriteria(rxbyteisaligned_sfp)
+,.donestrobe()
+,.stableclk(clk200));
+assign hw.vc707.sfp.tx_disable=lb.sfptxdisable;
+assign txrxresetdone_1=&{txresetdone_sfp,rxresetdone_sfp,rdyfortxrxreset};
+`include "ilaauto.vh"
 endmodule

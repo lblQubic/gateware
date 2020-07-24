@@ -17,4 +17,8 @@
 ,"fmcprsnt": {"access": "r","addr_width": 0,"base_addr": 15,"data_width": 2,"sign": "unsigned","init": 0}
 ,"fmcdacen": {"access": "rw","addr_width": 0,"base_addr": 16,"data_width": 2,"sign": "unsigned","init": 0}
 ,"fmcpgm2c": {"access": "r","addr_width": 0,"base_addr": 17,"data_width": 2,"sign": "unsigned","init": 0}
+,"sfptesttx": {"access": "rw","addr_width": 0,"base_addr": 18,"data_width": 32,"sign": "unsigned","init": "32'hfacefeed"}
+,"sfptestrx": {"access": "r","addr_width": 0,"base_addr": 19,"data_width": 32,"sign": "unsigned","init": 0}
+,"hwreset": {"access": "rw","addr_width": 0,"base_addr": 20,"data_width": 1,"sign": "unsigned","init": 0}
+,"sfptxdisable": {"access": "rw","addr_width": 0,"base_addr": 21,"data_width": 1,"sign": "unsigned","init": 0}
 }

@@ -128,6 +128,16 @@ def eepromread(addr,devaddr=0x50):
 	addrdata=((addr&0xff))#<<16)
 	val=devread(devaddr=devaddr,addrdata=addrdata,nack=2)
 	return val&0xff
+def sfpcmd(r1w0,addr,data):
+	cmd24=((r1w0&0x1)<<23)+((addr&0x7f)<<16)+((data&0xffff)<<0)
+	return cmd24
+def sfpwrite(addr,data,devaddr=0x50):
+	addrdata=((addr&0xff)<<8)+(data)
+	devwrite(devaddr=devaddr,addrdata=addrdata,nack=3)
+def sfpread(addr,devaddr=0x50):
+	addrdata=((addr&0xff))#<<16)
+	val=devread(devaddr=devaddr,addrdata=addrdata,nack=2)
+	return val&0xff
 
 if __name__=="__main__":
 	import random
@@ -150,6 +160,11 @@ if __name__=="__main__":
 	if (1):
 		i2cwrite(devaddr=0x74,data=int(sys.argv[1]))#0x04)
 		cpld05=cpldread(addr=0x05)
+	if (0): # test i2c to sfp
+		print('mux read',hex(i2cread(devaddr=0x74)))
+		for addr in range(128):
+			val=sfpread(addr=addr)
+			print('sfp addr ',hex(addr),addr,'value',hex(val),chr(val))
 	if (0): # test on fmc120 board monitor
 		ad7291write(addr=0x0,data=0x0002)
 		for i in range(8):
@@ -159,7 +174,7 @@ if __name__=="__main__":
 			cha,tavr=ad7291calc(ad7291read(0x03))
 			print('%d %3.2f %d %4.2f %d %4.2f'%(chv,vout,cht,temp,cha,tavr))
 		#			print(hex(vout),hex(temp),hex(tavr))
-	if (0): # test on fmc120 eeprom
+	if (1): # test on fmc120 eeprom
 		for page in range(16):
 			val=0
 			for addr in range(page*16+0,page*16+16):
@@ -180,7 +195,7 @@ if __name__=="__main__":
 				val=(val<<8)+eepromread(addr=addr,devaddr=0x54)
 				print('read page ',page,'addr ',addr)
 			print(hex(val))
-	if (1): # test on fmc120 spi
+	if (0): # test on fmc120 spi
 		print('mux read',hex(i2cread(devaddr=0x74)))
 		cpldwrite(addr=0x02,data=0x00)
 		cpldwrite(addr=0x02,data=0x20)

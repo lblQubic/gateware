@@ -1,4 +1,5 @@
 `include "xc7vx485tffg1761pkg.vh"
+//xc7vx485tffg1761pkg #(.USEREFPIN("true")) fpga;
 module qubic(xc7vx485tffg1761pkg fpga);
 localparam DEBUG="true";
 parameter BAUD=9600;

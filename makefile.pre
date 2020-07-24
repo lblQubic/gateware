@@ -1,11 +1,12 @@
-ILAINFILE=qubichw_config.sv
-ila.tcl: submodules/tools/ila.py $(ILAINFILE)
-	python submodules/tools/ila.py -f $(ILAINFILE) > ila.tcl
+ILAJSON=ilaauto.json
+ilaauto.tcl: submodules/tools/ila.py $(ILAJSON)
+	python submodules/tools/ila.py -f $(ILAJSON) -t $@
+ilaauto.vh: submodules/tools/ila.py $(ILAJSON)
+	python submodules/tools/ila.py -f $(ILAJSON) -v $@
 
 lbread.vh: submodules/tools/lbrw.py regmap.json
 	python3 submodules/tools/lbrw.py -m regmap.json -b submodules/common-hdl/localbus.json -r lbread.vh
 lbwrite.vh: submodules/tools/lbrw.py regmap.json
 	python3 submodules/tools/lbrw.py -m regmap.json -b submodules/common-hdl/localbus.json -w lbwrite.vh
-
 lbclean:
 	rm -rf lbread.vh lbwrite.vh
