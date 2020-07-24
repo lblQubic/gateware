@@ -17,7 +17,8 @@ vivado_project_sim
 bak
 lbread.vh
 lbwrite.vh
-ila.tcl
+ilaauto.vh
+ilaauto.tcl
 *.pyc
 *.tar.gz
 vims
