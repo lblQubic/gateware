@@ -8,6 +8,8 @@ webtalk*.log
 vivado*.log
 vivado*.jou
 vivado*.str
+vivado*.zip
+vivado*.debug
 otherrepo
 .nfs*
 vivado_project

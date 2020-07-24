@@ -1,0 +1,34 @@
+{
+	"clk":"clk200"
+	,"probes":{
+		"rxresetdone_sfp":1
+		,"txresetdone_sfp":1
+		,"cplllock_sfp":1
+		,"cpllrefclklost_sfp":1
+		,"rxbyteisaligned_sfp":1
+		,"rxbyterealign_sfp":1
+		,"rxchariscomma_sfp":4
+		,"rxcharisk_sfp":4
+		,"rxcommadet_sfp":1
+		,"rxdata_sfp":32
+		,"txdata_sfp":32
+		,"hw.vc707.sfp.los":1
+		,"hw.vc707.sfp.tx_disable":1
+		,"txusrclk_sfp":1
+		,"rxusrclk_sfp":1
+		,"txusrclk2_sfp":1
+		,"rxusrclk2_sfp":1
+		,"hwreset":1
+		,"lb.stb_hwreset":1
+		,"pllreset":1
+		,"txrxreset_0":1
+		,"txrxreset_1":1
+		,"rdyfortxrxreset":1
+		,"mmcmlocked":1
+		,"qplllock_113":1
+		,"qpllrefclklost_113":1
+		,"cpllfbclklost_sfp":1
+		,"cpllrefclklost_sfp":1
+		,"pllresetdonestrobe":1
+	}
+}

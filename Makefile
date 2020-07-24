@@ -68,7 +68,7 @@ prog: submodules/tools/prog.tcl
 
 -include makefile.pre
 
-.PHONY: configromxclean simclean bitclean clean lbclean
+.PHONY: configromxclean simclean bitclean clean lbclean ilaclean
 configromxclean:
 	rm -f config_romx.v
 simclean:
@@ -80,6 +80,6 @@ bitclean:
 	rm -rf vivado_project
 
 
-clean: simclean bitclean lbclean
+clean: simclean bitclean lbclean ilaclean
 	rm -f vivado*.jou vivado*.log webtalk*.jou webtalk*.log vivado_pid*.str 
 	rm -rf .Xil
