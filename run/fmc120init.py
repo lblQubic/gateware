@@ -174,7 +174,7 @@ if __name__=="__main__":
 			cha,tavr=ad7291calc(ad7291read(0x03))
 			print('%d %3.2f %d %4.2f %d %4.2f'%(chv,vout,cht,temp,cha,tavr))
 		#			print(hex(vout),hex(temp),hex(tavr))
-	if (1): # test on fmc120 eeprom
+	if (0): # test on fmc120 eeprom
 		for page in range(16):
 			val=0
 			for addr in range(page*16+0,page*16+16):
@@ -195,7 +195,7 @@ if __name__=="__main__":
 				val=(val<<8)+eepromread(addr=addr,devaddr=0x54)
 				print('read page ',page,'addr ',addr)
 			print(hex(val))
-	if (0): # test on fmc120 spi
+	if (1): # test on fmc120 spi
 		print('mux read',hex(i2cread(devaddr=0x74)))
 		cpldwrite(addr=0x02,data=0x00)
 		cpldwrite(addr=0x02,data=0x20)

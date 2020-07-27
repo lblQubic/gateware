@@ -17,8 +17,14 @@
 ,"fmcprsnt": {"access": "r","addr_width": 0,"base_addr": 15,"data_width": 2,"sign": "unsigned","init": 0}
 ,"fmcdacen": {"access": "rw","addr_width": 0,"base_addr": 16,"data_width": 2,"sign": "unsigned","init": 0}
 ,"fmcpgm2c": {"access": "r","addr_width": 0,"base_addr": 17,"data_width": 2,"sign": "unsigned","init": 0}
-,"sfptesttx": {"access": "rw","addr_width": 0,"base_addr": 18,"data_width": 32,"sign": "unsigned","init": "32'hfacefeed"}
+,"sfptesttx": {"access": "rw","addr_width": 0,"base_addr": 18,"data_width": 32,"sign": "unsigned","init": "32'h5c5c5c5c"}
 ,"sfptestrx": {"access": "r","addr_width": 0,"base_addr": 19,"data_width": 32,"sign": "unsigned","init": 0}
 ,"hwreset": {"access": "rw","addr_width": 0,"base_addr": 20,"data_width": 1,"sign": "unsigned","init": 0}
 ,"sfptxdisable": {"access": "rw","addr_width": 0,"base_addr": 21,"data_width": 1,"sign": "unsigned","init": 0}
+,"hwresetstatus": {"access": "r","addr_width": 0,"base_addr": 22,"data_width": 32,"sign": "unsigned","init": 0}
+,"mdiodatatx": {"access": "rw","addr_width": 0,"base_addr": 23,"data_width": 32,"sign": "unsigned","init": 0}
+,"mdiostart": {"access": "rw","addr_width": 0,"base_addr": 24,"data_width": 32,"sign": "unsigned","init": 0}
+,"mdiodatarx": {"access": "r","addr_width": 0,"base_addr": 25,"data_width": 32,"sign": "unsigned","init": 0}
+,"mdiorxvalid": {"access": "r","addr_width": 0,"base_addr": 26,"data_width": 1,"sign": "unsigned","init": 0}
+,"mdioclk4ratio": {"access": "rw","addr_width": 0,"base_addr": 27,"data_width": 32,"sign": "unsigned","init": 100000}
 }

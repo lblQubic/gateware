@@ -17,6 +17,7 @@ xadc.tcl
 lbread.vh
 lbwrite.vh
 qubic.sv
+svinterface.sv
 qubichw.sv
 qubichw_config.sv
 localbus.sv
@@ -27,7 +28,11 @@ qubic.xdc
 submodules/fpga-family/gtx/gtxclks.v
 gticc_common.sv
 gticc_gt.sv
-gtreset.v
+condreset.v
 ilaauto.vh
 sysclkmmcm.v
 gig_ethernet_pcs_pma.tcl
+sgmii_ethernet_pcs_pma.sv
+chainreset.v
+gteth_gt.sv
+submodules/common-hdl/mdiomaster.v

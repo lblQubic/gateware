@@ -1,5 +1,5 @@
 //`include "constants.vams"
-`include "xc7vx485tffg1761pkg.vh"
+//`include "xc7vx485tffg1761pkg.vh"
 `timescale 1ns / 100ps
 module qubic_tb();
 xc7vx485tffg1761pkg fpga();
@@ -40,12 +40,13 @@ assign hw.vc707.sma_mgt_refclk_n=1'b1;
 //assign hw.vc707.usb2uart.tx=0;
 //assign hw.vc707.usb2uart.rx=0;
 localparam BAUD=9600000;
-qubic #(.BAUD(BAUD)) qubic(.fpga(fpga));
+qubic #(.BAUD(BAUD),.SIM(1)) qubic(.fpga(fpga));
 
 reg [31:0] sysclkcnt=0;
 always @(posedge sysclk) begin
 	sysclkcnt<=sysclkcnt+1;
 end
+wire uartclk;
 reg [31:0] uartclkcnt=0;
 always @(posedge uartclk) begin
 	uartclkcnt<=uartclkcnt+1;
@@ -57,7 +58,7 @@ wire txready;
 wire txstart;//sysclkcnt[13:0]==100;
 reg txready_d=0;
 reg txready_d2=0;
-wire uartclk=qubic.qubichw_config.uartclk;
+assign uartclk=qubic.qubichw_config.uartclk;
 uart #(.DWIDTH(8),.NSTOP(1),.UARTCLK(100000000),.BAUD(BAUD))
 uart (.clk(uartclk)
 ,.TX(hw.vc707.usb2uart.tx)
@@ -70,17 +71,18 @@ uart (.clk(uartclk)
 ,.rxvalid(rxvalid)
 ,.txready(txready)
 );
-localparam LINES=9;
+localparam LINES=10;
 localparam TOTALBYTE=LINES*8;
 reg  [LINES*64-1:0] cmdsim={8'hff,24'hffffff,32'hffffffff
 ,8'hff,24'hffffff,32'hffffff00
-,64'h0100001400000001
+,64'h0100001700e02281
+,64'h0100001800000001
 ,64'h010000090000e920
 ,64'h0000000900000000
 ,64'h0100000a00000013
 ,64'h00000000facefeed
 ,64'h00000001deadbeef
-,64'h0100001400000000
+,64'h0100001500000000
 };
 /*localparam TOTALBYTE=LINES*8-1;
 	{8'd1,24'h0,32'habcd1234
@@ -105,8 +107,13 @@ assign txdata=cmdsim[LINES*64-1:LINES*64-8];
 assign txstart=(txready_d&~txready_d2&(txcnt<=TOTALBYTE) )|uartclkcnt==4;
 assign hw.vc707.VP_0=1'b0;
 assign hw.vc707.VN_0=1'b1;
+assign hw.vc707.sgmii_rx_p=hw.vc707.sgmii_tx_p;
+assign hw.vc707.sgmii_rx_n=hw.vc707.sgmii_tx_n;
 
-
+wire mdio_i,mdio_o,mdio_t;
+assign mdio_t=qubic.qubichw_config.mdio_t;
+assign mdio_i=mdio_o;
+IOBUF mdiobuf(.O(mdio_o),.I(mdio_i),.T(~mdio_t),.IO(hw.vc707.phy_mdio));
 
 assign hw.vc707.sfp.rx_n=hw.vc707.sfp.tx_n;
 assign hw.vc707.sfp.rx_p=hw.vc707.sfp.tx_p;
