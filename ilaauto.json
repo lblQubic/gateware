@@ -26,5 +26,32 @@
 		,"gmii.tx_er":1
 		,"done":8
 		,"sgmiieth_reset":1
+		,"ethernet.tx.data":8
+		,"ethernet.tx.dven":1
+		,"ethernet.tx.err":1
+		,"ethernet.rx.data":8
+		,"ethernet.rx.dven":1
+		,"ethernet.rx.err":1
+		,"ethernet.mac":48
+		,"arp.tx.sha":48
+		,"arp.tx.spa":32
+		,"arp.tx.tha":48
+		,"arp.tx.tpa":32
+		,"arp.rx.sha":48
+		,"arp.rx.spa":32
+		,"arp.rx.tha":48
+		,"arp.rx.tpa":32
+		,"dbarpmatch":1
+		,"dbrequest":1
+		,"dbtxcnt":16
+		,"dbethkey":1
+		,"dbdout":9
+		,"dbfull":1
+		,"dbempty":1
+		,"dbten":1
+		,"dbtxd":8
+		,"dbtxstate":4
+		,"dbtxcrc":32
+		,"dbtxcrc_w":32
 	}
 }

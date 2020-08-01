@@ -1,4 +1,13 @@
-module ethernetovergmii(gmii.eth gmii, iethernet eth,input reset);
+module ethernetovergmii(gmii.eth gmii, iethernet eth,input reset
+,output [8:0] dbdout
+,output dbfull
+,output dbempty
+,output dbten
+,output [7:0] dbtxd
+,output [3:0] dbtxstate
+,output [31:0] dbtxcrc_w
+,output [31:0] dbtxcrc
+);
 
 localparam TXIDLE=4'd0;
 localparam TXPRST=4'd1;
@@ -41,7 +50,7 @@ always @(*) begin
 		TXIDLE: txnext=(eth.tx.dven&~ethtxdven_d) ? TXPRST : TXIDLE;
 		TXPRST: txnext=txcnt==8-1 ? TXHEAD : TXPRST;
 		TXHEAD: txnext=txcnt==14-1 ? TXPAYLOAD : TXHEAD;
-		TXPAYLOAD: txnext=(~ten&ten_d&(txcnt>=DATAMIN)|(~ten&txcnt==DATAMIN)) ? TXTAIL : TXPAYLOAD;
+		TXPAYLOAD: txnext=(~ten&ten_d&(txcnt>=DATAMIN)|(~ten&txcnt==DATAMIN-1)) ? TXTAIL : TXPAYLOAD;
 		TXTAIL: txnext=txcnt==4-1 ? TXGAP : TXTAIL;
 		TXGAP : txnext=txcnt==12-1 ? TXIDLE : TXGAP;
 	endcase
@@ -57,7 +66,10 @@ reg [1:0] crcshift=0;
 assign gmii.tx_en=tx_en;
 assign gmii.tx_er=tx_er;
 assign gmii.txd=txdata;
-assign eth.tx.hden=txhden;
+always @(posedge clk) begin
+	eth.tx.hden<=txhden;
+end
+reg txcrcen=0;
 always @(posedge clk or posedge reset) begin
 	if (reset) begin
 		eth.tx.busy<=0;
@@ -67,6 +79,7 @@ always @(posedge clk or posedge reset) begin
 		txhden<=0;
 		txfifore<=0;
 		txfifore<=0;
+		txcrcen<=0;
 	end
 	else begin
 		case (txnext)
@@ -77,15 +90,17 @@ always @(posedge clk or posedge reset) begin
 				tx_er<=1'b0;
 				txfifore<=0;
 				txhden<=0;
+				txcrcen<=0;
 			end
 			TXPRST: begin
 				eth.tx.busy<=1'b1;
 				tx_en<=1'b1;
 				txdata<=(txcnt==6) ? eth.tx.sfd : eth.tx.preamble;
 				tx_er<=1'b0;
-				txhead<=eth.tx.head;
+				txhead<={eth.tx.dmac,eth.tx.smac,eth.tx.ethertype};
 				txhden<=0;
 				txfifore<=0;
+				txcrcen<=0;
 			end
 			TXHEAD: begin
 				txhead<={txhead[HEADLEN*8-8:0],8'b0};
@@ -95,6 +110,7 @@ always @(posedge clk or posedge reset) begin
 				tx_er<=1'b0;
 				txfifore<=1'b0;
 				txhden<=1'b1;
+				txcrcen<=1'b1;
 			end
 			TXPAYLOAD: begin
 				eth.tx.busy<=1;
@@ -104,11 +120,21 @@ always @(posedge clk or posedge reset) begin
 				txfifore<=1'b1;
 				txhden<=0;
 				crcshift<=0;
+				txcrcen<=1'b1;
+				//txcrc<=txcrc_w;
 			end
 			TXTAIL: begin
+				//if (txcnt==0) begin
+					//txcrc<=txcrc_w;
+				//	txdata<=txcrc_w>>(8*crcshift);
+				//end
+				//else begin
+					//txdata<=txcrc>>(8*crcshift);
+				//end
+				txcrcen<=1'b1;
 				tx_en<=1;
 				crcshift<=crcshift+1;
-				txdata<=eth.tx.crc>>(8*crcshift);
+				txdata<=txcrc>>(8*crcshift);
 				tx_er<=0;
 				eth.tx.busy<=1;
 				txfifore<=1'b0;
@@ -121,23 +147,37 @@ always @(posedge clk or posedge reset) begin
 				eth.tx.busy<=1;
 				txfifore<=1'b0;
 				txhden<=0;
+				txcrcen<=1'b0;
 			end
 		endcase
 	end
+end
+always @(negedge clk) begin
+	if (txnext==TXTAIL&txstate==TXPAYLOAD)
+		txcrc<=txcrc_w;
 end
 wire  [8:0] dout;
 wire txfifoempty;
 wire txfifofull;
 fifo#(.AW(5),.DW(9)) txdfifo(.wclk(clk),.rclk(clk),.wen(eth.tx.dven),.wdata({eth.tx.dven,eth.tx.data}),.ren(txnext==TXPAYLOAD),.rdata(dout),.full(txfifofull),.empty(txfifoempty),.reset(reset));
 crc_32_d8 #(.MSBFIRST(0))
-txcrc_32_d8(.clk(eth.tx.clk),.en(txstate==TXHEAD|txstate==TXPAYLOAD),.reset(reset),.crc(eth.tx.crc),.zero(),.d_in(txdata));
+txcrc_32_d8(.clk(eth.tx.clk),.en(txcrcen),.reset(reset),.crc(txcrc_w),.zero(),.d_in(txdata));
+assign eth.tx.crc=txcrc_w;
+
 assign {ten,txd}= txfifoempty ? 0 : dout;
 always @(posedge clk) begin
 	ethtxdven_d<=eth.tx.dven;
 	ten_d<=ten;
 	eth.tx.errorcnt <=  reset ? 0 : (eth.tx.err+ eth.tx.dven&~ethtxdven_d & eth.tx.busy + txfifofull);
 end
-
+assign dbdout=dout;
+assign dbfull=txfifofull;
+assign dbempty=txfifoempty;
+assign dbten=ten;
+assign dbtxd=txd;
+assign dbtxstate=txstate;
+assign dbtxcrc=txcrc;
+assign dbtxcrc_w=txcrc_w;
 reg [7:0] rxd=0;
 reg [7:0] rxd2=0;
 reg rx_dv=0;
@@ -164,7 +204,6 @@ always @(posedge clk or posedge reset) begin
 end
 wire [31:0] rxcrc_w;
 reg [31:0] rxcrc=0;
-reg rxcrczero=0;
 reg [9:0] rc1=0;
 reg [9:0] rc2=0;
 reg [9:0] rc3=0;
@@ -189,12 +228,15 @@ reg rxhden=0;
 reg rxerr=0;
 wire rxcrczero_w;
 reg [HEADLEN*8-1:0] rxhead=0;
-assign eth.rx.data=rxdata;
-assign eth.rx.dven=rxdven;
-assign eth.rx.hden=rxhden;
-assign eth.rx.err=rxerr;
-assign eth.rx.head=rxhead;
-assign eth.rx.newframehead=(rxstate==RXHEAD&rxnext==RXPAYLOAD);
+always @(posedge clk) begin
+	eth.rx.data<=rxdata;
+	eth.rx.dven<=rxdven;
+	eth.rx.hden<=rxhden;
+	eth.rx.err<=rxerr;
+	{eth.rx.dmac,eth.rx.smac,eth.rx.ethertype}<=rxhead;
+	eth.rx.newframehead<=(rxstate==RXHEAD&rxnext==RXPAYLOAD);
+	eth.rx.crczero<=rxcrczero_w;
+end
 always @(posedge clk or posedge reset) begin
 	if (reset) begin
 		rxdata<=8'b0;
@@ -218,7 +260,6 @@ always @(posedge clk or posedge reset) begin
 				rxhden<=1'b0;
 				rxerr<=1'b0;
 				eth.rx.busy<=1'b1;
-				rxcrczero<=1'b0;
 			end
 			RXHEAD: begin
 				rxdven<=1'b0;
@@ -237,7 +278,6 @@ always @(posedge clk or posedge reset) begin
 			end
 			RXTAIL: begin
 				rxcrc<=eth.rx.crc;
-				rxcrczero<=rxcrczero_w;
 				rxdata<=8'b0;
 				rxdven<=1'b0;
 				rxhden<=1'b0;
@@ -256,28 +296,22 @@ always @(posedge clk or posedge reset) begin
 end
 crc_32_d8 #(.MSBFIRST(0))
 rxcrc_32_d8(.clk(eth.rx.clk),.en(eth.rx.dven|eth.rx.hden),.reset(reset),.crc(eth.rx.crc),.zero(rxcrczero_w),.d_in(eth.rx.data));
-assign eth.rx.crczero=rxcrczero;
 endmodule
-interface iethernetframe #(parameter HEADLEN=14,parameter TX1RX0=0,parameter MTU=1500) (input [6*8-1:0] mac,input clk,input reset);
-	wire [6*8-1:0] smac;
-	wire [6*8-1:0] dmac;
-	wire [HEADLEN*8-1:0] head;
-	wire [2*8-1:0] ethertype;
-	wire newframehead;
+interface iethernetframe #(parameter MTU=1500) (input [6*8-1:0] mac,input clk,input reset);
+	reg [6*8-1:0] smac=0;
+	reg [6*8-1:0] dmac=0;
+	reg [2*8-1:0] ethertype=0;
+	reg newframehead=0;
 	reg newframehead_r=0;
-	if (TX1RX0)
-		assign head={dmac,smac,ethertype};
-	else
-		assign {dmac,smac,ethertype}=newframehead ? head : {dmac,smac,ethertype};
-	wire macmatch=1'b1;//=dmac==mac|(&dmac);
-	wire [8-1:0] preamble=8'h55;
-	wire [8-1:0] sfd=8'hd5;
-	wire [7:0] data;
-	wire dven;
-	wire hden;
-	wire err;
-	wire [31:0] crc;
-	wire crczero;
+	reg macmatch=1'b1;//=dmac==mac|(&dmac);
+	reg [8-1:0] preamble=8'h55;
+	reg [8-1:0] sfd=8'hd5;
+	reg [7:0] data=0;
+	reg dven=0;
+	reg hden=0;
+	reg err=0;
+	reg [31:0] crc=0;
+	reg crczero=0;
 	reg [15:0] errorcnt=0;
 	reg busy=0;
 	reg [15:0] datacnt=0;
@@ -285,13 +319,12 @@ interface iethernetframe #(parameter HEADLEN=14,parameter TX1RX0=0,parameter MTU
 		datacnt<= dven ? datacnt+1 : 0;
 		newframehead_r<=newframehead;
 	end
-
 endinterface
 
 
-interface iethernet #(parameter HEADLEN=14,parameter MTU=1500)(input reset);
-	wire [6*8-1:0] mac;//={8'ha0,8'ha1,8'ha2,8'ha3,8'ha4,8'ha5};
-	iethernetframe #(.HEADLEN(HEADLEN),.TX1RX0(1),.MTU(MTU))tx(.mac(mac),.clk(clk),.reset(reset));
-	iethernetframe #(.HEADLEN(HEADLEN),.TX1RX0(0),.MTU(MTU))rx(.mac(mac),.clk(clk),.reset(reset));
+interface iethernet #(parameter MTU=1500)(input reset);
+	reg [6*8-1:0] mac;//={8'ha0,8'ha1,8'ha2,8'ha3,8'ha4,8'ha5};
+	iethernetframe #(.MTU(MTU))tx(.mac(mac),.clk(clk),.reset(reset));
+	iethernetframe #(.MTU(MTU))rx(.mac(mac),.clk(clk),.reset(reset));
 	wire clk;
 endinterface

@@ -355,7 +355,6 @@ assign gmii.tx_en=clk125cnt>32'h1001;
 assign gmii.txd=8'hcc;
 assign gmii.tx_er=1'b0;
 */
-`include "ilaauto.vh"
 // ether_gmii cross wire 
 parameter IP ={8'd192, 8'd168, 8'd1, 8'd224};
 parameter MAC = 48'h00105ad155b2;
@@ -376,10 +375,20 @@ wire [7:0] s_tx_tdata=8'b0;
 wire  s_tx_tready;
 wire  s_tx_tvalid=1'b0;
 wire [7:0] status;
-/*ether_gmii #(.IP(IP),.MAC(MAC),.JUMBO_DW(JUMBO_DW))
+/*
+//ether_gmii #(.IP(IP),.MAC(MAC),.JUMBO_DW(JUMBO_DW))
+ether_gmii #(.IP(32'hc0a801e0),.MAC(48'haabbccddeeff),.JUMBO_DW(JUMBO_DW))
 ether_gmii(
 .reset(reset)
-,.gmii_rx_clk(gmii.rx_clk),.gmii_rx_dv(gmii.rx_dv),.gmii_rx_er(gmii.rx_er),.gmii_rxd(gmii.rxd),.gmii_tx_clk(gmii.tx_clk),.gmii_tx_en(gmii.tx_en),.gmii_tx_er(gmii.tx_er),.gmii_txd(gmii.txd)
+
+,.gmii_rx_clk(gmii.rx_clk)
+,.gmii_rx_dv(gmii.rx_dv)
+,.gmii_rx_er(gmii.rx_er)
+,.gmii_rxd(gmii.rxd)
+,.gmii_tx_clk(gmii.tx_clk)
+//,.gmii_tx_en(gmii.tx_en)
+//,.gmii_tx_er(gmii.tx_er)
+//,.gmii_txd(gmii.txd)
 ,.last_ip_byte(last_ip_byte)
 ,.lb_addr(lb_addr)
 ,.lb_clk(lb_clk)
@@ -397,7 +406,38 @@ ether_gmii(
 */
 assign keeplbdataout=&lb_data_out;
 iethernet ethernet(hwreset);
-ethernetovergmii ethernetovergmii (.gmii(gmii.eth),.eth(ethernet),.reset(hwreset));
+wire [8:0] dbdout;
+wire dbfull;
+wire dbempty;
+wire dbten;
+wire [7:0] dbtxd;
+wire [3:0] dbtxstate;
+wire [31:0] dbtxcrc_w;
+wire [31:0] dbtxcrc;
+ethernetovergmii ethernetovergmii (.gmii(gmii.eth),.eth(ethernet),.reset(hwreset)
+,.dbdout
+,.dbfull
+,.dbempty
+,.dbten
+,.dbtxd
+,.dbtxstate
+,.dbtxcrc
+,.dbtxcrc_w
+);
+always @(posedge ethernet.clk) begin
+	ethernet.mac<=48'haabbccddeeff;
+end
+wire dbarpmatch;
+wire dbrequest;
+wire [15:0] dbtxcnt;
+wire dbethkey;
 iarplink arp(.clk(ethernet.clk));
-arpoverethernet arpoverethernet (.eth(ethernet), .arp(arp),.reset(hwreset),.ip(32'hc0a801e0));
+arpoverethernet arpoverethernet (.eth(ethernet), .arp(arp),.reset(hwreset),.ip(32'hc0a801e0)
+,.dbarpmatch(dbarpmatch)
+,.dbrequest(dbrequest)
+,.dbtxcnt(dbtxcnt)
+,.dbethkey(dbethkey)
+
+);
+`include "ilaauto.vh"
 endmodule

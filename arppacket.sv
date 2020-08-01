@@ -23,11 +23,16 @@ endinterface
 interface iarplink (input clk);
 	wire [6*8-1:0] mac;
 	wire [4*8-1:0] ip;
-	iarppacket #(.TX1RX0(1)) tx(.clk(clk),.ip(ip));
-	iarppacket #(.TX1RX0(0)) rx(.clk(clk),.ip(ip));
+	iarppacket #(.TX1RX0(1)) tx(.clk(clk),.ip(ip),.mac(mac));
+	iarppacket #(.TX1RX0(0)) rx(.clk(clk),.ip(ip),.mac(mac));
 endinterface
 
-module arpoverethernet(iethernet eth, iarplink arp,input reset,input [4*8-1:0] ip);
+module arpoverethernet(iethernet eth, iarplink arp,input reset,input [4*8-1:0] ip
+,output dbarpmatch
+,output dbrequest
+,output [15:0] dbtxcnt
+,output dbethkey
+);
 assign arp.mac=eth.mac;
 assign arp.ip=ip;
 assign arp.tx.htype=16'h1;
@@ -107,7 +112,7 @@ always @(posedge clk) begin
 		txsha<=arp.mac;
 		txspa<=arp.ip;
 		txtha<=arp.rx.sha;
-		txtpa<=arp.rx.tpa;
+		txtpa<=arp.rx.spa;
 	end
 end
 assign arp.tx.sha=txsha;
@@ -143,11 +148,18 @@ always @(posedge clk) begin
 	else if (~|txcnt)
 		ethkey<=1'b0;
 end
-assign eth.tx.dven=ethkey ? 1'b1 : 0;
-assign eth.tx.data=ethkey ? arp.tx.head>>((txcnt)*8) : 0;
-assign eth.tx.smac=ethkey ? arp.mac: 0;
-assign eth.tx.dmac=ethkey ? arp.tx.tha: 0;
+always @(posedge clk) begin
+	eth.tx.dven<=ethkey ? 1'b1 : 0;
+	eth.tx.data<=ethkey ? arp.tx.head>>((txcnt)*8) : 0;
+	eth.tx.smac<=ethkey ? arp.mac: 0;
+	eth.tx.dmac<=ethkey ? arp.tx.tha: 0;
+end
 assign eth.tx.ethertype=ethkey ? ETHERTYPEARP: 0;
+
+assign dbarpmatch=arpmatch;
+assign dbrequest=request;
+assign dbtxcnt=txcnt;
+assign dbethkey=ethkey;
 endmodule
 /*
 localparam TXIDLE=4'd0;
