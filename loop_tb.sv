@@ -47,6 +47,17 @@ wire resetdone2;
 wire userclk2_2;
 wire sgmii_clk_r2;
 wire sgmii_clk_f2;
+
+sgmii_ethernet_pcs_pma #(.EXAMPLE_SIMULATION(1))
+sgmii_ethernet_pcs_pma_1(.gtrefclk(sgmiiclk)
+,.rxn(rxn),.rxp(rxp),.txn(txn),.txp(txp)
+,.gmii(gmii)
+,.independent_clock_bufg(sysclk)
+,.reset(reset)
+,.resetdone(resetdone1)
+);
+
+/*
 gig_ethernet_pcs_pma_0 #(.EXAMPLE_SIMULATION(1))
 gig_ethernet_pcs_pma_1(
 .configuration_vector,.signal_detect,.speed_is_100,.speed_is_10_100
@@ -58,8 +69,8 @@ gig_ethernet_pcs_pma_1(
 ,.gt0_qplloutclk_out(),.gt0_qplloutrefclk_out(),.gtrefclk_bufg_out(),.gtrefclk_out(),.mmcm_locked_out(),.pma_reset_out(),.rxuserclk2_out(),.rxuserclk_out(),.sgmii_clk_en(),.status_vector()
 ,.reset(reset),.resetdone(resetdone1)
 );
-
-gig_ethernet_pcs_pma_0 #(.EXAMPLE_SIMULATION(1))
+*/
+loop_gig #(.EXAMPLE_SIMULATION(1))
 gig_ethernet_pcs_pma_2(
 .configuration_vector,.signal_detect,.speed_is_100,.speed_is_10_100
 ,.gtrefclk_n(~sgmiiclk),.gtrefclk_p(sgmiiclk),.independent_clock_bufg(sysclk)

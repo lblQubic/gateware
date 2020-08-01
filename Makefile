@@ -57,6 +57,15 @@ $(TGT).fst: $(TGT)_tb.tcl $(SIM_SOURCE) $(SYNTH_SOURCE) simclean
 	printf "\a"
 	#cp ./vivado_project_sim/gun.sim/sim_1/behav/dump.vcd $(TGT).vcd
 
+loop.fst: loop_tb.tcl simclean
+	vivado -mode batch -source $< -tclargs $(TEND)
+	vcd2fst -v  ./vivado_project_sim/loop.sim/sim_1/behav/xsim/loop.vcd -f loop.fst
+	printf "\a"
+
+gmii.fst: gmii_tb.tcl simclean
+	vivado -mode batch -source $< -tclargs $(TEND)
+	vcd2fst -v  ./vivado_project_sim/gmii.sim/sim_1/behav/xsim/gmii.vcd -f gmii.fst
+	printf "\a"
 #powerup:
 #	ipmiutil power -u -N 192.168.1.202 -U ADMIN -P ADMIN
 #powerdown:

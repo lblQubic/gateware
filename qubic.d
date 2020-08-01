@@ -34,5 +34,16 @@ sysclkmmcm.v
 gig_ethernet_pcs_pma.tcl
 sgmii_ethernet_pcs_pma.sv
 chainreset.v
-gteth_gt.sv
 submodules/common-hdl/mdiomaster.v
+gtgmii.sv
+otherrepo/ep_rx_pcs.v
+otherrepo/ep_tx_pcs.v
+otherrepo/negotiate.v
+otherrepo/ep_sync_detect.v
+eth.d
+ethernet.sv
+submodules/common-hdl/fifo.v
+submodules/common-hdl/dpram.v
+test4/crc_32_d8.v
+submodules/common-hdl/reg_delay1.v
+arppacket.sv

@@ -1,5 +1,5 @@
 {
-	"clk":"clk100"
+	"clk":"clk125"
 	,"probes":{
 		"lb.lbwcmd":64
 		,"lb.lbrcmd":64
@@ -18,5 +18,13 @@
 		,"clk100cnt":32
 		,"gteth_rxdata":16
 		,"dbrxcharisk":2
+		,"gmii.rxd":8
+		,"gmii.rx_dv":1
+		,"gmii.rx_er":1
+		,"gmii.txd":8
+		,"gmii.tx_en":1
+		,"gmii.tx_er":1
+		,"done":8
+		,"sgmiieth_reset":1
 	}
 }

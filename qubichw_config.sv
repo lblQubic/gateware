@@ -21,15 +21,15 @@ wire  clk200;
 wire [31:0] clk100cnt;
 wire [31:0] clk125cnt;
 wire [31:0] clk200cnt;
-wire  sysclk;
 wire sysclkmmcm_locked;
 wire sysclkmmcm_reset;
 sysclkmmcm sysclkmmcm(.clk100(clk100),.clk125(clk125),.clk200(clk200),.clk100cnt(clk100cnt),.clk125cnt(clk125cnt),.clk200cnt(clk200cnt),.sysclk(hw.vc707.sysclk),.mmcm_locked(sysclkmmcm_locked),.mmcm_reset(sysclkmmcm_reset));
 
 wire uarttx;
 wire uartrx=hw.vc707.usb2uart.rx;
+wire keeplbdataout;
 assign hw.vc707.usb2uart.tx=lb.uartmode==0 ? hw.vc707.usb2uart.rx : lb.uartmode==1 ? uarttx : 1'b1; //serial port loopback test
-assign {hw.vc707.gpio_led_7,hw.vc707.gpio_led_6,hw.vc707.gpio_led_5,hw.vc707.gpio_led_4,hw.vc707.gpio_led_3,hw.vc707.gpio_led_2,hw.vc707.gpio_led_1,hw.vc707.gpio_led_0}=clk200cnt[27:20];
+assign {hw.vc707.gpio_led_7,hw.vc707.gpio_led_6,hw.vc707.gpio_led_5,hw.vc707.gpio_led_4,hw.vc707.gpio_led_3,hw.vc707.gpio_led_2,hw.vc707.gpio_led_1,hw.vc707.gpio_led_0}={keeplbdataout,clk200cnt[26:20]};
 // send serial port to gps
 wire [7:0] rxdata;
 //wire [7:0] txdata=clk200cnt[25:18];//rxdata+1;
@@ -166,11 +166,11 @@ i2cmaster (.clk(clk100),.nack(lb.i2cstart[3:0]),.stopbit(lb.i2cstart[4]),.sdatx(
 assign hw.vc707.iic.mux_reset_b=lb.i2cmux_reset_b;
 
 wire sgmiiclk;
-IBUFDS_GTE2 mgtrefclk0_113_sgmii(.I(hw.vc707.sgmiiclk_q0_p),.IB(hw.vc707.sgmiiclk_q0_n),.O(sgmiiclk),.ODIV2(),.CEB(1'b0));
+IBUFDS_GTE2 mgtrefclk_113_sgmii(.I(hw.vc707.sgmiiclk_q0_p),.IB(hw.vc707.sgmiiclk_q0_n),.O(sgmiiclk),.ODIV2(),.CEB(1'b0));
 wire sma_mgt_refclk;
-IBUFDS_GTE2 mO1_113_sma(.I(hw.vc707.sma_mgt_refclk_p),.IB(hw.vc707.sma_mgt_refclk_n),.O(sma_mgt_refclk),.ODIV2(),.CEB(1'b0));
+IBUFDS_GTE2 mgtrefclk_113_sma(.I(hw.vc707.sma_mgt_refclk_p),.IB(hw.vc707.sma_mgt_refclk_n),.O(sma_mgt_refclk),.ODIV2(),.CEB(1'b0));
 wire si5324_out_c;
-IBUFDS_GTE2 mO0_114_pcie(.I(hw.vc707.si5324_out_c_p),.IB(hw.vc707.si5324_out_c_n),.O(si5324_out_c),.ODIV2(),.CEB(1'b0));
+IBUFDS_GTE2 mgtrefclk_114_pcie(.I(hw.vc707.si5324_out_c_p),.IB(hw.vc707.si5324_out_c_n),.O(si5324_out_c),.ODIV2(),.CEB(1'b0));
 wire pcie_clk_qo;
 IBUFDS_GTE2 mgtrefclk1_115_pcie(.I(hw.vc707.pcie.clk_qo_p),.IB(hw.vc707.pcie.clk_qo_n),.O(pcie_clk_qo),.ODIV2());
 wire sfpreconnected;
@@ -185,7 +185,7 @@ wire qpllreset_113;
 wire [2:0] qpllrefclksel_113=3'h1;
 gticc_common
 gticc_common_113(.QPLLLOCKDETCLK(clk200)
-,.GTNORTHREFCLK0(1'b0),.GTNORTHREFCLK1(1'b0),.GTREFCLK0(sgmiiclk),.GTREFCLK1(sma_mgt_refclk),.GTSOUTHREFCLK0(si5324_out_c),.GTSOUTHREFCLK1(1'b0)
+,.GTNORTHREFCLK0(1'b0),.GTNORTHREFCLK1(1'b0),.GTREFCLK0(sgmiiclk),.GTREFCLK1(sma_mgt_refclk),.GTSOUTHREFCLK0(0/*si5324_out_c*/),.GTSOUTHREFCLK1(1'b0)
 ,.QPLLREFCLKSEL(qpllrefclksel_113)
 ,.QPLLOUTCLK(qplloutclk_113)
 ,.QPLLOUTREFCLK(qplloutrefclk_113)
@@ -233,8 +233,24 @@ gticc_gt gticc_gt_sfp(.CPLLLOCKDETCLK(clk200)
 ,.resetdone(resetdone_sfp)
 ,.readyforreset(readyforreset_sfp)
 );
-
+wire sgmiieth_reset;
+wire sgmiieth_resetdone;
 gmii gmii();
+sgmii_ethernet_pcs_pma #(.SIM(SIM))
+sgmii_ethernet_pcs_pma_1(.gtrefclk(sgmiiclk)
+,.rxn(hw.vc707.sgmii_rx_n)
+,.rxp(hw.vc707.sgmii_rx_p)
+,.txn(hw.vc707.sgmii_tx_n)
+,.txp(hw.vc707.sgmii_tx_p)
+,.gmii(gmii.phy)
+,.independent_clock_bufg(hw.vc707.sysclk)
+,.reset(sgmiieth_reset)
+,.resetdone(sgmiieth_resetdone)
+);
+/*assign gmii.tx_en=gmii.rx_dv;//sgmiieth_resetdone;
+assign gmii.txd=gmii.rxd;//8'hcc;
+assign gmii.tx_er=1'b0;
+*/
 /*sgmii_ethernet_pcs_pma sgmii_ethernet_pcs_pma(.sgmiiclk
 ,.hw(hw)
 ,.gmii(gmii.phy)
@@ -247,37 +263,54 @@ gmii gmii();
 ,.status_vector(status_vector)
 ,.clk200cnt(clk200cnt)
 );
-assign gmii.tx_en=1'b1;
+reg tx_en=0;
+always @(posedge gmii.tx_clk) begin
+	tx_en<=clk125cnt>32'h1001;
+end
+assign gmii.tx_en=tx_en;
+assign gmii.txd=8'hcc;
 assign gmii.tx_er=1'b0;
-assign gmii.txd=8'h5c;*/
 wire [15:0] gteth_rxdata;
-wire [1:0] dbrxcharisk;
+wire [15:0] gteth_txdata;
+wire [1:0] gteth_rxcharisk;
+wire [1:0] gteth_txcharisk;
+wire gteth_txusrclk;
+wire gteth_rxusrclk;
+wire gteth_rxvalid;
+wire resetdone_eth=1;
 gteth_gt gteth_gt(
 .CPLLLOCKDETCLK(clk200)
 ,.GTNORTHREFCLK0(1'b0),.GTNORTHREFCLK1(1'b0),.GTREFCLK0(sgmiiclk),.GTREFCLK1(sma_mgt_refclk),.GTSOUTHREFCLK0(si5324_out_c),.GTSOUTHREFCLK1(1'b0)
 ,.GTXRXN(hw.vc707.sgmii_rx_n),.GTXRXP(hw.vc707.sgmii_rx_p),.GTXTXN(hw.vc707.sgmii_tx_n),.GTXTXP(hw.vc707.sgmii_tx_p)
 ,.QPLLCLK(qplloutclk_113),.QPLLREFCLK(qplloutrefclk_113)
 ,.RXDATA(gteth_rxdata)
+,.RXCHARISK(gteth_rxcharisk)
+,.TXCHARISK(gteth_txcharisk)
+,.RXVALID(gteth_rxvalid)
 ,.RXUSERRDY(1'b1)
-,.TXDATA(16'hf05c)
+,.TXDATA(gteth_txdata)
 ,.TXUSERRDY(1'b1)
 ,.CPLLREFCLKSEL(3'b001)
-,.txusrclk()
-,.rxusrclk()
+,.txusrclk(gteth_txusrclk)
+,.rxusrclk(gteth_rxusrclk)
+,.txusrclk2(gmii.tx_clk)
+,.rxusrclk2(gmii.rx_clk)
 ,.readyforreset(readyforreset_eth)
 ,.reset(reset_eth)
 ,.resetdone(resetdone_eth)
-,.dbrxcharisk(dbrxcharisk)
 );
+*/
+
+
 
 localparam NSTEP=8;
 wire [NSTEP-1:0] done;
 wire [NSTEP-1:0] donestrobe;
 wire [NSTEP-1:0] error;
 wire [NSTEP-1:0] resetout;
-wire [NSTEP-1:0] donecriteria={resetdone_eth,resetdone_sfp,qpllresetdone_113,idelayctrl_rdy,1'b1,1'b1,1'b1,sysclkmmcm_locked};
-wire [NSTEP-1:0] readycriteria={donecriteria[NSTEP-2:0],1'b1};
-wire [NSTEP-1:0] resetin={donestrobe[NSTEP-2:0],hwreset};
+wire [NSTEP-1:0] donecriteria={sysclkmmcm_locked,1'b1,1'b1,1'b1,idelayctrl_rdy,qpllresetdone_113,resetdone_sfp,sgmiieth_resetdone};
+wire [NSTEP-1:0] readycriteria={1'b1,donecriteria[NSTEP-1:1]};
+wire [NSTEP-1:0] resetin={hwreset,donestrobe[NSTEP-1:1]};
 wire [NSTEP*16-1:0] readylength={NSTEP{16'd10}};
 wire [NSTEP*16-1:0] resetlength={NSTEP{16'd10}};
 wire [NSTEP*32-1:0] timeout={NSTEP{32'b0}};
@@ -287,8 +320,9 @@ chainreset(.clk(hw.vc707.sysclk)
 ,.done,.donecriteria,.donestrobe,.error,.readycriteria,.readylength,.resetin,.resetlength,.resetout,.timeout);
 assign lb.hwresetstatus=done;
 wire [NSTEP-2-1:0] dummyready;
-assign {readyforreset_eth,readyforreset_sfp,dummyready}=readycriteria;
-assign {reset_eth,reset_sfp,qpllreset_113,idelayctrl_reset,i2creset,uartlbreset,uartreset,sysclkmmcm_reset}=resetout;
+assign readyforreset_sfp=qpllresetdone_113;
+assign readyforreset_eth=resetdone_sfp;
+assign {sysclkmmcm_reset,uartreset,uartlbreset,i2creset,idelayctrl_reset,qpllreset_113,reset_sfp,sgmiieth_reset}=resetout;
 
 wire  mdio_i;
 wire  mdio_o;
@@ -301,5 +335,69 @@ wire [15:0] datatx;
 assign {opr1w0,phyaddr,regaddr,datatx}=lb.mdiodatatx[26:0];
 mdiomaster mdiomaster(.clk(clk100),.busy(),.clk4ratio(SIM ? 32'd10 : lb.mdioclk4ratio),.datarx(lb.mdiodatarx),.datatx(lb.mdiodatatx),.mdc(hw.vc707.phy_mdc),.mdio_i(mdio_i),.mdio_o(mdio_o),.mdio_t(mdio_t),.opr1w0(opr1w0),.phyaddr(phyaddr),.regaddr(regaddr),.rst(1'b0),.rxvalid(lb.mdiorxvalid),.start(lb.stb_mdiostart));
 
+// gtxgmii cross wire 
+/*wire [5:0] leds;
+gtgmii gtgmii(.gmii(gmii.phy)
+,.gt_rx_is_k(gteth_rxcharisk)
+,.gt_rxd(gteth_rxdata)
+,.gt_tx_clk(gteth_txusrclk)
+,.gt_tx_is_k(gteth_txcharisk)
+,.gt_txd(gteth_txdata)
+,.an_bypass(1'b1)
+,.rx_err_los(1'b0)
+,.an_state_mon()
+,.lacr_rx()
+,.leds(leds)
+,.operate()
+);
+assign gmii.tx_en=clk125cnt>32'h1001;
+//assign gmii.rx_en=clk125cnt>32'h1001;
+assign gmii.txd=8'hcc;
+assign gmii.tx_er=1'b0;
+*/
 `include "ilaauto.vh"
+// ether_gmii cross wire 
+parameter IP ={8'd192, 8'd168, 8'd1, 8'd224};
+parameter MAC = 48'h00105ad155b2;
+parameter LB_READ_DELAY = 3;
+parameter JUMBO_DW=14;
+wire [7:0] last_ip_byte=8'b0;
+wire [23:0] lb_addr;
+wire  lb_clk;
+wire [31:0] lb_data_in=32'hdeadbeef;
+wire [31:0] lb_data_out;
+wire  lb_read;
+wire  lb_rvalid;
+wire  lb_write;
+wire  pwm_out0;
+wire  pwm_out1;
+wire  reset=1'b0;
+wire [7:0] s_tx_tdata=8'b0;
+wire  s_tx_tready;
+wire  s_tx_tvalid=1'b0;
+wire [7:0] status;
+/*ether_gmii #(.IP(IP),.MAC(MAC),.JUMBO_DW(JUMBO_DW))
+ether_gmii(
+.reset(reset)
+,.gmii_rx_clk(gmii.rx_clk),.gmii_rx_dv(gmii.rx_dv),.gmii_rx_er(gmii.rx_er),.gmii_rxd(gmii.rxd),.gmii_tx_clk(gmii.tx_clk),.gmii_tx_en(gmii.tx_en),.gmii_tx_er(gmii.tx_er),.gmii_txd(gmii.txd)
+,.last_ip_byte(last_ip_byte)
+,.lb_addr(lb_addr)
+,.lb_clk(lb_clk)
+,.lb_data_in(lb_data_in)
+,.lb_data_out(lb_data_out)
+,.lb_read(lb_read)
+,.lb_rvalid(lb_rvalid)
+,.lb_write(lb_write)
+,.pwm_out0(pwm_out0)
+,.pwm_out1(pwm_out1)
+,.s_tx_tdata(s_tx_tdata)
+,.s_tx_tready(s_tx_tready)
+,.s_tx_tvalid(s_tx_tvalid)
+,.status(status));
+*/
+assign keeplbdataout=&lb_data_out;
+iethernet ethernet(hwreset);
+ethernetovergmii ethernetovergmii (.gmii(gmii.eth),.eth(ethernet),.reset(hwreset));
+iarplink arp(.clk(ethernet.clk));
+arpoverethernet arpoverethernet (.eth(ethernet), .arp(arp),.reset(hwreset),.ip(32'hc0a801e0));
 endmodule
