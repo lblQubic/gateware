@@ -28,7 +28,6 @@ qubic.xdc
 submodules/fpga-family/gtx/gtxclks.v
 gticc_common.sv
 gticc_gt.sv
-condreset.v
 ilaauto.vh
 sysclkmmcm.v
 gig_ethernet_pcs_pma.tcl
@@ -44,6 +43,8 @@ eth.d
 ethernet.sv
 submodules/common-hdl/fifo.v
 submodules/common-hdl/dpram.v
-test4/crc_32_d8.v
+crc_32_d8.v
 submodules/common-hdl/reg_delay1.v
 arppacket.sv
+submodules/common-hdl/bram.v
+ethernetsw.sv

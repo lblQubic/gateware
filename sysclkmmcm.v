@@ -1,7 +1,9 @@
 module sysclkmmcm(input sysclk
+,output clk250
 ,output clk200
 ,output clk100
 ,output clk125
+,output [31:0] clk250cnt
 ,output [31:0] clk200cnt
 ,output [31:0] clk100cnt
 ,output [31:0] clk125cnt
@@ -27,12 +29,16 @@ MMCME2_BASE #(.BANDWIDTH("OPTIMIZED")
 ,.CLKOUT2_DIVIDE(8)   // 125M
 ,.CLKOUT2_DUTY_CYCLE(0.5)
 ,.CLKOUT2_PHASE(0.0)
+,.CLKOUT3_DIVIDE(4)   // 250M
+,.CLKOUT3_DUTY_CYCLE(0.5)
+,.CLKOUT3_PHASE(0.0)
 //,.REF_JITTER2(0.0)
 ,.STARTUP_WAIT("FALSE")
 ) mmcme2_base_sysclk (.CLKIN1(sysclk)
 ,.CLKOUT0(mmcm_clk100)
 ,.CLKOUT1(mmcm_clk200)
 ,.CLKOUT2(mmcm_clk125)
+,.CLKOUT3(mmcm_clk250)
 ,.LOCKED(mmcm_locked)
 ,.CLKFBOUT(mmcmclkfbout)
 ,.CLKFBIN(mmcmclkfbin)
@@ -43,6 +49,12 @@ BUFG mmcmclkfb(.I(mmcmclkfbout),.O(mmcmclkfbin));
 BUFG bufgclk100(.I(mmcm_clk100),.O(clk100));
 BUFG bufgclk125(.I(mmcm_clk125),.O(clk125));
 BUFG bufgclk200(.I(mmcm_clk200),.O(clk200));
+BUFG bufgclk250(.I(mmcm_clk250),.O(clk250));
+reg [31:0] clk250cnt_r=0;
+always @(posedge clk250) begin
+	clk250cnt_r<=clk250cnt_r+1;
+end
+assign clk250cnt=clk250cnt_r;
 reg [31:0] clk200cnt_r=0;
 always @(posedge clk200) begin
 	clk200cnt_r<=clk200cnt_r+1;

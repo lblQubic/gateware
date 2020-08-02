@@ -18,12 +18,14 @@ end
 wire  clk100;
 wire  clk125;
 wire  clk200;
+wire  clk250;
 wire [31:0] clk100cnt;
 wire [31:0] clk125cnt;
 wire [31:0] clk200cnt;
+wire [31:0] clk250cnt;
 wire sysclkmmcm_locked;
 wire sysclkmmcm_reset;
-sysclkmmcm sysclkmmcm(.clk100(clk100),.clk125(clk125),.clk200(clk200),.clk100cnt(clk100cnt),.clk125cnt(clk125cnt),.clk200cnt(clk200cnt),.sysclk(hw.vc707.sysclk),.mmcm_locked(sysclkmmcm_locked),.mmcm_reset(sysclkmmcm_reset));
+sysclkmmcm sysclkmmcm(.clk100(clk100),.clk125(clk125),.clk200(clk200),.clk250(clk250),.clk100cnt(clk100cnt),.clk125cnt(clk125cnt),.clk200cnt(clk200cnt),.clk250cnt(clk250cnt),.sysclk(hw.vc707.sysclk),.mmcm_locked(sysclkmmcm_locked),.mmcm_reset(sysclkmmcm_reset));
 
 wire uarttx;
 wire uartrx=hw.vc707.usb2uart.rx;
@@ -409,20 +411,44 @@ iethernet ethernet(hwreset);
 wire [8:0] dbdout;
 wire dbfull;
 wire dbempty;
-wire dbten;
-wire [7:0] dbtxd;
+wire dbtenfifo;
+wire [7:0] dbtxdfifo;
 wire [3:0] dbtxstate;
+wire [3:0] dbrxstate;
 wire [31:0] dbtxcrc_w;
-wire [31:0] dbtxcrc;
-ethernetovergmii ethernetovergmii (.gmii(gmii.eth),.eth(ethernet),.reset(hwreset)
+wire [31:0] dbtxcrc;;
+wire dbrxcrcen;
+wire dbrxcrcen1;
+wire dbrxcrcen2;
+wire dbrxcrcen3;
+wire [3:0] dbrxnext;
+wire dbtxcrcen1;
+wire dbtxcrcen2;
+wire dbtxcrcen;
+wire dbrxcrczero;
+wire dbrxcrczero_w;
+wire dbethrxbusy;
+ethernetovergmii #(.SIM(SIM))ethernetovergmii1 (.gmii(gmii.eth),.eth(ethernet),.reset(hwreset)
 ,.dbdout
 ,.dbfull
 ,.dbempty
-,.dbten
-,.dbtxd
+,.dbtenfifo
+,.dbtxdfifo
 ,.dbtxstate
+,.dbrxstate
 ,.dbtxcrc
 ,.dbtxcrc_w
+,.dbrxcrczero
+,.dbrxcrczero_w
+,.dbrxcrcen
+,.dbrxcrcen1
+,.dbrxcrcen2
+,.dbrxcrcen3
+,.dbrxnext
+,.dbtxcrcen1
+,.dbtxcrcen2
+,.dbtxcrcen
+,.dbethrxbusy
 );
 always @(posedge ethernet.clk) begin
 	ethernet.mac<=48'haabbccddeeff;
@@ -431,13 +457,15 @@ wire dbarpmatch;
 wire dbrequest;
 wire [15:0] dbtxcnt;
 wire dbethkey;
+iethernet arpethernet(hwreset);
 iarplink arp(.clk(ethernet.clk));
-arpoverethernet arpoverethernet (.eth(ethernet), .arp(arp),.reset(hwreset),.ip(32'hc0a801e0)
+arpoverethernet arpoverethernet (.eth(arpethernet), .arp(arp),.reset(hwreset),.ip(32'hc0a801e0)
 ,.dbarpmatch(dbarpmatch)
 ,.dbrequest(dbrequest)
 ,.dbtxcnt(dbtxcnt)
 ,.dbethkey(dbethkey)
-
 );
+
+ethernetsw ethernetsw(.hardware(ethernet),.arpethernet(arpethernet));
 `include "ilaauto.vh"
 endmodule
