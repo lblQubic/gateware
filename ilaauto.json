@@ -3,70 +3,11 @@
 	,"probes":{
 		"lb.lbwcmd":64
 		,"lb.lbrcmd":64
-		,"mdio_i":1
-		,"mdio_o":1
-		,"mdio_t":1
-		,"hw.vc707.phy_mdc":1
-		,"opr1w0":1
-		,"phyaddr":5
-		,"regaddr":5
-		,"datatx":16
-		,"lb.mdiodatarx":32
-		,"lb.mdiorxvalid":1
-		,"lb.mdiodatatx":32
-		,"lb.stb_mdiostart":1
-		,"clk100cnt":32
-		,"gteth_rxdata":16
-		,"dbrxcharisk":2
 		,"gmii.rxd":8
 		,"gmii.rx_dv":1
 		,"gmii.rx_er":1
 		,"gmii.txd":8
 		,"gmii.tx_en":1
 		,"gmii.tx_er":1
-		,"done":8
-		,"sgmiieth_reset":1
-		,"ethernet.tx.data":8
-		,"ethernet.tx.dven":1
-		,"ethernet.tx.err":1
-		,"ethernet.rx.data":8
-		,"ethernet.rx.dven":1
-		,"ethernet.rx.err":1
-		,"ethernet.rx.crczero":1
-		,"ethernet.rx.crc":32
-		,"dbrxcrczero":1
-		,"dbrxcrczero_w":1
-		,"ethernet.mac":48
-		,"arp.tx.sha":48
-		,"arp.tx.spa":32
-		,"arp.tx.tha":48
-		,"arp.tx.tpa":32
-		,"arp.rx.sha":48
-		,"arp.rx.spa":32
-		,"arp.rx.tha":48
-		,"arp.rx.tpa":32
-		,"arp.rx.ipmatch":1
-		,"arp.rx.oper":16
-		,"dbarpmatch":1
-		,"dbrequest":1
-		,"dbtxcnt":16
-		,"dbethkey":1
-		,"dbdout":9
-		,"dbfull":1
-		,"dbempty":1
-		,"dbtenfifo":1
-		,"dbtxdfifo":8
-		,"dbtxstate":4
-		,"dbrxstate":4
-		,"dbtxcrc":32
-		,"dbtxcrc_w":32
-		,"dbrxcrcen":1
-		,"dbrxcrcen1":1
-		,"dbrxcrcen2":1
-		,"dbrxcrcen3":1
-		,"dbrxnext":4
-		,"dbtxcrcen1":1
-		,"dbtxcrcen2":1
-		,"dbtxcrcen":1
 	}
 }

@@ -59,7 +59,7 @@ always @(posedge clk) begin
 	tenfifo_d<=tenfifo;
 end
 wire [31:0] txcrc_w;
-assign eth.tx.crc=txcrc_w;
+//assign eth.tx.crc=txcrc_w;
 assign eth.tx.busy=ethtxbusy;
 
 always @(posedge clk or posedge reset) begin
@@ -250,8 +250,8 @@ assign eth.rx.data=ethrxdata;
 assign eth.rx.dven=ethrxdven;
 assign eth.rx.err=ethrxerr;
 assign {eth.rx.dmac,eth.rx.smac,eth.rx.ethertype}=rxhead;
-assign eth.rx.crczero=rxcrczero;
-assign eth.rx.crc=rxcrc_w;
+//assign eth.rx.crczero=rxcrczero;
+//assign eth.rx.crc=rxcrc_w;
 assign eth.rx.newframehead=newframehead;
 assign eth.rx.frameend=ethrxframeend;
 always @(posedge clk or posedge reset) begin
@@ -302,7 +302,7 @@ always @(posedge clk or posedge reset) begin
 				ethrxdata<=8'b0;
 				ethrxdven<=1'b0;
 				rxcrcen<=1'b0;
-				ethrxerr<=1'b0;
+				ethrxerr<=~rxcrczero;
 				ethrxbusy<=1'b1;
 				ethrxframeend<=1'b1;
 			end
@@ -351,25 +351,24 @@ interface iethernetframe #(parameter MTU=1500) (input [6*8-1:0] mac,input clk,in
 	wire [7:0] data;
 	wire dven;
 	wire err;
-	wire [31:0] crc;
-	wire crczero;
+//	wire [31:0] crc;
+//	wire crczero;
 	wire busy;
 	wire newframehead;
 	wire frameend;
-modport soc(input busy
-,input smac,dmac,ethertype,data,dven,err
-);
-modport ket(output smac,dmac,ethertype,data,dven,err
-);
+//	wire [158-1:0] txsrc={smac,dmac,ethertype,data,dven,err};
+//	wire [158-1:0] txdst;
+//	assign {smac,dmac,ethertype,data,dven,err}=txdst;
+	wire [158-1:0] src={smac,dmac,ethertype,data,dven,err,newframehead,frameend};
+	wire [158-1:0] dst;
+	assign {smac,dmac,ethertype,data,dven,err,newframehead,frameend}=dst;
 endinterface
 
 
-interface iethernet #(parameter MTU=1500)(input reset);
-	reg [6*8-1:0] mac=0;
+interface iethernet #(parameter MTU=1500)(input reset,input [47:0] mac);
 	wire [8-1:0] preamble=8'h55;
 	wire [8-1:0] sfd=8'hd5;
 	iethernetframe #(.MTU(MTU))tx(.mac(mac),.clk(clk),.reset(reset));
 	iethernetframe #(.MTU(MTU))rx(.mac(mac),.clk(clk),.reset(reset));
 	wire clk;
-modport setmac(output mac);
 endinterface

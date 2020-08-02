@@ -406,8 +406,9 @@ ether_gmii(
 ,.s_tx_tvalid(s_tx_tvalid)
 ,.status(status));
 */
+reg [47:0] mac=0;
 assign keeplbdataout=&lb_data_out;
-iethernet ethernet(hwreset);
+iethernet ethernet(.reset(hwreset),.mac(mac));
 wire [8:0] dbdout;
 wire dbfull;
 wire dbempty;
@@ -451,13 +452,13 @@ ethernetovergmii #(.SIM(SIM))ethernetovergmii1 (.gmii(gmii.eth),.eth(ethernet),.
 ,.dbethrxbusy
 );
 always @(posedge ethernet.clk) begin
-	ethernet.mac<=48'haabbccddeeff;
+	mac<=48'haabbccddeeff;
 end
 wire dbarpmatch;
 wire dbrequest;
 wire [15:0] dbtxcnt;
 wire dbethkey;
-iethernet arpethernet(hwreset);
+iethernet arpethernet(.reset(hwreset),.mac(mac));
 iarplink arp(.clk(ethernet.clk));
 arpoverethernet arpoverethernet (.eth(arpethernet), .arp(arp),.reset(hwreset),.ip(32'hc0a801e0)
 ,.dbarpmatch(dbarpmatch)
@@ -466,6 +467,7 @@ arpoverethernet arpoverethernet (.eth(arpethernet), .arp(arp),.reset(hwreset),.i
 ,.dbethkey(dbethkey)
 );
 
-ethernetsw ethernetsw(.hardware(ethernet),.arpethernet(arpethernet));
+iethernet ipv4ethernet(.reset(reset),.mac(mac));
+ethernetsw ethernetsw(.hardware(ethernet),.arpethernet(arpethernet),.ipv4ethernet(ipv4ethernet),.sel(1'b0));
 `include "ilaauto.vh"
 endmodule

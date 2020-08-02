@@ -9,7 +9,6 @@ interface iarppacket #(parameter HEADLEN=20,parameter TX1RX0=0) (input [47:0] ma
 	wire [47:0] tha;
 	wire [31:0] tpa;
 	reg busy=0;
-	reg readyvalid=0;
 	reg error=0;
 	wire [28*8-1:0] head;
 	wire [5:0] headlen8=28;
@@ -54,12 +53,27 @@ reg [15:0] ethrxethertype=0;
 reg ethrxdven=0;
 reg [7:0] ethrxdata=0;
 reg ethrxcrczero=0;
+reg ethrxframeend=0;
+wire protocolmatch=ethrxnewframehead & (ethrxethertype==ETHERTYPEARP);
+reg protocolsel=0;
+reg ethrxerr=0;
 always @(posedge clk) begin
+/*	if (protocolmatch) begin
+		protocolsel<=1'b1;
+	end
+	else if (ethrxframeend) begin
+		protocolsel<=1'b0;
+	end*/
 	ethrxnewframehead <= eth.rx.newframehead;
 	ethrxethertype<=eth.rx.ethertype;
+//	if (protocolsel|protocolmatch) begin
 	ethrxdven<=eth.rx.dven;
 	ethrxdata<=eth.rx.data;
-	ethrxcrczero<=eth.rx.crczero;
+	ethrxerr<=eth.rx.err;
+	ethrxframeend<=eth.rx.frameend;
+//		if (ethrxframeend)
+//	ethrxcrczero<=eth.rx.crczero;
+//	end
 end
 reg [3:0] rxstate=RXIDLE;
 reg [3:0] rxnext=RXIDLE;
@@ -77,9 +91,10 @@ reg [HEADLEN*8-1:0] rxhead=0;
 assign arp.rx.head=rxhead;
 assign arp.rx.newhead=(rxstate==RXHEAD&rxnext==RXPAYLOAD);
 reg [7:0] rxdata=0;
+reg [15:0] rxerrcnt=0;
 always @(*) begin
 	case(rxstate)
-		RXIDLE: rxnext=(ethrxnewframehead & ethrxethertype==ETHERTYPEARP) ? RXHEAD : RXIDLE;
+		RXIDLE: rxnext= protocolmatch ? RXHEAD : RXIDLE;
 		RXHEAD: rxnext=rxcnt==HEADLEN-1 ? RXPAYLOAD : RXHEAD;
 		RXPAYLOAD: rxnext= (~ethrxdven) ? RXTAIL : RXPAYLOAD;
 		RXTAIL: rxnext=RXIDLE;
@@ -90,15 +105,19 @@ always @(posedge clk) begin
 	case (rxnext)
 		RXIDLE: begin
 			arpmatch<=0;
+			rxerrcnt<=0;
 		end
 		RXHEAD: begin
 			rxhead<={rxhead[HEADLEN*8-9:0],ethrxdata};
+			rxerrcnt<=rxerrcnt+ethrxerr;
 		end
 		RXPAYLOAD: begin
 			rxdata<=ethrxdata;
+			rxerrcnt<=rxerrcnt+ethrxerr;
 		end
 		RXTAIL: begin
-			arpmatch<=(ethrxcrczero & arp.rx.ipmatch & arp.rx.oper==OPREQUEST);
+			arpmatch<=(~|ethrxerr & arp.rx.ipmatch & arp.rx.oper==OPREQUEST);
+			rxerrcnt<=rxerrcnt+ethrxerr;
 		end
 	endcase
 end
@@ -163,6 +182,7 @@ assign eth.tx.data=ethtxdata;
 assign eth.tx.smac=ethtxsmac;
 assign eth.tx.dmac=ethtxdmac;
 assign eth.tx.ethertype=ethkey ? ETHERTYPEARP: 0;
+assign eth.tx.err=1'b0;
 
 assign dbarpmatch=arpmatch;
 assign dbrequest=request;
