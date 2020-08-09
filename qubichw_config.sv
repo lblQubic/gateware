@@ -358,10 +358,6 @@ assign gmii.txd=8'hcc;
 assign gmii.tx_er=1'b0;
 */
 // ether_gmii cross wire 
-parameter IP ={8'd192, 8'd168, 8'd1, 8'd224};
-parameter MAC = 48'h00105ad155b2;
-parameter LB_READ_DELAY = 3;
-parameter JUMBO_DW=14;
 wire [7:0] last_ip_byte=8'b0;
 wire [23:0] lb_addr;
 wire  lb_clk;
@@ -377,9 +373,13 @@ wire [7:0] s_tx_tdata=8'b0;
 wire  s_tx_tready;
 wire  s_tx_tvalid=1'b0;
 wire [7:0] status;
-/*
-//ether_gmii #(.IP(IP),.MAC(MAC),.JUMBO_DW(JUMBO_DW))
-ether_gmii #(.IP(32'hc0a801e0),.MAC(48'haabbccddeeff),.JUMBO_DW(JUMBO_DW))
+
+/*parameter IP ={8'd192, 8'd168, 8'd1, 8'd224};
+parameter MAC = 48'h00105ad155b2;
+parameter LB_READ_DELAY = 3;
+parameter JUMBO_DW=14;
+ether_gmii #(.IP(IP),.MAC(MAC),.JUMBO_DW(JUMBO_DW))
+//ether_gmii #(.IP(32'hc0a801e0),.MAC(48'haabbccddeeff),.JUMBO_DW(JUMBO_DW))
 ether_gmii(
 .reset(reset)
 
@@ -408,7 +408,7 @@ ether_gmii(
 */
 reg [47:0] mac=0;
 assign keeplbdataout=&lb_data_out;
-iethernet ethernet(.reset(hwreset),.mac(mac));
+iethernet ifethernet(.reset(hwreset),.mac(mac));
 wire [8:0] dbdout;
 wire dbfull;
 wire dbempty;
@@ -429,7 +429,7 @@ wire dbtxcrcen;
 wire dbrxcrczero;
 wire dbrxcrczero_w;
 wire dbethrxbusy;
-ethernetovergmii #(.SIM(SIM))ethernetovergmii1 (.gmii(gmii.eth),.eth(ethernet),.reset(hwreset)
+ethernetovergmii #(.SIM(SIM))ethernetovergmii1 (.gmii(gmii.eth),.eth(ifethernet),.reset(hwreset)
 ,.dbdout
 ,.dbfull
 ,.dbempty
@@ -451,23 +451,45 @@ ethernetovergmii #(.SIM(SIM))ethernetovergmii1 (.gmii(gmii.eth),.eth(ethernet),.
 ,.dbtxcrcen
 ,.dbethrxbusy
 );
-always @(posedge ethernet.clk) begin
-	mac<=48'haabbccddeeff;
+reg [31:0] ip=32'hc0a801e0;
+always @(posedge ifethernet.clk) begin
+	mac<=48'h00105ad155b2;//MAC;//48'haabbccddeeff;
 end
 wire dbarpmatch;
 wire dbrequest;
 wire [15:0] dbtxcnt;
 wire dbethkey;
-iethernet arpethernet(.reset(hwreset),.mac(mac));
-iarplink arp(.clk(ethernet.clk));
-arpoverethernet arpoverethernet (.eth(arpethernet), .arp(arp),.reset(hwreset),.ip(32'hc0a801e0)
+iethernet ifarpethernet(.reset(hwreset),.mac(mac));
+iarplink arp(.clk(ifethernet.clk));
+arpoverethernet arpoverethernet (.eth(ifarpethernet), .arp(arp),.reset(hwreset),.ip(ip)
 ,.dbarpmatch(dbarpmatch)
 ,.dbrequest(dbrequest)
 ,.dbtxcnt(dbtxcnt)
 ,.dbethkey(dbethkey)
 );
+iethernet ifipv4ethernet(.reset(reset),.mac(mac));
+ipv4link ifipv4(.clk(ifethernet.clk),.reset(reset),.ip(ip));
+ipv4link ificmpipv4(.clk(ifethernet.clk),.reset(reset),.ip(ip));
+ipv4link ifudpipv4(.clk(ifethernet.clk),.reset(reset),.ip(ip));
+assign ifudpipv4.requestcode=16'h11;
+ipv4overethernet ipv4overethernet(.eth(ifipv4ethernet), .ipv4(ifipv4),.reset(reset));
 
-iethernet ipv4ethernet(.reset(reset),.mac(mac));
-ethernetsw ethernetsw(.hardware(ethernet),.arpethernet(arpethernet),.ipv4ethernet(ipv4ethernet),.sel(1'b0));
+wire clientackw;
+wire [15:0] clientackcodew;
+wire [4:0] reqcntw;
+ethernetsw ethernetsw(.hardware(ifethernet),.arpethernet(ifarpethernet),.ipv4ethernet(ifipv4ethernet)
+,.clientackw,.clientackcodew,.reqcntw
+);
+icmplink ificmp(.clk(ifethernet.clk),.reset(reset));
+icmplink ifpingicmp(.clk(ifethernet.clk),.reset(reset));
+icmpoveripv4 icmpoveripv4(.ipv4(ificmpipv4), .icmp(ificmp),.reset(reset));
+//icmpoveripv4 icmpoveripv4_udp(.ipv4(ifudpipv4), .icmp(ificmp),.reset(reset));
+wire requestping;
+pingovericmp #(.SIM(1))pingovericmp(.icmp(ifpingicmp),.reset(reset));
+ipv4sw ipv4sw(.ipv4(ifipv4),.icmpipv4(ificmpipv4),.udpipv4(ifudpipv4));
+icmpsw icmpsw(.icmp(ificmp),.pingicmp(ifpingicmp));
+
+
+
 `include "ilaauto.vh"
 endmodule

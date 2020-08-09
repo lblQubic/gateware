@@ -18,6 +18,10 @@ interface iarppacket #(parameter HEADLEN=20,parameter TX1RX0=0) (input [47:0] ma
 		assign head={htype,ptype,hlen,plen,oper,sha,spa,tha,tpa};
 	else
 		assign {htype,ptype,hlen,plen,oper,sha,spa,tha,tpa}=head;
+	reg [28*8-1:0] headr=0;
+	always @(posedge clk) begin
+		headr<=head;
+	end
 endinterface
 interface iarplink (input clk);
 	wire [6*8-1:0] mac;
@@ -48,6 +52,7 @@ localparam ETHERTYPEARP=16'h0806;
 parameter HEADLEN=28;
 localparam OPREQUEST=1;
 localparam OPREPLY=2;
+assign eth.requestcode=ETHERTYPEARP;
 reg ethrxnewframehead=0;
 reg [15:0] ethrxethertype=0;
 reg ethrxdven=0;
@@ -63,7 +68,8 @@ always @(posedge clk) begin
 	end
 	else if (ethrxframeend) begin
 		protocolsel<=1'b0;
-	end*/
+	end
+	*/
 	ethrxnewframehead <= eth.rx.newframehead;
 	ethrxethertype<=eth.rx.ethertype;
 //	if (protocolsel|protocolmatch) begin
@@ -162,7 +168,7 @@ always @(posedge clk) begin
 			txcnt<=txcnt-|txcnt;
 		end
 	end
-	if (request & ethgo)
+	if (eth.ack)
 		ethkey<=1'b1;
 	else if (~|txcnt)
 		ethkey<=1'b0;
@@ -188,4 +194,7 @@ assign dbarpmatch=arpmatch;
 assign dbrequest=request;
 assign dbtxcnt=txcnt;
 assign dbethkey=ethkey;
+
+assign eth.request_w=arpmatch;
+
 endmodule

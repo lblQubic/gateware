@@ -33,6 +33,7 @@ localparam RXHEAD=4'd8;
 localparam RXPAYLOAD=4'd9;
 localparam RXTAIL=4'd10;
 localparam RXGAP=4'd11;
+localparam TXSTART=4'd12;
 
 localparam HEADLEN=14;
 reg [1*8-1:0] txdfifo=0;
@@ -75,7 +76,8 @@ reg txfifore=0;
 localparam DATAMIN=46;
 always @(*) begin
 	case (txstate)
-		TXIDLE: txnext=(ethtxdven&~ethtxdven_d) ? TXPRST : TXIDLE;
+		TXIDLE: txnext= eth.ack ? TXSTART : TXIDLE;
+		TXSTART: txnext=(ethtxdven&~ethtxdven_d) ? TXPRST : TXSTART;
 		TXPRST: txnext=txcnt==8-1 ? TXHEAD : TXPRST;
 		TXHEAD: txnext=txcnt==14-1 ? TXPAYLOAD : TXHEAD;
 		TXPAYLOAD: txnext=(~tenfifo&tenfifo_d&(txcnt>=DATAMIN)|(~tenfifo&txcnt==DATAMIN-1)) ? TXTAIL : TXPAYLOAD;
@@ -106,6 +108,13 @@ always @(posedge clk or posedge reset) begin
 		case (txnext)
 			TXIDLE: begin
 				ethtxbusy<=1'b0;
+				gmiitx_en<=1'b0;
+				gmiitxd<=8'b0;
+				gmiitx_er<=1'b0;
+				txcrcen<=0;
+			end
+			TXSTART: begin
+				ethtxbusy<=1'b1;
 				gmiitx_en<=1'b0;
 				gmiitxd<=8'b0;
 				gmiitx_er<=1'b0;
@@ -177,6 +186,11 @@ fifotxd(.wclk(clk),.rclk(clk),.wen(ethtxdven),.wdata({ethtxdven,ethgmiitxd}),.re
 crc_32_d8 #(.MSBFIRST(0))
 txcrc_32_d8(.clk(clk),.en(txcrcen),.reset(~ethtxbusy),.crc(txcrc_w),.zero(),.d_in(gmiitxd));
 
+
+//fifocore fifocore (.clk(clk),.srst(reset),.din({ethtxdven,ethgmiitxd}),.wr_en(ethtxdven),.rd_en(txfifore));
+
+
+
 assign {tenfifo,txdfifo}= txfifoempty ? 0 : dout;
 assign dbdout=dout;
 assign dbfull=txfifofull;
@@ -243,7 +257,7 @@ reg [HEADLEN*8-1:0] rxhead=0;
 reg ethrxbusy=0;
 reg newframehead=0;
 always @(posedge clk) begin
-	newframehead<=(rxstate==RXHEAD&rxcnt==14-1);
+	newframehead<=(rxstate==RXHEAD&rxcnt==14-1) & ( (eth.rx.dmac==eth.mac) | (&eth.rx.dmac));
 end
 assign eth.rx.busy=ethrxbusy;
 assign eth.rx.data=ethrxdata;
@@ -362,13 +376,41 @@ interface iethernetframe #(parameter MTU=1500) (input [6*8-1:0] mac,input clk,in
 	wire [158-1:0] src={smac,dmac,ethertype,data,dven,err,newframehead,frameend};
 	wire [158-1:0] dst;
 	assign {smac,dmac,ethertype,data,dven,err,newframehead,frameend}=dst;
+	reg [7:0] datar=0;
+	reg newframeheadr=0;
+	reg dvenr=0;
+	reg [47:0] dmacr=0;
+	reg [47:0] macr=0;
+	reg busyr=0;
+	always @(posedge clk) begin
+		datar<=data;
+		dvenr<=dven;
+		newframeheadr<=newframehead;
+		dmacr<=dmac;
+		macr<=mac;
+		busyr<=busy;
+	end
 endinterface
 
 
 interface iethernet #(parameter MTU=1500)(input reset,input [47:0] mac);
 	wire [8-1:0] preamble=8'h55;
 	wire [8-1:0] sfd=8'hd5;
+	wire clk;
 	iethernetframe #(.MTU(MTU))tx(.mac(mac),.clk(clk),.reset(reset));
 	iethernetframe #(.MTU(MTU))rx(.mac(mac),.clk(clk),.reset(reset));
-	wire clk;
+	wire request_w;
+	wire [15:0] requestcode;
+	wire ack;
+	wire [15:0] ackcode;
+	wire requestacpt;
+	reg request=0;
+	reg ackr=0;
+	always @(posedge clk) begin
+		if (request_w)
+			request<=1'b1;
+		else if (requestacpt)
+			request<=1'b0;
+		ackr<=ack;
+	end
 endinterface

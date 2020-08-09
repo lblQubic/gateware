@@ -9,5 +9,26 @@
 		,"gmii.txd":8
 		,"gmii.tx_en":1
 		,"gmii.tx_er":1
+		,"ifethernet.request":1
+		,"ifethernet.rx.datar":8
+		,"ifethernet.rx.dvenr":1
+		,"ifethernet.rx.newframeheadr":1
+		,"ifethernet.rx.dmacr":48
+		,"ifethernet.rx.macr":48
+		,"ifethernet.rx.busyr":1
+		,"ifethernet.ackr":1
+		,"ifethernet.tx.datar":8
+		,"ifethernet.tx.dvenr":1
+		,"ifethernet.tx.newframeheadr":1
+		,"ifethernet.tx.dmacr":48
+		,"ifethernet.tx.macr":48
+		,"ifethernet.tx.busyr":1
+		,"dbrxstate":4
+		,"dbtxstate":4
+		,"ifarpethernet.request":1
+		,"ifipv4.request":1
+		,"clientackw":1
+		,"clientackcodew":16
+		,"reqcntw":5
 	}
 }

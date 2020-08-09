@@ -1,6 +1,7 @@
 `include "xc7vx485tffg1761pkg.vh"
 module qubic(xc7vx485tffg1761pkg fpga);
-localparam DEBUG="true";
+//localparam DEBUG="true";
+localparam DEBUG="false";
 parameter BAUD=9600;
 parameter SIM=0;
 hw hw();

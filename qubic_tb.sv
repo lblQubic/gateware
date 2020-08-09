@@ -144,9 +144,8 @@ end
 /*assign gmii.tx_en=tx_en;
 assign gmii.txd=8'hde;
 assign gmii.tx_er=1'b0;*/
-/*
 // ping example
-localparam NBYTES=14*8-2;
+/*localparam NBYTES=14*8-2;
 localparam data={
 64'h55555555555555d5
 ,64'h00105ad155b2c46e
