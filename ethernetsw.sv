@@ -160,3 +160,66 @@ assign pingicmp.ackcode=clientackcode;
 //assign icmp.request_w=pingicmp.request_w;
 
 endmodule
+
+module udpsw #(parameter SIM=0,parameter AWIDTH=5,parameter FIFODW=16)
+(udplink udp,udplink udpportd001,udplink udpportd000
+,output clientackw,output [FIFODW-1:0] clientackcodew
+,output [4:0] reqcntw
+);
+wire clk;
+wire request;
+wire [FIFODW-1:0] requestcode;
+reg [AWIDTH-1:0] reqcnt=0;
+wire [FIFODW-1:0] fifordata;
+reg clientack=0;
+reg [FIFODW-1:0] clientackcode=0;
+wire fiforvalid;
+wire fifoempty;
+
+assign clk=udp.clk;
+assign udpportd000.clk=udp.clk;
+assign udpportd001.clk=udp.clk;
+assign udpportd001.rx.dst=udp.rx.src;
+assign udpportd000.rx.dst=udp.rx.src;
+assign udp.request_w= request;
+assign udpportd000.ack=clientack & (clientackcode==udpportd000.requestcode);
+assign udpportd001.ack=clientack & (clientackcode==udpportd001.requestcode);
+assign udp.ackcode=clientackcode;
+assign udpportd000.ackcode=clientackcode;
+assign udpportd001.ackcode=clientackcode;
+assign request=|{udpportd001.request,udpportd000.request};
+assign requestcode= udpportd000.request ? udpportd000.requestcode :
+						udpportd001.request ? udpportd001.requestcode : 0;
+assign udpportd000.requestacpt=udpportd000.request;
+assign udpportd001.requestacpt=udpportd000.request ? 0 : udpportd001.request;
+assign udp.tx.dst=clientackcode==udpportd000.requestcode ? udpportd000.tx.src
+					: clientackcode == udpportd001.requestcode ? udpportd001.tx.src
+					: 0;
+
+always @(posedge clk) begin
+	if (request ^ udp.requestacpt) begin
+		reqcnt<=reqcnt+request-udp.requestacpt;
+	end
+end
+fifo#(.AW(AWIDTH),.DW(FIFODW),.SIM(SIM),.BRAM(1),.SAMECLKDOMAIN(1))
+reqfifo(.wclk(clk),.rclk(clk)
+,.wen(request)
+,.wdata(requestcode)
+,.ren(udp.ack)
+,.rdata(fifordata)
+,.rdatavalid(fiforvalid)
+,.full()
+,.empty(fifoempty)
+,.reset(reset)
+);
+always@(posedge clk) begin
+	clientack<=fiforvalid;
+	if (fiforvalid)
+		clientackcode<=fifordata;
+end
+
+assign reqcntw=reqcnt;
+assign clientackw=clientack;
+assign clientackcodew=clientackcode;
+endmodule
+

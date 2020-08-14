@@ -43,12 +43,23 @@ $(TGT).bit: FNAME := $(TGT)_$(DATETIME)_$(COMMITNUM)
 $(TGT).bit: $(TGT).tcl $(SYNTH_SOURCE) bitclean gitcommit fname
 	echo $(FNAME)
 	time vivado -mode batch -source $<
-	cp vivado_project/$(TGT).runs/impl_1/$(TGT).bit	./bits/$(FNAME).bit
-	cp -f vivado_project/$(TGT).runs/impl_1/$(TGT).ltx ./bits/$(FNAME).ltx
+	cp -f vivado_project/$(TGT).runs/impl_1/$(TGT).bit	./bits/$(FNAME).bit
 	ln -sf ./bits/$(FNAME).bit $(TGT).bit
+	cp -f vivado_project/$(TGT).runs/impl_1/$(TGT).ltx ./bits/$(FNAME).ltx
 	ln -sf ./bits/$(FNAME).ltx $(TGT).ltx
 	printf "\a\a\a"
 	echo $(FNAME)
+#	if ( [ -a vivado_project/$(TGT).runs/impl_1/$(TGT).bit ] ) then
+#		echo "exist"
+#	else
+#		echo "not exist"
+#		rm -f $(TGT).bit
+#	fi
+#	if [ -a vivado_project/$(TGT).runs/impl_1/$(TGT).ltx ];
+#	then
+#	else
+#		rm -f $(TGT).ltx
+#	fi
 
 TEND=1000ns
 $(TGT).fst: $(TGT)_tb.tcl $(SIM_SOURCE) $(SYNTH_SOURCE) simclean

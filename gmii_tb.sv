@@ -61,6 +61,34 @@ localparam ARPDATA={
 ,64'h0000000000000000
 ,64'h0000000072bda56a
 };
+
+localparam UDPNBYTES=9*8;
+localparam UDPDATA={64'h55555555555555d5
+,64'h00105ad155b2c46e
+,64'h1f01d90d08004500
+,64'h0024903540004011
+,64'h259bc0a801c8c0a8
+,64'h01e0df33d0000010
+,64'h3446deadbeefface
+,64'hfeed000000000000
+,64'h0000000026b628c7
+};
+
+localparam UDP1NBYTES=8*13;
+localparam UDP1DATA={64'h55555555555555d5
+,64'h00105ad155b2c46e
+,64'h1f01d90d08004500
+,64'h004ea74f40004011
+,64'h0e57c0a801c8c0a8
+,64'h01e0d2b3d001003a
+,64'h6f46c0dedeadbeef
+,64'hfacefeed01020304
+,64'h0506070800000007
+,64'h0000000700000007
+,64'h0000000700000007
+,64'h0000000700000007
+,64'h00000007fbb2e448
+};
 reg [6:0] inc=0;
 reg [31:0] txclkcnt=0;
 wire reset=txclkcnt<100;
@@ -73,7 +101,10 @@ always @(posedge ifgmii.tx_clk) begin
 	txclkcnt<=txclkcnt+1;
 	ethstart_d<=ethstart;
 	if (ethstart&~ethstart_d) begin
-		datasr<=txclkcnt > 32'h500 ? PINGDATA <<(8*(MAXNBYTES-PINGNBYTES)) : ARPDATA<<(8*(MAXNBYTES-ARPNBYTES));
+		datasr<=txclkcnt < 1000 ? ARPDATA<<(8*(MAXNBYTES-ARPNBYTES))
+		 :txclkcnt<2000 ? PINGDATA <<(8*(MAXNBYTES-PINGNBYTES))
+		: txclkcnt<2500 ?  UDPDATA<<(8*(MAXNBYTES-UDPNBYTES))
+		:	UDP1DATA<<(8*(MAXNBYTES-UDP1NBYTES));
 		inc<=inc+1;
 	end
 	if (|datasr)
@@ -118,9 +149,36 @@ ethernetsw ethernetsw(.hardware(ifethernet),.arpethernet(ifarpethernet),.ipv4eth
 icmplink ificmp(.clk(ifethernet.clk),.reset(reset));
 icmplink ifpingicmp(.clk(ifethernet.clk),.reset(reset));
 icmpoveripv4 icmpoveripv4(.ipv4(ificmpipv4), .icmp(ificmp),.reset(reset));
-//icmpoveripv4 icmpoveripv4_udp(.ipv4(ifudpipv4), .icmp(ificmp),.reset(reset));
 wire requestping;
 pingovericmp #(.SIM(1))pingovericmp(.icmp(ifpingicmp),.reset(reset));
 ipv4sw ipv4sw(.ipv4(ifipv4),.icmpipv4(ificmpipv4),.udpipv4(ifudpipv4));
 icmpsw icmpsw(.icmp(ificmp),.pingicmp(ifpingicmp));
+udplink ifudp(.reset(reset),.clk(ifethernet.clk));
+udplink ifudpportd001(.reset(reset),.clk(ifethernet.clk));
+udplink ifudpportd000(.reset(reset),.clk(ifethernet.clk));
+udpoveripv4 udpovreipv4(.ipv4(ifudpipv4),.udp(ifudp),.reset(reset));
+udpsw udpsw(.udp(ifudp),.udpportd001(ifudpportd001),.udpportd000(ifudpportd000));
+//icmpoveripv4 icmpoveripv4_udp(.ipv4(ifudpipv4), .icmp(ificmp),.reset(reset));
+/*reg [7:0] udprxdata=0;
+reg udprxdven=0;
+reg [7:0] udprxdata_d=0;
+reg udprxdven_d=0;
+always @(posedge ifethernet.clk) begin
+	udprxdata<=ifudpd000.rx.data;
+	udprxdven<=ifudpd000.rx.dven;
+	udprxdata_d<=udprxdata;
+	udprxdven_d<=udprxdven;
+end
+assign ifudpd000.tx.srcport=ifudpd000.rx.dstport;
+assign ifudpd000.tx.dstport=ifudpd000.rx.srcport;
+assign ifudpd000.tx.length=ifudpd000.rx.length;
+assign ifudpd000.tx.checksum=0;
+assign ifudpd000.request_w=udprxdven&~udprxdven_d;
+assign ifudpd000.tx.data=udprxdata_d;
+assign ifudpd000.tx.dven=udprxdven_d;
+*/
+udpecho #(.PORT(16'hd000))
+udpecho(.clk(ifethernet.clk),.udp(ifudpportd000),.reset(reset));
+udpstatic #(.PORT(16'hd001))
+udpstatic(.clk(ifethernet.clk),.udp(ifudpportd001),.reset(reset));
 endmodule

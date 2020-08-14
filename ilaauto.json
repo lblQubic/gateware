@@ -30,5 +30,50 @@
 		,"clientackw":1
 		,"clientackcodew":16
 		,"reqcntw":5
+		,"ifarpethernet.request":1
+		,"ifarpethernet.rx.datar":8
+		,"ifarpethernet.rx.dvenr":1
+		,"ifarpethernet.rx.newframeheadr":1
+		,"ifarpethernet.rx.dmacr":48
+		,"ifarpethernet.rx.macr":48
+		,"ifarpethernet.rx.busyr":1
+		,"ifarpethernet.ackr":1
+		,"ifarpethernet.tx.datar":8
+		,"ifarpethernet.tx.dvenr":1
+		,"ifarpethernet.tx.newframeheadr":1
+		,"ifarpethernet.tx.dmacr":48
+		,"ifarpethernet.tx.macr":48
+		,"ifarpethernet.tx.busyr":1
+		,"dbarptxstate":4
+		,"dbarprxstate":4
+		,"arp.tx.operr":16
+		,"arp.tx.ipmatchr":1
+		,"arp.rx.operr":16
+		,"arp.rx.ipmatchr":1
+		,"dbarpmatch":1
+		,"dbarpmatch3":3
+		,"ifudp.request":1
+		,"ifudp.dback":1
+		,"ifudp.dbackcode":16
+		,"ifudp.rx.dbdata":8
+		,"ifudp.rx.dbdven":1
+		,"ifudp.tx.dbdata":8
+		,"ifudp.tx.dbdven":1
+		,"ifudpportd000.request":1
+		,"ifudpportd000.dback":1
+		,"ifudpportd000.dbackcode":16
+		,"ifudpportd000.rx.dbdata":8
+		,"ifudpportd000.rx.dbdven":1
+		,"ifudpportd000.tx.dbdata":8
+		,"ifudpportd000.tx.dbdven":1
+		,"ifudpportd001.request":1
+		,"ifudpportd001.dback":1
+		,"ifudpportd001.dbackcode":16
+		,"ifudpportd001.rx.dbdata":8
+		,"ifudpportd001.rx.dbdven":1
+		,"ifudpportd001.tx.dbdata":8
+		,"ifudpportd001.tx.dbdven":1
+		,"dbudprxstate":4
+		,"dbudptxstate":4
 	}
 }

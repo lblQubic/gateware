@@ -1,4 +1,4 @@
-interface iarppacket #(parameter HEADLEN=20,parameter TX1RX0=0) (input [47:0] mac, input [31:0] ip,input clk);
+interface iarppacket #(parameter TX1RX0=0) (input [47:0] mac, input [31:0] ip,input clk);
 	wire [15:0] htype;
 	wire [15:0] ptype;
 	wire [7:0] hlen;
@@ -22,6 +22,16 @@ interface iarppacket #(parameter HEADLEN=20,parameter TX1RX0=0) (input [47:0] ma
 	always @(posedge clk) begin
 		headr<=head;
 	end
+	reg [15:0] operr=0;
+	reg ipmatchr=0;
+	reg [31:0] tpar=0;
+	reg [31:0] ipr=0;
+	always @(posedge clk) begin
+		operr<=oper;
+		ipmatchr<=ipmatch;
+		tpar<=tpa;
+		ipr<=ip;
+	end
 endinterface
 interface iarplink (input clk);
 	wire [6*8-1:0] mac;
@@ -32,18 +42,20 @@ endinterface
 
 module arpoverethernet(iethernet eth, iarplink arp,input reset,input [4*8-1:0] ip
 ,output dbarpmatch
+,output [2:0] dbarpmatch3
 ,output dbrequest
 ,output [15:0] dbtxcnt
 ,output dbethkey
+,output [3:0] dbtxstate
+,output [3:0] dbrxstate
 );
 assign arp.mac=eth.mac;
 assign arp.ip=ip;
-assign arp.tx.htype=16'h1;
-assign arp.tx.ptype=16'h0800;
-assign arp.tx.hlen=8'h6;
-assign arp.tx.plen=8'h4;
-assign arp.tx.oper=OPREPLY;
 wire clk=eth.clk;
+localparam TXIDLE=4'd0;
+localparam TXSTART=4'd1;
+localparam TXHEAD=4'd2;
+localparam TXTAIL=4'd3;
 localparam RXIDLE=4'd4;
 localparam RXHEAD=4'd5;
 localparam RXTAIL=4'd6;
@@ -122,7 +134,8 @@ always @(posedge clk) begin
 			rxerrcnt<=rxerrcnt+ethrxerr;
 		end
 		RXTAIL: begin
-			arpmatch<=(~|ethrxerr & arp.rx.ipmatch & arp.rx.oper==OPREQUEST);
+			arpmatch<=(~|rxerrcnt & arp.rx.ipmatch & (arp.rx.oper==OPREQUEST));
+		//	arpmatch<=(arp.rx.ipmatch & (arp.rx.oper==OPREQUEST));
 			rxerrcnt<=rxerrcnt+ethrxerr;
 		end
 	endcase
@@ -140,16 +153,14 @@ always @(posedge clk) begin
 		txtpa<=arp.rx.spa;
 	end
 end
-assign arp.tx.sha=txsha;
-assign arp.tx.spa=txspa;
-assign arp.tx.tha=txtha;
-assign arp.tx.tpa=txtpa;
+
+
 reg [15:0] txcnt=0;
 reg ethkey=0;
 reg request=0;
 reg ethgo=1'b1;
 reg arpmatch_d=0;
-
+/*
 always @(posedge clk) begin
 	arpmatch_d<=arpmatch;
 	if (arpmatch) begin
@@ -172,29 +183,95 @@ always @(posedge clk) begin
 		ethkey<=1'b1;
 	else if (~|txcnt)
 		ethkey<=1'b0;
-end
+end*/
 reg ethtxdven=0;
 reg [7:0] ethtxdata=0;
 reg [47:0] ethtxsmac=0;
 reg [47:0] ethtxdmac=0;
-always @(posedge clk) begin
+reg ethtxerr=0;
+/*always @(posedge clk) begin
 	ethtxdven<=ethkey ? 1'b1 : 0;
 	ethtxdata<=ethkey ? arp.tx.head>>((txcnt)*8) : 0;
 	ethtxsmac<=ethkey ? arp.mac: 0;
 	ethtxdmac<=ethkey ? arp.tx.tha: 0;
-end
+end*/
 assign eth.tx.dven=ethtxdven;
 assign eth.tx.data=ethtxdata;
 assign eth.tx.smac=ethtxsmac;
 assign eth.tx.dmac=ethtxdmac;
-assign eth.tx.ethertype=ethkey ? ETHERTYPEARP: 0;
-assign eth.tx.err=1'b0;
+assign eth.tx.ethertype=ETHERTYPEARP;
+assign eth.tx.err=ethtxerr;
 
 assign dbarpmatch=arpmatch;
+assign dbarpmatch3={~|ethrxerr , arp.rx.ipmatch , (arp.rx.oper==OPREQUEST)};
 assign dbrequest=request;
 assign dbtxcnt=txcnt;
 assign dbethkey=ethkey;
 
-assign eth.request_w=arpmatch;
 
+
+reg [3:0] txstate=TXIDLE;
+reg [3:0] txnext=TXIDLE;
+reg [15:0] txcnt=0;
+always @(posedge clk or posedge reset) begin
+	if (reset) begin
+		txstate<=TXIDLE;
+	end
+	else begin
+		txstate<=txnext;
+		txcnt<=(txstate==txnext) & (txstate!=TXIDLE) ? txcnt+1 : 0;
+	end
+end
+reg [HEADLEN*8-1:0] txheadsr=0;
+reg [7:0] txdata=0;
+reg [15:0] txerrcnt=0;
+always @(*) begin
+	case(txstate)
+		TXIDLE: txnext= eth.ack ? TXSTART : TXIDLE;
+		TXSTART: txnext=TXHEAD;
+		TXHEAD: txnext=txcnt==HEADLEN-1 ? TXTAIL : TXHEAD;
+		TXTAIL: txnext=TXIDLE;
+	endcase
+end
+reg arpmatch=0;
+always @(posedge clk) begin
+	case (txnext)
+		TXIDLE: begin
+			ethtxdven<=1'b0;
+			ethtxdata<=0;
+			ethtxerr<=0;
+		end
+		TXSTART: begin
+			ethtxsmac<=arp.mac;
+			ethtxdmac<=txtha;
+			ethtxdven<=1'b0;
+			ethtxdata<=0;
+			ethtxerr<=0;
+			txheadsr<=arp.tx.head;
+		end
+		TXHEAD: begin
+			txheadsr<=txheadsr<<8;
+			ethtxdata<=txheadsr[HEADLEN*8-1:HEADLEN*8-8];
+			ethtxerr<=0;
+			ethtxdven<=1'b1;
+		end
+		TXTAIL: begin
+			ethtxdata<=0;
+			ethtxerr<=0;
+			ethtxdven<=1'b0;
+		end
+	endcase
+end
+assign arp.tx.htype=16'h1;
+assign arp.tx.ptype=16'h0800;
+assign arp.tx.hlen=8'h6;
+assign arp.tx.plen=8'h4;
+assign arp.tx.oper=OPREPLY;
+assign arp.tx.sha=txsha;
+assign arp.tx.spa=txspa;
+assign arp.tx.tha=txtha;
+assign arp.tx.tpa=txtpa;
+assign eth.request_w=arpmatch;
+assign dbtxstate=txstate;
+assign dbrxstate=rxstate;
 endmodule

@@ -187,7 +187,6 @@ crc_32_d8 #(.MSBFIRST(0))
 txcrc_32_d8(.clk(clk),.en(txcrcen),.reset(~ethtxbusy),.crc(txcrc_w),.zero(),.d_in(gmiitxd));
 
 
-//fifocore fifocore (.clk(clk),.srst(reset),.din({ethtxdven,ethgmiitxd}),.wr_en(ethtxdven),.rd_en(txfifore));
 
 
 

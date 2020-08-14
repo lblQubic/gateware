@@ -52,7 +52,10 @@ interface ipv4link (input reset,input clk,input [31:0] ip);
 endinterface
 
 module ipv4overethernet #(parameter SIM=0)
-(iethernet eth, ipv4link ipv4,input reset);
+(iethernet eth, ipv4link ipv4,input reset
+,output [3:0] dbtxstate
+,output [3:0] dbrxstate
+);
 //assign ipv4.tx.version=4;
 wire clk=eth.clk;
 localparam MAXHEADWORDS=15;
@@ -343,4 +346,6 @@ end
 
 fifo#(.AW(5),.DW(9),.SIM(SIM),.BRAM(1),.SAMECLKDOMAIN(1))
 fifotxd(.wclk(clk),.rclk(clk),.wen(ipv4txdven),.wdata(ipv4txdata),.ren(txfifore),.rdata(txfifodata),.full(txfifofull),.empty(txfifoempty),.reset(reset),.rdatavalid(txfifodvalid));
+assign dbtxstate=txstate;
+assign dbrxstate=rxstate;
 endmodule

@@ -44,3 +44,6 @@ ethernetsw.sv
 ipv4packet.sv
 icmppacket.sv
 pingpacket.sv
+udppacket.sv
+udpecho.sv
+udpstatic.sv

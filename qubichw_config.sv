@@ -456,22 +456,27 @@ always @(posedge ifethernet.clk) begin
 	mac<=48'h00105ad155b2;//MAC;//48'haabbccddeeff;
 end
 wire dbarpmatch;
+wire [2:0] dbarpmatch3;
 wire dbrequest;
 wire [15:0] dbtxcnt;
 wire dbethkey;
+wire [3:0] dbarptxstate,dbarprxstate;
 iethernet ifarpethernet(.reset(hwreset),.mac(mac));
 iarplink arp(.clk(ifethernet.clk));
 arpoverethernet arpoverethernet (.eth(ifarpethernet), .arp(arp),.reset(hwreset),.ip(ip)
 ,.dbarpmatch(dbarpmatch)
+,.dbarpmatch3(dbarpmatch3)
 ,.dbrequest(dbrequest)
 ,.dbtxcnt(dbtxcnt)
 ,.dbethkey(dbethkey)
+,.dbtxstate(dbarptxstate)
+,.dbrxstate(dbarprxstate)
 );
 iethernet ifipv4ethernet(.reset(reset),.mac(mac));
 ipv4link ifipv4(.clk(ifethernet.clk),.reset(reset),.ip(ip));
 ipv4link ificmpipv4(.clk(ifethernet.clk),.reset(reset),.ip(ip));
 ipv4link ifudpipv4(.clk(ifethernet.clk),.reset(reset),.ip(ip));
-assign ifudpipv4.requestcode=16'h11;
+//assign ifudpipv4.requestcode=16'h11;
 ipv4overethernet ipv4overethernet(.eth(ifipv4ethernet), .ipv4(ifipv4),.reset(reset));
 
 wire clientackw;
@@ -489,7 +494,38 @@ pingovericmp #(.SIM(1))pingovericmp(.icmp(ifpingicmp),.reset(reset));
 ipv4sw ipv4sw(.ipv4(ifipv4),.icmpipv4(ificmpipv4),.udpipv4(ifudpipv4));
 icmpsw icmpsw(.icmp(ificmp),.pingicmp(ifpingicmp));
 
+udplink ifudp(.reset(reset),.clk(ifethernet.clk));
+wire [3:0] dbudptxstate,dbudprxstate;
+udpoveripv4 udpovreipv4(.ipv4(ifudpipv4),.udp(ifudp),.reset(reset)
+,.dbtxstate(dbudptxstate)
+,.dbrxstate(dbudprxstate)
 
-
+);
+//icmpoveripv4 icmpoveripv4_udp(.ipv4(ifudpipv4), .icmp(ificmp),.reset(reset));
+/*reg [7:0] udprxdata=0;
+reg udprxdven=0;
+reg [7:0] udprxdata_d=0;
+reg udprxdven_d=0;
+always @(posedge ifethernet.clk) begin
+	udprxdata<=ifudp.rx.data;
+	udprxdven<=ifudp.rx.dven;
+	udprxdata_d<=udprxdata;
+	udprxdven_d<=udprxdven;
+end
+assign ifudp.tx.srcport=ifudp.rx.dstport;
+assign ifudp.tx.dstport=ifudp.rx.srcport;
+assign ifudp.tx.length=ifudp.rx.length;
+assign ifudp.tx.checksum=0;
+assign ifudp.request_w=udprxdven&~udprxdven_d;
+assign ifudp.tx.data=udprxdata_d;
+assign ifudp.tx.dven=udprxdven_d;
+*/
+udplink ifudpportd001(.reset(reset),.clk(ifethernet.clk));
+udplink ifudpportd000(.reset(reset),.clk(ifethernet.clk));
+udpsw udpsw(.udp(ifudp),.udpportd001(ifudpportd001),.udpportd000(ifudpportd000));
+udpecho #(.PORT(16'hd000))
+udpecho(.clk(ifethernet.clk),.udp(ifudpportd000));
+udpstatic #(.PORT(16'hd001))
+udpstatic(.clk(ifethernet.clk),.udp(ifudpportd001));
 `include "ilaauto.vh"
 endmodule
