@@ -194,14 +194,14 @@ end
 wire txready=~(newhead|newhead_d|newhead_d2|newhead_d3);
 fifo#(.AW(5),.DW(8),.SIM(SIM),.BRAM(0),.SAMECLKDOMAIN(1))
 fifotxd(.wclk(clk),.rclk(clk)
-,.wen(rxdven)
-,.wdata(rxdata)
-,.ren(txfiforen)
-,.rdata(txfifodata)
+,.wr_en(rxdven)
+,.din(rxdata)
+,.rd_en(txfiforen)
+,.dout(txfifodata)
 ,.full(txfifofull)
 ,.empty(txfifoempty)
 ,.reset(reset)
-,.rdatavalid(txfifodven)
+,.doutvalid(txfifodven)
 );
 
 

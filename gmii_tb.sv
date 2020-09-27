@@ -180,5 +180,5 @@ assign ifudpd000.tx.dven=udprxdven_d;
 udpecho #(.PORT(16'hd000))
 udpecho(.clk(ifethernet.clk),.udp(ifudpportd000),.reset(reset));
 udpstatic #(.PORT(16'hd001))
-udpstatic(.clk(ifethernet.clk),.udp(ifudpportd001),.reset(reset));
+udpstatic(.clk(ifethernet.clk),.udp(ifudpportd001),.reset(reset),.staticnbyte(1472));
 endmodule

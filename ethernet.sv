@@ -181,8 +181,12 @@ end
 wire txcrcen3=txcrcen1&txcrcen2;
 wire  [8:0] dout;
 wire txfifofull;
-fifo#(.AW(5),.DW(9),.SIM(SIM),.BRAM(1))
-fifotxd(.wclk(clk),.rclk(clk),.wen(ethtxdven),.wdata({ethtxdven,ethgmiitxd}),.ren(txfifore),.rdata(dout),.full(txfifofull),.empty(txfifoempty),.reset(reset));
+fifo#(.DW(9),.AW(5),.SIM(SIM),.SAMECLKDOMAIN(1))
+fifotxd(.wclk(clk),.rclk(clk),.din({ethtxdven,ethgmiitxd}),.wr_en(ethtxdven),.rd_en(txfifore),.dout(dout),.empty(txfifoempty),.full(txfifofull)
+,.rst(reset)
+);
+//fifo#(.AW(5),.DW(9),.SIM(SIM),.BRAM(1))
+//fifotxd(.wclk(clk),.rclk(clk),.wen(ethtxdven),.wdata({ethtxdven,ethgmiitxd}),.ren(txfifore),.rdata(dout),.full(txfifofull),.empty(txfifoempty),.reset(reset));
 crc_32_d8 #(.MSBFIRST(0))
 txcrc_32_d8(.clk(clk),.en(txcrcen),.reset(~ethtxbusy),.crc(txcrc_w),.zero(),.d_in(gmiitxd));
 

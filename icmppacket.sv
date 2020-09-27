@@ -295,6 +295,6 @@ always @(posedge clk) begin
 	icmptxdven<=icmp.tx.dven;
 end
 fifo#(.AW(5),.DW(9),.SIM(SIM),.BRAM(1),.SAMECLKDOMAIN(1))
-fifotxd(.wclk(clk),.rclk(clk),.wen(icmptxdven),.wdata(icmptxdata),.ren(txfifore),.rdata(txfifodata),.full(txfifofull),.empty(txfifoempty),.reset(reset),.rdatavalid(txfifodven));
+fifotxd(.wclk(clk),.rclk(clk),.wr_en(icmptxdven),.din(icmptxdata),.rd_en(txfifore),.dout(txfifodata),.full(txfifofull),.empty(txfifoempty),.reset(reset),.doutvalid(txfifodven));
 endmodule
 
