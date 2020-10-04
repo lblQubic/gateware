@@ -172,11 +172,13 @@ reg [3:0] txstate=TXIDLE;
 reg [3:0] txnext=TXIDLE;
 reg [15:0] txcnt=0;
 wire txfifofull;
-wire txfifoempty;
+wire txfifoempty_w;
+reg txfifoempty=0;
 wire txdone=txfifoempty;
 reg key=0;
 wire [7:0] txfifodata;
 always @(posedge clk) begin
+	txfifoempty<=txfifoempty_w;
 	if (icmp.ack)
 		key<=1'b1;
 	else if (txdone)
@@ -192,15 +194,15 @@ always @(posedge clk) begin
 end
 
 wire txready=~(newhead|newhead_d|newhead_d2|newhead_d3);
-fifo#(.AW(5),.DW(8),.SIM(SIM),.BRAM(0),.SAMECLKDOMAIN(1))
+fifo#(.AW(5),.DW(8),.SIM(SIM),.BRAM(1),.SAMECLKDOMAIN(1))
 fifotxd(.wclk(clk),.rclk(clk)
 ,.wr_en(rxdven)
 ,.din(rxdata)
 ,.rd_en(txfiforen)
 ,.dout(txfifodata)
 ,.full(txfifofull)
-,.empty(txfifoempty)
-,.reset(reset)
+,.empty(txfifoempty_w)
+,.rst(reset)
 ,.doutvalid(txfifodven)
 );
 

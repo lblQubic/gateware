@@ -33,7 +33,7 @@ reqfifo(.wclk(clk),.rclk(clk)
 ,.doutvalid(fiforvalid)
 ,.full()
 ,.empty(fifoempty)
-,.reset(reset)
+,.rst(reset)
 );
 reg clientack=0;
 reg [15:0] clientackcode=0;
@@ -95,7 +95,7 @@ reqfifo(.wclk(clk),.rclk(clk)
 ,.dout(fifordata)
 ,.full()
 ,.empty(ipv4reqempty)
-,.reset(reset)
+,.rst(reset)
 ,.doutvalid(fiforvalid)
 );
 reg [15:0] clientackcode=0;
@@ -136,7 +136,7 @@ reqcodefifo(.wclk(clk),.rclk(clk)
 ,.doutvalid(fiforvalid)
 ,.full()
 ,.empty(reqcodeempty)
-,.reset(reset)
+,.rst(reset)
 );
 reg [AWIDTH-1:0] reqcnt=0;
 always @(posedge clk) begin
@@ -210,7 +210,7 @@ reqfifo(.wclk(clk),.rclk(clk)
 ,.doutvalid(fiforvalid)
 ,.full()
 ,.empty(fifoempty)
-,.reset(reset)
+,.rst(reset)
 );
 always@(posedge clk) begin
 	clientack<=fiforvalid;

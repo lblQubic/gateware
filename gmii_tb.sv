@@ -73,7 +73,21 @@ localparam UDPDATA={64'h55555555555555d5
 ,64'hfeed000000000000
 ,64'h0000000026b628c7
 };
-
+localparam UDP2NBYTES=8*13;
+localparam UDP2DATA={64'h55555555555555d5
+,64'h00105ad155b2c46e
+,64'h1f01d90d08004500
+,64'h004ed03640004011
+,64'he56fc0a801c8c0a8
+,64'h01e0ce070d00003a
+,64'h36f4c0dedeadbeef
+,64'hfacefeed01020304
+,64'h0506070800000007
+,64'h0000000700000007
+,64'h0000000700000007
+,64'h0000000700000007
+,64'h00000007107136b8
+};
 localparam UDP1NBYTES=8*13;
 localparam UDP1DATA={64'h55555555555555d5
 ,64'h00105ad155b2c46e
@@ -89,6 +103,21 @@ localparam UDP1DATA={64'h55555555555555d5
 ,64'h0000000700000007
 ,64'h00000007fbb2e448
 };
+localparam UDP3NBYTES=8*13;
+localparam UDP3DATA={64'h55555555555555d5
+,64'h00105ad155b2c46e
+,64'h1f01d90d08004500
+,64'h004e750a40004011
+,64'h409cc0a801c8c0a8
+,64'h01e0d353d001003a
+,64'h6ea6c0dedeadbeef
+,64'hfacefeed01020304
+,64'h0506070800000007
+,64'h0000000700000007
+,64'h0000000700000007
+,64'h0000000700000007
+,64'h00000007af287e44
+};
 reg [6:0] inc=0;
 reg [31:0] txclkcnt=0;
 wire reset=txclkcnt<100;
@@ -103,8 +132,10 @@ always @(posedge ifgmii.tx_clk) begin
 	if (ethstart&~ethstart_d) begin
 		datasr<=txclkcnt < 1000 ? ARPDATA<<(8*(MAXNBYTES-ARPNBYTES))
 		 :txclkcnt<2000 ? PINGDATA <<(8*(MAXNBYTES-PINGNBYTES))
-		: txclkcnt<2500 ?  UDPDATA<<(8*(MAXNBYTES-UDPNBYTES))
-		:	UDP1DATA<<(8*(MAXNBYTES-UDP1NBYTES));
+		//: txclkcnt<2500 ?  UDPDATA<<(8*(MAXNBYTES-UDPNBYTES))
+		: txclkcnt<2500 ?  UDP2DATA<<(8*(MAXNBYTES-UDP2NBYTES))
+		//:	UDP1DATA<<(8*(MAXNBYTES-UDP1NBYTES));
+		:	UDP3DATA<<(8*(MAXNBYTES-UDP3NBYTES));
 		inc<=inc+1;
 	end
 	if (|datasr)
@@ -180,5 +211,6 @@ assign ifudpd000.tx.dven=udprxdven_d;
 udpecho #(.PORT(16'hd000))
 udpecho(.clk(ifethernet.clk),.udp(ifudpportd000),.reset(reset));
 udpstatic #(.PORT(16'hd001))
-udpstatic(.clk(ifethernet.clk),.udp(ifudpportd001),.reset(reset),.staticnbyte(1472));
+udpstatic(.clk(ifethernet.clk),.udp(ifudpportd001),.reset(reset),.staticnbyte(0));
+//udpstatic(.clk(ifethernet.clk),.udp(ifudpportd001),.reset(reset),.staticnbyte(1472));
 endmodule

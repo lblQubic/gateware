@@ -345,7 +345,7 @@ end
 //assign ipv4.tx.headerchecksum=ipv4txheaderchecksum;
 
 fifo#(.AW(5),.DW(8),.SIM(SIM),.BRAM(1),.SAMECLKDOMAIN(1))
-fifotxd(.wclk(clk),.rclk(clk),.wr_en(ipv4txdven),.din(ipv4txdata),.rd_en(txfifore),.dout(txfifodata),.full(txfifofull),.empty(txfifoempty),.reset(reset),.doutvalid(txfifodvalid));
+fifotxd(.wclk(clk),.rclk(clk),.wr_en(ipv4txdven),.din(ipv4txdata),.rd_en(txfifore),.dout(txfifodata),.full(txfifofull),.empty(txfifoempty),.rst(reset),.doutvalid(txfifodvalid));
 assign dbtxstate=txstate;
 assign dbrxstate=rxstate;
 endmodule

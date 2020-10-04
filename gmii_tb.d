@@ -14,4 +14,3 @@ submodules/common-hdl/reg_delay1.v
 udppacket.sv
 udpecho.sv
 udpstatic.sv
-bak/fifocore.tcl

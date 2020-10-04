@@ -162,9 +162,13 @@ always @(posedge clk or posedge reset) begin
 		endcase
 	end
 end
-wire txfifoempty;
+wire txfifoempty_w;
+reg txfifoempty=0;
 reg txcrcen1=0;
 reg txcrcen2=0;
+always @(posedge clk) begin
+	txfifoempty<=txfifoempty_w;
+end
 always @(negedge clk) begin
 	if (txnext==TXTAIL&txstate==TXPAYLOAD)
 		txcrc<=txcrc_w;
@@ -182,7 +186,7 @@ wire txcrcen3=txcrcen1&txcrcen2;
 wire  [8:0] dout;
 wire txfifofull;
 fifo#(.DW(9),.AW(5),.SIM(SIM),.SAMECLKDOMAIN(1))
-fifotxd(.wclk(clk),.rclk(clk),.din({ethtxdven,ethgmiitxd}),.wr_en(ethtxdven),.rd_en(txfifore),.dout(dout),.empty(txfifoempty),.full(txfifofull)
+fifotxd(.wclk(clk),.rclk(clk),.din({ethtxdven,ethgmiitxd}),.wr_en(ethtxdven),.rd_en(txfifore),.dout(dout),.empty(txfifoempty_w),.full(txfifofull)
 ,.rst(reset)
 );
 //fifo#(.AW(5),.DW(9),.SIM(SIM),.BRAM(1))

@@ -526,6 +526,6 @@ udpsw udpsw(.udp(ifudp),.udpportd001(ifudpportd001),.udpportd000(ifudpportd000))
 udpecho #(.PORT(16'hd000))
 udpecho(.clk(ifethernet.clk),.udp(ifudpportd000));
 udpstatic #(.PORT(16'hd001))
-udpstatic(.clk(ifethernet.clk),.udp(ifudpportd001));
+udpstatic(.clk(ifethernet.clk),.udp(ifudpportd001),.reset(reset),.staticnbyte(1472));
 `include "ilaauto.vh"
 endmodule
