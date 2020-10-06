@@ -55,7 +55,7 @@ localparam PROTOCOLICMP=8'h01;
 assign ipv4.requestcode=PROTOCOLICMP;
 
 reg ipv4rxnewframehead=0;
-reg [15:0] ipv4rxprotocol=0;
+reg [7:0] ipv4rxprotocol=0;
 reg ipv4rxdven=0;
 reg [7:0] ipv4rxdata=0;
 wire protocolmatch=ipv4rxnewframehead & (ipv4rxprotocol==PROTOCOLICMP);
@@ -193,6 +193,7 @@ reg [7:0] txdata=0;
 reg txdven=0;
 reg [15:0] txtotalcnt=0;
 wire txfifoempty;
+wire txfifofull;
 always @(*) begin
 	case(txstate)
 		TXIDLE: txnext= icmp.ack ? TXSTART : TXIDLE;
@@ -208,7 +209,7 @@ always @(posedge clk) begin
 		txdata<=0;
 		txdven<=1'b0;
 		txbusy<=1'b0;
-		txtotalcnt<=1'b0;
+		txtotalcnt<=0;
 	end
 	else begin
 		case(txnext)

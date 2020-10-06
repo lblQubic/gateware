@@ -33,7 +33,7 @@ reqfifo(.wclk(clk),.rclk(clk)
 ,.doutvalid(fiforvalid)
 ,.full()
 ,.empty(fifoempty)
-,.rst(reset)
+,.rst(1'b0)
 );
 reg clientack=0;
 reg [15:0] clientackcode=0;
@@ -68,14 +68,14 @@ endmodule
 
 module ipv4sw #(parameter SIM=0,parameter AWIDTH=5)
 (ipv4link ipv4,ipv4link icmpipv4,ipv4link udpipv4);
-assign icmpipv4.clk=ipv4.clk;
-assign udpipv4.clk=ipv4.clk;
+//assign icmpipv4.clk=ipv4.clk;
+//assign udpipv4.clk=ipv4.clk;
 wire clk=ipv4.clk;
 assign icmpipv4.rx.dst=ipv4.rx.src;
 assign udpipv4.rx.dst=ipv4.rx.src;
 // priority
 wire request=udpipv4.request | icmpipv4.request;
-wire [15:0] ipv4requestcode=udpipv4.request ? udpipv4.requestcode : icmpipv4.request ? icmpipv4.requestcode : 0;
+wire [7:0] ipv4requestcode=udpipv4.request ? udpipv4.requestcode : icmpipv4.request ? icmpipv4.requestcode : 0;
 assign udpipv4.requestacpt=udpipv4.request;
 assign icmpipv4.requestacpt=udpipv4.request? 0 : icmpipv4.request;
 
@@ -86,19 +86,20 @@ always @(posedge clk) begin
 	end
 end
 
-wire [15:0] fifordata;
-fifo#(.AW(5),.DW(16),.SIM(SIM),.BRAM(1),.SAMECLKDOMAIN(1))
+wire [7:0] fifordata;
+wire fiforvalid;
+fifo#(.AW(5),.DW(8),.SIM(SIM),.BRAM(1),.SAMECLKDOMAIN(1))
 reqfifo(.wclk(clk),.rclk(clk)
 ,.wr_en(request)
 ,.din(ipv4requestcode)
 ,.rd_en(ipv4.ack)
 ,.dout(fifordata)
 ,.full()
-,.empty(ipv4reqempty)
-,.rst(reset)
+,.empty()
+,.rst(1'b0)
 ,.doutvalid(fiforvalid)
 );
-reg [15:0] clientackcode=0;
+reg [7:0] clientackcode=0;
 reg clientack=0;
 always @(posedge clk) begin
 	clientack<=fiforvalid;
@@ -118,7 +119,7 @@ endmodule
 
 module icmpsw #(parameter SIM=0,parameter AWIDTH=5)
 (icmplink icmp,icmplink pingicmp);
-assign pingicmp.clk=icmp.clk;
+//assign pingicmp.clk=icmp.clk;
 wire clk=icmp.clk;
 assign pingicmp.rx.dst=icmp.rx.src;
 wire [7:0] fifordata;
@@ -136,7 +137,7 @@ reqcodefifo(.wclk(clk),.rclk(clk)
 ,.doutvalid(fiforvalid)
 ,.full()
 ,.empty(reqcodeempty)
-,.rst(reset)
+,.rst(1'b0)
 );
 reg [AWIDTH-1:0] reqcnt=0;
 always @(posedge clk) begin
@@ -177,8 +178,8 @@ wire fiforvalid;
 wire fifoempty;
 
 assign clk=udp.clk;
-assign udpportd000.clk=udp.clk;
-assign udpportd001.clk=udp.clk;
+//assign udpportd000.clk=udp.clk;
+//assign udpportd001.clk=udp.clk;
 assign udpportd001.rx.dst=udp.rx.src;
 assign udpportd000.rx.dst=udp.rx.src;
 assign udp.request_w= request;
@@ -210,7 +211,7 @@ reqfifo(.wclk(clk),.rclk(clk)
 ,.doutvalid(fiforvalid)
 ,.full()
 ,.empty(fifoempty)
-,.rst(reset)
+,.rst(1'b0)
 );
 always@(posedge clk) begin
 	clientack<=fiforvalid;

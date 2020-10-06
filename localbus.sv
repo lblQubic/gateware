@@ -5,9 +5,11 @@ interface localbus#(parameter LBCWIDTH=8,parameter LBAWIDTH=24,parameter LBDWIDT
 modport cfg(output lbclk,lbwcmd,lbwvalid
 ,input lbrcmd,lbrready
 ,input test,test2,err,uartmode,xadcupdate,stb_i2cstart,i2cstart,i2cdatatx,clk4radio,i2cmux_reset_b,fmcdacen,sfptesttx,stb_hwreset,sfptxdisable,mdiodatatx,stb_mdiostart,mdioclk4ratio
-,output xadctemp,xadcaux4,xadcaux12,i2cdatarx,i2crxvalid,fmcprsnt,fmcpgm2c,sfptestrx,hwresetstatus,mdiodatarx,mdiorxvalid
+,axifmc1adc0_addr,axifmc1adc0_w0r1,axifmc1adc0_wdata,axifmc1adc1_addr,axifmc1adc1_w0r1,axifmc1adc1_wdata,axifmc1dac_addr,axifmc1dac_w0r1,axifmc1dac_wdata,axifmc2adc0_addr,axifmc2adc0_w0r1,axifmc2adc0_wdata,axifmc2adc1_addr,axifmc2adc1_w0r1,axifmc2adc1_wdata,axifmc2dac_addr,axifmc2dac_w0r1,axifmc2dac_wdata,stb_axifmc1adc0_start,stb_axifmc1adc1_start,stb_axifmc1dac_start,stb_axifmc2adc0_start,stb_axifmc2adc1_start,stb_axifmc2dac_start
+,output xadctemp,xadcaux4,xadcaux12,i2cdatarx,i2crxvalid,fmcprsnt,fmcpgm2c,sfptestrx,hwresetstatus,mdiodatarx,mdiorxvalid,axifmc1adc0_rdata,axifmc1adc0_rdatavalid,axifmc1adc1_rdata,axifmc1adc1_rdatavalid,axifmc1dac_rdata,axifmc1dac_rdatavalid,axifmc2adc0_rdata,axifmc2adc0_rdatavalid,axifmc2adc1_rdata,axifmc2adc1_rdatavalid,axifmc2dac_rdata,axifmc2dac_rdatavalid
 );
 modport dsp(input test,test2,err
 ,output test1
 );
 endinterface
+

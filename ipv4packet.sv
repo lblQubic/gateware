@@ -37,9 +37,9 @@ interface ipv4link (input reset,input clk,input [31:0] ip);
 	ipv4packet #(.TX1RX0(1))tx(.clk(clk),.ip(ip),.reset(reset));
 	ipv4packet #(.TX1RX0(0))rx(.clk(clk),.ip(ip),.reset(reset));
 	wire request_w;
-	wire [15:0] requestcode;
+	wire [7:0] requestcode;
 	wire ack;
-	wire [15:0] ackcode;
+	wire [7:0] ackcode;
 	wire busy;
 	wire requestacpt;
 	reg request=0;
@@ -297,8 +297,8 @@ always @(posedge clk) begin
 			TXHEAD:begin
 				txtotalcnt<=txtotalcnt+1;
 				txheadsr<= txheadsr<<8;// {txheadsr[MAXHEADBYTES*8-9:0],8'b0};
-				txdata<=(txstate==TXHEAD & (txcnt==9||txcnt==10))? (ipv4txheaderchecksum>>(txcnt[0]?8:0)) : txheadsr[MAXHEADBYTES*8-1:MAXHEADBYTES*8-8];
-				txtest<=(ipv4txheaderchecksum>>(txcnt[0]?8:0));
+				txdata<=(txstate==TXHEAD & (txcnt==9||txcnt==10))? (txcnt[0] ? ipv4txheaderchecksum[15:8] : ipv4txheaderchecksum[7:0]) : txheadsr[MAXHEADBYTES*8-1:MAXHEADBYTES*8-8];
+				txtest<=txcnt[0] ? ipv4txheaderchecksum[15:8] : ipv4txheaderchecksum[7:0];
 				txerrcnt<=txerrcnt+ethtxerr;
 				txdven<=1'b1;
 				txbusy<=1'b1;
@@ -343,7 +343,8 @@ always @(negedge clk) begin
 	endcase
 end
 //assign ipv4.tx.headerchecksum=ipv4txheaderchecksum;
-
+wire txfifofull;
+wire txfifoempty;
 fifo#(.AW(5),.DW(8),.SIM(SIM),.BRAM(1),.SAMECLKDOMAIN(1))
 fifotxd(.wclk(clk),.rclk(clk),.wr_en(ipv4txdven),.din(ipv4txdata),.rd_en(txfifore),.dout(txfifodata),.full(txfifofull),.empty(txfifoempty),.rst(reset),.doutvalid(txfifodvalid));
 assign dbtxstate=txstate;

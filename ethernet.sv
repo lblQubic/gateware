@@ -129,7 +129,7 @@ always @(posedge clk or posedge reset) begin
 				txcrcen<=0;
 			end
 			TXHEAD: begin
-				txhead<={txhead[HEADLEN*8-8:0],8'b0};
+				txhead<={txhead[HEADLEN*8-8-1:0],8'b0};
 				ethtxbusy<=1;
 				gmiitx_en<=1'b1;
 				gmiitxd<=txhead[HEADLEN*8-1:HEADLEN*8-8];
@@ -147,7 +147,7 @@ always @(posedge clk or posedge reset) begin
 			TXTAIL: begin
 				gmiitx_en<=1;
 				crcshift<=crcshift+1;
-				gmiitxd<=txcrc>>(8*crcshift);
+				gmiitxd<=(txcrc>>(8*crcshift))&8'hff;
 				gmiitx_er<=0;
 				ethtxbusy<=1;
 				txcrcen<=1'b1;
@@ -380,8 +380,8 @@ interface iethernetframe #(parameter MTU=1500) (input [6*8-1:0] mac,input clk,in
 //	wire [158-1:0] txsrc={smac,dmac,ethertype,data,dven,err};
 //	wire [158-1:0] txdst;
 //	assign {smac,dmac,ethertype,data,dven,err}=txdst;
-	wire [158-1:0] src={smac,dmac,ethertype,data,dven,err,newframehead,frameend};
-	wire [158-1:0] dst;
+	wire [124-1:0] src={smac,dmac,ethertype,data,dven,err,newframehead,frameend};
+	wire [124-1:0] dst;
 	assign {smac,dmac,ethertype,data,dven,err,newframehead,frameend}=dst;
 	reg [7:0] datar=0;
 	reg newframeheadr=0;

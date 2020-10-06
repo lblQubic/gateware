@@ -173,7 +173,7 @@ iethernet ifipv4ethernet(.reset(reset),.mac(mac));
 ipv4link ifipv4(.clk(ifethernet.clk),.reset(reset),.ip(ip));
 ipv4link ificmpipv4(.clk(ifethernet.clk),.reset(reset),.ip(ip));
 ipv4link ifudpipv4(.clk(ifethernet.clk),.reset(reset),.ip(ip));
-assign ifudpipv4.requestcode=16'h11;
+assign ifudpipv4.requestcode=8'h11;
 ipv4overethernet ipv4overethernet(.eth(ifipv4ethernet), .ipv4(ifipv4),.reset(reset));
 
 ethernetsw ethernetsw(.hardware(ifethernet),.arpethernet(ifarpethernet),.ipv4ethernet(ifipv4ethernet));

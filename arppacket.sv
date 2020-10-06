@@ -212,7 +212,6 @@ assign dbethkey=ethkey;
 
 reg [3:0] txstate=TXIDLE;
 reg [3:0] txnext=TXIDLE;
-reg [15:0] txcnt=0;
 always @(posedge clk or posedge reset) begin
 	if (reset) begin
 		txstate<=TXIDLE;
@@ -233,7 +232,6 @@ always @(*) begin
 		TXTAIL: txnext=TXIDLE;
 	endcase
 end
-reg arpmatch=0;
 always @(posedge clk) begin
 	case (txnext)
 		TXIDLE: begin

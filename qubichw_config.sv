@@ -30,8 +30,9 @@ sysclkmmcm sysclkmmcm(.clk100(clk100),.clk125(clk125),.clk200(clk200),.clk250(cl
 wire uarttx;
 wire uartrx=hw.vc707.usb2uart.rx;
 wire keeplbdataout;
+wire keepadc;
 assign hw.vc707.usb2uart.tx=lb.uartmode==0 ? hw.vc707.usb2uart.rx : lb.uartmode==1 ? uarttx : 1'b1; //serial port loopback test
-assign {hw.vc707.gpio_led_7,hw.vc707.gpio_led_6,hw.vc707.gpio_led_5,hw.vc707.gpio_led_4,hw.vc707.gpio_led_3,hw.vc707.gpio_led_2,hw.vc707.gpio_led_1,hw.vc707.gpio_led_0}={keeplbdataout,clk200cnt[26:20]};
+assign {hw.vc707.gpio_led_7,hw.vc707.gpio_led_6,hw.vc707.gpio_led_5,hw.vc707.gpio_led_4,hw.vc707.gpio_led_3,hw.vc707.gpio_led_2,hw.vc707.gpio_led_1,hw.vc707.gpio_led_0}={keepadc,keeplbdataout,clk200cnt[26:21]};
 // send serial port to gps
 wire [7:0] rxdata;
 //wire [7:0] txdata=clk200cnt[25:18];//rxdata+1;
@@ -453,7 +454,7 @@ ethernetovergmii #(.SIM(SIM))ethernetovergmii1 (.gmii(gmii.eth),.eth(ifethernet)
 );
 reg [31:0] ip=32'hc0a801e0;
 always @(posedge ifethernet.clk) begin
-	mac<=48'h00105ad155b2;//MAC;//48'haabbccddeeff;
+	mac<=48'h515542494301;//MAC;//48'haabbccddeeff;
 end
 wire dbarpmatch;
 wire [2:0] dbarpmatch3;
@@ -529,21 +530,32 @@ udpstatic #(.PORT(16'hd001))
 udpstatic(.clk(ifethernet.clk),.udp(ifudpportd001),.reset(reset),.staticnbyte(1472));
 `include "ilaauto.vh"
 
+assign keepadc=|{adc0,adc1,adc2,adc3};
 wire [63:0] adc0;
 wire [63:0] adc1;
 wire [63:0] adc2;
 wire [63:0] adc3;
+wire [63:0] adc4;
+wire [63:0] adc5;
+wire [63:0] adc6;
+wire [63:0] adc7;
 wire [63:0] dac0;
 wire [63:0] dac1;
 wire [63:0] dac2;
 wire [63:0] dac3;
+wire [63:0] dac4;
+wire [63:0] dac5;
+wire [63:0] dac6;
+wire [63:0] dac7;
 
-wire  rx_reset;
-wire  tx_reset;
-wire  rx_sys_reset;
-wire  tx_sys_reset;
-wire [1:0] rx_sync;
-wire  tx_sync;
+wire  rx_reset=hwreset;//1'b0;
+wire  tx_reset=hwreset;//1'b0;
+wire  rx_sys_reset=hwreset;//1'b0;
+wire  tx_sys_reset=hwreset;//1'b0;
+//wire [1:0] rx_sync_1;
+//wire [1:0] rx_sync_2;
+//wire  tx_sync_1;
+//wire  tx_sync_2;
 
 axi4lite axi_fmc1_adc0(.aclk(clk125));
 axi4lite axi_fmc1_adc1(.aclk(clk125));
@@ -553,36 +565,47 @@ axi4lite axi_fmc2_adc1(.aclk(clk125));
 axi4lite axi_fmc2_dac(.aclk(clk125));
 lb_axi4lite #(.AWIDTH(12),.DWIDTH(32))
 lb_axi4lite_fmc1_adc0
-(.slave(axi_fmc1_adc0)
-,.clk(clk125)
-,.addr(12'h024)
-,.wdata(32'h05)
-,.wstrb(4'hf)
-,.rdata()
-,.rdatavalid()
-,.start(&clk125cnt[5:0])
-,.w0r1(~clk125cnt[6])
-,.reset(1'b0)
-);
+//(.slave(axi_fmc1_adc0),.clk(clk125),.addr(12'h24),.wdata((clk125cnt < 200 )? 32'h10002 : 32'h10000),.wstrb(4'hf),.rdata(),.rdatavalid(),.start(&clk125cnt[5:0]),.w0r1(clk125cnt<400 ? ~clk125cnt[6] : 1'b1),.reset(hwreset));
+(.clk(clk125),.slave(axi_fmc1_adc0),.addr(lb.axifmc1adc0_addr),.wdata(lb.axifmc1adc0_wdata),.wstrb(4'hf),.rdata(lb.axifmc1adc0_rdata),.rdatavalid(lb.axifmc1adc0_rdatavalid),.start(lb.stb_axifmc1adc0_start),.w0r1(lb.axifmc1adc0_w0r1),.reset(hwreset));
+lb_axi4lite #(.AWIDTH(12),.DWIDTH(32))
+lb_axi4lite_fmc1_adc1
+//(.slave(axi_fmc1_adc1),.clk(clk125),.addr(12'h24),.wdata((clk125cnt < 200 )? 32'h10002 : 32'h10000),.wstrb(4'hf),.rdata(),.rdatavalid(),.start(&clk125cnt[5:0]),.w0r1(clk125cnt<400 ? ~clk125cnt[6] : 1'b1),.reset(hwreset));
+(.clk(clk125),.slave(axi_fmc1_adc1),.addr(lb.axifmc1adc1_addr),.wdata(lb.axifmc1adc1_wdata),.wstrb(4'hf),.rdata(lb.axifmc1adc1_rdata),.rdatavalid(lb.axifmc1adc1_rdatavalid),.start(lb.stb_axifmc1adc1_start),.w0r1(lb.axifmc1adc1_w0r1),.reset(hwreset));
+lb_axi4lite #(.AWIDTH(12),.DWIDTH(32))
+lb_axi4lite_fmc1_dac
+//(.slave(axi_fmc1_dac),.clk(clk125),.addr(12'h24),.wdata((clk125cnt < 200 )? 32'h10002 : 32'h10000),.wstrb(4'hf),.rdata(),.rdatavalid(),.start(&clk125cnt[5:0]),.w0r1(clk125cnt<400 ? ~clk125cnt[6] : 1'b1),.reset(hwreset));
+(.clk(clk125),.slave(axi_fmc1_dac),.addr(lb.axifmc1dac_addr),.wdata(lb.axifmc1dac_wdata),.wstrb(4'hf),.rdata(lb.axifmc1dac_rdata),.rdatavalid(lb.axifmc1dac_rdatavalid),.start(lb.stb_axifmc1dac_start),.w0r1(lb.axifmc1dac_w0r1),.reset(hwreset));
+lb_axi4lite #(.AWIDTH(12),.DWIDTH(32))
+lb_axi4lite_fmc2_adc0
+//(.slave(axi_fmc2_adc0),.clk(clk125),.addr(12'h24),.wdata((clk125cnt < 200 )? 32'h10002 : 32'h10000),.wstrb(4'hf),.rdata(),.rdatavalid(),.start(&clk125cnt[5:0]),.w0r1(clk125cnt<400 ? ~clk125cnt[6] : 1'b1),.reset(hwreset));
+(.clk(clk125),.slave(axi_fmc2_adc0),.addr(lb.axifmc2adc0_addr),.wdata(lb.axifmc2adc0_wdata),.wstrb(4'hf),.rdata(lb.axifmc2adc0_rdata),.rdatavalid(lb.axifmc2adc0_rdatavalid),.start(lb.stb_axifmc2adc0_start),.w0r1(lb.axifmc2adc0_w0r1),.reset(hwreset));
+lb_axi4lite #(.AWIDTH(12),.DWIDTH(32))
+lb_axi4lite_fmc2_adc1
+//(.slave(axi_fmc2_adc1),.clk(clk125),.addr(12'h24),.wdata((clk125cnt < 200 )? 32'h10002 : 32'h10000),.wstrb(4'hf),.rdata(),.rdatavalid(),.start(&clk125cnt[5:0]),.w0r1(clk125cnt<400 ? ~clk125cnt[6] : 1'b1),.reset(hwreset));
+(.clk(clk125),.slave(axi_fmc2_adc1),.addr(lb.axifmc2adc1_addr),.wdata(lb.axifmc2adc1_wdata),.wstrb(4'hf),.rdata(lb.axifmc2adc1_rdata),.rdatavalid(lb.axifmc2adc1_rdatavalid),.start(lb.stb_axifmc2adc1_start),.w0r1(lb.axifmc2adc1_w0r1),.reset(hwreset));
+lb_axi4lite #(.AWIDTH(12),.DWIDTH(32))
+lb_axi4lite_fmc2_dac
+(.clk(clk125),.slave(axi_fmc2_dac),.addr(lb.axifmc2dac_addr),.wdata(lb.axifmc2dac_wdata),.wstrb(4'hf),.rdata(lb.axifmc2dac_rdata),.rdatavalid(lb.axifmc2dac_rdatavalid),.start(lb.stb_axifmc2dac_start),.w0r1(lb.axifmc2dac_w0r1),.reset(hwreset));
+//(.slave(axi_fmc2_dac),.clk(clk125),.addr(12'h24),.wdata((clk125cnt < 200 )? 32'h10002 : 32'h10000),.wstrb(4'hf),.rdata(),.rdatavalid(),.start(&clk125cnt[5:0]),.w0r1(clk125cnt<400 ? ~clk125cnt[6] : 1'b1),.reset(hwreset));
 
-jesdfmc120 jesdfmc120(.core_clk(hw.fmc1.llmk_dclkout_2)
+jesdfmc120 jesdfmc120_1(.core_clk(hw.fmc1.llmk_dclkout_2)
 ,.drpclk(clk125)
 ,.qpll_refclk(hw.fmc1.lmk_dclk8_m2c_to_fpga)
-,.rxn_in({adc1_db2_n,adc1_db1_n,adc1_da2_n,adc1_da1_n,adc0_db2_n,adc0_db1_n,adc0_da2_n,adc0_da1_n})
-,.rxp_in({adc1_db2_p,adc1_db1_p,adc1_da2_p,adc1_da1_p,adc0_db2_p,adc0_db1_p,adc0_da2_p,adc0_da1_p})
+,.rxn_in({hw.fmc1.adc1_db2_n,hw.fmc1.adc1_db1_n,hw.fmc1.adc1_da2_n,hw.fmc1.adc1_da1_n,hw.fmc1.adc0_db2_n,hw.fmc1.adc0_db1_n,hw.fmc1.adc0_da2_n,hw.fmc1.adc0_da1_n})
+,.rxp_in({hw.fmc1.adc1_db2_p,hw.fmc1.adc1_db1_p,hw.fmc1.adc1_da2_p,hw.fmc1.adc1_da1_p,hw.fmc1.adc0_db2_p,hw.fmc1.adc0_db1_p,hw.fmc1.adc0_da2_p,hw.fmc1.adc0_da1_p})
 ,.tx_sysref(hw.fmc1.llmk_sclkout_3)
 ,.rx_sysref(hw.fmc1.llmk_sclkout_3)
 ,.txn_out(hw.fmc1.dac_lane_n)
 ,.txp_out(hw.fmc1.dac_lane_p)
+,.axi_adc0(axi_fmc1_adc0)
+,.axi_adc1(axi_fmc1_adc1)
+,.axi_dac(axi_fmc1_dac)
 ,.rx_reset(rx_reset)
 ,.tx_reset(tx_reset)
 ,.rx_sys_reset(rx_sys_reset)
 ,.tx_sys_reset(tx_sys_reset)
-,.rx_sync(rx_sync)
-,.tx_sync(tx_sync)
-,.axi_adc0(axi_fmc1_adc0)
-,.axi_adc1(axi_fmc1_adc1)
-,.axi_dac(axi_fmc1_dac)
+,.rx_sync()
+,.tx_sync()
 ,.adc0(adc0)
 ,.adc1(adc1)
 ,.adc2(adc2)
@@ -591,6 +614,42 @@ jesdfmc120 jesdfmc120(.core_clk(hw.fmc1.llmk_dclkout_2)
 ,.dac1(dac1)
 ,.dac2(dac2)
 ,.dac3(dac3)
+,.rx_aresetn_0()
+,.rx_aresetn_1()
+,.rx_frame_error()
+,.tx_aresetn()
+,.tx_tready()
+,.adc01_valid()
+,.adc23_valid()
+,.common0_qpll_lock_out()
+,.common1_qpll_lock_out()
+);
+jesdfmc120 jesdfmc120_2(.core_clk(hw.fmc1.llmk_dclkout_2)
+,.drpclk(clk125)
+,.qpll_refclk(hw.fmc2.lmk_dclk8_m2c_to_fpga)
+,.rxn_in({hw.fmc2.adc1_db2_n,hw.fmc2.adc1_db1_n,hw.fmc2.adc1_da2_n,hw.fmc2.adc1_da1_n,hw.fmc2.adc0_db2_n,hw.fmc2.adc0_db1_n,hw.fmc2.adc0_da2_n,hw.fmc2.adc0_da1_n})
+,.rxp_in({hw.fmc2.adc1_db2_p,hw.fmc2.adc1_db1_p,hw.fmc2.adc1_da2_p,hw.fmc2.adc1_da1_p,hw.fmc2.adc0_db2_p,hw.fmc2.adc0_db1_p,hw.fmc2.adc0_da2_p,hw.fmc2.adc0_da1_p})
+,.tx_sysref(hw.fmc2.llmk_sclkout_3)
+,.rx_sysref(hw.fmc2.llmk_sclkout_3)
+,.txn_out(hw.fmc2.dac_lane_n)
+,.txp_out(hw.fmc2.dac_lane_p)
+,.axi_adc0(axi_fmc2_adc0)
+,.axi_adc1(axi_fmc2_adc1)
+,.axi_dac(axi_fmc2_dac)
+,.rx_reset(rx_reset)
+,.tx_reset(tx_reset)
+,.rx_sys_reset(rx_sys_reset)
+,.tx_sys_reset(tx_sys_reset)
+,.rx_sync()
+,.tx_sync()
+,.adc0(adc4)
+,.adc1(adc5)
+,.adc2(adc6)
+,.adc3(adc7)
+,.dac0(dac4)
+,.dac1(dac5)
+,.dac2(dac6)
+,.dac3(dac7)
 ,.rx_aresetn_0()
 ,.rx_aresetn_1()
 ,.rx_frame_error()
