@@ -53,6 +53,41 @@ module lb_axi4lite #(parameter AWIDTH=12,parameter DWIDTH=32)
 ,input reset
 );
 localparam DBYTES=DWIDTH/8;
+lb_axi4lite_core #(.AWIDTH(AWIDTH),.DWIDTH(DWIDTH))
+lb_axi4lite_core(.addr,.clk,.rdata,.rdatavalid,.reset,.start,.w0r1,.wdata,.wstrb
+,.slave_araddr(slave.araddr),.slave_arready(slave.arready),.slave_arvalid(slave.arvalid),.slave_awaddr(slave.awaddr),.slave_awready(slave.awready),.slave_awvalid(slave.awvalid),.slave_bready(slave.bready),.slave_bresp(slave.bresp),.slave_bvalid(slave.bvalid),.slave_rdata(slave.rdata),.slave_rready(slave.rready),.slave_rresp(slave.rresp),.slave_rvalid(slave.rvalid),.slave_wdata(slave.wdata),.slave_wready(slave.wready),.slave_wstrb(slave.wstrb),.slave_wvalid(slave.wvalid),.slave_aresetn(slave.aresetn)
+);
+endmodule
+module lb_axi4lite_core #(parameter AWIDTH=12,parameter DWIDTH=32)
+(output slave_aresetn
+,output [AWIDTH-1:0] slave_araddr
+,output slave_arvalid
+,output slave_rready
+,output [AWIDTH-1:0] slave_awaddr
+,output slave_awvalid
+,output [DWIDTH-1:0] slave_wdata
+,output [DBYTES-1:0] slave_wstrb
+,output slave_bready
+,output slave_wvalid
+,input slave_arready
+,input [DWIDTH-1:0] slave_rdata
+,input [1:0] slave_rresp
+,input slave_rvalid
+,input slave_awready
+,input [1:0] slave_bresp
+,input slave_bvalid
+,input slave_wready
+,input clk
+,input [AWIDTH-1:0] addr
+,input [DWIDTH-1:0] wdata
+,output [DWIDTH-1:0] rdata
+,input [DBYTES-1:0] wstrb
+,output rdatavalid
+,input start
+,input w0r1
+,input reset
+);
+localparam DBYTES=DWIDTH/8;
 
 reg [DWIDTH-1:0] rdata_r=0;
 reg rdatavalid_r=0;
@@ -93,9 +128,14 @@ localparam WACK=4'd4;
 reg [2:0] state=IDLE;
 reg [2:0] next=IDLE;
 reg waddrdone=0;
+wire waddrdone_w=slave_awvalid&slave_awready;
 reg wdatadone=0;
+wire wdatadone_w=slave_wvalid&slave_wready;
 reg rdatadone=0;
-wire waddrdatadone=waddrdone&wdatadone;
+wire rdatadone_w=slave_rvalid&slave_rready;
+reg raddrdone=0;
+wire raddrdone_w=slave_arvalid&slave_arready;
+wire waddrdatadone=(waddrdone|waddrdone_w)&(wdatadone|wdatadone_w);
 always @(posedge clk or posedge reset) begin
     if (reset) begin
         state<=IDLE;
@@ -107,10 +147,10 @@ end
 always @(*) begin
     case(state)
 		IDLE: next= startrising_d ? (w0r1_r ? RADDR : WADDRDATA ) : IDLE;
-		RADDR: next = slave.arready ? RDATA : RADDR;
-		RDATA: next = rdatadone ? IDLE : RDATA;
+		RADDR: next = raddrdone|raddrdone_w? RDATA : RADDR;
+		RDATA: next = rdatadone|rdatadone_w ? IDLE : RDATA;
 		WADDRDATA: next = waddrdatadone ? WACK : WADDRDATA;
-		WACK: next = slave.bvalid ? IDLE : WACK;
+		WACK: next = slave_bvalid&slave_bready ? IDLE : WACK;
     endcase
 end
 always @(posedge clk) begin
@@ -125,6 +165,8 @@ always @(posedge clk) begin
 		wstrb_sm<=0;
 		bready<=0;
 		wvalid<=0;
+		waddrdone<=1'b0;
+		wdatadone<=1'b0;
     end
     else begin
 		case(next)
@@ -140,51 +182,61 @@ always @(posedge clk) begin
 				bready<=0;
 				wvalid<=0;
 				rdatadone<=1'b0;
+				waddrdone<=1'b0;
+				wdatadone<=1'b0;
 			end
 			RADDR: begin
 				araddr<=addr_r;
-				arvalid<=1'b1;
-				rready<=1'b1;
+				arvalid<=~(raddrdone|raddrdone_w);
 				bready<=1'b1;
-				rdatavalid_r<=0;
 			end
 			RDATA: begin
 				arvalid<=1'b0;
-				if (slave.rvalid) begin
-					rdata_r<=slave.rdata;
-					rdatavalid_r<=slave.rvalid;
+				rready<=1'b1;
+				if (rdatadone_w)
 					rdatadone<=1'b1;
-				end
 			end
 			WADDRDATA: begin
 				awaddr<=addr_r;
-				awvalid<=1'b1;
+				awvalid<=~(waddrdone|waddrdone_w);
 				wdata_sm<=wdata_r;
 				wstrb_sm<=wstrb_r;
-				wvalid<=1'b1;
-				if (slave.awready)
+				wvalid<=~(wdatadone|wdatadone_w);
+				if (waddrdone_w)
 					waddrdone<=1'b1;
-				if (slave.wready)
+				if (wdatadone_w)
 					wdatadone<=1'b1;
 			end
 			WACK: begin
+				awvalid<=1'b0;
+				wvalid<=1'b0;
 				bready<=1'b1;
 				waddrdone<=1'b0;
 				wdatadone<=1'b0;
 			end
 		endcase
+		if (next==RADDR) begin
+			rdata_r<=0;
+			rdatavalid_r<=1'b0;
+		end
+		else begin
+			if (rdatadone_w) begin
+				rdata_r<=slave_rdata;
+				rdatavalid_r<=slave_rvalid;
+			end
+		end
 	end
 end
-assign slave.aresetn=aresetn;
-assign slave.araddr=araddr;
-assign slave.arvalid=arvalid;
-assign slave.rready=rready;
-assign slave.awaddr=awaddr;
-assign slave.awvalid=awvalid;
-assign slave.wdata=wdata_sm;
-assign slave.wstrb=wstrb_sm;
-assign slave.bready=bready;
-assign slave.wvalid=wvalid;
+assign slave_aresetn=aresetn;
+assign slave_araddr=araddr;
+assign slave_arvalid=arvalid;
+assign slave_rready=rready;
+assign slave_awaddr=awaddr;
+assign slave_awvalid=awvalid;
+assign slave_wdata=wdata_sm;
+assign slave_wstrb=wstrb_sm;
+assign slave_bready=bready;
+assign slave_wvalid=wvalid;
 assign rdatavalid=rdatavalid_r;
 assign rdata=rdata_r;
 endmodule
