@@ -89,12 +89,15 @@ wire [NSTEP-1:0] donestrobe;
 wire [NSTEP-1:0] error;
 wire [NSTEP-1:0] resetout;
 assign {CPLLRESET,txrxreset0,txrxreset1}=resetout;
-wire [NSTEP-1:0] resetin={reset,donestrobe[NSTEP-1:1]};
+wire [NSTEP-1:0] aresetin={reset,donestrobe[NSTEP-1:1]};
+wire [NSTEP-1:0] resetin;
 wire [NSTEP-1:0] donecriteria={rdyfortxrxreset,txrxresetdone,txrxresetdone};
 wire [NSTEP-1:0] readycriteria={readyforreset,donecriteria[NSTEP-1:1]};
 wire [NSTEP*16-1:0] readylength={16'd10,16'd10,16'd10};
 wire [NSTEP*16-1:0] resetlength={16'd10,16'd10,16'd10};
 wire [NSTEP*32-1:0] timeout={NSTEP{32'b0}};
+wire [NSTEP-1:0] sresetin;
+areset #(.WIDTH(NSTEP)) areset(.clk(CPLLLOCKDETCLK),.areset(aresetin),.sreset(resetin));
 chainreset #(.NSTEP(NSTEP))
 chainreset(.clk(CPLLLOCKDETCLK)
 ,.done,.donecriteria,.donestrobe,.error,.readycriteria,.readylength,.resetin,.resetlength,.resetout,.timeout);

@@ -29,7 +29,11 @@ def mdiodecode(v):
 	data=vint&0xffff
 	return (op,devaddr,regaddr,data)
 if __name__=="__main__":
-	ser=c_uartlb('/dev/ttyUSB0',9600,0)
+	import devcom
+	dev=devcom.devcom(devcom.sndev)
+	vc707uart=dev['vc707uart']
+	#ser=c_uartlb('/dev/ttyUSB0',9600,0)
+	ser=c_uartlb(vc707uart,9600,0)
 	ser.write(addr=4,data=1)
 	ser.write(addr=27,data=1000)
 	ser.resetlb()

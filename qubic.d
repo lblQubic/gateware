@@ -10,7 +10,6 @@ submodules/common-hdl/uartlb.v
 submodules/common-hdl/uartrx.v
 submodules/common-hdl/uarttx.v
 submodules/common-hdl/uart.v
-submodules/common-hdl/localbus.vh
 ilaauto.tcl
 qubicdsp.sv
 xadc.tcl
@@ -20,7 +19,6 @@ qubic.sv
 svinterface.sv
 qubichw.sv
 qubichw_config.sv
-localbus.sv
 submodules/board-support/fmc120/fmc120.sv
 submodules/common-hdl/i2cmaster.v
 submodules/common-hdl/i2cclk.v
@@ -52,3 +50,13 @@ jesd204_dac39j84.tcl
 jesd204_phy_8lane.tcl
 jesdfmc120.sv
 axi4lite.sv
+udpcnt.sv
+fifocore_64_8.tcl
+fifocore_8_64.tcl
+udplb64.sv
+localbus_regmap.sv
+gmii2udp.sv
+submodules/common-hdl/mdiomasterinit.v
+submodules/common-hdl/flag_xdomain.v
+submodules/common-hdl/data_xdomain.v
+areset.v

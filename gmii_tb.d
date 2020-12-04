@@ -14,3 +14,11 @@ submodules/common-hdl/reg_delay1.v
 udppacket.sv
 udpecho.sv
 udpstatic.sv
+udpcnt.sv
+udplb64.sv
+fifocore_64_8.tcl
+fifocore_8_64.tcl
+lbread.vh
+lbwrite.vh
+localbus.sv
+submodules/common-hdl/localbus.vh

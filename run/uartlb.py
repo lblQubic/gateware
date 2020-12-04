@@ -14,6 +14,8 @@ class c_uartlb():
 			rbvalueb=self.ser.read(nbytes)
 			(ctrl,addr,data)=self.readparse(rbvalueb)
 			result[i,]=(ctrl,addr,data)
+#			print('write',format(int.from_bytes(cmd,'big'),'016x'))
+#			print('read ',format(int.from_bytes(rbvalueb,'big'),'016x'))
 		return result
 	def write(self,addr,data,delay=0.1):
 		cadarray=numpy.array([[1,addr,data]],dtype=int)

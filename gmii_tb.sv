@@ -118,10 +118,121 @@ localparam UDP3DATA={64'h55555555555555d5
 ,64'h0000000700000007
 ,64'h00000007af287e44
 };
+
+
+
+localparam UDP4NBYTES=8*9;
+localparam UDP4DATA={
+64'h55555555555555d5
+,64'h515542494301c46e
+,64'h1f01d90d08004500
+,64'h0024b88540004011
+,64'hfd4ac0a801c8c0a8
+,64'h01e0d5c1d0020010
+,64'hcf64000000000000
+,64'h05ac000000000000
+,64'h000000007f6df0e0
+};
+
+
+localparam UDP5NBYTES=8*9;
+localparam UDP5DATA={
+64'h55555555555555d5
+,64'h515542494301c46e
+,64'h1f01d90d08004500
+,64'h0024b88740004011
+,64'hfd48c0a801c8c0a8
+,64'h01e0d5c1d0020010
+,64'hcf63000000000000
+,64'h05ad000000000000
+,64'h0000000026375324
+};
+localparam UDP6NBYTES=8*9;
+localparam UDP6DATA={
+64'h55555555555555d5
+,64'h515542494301c46e
+,64'h1f01d90d08004500
+,64'h0024b8ac40004011
+,64'hfd23c0a801c8c0a8
+,64'h01e0d5c1d0020010
+,64'hcf62000000000000
+,64'h05ae000000000000
+,64'h00000000068a7a2b
+};
+
+localparam UDP7NBYTES=8*9;
+localparam UDP7DATA={
+64'h55555555555555d5
+,64'h515542494301c46e
+,64'h1f01d90d08004500
+,64'h0024b8c540004011
+,64'hfd0ac0a801c8c0a8
+,64'h01e0d5c1d0020010
+,64'hcf61000000000000
+,64'h05af000000000000
+,64'h000000008877b513
+};
+
+localparam UDPLBNBYTES=8*10+6;
+localparam UDPLBDATA={
+64'h55555555555555d5
+,64'h515542494301c46e
+,64'h1f01d90d08004500
+,64'h003cef6540004011
+,64'hc652c0a801c8c0a8
+,64'h01e09997d0030028
+,64'ha9d484b678b2829d
+,64'h497900000000dead
+,64'hbeef000000020000
+,64'h000a000000020000
+,64'h000a30c21a75
+};
+localparam UDPLBWNBYTES=8*10+6;
+localparam UDPLBWDATA={
+	64'h55555555555555d5
+,64'h515542494301c46e
+,64'h1f01d90d08004500
+,64'h003cd40d40004011
+,64'he1aac0a801c8c0a8
+,64'h01e0b6c3d0030028
+,64'h8ca884b678b2829d
+,64'h497900000000dead
+,64'hbeef000000020000
+,64'h000a000000020000
+,48'h000a182eac34
+};
+localparam UDPLBRNBYTES=8*10+6;
+localparam UDPLBRDATA={
+16'h5555
+,64'h5555555555d55155
+,64'h42494301c46e1f01
+,64'hd90d08004500003c
+,64'hd40e40004011e1a9
+,64'hc0a801c8c0a801e0
+,64'hb6c3d0030028fa59
+,64'h84b678b2829d4979
+,64'h1000000000000000
+,64'h1000000200000000
+,64'h1000000200000000
+,32'h62260e62
+};
+localparam tdata0={64'h55555555555555d5
+,64'h515542494301c46e
+,64'h1f01d90d08004500
+,64'h003c26c640004011
+,64'h8ef2c0a801c8c0a8
+,64'h01e0a78cd0030028
+,64'h9bdf84b678b2829d
+,64'h497900000000dead
+,64'hbeef000000020000
+,64'h000a000000020000
+,48'h000a5ee962d6
+};
 reg [6:0] inc=0;
 reg [31:0] txclkcnt=0;
 wire reset=txclkcnt<100;
-reg [47:0] mac=48'h00105ad155b2;
+//reg [47:0] mac=48'h00105ad155b2;
+reg [47:0] mac=48'h515542494301;
 iethernet ifethernet(.reset(reset),.mac(mac));
 wire ethstart= txclkcnt[7]&(txclkcnt[6:0]==inc);
 reg ethstart_d=0;
@@ -135,7 +246,16 @@ always @(posedge ifgmii.tx_clk) begin
 		//: txclkcnt<2500 ?  UDPDATA<<(8*(MAXNBYTES-UDPNBYTES))
 		: txclkcnt<2500 ?  UDP2DATA<<(8*(MAXNBYTES-UDP2NBYTES))
 		//:	UDP1DATA<<(8*(MAXNBYTES-UDP1NBYTES));
-		:	UDP3DATA<<(8*(MAXNBYTES-UDP3NBYTES));
+		: txclkcnt<3000 ? UDP3DATA<<(8*(MAXNBYTES-UDP3NBYTES))
+		: txclkcnt<20000 ? UDPLBDATA<<(8*(MAXNBYTES-UDPLBNBYTES))
+		: txclkcnt[0:0]==0 ? UDPLBWDATA<<(8*(MAXNBYTES-UDPLBWNBYTES))
+		: txclkcnt[0:0]==1 ? UDPLBRDATA<<(8*(MAXNBYTES-UDPLBRNBYTES))
+		//: txclkcnt[1:0]==0 ? UDP4DATA<<(8*(MAXNBYTES-UDP4NBYTES))
+		//: txclkcnt[1:0]==1 ? UDP5DATA<<(8*(MAXNBYTES-UDP5NBYTES))
+		//: txclkcnt[1:0]==2 ? UDP6DATA<<(8*(MAXNBYTES-UDP6NBYTES))
+		//: txclkcnt[1:0]==3 ? UDP7DATA<<(8*(MAXNBYTES-UDP7NBYTES))
+		: 0
+		;
 		inc<=inc+1;
 	end
 	if (|datasr)
@@ -186,9 +306,14 @@ ipv4sw ipv4sw(.ipv4(ifipv4),.icmpipv4(ificmpipv4),.udpipv4(ifudpipv4));
 icmpsw icmpsw(.icmp(ificmp),.pingicmp(ifpingicmp));
 udplink ifudp(.reset(reset),.clk(ifethernet.clk));
 udplink ifudpportd001(.reset(reset),.clk(ifethernet.clk));
+udplink ifudpportd002(.reset(reset),.clk(ifethernet.clk));
+udplink ifudpportd003(.reset(reset),.clk(ifethernet.clk));
 udplink ifudpportd000(.reset(reset),.clk(ifethernet.clk));
 udpoveripv4 udpovreipv4(.ipv4(ifudpipv4),.udp(ifudp),.reset(reset));
-udpsw udpsw(.udp(ifudp),.udpportd001(ifudpportd001),.udpportd000(ifudpportd000));
+udpsw udpsw(.udp(ifudp),.udpportd001(ifudpportd001),.udpportd000(ifudpportd000)
+,.udpportd002(ifudpportd002)
+,.udpportd003(ifudpportd003)
+);
 //icmpoveripv4 icmpoveripv4_udp(.ipv4(ifudpipv4), .icmp(ificmp),.reset(reset));
 /*reg [7:0] udprxdata=0;
 reg udprxdven=0;
@@ -212,5 +337,30 @@ udpecho #(.PORT(16'hd000))
 udpecho(.clk(ifethernet.clk),.udp(ifudpportd000),.reset(reset));
 udpstatic #(.PORT(16'hd001))
 udpstatic(.clk(ifethernet.clk),.udp(ifudpportd001),.reset(reset),.staticnbyte(0));
+udpcnt #(.PORT(16'hd002))
+udpcnt(.clk(ifethernet.clk),.udp(ifudpportd002),.reset(reset));
 //udpstatic(.clk(ifethernet.clk),.udp(ifudpportd001),.reset(reset),.staticnbyte(1472));
+wire [63:0] lbrxdata;
+wire [63:0] lbtxdata;
+wire lbtxen;
+wire lbrxdv;
+wire [15:0] rxlength;
+wire [15:0] txlength;
+localbus#(.LBCWIDTH(8),.LBAWIDTH(24),.LBDWIDTH(32),.WRITECMD(0),.READCMD(8'h10))
+udplocalbus();
+udplb64 #(.PORT(16'hd003))
+udplb64 (.clk(ifethernet.clk),.udp(ifudpportd003),.reset(reset)
+,.lbclk(udplocalbus.lbclk)
+,.lbrxdata(udplocalbus.lbwcmd)
+,.lbrxdv(udplocalbus.lbwvalid)
+,.lbtxdata(udplocalbus.lbrcmd)
+,.lbtxen(udplocalbus.lbrready)
+,.rxlength(rxlength)
+,.txlength(txlength)
+);
+assign udplocalbus.lbclk=sysclk;
+assign txlength=rxlength;
+//assign udplocalbus.lbrready=udplocalbus.lbwvalid;  // for this current uart lb, response immidiately
+//assign lbtxen=lbrxdv;
+//assign lbtxdata=lbrxdata;//64'hfffe0001deadbeef
 endmodule

@@ -163,7 +163,8 @@ assign pingicmp.ackcode=clientackcode;
 endmodule
 
 module udpsw #(parameter SIM=0,parameter AWIDTH=5,parameter FIFODW=16)
-(udplink udp,udplink udpportd001,udplink udpportd000
+(udplink udp,udplink udpportd001,udplink udpportd000,udplink udpportd002
+,udpportd003
 ,output clientackw,output [FIFODW-1:0] clientackcodew
 ,output [4:0] reqcntw
 );
@@ -180,21 +181,34 @@ wire fifoempty;
 assign clk=udp.clk;
 //assign udpportd000.clk=udp.clk;
 //assign udpportd001.clk=udp.clk;
+assign udpportd003.rx.dst=udp.rx.src;
+assign udpportd002.rx.dst=udp.rx.src;
 assign udpportd001.rx.dst=udp.rx.src;
 assign udpportd000.rx.dst=udp.rx.src;
 assign udp.request_w= request;
 assign udpportd000.ack=clientack & (clientackcode==udpportd000.requestcode);
 assign udpportd001.ack=clientack & (clientackcode==udpportd001.requestcode);
+assign udpportd002.ack=clientack & (clientackcode==udpportd002.requestcode);
+assign udpportd003.ack=clientack & (clientackcode==udpportd003.requestcode);
 assign udp.ackcode=clientackcode;
 assign udpportd000.ackcode=clientackcode;
 assign udpportd001.ackcode=clientackcode;
-assign request=|{udpportd001.request,udpportd000.request};
+assign udpportd002.ackcode=clientackcode;
+assign udpportd003.ackcode=clientackcode;
+assign request=|{udpportd003.request,udpportd002.request,udpportd001.request,udpportd000.request};
 assign requestcode= udpportd000.request ? udpportd000.requestcode :
-						udpportd001.request ? udpportd001.requestcode : 0;
+						udpportd001.request ? udpportd001.requestcode :
+						udpportd002.request ? udpportd002.requestcode :
+						udpportd003.request ? udpportd003.requestcode :
+						0;
 assign udpportd000.requestacpt=udpportd000.request;
 assign udpportd001.requestacpt=udpportd000.request ? 0 : udpportd001.request;
+assign udpportd002.requestacpt=udpportd000.request ? 0 : udpportd001.request ? 0 : udpportd002.request;
+assign udpportd003.requestacpt=udpportd000.request ? 0 : udpportd001.request ? 0 : udpportd002.request ? 0 : udpportd003.request;
 assign udp.tx.dst=clientackcode==udpportd000.requestcode ? udpportd000.tx.src
 					: clientackcode == udpportd001.requestcode ? udpportd001.tx.src
+					: clientackcode == udpportd002.requestcode ? udpportd002.tx.src
+					: clientackcode == udpportd003.requestcode ? udpportd003.tx.src
 					: 0;
 
 always @(posedge clk) begin

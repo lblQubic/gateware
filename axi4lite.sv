@@ -51,10 +51,11 @@ module lb_axi4lite #(parameter AWIDTH=12,parameter DWIDTH=32)
 ,input start
 ,input w0r1
 ,input reset
+,output busy
 );
 localparam DBYTES=DWIDTH/8;
 lb_axi4lite_core #(.AWIDTH(AWIDTH),.DWIDTH(DWIDTH))
-lb_axi4lite_core(.addr,.clk,.rdata,.rdatavalid,.reset,.start,.w0r1,.wdata,.wstrb
+lb_axi4lite_core(.addr,.clk,.rdata,.rdatavalid,.reset,.start,.w0r1,.wdata,.wstrb,.busy
 ,.slave_araddr(slave.araddr),.slave_arready(slave.arready),.slave_arvalid(slave.arvalid),.slave_awaddr(slave.awaddr),.slave_awready(slave.awready),.slave_awvalid(slave.awvalid),.slave_bready(slave.bready),.slave_bresp(slave.bresp),.slave_bvalid(slave.bvalid),.slave_rdata(slave.rdata),.slave_rready(slave.rready),.slave_rresp(slave.rresp),.slave_rvalid(slave.rvalid),.slave_wdata(slave.wdata),.slave_wready(slave.wready),.slave_wstrb(slave.wstrb),.slave_wvalid(slave.wvalid),.slave_aresetn(slave.aresetn)
 );
 endmodule
@@ -86,6 +87,7 @@ module lb_axi4lite_core #(parameter AWIDTH=12,parameter DWIDTH=32)
 ,input start
 ,input w0r1
 ,input reset
+,output busy
 );
 localparam DBYTES=DWIDTH/8;
 
@@ -101,6 +103,7 @@ reg [DWIDTH-1:0] wdata_sm=0;
 reg [DBYTES-1:0] wstrb_sm=0;
 reg bready=0;
 reg wvalid=0;
+reg busy_r=0;
 
 reg start_d=0;
 reg [AWIDTH-1:0] addr_r=0;
@@ -167,6 +170,7 @@ always @(posedge clk) begin
 		wvalid<=0;
 		waddrdone<=1'b0;
 		wdatadone<=1'b0;
+		busy_r<=1'b0;
     end
     else begin
 		case(next)
@@ -184,17 +188,21 @@ always @(posedge clk) begin
 				rdatadone<=1'b0;
 				waddrdone<=1'b0;
 				wdatadone<=1'b0;
+				busy_r<=1'b0;
 			end
 			RADDR: begin
 				araddr<=addr_r;
 				arvalid<=~(raddrdone|raddrdone_w);
-				bready<=1'b1;
+				//bready<=1'b1;
+				busy_r<=1'b1;
+				rready<=1'b1;
 			end
 			RDATA: begin
 				arvalid<=1'b0;
 				rready<=1'b1;
 				if (rdatadone_w)
 					rdatadone<=1'b1;
+				busy_r<=1'b1;
 			end
 			WADDRDATA: begin
 				awaddr<=addr_r;
@@ -206,6 +214,8 @@ always @(posedge clk) begin
 					waddrdone<=1'b1;
 				if (wdatadone_w)
 					wdatadone<=1'b1;
+				busy_r<=1'b1;
+				bready<=1'b1;
 			end
 			WACK: begin
 				awvalid<=1'b0;
@@ -213,6 +223,7 @@ always @(posedge clk) begin
 				bready<=1'b1;
 				waddrdone<=1'b0;
 				wdatadone<=1'b0;
+				busy_r<=1'b1;
 			end
 		endcase
 		if (next==RADDR) begin
@@ -239,4 +250,5 @@ assign slave_bready=bready;
 assign slave_wvalid=wvalid;
 assign rdatavalid=rdatavalid_r;
 assign rdata=rdata_r;
+assign busy=busy_r;
 endmodule

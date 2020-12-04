@@ -1,24 +1,13 @@
 module qubichw_config #(parameter DEBUG="false",parameter BAUD=9600,parameter SIM=0)
 (hw hw
-,localbus.cfg lb
+,ilocalbus_regmap.cfg lbreg
 ,dsp.cfg dsp
 );
-localparam POWERONRESET=100;
-reg poweronreset_r=0;
-reg poweronreset_d=0;
-wire poweronreset=poweronreset_r&~poweronreset_d;
-reg [31:0] poweronresetcnt=0;
-always @(posedge hw.vc707.sysclk) begin
-	poweronresetcnt<=poweronresetcnt+(poweronreset_r ? 1'b0 : 1'b1);
-	if (poweronresetcnt==POWERONRESET & ~poweronreset_r)
-		poweronreset_r<=1'b1;
-	poweronreset_d<=poweronreset_r;
-end
-// sysclkmmcm cross wire
 wire  clk100;
 wire  clk125;
 wire  clk200;
 wire  clk250;
+// sysclkmmcm cross wire
 wire [31:0] clk100cnt;
 wire [31:0] clk125cnt;
 wire [31:0] clk200cnt;
@@ -27,11 +16,51 @@ wire sysclkmmcm_locked;
 wire sysclkmmcm_reset;
 sysclkmmcm sysclkmmcm(.clk100(clk100),.clk125(clk125),.clk200(clk200),.clk250(clk250),.clk100cnt(clk100cnt),.clk125cnt(clk125cnt),.clk200cnt(clk200cnt),.clk250cnt(clk250cnt),.sysclk(hw.vc707.sysclk),.mmcm_locked(sysclkmmcm_locked),.mmcm_reset(sysclkmmcm_reset));
 
+localparam POWERONRESET=100;
+reg poweronreset_r=0;
+reg poweronreset_d=0;
+wire poweronreset;
+reg [31:0] poweronresetcnt=0;
+reg reseted125=0;
+always @(posedge hw.vc707.sysclk) begin
+	poweronresetcnt<=poweronresetcnt+(poweronreset_r ? 1'b0 : 1'b1);
+	if (poweronresetcnt==POWERONRESET & ~poweronreset_r)
+		poweronreset_r<=1'b1;
+	poweronreset_d<=poweronreset_r;
+	if (poweronreset)
+		reseted125=1'b1;
+end
+assign poweronreset = poweronreset_r& ~poweronreset_d;
+//areset poweronareset(.areset(poweronreset),.clk(clk125),.sreset(poweronreset125));
+
+ilocalbus #(.LBCWIDTH(8),.LBAWIDTH(24),.LBDWIDTH(32),.WRITECMD(1),.READCMD(8'h0))
+uartlb();
+ilocalbus #(.LBCWIDTH(8),.LBAWIDTH(24),.LBDWIDTH(32),.WRITECMD(0),.READCMD(8'h10))
+udplb();
+//ilocalbus #(.LBCWIDTH(8),.LBAWIDTH(24),.LBDWIDTH(32),.WRITECMD(0),.READCMD(8'h10))
+//lb();
+reg lbseludp=1'b1;
+assign lbreg.lb.clk=lbseludp ? udplb.clk : uartlb.clk;
+assign lbreg.lb.wcmd=lbseludp ? udplb.wcmd : uartlb.wcmd;
+assign lbreg.lb.wvalid=lbseludp ? udplb.wvalid : uartlb.wvalid;
+assign uartlb.rctrl=lbseludp ? 0 : lbreg.lb.rctrl;
+assign uartlb.rdata=lbseludp ? 0 : lbreg.lb.rdata;
+assign uartlb.raddr=lbseludp ? 0 : lbreg.lb.raddr;
+assign uartlb.rready=lbseludp ? 0 : lbreg.lb.rready;
+assign udplb.rctrl=lbseludp ? lbreg.lb.rctrl : 0;
+assign udplb.rdata=lbseludp ? lbreg.lb.rdata : 0;
+assign udplb.raddr=lbseludp ? lbreg.lb.raddr : 0;
+assign udplb.rready=lbseludp ? lbreg.lb.rready : 0;
+assign lbreg.lb.readcmd=lbseludp ? udplb.readcmd : uartlb.readcmd;
+assign lbreg.lb.writecmd=lbseludp ? udplb.writecmd : uartlb.writecmd;
+assign lbreg.lb.readcmd=lbseludp ? udplb.READCMD : uartlb.READCMD;
+assign lbreg.lb.writecmd=lbseludp ? udplb.WRITECMD : uartlb.WRITECMD;
+
 wire uarttx;
 wire uartrx=hw.vc707.usb2uart.rx;
 wire keeplbdataout;
 wire keepadc;
-assign hw.vc707.usb2uart.tx=lb.uartmode==0 ? hw.vc707.usb2uart.rx : lb.uartmode==1 ? uarttx : 1'b1; //serial port loopback test
+assign hw.vc707.usb2uart.tx=lbreg.uartmode==0 ? hw.vc707.usb2uart.rx : lbreg.uartmode==1 ? uarttx : 1'b1; //serial port loopback test
 assign {hw.vc707.gpio_led_7,hw.vc707.gpio_led_6,hw.vc707.gpio_led_5,hw.vc707.gpio_led_4,hw.vc707.gpio_led_3,hw.vc707.gpio_led_2,hw.vc707.gpio_led_1,hw.vc707.gpio_led_0}={keepadc,keeplbdataout,clk200cnt[26:21]};
 // send serial port to gps
 wire [7:0] rxdata;
@@ -57,27 +86,423 @@ wire [15:0] rxbaudcnt;
 wire [15:0] txbaudcnt;
 wire txline_r;
 wire rxline_r;
-wire uartclk=clk100;
+wire uartclk=clk125;
 wire uartreset;
+//wire lbrready;
+//assign lbrready=lb.rready;
+//wire lbwvalid;
+//assign lb.wvalid=lbwvalid;
+//wire [63:0] lbrcmd;
+//assign lbrcmd=lb.rcmd;
+//wire [63:0] lbwcmd;
+//assign lb.wcmd=lbwcmd;
+wire dbresetcmd;
 uart #(.DWIDTH(8),.NSTOP(1),.UARTCLK(100000000),.BAUD(BAUD))
 uart (.clk(uartclk),.TX(uarttx),.RX(uartrx),.rst(uartreset),.txdata(txdata),.txstart(txstart),.rxdata(rxdata),.rxvalid(rxvalid),.txready(txready));
 wire uartlbreset;
 uartlb #(.UARTDWIDTH(8),.LBWIDTH(64))
-uartlb64 (.clk(uartclk),.reset(uartlbreset),.fromuartdata(rxdata),.fromuartvalid(rxvalid),.touartdata(txdata),.touartready(txready),.touartstart(txstart),.lbrcmd(lb.lbrcmd),.lbrready(lb.lbrready),.lbwcmd(lb.lbwcmd),.lbwvalid(lb.lbwvalid));
+uartlb64 (.clk(uartclk),.areset(uartlbreset),.fromuartdata(rxdata),.fromuartvalid(rxvalid),.touartdata(txdata),.touartready(txready),.touartstart(txstart),.lbrcmd(uartlb.rcmd),.lbrready(uartlb.rready),.lbwcmd(uartlb.wcmd),.lbwvalid(uartlb.wvalid)
+,.dbresetcmd(dbresetcmd)
+);
+//assign lb.rready=lb.wvalid;  // for this current uart lb, response immidiately
 
 wire idelayctrl_rdy;
 IDELAYCTRL idelayctrl(.RST(idelayctrl_reset),.RDY(idelayctrl_rdy),.REFCLK(clk200));
 
-assign lb.lbclk=uartclk;
-assign dsp.clk=clk200;
+assign uartlb.clk=uartclk;
+assign dsp.clk=clk125;
 //assign dsp.pps=hw.vc707.pps;
-wire [63:0] lbrcmd=lb.lbrcmd;
-wire [63:0] lbwcmd=lb.lbwcmd;
-wire lbrready=lb.lbrready;
-wire lbwvalid=lb.lbwvalid;
-assign lb.fmcprsnt={hw.fmc2.prsnt,hw.fmc1.prsnt};
-assign lb.fmcpgm2c={hw.fmc2.pg_m2c,hw.fmc1.pg_m2c};
-assign {hw.fmc2.dac_txen_vadj,hw.fmc1.dac_txen_vadj}=lb.fmcdacen;
+assign lbreg.fmcprsnt={hw.fmc2.prsnt,hw.fmc1.prsnt};
+assign lbreg.fmcpgm2c={hw.fmc2.pg_m2c,hw.fmc1.pg_m2c};
+assign {hw.fmc2.dac_txen_vadj,hw.fmc1.dac_txen_vadj}=lbreg.fmcdacen;
+reg [31:0] i2cdatarx_r=0;
+wire [31:0] i2cdatarx_w;
+reg [31:0] i2cdatarx_wd;
+wire sdatx;
+wire sdarx;
+wire sdaasrx;
+wire i2creset;
+wire  dbscl=hw.vc707.iic.scl;
+IOBUF sdaiobuf (.IO(hw.vc707.iic.sda),.I(sdatx),.O(sdarx),.T(sdaasrx));
+i2cmaster #(.MAXNACK(4),.CLK4RATIO(2500))
+i2cmaster (.clk(clk125),.nack(lbreg.i2cstart[3:0]),.stopbit(lbreg.i2cstart[4]),.sdatx(sdatx),.sdarx(sdarx),.sdaasrx(sdaasrx),.scl(hw.vc707.iic.scl),.clk4ratio(lbreg.clk4ratio),.start(lbreg.stb_i2cstart),.datatx(lbreg.i2cdatatx),.datarx(lbreg.i2cdatarx),.rxvalid(lbreg.i2crxvalid),.rst(i2creset));
+assign hw.vc707.iic.mux_reset_b=lbreg.i2cmux_reset_b;
+
+wire sgmiiclk;
+IBUFDS_GTE2 mgtrefclk_113_sgmii(.I(hw.vc707.sgmiiclk_q0_p),.IB(hw.vc707.sgmiiclk_q0_n),.O(sgmiiclk),.ODIV2(),.CEB(1'b0));
+wire sma_mgt_refclk;
+IBUFDS_GTE2 mgtrefclk_113_sma(.I(hw.vc707.sma_mgt_refclk_p),.IB(hw.vc707.sma_mgt_refclk_n),.O(sma_mgt_refclk),.ODIV2(),.CEB(1'b0));
+wire si5324_out_c;
+IBUFDS_GTE2 mgtrefclk_114_pcie(.I(hw.vc707.si5324_out_c_p),.IB(hw.vc707.si5324_out_c_n),.O(si5324_out_c),.ODIV2(),.CEB(1'b0));
+wire pcie_clk_qo;
+IBUFDS_GTE2 mgtrefclk1_115_pcie(.I(hw.vc707.pcie.clk_qo_p),.IB(hw.vc707.pcie.clk_qo_n),.O(pcie_clk_qo),.ODIV2());
+wire sfpreconnected;
+reg hwreset=0;
+wire hwreset_w;
+always @(posedge hw.vc707.sysclk) begin
+	//hwreset<=lbreg.stb_hwreset;// || poweronreset;
+	hwreset<=hwreset_w;// || poweronreset;
+end
+reg hwresetstb=0;
+always @(posedge clk125) begin
+	hwresetstb<=lbreg.stb_hwreset;
+end
+areset hwresetareset(.clk(hw.vc707.sysclk),.areset(hwresetstb),.sreset(hwreset_w));
+wire pllreset;
+wire qpllresetdone_113;
+wire qplloutclk_113;
+wire qplloutrefclk_113;
+wire qpllpd_113=1'b0;
+wire qpllrefclklost_113;
+wire qpllreset_113;
+wire [2:0] qpllrefclksel_113=3'h1;
+gticc_common
+gticc_common_113(.QPLLLOCKDETCLK(hw.vc707.sysclk)
+,.GTNORTHREFCLK0(1'b0),.GTNORTHREFCLK1(1'b0),.GTREFCLK0(sgmiiclk),.GTREFCLK1(sma_mgt_refclk),.GTSOUTHREFCLK0(0),.GTSOUTHREFCLK1(1'b0)
+,.QPLLREFCLKSEL(qpllrefclksel_113)
+,.QPLLOUTCLK(qplloutclk_113)
+,.QPLLOUTREFCLK(qplloutrefclk_113)
+,.reset(qpllreset_113)
+,.resetdone(qpllresetdone_113)
+);
+wire rdyfortxrxreset;
+wire pllresetdonestrobe;
+reg sfplos=0;
+reg sfplos_d=0;
+assign sfpreconnected=~sfplos&sfplos_d;
+always @(posedge hw.vc707.sysclk) begin
+	sfplos<=hw.vc707.sfp.los;
+	sfplos_d<=sfplos;
+end
+
+wire readyforreset_sfp;
+wire reset_sfp;
+wire readyforreset_eth;
+wire reset_eth;
+
+wire rxusrclk_sfp;
+wire txusrclk_sfp;
+wire [3:0] rxcharisk_sfp;
+wire [31:0] rxdata_sfp;
+assign lbreg.sfptestrx=rxdata_sfp;
+wire rxuserrdy_sfp=1'b1;
+wire [3:0] txcharisk_sfp=4'b0;
+wire [31:0] txdata_sfp=lbreg.sfptesttx;//32'habcdbeef;
+wire txuserrdy_sfp=1'b1;
+gticc_gt gticc_gt_sfp(.CPLLLOCKDETCLK(hw.vc707.sysclk)
+,.GTNORTHREFCLK0(1'b0),.GTNORTHREFCLK1(1'b0),.GTREFCLK0(sgmiiclk),.GTREFCLK1(sma_mgt_refclk),.GTSOUTHREFCLK0(si5324_out_c),.GTSOUTHREFCLK1(1'b0)
+,.GTXRXN(hw.vc707.sfp.rx_n),.GTXRXP(hw.vc707.sfp.rx_p),.GTXTXN(hw.vc707.sfp.tx_n),.GTXTXP(hw.vc707.sfp.tx_p)
+,.QPLLCLK(qplloutclk_113),.QPLLREFCLK(qplloutrefclk_113)
+,.CPLLREFCLKSEL(3'b1)
+,.rxusrclk(rxusrclk_sfp)
+,.txusrclk(txusrclk_sfp)
+,.RXCHARISK(rxcharisk_sfp)
+,.RXDATA(rxdata_sfp)
+,.RXUSERRDY(rxuserrdy_sfp)
+,.TXCHARISK(txcharisk_sfp)
+,.TXDATA(txdata_sfp)
+,.TXUSERRDY(txuserrdy_sfp)
+,.reset(reset_sfp||sfpreconnected)
+,.resetdone(resetdone_sfp)
+,.readyforreset(readyforreset_sfp)
+);
+wire sgmiieth_reset;
+wire sgmiieth_resetdone;
+reg sgmiieth_reset_r=0;
+wire sgmiieth_reset_s;
+always @(posedge sgmiiclk) begin
+	sgmiieth_reset_r<=sgmiieth_reset;
+end
+areset sgmiiethareset(.clk(clk125),.areset(sgmiieth_reset),.sreset(sgmiieth_reset_s));
+gmii gmii();
+sgmii_ethernet_pcs_pma #(.SIM(SIM))
+sgmii_ethernet_pcs_pma_1(.gtrefclk(sgmiiclk)
+,.rxn(hw.vc707.sgmii_rx_n)
+,.rxp(hw.vc707.sgmii_rx_p)
+,.txn(hw.vc707.sgmii_tx_n)
+,.txp(hw.vc707.sgmii_tx_p)
+,.gmii(gmii.phy)
+,.independent_clock_bufg(clk125)
+,.reset(sgmiieth_reset_s)
+,.resetdone(sgmiieth_resetdone)
+);
+
+
+wire mdioreset;
+wire mdioinitdone;
+wire ethreset_w;
+wire ethreset;
+areset ethareset(.clk(ethclk),.areset(ethreset_w),.sreset(ethreset));
+//flag_xdomain ethresetxdomain(.clk1(clk125),.flagin_clk1(ethreset_w),.clk2(ethclk),.flagout_clk2(ethreset));
+//always @(posedge clk125) begin
+//	ethreset<=ethreset_w;
+//end
+wire ethresetdone=~ethreset;
+localparam NSTEP=10;
+wire [NSTEP-1:0] done;
+wire [NSTEP-1:0] donestrobe;
+wire [NSTEP-1:0] error;
+wire [NSTEP-1:0] resetout;
+wire [NSTEP-1:0] donecriteria={sysclkmmcm_locked,1'b1,1'b1,1'b1,idelayctrl_rdy,qpllresetdone_113,resetdone_sfp,sgmiieth_resetdone,mdioinitdone,ethresetdone};
+wire [NSTEP-1:0] readycriteria={1'b1,donecriteria[NSTEP-1:1]};
+wire [NSTEP-1:0] resetin={hwreset|poweronreset,donestrobe[NSTEP-1:1]};
+wire [NSTEP*16-1:0] readylength={NSTEP{16'd10}};
+wire [NSTEP*16-1:0] resetlength={NSTEP{16'd10}};
+wire [NSTEP*32-1:0] timeout={NSTEP{32'b0}};
+
+
+chainreset #(.NSTEP(NSTEP))
+chainreset(.clk(hw.vc707.sysclk)
+,.done,.donecriteria,.donestrobe,.error,.readycriteria,.readylength,.resetin,.resetlength,.resetout,.timeout);
+wire [NSTEP-2-1:0] dummyready;
+assign readyforreset_sfp=qpllresetdone_113;
+assign readyforreset_eth=resetdone_sfp;
+assign {sysclkmmcm_reset,uartreset,uartlbreset,i2creset,idelayctrl_reset,qpllreset_113,reset_sfp,sgmiieth_reset,mdioreset,ethreset_w}=resetout;
+reg [NSTEP-1:0] done_r=0;
+reg [NSTEP-1:0] done_r2=0;
+reg [NSTEP-1:0] done_r3=0;
+wire [NSTEP-1:0] done_w;
+always@(posedge hw.vc707.sysclk) begin
+	done_r<=done;
+end
+always @(posedge clk125) begin
+	done_r2<=done_r;
+	done_r3<=done_r3;
+end
+data_xdomain donexdomain(.clk_in(hw.vc707.sysclk), .gate_in(1'b1), .data_in(done),
+.clk_out(clk125),.data_out(done_w));
+assign lbreg.hwresetstatus=done_r3;
+
+
+wire  mdio_i;
+wire  mdio_o;
+wire  mdio_t;
+IOBUF mdiobuf(.O(mdio_i),.I(mdio_o),.T(mdio_t),.IO(hw.vc707.phy_mdio));
+wire  opr1w0;
+wire [4:0] phyaddr;
+wire [4:0] regaddr;
+wire [15:0] datatx;
+reg stb_mdiostart_d=0;
+always @(posedge clk125) begin
+	stb_mdiostart_d<=lbreg.stb_mdiostart;
+end
+assign {opr1w0,phyaddr,regaddr,datatx}=lbreg.mdiodatatx[26:0];
+mdiomasterinit #(.INITLENGTH(4),.INITWIDTH(27),.INITCLK4RATIO(SIM ? 2 : 100),.INITCMDS(
+    {1'b0,5'b00111,5'h0,16'h0140
+    ,1'b0,5'b00111,5'h4,16'h9801
+    ,1'b0,5'b00111,5'h16,16'h1
+    ,1'b0,5'b00111,5'h0,16'h8140
+    }
+))
+mdiomasterinit(.clk(clk125)
+,.busy()
+,.clk4ratio(SIM ? 32'd10 : lbreg.mdioclk4ratio)
+,.datarx(lbreg.mdiodatarx)
+,.datatx(datatx)
+,.mdc(hw.vc707.phy_mdc)
+,.mdio_i(mdio_i)
+,.mdio_o(mdio_o)
+,.mdio_t(mdio_t)
+,.opr1w0(opr1w0)
+,.phyaddr(phyaddr)
+,.regaddr(regaddr)
+,.rst(mdioreset)
+,.rxvalid(lbreg.mdiorxvalid)
+,.start(stb_mdiostart_d)
+,.initdone(mdioinitdone)
+);
+
+
+
+// ether_gmii cross wire 
+wire [7:0] last_ip_byte=8'b0;
+wire [23:0] lb_addr;
+wire  lb_clk;
+wire [31:0] lb_data_in=32'hdeadbeef;
+wire [31:0] lb_data_out;
+wire  lb_read;
+wire  lb_rvalid;
+wire  lb_write;
+wire  pwm_out0;
+wire  pwm_out1;
+wire  reset=1'b0;
+wire [7:0] s_tx_tdata=8'b0;
+wire  s_tx_tready;
+wire  s_tx_tvalid=1'b0;
+wire [7:0] status;
+
+reg [47:0] mac=0;
+assign keeplbdataout=&lb_data_out;
+reg [31:0] ip=32'hc0a801e0;  // 192.168.1.224
+wire ethclk=gmii.tx_clk;
+always @(posedge ethclk) begin
+	mac<=48'h515542494301;//MAC;//48'haabbccddeeff;
+end
+udplink ifudp(.reset(ethreset),.clk(ethclk));
+gmii2udp #(.DEBUG(DEBUG),.SIM(SIM))
+gmii2udp(.gmii(gmii.eth),.ifudp(ifudp),.mac(mac),.ip(ip),.reset(ethreset));
+wire udprxerr;
+udplink ifudpportd001(.reset(ethreset),.clk(ethclk));
+udplink ifudpportd002(.reset(ethreset),.clk(ethclk));
+udplink ifudpportd003(.reset(ethreset),.clk(ethclk));
+udplink ifudpportd000(.reset(ethreset),.clk(ethclk));
+udpsw udpsw(.udp(ifudp),.udpportd001(ifudpportd001),.udpportd000(ifudpportd000),.udpportd002(ifudpportd002),.udpportd003(ifudpportd003));
+udpecho #(.PORT(16'hd000))
+udpecho(.clk(ethclk),.udp(ifudpportd000),.reset(ethreset));
+udpstatic #(.PORT(16'hd001))
+udpstatic(.clk(ethclk),.udp(ifudpportd001),.reset(ethreset),.staticnbyte(1472));
+udpcnt #(.PORT(16'hd002))
+udpcnt(.clk(ethclk),.udp(ifudpportd002),.reset(ethreset),.udprxerr(udprxerr));
+wire [15:0] txlength;
+wire [15:0] rxlength;
+udplb64 #(.PORT(16'hd003))
+udplb64 (.clk(ethclk),.udp(ifudpportd003),.reset(ethreset)//~sgmiieth_resetdone)
+,.lbclk(udplb.clk)
+,.lbrxdata(udplb.wcmd)
+,.lbrxdv(udplb.wvalid)
+,.lbtxdata(udplb.rcmd)
+,.lbtxen(udplb.rready)
+,.rxlength(rxlength)
+,.txlength(txlength)
+);
+assign udplb.clk=clk125;
+assign txlength=rxlength;
+//assign lbreg.lbrready=lbreg.lbwvalid;  // for this current uart lb, response immidiately
+wire [31:0] test=lbreg.test;
+
+assign keepadc=|{adc0,adc1,adc2,adc3};
+wire [63:0] adc0;
+wire [63:0] adc1;
+wire [63:0] adc2;
+wire [63:0] adc3;
+wire [63:0] adc4;
+wire [63:0] adc5;
+wire [63:0] adc6;
+wire [63:0] adc7;
+wire [63:0] dac0;
+wire [63:0] dac1;
+wire [63:0] dac2;
+wire [63:0] dac3;
+wire [63:0] dac4;
+wire [63:0] dac5;
+wire [63:0] dac6;
+wire [63:0] dac7;
+wire jesdreset;
+wire  rx_reset=jesdreset;//1'b0;
+wire  tx_reset=jesdreset;//1'b0;
+wire  rx_sys_reset=jesdreset;//1'b0;
+wire  tx_sys_reset=jesdreset;//1'b0;
+//wire [1:0] rx_sync_1;
+//wire [1:0] rx_sync_2;
+//wire  tx_sync_1;
+//wire  tx_sync_2;
+wire axireset;
+axi4lite axi_fmc1_adc0(.aclk(clk125));
+axi4lite axi_fmc1_adc1(.aclk(clk125));
+axi4lite axi_fmc1_dac(.aclk(clk125));
+axi4lite axi_fmc2_adc0(.aclk(clk125));
+axi4lite axi_fmc2_adc1(.aclk(clk125));
+axi4lite axi_fmc2_dac(.aclk(clk125));
+lb_axi4lite #(.AWIDTH(12),.DWIDTH(32))
+lb_axi4lite_fmc1_adc0
+(.clk(clk125),.slave(axi_fmc1_adc0),.addr(lbreg.axifmc1adc0_addr),.wdata(lbreg.axifmc1adc0_wdata),.wstrb(4'hf),.rdata(lbreg.axifmc1adc0_rdata),.rdatavalid(lbreg.axifmc1adc0_rdatavalid),.start(lbreg.stb_axifmc1adc0_start),.w0r1(lbreg.axifmc1adc0_w0r1),.reset(axireset));
+lb_axi4lite #(.AWIDTH(12),.DWIDTH(32))
+lb_axi4lite_fmc1_adc1
+(.clk(clk125),.slave(axi_fmc1_adc1),.addr(lbreg.axifmc1adc1_addr),.wdata(lbreg.axifmc1adc1_wdata),.wstrb(4'hf),.rdata(lbreg.axifmc1adc1_rdata),.rdatavalid(lbreg.axifmc1adc1_rdatavalid),.start(lbreg.stb_axifmc1adc1_start),.w0r1(lbreg.axifmc1adc1_w0r1),.reset(axireset));
+lb_axi4lite #(.AWIDTH(12),.DWIDTH(32))
+lb_axi4lite_fmc1_dac
+(.clk(clk125),.slave(axi_fmc1_dac),.addr(lbreg.axifmc1dac_addr),.wdata(lbreg.axifmc1dac_wdata),.wstrb(4'hf),.rdata(lbreg.axifmc1dac_rdata),.rdatavalid(lbreg.axifmc1dac_rdatavalid),.start(lbreg.stb_axifmc1dac_start),.w0r1(lbreg.axifmc1dac_w0r1),.reset(axireset));
+lb_axi4lite #(.AWIDTH(12),.DWIDTH(32))
+lb_axi4lite_fmc2_adc0
+(.clk(clk125),.slave(axi_fmc2_adc0),.addr(lbreg.axifmc2adc0_addr),.wdata(lbreg.axifmc2adc0_wdata),.wstrb(4'hf),.rdata(lbreg.axifmc2adc0_rdata),.rdatavalid(lbreg.axifmc2adc0_rdatavalid),.start(lbreg.stb_axifmc2adc0_start),.w0r1(lbreg.axifmc2adc0_w0r1),.reset(axireset));
+lb_axi4lite #(.AWIDTH(12),.DWIDTH(32))
+lb_axi4lite_fmc2_adc1
+(.clk(clk125),.slave(axi_fmc2_adc1),.addr(lbreg.axifmc2adc1_addr),.wdata(lbreg.axifmc2adc1_wdata),.wstrb(4'hf),.rdata(lbreg.axifmc2adc1_rdata),.rdatavalid(lbreg.axifmc2adc1_rdatavalid),.start(lbreg.stb_axifmc2adc1_start),.w0r1(lbreg.axifmc2adc1_w0r1),.reset(axireset));
+lb_axi4lite #(.AWIDTH(12),.DWIDTH(32))
+lb_axi4lite_fmc2_dac
+(.clk(clk125),.slave(axi_fmc2_dac),.addr(lbreg.axifmc2dac_addr),.wdata(lbreg.axifmc2dac_wdata),.wstrb(4'hf),.rdata(lbreg.axifmc2dac_rdata),.rdatavalid(lbreg.axifmc2dac_rdatavalid),.start(lbreg.stb_axifmc2dac_start),.w0r1(lbreg.axifmc2dac_w0r1),.reset(axireset));
+
+jesdfmc120 jesdfmc120_1(.core_clk(hw.fmc1.llmk_dclkout_2)
+,.drpclk(clk125)
+,.qpll_refclk(hw.fmc1.lmk_dclk8_m2c_to_fpga)
+,.rxn_in({hw.fmc1.adc1_db2_n,hw.fmc1.adc1_db1_n,hw.fmc1.adc1_da2_n,hw.fmc1.adc1_da1_n,hw.fmc1.adc0_db2_n,hw.fmc1.adc0_db1_n,hw.fmc1.adc0_da2_n,hw.fmc1.adc0_da1_n})
+,.rxp_in({hw.fmc1.adc1_db2_p,hw.fmc1.adc1_db1_p,hw.fmc1.adc1_da2_p,hw.fmc1.adc1_da1_p,hw.fmc1.adc0_db2_p,hw.fmc1.adc0_db1_p,hw.fmc1.adc0_da2_p,hw.fmc1.adc0_da1_p})
+,.tx_sysref(hw.fmc1.llmk_sclkout_3)
+,.rx_sysref(hw.fmc1.llmk_sclkout_3)
+,.txn_out(hw.fmc1.dac_lane_n)
+,.txp_out(hw.fmc1.dac_lane_p)
+,.axi_adc0(axi_fmc1_adc0)
+,.axi_adc1(axi_fmc1_adc1)
+,.axi_dac(axi_fmc1_dac)
+,.rx_reset(rx_reset)
+,.tx_reset(tx_reset)
+,.rx_sys_reset(rx_sys_reset)
+,.tx_sys_reset(tx_sys_reset)
+,.rx_sync()
+,.tx_sync()
+,.adc0(adc0)
+,.adc1(adc1)
+,.adc2(adc2)
+,.adc3(adc3)
+,.dac0(dac0)
+,.dac1(dac1)
+,.dac2(dac2)
+,.dac3(dac3)
+,.rx_aresetn_0()
+,.rx_aresetn_1()
+,.rx_frame_error()
+,.tx_aresetn()
+,.tx_tready()
+,.adc01_valid()
+,.adc23_valid()
+,.common0_qpll_lock_out()
+,.common1_qpll_lock_out()
+);
+jesdfmc120 jesdfmc120_2(.core_clk(hw.fmc1.llmk_dclkout_2)
+,.drpclk(clk125)
+,.qpll_refclk(hw.fmc2.lmk_dclk8_m2c_to_fpga)
+,.rxn_in({hw.fmc2.adc1_db2_n,hw.fmc2.adc1_db1_n,hw.fmc2.adc1_da2_n,hw.fmc2.adc1_da1_n,hw.fmc2.adc0_db2_n,hw.fmc2.adc0_db1_n,hw.fmc2.adc0_da2_n,hw.fmc2.adc0_da1_n})
+,.rxp_in({hw.fmc2.adc1_db2_p,hw.fmc2.adc1_db1_p,hw.fmc2.adc1_da2_p,hw.fmc2.adc1_da1_p,hw.fmc2.adc0_db2_p,hw.fmc2.adc0_db1_p,hw.fmc2.adc0_da2_p,hw.fmc2.adc0_da1_p})
+,.tx_sysref(hw.fmc2.llmk_sclkout_3)
+,.rx_sysref(hw.fmc2.llmk_sclkout_3)
+,.txn_out(hw.fmc2.dac_lane_n)
+,.txp_out(hw.fmc2.dac_lane_p)
+,.axi_adc0(axi_fmc2_adc0)
+,.axi_adc1(axi_fmc2_adc1)
+,.axi_dac(axi_fmc2_dac)
+,.rx_reset(rx_reset)
+,.tx_reset(tx_reset)
+,.rx_sys_reset(rx_sys_reset)
+,.tx_sys_reset(tx_sys_reset)
+,.rx_sync()
+,.tx_sync()
+,.adc0(adc4)
+,.adc1(adc5)
+,.adc2(adc6)
+,.adc3(adc7)
+,.dac0(dac4)
+,.dac1(dac5)
+,.dac2(dac6)
+,.dac3(dac7)
+,.rx_aresetn_0()
+,.rx_aresetn_1()
+,.rx_frame_error()
+,.tx_aresetn()
+,.tx_tready()
+,.adc01_valid()
+,.adc23_valid()
+,.common0_qpll_lock_out()
+,.common1_qpll_lock_out()
+);
+reg [31:0] dclkcnt=0;
+always @(posedge hw.fmc1.llmk_dclkout_2) begin
+	dclkcnt<=dclkcnt+1;
+end
+assign hw.fmc1.fpga_sync_out_to_trigmux=dclkcnt[6];
+assign hw.fmc2.fpga_sync_out_to_trigmux=dclkcnt[6];
+OBUFDS obufds_user_sma_clk(.I(dclkcnt[6]),.O(hw.vc707.user_sma_clock_p),.OB(hw.vc707.user_sma_clock_n));
+OBUFDS obufds_user_sma_gpio(.I(dclkcnt[6]),.O(hw.vc707.user_sma_gpio_p),.OB(hw.vc707.user_sma_gpio_n));
+
 /*reg [3*7-1:0] daddrsr={7'h0,7'h14,7'h1c};
 localparam RESETCNT=200;
 wire reset_in=clk200cnt==RESETCNT;
@@ -156,508 +581,22 @@ assign lb.xadctemp=xadctemp;
 assign lb.xadcaux4=xadcaux4;
 assign lb.xadcaux12=xadcaux12;
 */
-reg [31:0] i2cdatarx_r=0;
-wire [31:0] i2cdatarx_w;
-reg [31:0] i2cdatarx_wd;
-wire sdatx;
-wire sdarx;
-wire sdaasrx;
-wire i2creset;
-IOBUF sdaiobuf (.IO(hw.vc707.iic.sda),.I(sdatx),.O(sdarx),.T(sdaasrx));
-i2cmaster #(.MAXNACK(4),.CLK4RATIO(2500))
-i2cmaster (.clk(clk100),.nack(lb.i2cstart[3:0]),.stopbit(lb.i2cstart[4]),.sdatx(sdatx),.sdarx(sdarx),.sdaasrx(sdaasrx),.scl(hw.vc707.iic.scl),.clk4ratio(lb.clk4radio),.start(lb.stb_i2cstart),.datatx(lb.i2cdatatx),.datarx(lb.i2cdatarx),.rxvalid(lb.i2crxvalid),.rst(i2creset));
-assign hw.vc707.iic.mux_reset_b=lb.i2cmux_reset_b;
-
-wire sgmiiclk;
-IBUFDS_GTE2 mgtrefclk_113_sgmii(.I(hw.vc707.sgmiiclk_q0_p),.IB(hw.vc707.sgmiiclk_q0_n),.O(sgmiiclk),.ODIV2(),.CEB(1'b0));
-wire sma_mgt_refclk;
-IBUFDS_GTE2 mgtrefclk_113_sma(.I(hw.vc707.sma_mgt_refclk_p),.IB(hw.vc707.sma_mgt_refclk_n),.O(sma_mgt_refclk),.ODIV2(),.CEB(1'b0));
-wire si5324_out_c;
-IBUFDS_GTE2 mgtrefclk_114_pcie(.I(hw.vc707.si5324_out_c_p),.IB(hw.vc707.si5324_out_c_n),.O(si5324_out_c),.ODIV2(),.CEB(1'b0));
-wire pcie_clk_qo;
-IBUFDS_GTE2 mgtrefclk1_115_pcie(.I(hw.vc707.pcie.clk_qo_p),.IB(hw.vc707.pcie.clk_qo_n),.O(pcie_clk_qo),.ODIV2());
-wire sfpreconnected;
-wire hwreset=lb.stb_hwreset || poweronreset;
-wire pllreset;
-wire qpllresetdone_113;
-wire qplloutclk_113;
-wire qplloutrefclk_113;
-wire qpllpd_113=1'b0;
-wire qpllrefclklost_113;
-wire qpllreset_113;
-wire [2:0] qpllrefclksel_113=3'h1;
-gticc_common
-gticc_common_113(.QPLLLOCKDETCLK(clk200)
-,.GTNORTHREFCLK0(1'b0),.GTNORTHREFCLK1(1'b0),.GTREFCLK0(sgmiiclk),.GTREFCLK1(sma_mgt_refclk),.GTSOUTHREFCLK0(0/*si5324_out_c*/),.GTSOUTHREFCLK1(1'b0)
-,.QPLLREFCLKSEL(qpllrefclksel_113)
-,.QPLLOUTCLK(qplloutclk_113)
-,.QPLLOUTREFCLK(qplloutrefclk_113)
-,.reset(qpllreset_113)
-,.resetdone(qpllresetdone_113)
-);
-wire rdyfortxrxreset;
-wire pllresetdonestrobe;
-reg sfplos=0;
-reg sfplos_d=0;
-assign sfpreconnected=~sfplos&sfplos_d;
-always @(posedge clk200) begin
-	sfplos<=hw.vc707.sfp.los;
-	sfplos_d<=sfplos;
+/*reg [NSTEP-1:0] dbdone=0;
+reg [NSTEP-1:0] dbdonestrobe=0;
+reg [NSTEP-1:0] dberror=0;
+reg [NSTEP-1:0] dbresetout=0;
+reg [NSTEP-1:0] dbdonecriteria=0;
+reg [NSTEP-1:0] dbreadycriteria=0;
+reg [NSTEP-1:0] dbresetin=0;
+always @(posedge hw.vc707.sysclk) begin
+	dbdone<=done;
+	dbdonestrobe<=donestrobe;
+	dberror<=error;
+	dbresetout<=resetout;
+	dbdonecriteria<=donecriteria;
+	dbreadycriteria<=readycriteria;
+	dbresetin<=resetin;
 end
-
-wire readyforreset_sfp;
-wire reset_sfp;
-wire readyforreset_eth;
-wire reset_eth;
-
-wire rxusrclk_sfp;
-wire txusrclk_sfp;
-wire [3:0] rxcharisk_sfp;
-wire [31:0] rxdata_sfp;
-assign lb.sfptestrx=rxdata_sfp;
-wire rxuserrdy_sfp=1'b1;
-wire [3:0] txcharisk_sfp=4'b0;
-wire [31:0] txdata_sfp=lb.sfptesttx;//32'habcdbeef;
-wire txuserrdy_sfp=1'b1;
-gticc_gt gticc_gt_sfp(.CPLLLOCKDETCLK(clk200)
-,.GTNORTHREFCLK0(1'b0),.GTNORTHREFCLK1(1'b0),.GTREFCLK0(sgmiiclk),.GTREFCLK1(sma_mgt_refclk),.GTSOUTHREFCLK0(si5324_out_c),.GTSOUTHREFCLK1(1'b0)
-,.GTXRXN(hw.vc707.sfp.rx_n),.GTXRXP(hw.vc707.sfp.rx_p),.GTXTXN(hw.vc707.sfp.tx_n),.GTXTXP(hw.vc707.sfp.tx_p)
-,.QPLLCLK(qplloutclk_113),.QPLLREFCLK(qplloutrefclk_113)
-,.CPLLREFCLKSEL(3'b1)
-,.rxusrclk(rxusrclk_sfp)
-,.txusrclk(txusrclk_sfp)
-,.RXCHARISK(rxcharisk_sfp)
-,.RXDATA(rxdata_sfp)
-,.RXUSERRDY(rxuserrdy_sfp)
-,.TXCHARISK(txcharisk_sfp)
-,.TXDATA(txdata_sfp)
-,.TXUSERRDY(txuserrdy_sfp)
-,.reset(reset_sfp||sfpreconnected)
-,.resetdone(resetdone_sfp)
-,.readyforreset(readyforreset_sfp)
-);
-wire sgmiieth_reset;
-wire sgmiieth_resetdone;
-gmii gmii();
-sgmii_ethernet_pcs_pma #(.SIM(SIM))
-sgmii_ethernet_pcs_pma_1(.gtrefclk(sgmiiclk)
-,.rxn(hw.vc707.sgmii_rx_n)
-,.rxp(hw.vc707.sgmii_rx_p)
-,.txn(hw.vc707.sgmii_tx_n)
-,.txp(hw.vc707.sgmii_tx_p)
-,.gmii(gmii.phy)
-,.independent_clock_bufg(hw.vc707.sysclk)
-,.reset(sgmiieth_reset)
-,.resetdone(sgmiieth_resetdone)
-);
-/*assign gmii.tx_en=gmii.rx_dv;//sgmiieth_resetdone;
-assign gmii.txd=gmii.rxd;//8'hcc;
-assign gmii.tx_er=1'b0;
 */
-/*sgmii_ethernet_pcs_pma sgmii_ethernet_pcs_pma(.sgmiiclk
-,.hw(hw)
-,.gmii(gmii.phy)
-,.independent_clock_bufg(clk200)
-,.qplloutclk(qplloutclk_113)
-,.qplloutrefclk(qplloutrefclk_113)
-,.qplllock(qpllresetdone_113)
-,.reset(poweronreset)//hwreset)
-,.resetdone(resetdone)
-,.status_vector(status_vector)
-,.clk200cnt(clk200cnt)
-);
-reg tx_en=0;
-always @(posedge gmii.tx_clk) begin
-	tx_en<=clk125cnt>32'h1001;
-end
-assign gmii.tx_en=tx_en;
-assign gmii.txd=8'hcc;
-assign gmii.tx_er=1'b0;
-wire [15:0] gteth_rxdata;
-wire [15:0] gteth_txdata;
-wire [1:0] gteth_rxcharisk;
-wire [1:0] gteth_txcharisk;
-wire gteth_txusrclk;
-wire gteth_rxusrclk;
-wire gteth_rxvalid;
-wire resetdone_eth=1;
-gteth_gt gteth_gt(
-.CPLLLOCKDETCLK(clk200)
-,.GTNORTHREFCLK0(1'b0),.GTNORTHREFCLK1(1'b0),.GTREFCLK0(sgmiiclk),.GTREFCLK1(sma_mgt_refclk),.GTSOUTHREFCLK0(si5324_out_c),.GTSOUTHREFCLK1(1'b0)
-,.GTXRXN(hw.vc707.sgmii_rx_n),.GTXRXP(hw.vc707.sgmii_rx_p),.GTXTXN(hw.vc707.sgmii_tx_n),.GTXTXP(hw.vc707.sgmii_tx_p)
-,.QPLLCLK(qplloutclk_113),.QPLLREFCLK(qplloutrefclk_113)
-,.RXDATA(gteth_rxdata)
-,.RXCHARISK(gteth_rxcharisk)
-,.TXCHARISK(gteth_txcharisk)
-,.RXVALID(gteth_rxvalid)
-,.RXUSERRDY(1'b1)
-,.TXDATA(gteth_txdata)
-,.TXUSERRDY(1'b1)
-,.CPLLREFCLKSEL(3'b001)
-,.txusrclk(gteth_txusrclk)
-,.rxusrclk(gteth_rxusrclk)
-,.txusrclk2(gmii.tx_clk)
-,.rxusrclk2(gmii.rx_clk)
-,.readyforreset(readyforreset_eth)
-,.reset(reset_eth)
-,.resetdone(resetdone_eth)
-);
-*/
-
-
-
-localparam NSTEP=8;
-wire [NSTEP-1:0] done;
-wire [NSTEP-1:0] donestrobe;
-wire [NSTEP-1:0] error;
-wire [NSTEP-1:0] resetout;
-wire [NSTEP-1:0] donecriteria={sysclkmmcm_locked,1'b1,1'b1,1'b1,idelayctrl_rdy,qpllresetdone_113,resetdone_sfp,sgmiieth_resetdone};
-wire [NSTEP-1:0] readycriteria={1'b1,donecriteria[NSTEP-1:1]};
-wire [NSTEP-1:0] resetin={hwreset,donestrobe[NSTEP-1:1]};
-wire [NSTEP*16-1:0] readylength={NSTEP{16'd10}};
-wire [NSTEP*16-1:0] resetlength={NSTEP{16'd10}};
-wire [NSTEP*32-1:0] timeout={NSTEP{32'b0}};
-
-chainreset #(.NSTEP(NSTEP))
-chainreset(.clk(hw.vc707.sysclk)
-,.done,.donecriteria,.donestrobe,.error,.readycriteria,.readylength,.resetin,.resetlength,.resetout,.timeout);
-assign lb.hwresetstatus=done;
-wire [NSTEP-2-1:0] dummyready;
-assign readyforreset_sfp=qpllresetdone_113;
-assign readyforreset_eth=resetdone_sfp;
-assign {sysclkmmcm_reset,uartreset,uartlbreset,i2creset,idelayctrl_reset,qpllreset_113,reset_sfp,sgmiieth_reset}=resetout;
-
-wire  mdio_i;
-wire  mdio_o;
-wire  mdio_t;
-IOBUF mdiobuf(.O(mdio_i),.I(mdio_o),.T(mdio_t),.IO(hw.vc707.phy_mdio));
-wire  opr1w0;
-wire [4:0] phyaddr;
-wire [4:0] regaddr;
-wire [15:0] datatx;
-assign {opr1w0,phyaddr,regaddr,datatx}=lb.mdiodatatx[26:0];
-mdiomaster mdiomaster(.clk(clk100),.busy(),.clk4ratio(SIM ? 32'd10 : lb.mdioclk4ratio),.datarx(lb.mdiodatarx),.datatx(lb.mdiodatatx),.mdc(hw.vc707.phy_mdc),.mdio_i(mdio_i),.mdio_o(mdio_o),.mdio_t(mdio_t),.opr1w0(opr1w0),.phyaddr(phyaddr),.regaddr(regaddr),.rst(1'b0),.rxvalid(lb.mdiorxvalid),.start(lb.stb_mdiostart));
-
-// gtxgmii cross wire 
-/*wire [5:0] leds;
-gtgmii gtgmii(.gmii(gmii.phy)
-,.gt_rx_is_k(gteth_rxcharisk)
-,.gt_rxd(gteth_rxdata)
-,.gt_tx_clk(gteth_txusrclk)
-,.gt_tx_is_k(gteth_txcharisk)
-,.gt_txd(gteth_txdata)
-,.an_bypass(1'b1)
-,.rx_err_los(1'b0)
-,.an_state_mon()
-,.lacr_rx()
-,.leds(leds)
-,.operate()
-);
-assign gmii.tx_en=clk125cnt>32'h1001;
-//assign gmii.rx_en=clk125cnt>32'h1001;
-assign gmii.txd=8'hcc;
-assign gmii.tx_er=1'b0;
-*/
-// ether_gmii cross wire 
-wire [7:0] last_ip_byte=8'b0;
-wire [23:0] lb_addr;
-wire  lb_clk;
-wire [31:0] lb_data_in=32'hdeadbeef;
-wire [31:0] lb_data_out;
-wire  lb_read;
-wire  lb_rvalid;
-wire  lb_write;
-wire  pwm_out0;
-wire  pwm_out1;
-wire  reset=1'b0;
-wire [7:0] s_tx_tdata=8'b0;
-wire  s_tx_tready;
-wire  s_tx_tvalid=1'b0;
-wire [7:0] status;
-
-/*parameter IP ={8'd192, 8'd168, 8'd1, 8'd224};
-parameter MAC = 48'h00105ad155b2;
-parameter LB_READ_DELAY = 3;
-parameter JUMBO_DW=14;
-ether_gmii #(.IP(IP),.MAC(MAC),.JUMBO_DW(JUMBO_DW))
-//ether_gmii #(.IP(32'hc0a801e0),.MAC(48'haabbccddeeff),.JUMBO_DW(JUMBO_DW))
-ether_gmii(
-.reset(reset)
-
-,.gmii_rx_clk(gmii.rx_clk)
-,.gmii_rx_dv(gmii.rx_dv)
-,.gmii_rx_er(gmii.rx_er)
-,.gmii_rxd(gmii.rxd)
-,.gmii_tx_clk(gmii.tx_clk)
-//,.gmii_tx_en(gmii.tx_en)
-//,.gmii_tx_er(gmii.tx_er)
-//,.gmii_txd(gmii.txd)
-,.last_ip_byte(last_ip_byte)
-,.lb_addr(lb_addr)
-,.lb_clk(lb_clk)
-,.lb_data_in(lb_data_in)
-,.lb_data_out(lb_data_out)
-,.lb_read(lb_read)
-,.lb_rvalid(lb_rvalid)
-,.lb_write(lb_write)
-,.pwm_out0(pwm_out0)
-,.pwm_out1(pwm_out1)
-,.s_tx_tdata(s_tx_tdata)
-,.s_tx_tready(s_tx_tready)
-,.s_tx_tvalid(s_tx_tvalid)
-,.status(status));
-*/
-reg [47:0] mac=0;
-assign keeplbdataout=&lb_data_out;
-iethernet ifethernet(.reset(hwreset),.mac(mac));
-wire [8:0] dbdout;
-wire dbfull;
-wire dbempty;
-wire dbtenfifo;
-wire [7:0] dbtxdfifo;
-wire [3:0] dbtxstate;
-wire [3:0] dbrxstate;
-wire [31:0] dbtxcrc_w;
-wire [31:0] dbtxcrc;;
-wire dbrxcrcen;
-wire dbrxcrcen1;
-wire dbrxcrcen2;
-wire dbrxcrcen3;
-wire [3:0] dbrxnext;
-wire dbtxcrcen1;
-wire dbtxcrcen2;
-wire dbtxcrcen;
-wire dbrxcrczero;
-wire dbrxcrczero_w;
-wire dbethrxbusy;
-ethernetovergmii #(.SIM(SIM))ethernetovergmii1 (.gmii(gmii.eth),.eth(ifethernet),.reset(hwreset)
-,.dbdout
-,.dbfull
-,.dbempty
-,.dbtenfifo
-,.dbtxdfifo
-,.dbtxstate
-,.dbrxstate
-,.dbtxcrc
-,.dbtxcrc_w
-,.dbrxcrczero
-,.dbrxcrczero_w
-,.dbrxcrcen
-,.dbrxcrcen1
-,.dbrxcrcen2
-,.dbrxcrcen3
-,.dbrxnext
-,.dbtxcrcen1
-,.dbtxcrcen2
-,.dbtxcrcen
-,.dbethrxbusy
-);
-reg [31:0] ip=32'hc0a801e0;
-always @(posedge ifethernet.clk) begin
-	mac<=48'h515542494301;//MAC;//48'haabbccddeeff;
-end
-wire dbarpmatch;
-wire [2:0] dbarpmatch3;
-wire dbrequest;
-wire [15:0] dbtxcnt;
-wire dbethkey;
-wire [3:0] dbarptxstate,dbarprxstate;
-iethernet ifarpethernet(.reset(hwreset),.mac(mac));
-iarplink arp(.clk(ifethernet.clk));
-arpoverethernet arpoverethernet (.eth(ifarpethernet), .arp(arp),.reset(hwreset),.ip(ip)
-,.dbarpmatch(dbarpmatch)
-,.dbarpmatch3(dbarpmatch3)
-,.dbrequest(dbrequest)
-,.dbtxcnt(dbtxcnt)
-,.dbethkey(dbethkey)
-,.dbtxstate(dbarptxstate)
-,.dbrxstate(dbarprxstate)
-);
-iethernet ifipv4ethernet(.reset(reset),.mac(mac));
-ipv4link ifipv4(.clk(ifethernet.clk),.reset(reset),.ip(ip));
-ipv4link ificmpipv4(.clk(ifethernet.clk),.reset(reset),.ip(ip));
-ipv4link ifudpipv4(.clk(ifethernet.clk),.reset(reset),.ip(ip));
-//assign ifudpipv4.requestcode=16'h11;
-ipv4overethernet ipv4overethernet(.eth(ifipv4ethernet), .ipv4(ifipv4),.reset(reset));
-
-wire clientackw;
-wire [15:0] clientackcodew;
-wire [4:0] reqcntw;
-ethernetsw ethernetsw(.hardware(ifethernet),.arpethernet(ifarpethernet),.ipv4ethernet(ifipv4ethernet)
-,.clientackw,.clientackcodew,.reqcntw
-);
-icmplink ificmp(.clk(ifethernet.clk),.reset(reset));
-icmplink ifpingicmp(.clk(ifethernet.clk),.reset(reset));
-icmpoveripv4 icmpoveripv4(.ipv4(ificmpipv4), .icmp(ificmp),.reset(reset));
-//icmpoveripv4 icmpoveripv4_udp(.ipv4(ifudpipv4), .icmp(ificmp),.reset(reset));
-wire requestping;
-pingovericmp #(.SIM(1))pingovericmp(.icmp(ifpingicmp),.reset(reset));
-ipv4sw ipv4sw(.ipv4(ifipv4),.icmpipv4(ificmpipv4),.udpipv4(ifudpipv4));
-icmpsw icmpsw(.icmp(ificmp),.pingicmp(ifpingicmp));
-
-udplink ifudp(.reset(reset),.clk(ifethernet.clk));
-wire [3:0] dbudptxstate,dbudprxstate;
-udpoveripv4 udpovreipv4(.ipv4(ifudpipv4),.udp(ifudp),.reset(reset)
-,.dbtxstate(dbudptxstate)
-,.dbrxstate(dbudprxstate)
-
-);
-//icmpoveripv4 icmpoveripv4_udp(.ipv4(ifudpipv4), .icmp(ificmp),.reset(reset));
-/*reg [7:0] udprxdata=0;
-reg udprxdven=0;
-reg [7:0] udprxdata_d=0;
-reg udprxdven_d=0;
-always @(posedge ifethernet.clk) begin
-	udprxdata<=ifudp.rx.data;
-	udprxdven<=ifudp.rx.dven;
-	udprxdata_d<=udprxdata;
-	udprxdven_d<=udprxdven;
-end
-assign ifudp.tx.srcport=ifudp.rx.dstport;
-assign ifudp.tx.dstport=ifudp.rx.srcport;
-assign ifudp.tx.length=ifudp.rx.length;
-assign ifudp.tx.checksum=0;
-assign ifudp.request_w=udprxdven&~udprxdven_d;
-assign ifudp.tx.data=udprxdata_d;
-assign ifudp.tx.dven=udprxdven_d;
-*/
-udplink ifudpportd001(.reset(reset),.clk(ifethernet.clk));
-udplink ifudpportd000(.reset(reset),.clk(ifethernet.clk));
-udpsw udpsw(.udp(ifudp),.udpportd001(ifudpportd001),.udpportd000(ifudpportd000));
-udpecho #(.PORT(16'hd000))
-udpecho(.clk(ifethernet.clk),.udp(ifudpportd000),.reset(reset));
-udpstatic #(.PORT(16'hd001))
-udpstatic(.clk(ifethernet.clk),.udp(ifudpportd001),.reset(reset),.staticnbyte(1472));
-`include "ilaauto.vh"
-
-assign keepadc=|{adc0,adc1,adc2,adc3};
-wire [63:0] adc0;
-wire [63:0] adc1;
-wire [63:0] adc2;
-wire [63:0] adc3;
-wire [63:0] adc4;
-wire [63:0] adc5;
-wire [63:0] adc6;
-wire [63:0] adc7;
-wire [63:0] dac0;
-wire [63:0] dac1;
-wire [63:0] dac2;
-wire [63:0] dac3;
-wire [63:0] dac4;
-wire [63:0] dac5;
-wire [63:0] dac6;
-wire [63:0] dac7;
-
-wire  rx_reset=hwreset;//1'b0;
-wire  tx_reset=hwreset;//1'b0;
-wire  rx_sys_reset=hwreset;//1'b0;
-wire  tx_sys_reset=hwreset;//1'b0;
-//wire [1:0] rx_sync_1;
-//wire [1:0] rx_sync_2;
-//wire  tx_sync_1;
-//wire  tx_sync_2;
-
-axi4lite axi_fmc1_adc0(.aclk(clk125));
-axi4lite axi_fmc1_adc1(.aclk(clk125));
-axi4lite axi_fmc1_dac(.aclk(clk125));
-axi4lite axi_fmc2_adc0(.aclk(clk125));
-axi4lite axi_fmc2_adc1(.aclk(clk125));
-axi4lite axi_fmc2_dac(.aclk(clk125));
-lb_axi4lite #(.AWIDTH(12),.DWIDTH(32))
-lb_axi4lite_fmc1_adc0
-//(.slave(axi_fmc1_adc0),.clk(clk125),.addr(12'h24),.wdata((clk125cnt < 200 )? 32'h10002 : 32'h10000),.wstrb(4'hf),.rdata(),.rdatavalid(),.start(&clk125cnt[5:0]),.w0r1(clk125cnt<400 ? ~clk125cnt[6] : 1'b1),.reset(hwreset));
-(.clk(clk125),.slave(axi_fmc1_adc0),.addr(lb.axifmc1adc0_addr),.wdata(lb.axifmc1adc0_wdata),.wstrb(4'hf),.rdata(lb.axifmc1adc0_rdata),.rdatavalid(lb.axifmc1adc0_rdatavalid),.start(lb.stb_axifmc1adc0_start),.w0r1(lb.axifmc1adc0_w0r1),.reset(hwreset));
-lb_axi4lite #(.AWIDTH(12),.DWIDTH(32))
-lb_axi4lite_fmc1_adc1
-//(.slave(axi_fmc1_adc1),.clk(clk125),.addr(12'h24),.wdata((clk125cnt < 200 )? 32'h10002 : 32'h10000),.wstrb(4'hf),.rdata(),.rdatavalid(),.start(&clk125cnt[5:0]),.w0r1(clk125cnt<400 ? ~clk125cnt[6] : 1'b1),.reset(hwreset));
-(.clk(clk125),.slave(axi_fmc1_adc1),.addr(lb.axifmc1adc1_addr),.wdata(lb.axifmc1adc1_wdata),.wstrb(4'hf),.rdata(lb.axifmc1adc1_rdata),.rdatavalid(lb.axifmc1adc1_rdatavalid),.start(lb.stb_axifmc1adc1_start),.w0r1(lb.axifmc1adc1_w0r1),.reset(hwreset));
-lb_axi4lite #(.AWIDTH(12),.DWIDTH(32))
-lb_axi4lite_fmc1_dac
-//(.slave(axi_fmc1_dac),.clk(clk125),.addr(12'h24),.wdata((clk125cnt < 200 )? 32'h10002 : 32'h10000),.wstrb(4'hf),.rdata(),.rdatavalid(),.start(&clk125cnt[5:0]),.w0r1(clk125cnt<400 ? ~clk125cnt[6] : 1'b1),.reset(hwreset));
-(.clk(clk125),.slave(axi_fmc1_dac),.addr(lb.axifmc1dac_addr),.wdata(lb.axifmc1dac_wdata),.wstrb(4'hf),.rdata(lb.axifmc1dac_rdata),.rdatavalid(lb.axifmc1dac_rdatavalid),.start(lb.stb_axifmc1dac_start),.w0r1(lb.axifmc1dac_w0r1),.reset(hwreset));
-lb_axi4lite #(.AWIDTH(12),.DWIDTH(32))
-lb_axi4lite_fmc2_adc0
-//(.slave(axi_fmc2_adc0),.clk(clk125),.addr(12'h24),.wdata((clk125cnt < 200 )? 32'h10002 : 32'h10000),.wstrb(4'hf),.rdata(),.rdatavalid(),.start(&clk125cnt[5:0]),.w0r1(clk125cnt<400 ? ~clk125cnt[6] : 1'b1),.reset(hwreset));
-(.clk(clk125),.slave(axi_fmc2_adc0),.addr(lb.axifmc2adc0_addr),.wdata(lb.axifmc2adc0_wdata),.wstrb(4'hf),.rdata(lb.axifmc2adc0_rdata),.rdatavalid(lb.axifmc2adc0_rdatavalid),.start(lb.stb_axifmc2adc0_start),.w0r1(lb.axifmc2adc0_w0r1),.reset(hwreset));
-lb_axi4lite #(.AWIDTH(12),.DWIDTH(32))
-lb_axi4lite_fmc2_adc1
-//(.slave(axi_fmc2_adc1),.clk(clk125),.addr(12'h24),.wdata((clk125cnt < 200 )? 32'h10002 : 32'h10000),.wstrb(4'hf),.rdata(),.rdatavalid(),.start(&clk125cnt[5:0]),.w0r1(clk125cnt<400 ? ~clk125cnt[6] : 1'b1),.reset(hwreset));
-(.clk(clk125),.slave(axi_fmc2_adc1),.addr(lb.axifmc2adc1_addr),.wdata(lb.axifmc2adc1_wdata),.wstrb(4'hf),.rdata(lb.axifmc2adc1_rdata),.rdatavalid(lb.axifmc2adc1_rdatavalid),.start(lb.stb_axifmc2adc1_start),.w0r1(lb.axifmc2adc1_w0r1),.reset(hwreset));
-lb_axi4lite #(.AWIDTH(12),.DWIDTH(32))
-lb_axi4lite_fmc2_dac
-(.clk(clk125),.slave(axi_fmc2_dac),.addr(lb.axifmc2dac_addr),.wdata(lb.axifmc2dac_wdata),.wstrb(4'hf),.rdata(lb.axifmc2dac_rdata),.rdatavalid(lb.axifmc2dac_rdatavalid),.start(lb.stb_axifmc2dac_start),.w0r1(lb.axifmc2dac_w0r1),.reset(hwreset));
-//(.slave(axi_fmc2_dac),.clk(clk125),.addr(12'h24),.wdata((clk125cnt < 200 )? 32'h10002 : 32'h10000),.wstrb(4'hf),.rdata(),.rdatavalid(),.start(&clk125cnt[5:0]),.w0r1(clk125cnt<400 ? ~clk125cnt[6] : 1'b1),.reset(hwreset));
-
-jesdfmc120 jesdfmc120_1(.core_clk(hw.fmc1.llmk_dclkout_2)
-,.drpclk(clk125)
-,.qpll_refclk(hw.fmc1.lmk_dclk8_m2c_to_fpga)
-,.rxn_in({hw.fmc1.adc1_db2_n,hw.fmc1.adc1_db1_n,hw.fmc1.adc1_da2_n,hw.fmc1.adc1_da1_n,hw.fmc1.adc0_db2_n,hw.fmc1.adc0_db1_n,hw.fmc1.adc0_da2_n,hw.fmc1.adc0_da1_n})
-,.rxp_in({hw.fmc1.adc1_db2_p,hw.fmc1.adc1_db1_p,hw.fmc1.adc1_da2_p,hw.fmc1.adc1_da1_p,hw.fmc1.adc0_db2_p,hw.fmc1.adc0_db1_p,hw.fmc1.adc0_da2_p,hw.fmc1.adc0_da1_p})
-,.tx_sysref(hw.fmc1.llmk_sclkout_3)
-,.rx_sysref(hw.fmc1.llmk_sclkout_3)
-,.txn_out(hw.fmc1.dac_lane_n)
-,.txp_out(hw.fmc1.dac_lane_p)
-,.axi_adc0(axi_fmc1_adc0)
-,.axi_adc1(axi_fmc1_adc1)
-,.axi_dac(axi_fmc1_dac)
-,.rx_reset(rx_reset)
-,.tx_reset(tx_reset)
-,.rx_sys_reset(rx_sys_reset)
-,.tx_sys_reset(tx_sys_reset)
-,.rx_sync()
-,.tx_sync()
-,.adc0(adc0)
-,.adc1(adc1)
-,.adc2(adc2)
-,.adc3(adc3)
-,.dac0(dac0)
-,.dac1(dac1)
-,.dac2(dac2)
-,.dac3(dac3)
-,.rx_aresetn_0()
-,.rx_aresetn_1()
-,.rx_frame_error()
-,.tx_aresetn()
-,.tx_tready()
-,.adc01_valid()
-,.adc23_valid()
-,.common0_qpll_lock_out()
-,.common1_qpll_lock_out()
-);
-jesdfmc120 jesdfmc120_2(.core_clk(hw.fmc1.llmk_dclkout_2)
-,.drpclk(clk125)
-,.qpll_refclk(hw.fmc2.lmk_dclk8_m2c_to_fpga)
-,.rxn_in({hw.fmc2.adc1_db2_n,hw.fmc2.adc1_db1_n,hw.fmc2.adc1_da2_n,hw.fmc2.adc1_da1_n,hw.fmc2.adc0_db2_n,hw.fmc2.adc0_db1_n,hw.fmc2.adc0_da2_n,hw.fmc2.adc0_da1_n})
-,.rxp_in({hw.fmc2.adc1_db2_p,hw.fmc2.adc1_db1_p,hw.fmc2.adc1_da2_p,hw.fmc2.adc1_da1_p,hw.fmc2.adc0_db2_p,hw.fmc2.adc0_db1_p,hw.fmc2.adc0_da2_p,hw.fmc2.adc0_da1_p})
-,.tx_sysref(hw.fmc2.llmk_sclkout_3)
-,.rx_sysref(hw.fmc2.llmk_sclkout_3)
-,.txn_out(hw.fmc2.dac_lane_n)
-,.txp_out(hw.fmc2.dac_lane_p)
-,.axi_adc0(axi_fmc2_adc0)
-,.axi_adc1(axi_fmc2_adc1)
-,.axi_dac(axi_fmc2_dac)
-,.rx_reset(rx_reset)
-,.tx_reset(tx_reset)
-,.rx_sys_reset(rx_sys_reset)
-,.tx_sys_reset(tx_sys_reset)
-,.rx_sync()
-,.tx_sync()
-,.adc0(adc4)
-,.adc1(adc5)
-,.adc2(adc6)
-,.adc3(adc7)
-,.dac0(dac4)
-,.dac1(dac5)
-,.dac2(dac6)
-,.dac3(dac7)
-,.rx_aresetn_0()
-,.rx_aresetn_1()
-,.rx_frame_error()
-,.tx_aresetn()
-,.tx_tready()
-,.adc01_valid()
-,.adc23_valid()
-,.common0_qpll_lock_out()
-,.common1_qpll_lock_out()
-);
+//`include "ilaauto.vh"
 endmodule

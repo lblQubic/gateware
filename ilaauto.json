@@ -1,79 +1,36 @@
 {
 	"clk":"clk125"
 	,"probes":{
-		"lb.lbwcmd":64
-		,"lb.lbrcmd":64
+		"gmii.txd":8
+		,"gmii.tx_en":1
 		,"gmii.rxd":8
 		,"gmii.rx_dv":1
-		,"gmii.rx_er":1
-		,"gmii.txd":8
-		,"gmii.tx_en":1
-		,"gmii.tx_er":1
-		,"ifethernet.request":1
-		,"ifethernet.rx.datar":8
-		,"ifethernet.rx.dvenr":1
-		,"ifethernet.rx.newframeheadr":1
-		,"ifethernet.rx.dmacr":48
-		,"ifethernet.rx.macr":48
-		,"ifethernet.rx.busyr":1
-		,"ifethernet.ackr":1
-		,"ifethernet.tx.datar":8
-		,"ifethernet.tx.dvenr":1
-		,"ifethernet.tx.newframeheadr":1
-		,"ifethernet.tx.dmacr":48
-		,"ifethernet.tx.macr":48
-		,"ifethernet.tx.busyr":1
-		,"dbrxstate":4
-		,"dbtxstate":4
-		,"ifarpethernet.request":1
-		,"ifipv4.request":1
-		,"clientackw":1
-		,"clientackcodew":16
-		,"reqcntw":5
-		,"ifarpethernet.request":1
-		,"ifarpethernet.rx.datar":8
-		,"ifarpethernet.rx.dvenr":1
-		,"ifarpethernet.rx.newframeheadr":1
-		,"ifarpethernet.rx.dmacr":48
-		,"ifarpethernet.rx.macr":48
-		,"ifarpethernet.rx.busyr":1
-		,"ifarpethernet.ackr":1
-		,"ifarpethernet.tx.datar":8
-		,"ifarpethernet.tx.dvenr":1
-		,"ifarpethernet.tx.newframeheadr":1
-		,"ifarpethernet.tx.dmacr":48
-		,"ifarpethernet.tx.macr":48
-		,"ifarpethernet.tx.busyr":1
-		,"dbarptxstate":4
-		,"dbarprxstate":4
-		,"arp.tx.operr":16
-		,"arp.tx.ipmatchr":1
-		,"arp.rx.operr":16
-		,"arp.rx.ipmatchr":1
-		,"dbarpmatch":1
-		,"dbarpmatch3":3
+		,"ifudp.tx.data":8
+		,"ifudp.tx.dven":1
+		,"ifudp.rx.data":8
+		,"ifudp.rx.dven":1
 		,"ifudp.request":1
 		,"ifudp.dback":1
 		,"ifudp.dbackcode":16
-		,"ifudp.rx.dbdata":8
-		,"ifudp.rx.dbdven":1
-		,"ifudp.tx.dbdata":8
-		,"ifudp.tx.dbdven":1
-		,"ifudpportd000.request":1
-		,"ifudpportd000.dback":1
-		,"ifudpportd000.dbackcode":16
-		,"ifudpportd000.rx.dbdata":8
-		,"ifudpportd000.rx.dbdven":1
-		,"ifudpportd000.tx.dbdata":8
-		,"ifudpportd000.tx.dbdven":1
-		,"ifudpportd001.request":1
-		,"ifudpportd001.dback":1
-		,"ifudpportd001.dbackcode":16
-		,"ifudpportd001.rx.dbdata":8
-		,"ifudpportd001.rx.dbdven":1
-		,"ifudpportd001.tx.dbdata":8
-		,"ifudpportd001.tx.dbdven":1
-		,"dbudprxstate":4
-		,"dbudptxstate":4
+		,"udplb.wcmd":64
+		,"udplb.rcmd":64
+		,"udplb.wvalid":1
+		,"udplb.rready":1
+		,"rxlength":16
+		,"txlength":16
+		,"ifudpportd003.tx.data":8
+		,"ifudpportd003.tx.dven":1
+		,"ifudpportd003.rx.data":8
+		,"ifudpportd003.rx.dven":1
+		,"ifudpportd003.request":1
+		,"ifudpportd003.dback":1
+		,"ifudpportd003.dbackcode":16
+		,"ethreset":1
+		,"sdatx":1
+		,"sdarx":1
+		,"sdaasrx":1
+		,"i2creset":1
+		,"dbscl":1
+		,"reseted125":1
 	}
 }

@@ -5,10 +5,15 @@ localparam DEBUG="true";
 parameter BAUD=9600;
 parameter SIM=0;
 hw hw();
-localbus#(.LBCWIDTH(8),.LBAWIDTH(24),.LBDWIDTH(32))
-localbus();
+//localbus#(.LBCWIDTH(8),.LBAWIDTH(24),.LBDWIDTH(32))
+//uartlocalbus();
+ilocalbus_regmap#(.LBCWIDTH(8),.LBAWIDTH(24),.LBDWIDTH(32))
+lbreg();
 dsp #(.DEBUG(DEBUG)) dsp();
 qubichw qubichw(.hw(hw),.fpga(fpga));
-qubichw_config #(.DEBUG(DEBUG),.BAUD(BAUD),.SIM(SIM))qubichw_config(.hw(hw),.lb(localbus.cfg),.dsp(dsp.cfg));
-qubicdsp qubicdsp(.dsp(dsp.dsp),.lb(localbus.dsp));
+qubichw_config #(.DEBUG(DEBUG),.BAUD(BAUD),.SIM(SIM))qubichw_config(.hw(hw),.lbreg(lbreg.cfg)
+//,.lb(lb.cfg)
+//,.lb(udplocalbus.cfg)
+,.dsp(dsp.cfg));
+qubicdsp qubicdsp(.dsp(dsp.dsp),.lbreg(lbreg.dsp));
 endmodule

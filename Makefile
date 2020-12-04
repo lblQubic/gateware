@@ -77,6 +77,11 @@ gmii.fst: gmii_tb.tcl simclean
 	vivado -mode batch -source $< -tclargs $(TEND)
 	vcd2fst -v  ./vivado_project_sim/gmii.sim/sim_1/behav/xsim/gmii.vcd -f gmii.fst
 	printf "\a"
+
+ddmtd.fst: ddmtd_tb.tcl simclean
+	vivado -mode batch -source $< -tclargs $(TEND)
+	vcd2fst -v  ./vivado_project_sim/ddmtd.sim/sim_1/behav/xsim/ddmtd.vcd -f ddmtd.fst
+	printf "\a"
 #powerup:
 #	ipmiutil power -u -N 192.168.1.202 -U ADMIN -P ADMIN
 #powerdown:
