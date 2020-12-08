@@ -1,30 +1,3 @@
-interface ilocalbus#(parameter LBCWIDTH=8,parameter LBAWIDTH=24,parameter LBDWIDTH=32,parameter WRITECMD=1,parameter READCMD=0,parameter MASTER=1)();
-localparam LBWIDTH=LBCWIDTH+LBAWIDTH+LBDWIDTH;
-wire clk;
-wire [LBWIDTH-1:0] wcmd;
-wire wvalid;
-wire [LBWIDTH-1:0] rcmd;
-wire rready;
-
-wire [LBCWIDTH-1:0] wctrl;
-wire [LBAWIDTH-1:0] waddr;
-wire [LBDWIDTH-1:0] wdata;
-reg [LBCWIDTH-1:0] rctrl;
-reg [LBAWIDTH-1:0] raddr;
-reg [LBDWIDTH-1:0] rdata;
-wire write;
-wire read;
-assign {wctrl,waddr,wdata}=wcmd;
-assign rcmd={rctrl,raddr,rdata};
-assign write=wctrl==writecmd; // 1 for uart, 0 for udp
-assign read=wctrl==readcmd;  // 0 for uart, 0x10 for udp
-wire [LBCWIDTH-1:0] writecmd;
-wire [LBCWIDTH-1:0] readcmd;
-
-endinterface
-
-
-
 interface ilocalbus_regmap#(parameter LBCWIDTH=8,parameter LBAWIDTH=24,parameter LBDWIDTH=32,parameter WRITECMD=1,parameter READCMD=0)();
 
 ilocalbus #(.LBCWIDTH(LBCWIDTH),.LBAWIDTH(LBAWIDTH),.LBDWIDTH(LBDWIDTH),.READCMD(READCMD),.WRITECMD(WRITECMD))

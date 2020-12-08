@@ -1,3 +1,8 @@
+ILA125JSON=ila125auto.json
+ila125auto.tcl: submodules/tools/ila.py $(ILA125JSON)
+	python submodules/tools/ila.py -f $(ILA125JSON) -t $@
+ila125auto.vh: submodules/tools/ila.py $(ILA125JSON)
+	python submodules/tools/ila.py -f $(ILA125JSON) -v $@
 ILAJSON=ilaauto.json
 ilaauto.tcl: submodules/tools/ila.py $(ILAJSON)
 	python submodules/tools/ila.py -f $(ILAJSON) -t $@
