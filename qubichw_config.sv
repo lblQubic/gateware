@@ -138,6 +138,8 @@ wire si5324_out_c;
 IBUFDS_GTE2 mgtrefclk_114_pcie(.I(hw.vc707.si5324_out_c_p),.IB(hw.vc707.si5324_out_c_n),.O(si5324_out_c),.ODIV2(),.CEB(1'b0));
 wire pcie_clk_qo;
 IBUFDS_GTE2 mgtrefclk1_115_pcie(.I(hw.vc707.pcie.clk_qo_p),.IB(hw.vc707.pcie.clk_qo_n),.O(pcie_clk_qo),.ODIV2());
+wire user_clock;
+IBUFGDS user_clock_ibufgds(.I(hw.vc707.user_clock_p),.IB(hw.vc707.user_clock_n),.O(user_clock));
 wire sfpreconnected;
 reg hwreset=0;
 wire hwreset_w;
@@ -241,12 +243,15 @@ areset ethareset(.clk(ethclk),.areset(ethreset_w),.sreset(ethreset));
 //	ethreset<=ethreset_w;
 //end
 wire ethresetdone=~ethreset;
-localparam NSTEP=10;
+wire jesd_reset_done_1;
+wire jesdreset;
+wire axireset;
+localparam NSTEP=12;
 wire [NSTEP-1:0] done;
 wire [NSTEP-1:0] donestrobe;
 wire [NSTEP-1:0] error;
 wire [NSTEP-1:0] resetout;
-wire [NSTEP-1:0] donecriteria={sysclkmmcm_locked,1'b1,1'b1,1'b1,idelayctrl_rdy,qpllresetdone_113,resetdone_sfp,sgmiieth_resetdone,mdioinitdone,ethresetdone};
+wire [NSTEP-1:0] donecriteria={sysclkmmcm_locked,1'b1,1'b1,1'b1,idelayctrl_rdy,qpllresetdone_113,resetdone_sfp,sgmiieth_resetdone,mdioinitdone,ethresetdone,jesd_reset_done_1,1'b1};
 wire [NSTEP-1:0] readycriteria={1'b1,donecriteria[NSTEP-1:1]};
 wire [NSTEP-1:0] resetin={hwreset|poweronreset,donestrobe[NSTEP-1:1]};
 wire [NSTEP*16-1:0] readylength={NSTEP{16'd10}};
@@ -260,7 +265,7 @@ chainreset(.clk(hw.vc707.sysclk)
 wire [NSTEP-2-1:0] dummyready;
 assign readyforreset_sfp=qpllresetdone_113;
 assign readyforreset_eth=resetdone_sfp;
-assign {sysclkmmcm_reset,uartreset,uartlbreset,i2creset,idelayctrl_reset,qpllreset_113,reset_sfp,sgmiieth_reset,mdioreset,ethreset_w}=resetout;
+assign {sysclkmmcm_reset,uartreset,uartlbreset,i2creset,idelayctrl_reset,qpllreset_113,reset_sfp,sgmiieth_reset,mdioreset,ethreset_w,jesdreset,axireset}=resetout;
 reg [NSTEP-1:0] done_r=0;
 reg [NSTEP-1:0] done_r2=0;
 reg [NSTEP-1:0] done_r3=0;
@@ -270,7 +275,7 @@ always@(posedge hw.vc707.sysclk) begin
 end
 always @(posedge clkcfg) begin
 	done_r2<=done_r;
-	done_r3<=done_r3;
+	done_r3<=done_r2;
 end
 data_xdomain #(.size(10)) donexdomain(.clk_in(hw.vc707.sysclk), .gate_in(1'b1), .data_in(done),
 .clk_out(clkcfg),.data_out(done_w));
@@ -322,7 +327,6 @@ mdiomasterinit(.clk(clkcfg)
 // ether_gmii cross wire
 wire [7:0] last_ip_byte=8'b0;
 wire [23:0] lb_addr;
-wire  lb_clk;
 wire [31:0] lb_data_in=32'hdeadbeef;
 wire [31:0] lb_data_out;
 wire  lb_read;
@@ -392,7 +396,6 @@ wire [63:0] dac5;
 wire [63:0] dac6;
 wire [63:0] dac7;
 assign keepadc=|{adc0,adc1,adc2,adc3};
-wire jesdreset;
 wire  rx_reset=jesdreset;//1'b0;
 wire  tx_reset=jesdreset;//1'b0;
 wire  rx_sys_reset=jesdreset;//1'b0;
@@ -401,7 +404,8 @@ wire  tx_sys_reset=jesdreset;//1'b0;
 //wire [1:0] rx_sync_2;
 //wire  tx_sync_1;
 //wire  tx_sync_2;
-wire axireset;
+wire [2:0] dbaxistate;
+wire [2:0] dbaxinext;
 axi4lite axi_fmc1_adc0(.aclk(clkcfg));
 axi4lite axi_fmc1_adc1(.aclk(clkcfg));
 axi4lite axi_fmc1_dac(.aclk(clkcfg));
@@ -410,7 +414,7 @@ axi4lite axi_fmc2_adc1(.aclk(clkcfg));
 axi4lite axi_fmc2_dac(.aclk(clkcfg));
 lb_axi4lite #(.AWIDTH(12),.DWIDTH(32))
 lb_axi4lite_fmc1_adc0
-(.clk(clkcfg),.slave(axi_fmc1_adc0),.addr(lbreg.axifmc1adc0_addr),.wdata(lbreg.axifmc1adc0_wdata),.wstrb(4'hf),.rdata(lbreg.axifmc1adc0_rdata),.rdatavalid(lbreg.axifmc1adc0_rdatavalid),.start(lbreg.stb_axifmc1adc0_start),.w0r1(lbreg.axifmc1adc0_w0r1),.reset(axireset));
+(.clk(clkcfg),.slave(axi_fmc1_adc0),.addr(lbreg.axifmc1adc0_addr),.wdata(lbreg.axifmc1adc0_wdata),.wstrb(4'hf),.rdata(lbreg.axifmc1adc0_rdata),.rdatavalid(lbreg.axifmc1adc0_rdatavalid),.start(lbreg.stb_axifmc1adc0_start),.w0r1(lbreg.axifmc1adc0_w0r1),.reset(axireset),.dbstate(dbaxistate),.dbnext(dbaxinext));
 lb_axi4lite #(.AWIDTH(12),.DWIDTH(32))
 lb_axi4lite_fmc1_adc1
 (.clk(clkcfg),.slave(axi_fmc1_adc1),.addr(lbreg.axifmc1adc1_addr),.wdata(lbreg.axifmc1adc1_wdata),.wstrb(4'hf),.rdata(lbreg.axifmc1adc1_rdata),.rdatavalid(lbreg.axifmc1adc1_rdatavalid),.start(lbreg.stb_axifmc1adc1_start),.w0r1(lbreg.axifmc1adc1_w0r1),.reset(axireset));
@@ -426,6 +430,24 @@ lb_axi4lite_fmc2_adc1
 lb_axi4lite #(.AWIDTH(12),.DWIDTH(32))
 lb_axi4lite_fmc2_dac
 (.clk(clkcfg),.slave(axi_fmc2_dac),.addr(lbreg.axifmc2dac_addr),.wdata(lbreg.axifmc2dac_wdata),.wstrb(4'hf),.rdata(lbreg.axifmc2dac_rdata),.rdatavalid(lbreg.axifmc2dac_rdatavalid),.start(lbreg.stb_axifmc2dac_start),.w0r1(lbreg.axifmc2dac_w0r1),.reset(axireset));
+/*
+reg [11:0] axifmc1adc0_addr=0;
+reg [31:0] axifmc1adc0_wdata=0;
+reg [31:0] axifmc1adc0_rdata=0;
+reg [0:0] axifmc1adc0_rdatavalid=0;
+reg [0:0] stb_axifmc1adc0_start=0;
+reg [0:0] axifmc1adc0_start=0;
+reg [0:0] axifmc1adc0_w0r1=0;
+always @(posedge clkcfg) begin
+axifmc1adc0_addr<=lbreg.axifmc1adc0_addr;
+axifmc1adc0_wdata<=lbreg.axifmc1adc0_wdata;
+axifmc1adc0_rdata<=lbreg.axifmc1adc0_rdata;
+axifmc1adc0_rdatavalid<=lbreg.axifmc1adc0_rdatavalid;
+stb_axifmc1adc0_start<=lbreg.stb_axifmc1adc0_start;
+axifmc1adc0_start<=lbreg.axifmc1adc0_start;
+axifmc1adc0_w0r1<=lbreg.axifmc1adc0_w0r1;
+end
+*/
 
 jesdfmc120 jesdfmc120_1(.core_clk(hw.fmc1.llmk_dclkout_2)
 ,.drpclk(clkcfg)
@@ -462,6 +484,7 @@ jesdfmc120 jesdfmc120_1(.core_clk(hw.fmc1.llmk_dclkout_2)
 ,.adc23_valid()
 ,.common0_qpll_lock_out()
 ,.common1_qpll_lock_out()
+,.reset_done(jesd_reset_done_1)
 );
 jesdfmc120 jesdfmc120_2(.core_clk(hw.fmc1.llmk_dclkout_2)
 ,.drpclk(clkcfg)
@@ -507,6 +530,57 @@ assign hw.fmc1.fpga_sync_out_to_trigmux=dclkcnt[6];
 assign hw.fmc2.fpga_sync_out_to_trigmux=dclkcnt[6];
 OBUFDS obufds_user_sma_clk(.I(dclkcnt[6]),.O(hw.vc707.user_sma_clock_p),.OB(hw.vc707.user_sma_clock_n));
 OBUFDS obufds_user_sma_gpio(.I(dclkcnt[6]),.O(hw.vc707.user_sma_gpio_p),.OB(hw.vc707.user_sma_gpio_n));
+
+localparam NFCNT = 16;
+wire [28*NFCNT-1:0] freq_cnt;
+assign {lbreg.freq_lb
+,lbreg.freq_sgmiiclk
+,lbreg.freq_sma_mgt_refclk
+,lbreg.freq_si5324_out_c
+,lbreg.freq_pcie_clk_qo
+,lbreg.freq_user_clock
+,lbreg.freq_fmc1_llmk_dclkout_2
+,lbreg.freq_fmc1_llmk_sclkout_3
+,lbreg.freq_fmc1_lmk_dclk8_m2c_to_fpga
+,lbreg.freq_fmc1_lmk_dclk10_m2c_to_fpga
+,lbreg.freq_fmc2_llmk_dclkout_2
+,lbreg.freq_fmc2_llmk_sclkout_3
+,lbreg.freq_fmc2_lmk_dclk8_m2c_to_fpga
+,lbreg.freq_fmc2_lmk_dclk10_m2c_to_fpga
+,lbreg.freq_rxusrclk_sfp
+,lbreg.freq_txusrclk_sfp
+}=freq_cnt;
+wire [NFCNT-1:0] freqcnt_clks = {
+lbreg.lb.clk
+,sgmiiclk
+,sma_mgt_refclk
+,si5324_out_c
+,pcie_clk_qo
+,user_clock
+,hw.fmc1.llmk_dclkout_2
+,hw.fmc1.llmk_sclkout_3
+,hw.fmc1.lmk_dclk8_m2c_to_fpga
+,hw.fmc1.lmk_dclk10_m2c_to_fpga
+,hw.fmc2.llmk_dclkout_2
+,hw.fmc2.llmk_sclkout_3
+,hw.fmc2.lmk_dclk8_m2c_to_fpga
+,hw.fmc2.lmk_dclk10_m2c_to_fpga
+,rxusrclk_sfp
+,txusrclk_sfp
+};
+
+genvar jx;
+generate for (jx=0; jx<NFCNT; jx=jx+1)
+    begin: gen_fcnt
+        freq_count freq_count(
+            .clk        (freqcnt_clks[jx]),
+            .usbclk     (lbreg.lb.clk),
+            .frequency  (freq_cnt[jx*28+27:jx*28])
+        );
+    end
+endgenerate
+
+
 
 /*reg [3*7-1:0] daddrsr={7'h0,7'h14,7'h1c};
 localparam RESETCNT=200;
@@ -603,6 +677,6 @@ always @(posedge hw.vc707.sysclk) begin
 	dbresetin<=resetin;
 end
 */
-//`include "ilaauto.vh"
+`include "ilaauto.vh"
 //`include "ila125auto.vh"
 endmodule

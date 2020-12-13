@@ -27,8 +27,14 @@ reg si5324clk=0;
 initial begin
     forever #(0.5) si5324clk=~si5324clk;
 end
+reg ghzclk=0;
+initial begin
+    forever #(0.5) ghzclk=~ghzclk;
+end
 hw hw();
 vc707_sim vc707_sim(.fpga(fpga),.hw(hw.vc707.sim));
+fmc120_sim fmc1(.fmcpin(hw.vc707.fmc1pin),.fmc120(hw.fmc1.sim));
+fmc120_sim fmc2(.fmcpin(hw.vc707.fmc2pin),.fmc120(hw.fmc2.sim));
 assign hw.vc707.sysclk=sysclk;
 assign hw.vc707.sgmiiclk_q0_p=sgmiiclk;
 assign hw.vc707.sgmiiclk_q0_n=~sgmiiclk;
@@ -38,6 +44,14 @@ assign hw.vc707.pcie.clk_qo_p=1'b0;
 assign hw.vc707.pcie.clk_qo_n=1'b1;
 assign hw.vc707.sma_mgt_refclk_p=1'b0;
 assign hw.vc707.sma_mgt_refclk_n=1'b1;
+assign hw.fmc1.llmk_dclkout_2=ghzclk;
+assign hw.fmc1.llmk_sclkout_3=0;
+assign hw.fmc1.lmk_dclk8_m2c_to_fpga=0;
+assign hw.fmc1.lmk_dclk10_m2c_to_fpga=0;
+assign hw.fmc2.llmk_dclkout_2=ghzclk;
+assign hw.fmc2.llmk_sclkout_3=0;
+assign hw.fmc2.lmk_dclk8_m2c_to_fpga=0;
+assign hw.fmc2.lmk_dclk10_m2c_to_fpga=0;
 //assign hw.vc707.usb2uart.tx=0;
 //assign hw.vc707.usb2uart.rx=0;
 localparam BAUD=9600000;
@@ -273,4 +287,59 @@ end
 assign gmii.tx_en= |datasr;
 assign gmii.tx_er= 1'b0;
 assign gmii.txd=datasr[8*NBYTES-1:8*NBYTES-8];
+wire trig100=sgmiiclkcnt[31:1]==100;
+reg trig100_r=0;
+wire [11:0] addr;
+wire [31:0] wdata;
+wire [31:0] rdata;
+wire rdatavalid;
+wire start;
+wire w0r1;
+wire busy;
+reg start_d=0;
+always @(posedge qubic.lbreg.lb.clk) begin
+
+if (start) begin
+	//lbrxdata_r<=lbrxdatafifo;
+	//lbrxdv_r<=lbrxdvfifo;
+//	qubic.qubichw_config.udplb64.lbrxdata_r={8'h00,24'd32,32'h12345679};
+//	qubic.qubichw_config.udplb64.lbrxdv_r=1'b1;
+	qubic.lbreg.reg_axifmc1adc0_addr=addr;
+	qubic.lbreg.reg_axifmc1adc0_wdata=wdata;
+	qubic.lbreg.reg_axifmc1adc0_w0r1=w0r1;
+	qubic.lbreg.reg_axifmc1adc0_start=start;
+	qubic.qubichw_config.udplb64.lbrxdata_r={8'h00,24'd32,32'h0};
+	qubic.qubichw_config.udplb64.lbrxdv_r=1'b1;
+end
+else begin qubic.qubichw_config.udplb64.lbrxdata_r<={8'h00,24'd0,32'h0}; qubic.qubichw_config.udplb64.lbrxdv_r<=1'b0; end
+end
+assign busy=qubic.qubichw_config.lb_axi4lite_fmc1_adc0.busy;
+//assign qubic.qubichw_config.udplb64.lbrxdatafifo= trig100 ? {8'h00,24'd32,32'h12345679} : 0;
+//assign qubic.qubichw_config.udplb64.lbrxdvfifo= trig100 ? 1'b1 :0;
+
+
+localparam LINE=4000;
+localparam W0R1ADDRDATA={1'b1,12'h4,32'h1
+,1'b0,12'h8,32'h1
+,1'b1,12'h4,32'h1
+,1'b0,12'h20,32'h7
+,1'b1,12'h4,32'h1
+,1'b0,12'h2c,32'h0
+,1'b1,12'h4,32'h1
+,1'b0,12'h2c,32'h0
+,1'b1,12'h4,32'h1
+,1'b0,12'h4,32'h1
+,{(LINE-14){1'b1,12'h4,32'h1}}
+};
+reg [15:0] cnt=0;
+reg busy_d=0;
+always @(posedge sgmiiclk) begin
+    busy_d<=busy;
+    if (~busy&busy_d & cnt<LINE & (sgmiiclkcnt>100))
+        cnt<=cnt+1;
+end
+localparam WADWIDTH=1+12+32;
+assign {w0r1,addr,wdata}=W0R1ADDRDATA[(LINE-1-cnt)*WADWIDTH+:WADWIDTH];
+assign start=~busy & cnt<LINE-1;
+
 endmodule

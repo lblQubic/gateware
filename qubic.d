@@ -62,3 +62,4 @@ submodules/fpga-family/gtx/gticc_common.sv
 submodules/fpga-family/gtx/gticc_gt.sv
 sysclkmmcm.v
 xadc.tcl
+submodules/common-hdl/freq_count.v

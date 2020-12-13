@@ -63,4 +63,20 @@
 ,"axifmc2dac_rdatavalid": {"access": "r","addr_width": 0,"base_addr": 61,"data_width": 1,"sign": "unsigned","init": 0}
 ,"axifmc2dac_start": {"access": "rw","addr_width": 0,"base_addr": 62,"data_width": 1,"sign": "unsigned","init": 0}
 ,"axifmc2dac_w0r1": {"access": "rw","addr_width": 0,"base_addr": 63,"data_width": 1,"sign": "unsigned","init": 0}
+,"freq_lb": {"access": "r","addr_width": 0,"base_addr": 64,"data_width": 28,"sign": "unsigned","init": 0}
+,"freq_sgmiiclk": {"access": "r","addr_width": 0,"base_addr": 65,"data_width": 28,"sign": "unsigned","init": 0}
+,"freq_sma_mgt_refclk": {"access": "r","addr_width": 0,"base_addr": 66,"data_width": 28,"sign": "unsigned","init": 0}
+,"freq_si5324_out_c": {"access": "r","addr_width": 0,"base_addr": 67,"data_width": 28,"sign": "unsigned","init": 0}
+,"freq_pcie_clk_qo": {"access": "r","addr_width": 0,"base_addr": 68,"data_width": 28,"sign": "unsigned","init": 0}
+,"freq_user_clock": {"access": "r","addr_width": 0,"base_addr": 69,"data_width": 28,"sign": "unsigned","init": 0}
+,"freq_fmc1_llmk_dclkout_2": {"access": "r","addr_width": 0,"base_addr": 70,"data_width": 28,"sign": "unsigned","init": 0}
+,"freq_fmc1_llmk_sclkout_3": {"access": "r","addr_width": 0,"base_addr": 71,"data_width": 28,"sign": "unsigned","init": 0}
+,"freq_fmc1_lmk_dclk8_m2c_to_fpga": {"access": "r","addr_width": 0,"base_addr": 72,"data_width": 28,"sign": "unsigned","init": 0}
+,"freq_fmc1_lmk_dclk10_m2c_to_fpga": {"access": "r","addr_width": 0,"base_addr": 73,"data_width": 28,"sign": "unsigned","init": 0}
+,"freq_fmc2_llmk_dclkout_2": {"access": "r","addr_width": 0,"base_addr": 74,"data_width": 28,"sign": "unsigned","init": 0}
+,"freq_fmc2_llmk_sclkout_3": {"access": "r","addr_width": 0,"base_addr": 75,"data_width": 28,"sign": "unsigned","init": 0}
+,"freq_fmc2_lmk_dclk8_m2c_to_fpga": {"access": "r","addr_width": 0,"base_addr": 76,"data_width": 28,"sign": "unsigned","init": 0}
+,"freq_fmc2_lmk_dclk10_m2c_to_fpga": {"access": "r","addr_width": 0,"base_addr": 77,"data_width": 28,"sign": "unsigned","init": 0}
+,"freq_rxusrclk_sfp": {"access": "r","addr_width": 0,"base_addr": 78,"data_width": 28,"sign": "unsigned","init": 0}
+,"freq_txusrclk_sfp": {"access": "r","addr_width": 0,"base_addr": 79,"data_width": 28,"sign": "unsigned","init": 0}
 }
