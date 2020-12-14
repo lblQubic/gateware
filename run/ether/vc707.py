@@ -6,19 +6,17 @@ import devcom
 from ether import c_ether
 from uartlb import c_uartlb
 from regmap import c_regmap
+from fmc120 import c_fmc120
+import si570
 class c_vc707:
-	def __init__(self):
-		self.udplb=c_ether('192.168.1.224',port=0xd003)
-		#dev=devcom.devcom(devcom.sndev)
-		#vc707uart=dev['vc707uart']
-		#self.uartlb=c_uartlb(vc707uart,9600,0)
-		self.regmap=c_regmap(self.udplb)
+	def __init__(self,regmap):
+		self.regmap=regmap
+		self.i2csw={'si570':1,'fmc1':2,'fmc2':4,'eeprom':8,'sfp':16,'hdmi':32,'ddr3':64,'si5324':128}
+
 	def write(self,namedatalist):
 		return self.regmap.write(namedatalist)
 	def read(self,names):
 		vals=self.regmap.read(names)
-		if len(vals)==1:
-			vals=vals[0]
 		return vals
 	def i2creadwrite(self,devaddr,r1w0,data,nack,stop=1,regs={'i2cdatatx':'i2cdatatx','i2cstart':'i2cstart','i2cdatarx':'i2cdatarx','i2crxvalid':'i2crxvalid','i2cclk4ratio':'clk4ratio','i2cmux_reset_b':'i2cmux_reset_b'}):
 		r0=((devaddr&0x7f)<<25)+((r1w0&1)<<24)+(data&0xffffff)
@@ -36,6 +34,7 @@ class c_vc707:
 
 		return self.regmap.getregval([regname])
 	def i2cwrite(self,devaddr,data,nack=2,stop=1):
+		#print('i2cwrite',devaddr,data)
 		data=data<<((4-nack)*8)
 		self.i2creadwrite(devaddr=devaddr&0x7f,r1w0=0,data=data,nack=nack,stop=stop)
 	def i2cread(self,devaddr,nack=2):
@@ -43,6 +42,13 @@ class c_vc707:
 #   print('i2cread',hex(int(v)))
 		return v
 
+	def i2cswitch(self,i2cdest):
+		#	self.i2cenable()
+		print('i2cswitch i2cdest',i2cdest)
+		if i2cdest in self.i2csw.keys():
+			self.i2cwrite(devaddr=0x74,data=self.i2csw[i2cdest]);
+		else:
+			print('i2cswitch options: %s'%'|'.join(self.i2csw.keys()))
 
 	def devwrite(self,devaddr,addrdata,nack=2,stop=1):
 		self.i2cwrite(devaddr=devaddr&0x7f,data=addrdata,nack=nack,stop=stop)
@@ -50,93 +56,6 @@ class c_vc707:
 		self.devwrite(devaddr=devaddr,addrdata=addrdata,nack=2,stop=0)
 		v=self.i2cread(devaddr=devaddr,nack=nack)
 		return v
-
-
-#  For FMC120 init
-	def cpldwrite(self,addr,data,nack=3,devaddr=0x1c):
-		addrdata=(addr<<8)+(data<<0)
-		self.devwrite(devaddr=devaddr,addrdata=addrdata,nack=nack)
-	def cpldread(self,addr,nack=2,devaddr=0x1c):
-		addrdata=(addr)
-		val=self.devread(addrdata=addrdata,devaddr=devaddr,nack=nack)
-		return val&0xff
-	def spiwrite(self,cmd24,action):
-		data08=(cmd24>>16)&0xff
-		data07=(cmd24>>8)&0xff
-		data06=(cmd24>>0)&0xff
-		#print([hex(i) for i in [cmd24,data08,data07,data06]])
-		self.cpldwrite(addr=0x08,data=data08)
-		self.cpldwrite(addr=0x07,data=data07)
-		self.cpldwrite(addr=0x06,data=data06)
-		self.cpldwrite(addr=0x00,data=action)
-#	cpldwrite(addr=0x00,data=action)
-	def spiread(self,cmd24,action):
-		self.spiwrite(cmd24,action)
-		#ver=cpldread(addr=0x05)
-		#print('cpldread ver',hex(ver))
-#	time.sleep(0.5)
-		vlsb=self.cpldread(addr=0x0e)
-		vmsb=self.cpldread(addr=0x0f)
-		return (vmsb,vlsb)
-	def lmkcmd(self,r1w0,addr,data,w1w0=0):
-		cmd24=((r1w0&0x1)<<23)+((w1w0&0x3)<<21)+((addr&0x1fff)<<8)+((data&0xff)<<0)
-		return cmd24
-	def lmkwrite(self,addr,data):
-		cmd24=self.lmkcmd(r1w0=0,addr=addr,data=data)
-		self.spiwrite(cmd24=cmd24,action=0x01)
-	def lmkread(self,addr):
-		cmd24=self.lmkcmd(r1w0=1,addr=addr,data=0)
-		vmsb,vlsb=self.spiread(cmd24=cmd24,action=0x01)
-		return vlsb
-	def adccmd(self,r1w0,m,p,ch,addr,data,w1w0=0):
-		cmd24=((r1w0&0x1)<<23)+((m&0x1)<<22)+((p&0x1)<<21)+((ch&0x1)<<20)+((addr&0xfff)<<8)+((data&0xff)<<0)
-		#cmd24=((r1w0&0x1)<<23)+((addr&0x7fff)<<8)+((data&0xff)<<0)
-		#print(format(cmd24,'04x'))
-		return cmd24
-	def adcwrite(self,addr,m,p,ch,data,adca0b1):
-		cmd24=self.adccmd(r1w0=0,m=m,p=p,ch=ch,addr=addr,data=data)
-		self.spiwrite(cmd24=cmd24,action=0x04 if adca0b1==0 else 0x08)
-	def adcread(self,addr,adca0b1,m=0,p=0,ch=0):
-		cmd24=self.adccmd(r1w0=1,addr=addr,data=0,m=m,p=p,ch=ch)
-		vmsb,vlsb=self.spiread(cmd24=cmd24,action=0x04 if adca0b1==0 else 0x08)
-		return vlsb
-	def daccmd(self,r1w0,addr,data):
-		cmd24=((r1w0&0x1)<<23)+((addr&0x7f)<<16)+((data&0xffff)<<0)
-		return cmd24
-	def dacwrite(self,addr,data):
-		cmd24=self.daccmd(r1w0=0,addr=addr,data=data)
-		self.spiwrite(cmd24=cmd24,action=0x02)
-	def dacread(self,addr):
-		cmd24=self.daccmd(r1w0=1,addr=addr,data=0)
-		vmsb,vlsb=self.spiread(cmd24=cmd24,action=0x02)
-		return ((vmsb&0xff)<<8)+(vlsb&0xff)
-	def ad7291cmd(self,r1w0,addr,data):
-		cmd24=((r1w0&0x1)<<23)+((addr&0x7f)<<16)+((data&0xffff)<<0)
-		return cmd24
-	def ad7291write(self,addr,data):
-		addrdata=((addr&0xff)<<16)+(data&0xffff)
-		self.devwrite(devaddr=0x2f,addrdata=addrdata,nack=4)
-	def ad7291calc(self,val):
-		chan=(val>>12)&0xf
-		val12=val&0xfff
-		if chan in [0,1,2,3]:
-			voltage=val12*0.0006105
-		elif chan in [4,5,6]:
-			voltage=val12*0.001221
-		elif chan in [7]:
-			voltage=((4095-(val12+2047))*(-0.0016117))
-		elif chan in [8,9]:
-			voltage=val12/4.0
-		else:
-			print('which chan? chan=',chan)
-			voltage=0
-#	print(hex(val),chan,hex(val12),voltage)
-		return (chan,voltage)
-	def ad7291read(self,addr):
-		addrdata=((addr&0xff))#<<16)
-		val=self.devread(devaddr=0x2f,addrdata=addrdata,nack=3)
-		return val
-
 
 	def eepromcmd(self,r1w0,addr,data):
 		cmd24=((r1w0&0x1)<<23)+((addr&0x7f)<<16)+((data&0xffff)<<0)
@@ -165,15 +84,49 @@ class c_vc707:
 		addrdata=((addr&0xff))#<<16)
 		val=self.devread(devaddr=devaddr,addrdata=addrdata,nack=2)
 		return val&0xff
+	def si570reset(self):
+		for addr,data in si570.reset:
+			self.si570write(addr,data)
+	def si570readinit(self):
+		self.si570reset()
+		return self.si570readallregs()
+	def si570readallregs(self):
+		si570regs={}
+		for addr,data in si570.default:
+			si570regs[addr]=self.si570read(addr)
+		return si570regs
+	def si570setfreq(self,freq):
+		initreg=self.si570readinit()
+		newregs=si570.fset(freq,si570.fxtal(initreg))
+		print(newregs)
+		if len(newregs)>0:
+			newreg=newregs[0]
+			print(newreg)
+			self.si570write(addr=137,data=initreg[137]|0x10)
+			for addr,data in newreg.items():
+				self.si570write(addr=addr,data=data)
+			self.si570write(addr=137,data=0*initreg[137]&0xef)
+		else:
+			print('failed find setting')
+	def si5324write(self,addr,data,devaddr=0x68):
+		addrdata=((addr&0xff)<<8)+(data)
+		self.devwrite(devaddr=devaddr,addrdata=addrdata,nack=3)
+	def si5324read(self,addr,devaddr=0x68):
+		addrdata=((addr&0xff))#<<16)
+		val=self.devread(devaddr=devaddr,addrdata=addrdata,nack=2)
+		return val&0xff
 	def sfpinfo(self):
-		self.i2cwrite(devaddr=0x74,data=16)#0x04)
-		print('mux read',self.i2cread(devaddr=0x74))
+		#		self.i2cwrite(devaddr=0x74,data=16)#0x04)
+		self.i2cswitch('sfp')
+		#print('mux read',self.i2cread(devaddr=0x74))
 		vals=[]
 		for addr in range(128):
 			val=self.sfpread(addr=addr)[0]
 			vals.append(val)
 #			print('sfp addr ',hex(addr),addr,'value',hex(val),chr(val))
 		return vals
+
+
 	def axi4lite_readwrite(self,axi,addr,w0r1,wdata):
 		# axi for the name of the axi: axifmc[1/2][adc1/2|dac]
 		self.write(((axi+'_addr',addr),(axi+'_wdata',wdata),(axi+'_w0r1',w0r1),(axi+'_start',0)))
@@ -211,9 +164,8 @@ class c_vc707:
 			ireset=ireset+1
 
 
-
 if __name__=="__main__":
-	vc707=c_vc707()
+	vc707=c_qubichw()
 
 	if (1):
 		print('test, test1',vc707.read(('test','test1','test1','test1','test','test','test','test','test','test','test','test2','test1')))
@@ -224,7 +176,8 @@ if __name__=="__main__":
 	vc707.write((('i2cmux_reset_b',1),))
 
 	print('prsnt,pgm2c,should  be [0,3], read:',vc707.read(('fmcprsnt','fmcpgm2c')))
-	fmcdest=4
+	dest=vc707.fmc120_1
+	fmcdest=dest.i2cid
 	if len(sys.argv)>1:
 		fmcdest=int(sys.argv[1])
 	vc707.i2cwrite(devaddr=0x74,data=fmcdest);#int(sys.argv[1]))
@@ -329,7 +282,7 @@ if __name__=="__main__":
 #			lmkinit=json.load(f)
 		#for addr in [0,2,3,4,5,6,0xc,0xd,0x100,0x101,0x103,0x104]:
 		for addr,data in lmk04828.default:
-			rdbk=vc707.lmkread(addr=addr)[0]
+			rdbk=dest.lmkread(addr=addr)[0]
 			if data==rdbk:
 				pass
 			else:
@@ -338,7 +291,7 @@ if __name__=="__main__":
 	#		vc707.lmkwrite(addr=addr,data=data)
 
 		for addr,data in lmk04828.init:
-			vc707.lmkwrite(addr=addr,data=data)
+			dest.lmkwrite(addr=addr,data=data)
 	if 0:
 		for addr in [1,2,3,4,5,6,7,8,0x0e,0x0f]:
 			print('cpldread',hex(addr),hex(int(vc707.cpldread(addr=addr)[0])))
@@ -397,7 +350,7 @@ if __name__=="__main__":
 #		rdatavalid=vc707.read(('axifmc1adc0_rdatavalid',))
 #		print(rdatavalid)
 #		time.sleep(0.1)
-	if 1:
+	if 0:
 		import axiinit
 		axiinsts={2:['axifmc1adc0','axifmc1adc1','axifmc1dac'],4:['axifmc2adc0','axifmc2adc1','axifmc2dac']}
 		for axi in axiinsts[fmcdest]:

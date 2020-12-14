@@ -530,6 +530,8 @@ assign hw.fmc1.fpga_sync_out_to_trigmux=dclkcnt[6];
 assign hw.fmc2.fpga_sync_out_to_trigmux=dclkcnt[6];
 OBUFDS obufds_user_sma_clk(.I(dclkcnt[6]),.O(hw.vc707.user_sma_clock_p),.OB(hw.vc707.user_sma_clock_n));
 OBUFDS obufds_user_sma_gpio(.I(dclkcnt[6]),.O(hw.vc707.user_sma_gpio_p),.OB(hw.vc707.user_sma_gpio_n));
+OBUFDS obufds_rec_clk(.I(hw.fmc1.llmk_dclkout_2),.O(hw.vc707.rec_clock_c_p),.OB(hw.vc707.rec_clock_c_n));
+assign hw.vc707.si5324_rst=lbreg.si5324_rst;
 
 localparam NFCNT = 16;
 wire [28*NFCNT-1:0] freq_cnt;

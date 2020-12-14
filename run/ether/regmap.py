@@ -192,7 +192,10 @@ class c_regmap(c_localbus):
 		#return result
 #		print result
 	def getregval(self,names):
-		return numpy.array([self.regs[name].getvalue() for name in names])
+		vals=numpy.array([self.regs[name].getvalue() for name in names])
+		if (len(vals))==1:
+			vals=vals[0]
+		return vals
 	def readregval(self,name):
 		self.read(names=[name])
 

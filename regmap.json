@@ -79,4 +79,5 @@
 ,"freq_fmc2_lmk_dclk10_m2c_to_fpga": {"access": "r","addr_width": 0,"base_addr": 77,"data_width": 28,"sign": "unsigned","init": 0}
 ,"freq_rxusrclk_sfp": {"access": "r","addr_width": 0,"base_addr": 78,"data_width": 28,"sign": "unsigned","init": 0}
 ,"freq_txusrclk_sfp": {"access": "r","addr_width": 0,"base_addr": 79,"data_width": 28,"sign": "unsigned","init": 0}
+,"si5324_rst": {"access": "rw","addr_width": 0,"base_addr": 80,"data_width": 1,"sign": "unsigned","init": 0}
 }
