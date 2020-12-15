@@ -1,0 +1,29 @@
+{
+	"clk":"ethclk"
+	,"probes":{
+		"gmii.txd":8
+		,"gmii.tx_en":1
+		,"gmii.rxd":8
+		,"gmii.rx_dv":1
+		,"ifudp.tx.data":8
+		,"ifudp.tx.dven":1
+		,"ifudp.rx.data":8
+		,"ifudp.rx.dven":1
+		,"ifudp.request":1
+		,"ifudp.dback":1
+		,"ifudp.dbackcode":16
+		,"udplb.wcmd":64
+		,"udplb.rcmd":64
+		,"udplb.wvalid":1
+		,"udplb.rready":1
+		,"rxlength":16
+		,"txlength":16
+		,"ifudpportd003.tx.data":8
+		,"ifudpportd003.tx.dven":1
+		,"ifudpportd003.rx.data":8
+		,"ifudpportd003.rx.dven":1
+		,"ifudpportd003.request":1
+		,"ifudpportd003.dback":1
+		,"ifudpportd003.dbackcode":16
+	}
+}
