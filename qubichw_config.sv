@@ -124,11 +124,106 @@ wire sdatx;
 wire sdarx;
 wire sdaasrx;
 wire i2creset;
+wire i2cresetdone;
 wire  dbscl=hw.vc707.iic.scl;
+wire [3:0] nack;
+wire stopbit;
+wire [31:0] i2cdatatx;
+wire [31:0] i2cdatarx;
+wire i2crxvalid;
+wire i2cstart;
+wire i2cinitdone;
+wire [36:0] i2ccmd;
+reg [36:0] i2ccmd_r=0;
+reg [36:0] i2ccmd_rd=0;
+wire [32:0] i2cresult;
+wire i2cinitreset;
+wire si2cinitreset;
 IOBUF sdaiobuf (.IO(hw.vc707.iic.sda),.I(sdatx),.O(sdarx),.T(sdaasrx));
 i2cmaster #(.MAXNACK(4),.CLK4RATIO(2500))
-i2cmaster (.clk(clkcfg),.nack(lbreg.i2cstart[3:0]),.stopbit(lbreg.i2cstart[4]),.sdatx(sdatx),.sdarx(sdarx),.sdaasrx(sdaasrx),.scl(hw.vc707.iic.scl),.clk4ratio(lbreg.clk4ratio),.start(lbreg.stb_i2cstart),.datatx(lbreg.i2cdatatx),.datarx(lbreg.i2cdatarx),.rxvalid(lbreg.i2crxvalid),.rst(i2creset));
-assign hw.vc707.iic.mux_reset_b=lbreg.i2cmux_reset_b;
+i2cmaster (.clk(clkcfg)
+,.sdatx(sdatx)
+,.sdarx(sdarx)
+,.sdaasrx(sdaasrx)
+,.scl(hw.vc707.iic.scl)
+,.clk4ratio(SIM ? 2 : lbreg.clk4ratio)
+,.nack(nack)//lbreg.i2cstart[3:0])
+,.stopbit(stopbit)//lbreg.i2cstart[4])
+,.datatx(i2cdatatx)//lbreg.i2cdatatx)
+,.datarx(i2cdatarx)//lbreg.i2cdatarx)
+,.resetdone(i2cresetdone)
+,.start(i2cstart)//lbreg.stb_i2cstart)
+,.rxvalid(i2crxvalid)//lbreg.i2crxvalid)
+,.rst(i2creset)
+);
+assign hw.vc707.iic.mux_reset_b=lbreg.i2cmux_reset_b | ~i2cinitdone;
+assign {stopbit,nack,i2cdatatx}=i2ccmd;
+wire [3:0] dbi2cstate;
+wire [3:0] dbi2cnext;
+wire dbsi2cinitreset;
+seqinit #(.INITWIDTH(32+4+1),.INITLENGTH(21),.RESULTWIDTH(33)
+,.INITCMDS({{1'h1,4'h2,32'he8080000}
+,{1'h0,4'h2,32'ha8000000}
+,{1'h1,4'h2,32'ha9000000}
+,{1'h0,4'h2,32'ha8010000}
+,{1'h1,4'h2,32'ha9000000}
+,{1'h0,4'h2,32'ha8020000}
+,{1'h1,4'h2,32'ha9000000}
+,{1'h0,4'h2,32'ha8030000}
+,{1'h1,4'h2,32'ha9000000}
+,{1'h0,4'h2,32'ha8040000}
+,{1'h1,4'h2,32'ha9000000}
+,{1'h0,4'h2,32'ha8050000}
+,{1'h1,4'h2,32'ha9000000}
+,{1'h0,4'h2,32'ha8060000}
+,{1'h1,4'h2,32'ha9000000}
+,{1'h0,4'h2,32'ha8070000}
+,{1'h1,4'h2,32'ha9000000}
+,{1'h0,4'h2,32'ha8080000}
+,{1'h1,4'h2,32'ha9000000}
+,{1'h0,4'h2,32'ha8090000}
+,{1'h1,4'h2,32'ha9000000}
+}))
+i2cinit(.clk(clkcfg)
+,.areset(i2cinitreset)
+,.cmd(i2ccmd)
+,.resultwire({i2crxvalid,i2cdatarx})
+,.start(i2cstart)
+,.runing(~i2crxvalid)
+,.initdone(i2cinitdone)
+,.result(i2cresult)
+,.livecmd({lbreg.i2cstart[4],lbreg.i2cstart[3:0],lbreg.i2cdatatx})
+,.livestart(lbreg.stb_i2cstart)
+,.dbsreset(dbsi2cinitreset)
+,.dbstate(dbi2cstate)
+,.dbnext(dbi2cnext)
+);
+assign {lbreg.i2crxvalid[0],lbreg.i2cdatarx}=i2cresult;
+reg i2crxvalid_d=0;
+reg i2crxvalid_d2=0;
+reg [31:0] i2cdatarx_d=0;
+reg [48+32:0] eepromrd=0;
+reg [7:0] i2cswlocation=0;
+reg i2cinitdone_d=0;
+reg i2cinitdone_d2=0;
+always @(posedge clkcfg) begin
+	i2cinitdone_d<=i2cinitdone;
+	i2cinitdone_d2<=i2cinitdone_d;
+
+	{i2crxvalid_d,i2cdatarx_d}<=i2cresult;
+	i2crxvalid_d2<=i2crxvalid_d;
+	i2ccmd_r<=i2ccmd;
+	i2ccmd_rd<=i2ccmd_r;
+	if (~i2cinitdone_d & i2crxvalid_d & ~i2crxvalid_d2 & (i2cswlocation==8) & i2ccmd_rd[24]) begin
+		eepromrd<={eepromrd[80-8-1:0],i2cdatarx_d[7:0]};
+	end
+	if ((i2ccmd_rd&{1'b1,4'hf,32'hff00ffff})=={1'h1,4'h2,32'he8000000}) begin
+	//if ((i2ccmd[31+5:24+5]==8'he8)&&(i2ccmd[15:0]=={16'h0,1'h1,4'h2})) begin
+		i2cswlocation<=i2ccmd_rd[23:16];
+	end
+
+end
+assign {lbreg.macmsb24,lbreg.maclsb24,lbreg.ipaddr}=eepromrd;
 
 wire sgmiiclk;
 IBUFDS_GTE2 mgtrefclk_113_sgmii(.I(hw.vc707.sgmiiclk_q0_p),.IB(hw.vc707.sgmiiclk_q0_n),.O(sgmiiclk),.ODIV2(),.CEB(1'b0));
@@ -246,12 +341,12 @@ wire ethresetdone=~ethreset;
 wire jesd_reset_done_1;
 wire jesdreset;
 wire axireset;
-localparam NSTEP=12;
+localparam NSTEP=13;
 wire [NSTEP-1:0] done;
 wire [NSTEP-1:0] donestrobe;
 wire [NSTEP-1:0] error;
 wire [NSTEP-1:0] resetout;
-wire [NSTEP-1:0] donecriteria={sysclkmmcm_locked,1'b1,1'b1,1'b1,idelayctrl_rdy,qpllresetdone_113,resetdone_sfp,sgmiieth_resetdone,mdioinitdone,ethresetdone,jesd_reset_done_1,1'b1};
+wire [NSTEP-1:0] donecriteria={sysclkmmcm_locked,1'b1,1'b1,i2cresetdone,idelayctrl_rdy,qpllresetdone_113,resetdone_sfp,sgmiieth_resetdone,i2cinitdone,mdioinitdone,ethresetdone,jesd_reset_done_1,1'b1};
 wire [NSTEP-1:0] readycriteria={1'b1,donecriteria[NSTEP-1:1]};
 wire [NSTEP-1:0] resetin={hwreset|poweronreset,donestrobe[NSTEP-1:1]};
 wire [NSTEP*16-1:0] readylength={NSTEP{16'd10}};
@@ -265,7 +360,7 @@ chainreset(.clk(hw.vc707.sysclk)
 wire [NSTEP-2-1:0] dummyready;
 assign readyforreset_sfp=qpllresetdone_113;
 assign readyforreset_eth=resetdone_sfp;
-assign {sysclkmmcm_reset,uartreset,uartlbreset,i2creset,idelayctrl_reset,qpllreset_113,reset_sfp,sgmiieth_reset,mdioreset,ethreset_w,jesdreset,axireset}=resetout;
+assign {sysclkmmcm_reset,uartreset,uartlbreset,i2creset,idelayctrl_reset,qpllreset_113,reset_sfp,sgmiieth_reset,i2cinitreset,mdioreset,ethreset_w,jesdreset,axireset}=resetout;
 reg [NSTEP-1:0] done_r=0;
 reg [NSTEP-1:0] done_r2=0;
 reg [NSTEP-1:0] done_r3=0;
@@ -345,7 +440,10 @@ assign keeplbdataout=&lb_data_out;
 reg [31:0] ip=32'hc0a801e0;  // 192.168.1.224
 assign ethclk=gmii.tx_clk;
 always @(posedge ethclk) begin
-	mac<=48'h515542494301;//MAC;//48'haabbccddeeff;
+//	mac<=48'h525542494301;//MAC;//48'haabbccddeeff;
+//	mac<=48'h001924515501;  // LBNL oui
+	mac<=48'h503eaa059701;  // TPLINK OUI
+// new:	50:3e:aa:05:96:50
 end
 udplink ifudp(.reset(ethreset),.clk(ethclk));
 gmii2udp #(.DEBUG(DEBUG),.SIM(SIM))

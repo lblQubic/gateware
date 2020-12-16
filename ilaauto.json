@@ -8,6 +8,19 @@
 		,"reseted125":1
 		,"dbaxistate":3
 		,"dbaxinext":3
-		,"done_r3":13
+		,"done_r3":14
+		,"i2ccmd":37
+		,"i2cresult":33
+		,"i2cdatarx_d":32
+		,"i2crxvalid":1
+		,"i2crxvalid_d":1
+		,"i2crxvalid_d2":1
+		,"i2cinitdone":1
+		,"i2cswlocation":8
+		,"eepromrd":80
+		,"i2cinitreset":1
+		,"dbi2cstate":4
+		,"dbi2cnext":4
+		,"dbsi2cinitreset":1
 	}
 }

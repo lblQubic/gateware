@@ -24,10 +24,15 @@ class c_localbus():
 
 	def unitrw(self,p):
 		if self.run:
-			self.interface.socket.send(p)
-			time.sleep(0.01)
-			readvalue, addr = self.interface.socket.recvfrom(1450)  # buffer size is 1024 bytes
-			#readvalue=p
+			readvalue=None
+			while readvalue is None:
+				self.interface.socket.send(p)
+				time.sleep(0.01)
+				try:
+					readvalue, addr = self.interface.socket.recvfrom(1450)  # buffer size is 1024 bytes
+				except:
+					print('timeout...')
+				#readvalue=p
 		else:
 			readvalue = h+p
 		return readvalue

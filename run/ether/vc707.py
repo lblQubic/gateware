@@ -21,6 +21,7 @@ class c_vc707:
 	def i2creadwrite(self,devaddr,r1w0,data,nack,stop=1,regs={'i2cdatatx':'i2cdatatx','i2cstart':'i2cstart','i2cdatarx':'i2cdatarx','i2crxvalid':'i2crxvalid','i2cclk4ratio':'clk4ratio','i2cmux_reset_b':'i2cmux_reset_b'}):
 		r0=((devaddr&0x7f)<<25)+((r1w0&1)<<24)+(data&0xffffff)
 		self.write(((regs['i2cdatatx'],r0),(regs['i2cstart'],(nack&0xf)+((stop&0x1)<<4))))
+#		print(",{32'h%08x,1'h%01x,4'h%01x}"%(r0,stop&0x1,nack&0xf),hex((r0<<5)+((stop&1)<<4)+(nack&0xf)))
 		#print(regs['i2crxvalid'])
 		valid=self.read((regs['i2crxvalid'],))
 		while (not valid):

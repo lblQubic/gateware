@@ -13,13 +13,17 @@ import lmk04828
 import ads54j60
 import dac39j84
 import axiinit
+import si5324
 class c_qubichw():
-	def __init__(self,ip='192.168.1.224',port=0xd003,regmappath='regmap.json'):
-		self.udplb=c_ether(ip=ip,port=port)
+	def __init__(self,ip='192.168.1.224',port=0xd003,regmappath='regmap.json',init=False):
+		self.udplb=c_ether(ip=ip,port=port,timeout=1)
 		self.regmap=c_regmap(self.udplb,regmappath=regmappath)
 		self.vc707=c_vc707(self.regmap)
 		self.read=self.vc707.read
 		self.write=self.vc707.write
+		#
+#		exit(34)
+		#
 		#dev=devcom.devcom(devcom.sndev)
 		#vc707uart=dev['vc707uart']
 		#self.uartlb=c_uartlb(vc707uart,9600,0)
@@ -32,16 +36,19 @@ class c_qubichw():
 		self.lbaxi={}
 		for name in self.axinames:
 			self.lbaxi[name]=c_lbaxi(read=self.vc707.read,write=self.vc707.write)
-		self.i2cenable()
-		if self.commcheck(lmkreglist=lmk04828.ver,adcreglist=ads54j60.reg5f,dacreglist=dac39j84.vid,axireglist=axiinit.axiver):
+		if init:
+			self.i2cenable()
 			self.clkinit(lmkinitregs=lmk04828.init)
-			self.adcinit(initregs=ads54j60.default)
-			self.dacinit(initregs=dac39j84.default)
-			self.axiinit(initregs=axiinit.axiinit)
+			if self.commcheck(lmkreglist=lmk04828.ver,adcreglist=ads54j60.reg5f,dacreglist=dac39j84.vid,axireglist=axiinit.axiver):
+				self.adcinit(initregs=ads54j60.init)
+				self.dacinit(initregs=dac39j84.default)
+				self.axiinit(initregs=axiinit.axiinit)
 
-		self.vc707.i2cswitch('si570')
-		print(self.vc707.si570readinit())
-		print(self.vc707.si570setfreq(125.0001e6))
+			self.vc707.i2cswitch('si570')
+			print(self.vc707.si570readinit())
+			print(self.vc707.si570setfreq(125.0001e6))
+
+		self.si5324init(si5324.init250)
 
 		freqdict=(self.freqs())
 		for k,v in freqdict.items():
@@ -75,6 +82,8 @@ class c_qubichw():
 		print(freqdict)
 		print('clkinit', ok)
 		if ~ok:
+			for k,v in freqdict.items():
+				print('%8.3f %s'%(v,k))
 			for fmc in [self.fmc120_1,self.fmc120_2]:
 				self.vc707.i2cswitch(fmc.i2cid)
 				fmc.reset()
@@ -139,12 +148,12 @@ class c_qubichw():
 		for index,freq in enumerate(freqs):
 			freqdict[freqregs[index]]=freqs[index]
 		return freqdict
-	def si5324init(self):
+	def si5324init(self,reglist):
 		import si5324
 		self.si5324enable()
 		self.vc707.i2cswitch('si5324')
 #		for addr,data in si5324.default:
-		for addr,data in si5324.init250:
+		for addr,data in reglist:#si5324.init250:
 			self.vc707.si5324write(addr,data)
 			rdbk=self.vc707.si5324read(addr)
 			print(addr,hex(rdbk),rdbk==data)
@@ -414,3 +423,29 @@ if __name__=="__main__":
 		for k,v in freqdict.items():
 			print('%8.3f %s'%(v,k))
 		#print(freqdict)
+	if 1:
+		qubichw.i2cenable()
+		qubichw.vc707.i2cswitch('eeprom')
+#		qubichw.vc707.eepromwrite(addr=0,data=0x50,devaddr=0x54)
+#		qubichw.vc707.eepromwrite(addr=1,data=0x3e,devaddr=0x54)
+#		qubichw.vc707.eepromwrite(addr=2,data=0xaa,devaddr=0x54)
+#		qubichw.vc707.eepromwrite(addr=3,data=0x05,devaddr=0x54)
+#		qubichw.vc707.eepromwrite(addr=4,data=0x97,devaddr=0x54)
+#		qubichw.vc707.eepromwrite(addr=5,data=0x01,devaddr=0x54)
+#		qubichw.vc707.eepromwrite(addr=6,data=0xc0,devaddr=0x54)
+#		qubichw.vc707.eepromwrite(addr=7,data=0xa8,devaddr=0x54)
+#		qubichw.vc707.eepromwrite(addr=8,data=0x01,devaddr=0x54)
+		qubichw.vc707.eepromwrite(addr=9,data=0x30,devaddr=0x54)
+		time.sleep(1)
+#		qubichw.vc707.eepromwrite(addr=0,data=0xcd,devaddr=0x54)
+		for addr in range(10):
+			qubichw.vc707.eepromread(addr=addr,devaddr=0x54)
+		print([hex(i) for i in qubichw.read(('macmsb24','maclsb24','ipaddr','hwresetstatus'))])
+		qubichw.write((('hwreset',0),))
+		for i in range(100):
+			print(hex(qubichw.read((('hwresetstatus'),))))
+			time.sleep(0.1)
+
+		freqdict=(qubichw.freqs())
+		for k,v in freqdict.items():
+			print('%8.3f %s'%(v,k))

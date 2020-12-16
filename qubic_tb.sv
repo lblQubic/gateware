@@ -35,6 +35,23 @@ hw hw();
 vc707_sim vc707_sim(.fpga(fpga),.hw(hw.vc707.sim));
 fmc120_sim fmc1(.fmcpin(hw.vc707.fmc1pin),.fmc120(hw.fmc1.sim));
 fmc120_sim fmc2(.fmcpin(hw.vc707.fmc2pin),.fmc120(hw.fmc2.sim));
+
+wire slaveack1valid;
+wire [7:0] slaveack1;
+reg [23:0] slavereg=24'hadbeef;
+reg slavetx1rx0=0;
+wire slaverxvalid;
+wire [31:0] slavedatarx;
+i2cslave #(.NACK(2)) i2cslave(.clk(sgmiiclk),.SCL(hw.vc707.iic.scl),.SDA(hw.vc707.iic.sda),.rst(1'b0),.datatx({8'h0,slavereg}),.ack1(slaveack1),.ack1valid(slaveack1valid),.datarx(slavedatarx),.rxvalid(slaverxvalid));
+always @(posedge sysclk) begin
+	if (slaveack1valid)
+		slavetx1rx0<=slaveack1[0];
+	if (slaveack1[0]==0)
+		if (slaverxvalid)
+			slavereg<=slavedatarx[23:0];
+end
+
+
 assign hw.vc707.sysclk=sysclk;
 assign hw.vc707.sgmiiclk_q0_p=sgmiiclk;
 assign hw.vc707.sgmiiclk_q0_n=~sgmiiclk;
