@@ -10,8 +10,8 @@ import numpy
 import datetime
 from ether import c_ether
 import getopt
-class c_localbus():
-	" Ethernet IO class for PSPEPS local bus access through localbus "
+class c_udplb():
+	" Ethernet IO class for PSPEPS local bus access through udplb "
 	def __init__(self, interface,run=True,cmds={'write':0x00,'read':0x10}):
 		self.interface=interface
 		self.run=run
@@ -69,7 +69,7 @@ class c_localbus():
 
 if __name__=="__main__":
 	from ether import c_ether
-	lb = c_localbus(c_ether(ip='192.168.1.224',port=0xd003))
+	lb = c_udplb(c_ether(ip='192.168.1.224',port=0xd003))
 	alist=int(sys.argv[1])*[22]
 	#result=lb.readwrite(alist=alist,dlist=alist,write=0,rand=False)
 	#print(result)

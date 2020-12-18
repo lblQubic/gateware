@@ -10,6 +10,9 @@ jesd204_dac39j84.tcl
 jesd204_phy_8lane.tcl
 lbread.vh
 lbwrite.vh
+uartread.vh
+uartwrite.vh
+uartregmap.sv
 localbus_regmap.sv
 qubic.sv
 qubic.xdc

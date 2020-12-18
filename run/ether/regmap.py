@@ -1,6 +1,5 @@
 from register import c_register
 #from mem_gateway import c_mem_gateway
-from localbus import c_localbus
 from ether import c_ether
 import time
 import json
@@ -9,10 +8,10 @@ try:
 	basestring
 except NameError:
 	basestring = str
-class c_regmap(c_localbus):
+class c_regmap():
 	DWIDTH=32
 	def __init__(self,interface,regmappath='regmap.json',wavegrppath='wavegrp.json',run=True):
-		c_localbus.__init__(self, interface=interface,run=run)
+		self.interface=interface 
 		self.regs={}
 		self.regindex={}
 		with open(regmappath) as jsonfile:
@@ -123,7 +122,7 @@ class c_regmap(c_localbus):
 		reglengths=numpy.array([r.addr_length for r in regs])
 		regaddrlen=sum(reglengths)
 		cad=numpy.zeros((regaddrlen,3))
-		cad[:,0]=regaddrlen*[self.cmds['write']]
+		cad[:,0]=regaddrlen*[self.interface.cmds['write']]
 		cnt=0
 		for index,(regname,val) in enumerate(namedatalist):
 			#print(index,regname,val)
@@ -150,12 +149,11 @@ class c_regmap(c_localbus):
 		wlist=len(alist)*[1]
 		return self.rawadw(alist,dlist,wlist)
 	def readregs(self,names):
-		#print names
 		regs=[self.regs[name] for name in names]
 		reglengths=numpy.array([r.addr_length for r in regs])
 		regaddrlen=sum(reglengths)
 		cad=numpy.zeros((regaddrlen,3))
-		cad[:,0]=regaddrlen*[self.cmds['read']]
+		cad[:,0]=regaddrlen*[self.interface.cmds['read']]
 		cad[:,2]=numpy.zeros(regaddrlen)
 		cnt=0
 		#print(reglengths)
@@ -163,7 +161,8 @@ class c_regmap(c_localbus):
 
 			cad[cnt:cnt+reglengths[index],1]=r.readaddr()
 			cnt=cnt+reglengths[index]
-		#print(cad)
+#		print(names)
+#		print(cad)
 		return self.rawadw(cad)
 	def read(self,names):
 		namelists=[]
@@ -178,15 +177,17 @@ class c_regmap(c_localbus):
 			self.wavecheckreadallreset(wavelist,resetafter=resetafter)
 		return self.getregval(names)
 	def rawadw(self,cadlist):
-		result=self.readwrite(cadlist)
-		cad=self.parse_readvalue(result)
+		result=self.interface.readwrite(cadlist)
+		cad=self.interface.parse_readvalue(result)
+#		print('regmap rawadw cad',cad)
+#		print('regmap rawadw cad hex',[[hex(i) for i in l] for l in cad])
 		#print 'rawadw',len(alist),len(result),len(value)
 		self.updatereadvalue(cad)
 		return cad
 	def updatereadvalue(self,cad):
 		result=[]
 		for cmd,addr,val in cad:
-			if addr in self.regindex and cmd==self.cmds['read']:
+			if addr in self.regindex and cmd==self.interface.cmds['read']:
 				self.regindex[addr].setvalue(val,addr)
 		#		result.append((self.regindex[addr].name,self.regindex[addr].getvalue()))
 		#return result

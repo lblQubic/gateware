@@ -9,6 +9,7 @@ from regmap import c_regmap
 from fmc120 import c_fmc120
 from vc707 import c_vc707
 from lbaxi import c_lbaxi
+from udplb import c_udplb
 import lmk04828
 import ads54j60
 import dac39j84
@@ -16,28 +17,42 @@ import axiinit
 import si5324
 class c_qubichw():
 	def __init__(self,ip='192.168.1.224',port=0xd003,regmappath='regmap.json',init=False):
-		self.udplb=c_ether(ip=ip,port=port,timeout=1)
-		self.regmap=c_regmap(self.udplb,regmappath=regmappath)
-		self.vc707=c_vc707(self.regmap)
+		self.ether=c_ether(ip=ip,port=port,timeout=1)
+		self.udplb=c_udplb(interface=self.ether,run=True)
+		self.regmap=c_regmap(interface=self.udplb,regmappath=regmappath)
+
+		dev=devcom.devcom(devcom.sndev)
+		vc707uart=dev['vc707uart']
+		self.uartlb=c_uartlb(vc707uart,9600,0)
+		self.uartregmap=c_regmap(self.uartlb,regmappath='uartregmap.json')
+
+		self.vc707=c_vc707(self.regmap,self.uartregmap)
 		self.read=self.vc707.read
 		self.write=self.vc707.write
+
+#		self.vc707.i2cswitch('si570')
+#		import random
+#		lastip=random.randint(0,255)
+#		print(hex(lastip))
+#		self.changeipmac(lastip)
+#		for i in range(10):
+#			print(hex(self.read((('hwresetstatus'),))))
+#			time.sleep(0.1)
+#		print([hex(i) for i in self.uartregmap.read(('macmsb24','macmsb24','maclsb24','ipaddr','hwresetstatus'))])
 		#
 #		exit(34)
 		#
-		#dev=devcom.devcom(devcom.sndev)
-		#vc707uart=dev['vc707uart']
-		#self.uartlb=c_uartlb(vc707uart,9600,0)
-		#self.vc707=c_vc707(self.regmap)
+
 		self.fmc120_1=c_fmc120(i2cid='fmc1',devread=self.vc707.devread,devwrite=self.vc707.devwrite)
 		self.fmc120_2=c_fmc120(i2cid='fmc2',devread=self.vc707.devread,devwrite=self.vc707.devwrite)
-		self.fmcprsntpg()
 		self.axiinsts={'fmc1':['axifmc1adc0','axifmc1adc1','axifmc1dac'],'fmc2':['axifmc2adc0','axifmc2adc1','axifmc2dac']}
 		self.axinames=['axifmc1adc0','axifmc1adc1','axifmc1dac','axifmc2adc0','axifmc2adc1','axifmc2dac']
 		self.lbaxi={}
 		for name in self.axinames:
 			self.lbaxi[name]=c_lbaxi(read=self.vc707.read,write=self.vc707.write)
 		if init:
-			self.i2cenable()
+			self.fmcprsntpg()
+			self.vc707.i2cenable()
 			self.clkinit(lmkinitregs=lmk04828.init)
 			if self.commcheck(lmkreglist=lmk04828.ver,adcreglist=ads54j60.reg5f,dacreglist=dac39j84.vid,axireglist=axiinit.axiver):
 				self.adcinit(initregs=ads54j60.init)
@@ -48,14 +63,21 @@ class c_qubichw():
 			print(self.vc707.si570readinit())
 			print(self.vc707.si570setfreq(125.0001e6))
 
-		self.si5324init(si5324.init250)
+			self.si5324init(si5324.init250)
 
-		freqdict=(self.freqs())
-		for k,v in freqdict.items():
-			print('%8.3f %s'%(v,k))
-		for fmc in [self.fmc120_1,self.fmc120_2]:
-			self.vc707.i2cswitch(fmc.i2cid)
-			print(fmc.i2cid,'ad7291',fmc.ad7291check())
+			freqdict=(self.freqs())
+			for k,v in freqdict.items():
+				print('%8.3f %s'%(v,k))
+			for fmc in [self.fmc120_1,self.fmc120_2]:
+				self.vc707.i2cswitch(fmc.i2cid)
+				print(fmc.i2cid,'ad7291',fmc.ad7291check())
+	def uartinit(self):
+		self.uartregmap.write((('uartmode',1),('clk4ratio',5000)))
+		self.uartlb.resetlb()
+		self.uartlb.resetbuf()
+		time.sleep(0.1)
+		self.uartlb.resetbuf()
+		print(self.uartregmap.read((('uartmode','uartmode','clk4ratio','macmsb24','maclsb24','ipaddr'))))
 	def commcheck(self,lmkreglist,adcreglist,dacreglist,axireglist):
 		commpass=True
 		for fmc in [self.fmc120_1,self.fmc120_2]:
@@ -114,8 +136,6 @@ class c_qubichw():
 			axi.jesd204axi_reset(axiprefix=name)
 
 
-	def i2cenable(self,clk4ratio=5000,enable=True):
-		self.write((('clk4ratio',clk4ratio),('i2cmux_reset_b',1 if enable else 0)))
 	def si5324enable(self,enable=True):
 		self.write((('si5324_rst',1 if enable else 0),))
 	def fmcprsntpg(self):
@@ -158,16 +178,57 @@ class c_qubichw():
 			rdbk=self.vc707.si5324read(addr)
 			print(addr,hex(rdbk),rdbk==data)
 		time.sleep(1)
-	def changeipmac(self,ipmac8b):
-		self.vc707.i2cswitch('eeprom')
-		self.vc707.eepromwrite(addr=0,data=ipmac8b,devaddr=0x54)
-		time.sleep(0.1)
-		print('eeprom readback, expect to bo 0x%x=%d'%(ipmac8b,ipmac8b),self.vc707.eepromread(addr=0,devaddr=0x54))
-		self.write((('hwreset',0),))
+	def macip(self,mac=None,ip=None):
+		ad=[]
+		if mac!=None:
+			macval=[int('0x'+i,0) for i in mac.split(':')]
+			for index,val in enumerate(macval):
+				ad.append((index+0,macval[index]))
+		if ip!=None:
+			ipval=[int(i) for i in ip.split('.')]
+			for index,val in enumerate(ipval):
+				ad.append((index+6,ipval[index]))
 
+		self.uartinit()
+		self.vc707.setuarti2c(uarti2c=True)
+		self.vc707.i2cenable()
+		self.vc707.i2cswitch('eeprom')
+		for addr,val in ad:
+			self.vc707.eepromwrite(addr=addr,data=val,devaddr=0x54)
+		time.sleep(0.5)
+		if len(ad)>0:
+			self.uartregmap.write((('hwreset',0),))
+			time.sleep(0.5)
+
+		macmsb24,maclsb24,ipaddr,hwresetstatus=self.uartregmap.read(('macmsb24','maclsb24','ipaddr','hwresetstatus'))
+		mac=((macmsb24&0xffffff)<<24)+(maclsb24&0xffffff)
+#		print('mac and ip',[hex(i) for i in [macmsb24,maclsb24,ipaddr,hwresetstatus]])
+		print('mac read back %02x:%02x:%02x:%02x:%02x:%02x'%((mac>>40)&0xff
+,(mac>>32)&0xff
+,(mac>>24)&0xff
+,(mac>>16)&0xff
+,(mac>>8)&0xff
+,(mac>>0)&0xff))
+		print('ip addr readback %d.%d.%d.%d'%((ipaddr>>24)&0xff,(ipaddr>>16)&0xff,(ipaddr>>8)&0xff,ipaddr&0xff))
+		print('hw reset status %x'%hwresetstatus)
+		self.vc707.setuarti2c(uarti2c=False)
+#		print(ad)
+		return (mac,ip)
+#	def changeipmac(self,ipmac8b):
+#		self.vc707.i2cswitch('eeprom')
+#		self.vc707.eepromwrite(addr=9,data=ipmac8b,devaddr=0x54)
+#		time.sleep(0.5)
+#		print('eeprom readback, expect to bo 0x%x=%d'%(ipmac8b,ipmac8b),self.vc707.eepromread(addr=9,devaddr=0x54))
+#		self.write((('hwreset',0),))
+#
 if __name__=="__main__":
-	qubichw=c_qubichw()
-	qubichw.i2cenable()
+	import argparse
+	parser=argparse.ArgumentParser()
+	parser.add_argument('-ip','--ip',help='ip address',dest='ip',type=str,default='192.168.1.224')
+	clargs=parser.parse_args()
+
+	qubichw=c_qubichw(ip=clargs.ip,init=True)
+	qubichw.vc707.i2cenable()
 
 	if (0):
 		print('test, test1',qubichw.read(('test','test1','test1','test1','test','test','test','test','test','test','test','test2','test1')))
@@ -423,8 +484,12 @@ if __name__=="__main__":
 		for k,v in freqdict.items():
 			print('%8.3f %s'%(v,k))
 		#print(freqdict)
-	if 1:
-		qubichw.i2cenable()
+	if 0:
+		print([hex(i) for i in qubichw.read(('macmsb24','maclsb24','ipaddr','hwresetstatus'))])
+		import random
+		lastip=random.randint(0,255)
+		print(hex(lastip))
+		qubichw.vc707.i2cenable()
 		qubichw.vc707.i2cswitch('eeprom')
 #		qubichw.vc707.eepromwrite(addr=0,data=0x50,devaddr=0x54)
 #		qubichw.vc707.eepromwrite(addr=1,data=0x3e,devaddr=0x54)
@@ -435,17 +500,17 @@ if __name__=="__main__":
 #		qubichw.vc707.eepromwrite(addr=6,data=0xc0,devaddr=0x54)
 #		qubichw.vc707.eepromwrite(addr=7,data=0xa8,devaddr=0x54)
 #		qubichw.vc707.eepromwrite(addr=8,data=0x01,devaddr=0x54)
-		qubichw.vc707.eepromwrite(addr=9,data=0x30,devaddr=0x54)
-		time.sleep(1)
+		qubichw.vc707.eepromwrite(addr=9,data=lastip,devaddr=0x54)
+#		time.sleep(1)
 #		qubichw.vc707.eepromwrite(addr=0,data=0xcd,devaddr=0x54)
-		for addr in range(10):
-			qubichw.vc707.eepromread(addr=addr,devaddr=0x54)
-		print([hex(i) for i in qubichw.read(('macmsb24','maclsb24','ipaddr','hwresetstatus'))])
-		qubichw.write((('hwreset',0),))
-		for i in range(100):
+#		for addr in range(10):
+#			print(hex(qubichw.vc707.eepromread(addr=addr,devaddr=0x54)))
+		qubichw.write((('hwreset',0),('hwreset',1),('hwreset',0)))
+		for i in range(10):
 			print(hex(qubichw.read((('hwresetstatus'),))))
 			time.sleep(0.1)
-
+		print([hex(i) for i in qubichw.read(('macmsb24','maclsb24','ipaddr','hwresetstatus'))])
+	if 1:
 		freqdict=(qubichw.freqs())
 		for k,v in freqdict.items():
 			print('%8.3f %s'%(v,k))

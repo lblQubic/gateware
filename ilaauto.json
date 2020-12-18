@@ -22,5 +22,7 @@
 		,"dbi2cstate":4
 		,"dbi2cnext":4
 		,"dbsi2cinitreset":1
+		,"loadmacip":1
+		,"hw.gpio_sw_c":1
 	}
 }

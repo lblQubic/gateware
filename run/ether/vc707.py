@@ -9,28 +9,55 @@ from regmap import c_regmap
 from fmc120 import c_fmc120
 import si570
 class c_vc707:
-	def __init__(self,regmap):
+	def __init__(self,regmap,uartregmap=None):
 		self.regmap=regmap
+		self.uartregmap=uartregmap
 		self.i2csw={'si570':1,'fmc1':2,'fmc2':4,'eeprom':8,'sfp':16,'hdmi':32,'ddr3':64,'si5324':128}
-
-	def write(self,namedatalist):
-		return self.regmap.write(namedatalist)
-	def read(self,names):
-		vals=self.regmap.read(names)
+		self.uarti2c=False
+		self.read=regmap.read
+		self.write=regmap.write
+		self.setuarti2c(self.uarti2c)
+	def setuarti2c(self,uarti2c=True):
+		#		print('setuarti2c',uarti2c)
+		self.uarti2c=uarti2c
+		self.uartregmap.write((('uarti2c',1 if self.uarti2c else 0),))
+	def readfori2c(self,names):
+		if self.uarti2c:
+			vals=self.uartregmap.read(names)
+		else:
+			vals=self.regmap.read(names)
 		return vals
+	def writefori2c(self,namedatalist):
+		#print('write for i2c',self.uarti2c)
+		if self.uarti2c:
+			res=self.uartregmap.write(namedatalist)
+		else:
+			res=self.regmap.write(namedatalist)
+		return res
+
+#	def write(self,namedatalist):
+#		return self.regmap.write(namedatalist)
+#	def read(self,names):
+#		vals=self.regmap.read(names)
+#		return vals
+	def i2cenable(self,clk4ratio=5000,enable=True):
+		self.writefori2c((('clk4ratio',clk4ratio),('i2cmux_reset_b',1 if enable else 0)))
 	def i2creadwrite(self,devaddr,r1w0,data,nack,stop=1,regs={'i2cdatatx':'i2cdatatx','i2cstart':'i2cstart','i2cdatarx':'i2cdatarx','i2crxvalid':'i2crxvalid','i2cclk4ratio':'clk4ratio','i2cmux_reset_b':'i2cmux_reset_b'}):
+		#print('i2creadwrite r1w0 data',r1w0,hex(data))
 		r0=((devaddr&0x7f)<<25)+((r1w0&1)<<24)+(data&0xffffff)
-		self.write(((regs['i2cdatatx'],r0),(regs['i2cstart'],(nack&0xf)+((stop&0x1)<<4))))
+		self.writefori2c(((regs['i2cdatatx'],r0),(regs['i2cstart'],(nack&0xf)+((stop&0x1)<<4))))
 #		print(",{32'h%08x,1'h%01x,4'h%01x}"%(r0,stop&0x1,nack&0xf),hex((r0<<5)+((stop&1)<<4)+(nack&0xf)))
 		#print(regs['i2crxvalid'])
-		valid=self.read((regs['i2crxvalid'],))
-		while (not valid):
+		valid=self.readfori2c((regs['i2crxvalid'],))
+		index=0
+		while (not valid & index<20):
 			#time.sleep(0.1)
 	#	if (1):
-			valid=self.read((regs['i2crxvalid'],))
+			valid=self.readfori2c((regs['i2crxvalid'],))
 #			print('valid',valid)
-			#time.sleep(0.1)
-		self.read((regs['i2cdatarx'],))
+			time.sleep(0.1)
+			index=index+1
+		self.readfori2c((regs['i2cdatarx'],))
 		regname=regs['i2cdatarx']
 
 		return self.regmap.getregval([regname])
@@ -45,7 +72,7 @@ class c_vc707:
 
 	def i2cswitch(self,i2cdest):
 		#	self.i2cenable()
-		print('i2cswitch i2cdest',i2cdest)
+		#print('i2cswitch i2cdest',i2cdest)
 		if i2cdest in self.i2csw.keys():
 			self.i2cwrite(devaddr=0x74,data=self.i2csw[i2cdest]);
 		else:

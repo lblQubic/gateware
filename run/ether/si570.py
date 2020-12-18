@@ -15,7 +15,7 @@ def fset(fset,fxtalval):
 			fdco=fset*hsdivdict[hsdiv]*(n1)
 			if (fdco<5.67e9 and fdco>4.85e9):
 				n0=n1-1
-				RFREQ=round(fdco/fxtalval*2**28)
+				RFREQ=int(round(fdco/fxtalval*2**28))
 				r7=((hsdiv&0x7)<<5)+(n0>>2)
 				r8=((n0&0x3)<<6)+((RFREQ>>32)&0x3f)
 				r9=(RFREQ>>24)&0xff

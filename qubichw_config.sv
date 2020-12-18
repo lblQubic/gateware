@@ -41,28 +41,38 @@ ilocalbus #(.LBCWIDTH(8),.LBAWIDTH(24),.LBDWIDTH(32),.WRITECMD(0),.READCMD(8'h10
 udplb();
 //ilocalbus #(.LBCWIDTH(8),.LBAWIDTH(24),.LBDWIDTH(32),.WRITECMD(0),.READCMD(8'h10))
 //lb();
-reg lbseludp=1'b1;
-assign lbreg.lb.clk=lbseludp ? udplb.clk : uartlb.clk;
-assign lbreg.lb.wcmd=lbseludp ? udplb.wcmd : uartlb.wcmd;
-assign lbreg.lb.wvalid=lbseludp ? udplb.wvalid : uartlb.wvalid;
-assign uartlb.rctrl=lbseludp ? 0 : lbreg.lb.rctrl;
-assign uartlb.rdata=lbseludp ? 0 : lbreg.lb.rdata;
-assign uartlb.raddr=lbseludp ? 0 : lbreg.lb.raddr;
-assign uartlb.rready=lbseludp ? 0 : lbreg.lb.rready;
-assign udplb.rctrl=lbseludp ? lbreg.lb.rctrl : 0;
-assign udplb.rdata=lbseludp ? lbreg.lb.rdata : 0;
-assign udplb.raddr=lbseludp ? lbreg.lb.raddr : 0;
-assign udplb.rready=lbseludp ? lbreg.lb.rready : 0;
-assign lbreg.lb.readcmd=lbseludp ? udplb.readcmd : uartlb.readcmd;
-assign lbreg.lb.writecmd=lbseludp ? udplb.writecmd : uartlb.writecmd;
-assign lbreg.lb.readcmd=lbseludp ? udplb.READCMD : uartlb.READCMD;
-assign lbreg.lb.writecmd=lbseludp ? udplb.WRITECMD : uartlb.WRITECMD;
+assign lbreg.lb.clk=udplb.clk;
+assign lbreg.lb.wcmd=udplb.wcmd;
+assign lbreg.lb.wvalid=udplb.wvalid;
+assign udplb.rctrl=lbreg.lb.rctrl;
+assign udplb.rdata=lbreg.lb.rdata;
+assign udplb.raddr=lbreg.lb.raddr;
+assign udplb.rready=lbreg.lb.rready;
+assign lbreg.lb.readcmd=udplb.readcmd;
+assign lbreg.lb.writecmd=udplb.writecmd;
+assign lbreg.lb.readcmd=udplb.READCMD;
+assign lbreg.lb.writecmd=udplb.WRITECMD;
+
+iuart_regmap#(.LBCWIDTH(8),.LBAWIDTH(24),.LBDWIDTH(32))
+uartreg();
+assign uartreg.lb.clk=uartlb.clk;
+assign uartreg.lb.wcmd=uartlb.wcmd;
+assign uartreg.lb.wvalid=uartlb.wvalid;
+assign uartlb.rctrl=uartreg.lb.rctrl;
+assign uartlb.rdata=uartreg.lb.rdata;
+assign uartlb.raddr=uartreg.lb.raddr;
+assign uartlb.rready=uartreg.lb.rready;
+assign uartreg.lb.readcmd=uartlb.readcmd;
+assign uartreg.lb.writecmd=uartlb.writecmd;
+assign uartreg.lb.readcmd=uartlb.READCMD;
+assign uartreg.lb.writecmd=uartlb.WRITECMD;
+
 
 wire uarttx;
 wire uartrx=hw.vc707.usb2uart.rx;
 wire keeplbdataout;
 wire keepadc;
-assign hw.vc707.usb2uart.tx=lbreg.uartmode==0 ? hw.vc707.usb2uart.rx : lbreg.uartmode==1 ? uarttx : 1'b1; //serial port loopback test
+assign hw.vc707.usb2uart.tx=uartreg.uartmode==0 ? hw.vc707.usb2uart.rx : uartreg.uartmode==1 ? uarttx : 1'b1; //serial port loopback test
 assign {hw.vc707.gpio_led_7,hw.vc707.gpio_led_6,hw.vc707.gpio_led_5,hw.vc707.gpio_led_4,hw.vc707.gpio_led_3,hw.vc707.gpio_led_2,hw.vc707.gpio_led_1,hw.vc707.gpio_led_0}={keepadc,keeplbdataout,clk200cnt[26:21]};
 // send serial port to gps
 wire [7:0] rxdata;
@@ -88,7 +98,7 @@ wire [15:0] rxbaudcnt;
 wire [15:0] txbaudcnt;
 wire txline_r;
 wire rxline_r;
-wire uartclk=clkcfg;
+wire uartclk=clk100;//cfg;
 wire uartreset;
 //wire lbrready;
 //assign lbrready=lb.rready;
@@ -146,7 +156,7 @@ i2cmaster (.clk(clkcfg)
 ,.sdarx(sdarx)
 ,.sdaasrx(sdaasrx)
 ,.scl(hw.vc707.iic.scl)
-,.clk4ratio(SIM ? 2 : lbreg.clk4ratio)
+,.clk4ratio(SIM ? 2 : uartreg.uarti2c ? uartreg.clk4ratio : lbreg.clk4ratio)
 ,.nack(nack)//lbreg.i2cstart[3:0])
 ,.stopbit(stopbit)//lbreg.i2cstart[4])
 ,.datatx(i2cdatatx)//lbreg.i2cdatatx)
@@ -156,7 +166,7 @@ i2cmaster (.clk(clkcfg)
 ,.rxvalid(i2crxvalid)//lbreg.i2crxvalid)
 ,.rst(i2creset)
 );
-assign hw.vc707.iic.mux_reset_b=lbreg.i2cmux_reset_b | ~i2cinitdone;
+assign hw.vc707.iic.mux_reset_b=lbreg.i2cmux_reset_b | uartreg.i2cmux_reset_b | ~i2cinitdone;
 assign {stopbit,nack,i2cdatatx}=i2ccmd;
 wire [3:0] dbi2cstate;
 wire [3:0] dbi2cnext;
@@ -192,13 +202,14 @@ i2cinit(.clk(clkcfg)
 ,.runing(~i2crxvalid)
 ,.initdone(i2cinitdone)
 ,.result(i2cresult)
-,.livecmd({lbreg.i2cstart[4],lbreg.i2cstart[3:0],lbreg.i2cdatatx})
-,.livestart(lbreg.stb_i2cstart)
+,.livecmd(uartreg.uarti2c ? {uartreg.i2cstart[4],uartreg.i2cstart[3:0],uartreg.i2cdatatx} :	{lbreg.i2cstart[4],lbreg.i2cstart[3:0],lbreg.i2cdatatx})
+,.livestart(uartreg.uarti2c ? uartreg.stb_i2cstart :lbreg.stb_i2cstart)
 ,.dbsreset(dbsi2cinitreset)
 ,.dbstate(dbi2cstate)
 ,.dbnext(dbi2cnext)
 );
-assign {lbreg.i2crxvalid[0],lbreg.i2cdatarx}=i2cresult;
+assign {lbreg.i2crxvalid[0],lbreg.i2cdatarx}=uartreg.uarti2c ? 0 : i2cresult;
+assign {uartreg.i2crxvalid[0],uartreg.i2cdatarx}=uartreg.uarti2c ? i2cresult : 0;
 reg i2crxvalid_d=0;
 reg i2crxvalid_d2=0;
 reg [31:0] i2cdatarx_d=0;
@@ -214,7 +225,7 @@ always @(posedge clkcfg) begin
 	i2crxvalid_d2<=i2crxvalid_d;
 	i2ccmd_r<=i2ccmd;
 	i2ccmd_rd<=i2ccmd_r;
-	if (~i2cinitdone_d & i2crxvalid_d & ~i2crxvalid_d2 & (i2cswlocation==8) & i2ccmd_rd[24]) begin
+	if (~(i2cinitdone&i2cinitdone_d2) & i2crxvalid_d & ~i2crxvalid_d2 & (i2cswlocation==8) & i2ccmd_rd[24]) begin
 		eepromrd<={eepromrd[80-8-1:0],i2cdatarx_d[7:0]};
 	end
 	if ((i2ccmd_rd&{1'b1,4'hf,32'hff00ffff})=={1'h1,4'h2,32'he8000000}) begin
@@ -224,6 +235,7 @@ always @(posedge clkcfg) begin
 
 end
 assign {lbreg.macmsb24,lbreg.maclsb24,lbreg.ipaddr}=eepromrd;
+assign {uartreg.macmsb24,uartreg.maclsb24,uartreg.ipaddr}=eepromrd;
 
 wire sgmiiclk;
 IBUFDS_GTE2 mgtrefclk_113_sgmii(.I(hw.vc707.sgmiiclk_q0_p),.IB(hw.vc707.sgmiiclk_q0_n),.O(sgmiiclk),.ODIV2(),.CEB(1'b0));
@@ -238,15 +250,21 @@ IBUFGDS user_clock_ibufgds(.I(hw.vc707.user_clock_p),.IB(hw.vc707.user_clock_n),
 wire sfpreconnected;
 reg hwreset=0;
 wire hwreset_w;
+wire uarthwreset_w;
 always @(posedge hw.vc707.sysclk) begin
 	//hwreset<=lbreg.stb_hwreset;// || poweronreset;
-	hwreset<=hwreset_w;// || poweronreset;
+	hwreset<=hwreset_w||uarthwreset_w;// || poweronreset;
 end
 reg hwresetstb=0;
-always @(posedge clkcfg) begin
+always @(posedge lbreg.lb.clk) begin
 	hwresetstb<=lbreg.stb_hwreset;
 end
+reg uarthwresetstb=0;
+always @(posedge uartreg.lb.clk) begin
+	uarthwresetstb<=uartreg.stb_hwreset;
+end
 areset hwresetareset(.clk(hw.vc707.sysclk),.areset(hwresetstb),.sreset(hwreset_w));
+areset uarthwresetareset(.clk(hw.vc707.sysclk),.areset(uarthwresetstb),.sreset(uarthwreset_w));
 wire pllreset;
 wire qpllresetdone_113;
 wire qplloutclk_113;
@@ -341,12 +359,13 @@ wire ethresetdone=~ethreset;
 wire jesd_reset_done_1;
 wire jesdreset;
 wire axireset;
-localparam NSTEP=13;
+wire loadmacip;
+localparam NSTEP=14;
 wire [NSTEP-1:0] done;
 wire [NSTEP-1:0] donestrobe;
 wire [NSTEP-1:0] error;
 wire [NSTEP-1:0] resetout;
-wire [NSTEP-1:0] donecriteria={sysclkmmcm_locked,1'b1,1'b1,i2cresetdone,idelayctrl_rdy,qpllresetdone_113,resetdone_sfp,sgmiieth_resetdone,i2cinitdone,mdioinitdone,ethresetdone,jesd_reset_done_1,1'b1};
+wire [NSTEP-1:0] donecriteria={sysclkmmcm_locked,1'b1,1'b1,i2cresetdone,idelayctrl_rdy,qpllresetdone_113,resetdone_sfp,sgmiieth_resetdone,i2cinitdone,~loadmacip,mdioinitdone,ethresetdone,jesd_reset_done_1,1'b1};
 wire [NSTEP-1:0] readycriteria={1'b1,donecriteria[NSTEP-1:1]};
 wire [NSTEP-1:0] resetin={hwreset|poweronreset,donestrobe[NSTEP-1:1]};
 wire [NSTEP*16-1:0] readylength={NSTEP{16'd10}};
@@ -360,7 +379,7 @@ chainreset(.clk(hw.vc707.sysclk)
 wire [NSTEP-2-1:0] dummyready;
 assign readyforreset_sfp=qpllresetdone_113;
 assign readyforreset_eth=resetdone_sfp;
-assign {sysclkmmcm_reset,uartreset,uartlbreset,i2creset,idelayctrl_reset,qpllreset_113,reset_sfp,sgmiieth_reset,i2cinitreset,mdioreset,ethreset_w,jesdreset,axireset}=resetout;
+assign {sysclkmmcm_reset,uartreset,uartlbreset,i2creset,idelayctrl_reset,qpllreset_113,reset_sfp,sgmiieth_reset,i2cinitreset,loadmacip,mdioreset,ethreset_w,jesdreset,axireset}=resetout;
 reg [NSTEP-1:0] done_r=0;
 reg [NSTEP-1:0] done_r2=0;
 reg [NSTEP-1:0] done_r3=0;
@@ -375,6 +394,7 @@ end
 data_xdomain #(.size(10)) donexdomain(.clk_in(hw.vc707.sysclk), .gate_in(1'b1), .data_in(done),
 .clk_out(clkcfg),.data_out(done_w));
 assign lbreg.hwresetstatus=done_r3;
+assign uartreg.hwresetstatus=done_r3;
 
 
 wire  mdio_i;
@@ -437,12 +457,14 @@ wire [7:0] status;
 
 reg [47:0] mac=0;
 assign keeplbdataout=&lb_data_out;
-reg [31:0] ip=32'hc0a801e0;  // 192.168.1.224
+reg [31:0] ip=0;
 assign ethclk=gmii.tx_clk;
 always @(posedge ethclk) begin
 //	mac<=48'h525542494301;//MAC;//48'haabbccddeeff;
 //	mac<=48'h001924515501;  // LBNL oui
-	mac<=48'h503eaa059701;  // TPLINK OUI
+	if (loadmacip)
+		{mac,ip}<=hw.vc707.gpio_sw_c ? {48'h503eaa059701,32'hc0a801e0} : eepromrd;  // TPLINK OUI
+//	ip<=hw.gpio_sw_c ? : ;  // 192.168.1.224
 // new:	50:3e:aa:05:96:50
 end
 udplink ifudp(.reset(ethreset),.clk(ethclk));
