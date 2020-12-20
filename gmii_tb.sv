@@ -346,19 +346,19 @@ wire lbtxen;
 wire lbrxdv;
 wire [15:0] rxlength;
 wire [15:0] txlength;
-localbus#(.LBCWIDTH(8),.LBAWIDTH(24),.LBDWIDTH(32),.WRITECMD(0),.READCMD(8'h10))
+ilocalbus#(.LBCWIDTH(8),.LBAWIDTH(24),.LBDWIDTH(32),.WRITECMD(0),.READCMD(8'h10))
 udplocalbus();
 udplb64 #(.PORT(16'hd003))
 udplb64 (.clk(ifethernet.clk),.udp(ifudpportd003),.reset(reset)
-,.lbclk(udplocalbus.lbclk)
-,.lbrxdata(udplocalbus.lbwcmd)
-,.lbrxdv(udplocalbus.lbwvalid)
-,.lbtxdata(udplocalbus.lbrcmd)
-,.lbtxen(udplocalbus.lbrready)
+,.lbclk(udplocalbus.clk)
+,.lbrxdata(udplocalbus.wcmd)
+,.lbrxdv(udplocalbus.wvalid)
+,.lbtxdata(udplocalbus.rcmd)
+,.lbtxen(udplocalbus.rready)
 ,.rxlength(rxlength)
 ,.txlength(txlength)
 );
-assign udplocalbus.lbclk=sysclk;
+assign udplocalbus.clk=sysclk;
 assign txlength=rxlength;
 //assign udplocalbus.lbrready=udplocalbus.lbwvalid;  // for this current uart lb, response immidiately
 //assign lbtxen=lbrxdv;

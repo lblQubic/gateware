@@ -38,6 +38,14 @@ if __name__ == "__main__":
 	port = 0xd003 
 	target = c_ether(ip_addr, port)
 	print(dir(target.socket))
+	#p=16376*[b'']
+	p=184*[b'']
+	for i in range(len(p)):
+		p[i]=struct.pack('!Q',i)
+	print(p)
+	target.socket.send(b''.join(p))
+
+
 '''
 	if len(argv)==0:
 		usage()
