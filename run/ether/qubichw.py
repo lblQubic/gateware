@@ -21,6 +21,9 @@ class c_qubichw():
 		self.udplb=c_udplb(interface=self.ether,run=True)
 		self.regmap=c_regmap(interface=self.udplb,regmappath=regmappath)
 
+		self.etherd002=c_ether(ip=ip,port=0xd002,timeout=1)
+		self.udplbd002=c_udplb(interface=self.etherd002)
+
 		dev=devcom.devcom(devcom.sndev)
 		vc707uart=dev['vc707uart']
 		self.uartlb=c_uartlb(vc707uart,9600,0)

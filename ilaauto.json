@@ -23,6 +23,6 @@
 		,"dbi2cnext":4
 		,"dbsi2cinitreset":1
 		,"loadmacip":1
-		,"hw.gpio_sw_c":1
+		,"hw.vc707.gpio_sw_c":1
 	}
 }

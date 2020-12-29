@@ -314,9 +314,15 @@ wire start;
 wire w0r1;
 wire busy;
 reg start_d=0;
-always @(posedge qubic.lbreg.lb.clk) begin
 
-if (start) begin
+assign qubic.lbreg.lb.wcmd={8'h03,24'd256,32'h0};
+assign qubic.lbreg.lb.wvalid=1'b1;
+//always @(posedge qubic.lbreg.lb.clk) begin
+//begin qubic.qubichw_config.udplb64.lbrxdata_r<={8'h03,24'd256,32'h0}; qubic.qubichw_config.udplb64.lbrxdv_r<=1'b1; end
+//end
+/*always @(posedge qubic.lbreg.lb.clk) begin
+
+if (1'b0&start) begin
 	//lbrxdata_r<=lbrxdatafifo;
 	//lbrxdv_r<=lbrxdvfifo;
 //	qubic.qubichw_config.udplb64.lbrxdata_r={8'h00,24'd32,32'h12345679};
@@ -328,14 +334,15 @@ if (start) begin
 	qubic.qubichw_config.udplb64.lbrxdata_r={8'h00,24'd32,32'h0};
 	qubic.qubichw_config.udplb64.lbrxdv_r=1'b1;
 end
-else begin qubic.qubichw_config.udplb64.lbrxdata_r<={8'h00,24'd0,32'h0}; qubic.qubichw_config.udplb64.lbrxdv_r<=1'b0; end
+else begin qubic.qubichw_config.udplb64.lbrxdata_r<={8'h03,24'd256,32'h0}; qubic.qubichw_config.udplb64.lbrxdv_r<=1'b0; end
 end
 assign busy=qubic.qubichw_config.lb_axi4lite_fmc1_adc0.busy;
 //assign qubic.qubichw_config.udplb64.lbrxdatafifo= trig100 ? {8'h00,24'd32,32'h12345679} : 0;
 //assign qubic.qubichw_config.udplb64.lbrxdvfifo= trig100 ? 1'b1 :0;
 
 
-localparam LINE=4000;
+//localparam LINE=4000;
+localparam LINE=14;
 localparam W0R1ADDRDATA={1'b1,12'h4,32'h1
 ,1'b0,12'h8,32'h1
 ,1'b1,12'h4,32'h1
@@ -358,5 +365,6 @@ end
 localparam WADWIDTH=1+12+32;
 assign {w0r1,addr,wdata}=W0R1ADDRDATA[(LINE-1-cnt)*WADWIDTH+:WADWIDTH];
 assign start=~busy & cnt<LINE-1;
+*/
 
 endmodule

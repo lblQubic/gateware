@@ -67,3 +67,4 @@ sysclkmmcm.v
 xadc.tcl
 submodules/common-hdl/freq_count.v
 submodules/common-hdl/seqinit.v
+buf6.sv

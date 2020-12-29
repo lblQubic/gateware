@@ -83,4 +83,6 @@
 ,"macmsb24": {"access": "r","addr_width": 0,"base_addr": 81,"data_width": 24,"sign": "unsigned","init": 0}
 ,"maclsb24": {"access": "r","addr_width": 0,"base_addr": 82,"data_width": 24,"sign": "unsigned","init": 0}
 ,"ipaddr": {"access": "r","addr_width": 0,"base_addr": 83,"data_width": 32,"sign": "unsigned","init": 0}
+,"countperrequest": {"access": "rw","addr_width": 0,"base_addr": 84,"data_width": 32,"sign": "unsigned","init": 0}
+,"cntbuf": {"access": "r","addr_width": 4,"base_addr": 256,"data_width": 8,"sign": "unsigned","init": 0}
 }

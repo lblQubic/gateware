@@ -44,12 +44,13 @@ udplb();
 assign lbreg.lb.clk=udplb.clk;
 assign lbreg.lb.wcmd=udplb.wcmd;
 assign lbreg.lb.wvalid=udplb.wvalid;
+//assign udplb.rcmd=lbreg.lb.rcmd;
 assign udplb.rctrl=lbreg.lb.rctrl;
 assign udplb.rdata=lbreg.lb.rdata;
 assign udplb.raddr=lbreg.lb.raddr;
 assign udplb.rready=lbreg.lb.rready;
-assign lbreg.lb.readcmd=udplb.readcmd;
-assign lbreg.lb.writecmd=udplb.writecmd;
+//assign lbreg.lb.readcmd=udplb.readcmd;
+//assign lbreg.lb.writecmd=udplb.writecmd;
 assign lbreg.lb.readcmd=udplb.READCMD;
 assign lbreg.lb.writecmd=udplb.WRITECMD;
 
@@ -58,12 +59,13 @@ uartreg();
 assign uartreg.lb.clk=uartlb.clk;
 assign uartreg.lb.wcmd=uartlb.wcmd;
 assign uartreg.lb.wvalid=uartlb.wvalid;
-assign uartlb.rctrl=uartreg.lb.rctrl;
-assign uartlb.rdata=uartreg.lb.rdata;
-assign uartlb.raddr=uartreg.lb.raddr;
+assign uartlb.rcmd=uartreg.lb.rcmd;
+//assign uartlb.rctrl=uartreg.lb.rctrl;
+//assign uartlb.rdata=uartreg.lb.rdata;
+//assign uartlb.raddr=uartreg.lb.raddr;
 assign uartlb.rready=uartreg.lb.rready;
-assign uartreg.lb.readcmd=uartlb.readcmd;
-assign uartreg.lb.writecmd=uartlb.writecmd;
+//assign uartreg.lb.readcmd=uartlb.readcmd;
+//assign uartreg.lb.writecmd=uartlb.writecmd;
 assign uartreg.lb.readcmd=uartlb.READCMD;
 assign uartreg.lb.writecmd=uartlb.WRITECMD;
 
@@ -481,7 +483,7 @@ udpecho(.clk(ethclk),.udp(ifudpportd000),.reset(ethreset));
 udpstatic #(.PORT(16'hd001))
 udpstatic(.clk(ethclk),.udp(ifudpportd001),.reset(ethreset),.staticnbyte(1472));
 udpcnt #(.PORT(16'hd002))
-udpcnt(.clk(ethclk),.udp(ifudpportd002),.reset(ethreset),.udprxerr(udprxerr));
+udpcnt(.clk(ethclk),.udp(ifudpportd002),.reset(ethreset),.udprxerr(udprxerr),.countperrequest(lbreg.countperrequest));
 wire [15:0] txlength;
 wire [15:0] rxlength;
 udplb64 #(.PORT(16'hd003))
@@ -799,6 +801,6 @@ always @(posedge hw.vc707.sysclk) begin
 	dbresetin<=resetin;
 end
 */
-`include "ilaauto.vh"
-//`include "ila125auto.vh"
+//`include "ilaauto.vh"
+`include "ila125auto.vh"
 endmodule

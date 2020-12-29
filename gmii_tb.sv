@@ -1,7 +1,10 @@
 //`include "constants.vams"
 //`include "xc7vx485tffg1761pkg.vh"
 `timescale 1ns / 100ps
-module gmii_tb();
+module gmii_tb(
+//gmii ifgmii
+);
+gmii ifgmii();
 
 reg sysclk=0;
 integer cc=0;
@@ -17,19 +20,21 @@ initial begin
 	end
 	$finish();
 end
-
+reg [31:0] sysclkcnt=0;
+always @(posedge sysclk) begin
+	sysclkcnt<=sysclkcnt+1;
+end
 reg sgmiiclk=0;
 initial begin
     forever #(4) sgmiiclk=~sgmiiclk;
 end
-gmii ifgmii();
 assign ifgmii.tx_clk=sgmiiclk;
 assign ifgmii.rx_clk=sgmiiclk;
 /*assign gmii.tx_en=tx_en;
 assign gmii.txd=8'hde;
 assign gmii.tx_er=1'b0;*/
 // ping example
-localparam MAXNBYTES=20*8;
+localparam MAXNBYTES=200*8;
 localparam PINGNBYTES=14*8-2;
 localparam PINGDATA={
 64'h55555555555555d5
@@ -228,16 +233,38 @@ localparam tdata0={64'h55555555555555d5
 ,64'h000a000000020000
 ,48'h000a5ee962d6
 };
+
+
+
+localparam UDPD002NBYTES=72;
+localparam UDPD002DATA={
+64'h55555555555555d5
+,64'h55aabbccddeec46e
+,64'h1f01d90d08004500
+,64'h002495a140004011
+,64'h202fc0a801c8c0a8
+,64'h01e08baad0020010
+,64'h1f28000000000000
+,64'h0000000000000000
+,64'h00000000ace0b70f
+};
 reg [6:0] inc=0;
 reg [31:0] txclkcnt=0;
 wire reset=txclkcnt<100;
 //reg [47:0] mac=48'h00105ad155b2;
-reg [47:0] mac=48'h515542494301;
+//reg [47:0] mac=48'h515542494301;
+//reg [47:0] mac=48'hc46e1f01d90d;
+reg [47:0] mac=48'h55aabbccddee;
+
 iethernet ifethernet(.reset(reset),.mac(mac));
 wire ethstart= txclkcnt[7]&(txclkcnt[6:0]==inc);
 reg ethstart_d=0;
 reg [8*MAXNBYTES-1:0] datasr=0;
+reg simdv=0;
 always @(posedge ifgmii.tx_clk) begin
+	txclkcnt<=txclkcnt+1;
+end
+/*always @(posedge ifgmii.tx_clk) begin
 	txclkcnt<=txclkcnt+1;
 	ethstart_d<=ethstart;
 	if (ethstart&~ethstart_d) begin
@@ -246,7 +273,7 @@ always @(posedge ifgmii.tx_clk) begin
 		//: txclkcnt<2500 ?  UDPDATA<<(8*(MAXNBYTES-UDPNBYTES))
 		: txclkcnt<2500 ?  UDP2DATA<<(8*(MAXNBYTES-UDP2NBYTES))
 		//:	UDP1DATA<<(8*(MAXNBYTES-UDP1NBYTES));
-		: txclkcnt<3000 ? UDP3DATA<<(8*(MAXNBYTES-UDP3NBYTES))
+		: txclkcnt<8000 ? UDPD002DATA<<(8*(MAXNBYTES-UDPD002NBYTES))
 		: txclkcnt<20000 ? UDPLBDATA<<(8*(MAXNBYTES-UDPLBNBYTES))
 		: txclkcnt[0:0]==0 ? UDPLBWDATA<<(8*(MAXNBYTES-UDPLBWNBYTES))
 		: txclkcnt[0:0]==1 ? UDPLBRDATA<<(8*(MAXNBYTES-UDPLBRNBYTES))
@@ -258,9 +285,9 @@ always @(posedge ifgmii.tx_clk) begin
 		;
 		inc<=inc+1;
 	end
-	if (|datasr)
-		datasr<= datasr<<8;
 end
+*/
+`include "simin.vh"
 //assign ethernet.mac={48'h00105ad155b2};
 //assign ifethernet.mac={48'haabbccddeeff};
 /*assign gmii.tx_en= |datasr;
@@ -268,9 +295,10 @@ assign gmii.tx_er= 1'b0;
 assign gmii.txd=datasr[8*NBYTES-1:8*NBYTES-8];
 */
 
-assign ifgmii.rx_dv= |datasr;
+assign ifgmii.rx_dv= simdv;//|datasr;
 assign ifgmii.rx_er=1'b0;
 assign ifgmii.rxd=datasr[8*MAXNBYTES-1:8*MAXNBYTES-8];
+
 wire dven4;
 wire [7:0] data4;
 reg_delay1 #(.dw(9),.len(4))
@@ -338,7 +366,7 @@ udpecho(.clk(ifethernet.clk),.udp(ifudpportd000),.reset(reset));
 udpstatic #(.PORT(16'hd001))
 udpstatic(.clk(ifethernet.clk),.udp(ifudpportd001),.reset(reset),.staticnbyte(0));
 udpcnt #(.PORT(16'hd002))
-udpcnt(.clk(ifethernet.clk),.udp(ifudpportd002),.reset(reset));
+udpcnt(.clk(ifethernet.clk),.udp(ifudpportd002),.reset(reset),.countperrequest(18));
 //udpstatic(.clk(ifethernet.clk),.udp(ifudpportd001),.reset(reset),.staticnbyte(1472));
 wire [63:0] lbrxdata;
 wire [63:0] lbtxdata;
@@ -347,20 +375,39 @@ wire lbrxdv;
 wire [15:0] rxlength;
 wire [15:0] txlength;
 ilocalbus#(.LBCWIDTH(8),.LBAWIDTH(24),.LBDWIDTH(32),.WRITECMD(0),.READCMD(8'h10))
-udplocalbus();
+udplb();
 udplb64 #(.PORT(16'hd003))
 udplb64 (.clk(ifethernet.clk),.udp(ifudpportd003),.reset(reset)
-,.lbclk(udplocalbus.clk)
-,.lbrxdata(udplocalbus.wcmd)
-,.lbrxdv(udplocalbus.wvalid)
-,.lbtxdata(udplocalbus.rcmd)
-,.lbtxen(udplocalbus.rready)
+,.lbclk(udplb.clk)
+,.lbrxdata(udplb.wcmd)
+,.lbrxdv(udplb.wvalid)
+,.lbtxdata(udplb.rcmd)
+,.lbtxen(udplb.rready)
 ,.rxlength(rxlength)
 ,.txlength(txlength)
 );
-assign udplocalbus.clk=sysclk;
+assign udplb.clk=sysclk;
 assign txlength=rxlength;
-//assign udplocalbus.lbrready=udplocalbus.lbwvalid;  // for this current uart lb, response immidiately
+ilocalbus_regmap#(.LBCWIDTH(8),.LBAWIDTH(24),.LBDWIDTH(32))
+lbreg();
+
+assign lbreg.lb.clk=udplb.clk;
+assign lbreg.lb.wcmd=udplb.wcmd;
+assign lbreg.lb.wvalid=udplb.wvalid;
+//assign udplb.rcmd=lbreg.lb.rcmd;
+assign udplb.rctrl=lbreg.lb.rctrl;
+assign udplb.raddr=lbreg.lb.raddr;
+assign udplb.rdata=lbreg.lb.rdata;
+assign udplb.rready=lbreg.lb.rready;
+assign lbreg.lb.readcmd=udplb.READCMD;
+assign lbreg.lb.writecmd=udplb.WRITECMD;
+
+assign lbreg.cntbuf_buf.buf0.wr.clk=sysclk;
+assign lbreg.cntbuf_buf.buf0.wr.en=1'b1;
+assign lbreg.cntbuf_buf.buf0.wr.data=sysclkcnt;//8'h3c;
+
+
+//assign udplb.lbrready=udplb.lbwvalid;  // for this current uart lb, response immidiately
 //assign lbtxen=lbrxdv;
 //assign lbtxdata=lbrxdata;//64'hfffe0001deadbeef
 endmodule

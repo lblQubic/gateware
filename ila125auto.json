@@ -18,12 +18,5 @@
 		,"udplb.rready":1
 		,"rxlength":16
 		,"txlength":16
-		,"ifudpportd003.tx.data":8
-		,"ifudpportd003.tx.dven":1
-		,"ifudpportd003.rx.data":8
-		,"ifudpportd003.rx.dven":1
-		,"ifudpportd003.request":1
-		,"ifudpportd003.dback":1
-		,"ifudpportd003.dbackcode":16
 	}
 }

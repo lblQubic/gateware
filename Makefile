@@ -78,6 +78,11 @@ gmii.fst: gmii_tb.tcl simclean
 	vcd2fst -v  ./vivado_project_sim/gmii.sim/sim_1/behav/xsim/gmii.vcd -f gmii.fst
 	printf "\a"
 
+buf6.fst: buf6_tb.tcl simclean
+	vivado -mode batch -source $< -tclargs $(TEND)
+	vcd2fst -v  ./vivado_project_sim/buf6.sim/sim_1/behav/xsim/buf6.vcd -f buf6.fst
+	printf "\a"
+
 ddmtd.fst: ddmtd_tb.tcl simclean
 	vivado -mode batch -source $< -tclargs $(TEND)
 	vcd2fst -v  ./vivado_project_sim/ddmtd.sim/sim_1/behav/xsim/ddmtd.vcd -f ddmtd.fst

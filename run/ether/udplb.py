@@ -43,7 +43,7 @@ class c_udplb():
 			lbwcmd=((int(ctrl)&0xff)<<56)+((int(addr)&0xffffff)<<32)+(int(data)&0xffffffff)
 			pack=struct.pack('!Q',lbwcmd)
 			p[i]=pack
-#		print(p,pack,format(lbwcmd,'x'))
+		#print(p,pack,format(lbwcmd,'x'))
 		return b''.join(p)
 
 

@@ -1,5 +1,4 @@
 gmii_tb.sv
-./submodules/common-hdl/eth/
 ./submodules/common-hdl/eth/gmii.sv
 ./submodules/common-hdl/eth/ethernet.sv
 submodules/common-hdl/fifo.v
@@ -22,3 +21,9 @@ fifocore_8_64.tcl
 lbread.vh
 lbwrite.vh
 submodules/common-hdl/localbus.sv
+simin.vh
+lbread.vh
+lbwrite.vh
+localbus_regmap.sv
+submodules/common-hdl/localbus.sv
+buf6.sv
