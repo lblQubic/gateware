@@ -24,6 +24,9 @@ submodules/common-hdl/localbus.sv
 simin.vh
 lbread.vh
 lbwrite.vh
-localbus_regmap.sv
+regmap.sv
 submodules/common-hdl/localbus.sv
 buf6.sv
+bufread.sv
+dpram.sv
+submodules/common-hdl/areset.v

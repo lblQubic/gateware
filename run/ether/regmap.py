@@ -1,6 +1,7 @@
 from register import c_register
 #from mem_gateway import c_mem_gateway
 from ether import c_ether
+from udplb import c_udplb
 import time
 import json
 import numpy
@@ -10,7 +11,7 @@ except NameError:
 	basestring = str
 class c_regmap():
 	DWIDTH=32
-	def __init__(self,interface,regmappath='regmap.json',wavegrppath='wavegrp.json',run=True):
+	def __init__(self,interface,regmappath='regmap.json',wavegrppath='wavegrp.json',run=True,timeout=None):
 		self.interface=interface 
 		self.regs={}
 		self.regindex={}
@@ -18,84 +19,33 @@ class c_regmap():
 			self.registers=json.load(jsonfile)
 		with open(wavegrppath) as jsonfile:
 			self.wavegrp=json.load(jsonfile)
-		for name in self.registers:
-			self.regs[name]=c_register(**dict({'name':name,'DWIDTH':self.DWIDTH},**self.registers[name]))
+		for name,prop in self.registers.items():
+			self.regs[name]=c_register(**dict({'name':name,'DWIDTH':self.DWIDTH},**prop))
 			for addr in self.regs[name].readaddr():
 				self.regindex[addr]=self.regs[name]
-#	def wavecheckreadallreset(self,wavelist,resetafter=True):
-#		if not resetafter:
-#			for wavename in wavelist:
-#				status_reg=self.wavegrp[wavename]['status']['name']
-#				status_bit=self.wavegrp[wavename]['status']['bit']
-#				reset_reg=self.wavegrp[wavename]['reset']['name']
-#				#print('3rd step!!!!!!!!!!!!reset_reg!!!!!!',wavename,reset_reg)###
-#				#print 'reset',wavename
-#				self.write(((reset_reg,0),(reset_reg,0),(reset_reg,0)))
-#				self.read(status_reg)
-#				status=(self.regs[status_reg].getvalue()[0]>>status_bit)&0x1
-#				#print('1st step*******status_reg,self.regs[status_reg].getvalue()[0],status_bit,status**********',status_reg,self.regs[status_reg].getvalue()[0],status_bit,status)###
-#		timeout=500
-#		for wavename in wavelist:
-#			status_reg=self.wavegrp[wavename]['status']['name']
-#			status_bit=self.wavegrp[wavename]['status']['bit']
-#			self.read(status_reg)
-#			status=(self.regs[status_reg].getvalue()[0]>>status_bit)&0x1
-#			#print('1st step*******status_reg,self.regs[status_reg].getvalue()[0],status_bit,status**********',status_reg,self.regs[status_reg].getvalue()[0],status_bit,status)###
-#			index=0
-#			while (not status) and index<timeout:
-#				#print [hex(i) for i in self.read(((status_reg),))]
-#				self.read(status_reg)
-#				status=(self.regs[status_reg].getvalue()[0]>>status_bit)&0x1
-#				index=index+1
-#				#print('2nd step@@@@@@@@@@@@@@@@@@in loop status, index',status,index)###
-#				#print 'c_regmap wavecheckreadallreset index',index
-#				#self.read((('keep'),))
-#				#v3=self.regs['keep'].getvalue()[0]
-#				#self.read((('trace_status2'),))
-#				#v2=self.regs['trace_status2'].getvalue()[0]
-#				#v2=self.read(status_reg)[0]
-##			print 'wavecheckreadreset',status_bit,status_reg,format(v,'08x'),status,'trace_status2:',format(v2,'08x'),'keep:',format(v3,'08x')
-#				time.sleep(0.1)
-#			if index==timeout:
-#				print('timeout on ',wavename)
-##			print status_reg,status
-#			self.readregs((wavename,))
-#		if resetafter:
-#			for wavename in wavelist:
-#				reset_reg=self.wavegrp[wavename]['reset']['name']
-#				#print('3rd step!!!!!!!!!!!!reset_reg!!!!!!',wavename,reset_reg)###
-#				#print 'reset',wavename
-#				self.write(((reset_reg,0),(reset_reg,0),(reset_reg,0)))
-#		result=[]
-#		for wavename in wavelist:
-#			result.append(self.regs[wavename].getvalue())
-#		return result
-#
-#	def wavecheckreadreset(self,wavename,length=None):
-#		status_reg=self.wavegrp[wavename]['status']['name']
-#		status_bit=self.wavegrp[wavename]['status']['bit']
-#		reset_reg=self.wavegrp[wavename]['reset']['name']
-#		self.read(status_reg)
-#		status=(self.regs[status_reg].getvalue()[0]>>status_bit)&0x1
-#		index=0
-#		while (not status) and index<10:
-#			#print [hex(i) for i in self.read(((status_reg),))]
-#			self.read(status_reg)
-#			status=(self.regs[status_reg].getvalue()[0]>>status_bit)&0x1
-#			index=index+1
-#			#print index
-#			#self.read((('keep'),))
-#			#v3=self.regs['keep'].getvalue()[0]
-#			#self.read((('trace_status2'),))
-#			#v2=self.regs['trace_status2'].getvalue()[0]
-#			#v2=self.read(status_reg)[0]
-##			print 'wavecheckreadreset',status_bit,status_reg,format(v,'08x'),status,'trace_status2:',format(v2,'08x'),'keep:',format(v3,'08x')
-#			time.sleep(0.1)
-##		print status_reg,status
-#		self.readregs((wavename,))
-#		self.write(((reset_reg,0),))
-#		return self.regs[wavename].getvalue()
-#
+		for name,wavegrp in self.wavegrp.items():
+			self.regs[name].setwaveregs(wavegrp)
+		self.timeout=timeout
+
+
+	def wavecheckreadallreset(self,wavename):
+		wave=self.regs[wavename]
+		if not wave.resetafter:
+			self.write(((wave.reset_reg,wave.reset_word),))
+		status=(self.read(((wave.status_reg),))>>wave.status_bit)&0x1
+		status=(self.read(((wave.status_reg),))>>wave.status_bit)&0x1
+		index=0
+		while (not status) and (self.timeout is not None and index<timeout):
+			status=(self.read(((wave.status_reg),))>>wave.status_bit)&0x1
+			index=index+1
+		if self.timeout and index==timeout:
+			print('timeout on ',wavename)
+		else:
+			#			print('wavecheckreadallreset',index,status)
+			self.readregs(((wavename),))
+		if wave.resetafter:
+			self.write(((wave.reset_reg,wave.reset_word),))
+
 #	def readandwrite(self,opnamedatalist,addr=None):
 #		#		print opnamedatalist
 #		cadlist=numpy.array((len(opnamedatalist),3))
@@ -174,7 +124,8 @@ class c_regmap():
 			self.readregs(reglist)
 		if wavelist:
 			#print('0 step in read^^^^^^^^',wavelist)###
-			self.wavecheckreadallreset(wavelist,resetafter=resetafter)
+			for wavename in wavelist:
+				self.wavecheckreadallreset(wavename)
 		return self.getregval(names)
 	def rawadw(self,cadlist):
 		result=self.interface.readwrite(cadlist)
@@ -185,7 +136,7 @@ class c_regmap():
 		self.updatereadvalue(cad)
 		return cad
 	def updatereadvalue(self,cad):
-		result=[]
+		#result=[]
 		for cmd,addr,val in cad:
 			if addr in self.regindex and cmd==self.interface.cmds['read']:
 				self.regindex[addr].setvalue(val,addr)
@@ -201,14 +152,23 @@ class c_regmap():
 		self.read(names=[name])
 
 if __name__=="__main__":
-	interface=c_ether('192.168.1.224',port=0xd003)
+	interface=c_udplb(interface=c_ether('192.168.1.224',port=0xd003))
 	regmap=c_regmap(interface)
 	import sys
 	numpy.set_printoptions(formatter={'int':hex})
-	print('write',regmap.write((('test',int(sys.argv[1],0)),('test2',0xdeadbeef),('err',0))))
-	print('write2',regmap.write((('test',int(sys.argv[1],0)),('test2',0xdeadbeef),('err',0))))
+	print('write',regmap.write((('test',int(sys.argv[1],0)),('test2',0xdeadbaaf),('err',0))))
+	print('write2',regmap.write((('test',int(sys.argv[1],0)),('test2',0xdeadbaaf),('err',0))))
 	print('write3',regmap.write((('test',int(sys.argv[1],0)**2),)))
 	regs=['test','test2','test1']
 	print('read',regmap.read(regs))
 	print('read2',numpy.array(regmap.getregval(regs)))
+	bufreadtest=regmap.read((('bufreadtest'),))
+	diff=numpy.diff(bufreadtest)
+	diff2=numpy.diff(bufreadtest[2:-2])
+	print('read buf',bufreadtest)
+	print('read',max(diff),min(diff))
+	print('read2',max(diff2),min(diff2))
+	from matplotlib import pyplot
+	pyplot.plot(bufreadtest)
+	pyplot.show()
 #	print('getval',[hex(i) for i in [regmap.getregval(i) for i in regs]])

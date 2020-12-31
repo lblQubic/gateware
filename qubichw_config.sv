@@ -1,6 +1,6 @@
 module qubichw_config #(parameter DEBUG="false",parameter BAUD=9600,parameter SIM=0)
 (hw hw
-,ilocalbus_regmap.cfg lbreg
+,regmap.cfg lbreg
 ,dsp.cfg dsp
 );
 wire  clk100;
@@ -13,7 +13,6 @@ wire [31:0] clk125cnt;
 wire [31:0] clk200cnt;
 wire [31:0] clk250cnt;
 wire clkcfg;
-assign clkcfg=clk125;
 wire sysclkmmcm_locked;
 wire sysclkmmcm_reset;
 sysclkmmcm sysclkmmcm(.clk100(clk100),.clk125(clk125),.clk200(clk200),.clk250(clk250),.clk100cnt(clk100cnt),.clk125cnt(clk125cnt),.clk200cnt(clk200cnt),.clk250cnt(clk250cnt),.sysclk(hw.vc707.sysclk),.mmcm_locked(sysclkmmcm_locked),.mmcm_reset(sysclkmmcm_reset));
@@ -54,6 +53,25 @@ assign udplb.rready=lbreg.lb.rready;
 assign lbreg.lb.readcmd=udplb.READCMD;
 assign lbreg.lb.writecmd=udplb.WRITECMD;
 
+
+/*assign lbreg.cntbuf_buf.buf0.wr.clk=clk250;
+assign lbreg.cntbuf_buf.buf0.wr.data=clk250cnt;
+assign lbreg.cntbuf_buf.buf0.wr.en=1'b1;
+*/
+assign udplb.wen=lbreg.lb.wen;
+
+assign lbreg.bufreadtest.wclk=clk250;
+assign lbreg.bufreadtest.wren=1'b1;
+assign lbreg.bufreadtest.wrdata=clk250cnt;
+areset areset_bufreadtestreset(.clk(clk250),.areset(lbreg.stb_bufreadtestreset),.sreset(lbreg.bufreadtest.reset));
+assign lbreg.bufreadtestfull=lbreg.bufreadtest.full;
+/*reg [9:0]	bufreadtestwaddr=0;
+reg [15:0] 	bufreadtestwrdata=0;
+always @(posedge clkcfg) begin
+	bufreadtestwaddr<=lbreg.bufreadtest.waddr;
+	bufreadtestwrdata<=lbreg.bufreadtest.wrdata;
+end
+*/
 iuart_regmap#(.LBCWIDTH(8),.LBAWIDTH(24),.LBDWIDTH(32))
 uartreg();
 assign uartreg.lb.clk=uartlb.clk;
@@ -335,17 +353,19 @@ end
 areset sgmiiethareset(.clk(clkcfg),.areset(sgmiieth_reset),.sreset(sgmiieth_reset_s));
 gmii gmii();
 sgmii_ethernet_pcs_pma #(.SIM(SIM))
-sgmii_ethernet_pcs_pma_1(.gtrefclk(sgmiiclk)
+sgmii_ethernet_pcs_pma(.gtrefclk(sgmiiclk)
 ,.rxn(hw.vc707.sgmii_rx_n)
 ,.rxp(hw.vc707.sgmii_rx_p)
 ,.txn(hw.vc707.sgmii_tx_n)
 ,.txp(hw.vc707.sgmii_tx_p)
 ,.gmii(gmii.phy)
-,.independent_clock_bufg(clkcfg)
+,.independent_clock_bufg(clk125)
 ,.reset(sgmiieth_reset_s)
 ,.resetdone(sgmiieth_resetdone)
 );
 
+assign clkcfg=gmii.tx_clk;
+//assign clkcfg=clk125;//gmii.tx_clk;
 
 wire mdioreset;
 wire mdioinitdone;
@@ -367,7 +387,7 @@ wire [NSTEP-1:0] done;
 wire [NSTEP-1:0] donestrobe;
 wire [NSTEP-1:0] error;
 wire [NSTEP-1:0] resetout;
-wire [NSTEP-1:0] donecriteria={sysclkmmcm_locked,1'b1,1'b1,i2cresetdone,idelayctrl_rdy,qpllresetdone_113,resetdone_sfp,sgmiieth_resetdone,i2cinitdone,~loadmacip,mdioinitdone,ethresetdone,jesd_reset_done_1,1'b1};
+wire [NSTEP-1:0] donecriteria;
 wire [NSTEP-1:0] readycriteria={1'b1,donecriteria[NSTEP-1:1]};
 wire [NSTEP-1:0] resetin={hwreset|poweronreset,donestrobe[NSTEP-1:1]};
 wire [NSTEP*16-1:0] readylength={NSTEP{16'd10}};
@@ -381,7 +401,8 @@ chainreset(.clk(hw.vc707.sysclk)
 wire [NSTEP-2-1:0] dummyready;
 assign readyforreset_sfp=qpllresetdone_113;
 assign readyforreset_eth=resetdone_sfp;
-assign {sysclkmmcm_reset,uartreset,uartlbreset,i2creset,idelayctrl_reset,qpllreset_113,reset_sfp,sgmiieth_reset,i2cinitreset,loadmacip,mdioreset,ethreset_w,jesdreset,axireset}=resetout;
+assign {sysclkmmcm_reset,idelayctrl_reset,qpllreset_113,reset_sfp,sgmiieth_reset,uartreset,uartlbreset,i2creset,i2cinitreset,loadmacip,mdioreset,ethreset_w,axireset,jesdreset}=resetout;
+assign donecriteria={sysclkmmcm_locked,idelayctrl_rdy,qpllresetdone_113,resetdone_sfp,sgmiieth_resetdone,1'b1,1'b1,i2cresetdone,i2cinitdone,~loadmacip,mdioinitdone,ethresetdone,1'b1,jesd_reset_done_1};
 reg [NSTEP-1:0] done_r=0;
 reg [NSTEP-1:0] done_r2=0;
 reg [NSTEP-1:0] done_r3=0;
@@ -393,7 +414,7 @@ always @(posedge clkcfg) begin
 	done_r2<=done_r;
 	done_r3<=done_r2;
 end
-data_xdomain #(.size(10)) donexdomain(.clk_in(hw.vc707.sysclk), .gate_in(1'b1), .data_in(done),
+data_xdomain #(.size(NSTEP)) donexdomain(.clk_in(hw.vc707.sysclk), .gate_in(1'b1), .data_in(done),
 .clk_out(clkcfg),.data_out(done_w));
 assign lbreg.hwresetstatus=done_r3;
 assign uartreg.hwresetstatus=done_r3;
@@ -457,9 +478,9 @@ wire  s_tx_tready;
 wire  s_tx_tvalid=1'b0;
 wire [7:0] status;
 
-reg [47:0] mac=0;
+reg [47:0] mac=48'h503eaa059701;
 assign keeplbdataout=&lb_data_out;
-reg [31:0] ip=0;
+reg [31:0] ip=32'hc0a801e0;
 assign ethclk=gmii.tx_clk;
 always @(posedge ethclk) begin
 //	mac<=48'h525542494301;//MAC;//48'haabbccddeeff;
@@ -493,6 +514,7 @@ udplb64 (.clk(ethclk),.udp(ifudpportd003),.reset(ethreset)//~sgmiieth_resetdone)
 ,.lbrxdv(udplb.wvalid)
 ,.lbtxdata(udplb.rcmd)
 ,.lbtxen(udplb.rready)
+,.lbrxen(udplb.wen)
 ,.rxlength(rxlength)
 ,.txlength(txlength)
 );

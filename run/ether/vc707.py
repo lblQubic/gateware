@@ -116,6 +116,7 @@ class c_vc707:
 		for addr,data in si570.reset:
 			self.si570write(addr,data)
 	def si570readinit(self):
+		print('si570readinit')
 		self.si570reset()
 		return self.si570readallregs()
 	def si570readallregs(self):

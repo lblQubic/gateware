@@ -13,6 +13,10 @@ lbread.vh: submodules/tools/lbrw.py regmap.json
 	python3 submodules/tools/lbrw.py -m regmap.json -b submodules/common-hdl/localbus.json -r lbread.vh
 lbwrite.vh: submodules/tools/lbrw.py regmap.json
 	python3 submodules/tools/lbrw.py -m regmap.json -b submodules/common-hdl/localbus.json -w lbwrite.vh
+lbdefine.vh: submodules/tools/lbrw.py regmap.json
+	python3 submodules/tools/lbrw.py -m regmap.json -b submodules/common-hdl/localbus.json -d lbdefine.vh
+regmap.sv: submodules/tools/localbus.py regmap.json
+	python3 submodules/tools/localbus.py -m regmap.json -b submodules/common-hdl/localbus.json -o regmap
 lbclean:
 	rm -rf lbread.vh lbwrite.vh
 
@@ -20,6 +24,8 @@ uartread.vh: submodules/tools/lbrw.py uartregmap.json
 	python3 submodules/tools/lbrw.py -m uartregmap.json -b submodules/common-hdl/localbus.json -r uartread.vh
 uartwrite.vh: submodules/tools/lbrw.py uartregmap.json
 	python3 submodules/tools/lbrw.py -m uartregmap.json -b submodules/common-hdl/localbus.json -w uartwrite.vh
+uartdefine.vh: submodules/tools/lbrw.py uartregmap.json
+	python3 submodules/tools/lbrw.py -m uartregmap.json -b submodules/common-hdl/localbus.json -d uartdefine.vh
 uartclean:
 	rm -rf uartread.vh uartwrite.vh
 ilaclean:

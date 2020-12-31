@@ -93,7 +93,8 @@ ddmtd.fst: ddmtd_tb.tcl simclean
 #	ipmiutil power -d -N 192.168.1.202 -U ADMIN -P ADMIN
 #reboot:
 #	ipmiutil power -r -N 192.168.1.202 -U ADMIN -P ADMIN
-
+simin.vh: simpacket.py
+	python simpacket.py > simin.vh
 BITS=$(TGT).bit
 prog: submodules/tools/prog.tcl
 	vivado -mode batch -source $< -tclargs $(BITS)

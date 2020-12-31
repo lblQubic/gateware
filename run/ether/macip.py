@@ -20,6 +20,7 @@ if __name__=="__main__":
 	clargs=parser.parse_args()
 
 	qubichw=c_qubichw(init=False)
+	print('c_qubichw')
 	qubichw.macip(mac=clargs.mac,ip=clargs.ip)
 
 #	def macip(mac=None,ip=None):

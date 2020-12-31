@@ -1,6 +1,6 @@
 module qubicdsp #(parameter DEBUG="false"
 )(dsp.dsp dsp
-,ilocalbus_regmap.dsp lbreg
+,regmap.dsp lbreg
 );
 reg [31:0] test1=0;
 always @(posedge dsp.clk) begin

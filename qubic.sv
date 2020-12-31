@@ -7,7 +7,7 @@ parameter SIM=0;
 hw hw();
 //localbus#(.LBCWIDTH(8),.LBAWIDTH(24),.LBDWIDTH(32))
 //uartlocalbus();
-ilocalbus_regmap#(.LBCWIDTH(8),.LBAWIDTH(24),.LBDWIDTH(32))
+regmap#(.LBCWIDTH(8),.LBAWIDTH(24),.LBDWIDTH(32))
 lbreg();
 dsp #(.DEBUG(DEBUG)) dsp();
 qubichw qubichw(.hw(hw),.fpga(fpga));

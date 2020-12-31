@@ -61,6 +61,7 @@ assign hw.vc707.pcie.clk_qo_p=1'b0;
 assign hw.vc707.pcie.clk_qo_n=1'b1;
 assign hw.vc707.sma_mgt_refclk_p=1'b0;
 assign hw.vc707.sma_mgt_refclk_n=1'b1;
+assign hw.vc707.gpio_sw_c=1'b1;
 assign hw.fmc1.llmk_dclkout_2=ghzclk;
 assign hw.fmc1.llmk_sclkout_3=0;
 assign hw.fmc1.lmk_dclk8_m2c_to_fpga=0;
@@ -155,21 +156,21 @@ assign hw.vc707.sfp.rx_n=hw.vc707.sfp.tx_n;
 assign hw.vc707.sfp.rx_p=hw.vc707.sfp.tx_p;
 assign hw.vc707.sfp.los=1'b0;
 wire resetdone;
-gmii gmii();
+gmii ifgmii();
 sgmii_ethernet_pcs_pma #(.SIM(1))
 sgmii_ethernet_pcs_pma(.gtrefclk(sgmiiclk)
 ,.rxn(hw.vc707.sgmii_tx_n)
 ,.rxp(hw.vc707.sgmii_tx_p)
 ,.txn(hw.vc707.sgmii_rx_n)
 ,.txp(hw.vc707.sgmii_rx_p)
-,.gmii(gmii.phy)
+,.gmii(ifgmii.phy)
 ,.independent_clock_bufg(sysclk)
 ,.reset(sysclkcnt==20)//hwreset)
 ,.resetdone(resetdone)
 ,.status_vector()
 );
 reg tx_en=0;
-always @(posedge gmii.tx_clk) begin
+always @(posedge ifgmii.tx_clk) begin
 	tx_en<=sysclkcnt>32'h1000;
 end
 /*assign gmii.tx_en=tx_en;
@@ -285,25 +286,36 @@ localparam data={
 ,64'h000000003755c412
 };
 */
-assign gmii.tx_clk=gmii.rx_clk;
+assign ifgmii.tx_clk=ifgmii.rx_clk;
 reg [6:0] inc=0;
 reg [31:0] txclkcnt=0;
-wire ethstart= txclkcnt[7]&(txclkcnt[6:0]==inc) && resetdone;
-reg ethstart_d=0;
-reg [8*NBYTES-1:0] datasr=0;
-always @(posedge gmii.tx_clk) begin
+//wire ethstart= txclkcnt[7]&(txclkcnt[6:0]==inc) && resetdone;
+//reg ethstart_d=0;
+//reg [8*NBYTES-1:0] datasr=0;
+always @(posedge ifgmii.tx_clk) begin
 	txclkcnt<=txclkcnt+1;
-	ethstart_d<=ethstart;
+/*	ethstart_d<=ethstart;
 	if (ethstart&~ethstart_d) begin
 		datasr<=data;
 		inc<=inc+1;
 	end
 	if (|datasr)
 		datasr<= datasr<<8;
+	*/
 end
-assign gmii.tx_en= |datasr;
-assign gmii.tx_er= 1'b0;
-assign gmii.txd=datasr[8*NBYTES-1:8*NBYTES-8];
+//assign gmii.tx_en= |datasr;
+//assign gmii.tx_er= 1'b0;
+//assign gmii.txd=datasr[8*NBYTES-1:8*NBYTES-8];
+
+reg simdv=0;
+localparam MAXNBYTES=200*8;
+reg [8*MAXNBYTES-1:0] datasr=0;
+`include "simin.vh"
+assign ifgmii.tx_en= simdv;
+assign ifgmii.tx_er= 1'b0;
+assign ifgmii.txd=datasr[8*MAXNBYTES-1:8*MAXNBYTES-8];
+
+
 wire trig100=sgmiiclkcnt[31:1]==100;
 reg trig100_r=0;
 wire [11:0] addr;
@@ -315,8 +327,8 @@ wire w0r1;
 wire busy;
 reg start_d=0;
 
-assign qubic.lbreg.lb.wcmd={8'h03,24'd256,32'h0};
-assign qubic.lbreg.lb.wvalid=1'b1;
+//assign qubic.lbreg.lb.wcmd={8'h03,24'd256,32'h0};
+//assign qubic.lbreg.lb.wvalid=1'b1;
 //always @(posedge qubic.lbreg.lb.clk) begin
 //begin qubic.qubichw_config.udplb64.lbrxdata_r<={8'h03,24'd256,32'h0}; qubic.qubichw_config.udplb64.lbrxdv_r<=1'b1; end
 //end

@@ -48,12 +48,13 @@ class c_udplb():
 
 
 	def readwrite(self, cadlist=None):
+		maxperpacket=180*8
 		p = self.packet_build(cadlist=cadlist)
 		result=b''
-		while (len(p)>150*8):  #  udp max packet size 1472
-			readvalue=self.unitrw(p[0:150*8])  # should page them later
+		while (len(p)>maxperpacket):  #  udp max packet size 1472
+			readvalue=self.unitrw(p[0:maxperpacket])  # should page them later
 			result+=readvalue
-			p=p[150*8:]
+			p=p[maxperpacket:]
 		if p:
 			readvalue=self.unitrw(p)
 			result+=readvalue
@@ -70,19 +71,61 @@ class c_udplb():
 if __name__=="__main__":
 	from ether import c_ether
 	lb = c_udplb(c_ether(ip='192.168.1.224',port=0xd003))
-	alist=int(sys.argv[1])*[22]
+	cadlist=[(0x10,0x400,0)
+			,(0x10,0x401,0)
+			,(0x10,0x402,0)
+			,(0x10,0x403,0)
+			,(0x10,0x404,0)
+			,(0x10,0x405,0)
+			,(0x10,0x5ff,0)
+			,(0x10,0x600,0)
+			,(0x10,0x6ff,0)
+			,(0x10,0x700,0)
+			,(0x10,0x7f0,0)
+			,(0x10,0x7f1,0)
+			,(0x10,0x7f2,0)
+			,(0x10,0x7f3,0)
+			,(0x10,0x7f4,0)
+			,(0x10,0x7f5,0)
+			,(0x10,0x7f6,0)
+			,(0x10,0x7f7,0)
+			,(0x10,0x7f8,0)
+			,(0x10,0x7f9,0)
+			,(0x10,0x7fa,0)
+			,(0x10,0x7fb,0)
+			,(0x10,0x7fc,0)
+			,(0x10,0x7fd,0)
+			,(0x10,0x7fe,0)
+			,(0x10,0x7ff,0)
+			,(0x10,0x56,0)
+			,(0x00,0x55,0)
+			,(0x10,0x56,0)
+			,(0x10,0x56,0)
+			,(0x10,0x56,0)
+			,(0x10,0x56,0)
+			,(0x10,0x56,0)
+			,(0x10,0x56,0)
+			,(0x10,0x56,0)
+			,(0x10,0x56,0)
+			,(0x10,0x56,0)
+			,(0x10,0x56,0)
+			,(0x10,0x56,0)
+			]
+	result=lb.readwrite(cadlist)
+	print(lb.parse_readvalue(result))
+#	alist=int(sys.argv[1])*[22]
 	#result=lb.readwrite(alist=alist,dlist=alist,write=0,rand=False)
 	#print(result)
 	#result=lb.readwrite(alist=alist,dlist=alist,write=1,rand=False)
 	#print(result)
-	cadlist=numpy.zeros((len(alist),3),dtype=int)
-	cadlist[:,0]=len(alist)*[0x10]
-	cadlist[:,1]=alist
-	cadlist[:,2]=len(alist)*[0x0]
-	index=0
-	numpy.set_printoptions(formatter={'int':hex})
-	if (1):
-		result=lb.readwrite(cadlist=cadlist)
-#	print(result)
-		print(index,lb.parse_readvalue(result))
-		index=index+1
+#	cadlist=numpy.zeros((len(alist),3),dtype=int)
+#	cadlist[:,0]=len(alist)*[0x10]
+#	cadlist[:,1]=alist
+#	cadlist[:,2]=len(alist)*[0x0]
+#	index=0
+#	numpy.set_printoptions(formatter={'int':hex})
+#	if (1):
+#		result=lb.readwrite(cadlist=cadlist)
+##	print(result)
+#		print(index,lb.parse_readvalue(result))
+##		index=index+1

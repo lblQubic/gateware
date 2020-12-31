@@ -24,6 +24,14 @@ reg [31:0] sysclkcnt=0;
 always @(posedge sysclk) begin
 	sysclkcnt<=sysclkcnt+1;
 end
+reg clk250=0;
+initial begin
+    forever #(4) clk250=~clk250;
+end
+reg [31:0] clk250cnt=0;
+always @(posedge clk250) begin
+	clk250cnt<=clk250cnt+1;
+end
 reg sgmiiclk=0;
 initial begin
     forever #(4) sgmiiclk=~sgmiiclk;
@@ -254,8 +262,10 @@ wire reset=txclkcnt<100;
 //reg [47:0] mac=48'h00105ad155b2;
 //reg [47:0] mac=48'h515542494301;
 //reg [47:0] mac=48'hc46e1f01d90d;
-reg [47:0] mac=48'h55aabbccddee;
+//reg [47:0] mac=48'h55aabbccddee;
+reg [31:0] ip=32'hc0a801e0;
 
+reg [47:0] mac=48'h503eaa059701;
 iethernet ifethernet(.reset(reset),.mac(mac));
 wire ethstart= txclkcnt[7]&(txclkcnt[6:0]==inc);
 reg ethstart_d=0;
@@ -287,7 +297,6 @@ end
 	end
 end
 */
-`include "simin.vh"
 //assign ethernet.mac={48'h00105ad155b2};
 //assign ifethernet.mac={48'haabbccddeeff};
 /*assign gmii.tx_en= |datasr;
@@ -295,6 +304,7 @@ assign gmii.tx_er= 1'b0;
 assign gmii.txd=datasr[8*NBYTES-1:8*NBYTES-8];
 */
 
+`include "simin.vh"
 assign ifgmii.rx_dv= simdv;//|datasr;
 assign ifgmii.rx_er=1'b0;
 assign ifgmii.rxd=datasr[8*MAXNBYTES-1:8*MAXNBYTES-8];
@@ -310,7 +320,6 @@ ethernetovergmii #(.SIM(1))ethernetovergmii (.gmii(ifgmii.eth),.eth(ifethernet),
 /*iethernet #(.MTU(1500)) arpeth(.reset(reset));
 assign arpeth.rx=ethernet.tx;
 assign arpeth.tx=ethernet.rx;*/
-reg [31:0] ip=32'hc0a801e0;
 iarplink ifarp(.clk(ifethernet.clk));
 iethernet ifarpethernet(.reset(reset),.mac(mac));
 arpoverethernet arpoverethernet (.eth(ifarpethernet), .arp(ifarp),.reset(reset),.ip(ip));
@@ -383,14 +392,15 @@ udplb64 (.clk(ifethernet.clk),.udp(ifudpportd003),.reset(reset)
 ,.lbrxdv(udplb.wvalid)
 ,.lbtxdata(udplb.rcmd)
 ,.lbtxen(udplb.rready)
+,.lbrxen(udplb.wen)
 ,.rxlength(rxlength)
 ,.txlength(txlength)
 );
 assign udplb.clk=sysclk;
 assign txlength=rxlength;
-ilocalbus_regmap#(.LBCWIDTH(8),.LBAWIDTH(24),.LBDWIDTH(32))
+regmap#(.LBCWIDTH(8),.LBAWIDTH(24),.LBDWIDTH(32))
 lbreg();
-
+assign udplb.wen=lbreg.lb.wen;
 assign lbreg.lb.clk=udplb.clk;
 assign lbreg.lb.wcmd=udplb.wcmd;
 assign lbreg.lb.wvalid=udplb.wvalid;
@@ -402,10 +412,16 @@ assign udplb.rready=lbreg.lb.rready;
 assign lbreg.lb.readcmd=udplb.READCMD;
 assign lbreg.lb.writecmd=udplb.WRITECMD;
 
-assign lbreg.cntbuf_buf.buf0.wr.clk=sysclk;
+/*assign lbreg.cntbuf_buf.buf0.wr.clk=sysclk;
 assign lbreg.cntbuf_buf.buf0.wr.en=1'b1;
 assign lbreg.cntbuf_buf.buf0.wr.data=sysclkcnt;//8'h3c;
-
+*/
+assign lbreg.bufreadtest.wclk=clk250;
+assign lbreg.bufreadtest.wren=1'b1;
+assign lbreg.bufreadtest.wrdata=clk250cnt;
+areset areset_bufreadtestreset(.clk(clk250),.areset(lbreg.stb_bufreadtestreset),.sreset(lbreg.bufreadtest.reset));
+//assign lbreg.bufreadtest.flip=lbreg.stb_bufreadtestflip;
+assign lbreg.bufreadtestfull=lbreg.bufreadtest.full;
 
 //assign udplb.lbrready=udplb.lbwvalid;  // for this current uart lb, response immidiately
 //assign lbtxen=lbrxdv;

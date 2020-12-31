@@ -8,12 +8,11 @@ ilaauto.vh
 jesd204_ads54j60.tcl
 jesd204_dac39j84.tcl
 jesd204_phy_8lane.tcl
-lbread.vh
-lbwrite.vh
 uartread.vh
 uartwrite.vh
 uartregmap.sv
-localbus_regmap.sv
+regmap.sv
+regmap_modport.vh
 qubic.sv
 qubic.xdc
 qubicdsp.sv
@@ -67,4 +66,5 @@ sysclkmmcm.v
 xadc.tcl
 submodules/common-hdl/freq_count.v
 submodules/common-hdl/seqinit.v
-buf6.sv
+bufread.sv
+dpram.sv
