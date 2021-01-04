@@ -417,7 +417,6 @@ assign lbreg.lb.writecmd=udplb.WRITECMD;
 assign lbreg.cntbuf_buf.buf0.wr.en=1'b1;
 assign lbreg.cntbuf_buf.buf0.wr.data=sysclkcnt;//8'h3c;
 */
-//ibufio #(.DW(32),.AW(10)) bufreadtestrdif(.clk(lbreg.lb.clk));
 
 bufread #(.AWW(10)
 ,.SIM(SIM)
@@ -447,6 +446,12 @@ bufread #(.AWW(10)
 ,.full(lbreg.adc0buffull)
 ,.reset(lbreg.stb_adc0bufreset));
 
+//assign lbreg.bufreadtest.wclk=clk250;
+//assign lbreg.bufreadtest.wren=1'b1;
+//assign lbreg.bufreadtest.wrdata=clk250cnt;
+//areset areset_bufreadtestreset(.clk(clk250),.areset(lbreg.stb_bufreadtestreset),.sreset(lbreg.bufreadtest.reset));
+//assign lbreg.bufreadtest.flip=lbreg.stb_bufreadtestflip;
+//assign lbreg.bufreadtestfull=lbreg.bufreadtest.full;
 
 
 /*

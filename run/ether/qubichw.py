@@ -418,6 +418,108 @@ if __name__=="__main__":
 #	#	for addr,data in lmk04828.default:
 #	#		vc707.lmkwrite(addr=addr,data=data)
 #
+#
+#	if 0: # test on vc707 eeprom write and read
+#		qubichw.vc707.i2cswitch('eeprom')
+#		#for page in range(16):
+#		for page in [0,1]:
+#			for addr in range(page*16+0,page*16+16):
+#				qubichw.vc707.eepromwrite(addr=addr,data=addr+1,devaddr=0x54)
+#				print('write page ',page,'addr ',addr,'data',addr+1)
+#		time.sleep(0.5)
+#		#for page in range(16):
+#		for page in [0,1]:
+#			val=[]
+#			for addr in range(page*16+0,page*16+16):
+#				val.append(qubichw.vc707.eepromread(addr=addr,devaddr=0x54)[0])
+#				print('read page ',page,'addr ',addr,'data',val[-1])
+#			print(val)
+#	if 0: # test on fmc120 spi
+#		#print('mux read',hex(vc707.i2cread(devaddr=0x74)))
+#		for fmc in [qubichw.fmc120_1,qubichw.fmc120_2]:
+#			qubichw.vc707.i2cswitch(fmc.i2cid)
+#		#vc707.i2cwrite(devaddr=0x74,data=fmcdest)
+#			fmc.reset()
+##			fmc.cpldwrite(addr=0x02,data=0x00)
+##			fmc.cpldwrite(addr=0x02,data=0x20)
+##			fmc.dacwrite(addr=0x02,data=0x2082)
+###	   lmkwrite(addr=0x15d,data=0x73)
+##			fmc.cpldwrite(addr=0x03,data=0x00)
+##			fmc.cpldwrite(addr=0x03,data=0x07)
+##			fmc.cpldwrite(addr=0x03,data=0x18)
+##			fmc.cpldwrite(addr=0x01,data=0xf0)
+##			fmc.lmkwrite(addr=0,data=0x90)
+##			fmc.lmkwrite(addr=0,data=0x10)
+##	   lmkwrite(addr=0x146,data=0x00)
+##	   lmkwrite(addr=0x147,data=0x10)
+##			fmc.lmkwrite(addr=0x148,data=0x33)
+##	   lmkwrite(addr=0x149,data=0x00)
+##	   lmkwrite(addr=0x14a,data=0x00)
+##	   lmkwrite(addr=0x14b,data=0x05)
+#	if 0: # test on fmc120 spi
+##	   print('dacread',hex(int(dacread(addr=0x0))))
+##	   dacwrite(addr=0x0,data=0x18)
+#		for fmc in [qubichw.fmc120_1,qubichw.fmc120_2]:
+#			qubichw.vc707.i2cswitch(fmc.i2cid)
+##			fmc.i2cwrite(devaddr=0x74,data=fmcdest)
+#		#vc707.lmkwrite(addr=0x10,data=0x1010)
+##	   print('lmkread',hex(3),hex(int(lmkread(addr=3))));
+##	   print('dacread',hex(int(dacread(addr=0x0))))
+#			for addr in range(16):
+#		#   for addr in [0,3]:#range(3):
+#				adca=fmc.adcread(mpchaddr=addr,adca0b1=0)
+#				lmk=fmc.lmkread(addr=addr)
+#				dac=fmc.dacread(addr=addr)
+#				adcb=fmc.adcread(mpchaddr=addr,adca0b1=1)
+#				print([hex(i) for i in [addr,lmk,dac,adca,adcb]])
+#
+#	if 0:
+#		for fmc in [qubichw.fmc120_1,qubichw.fmc120_2]:
+#			qubichw.vc707.i2cswitch(fmc.i2cid)
+#			print('ad7291',fmc.ad7291check())
+#				#		time.sleep(1)
+##		for i in range(8):
+##			vc707.ad7291write(addr=0x0,data=((1<<(i+8))+0x80))
+##			chv,vout=vc707.ad7291calc(vc707.ad7291read(0x01))
+##			cht,temp=vc707.ad7291calc(vc707.ad7291read(0x02))
+##			cha,tavr=vc707.ad7291calc(vc707.ad7291read(0x03))
+##			print('%d %3.2f %d %4.2f %d %4.2f'%(chv,vout,cht,temp,cha,tavr))
+#	if 0:
+#		#vc707.i2cwrite(devaddr=0x74,data=0x1)a
+#		qubichw.vc707.i2cswitch('si570')
+#		print(qubichw.vc707.si570readinit())
+#		print(qubichw.vc707.si570setfreq(125.0001e6))
+##		for addr in [7,8,9,10,11,12,13,14,15,16,17,18,135,137]:
+##			val=qubichw.vc707.si570read(addr)
+##			print('(%d,0x%x)'%(addr,val))
+##			#print(format(addr,'3d'),format(addr,'02x'),format(val,'02x'))
+##		addr=18
+##		vc707.si570write(addr,0xff)
+##		val=vc707.si570read(addr)
+##		print(addr,val)
+##		print(format(addr,'3d'),format(addr,'02x'),format(val,'02x'))
+#	if 0:
+#		#   lmkwrite(addr=0,data=0x80);
+#		#lmkwrite(addr=0,data=0x10);
+#		#lmkwrite(addr=2,data=0x00);
+#		import lmk04828
+#		for fmc in [qubichw.fmc120_1,qubichw.fmc120_2]:
+#			qubichw.vc707.i2cswitch(fmc.i2cid)
+#			fmc.lmk04828init(lmk04828.init)
+##			for addr,data in lmk04828.init:
+##				fmc.lmkwrite(addr=addr,data=data)
+##		with open('lmkinit.json') as f:
+##			lmkinit=json.load(f)
+#		#for addr in [0,2,3,4,5,6,0xc,0xd,0x100,0x101,0x103,0x104]:
+##		for addr,data in lmk04828.default:
+##			rdbk=dest.lmkread(addr=addr)[0]
+##			if data==rdbk:
+##				pass
+##			else:
+##				print('lmk init addr %x data %x %d rdbk %x %d'%(addr,data,data,rdbk,rdbk))
+#	#	for addr,data in lmk04828.default:
+#	#		vc707.lmkwrite(addr=addr,data=data)
+#
 #	if 0:
 #		for addr in [1,2,3,4,5,6,7,8,0x0e,0x0f]:
 #			print('cpldread',hex(addr),hex(int(vc707.cpldread(addr=addr)[0])))

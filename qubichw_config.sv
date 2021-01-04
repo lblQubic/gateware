@@ -60,13 +60,18 @@ assign lbreg.cntbuf_buf.buf0.wr.en=1'b1;
 */
 assign udplb.wen=lbreg.lb.wen;
 /*
-assign lbreg.bufreadtest.wclk=clk250;
-assign lbreg.bufreadtest.wren=1'b1;
-assign lbreg.bufreadtest.wrdata=clk250cnt;
-areset areset_bufreadtestreset(.clk(clk250),.areset(lbreg.stb_bufreadtestreset),.sreset(lbreg.bufreadtest.reset));
-assign lbreg.bufreadtestfull=lbreg.bufreadtest.full;
+
+>>>>>>> 09e637b74e066aa20ae868c862dcffb1fa346b44
+//assign lbreg.bufreadtest.wclk=clk250;
+//assign lbreg.bufreadtest.wren=1'b1;
+//assign lbreg.bufreadtest.wrdata=clk250cnt;
+//areset areset_bufreadtestreset(.clk(clk250),.areset(lbreg.stb_bufreadtestreset),.sreset(lbreg.bufreadtest.reset));
+//assign lbreg.bufreadtestfull=lbreg.bufreadtest.full;
 
 reg [9:0]	bufreadtestwaddr=0;
+=======
+/*reg [9:0]	bufreadtestwaddr=0;
+>>>>>>> 09e637b74e066aa20ae868c862dcffb1fa346b44
 reg [15:0] 	bufreadtestwrdata=0;
 always @(posedge clkcfg) begin
 	bufreadtestwaddr<=lbreg.bufreadtest.waddr;
