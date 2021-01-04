@@ -97,8 +97,15 @@ class c_qubichw():
 			#if commcheck:
 			#	print(self.vc707.si570readinit())
 			self.adcinit(initregs=ads54j60.init,checkregs=ads54j60.init)
-			self.dacinit(initregs=dac39j84.default)
-			self.axiinit(initregs=axiinit.axiinit)
+			self.dacinit(initregs=dac39j84.init)
+			for name in self.lbaxi:
+				if ('adc' in name):
+						self.axiinit(name,initregs=axiinit.axiinit_adc)
+				elif ('dac' in name):
+						self.axiinit(name,initregs=axiinit.axiinit_dac)
+				else:
+					print('unknown',name)
+				#self.axiinit(initregs=axiinit.axiinit)
 
 			self.vc707.i2cswitch('si570')
 
@@ -154,17 +161,17 @@ class c_qubichw():
 			self.vc707.i2cswitch(fmc.i2cid)
 			fmc.dacload(initregs)
 			fmc.daccheck(initregs)
-	def axiinit(self,initregs):
-		for name,axi in self.lbaxi.items():
-			if (axi.axi4lite_check(axiprefix=name,reglist=axiinit.axiver)):
-				for addr,data in initregs:
-					#data,valid=axi.axi4lite_read(axiprefix=name,addr=addr)
-					axi.axi4lite_write(axiprefix=name,addr=addr,wdata=data)
-					time.sleep(0.1)
-					print('write axi',addr,data)
-				resetval,valid=axi.axi4lite_read(axiprefix=name,addr=4)
-				print('read axi %s  addr'%axi,addr,'resetval',resetval,hex(resetval))
-				axi.jesd204axi_reset(axiprefix=name)
+	def axiinit(self,name,initregs):
+		axi=self.lbaxi[name]
+		if (axi.axi4lite_check(axiprefix=name,reglist=axiinit.axiver)):
+			for addr,data in initregs:
+				#data,valid=axi.axi4lite_read(axiprefix=name,addr=addr)
+				axi.axi4lite_write(axiprefix=name,addr=addr,wdata=data)
+				time.sleep(0.1)
+				print('write axi',addr,data)
+			resetval,valid=axi.axi4lite_read(axiprefix=name,addr=4)
+			print('read axi %s  addr'%axi,addr,'resetval',resetval,hex(resetval))
+			axi.jesd204axi_reset(axiprefix=name)
 
 
 	def si5324enable(self,enable=True):
@@ -547,3 +554,22 @@ if __name__=="__main__":
 #			print(hex(qubichw.read((('hwresetstatus'),))))
 #			time.sleep(0.1)
 #		print([hex(i) for i in qubichw.read(('macmsb24','maclsb24','ipaddr','hwresetstatus'))])
+#		for name,axi in qubichw.lbaxi.items():
+#			if 'fmc1' in name:
+#				print(axi.axi4lite_check(axiprefix=name,reglist=axiinit.axiver))
+#				if ('adc' in name):
+#						qubichw.axiinit(initregs=axiinit.axiinit_adc)
+#				elif ('dac' in name):
+#						qubichw.axiinit(initregs=axiinit.axiinit_dac)
+#				else:
+#					print('unknown',name)
+#			else:
+#				print(name,'unknow')
+#	if 1:
+#		qubichw.axiinit(initregs=axiinit.axiinit)
+#	print(qubichw.write((("hwreset",1),)))
+#	time.sleep(1)
+#	for fmc in [qubichw.fmc120_1,qubichw.fmc120_2]:
+#		qubichw.vc707.i2cswitch(fmc.i2cid)
+#		fmc.reset()
+#	print(hex(qubichw.read((("hwresetstatus"),))))

@@ -557,7 +557,6 @@ wire [63:0] dac5;
 wire [63:0] dac6;
 wire [63:0] dac7;
 assign keepadc=|{adc0,adc1,adc2,adc3};
-assign {dac0,dac1,dac2,dac3,dac4,dac5,dac6,dac7}=0;
 wire  rx_reset=jesdreset1;//1'b0;
 wire  tx_reset=jesdreset1;//1'b0;
 wire  rx_sys_reset=jesdreset0;//1'b0;
@@ -910,9 +909,9 @@ assign bufreadtestwrif.clk=clk250;
 assign bufreadtestwrif.data=clk250cnt;
 assign bufreadtestwrif.en=1'b1;
 */
-bufread #(.AWW(6)
-,.DWW(16)
-,.DWR(8)) bufreadtest(.wclk(clk250)
+bufread #(.AWW(10)
+,.DWW(32)
+,.DWR(32)) bufreadtest(.wclk(clk250)
 ,.rclk(udplb.clk)
 ,.wdata(clk250cnt)
 ,.waddr(0)
@@ -935,6 +934,36 @@ bufread #(.AWW(10)
 ,.rdata(lbreg.adc0buf__data)
 ,.full(lbreg.adc0buffull)
 ,.reset(lbreg.stb_adc0bufreset));
+
+reg [17:0] phacc=0;
+reg [15:0] amp=0;
+always @(posedge hw.fmc1.llmk_dclkout_2) begin
+	phacc<=phacc+lbreg.dacfreq;
+	amp<=lbreg.dacamp;
+end
+wire [15:0] x16,y16;
+cordicg1 #(.WIDTH(16),.NSTAGE(16),.NORMALIZE(1),.BUFIN(0),.GW(1),.NRIDER(0))
+cordicg1(.clk(hw.fmc1.llmk_dclkout_2)
+,.opin(1'b0)
+,.xin(amp)
+,.yin(16'h0)
+,.phasein(phacc)
+,.xout(x16)
+,.yout(y16)
+,.phaseout()
+,.error()
+,.gin(1'b1)
+,.gout()
+);
+assign dac0={x16,x16,x16,x16};
+assign dac1={y16,y16,y16,y16};
+assign dac2={x16,x16,x16,x16};
+assign dac3={y16,y16,y16,y16};
+assign dac4={x16,x16,x16,x16};
+assign dac5={y16,y16,y16,y16};
+assign dac6={x16,x16,x16,x16};
+assign dac7={y16,y16,y16,y16};
+
 
 //bufread #(.AWW(10),.DWW(32),.DWR(32)) adc0buf(.full(lbreg.adc0buffull),.reset(lbreg.stb_adc0bufreset),.rd(lbreg.adc0bufrdif.source),.wr(adc0bufwrif.destin));
 

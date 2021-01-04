@@ -90,6 +90,8 @@
 ,"adc0buffull": {"access": "r","addr_width": 0,"base_addr": 88,"data_width": 1,"sign": "unsigned","init": 0}
 ,"freq_clkcfg": {"access": "r","addr_width": 0,"base_addr": 89,"data_width": 28,"sign": "unsigned","init": 0}
 ,"bufreadtest": {"access": "r","addr_width": 10,"base_addr": 1024,"data_width": 32,"sign": "unsigned","init": 0}
-,"adc0buf": {"access": "r","addr_width": 6,"base_addr": 4096,"data_width": 64,"sign": "unsigned","init": 0}
+,"adc0buf": {"access": "r","addr_width": 10,"base_addr": 4096,"data_width": 32,"sign": "unsigned","init": 0}
 ,"sclkdclkdiv": {"access": "rw","addr_width": 0,"base_addr": 90,"data_width": 5,"sign": "unsigned","init": 6}
+,"dacfreq": {"access": "rw","addr_width": 0,"base_addr": 91,"data_width": 16,"sign": "unsigned","init": 9000}
+,"dacamp": {"access": "rw","addr_width": 0,"base_addr": 92,"data_width": 16,"sign": "unsigned","init": 15000}
 }
