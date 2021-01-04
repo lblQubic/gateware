@@ -1,10 +1,10 @@
-module qubichw (hw hw,xc7vx485tffg1761pkg fpga);
+module qubichw (hw.hw hw,xc7vx485tffg1761pkg fpga);
 vc707 vc707(.fpga(fpga),.hw(hw.vc707.hw));
-fmc120 fmc1(.fmcpin(hw.vc707.fmc1pin),.fmc120(hw.fmc1.hw));
-fmc120 fmc2(.fmcpin(hw.vc707.fmc2pin),.fmc120(hw.fmc2.hw));
+fmc120 fmc120_fmc1(.fmcpin(hw.vc707.fmc1pin.pin),.fmc120(hw.fmc1.hw));
+fmc120 fmc120_fmc2(.fmcpin(hw.vc707.fmc2pin.pin),.fmc120(hw.fmc2.hw));
 endmodule
 
-interface hw();
+interface hw ();
 
 //`include "vc707.vh"
 ivc707 vc707();
@@ -26,4 +26,59 @@ inout fmc_vadj_on_b_ls,phy_mdio,pmbus_alert,pmbus_clk,pmbus_data,user_clock_n,us
 );
 */
 
+wire fmc1__adcb_sync_in_l_vadj;
+wire fmc1__adca_sync_in_l_vadj;
+wire fmc2__adcb_sync_in_l_vadj;
+wire fmc2__adca_sync_in_l_vadj;
+
+wire fmc1__adc0_da1_p=fmc1.adc0_da1_p;
+wire fmc1__adc0_da1_n=fmc1.adc0_da1_n;
+wire fmc1__adc0_da2_p=fmc1.adc0_da2_p;
+wire fmc1__adc0_da2_n=fmc1.adc0_da2_n;
+wire fmc1__adc0_db1_p=fmc1.adc0_db1_p;
+wire fmc1__adc0_db1_n=fmc1.adc0_db1_n;
+wire fmc1__adc0_db2_p=fmc1.adc0_db2_p;
+wire fmc1__adc0_db2_n=fmc1.adc0_db2_n;
+wire fmc1__adc1_da1_p=fmc1.adc1_da1_p;
+wire fmc1__adc1_da1_n=fmc1.adc1_da1_n;
+wire fmc1__adc1_da2_p=fmc1.adc1_da2_p;
+wire fmc1__adc1_da2_n=fmc1.adc1_da2_n;
+wire fmc1__adc1_db1_p=fmc1.adc1_db1_p;
+wire fmc1__adc1_db1_n=fmc1.adc1_db1_n;
+wire fmc1__adc1_db2_p=fmc1.adc1_db2_p;
+wire fmc1__adc1_db2_n=fmc1.adc1_db2_n;
+
+wire fmc2__adc0_da1_p=fmc2.adc0_da1_p;
+wire fmc2__adc0_da1_n=fmc2.adc0_da1_n;
+wire fmc2__adc0_da2_p=fmc2.adc0_da2_p;
+wire fmc2__adc0_da2_n=fmc2.adc0_da2_n;
+wire fmc2__adc0_db1_p=fmc2.adc0_db1_p;
+wire fmc2__adc0_db1_n=fmc2.adc0_db1_n;
+wire fmc2__adc0_db2_p=fmc2.adc0_db2_p;
+wire fmc2__adc0_db2_n=fmc2.adc0_db2_n;
+wire fmc2__adc1_da1_p=fmc2.adc1_da1_p;
+wire fmc2__adc1_da1_n=fmc2.adc1_da1_n;
+wire fmc2__adc1_da2_p=fmc2.adc1_da2_p;
+wire fmc2__adc1_da2_n=fmc2.adc1_da2_n;
+wire fmc2__adc1_db1_p=fmc2.adc1_db1_p;
+wire fmc2__adc1_db1_n=fmc2.adc1_db1_n;
+wire fmc2__adc1_db2_p=fmc2.adc1_db2_p;
+wire fmc2__adc1_db2_n=fmc2.adc1_db2_n;
+assign fmc1.adcb_sync_in_l_vadj=fmc1__adcb_sync_in_l_vadj;
+assign fmc1.adca_sync_in_l_vadj=fmc1__adca_sync_in_l_vadj;
+assign fmc2.adcb_sync_in_l_vadj=fmc2__adcb_sync_in_l_vadj;
+assign fmc2.adca_sync_in_l_vadj=fmc2__adca_sync_in_l_vadj;
+wire [7:0] fmc1__dac_lane_p,fmc1__dac_lane_n;
+wire [7:0] fmc2__dac_lane_p,fmc2__dac_lane_n;
+assign fmc1.dac_lane_p=fmc1__dac_lane_p;
+assign fmc1.dac_lane_n=fmc1__dac_lane_n;
+assign fmc2.dac_lane_p=fmc2__dac_lane_p;
+assign fmc2.dac_lane_n=fmc2__dac_lane_n;
+modport cfg(output  fmc1__adcb_sync_in_l_vadj,fmc1__adca_sync_in_l_vadj,fmc2__adcb_sync_in_l_vadj,fmc2__adca_sync_in_l_vadj
+,fmc1__dac_lane_p,fmc1__dac_lane_n,fmc2__dac_lane_p,fmc2__dac_lane_n
+,input fmc1__adc0_da1_p,fmc1__adc0_da1_n,fmc1__adc0_da2_p,fmc1__adc0_da2_n,fmc1__adc0_db1_p,fmc1__adc0_db1_n,fmc1__adc0_db2_p,fmc1__adc0_db2_n,fmc1__adc1_da1_p,fmc1__adc1_da1_n,fmc1__adc1_da2_p,fmc1__adc1_da2_n,fmc1__adc1_db1_p,fmc1__adc1_db1_n,fmc1__adc1_db2_p,fmc1__adc1_db2_n
+,fmc2__adc0_da1_p,fmc2__adc0_da1_n,fmc2__adc0_da2_p,fmc2__adc0_da2_n,fmc2__adc0_db1_p,fmc2__adc0_db1_n,fmc2__adc0_db2_p,fmc2__adc0_db2_n,fmc2__adc1_da1_p,fmc2__adc1_da1_n,fmc2__adc1_da2_p,fmc2__adc1_da2_n,fmc2__adc1_db1_p,fmc2__adc1_db1_n,fmc2__adc1_db2_p,fmc2__adc1_db2_n
+);
+modport hw(input fmc1__adcb_sync_in_l_vadj,fmc1__adca_sync_in_l_vadj,fmc2__adcb_sync_in_l_vadj,fmc2__adca_sync_in_l_vadj
+);
 endinterface

@@ -37,12 +37,14 @@ class c_lbaxi():
 	def axi4lite_write(self,axiprefix,addr,wdata):
 		return self.axi4lite_readwrite(axiprefix=axiprefix,addr=addr,w0r1=0,wdata=wdata)
 	def axi4lite_check(self,axiprefix,reglist):
+		print('axi4lite check begin')
 		checkpass=True
-		for w0r1,addr,data in reglist:
+		for addr,data in reglist:
 			rdbk=self.axi4lite_read(axiprefix=axiprefix,addr=addr)[0]
 			if rdbk!=data:
 				print('axi check addr',addr,'should be ',hex(data),'read ',hex(rdbk))
 				checkpass=False
+		print('axi4lite check end')
 		return checkpass
 	def jesd204axi_reset(self,axiprefix):
 		self.axi4lite_write(axiprefix=axiprefix,addr=0x04,wdata=0x00001)
@@ -51,7 +53,7 @@ class c_lbaxi():
 		ireset=0
 		while (int(reset)&0x1):
 #			   self.axi4lite_write(ser,axi,0x04,0x10000)
-			print('reseting',ireset)
+			print('reseting',axiprefix,ireset)
 			reset,resetvalid=self.axi4lite_read(axiprefix,0x04)
 			print('reset',reset)
 			time.sleep(0.1)

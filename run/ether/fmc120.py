@@ -74,20 +74,22 @@ class c_fmc120:
 	def adcread(self,mpchaddr,adca0b1):
 		cmd24=self.adccmd(r1w0=1,mpchaddr=mpchaddr,data=0)
 		vmsb,vlsb=self.spiread(cmd24=cmd24,action=0x04 if adca0b1==0 else 0x08)
+		#print('adcread',hex(vmsb),hex(vlsb))
 		return vlsb
 	def adcload(self,adca0b1,reglist):
 		for mpchaddr,data in reglist:
 			self.adcwrite(mpchaddr,data,adca0b1)
-	def adccheck(self,adca0b1,reglist):
+	def adccheck(self,adca0b1,reglist,printall=False):
 		import ads54j60
 		checkpass=True
 		for mpchaddr,data in reglist:
 			if mpchaddr in ads54j60.ctrladdr:
 				self.adcwrite(mpchaddr=mpchaddr,adca0b1=adca0b1,data=data)
+				print('change ctrl reg %x to %x'%(mpchaddr,data))
 			else:
 				rdbk=self.adcread(mpchaddr=mpchaddr,adca0b1=adca0b1)
-				if (rdbk!=data):
-					print('adc regs check',hex(mpchaddr),hex(rdbk),hex(data))
+				if (rdbk!=data or printall):
+					print('adc regs check addr 0x%x expected to be 0x%x actual rdbk 0x%x '%(mpchaddr,data,rdbk))
 					checkpass=False
 		return checkpass
 
@@ -219,7 +221,7 @@ class c_fmc120:
 		# reset adc and lmk
 		self.cpldwrite(addr=0x03,data=0x00)
 		self.cpldwrite(addr=0x03,data=0x07)
-		self.cpldwrite(addr=0x03,data=0x18)
+		self.cpldwrite(addr=0x03,data=0x08)
 		self.cpldwrite(addr=0x01,data=0xf0)
 
 		self.lmkwrite(addr=0,data=0x90)

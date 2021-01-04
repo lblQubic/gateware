@@ -67,7 +67,7 @@ class c_vc707:
 		self.i2creadwrite(devaddr=devaddr&0x7f,r1w0=0,data=data,nack=nack,stop=stop)
 	def i2cread(self,devaddr,nack=2):
 		v=self.i2creadwrite(devaddr=devaddr&0x7f,r1w0=1,data=0,nack=nack)
-#   print('i2cread',hex(int(v)))
+		#print('i2cread',hex(int(v)))
 		return v
 
 	def i2cswitch(self,i2cdest):
@@ -116,6 +116,7 @@ class c_vc707:
 		for addr,data in si570.reset:
 			self.si570write(addr,data)
 	def si570readinit(self):
+		print('si570readinit')
 		self.si570reset()
 		return self.si570readallregs()
 	def si570readallregs(self):

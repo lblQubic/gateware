@@ -73,6 +73,11 @@ loop.fst: loop_tb.tcl simclean
 	vcd2fst -v  ./vivado_project_sim/loop.sim/sim_1/behav/xsim/loop.vcd -f loop.fst
 	printf "\a"
 
+jesd.fst: jesd_tb.tcl simclean_jesd
+	vivado -mode batch -source $< -tclargs $(TEND)
+	vcd2fst -v  ./vivado_project_sim_jesd/jesd.sim/sim_1/behav/xsim/jesd.vcd -f jesd.fst
+	printf "\a"
+
 gmii.fst: gmii_tb.tcl simclean
 	vivado -mode batch -source $< -tclargs $(TEND)
 	vcd2fst -v  ./vivado_project_sim/gmii.sim/sim_1/behav/xsim/gmii.vcd -f gmii.fst
@@ -93,14 +98,15 @@ ddmtd.fst: ddmtd_tb.tcl simclean
 #	ipmiutil power -d -N 192.168.1.202 -U ADMIN -P ADMIN
 #reboot:
 #	ipmiutil power -r -N 192.168.1.202 -U ADMIN -P ADMIN
-
+simin.vh: simpacket.py
+	python simpacket.py > simin.vh
 BITS=$(TGT).bit
 prog: submodules/tools/prog.tcl
 	vivado -mode batch -source $< -tclargs $(BITS)
 
 -include makefile.pre
 
-.PHONY: configromxclean simclean bitclean clean lbclean ilaclean
+.PHONY: configromxclean simclean bitclean clean lbclean ilaclean simclean_jesd
 configromxclean:
 	rm -f config_romx.v
 simclean:
@@ -111,6 +117,8 @@ simclean:
 bitclean:
 	rm -rf vivado_project
 
+simclean_jesd:
+	rm -rf vivado_project_sim_jesd
 
 clean: simclean bitclean lbclean ilaclean
 	rm -f vivado*.jou vivado*.log webtalk*.jou webtalk*.log vivado_pid*.str 

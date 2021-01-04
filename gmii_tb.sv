@@ -24,6 +24,14 @@ reg [31:0] sysclkcnt=0;
 always @(posedge sysclk) begin
 	sysclkcnt<=sysclkcnt+1;
 end
+reg clk250=0;
+initial begin
+    forever #(4) clk250=~clk250;
+end
+reg [31:0] clk250cnt=0;
+always @(posedge clk250) begin
+	clk250cnt<=clk250cnt+1;
+end
 reg sgmiiclk=0;
 initial begin
     forever #(4) sgmiiclk=~sgmiiclk;
@@ -34,6 +42,7 @@ assign ifgmii.rx_clk=sgmiiclk;
 assign gmii.txd=8'hde;
 assign gmii.tx_er=1'b0;*/
 // ping example
+localparam SIM=1;
 localparam MAXNBYTES=200*8;
 localparam PINGNBYTES=14*8-2;
 localparam PINGDATA={
@@ -254,8 +263,10 @@ wire reset=txclkcnt<100;
 //reg [47:0] mac=48'h00105ad155b2;
 //reg [47:0] mac=48'h515542494301;
 //reg [47:0] mac=48'hc46e1f01d90d;
-reg [47:0] mac=48'h55aabbccddee;
+//reg [47:0] mac=48'h55aabbccddee;
+reg [31:0] ip=32'hc0a801e0;
 
+reg [47:0] mac=48'h503eaa059701;
 iethernet ifethernet(.reset(reset),.mac(mac));
 wire ethstart= txclkcnt[7]&(txclkcnt[6:0]==inc);
 reg ethstart_d=0;
@@ -287,7 +298,6 @@ end
 	end
 end
 */
-`include "simin.vh"
 //assign ethernet.mac={48'h00105ad155b2};
 //assign ifethernet.mac={48'haabbccddeeff};
 /*assign gmii.tx_en= |datasr;
@@ -295,6 +305,7 @@ assign gmii.tx_er= 1'b0;
 assign gmii.txd=datasr[8*NBYTES-1:8*NBYTES-8];
 */
 
+`include "simin.vh"
 assign ifgmii.rx_dv= simdv;//|datasr;
 assign ifgmii.rx_er=1'b0;
 assign ifgmii.rxd=datasr[8*MAXNBYTES-1:8*MAXNBYTES-8];
@@ -310,7 +321,6 @@ ethernetovergmii #(.SIM(1))ethernetovergmii (.gmii(ifgmii.eth),.eth(ifethernet),
 /*iethernet #(.MTU(1500)) arpeth(.reset(reset));
 assign arpeth.rx=ethernet.tx;
 assign arpeth.tx=ethernet.rx;*/
-reg [31:0] ip=32'hc0a801e0;
 iarplink ifarp(.clk(ifethernet.clk));
 iethernet ifarpethernet(.reset(reset),.mac(mac));
 arpoverethernet arpoverethernet (.eth(ifarpethernet), .arp(ifarp),.reset(reset),.ip(ip));
@@ -383,14 +393,15 @@ udplb64 (.clk(ifethernet.clk),.udp(ifudpportd003),.reset(reset)
 ,.lbrxdv(udplb.wvalid)
 ,.lbtxdata(udplb.rcmd)
 ,.lbtxen(udplb.rready)
+,.lbrxen(udplb.wen)
 ,.rxlength(rxlength)
 ,.txlength(txlength)
 );
 assign udplb.clk=sysclk;
 assign txlength=rxlength;
-ilocalbus_regmap#(.LBCWIDTH(8),.LBAWIDTH(24),.LBDWIDTH(32))
+regmap#(.LBCWIDTH(8),.LBAWIDTH(24),.LBDWIDTH(32))
 lbreg();
-
+assign udplb.wen=lbreg.lb.wen;
 assign lbreg.lb.clk=udplb.clk;
 assign lbreg.lb.wcmd=udplb.wcmd;
 assign lbreg.lb.wvalid=udplb.wvalid;
@@ -402,11 +413,67 @@ assign udplb.rready=lbreg.lb.rready;
 assign lbreg.lb.readcmd=udplb.READCMD;
 assign lbreg.lb.writecmd=udplb.WRITECMD;
 
-assign lbreg.cntbuf_buf.buf0.wr.clk=sysclk;
+/*assign lbreg.cntbuf_buf.buf0.wr.clk=sysclk;
 assign lbreg.cntbuf_buf.buf0.wr.en=1'b1;
 assign lbreg.cntbuf_buf.buf0.wr.data=sysclkcnt;//8'h3c;
+*/
+//ibufio #(.DW(32),.AW(10)) bufreadtestrdif(.clk(lbreg.lb.clk));
+
+bufread #(.AWW(10)
+,.SIM(SIM)
+,.DWW(32)
+,.DWR(32)) bufreadtest(.wclk(clk250)
+,.rclk(udplb.clk)
+,.wdata(clk250cnt)
+,.waddr(0)
+,.wen(1'b1)
+,.ren(lbreg.bufreadtest__en)
+,.raddr(lbreg.bufreadtest__addr)
+,.rdata(lbreg.bufreadtest__data)
+,.full(lbreg.bufreadtestfull)
+,.reset(lbreg.stb_bufreadtestreset));
+
+bufread #(.AWW(10)
+,.SIM(SIM)
+,.DWW(64)
+,.DWR(32)) adc0buf(.wclk(clk250)
+,.rclk(udplb.clk)
+,.wdata({32'hfacefeed,clk250cnt})
+,.waddr(0)
+,.wen(1'b1)
+,.ren(lbreg.adc0buf__en)
+,.raddr(lbreg.adc0buf__addr)
+,.rdata(lbreg.adc0buf__data)
+,.full(lbreg.adc0buffull)
+,.reset(lbreg.stb_adc0bufreset));
 
 
+
+/*
+ibufio #(.DW(32),.AW(10)) bufreadtestwrif();//.clk(clk250));
+assign bufreadtestwrif.clk=clk250;
+assign bufreadtestwrif.data=clk250cnt;
+assign bufreadtestwrif.en=1'b1;
+bufread #(.AWW(10),.DWW(32),.DWR(32),.SIM(SIM)) bufreadtest(.full(lbreg.bufreadtestfull),.reset(lbreg.stb_bufreadtestreset),.rd(lbreg.bufreadtestrdif),.wr(bufreadtestwrif));
+ibufio #(.DW(64),.AW(10)) adc0bufwrif();//.clk(clk250));
+assign adc0bufwrif.clk=clk250;
+assign adc0bufwrif.data={32'hfacefeed,clk250cnt};
+assign adc0bufwrif.en=1'b1;
+bufread #(.AWW(10),.DWW(64),.DWR(32),.SIM(SIM)) adc0buf(.full(lbreg.adc0buffull),.reset(lbreg.stb_adc0bufreset),.rd(lbreg.adc0bufrdif),.wr(adc0bufwrif));
+*/
+//bufread #(.AWW(10),.DWW(64),.DWR(32)) adc0buf(.rclk(lb.clk),.ren(lb.read&(lb.waddr[24-1:11]==13'h2)));
+//assign lbreg.bufreadtest.wclk=clk250;
+//assign lbreg.bufreadtest.wren=1'b1;
+//assign lbreg.bufreadtest.wrdata=clk250cnt;
+//areset areset_bufreadtestreset(.clk(clk250),.areset(),.sreset(lbreg.bufreadtest.reset));
+//assign lbreg.bufreadtestfull=
+//assign lbreg.bufreadtest.flip=lbreg.stb_bufreadtestflip;
+/*assign lbreg.adc0buf.wclk=clk250;
+assign lbreg.adc0buf.wren=1'b1;
+assign lbreg.adc0buf.wrdata={32'hfacefeed,clk250cnt};
+areset areset_adc0bufreset(.clk(clk250),.areset(lbreg.stb_adc0bufreset),.sreset(lbreg.adc0buf.reset));
+assign lbreg.adc0buffull=lbreg.adc0buf.full;
+*/
 //assign udplb.lbrready=udplb.lbwvalid;  // for this current uart lb, response immidiately
 //assign lbtxen=lbrxdv;
 //assign lbtxdata=lbrxdata;//64'hfffe0001deadbeef

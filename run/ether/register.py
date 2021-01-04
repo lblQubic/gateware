@@ -23,6 +23,28 @@ class c_register:
 		self.address=c_address(base=self.base_addr,length=self.addr_length)
 		self.value=(1<<self.addr_width)*[0]
 		self.DWIDTHmask1=(1<<self.DWIDTH)-1
+	def setwaveregs(self,wavegrp):
+		if 'status' in wavegrp:
+			if 'name' in wavegrp['status']:
+				self.status_reg=wavegrp['status']['name']
+			if 'bit' in wavegrp['status']:
+				self.status_bit=wavegrp['status']['bit']
+		if 'reset' in wavegrp:
+			self.reset_word=0
+			if 'name' in wavegrp['reset']:
+				self.reset_reg=wavegrp['reset']['name']
+			if 'bit' in wavegrp['reset']:
+				self.reset_bit=wavegrp['reset']['bit']
+		if 'resetafter' in wavegrp:
+			self.resetafter=wavegrp['resetafter']
+		if 'flip' in wavegrp:
+			self.flip_word=0
+			if 'name' in wavegrp['flip']:
+				self.flip_reg=wavegrp['flip']['name']
+			if 'bit' in wavegrp['flip']:
+				self.flip_bit=wavegrp['flip']['bit']
+		if 'flipafter' in wavegrp:
+			self.flipafter=wavegrp['flipafter']
 	def readaddr(self):
 		#		print 'register readaddr',self.name,self.base_addr,offset
 		return range(self.base_addr,self.base_addr+self.addr_length)

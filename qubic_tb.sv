@@ -2,7 +2,7 @@
 //`include "xc7vx485tffg1761pkg.vh"
 `timescale 1ns / 100ps
 module qubic_tb();
-
+localparam SIM=1;
 xc7vx485tffg1761pkg fpga();
 reg sysclk=0;
 integer cc=0;
@@ -31,10 +31,52 @@ reg ghzclk=0;
 initial begin
     forever #(0.5) ghzclk=~ghzclk;
 end
-hw hw();
+reg clk250=0;
+initial begin
+    forever #(2) clk250=~clk250;
+end
+reg clk500=0;
+initial begin
+    forever #(1) clk500=~clk500;
+end
+reg [31:0] clk500cnt=0;
+always @(posedge clk500) begin
+	clk500cnt<=clk500cnt+1;
+end
+hw  hw();
 vc707_sim vc707_sim(.fpga(fpga),.hw(hw.vc707.sim));
 fmc120_sim fmc1(.fmcpin(hw.vc707.fmc1pin),.fmc120(hw.fmc1.sim));
-fmc120_sim fmc2(.fmcpin(hw.vc707.fmc2pin),.fmc120(hw.fmc2.sim));
+// gtio fmc120_sim fmc2(.fmcpin(hw.vc707.fmc2pin),.fmc120(hw.fmc2.sim));
+wire [1:0] adc0=2'b01;
+wire [1:0] adc1=2'b10;
+wire [1:0] adc2=2'b01;
+wire [1:0] adc3=2'b10;
+wire [1:0] adc4=2'b01;
+wire [1:0] adc5=2'b10;
+wire [1:0] adc6=2'b01;
+wire [1:0] adc7=2'b10;
+
+assign {hw.fmc1.sim.adc0_da1_p,hw.fmc1.sim.adc0_da1_n}={hw.fmc1.dac_lane_p[0],hw.fmc1.dac_lane_n[0]};
+assign {hw.fmc1.sim.adc0_da2_p,hw.fmc1.sim.adc0_da2_n}={hw.fmc1.dac_lane_p[1],hw.fmc1.dac_lane_n[1]};
+assign {hw.fmc1.sim.adc0_db1_p,hw.fmc1.sim.adc0_db1_n}={hw.fmc1.dac_lane_p[2],hw.fmc1.dac_lane_n[2]};
+assign {hw.fmc1.sim.adc0_db2_p,hw.fmc1.sim.adc0_db2_n}={hw.fmc1.dac_lane_p[3],hw.fmc1.dac_lane_n[3]};
+assign {hw.fmc1.sim.adc1_da1_p,hw.fmc1.sim.adc1_da1_n}={hw.fmc1.dac_lane_p[4],hw.fmc1.dac_lane_n[4]};
+assign {hw.fmc1.sim.adc1_da2_p,hw.fmc1.sim.adc1_da2_n}={hw.fmc1.dac_lane_p[5],hw.fmc1.dac_lane_n[5]};
+assign {hw.fmc1.sim.adc1_db1_p,hw.fmc1.sim.adc1_db1_n}={hw.fmc1.dac_lane_p[6],hw.fmc1.dac_lane_n[6]};
+assign {hw.fmc1.sim.adc1_db2_p,hw.fmc1.sim.adc1_db2_n}={hw.fmc1.dac_lane_p[7],hw.fmc1.dac_lane_n[7]};
+
+//assign {hw.fmc2.sim.adc0_da1_p,hw.fmc2.sim.adc0_da1_n}=hw.fmc2.adca_sync_in_l_vadj ? {adc0[0],~adc0[0]} : {hw.fmc2.dac_lane_p[0],hw.fmc2.dac_lane_n[0]};
+//assign {hw.fmc2.sim.adc0_da2_p,hw.fmc2.sim.adc0_da2_n}=hw.fmc2.adca_sync_in_l_vadj ? {adc0[1],~adc0[1]} : {hw.fmc2.dac_lane_p[1],hw.fmc2.dac_lane_n[1]};
+//assign {hw.fmc2.sim.adc0_db1_p,hw.fmc2.sim.adc0_db1_n}=hw.fmc2.adca_sync_in_l_vadj ? {adc1[0],~adc1[0]} : {hw.fmc2.dac_lane_p[2],hw.fmc2.dac_lane_n[2]};
+//assign {hw.fmc2.sim.adc0_db2_p,hw.fmc2.sim.adc0_db2_n}=hw.fmc2.adca_sync_in_l_vadj ? {adc1[1],~adc1[1]} : {hw.fmc2.dac_lane_p[3],hw.fmc2.dac_lane_n[3]};
+//assign {hw.fmc2.sim.adc1_da1_p,hw.fmc2.sim.adc1_da1_n}=hw.fmc2.adca_sync_in_l_vadj ? {adc2[0],~adc2[0]} : {hw.fmc2.dac_lane_p[4],hw.fmc2.dac_lane_n[4]};
+//assign {hw.fmc2.sim.adc1_da2_p,hw.fmc2.sim.adc1_da2_n}=hw.fmc2.adca_sync_in_l_vadj ? {adc2[1],~adc2[1]} : {hw.fmc2.dac_lane_p[5],hw.fmc2.dac_lane_n[5]};
+//assign {hw.fmc2.sim.adc1_db1_p,hw.fmc2.sim.adc1_db1_n}=hw.fmc2.adca_sync_in_l_vadj ? {adc3[0],~adc3[0]} : {hw.fmc2.dac_lane_p[6],hw.fmc2.dac_lane_n[6]};
+//assign {hw.fmc2.sim.adc1_db2_p,hw.fmc2.sim.adc1_db2_n}=hw.fmc2.adca_sync_in_l_vadj ? {adc3[1],~adc3[1]} : {hw.fmc2.dac_lane_p[7],hw.fmc2.dac_lane_n[7]};
+
+assign hw.fmc1.dac_sync_req_to_fpga=hw.fmc1.adca_sync_in_l_vadj;//,hw.fmc1.adcb_sync_in_l_vadj
+// gtio assign hw.fmc2.dac_sync_req_to_fpga=hw.fmc2.adca_sync_in_l_vadj;//,hw.fmc2.adcb_sync_in_l_vadj
+
 
 wire slaveack1valid;
 wire [7:0] slaveack1;
@@ -61,18 +103,19 @@ assign hw.vc707.pcie.clk_qo_p=1'b0;
 assign hw.vc707.pcie.clk_qo_n=1'b1;
 assign hw.vc707.sma_mgt_refclk_p=1'b0;
 assign hw.vc707.sma_mgt_refclk_n=1'b1;
-assign hw.fmc1.llmk_dclkout_2=ghzclk;
-assign hw.fmc1.llmk_sclkout_3=0;
-assign hw.fmc1.lmk_dclk8_m2c_to_fpga=0;
+assign hw.vc707.gpio_sw_c=1'b1;
+assign hw.fmc1.llmk_dclkout_2=clk250;
+assign hw.fmc1.llmk_sclkout_3=clk500cnt[12];
+assign hw.fmc1.lmk_dclk8_m2c_to_fpga=clk500;
 assign hw.fmc1.lmk_dclk10_m2c_to_fpga=0;
-assign hw.fmc2.llmk_dclkout_2=ghzclk;
-assign hw.fmc2.llmk_sclkout_3=0;
-assign hw.fmc2.lmk_dclk8_m2c_to_fpga=0;
-assign hw.fmc2.lmk_dclk10_m2c_to_fpga=0;
+// gtio assign hw.fmc2.llmk_dclkout_2=clk250;
+// gtio assign hw.fmc2.llmk_sclkout_3=clk500cnt[12];
+// gtio assign hw.fmc2.lmk_dclk8_m2c_to_fpga=clk500;
+// gtio assign hw.fmc2.lmk_dclk10_m2c_to_fpga=0;
 //assign hw.vc707.usb2uart.tx=0;
 //assign hw.vc707.usb2uart.rx=0;
 localparam BAUD=9600000;
-qubic #(.BAUD(BAUD),.SIM(1)) qubic(.fpga(fpga));
+qubic #(.BAUD(BAUD),.SIM(SIM)) qubic(.fpga(fpga));
 
 reg [31:0] sysclkcnt=0;
 always @(posedge sysclk) begin
@@ -155,21 +198,21 @@ assign hw.vc707.sfp.rx_n=hw.vc707.sfp.tx_n;
 assign hw.vc707.sfp.rx_p=hw.vc707.sfp.tx_p;
 assign hw.vc707.sfp.los=1'b0;
 wire resetdone;
-gmii gmii();
-sgmii_ethernet_pcs_pma #(.SIM(1))
+gmii ifgmii();
+sgmii_ethernet_pcs_pma #(.SIM(SIM))
 sgmii_ethernet_pcs_pma(.gtrefclk(sgmiiclk)
 ,.rxn(hw.vc707.sgmii_tx_n)
 ,.rxp(hw.vc707.sgmii_tx_p)
 ,.txn(hw.vc707.sgmii_rx_n)
 ,.txp(hw.vc707.sgmii_rx_p)
-,.gmii(gmii.phy)
+,.gmii(ifgmii.phy)
 ,.independent_clock_bufg(sysclk)
 ,.reset(sysclkcnt==20)//hwreset)
 ,.resetdone(resetdone)
 ,.status_vector()
 );
 reg tx_en=0;
-always @(posedge gmii.tx_clk) begin
+always @(posedge ifgmii.tx_clk) begin
 	tx_en<=sysclkcnt>32'h1000;
 end
 /*assign gmii.tx_en=tx_en;
@@ -285,25 +328,36 @@ localparam data={
 ,64'h000000003755c412
 };
 */
-assign gmii.tx_clk=gmii.rx_clk;
+assign ifgmii.tx_clk=ifgmii.rx_clk;
 reg [6:0] inc=0;
 reg [31:0] txclkcnt=0;
-wire ethstart= txclkcnt[7]&(txclkcnt[6:0]==inc) && resetdone;
-reg ethstart_d=0;
-reg [8*NBYTES-1:0] datasr=0;
-always @(posedge gmii.tx_clk) begin
+//wire ethstart= txclkcnt[7]&(txclkcnt[6:0]==inc) && resetdone;
+//reg ethstart_d=0;
+//reg [8*NBYTES-1:0] datasr=0;
+always @(posedge ifgmii.tx_clk) begin
 	txclkcnt<=txclkcnt+1;
-	ethstart_d<=ethstart;
+/*	ethstart_d<=ethstart;
 	if (ethstart&~ethstart_d) begin
 		datasr<=data;
 		inc<=inc+1;
 	end
 	if (|datasr)
 		datasr<= datasr<<8;
+	*/
 end
-assign gmii.tx_en= |datasr;
-assign gmii.tx_er= 1'b0;
-assign gmii.txd=datasr[8*NBYTES-1:8*NBYTES-8];
+//assign gmii.tx_en= |datasr;
+//assign gmii.tx_er= 1'b0;
+//assign gmii.txd=datasr[8*NBYTES-1:8*NBYTES-8];
+
+reg simdv=0;
+localparam MAXNBYTES=200*8;
+reg [8*MAXNBYTES-1:0] datasr=0;
+`include "simin.vh"
+assign ifgmii.tx_en= simdv;
+assign ifgmii.tx_er= 1'b0;
+assign ifgmii.txd=datasr[8*MAXNBYTES-1:8*MAXNBYTES-8];
+
+
 wire trig100=sgmiiclkcnt[31:1]==100;
 reg trig100_r=0;
 wire [11:0] addr;
@@ -315,8 +369,8 @@ wire w0r1;
 wire busy;
 reg start_d=0;
 
-assign qubic.lbreg.lb.wcmd={8'h03,24'd256,32'h0};
-assign qubic.lbreg.lb.wvalid=1'b1;
+//assign qubic.lbreg.lb.wcmd={8'h03,24'd256,32'h0};
+//assign qubic.lbreg.lb.wvalid=1'b1;
 //always @(posedge qubic.lbreg.lb.clk) begin
 //begin qubic.qubichw_config.udplb64.lbrxdata_r<={8'h03,24'd256,32'h0}; qubic.qubichw_config.udplb64.lbrxdv_r<=1'b1; end
 //end

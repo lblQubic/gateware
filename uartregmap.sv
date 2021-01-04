@@ -10,7 +10,7 @@ reg [LBCWIDTH-1:0] lbrcmd_r=0;
 reg lbrready_r1=0;
 reg lbrready_r2=0;
 
-`include "uartwrite.vh"
+`include "uartdefine.vh"
 always @(posedge lb.clk) begin
 	//lbwvalid_r<=lb.wvalid;
 	lbrready_r2<=lbrready_r1;
@@ -21,6 +21,7 @@ always @(posedge lb.clk) begin
 			lb.rctrl<=lb.wctrl;
 			lb.raddr<=lb.waddr;
 			lb.rdata<=lb.wdata;
+			`include "uartwrite.vh"
 		end
 		lb.readcmd: begin
 			lbrready_r<=lb.wvalid;
