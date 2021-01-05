@@ -12,7 +12,7 @@ if __name__=="__main__":
 	#parser=argparse.ArgumentParser()
 	#clargs=parser.parse_args()
 	qubichw=c_qubichw(init=False)
-	qubichw.write((('dacfreq',131*8),('dacamp',32767),('fmcdacen',3)))
+#	qubichw.write((('dacfreq',131*8),('dacamp',32767),('fmcdacen',3)))
 
 	if 1:
 		adc0buf=qubichw.read((('adc0buf'),))

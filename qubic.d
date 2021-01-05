@@ -72,3 +72,4 @@ dpram.sv
 bufio.sv
 submodules/common-hdl/cordicg1.v
 submodules/common-hdl/reg_delay1.v
+dlo.v

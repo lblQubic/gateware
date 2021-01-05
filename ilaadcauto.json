@@ -21,15 +21,11 @@
 		,"hw.fmc2.dac_sync_req_to_fpga":1
 		,"dbgt0_rxdata":32
 		,"dbgt0_txdata":32
-		,"dbgt3_rxdata":32
-		,"dbgt3_txdata":32
-		,"dbgt4_rxdata":32
-		,"dbgt4_txdata":32
 		,"dbgt7_rxdata":32
 		,"dbgt7_txdata":32
 		,"adc0":64
 		,"dac0":64
-		,"adc2":64
 		,"adc7":64
+		,"dac7":64
 	}
 }

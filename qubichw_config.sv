@@ -148,7 +148,6 @@ wire idelayctrl_rdy;
 IDELAYCTRL idelayctrl(.RST(idelayctrl_reset),.RDY(idelayctrl_rdy),.REFCLK(clk200));//hw.vc707.sysclk));
 
 assign uartlb.clk=uartclk;
-assign dsp.clk=clkcfg;
 //assign dsp.pps=hw.vc707.pps;
 assign lbreg.fmcprsnt={hw.fmc2.prsnt,hw.fmc1.prsnt};
 assign lbreg.fmcpgm2c={hw.fmc2.pg_m2c,hw.fmc1.pg_m2c};
@@ -299,10 +298,11 @@ wire qplloutrefclk_113;
 wire qpllpd_113=1'b0;
 wire qpllrefclklost_113;
 wire qpllreset_113;
-wire [2:0] qpllrefclksel_113=3'h1;
+//wire [2:0] qpllrefclksel_113=3'h1;
+wire [2:0] qpllrefclksel_113=3'h5;
 gticc_common
 gticc_common_113(.QPLLLOCKDETCLK(hw.vc707.sysclk)
-,.GTNORTHREFCLK0(1'b0),.GTNORTHREFCLK1(1'b0),.GTREFCLK0(sgmiiclk),.GTREFCLK1(sma_mgt_refclk),.GTSOUTHREFCLK0(0),.GTSOUTHREFCLK1(1'b0)
+,.GTNORTHREFCLK0(1'b0),.GTNORTHREFCLK1(1'b0),.GTREFCLK0(sgmiiclk),.GTREFCLK1(sma_mgt_refclk),.GTSOUTHREFCLK0(si5324_out_c),.GTSOUTHREFCLK1(1'b0)
 ,.QPLLREFCLKSEL(qpllrefclksel_113)
 ,.QPLLOUTCLK(qplloutclk_113)
 ,.QPLLOUTREFCLK(qplloutrefclk_113)
@@ -337,7 +337,8 @@ gticc_gt gticc_gt_sfp(.CPLLLOCKDETCLK(hw.vc707.sysclk)
 ,.GTNORTHREFCLK0(1'b0),.GTNORTHREFCLK1(1'b0),.GTREFCLK0(sgmiiclk),.GTREFCLK1(sma_mgt_refclk),.GTSOUTHREFCLK0(si5324_out_c),.GTSOUTHREFCLK1(1'b0)
 ,.GTXRXN(hw.vc707.sfp.rx_n),.GTXRXP(hw.vc707.sfp.rx_p),.GTXTXN(hw.vc707.sfp.tx_n),.GTXTXP(hw.vc707.sfp.tx_p)
 ,.QPLLCLK(qplloutclk_113),.QPLLREFCLK(qplloutrefclk_113)
-,.CPLLREFCLKSEL(3'b1)
+//,.CPLLREFCLKSEL(3'b1)
+,.CPLLREFCLKSEL(3'h5)
 ,.rxusrclk(rxusrclk_sfp)
 ,.txusrclk(txusrclk_sfp)
 ,.RXCHARISK(rxcharisk_sfp)
@@ -561,7 +562,7 @@ wire [63:0] dac4;
 wire [63:0] dac5;
 wire [63:0] dac6;
 wire [63:0] dac7;
-assign keepadc=|{adc0,adc1,adc2,adc3};
+assign keepadc=|{adc0,adc1,adc2,adc3,adc4,adc5,adc6,adc7};
 wire  rx_reset=jesdreset1;//1'b0;
 wire  tx_reset=jesdreset1;//1'b0;
 wire  rx_sys_reset=jesdreset0;//1'b0;
@@ -633,8 +634,9 @@ always @(posedge hw.fmc1.llmk_dclkout_2) begin
 	{dbgt0_rxdata_r, dbgt0_txdata_r, dbgt1_rxdata_r, dbgt1_txdata_r, dbgt2_rxdata_r, dbgt2_txdata_r, dbgt3_rxdata_r, dbgt3_txdata_r, dbgt4_rxdata_r, dbgt4_txdata_r, dbgt5_rxdata_r, dbgt5_txdata_r, dbgt6_rxdata_r, dbgt6_txdata_r, dbgt7_rxdata_r, dbgt7_txdata_r}<={dbgt0_rxdata, dbgt0_txdata, dbgt1_rxdata, dbgt1_txdata, dbgt2_rxdata, dbgt2_txdata, dbgt3_rxdata, dbgt3_txdata, dbgt4_rxdata, dbgt4_txdata, dbgt5_rxdata, dbgt5_txdata, dbgt6_rxdata, dbgt6_txdata, dbgt7_rxdata, dbgt7_txdata};
 end
 wire [1:0] rx_sync_1;
+wire [1:0] rx_sync_2;
 assign {hw.fmc1__adca_sync_in_l_vadj,hw.fmc1__adcb_sync_in_l_vadj}=rx_sync_1;
-assign {hw.fmc2__adca_sync_in_l_vadj,hw.fmc2__adcb_sync_in_l_vadj}=rx_sync_1;
+assign {hw.fmc2__adca_sync_in_l_vadj,hw.fmc2__adcb_sync_in_l_vadj}=rx_sync_2;
 jesdfmc120 jesdfmc120_1(.core_clk(hw.fmc1.llmk_dclkout_2)
 ,.drpclk(clkcfg)
 ,.qpll_refclk(hw.fmc1.lmk_dclk8_m2c_to_fpga)
@@ -697,7 +699,7 @@ assign jesdreset1_done=&{jesd_reset_done_1};
 //wire [7:0] dbfmc1tx=hw.fmc1.dac_lane_p;
 //wire [7:0] dbfmc2rx={hw.fmc2.adc1_db2_p,hw.fmc2.adc1_db1_p,hw.fmc2.adc1_da2_p,hw.fmc2.adc1_da1_p,hw.fmc2.adc0_db2_p,hw.fmc2.adc0_db1_p,hw.fmc2.adc0_da2_p,hw.fmc2.adc0_da1_p};
 //wire [7:0] dbfmc2tx=hw.fmc2.dac_lane_p;
-/*jesdfmc120 jesdfmc120_2(.core_clk(hw.fmc1.llmk_dclkout_2)
+jesdfmc120 jesdfmc120_2(.core_clk(hw.fmc1.llmk_dclkout_2)
 ,.drpclk(clkcfg)
 ,.qpll_refclk(hw.fmc2.lmk_dclk8_m2c_to_fpga)
 //,.rxn_in(8'h0)
@@ -715,7 +717,7 @@ assign jesdreset1_done=&{jesd_reset_done_1};
 ,.tx_reset(tx_reset)
 ,.rx_sys_reset(rx_sys_reset)
 ,.tx_sys_reset(tx_sys_reset)
-,.rx_sync({hw.fmc2__adca_sync_in_l_vadj,hw.fmc2__adcb_sync_in_l_vadj})
+,.rx_sync(rx_sync_2)//{hw.fmc2__adca_sync_in_l_vadj,hw.fmc2__adcb_sync_in_l_vadj})
 ,.tx_sync(hw.fmc2.dac_sync_req_to_fpga)
 ,.adc0(adc4)
 ,.adc1(adc5)
@@ -737,7 +739,7 @@ assign jesdreset1_done=&{jesd_reset_done_1};
 ,.reset_done(jesd_reset_done_2)
 ,.reset_status(jesd_reset_status_2)
 );
-*/
+
 reg [31:0] dclkcnt=0;
 always @(posedge hw.fmc1.llmk_dclkout_2) begin
 	dclkcnt<=dclkcnt+1;
@@ -747,7 +749,8 @@ assign hw.fmc1.fpga_sync_out_to_trigmux=sclk;//dclkcnt[6];
 assign hw.fmc2.fpga_sync_out_to_trigmux=sclk;//dclkcnt[6];
 OBUFDS obufds_user_sma_clk(.I(sclk),.O(hw.vc707.user_sma_clock_p),.OB(hw.vc707.user_sma_clock_n));
 OBUFDS obufds_user_sma_gpio(.I(sclk),.O(hw.vc707.user_sma_gpio_p),.OB(hw.vc707.user_sma_gpio_n));
-OBUFDS obufds_rec_clk(.I(hw.fmc1.llmk_dclkout_2),.O(hw.vc707.rec_clock_c_p),.OB(hw.vc707.rec_clock_c_n));
+OBUFDS obufds_rec_clk(.I(hw.fmc2.lmk_dclk10_m2c_to_fpga),.O(hw.vc707.rec_clock_c_p),.OB(hw.vc707.rec_clock_c_n));
+
 assign hw.vc707.si5324_rst=lbreg.si5324_rst;
 
 localparam NFCNT = 17;
@@ -940,7 +943,9 @@ bufread #(.AWW(10)
 ,.full(lbreg.adc0buffull)
 ,.reset(lbreg.stb_adc0bufreset));
 
-reg [17:0] phacc=0;
+
+assign dsp.clk=hw.fmc1.llmk_dclkout_2;;
+/*reg [16:0] phacc=0;
 reg [15:0] amp=0;
 always @(posedge hw.fmc1.llmk_dclkout_2) begin
 	phacc<=phacc+lbreg.dacfreq;
@@ -948,27 +953,89 @@ always @(posedge hw.fmc1.llmk_dclkout_2) begin
 end
 wire [15:0] x16,y16;
 cordicg1 #(.WIDTH(16),.NSTAGE(16),.NORMALIZE(1),.BUFIN(0),.GW(1),.NRIDER(0))
-cordicg1(.clk(hw.fmc1.llmk_dclkout_2)
-,.opin(1'b0)
-,.xin(amp)
-,.yin(16'h0)
-,.phasein(phacc)
-,.xout(x16)
-,.yout(y16)
-,.phaseout()
-,.error()
-,.gin(1'b1)
-,.gout()
-);
-assign dac0={x16,x16,x16,x16};
-assign dac1={y16,y16,y16,y16};
-assign dac2={x16,x16,x16,x16};
-assign dac3={y16,y16,y16,y16};
-assign dac4={x16,x16,x16,x16};
-assign dac5={y16,y16,y16,y16};
-assign dac6={x16,x16,x16,x16};
-assign dac7={y16,y16,y16,y16};
+cordicg1(.clk(hw.fmc1.llmk_dclkout_2),.opin(1'b0),.xin(amp),.yin(16'h0),.phasein(phacc),.xout(x16),.yout(y16),.phaseout(),.error(),.gin(1'b1),.gout());
+*/
+wire signed [15:0] x01_0,x01_1,x01_2,x01_3,x01_4,x01_5,x01_6,x01_7;
+wire signed [15:0] x23_0,x23_1,x23_2,x23_3,x23_4,x23_5,x23_6,x23_7;
+wire signed [15:0] x45_0,x45_1,x45_2,x45_3,x45_4,x45_5,x45_6,x45_7;
+wire signed [15:0] x67_0,x67_1,x67_2,x67_3,x67_4,x67_5,x67_6,x67_7;
+wire signed [15:0] y01_0,y01_1,y01_2,y01_3,y01_4,y01_5,y01_6,y01_7;
+wire signed [15:0] y23_0,y23_1,y23_2,y23_3,y23_4,y23_5,y23_6,y23_7;
+wire signed [15:0] y45_0,y45_1,y45_2,y45_3,y45_4,y45_5,y45_6,y45_7;
+wire signed [15:0] y67_0,y67_1,y67_2,y67_3,y67_4,y67_5,y67_6,y67_7;
+wire signed [15:0] x01,y01,x23,y23,x45,y45,x67,y67;
+reg signed [15:0] x01add1=0,x01add2=0,x01add3=0;
+reg signed [15:0] x23add1=0,x23add2=0,x23add3=0;
+reg signed [15:0] x45add1=0,x45add2=0,x45add3=0;
+reg signed [15:0] x67add1=0,x67add2=0,x67add3=0;
+reg signed [15:0] y01add1=0,y01add2=0,y01add3=0;
+reg signed [15:0] y23add1=0,y23add2=0,y23add3=0;
+reg signed [15:0] y45add1=0,y45add2=0,y45add3=0;
+reg signed [15:0] y67add1=0,y67add2=0,y67add3=0;
+always @(posedge dsp.clk) begin
+	x01add1<=x01_0+x01_1+x01_2+x01_3;	x01add2<=x01_4+x01_5+x01_6+x01_7; x01add3=x01add1+x01add2;
+	x23add1<=x23_0+x23_1+x23_2+x23_3;	x23add2<=x23_4+x23_5+x23_6+x23_7; x23add3=x23add1+x23add2;
+	x45add1<=x45_0+x45_1+x45_2+x45_3;	x45add2<=x45_4+x45_5+x45_6+x45_7; x45add3=x45add1+x45add2;
+	x67add1<=x67_0+x67_1+x67_2+x67_3;	x67add2<=x67_4+x67_5+x67_6+x67_7; x67add3=x67add1+x67add2;
+	y01add1<=y01_0+y01_1+y01_2+y01_3;	y01add2<=y01_4+y01_5+y01_6+y01_7; y01add3=y01add1+y01add2;
+	y23add1<=y23_0+y23_1+y23_2+y23_3;	y23add2<=y23_4+y23_5+y23_6+y23_7; y23add3=y23add1+y23add2;
+	y45add1<=y45_0+y45_1+y45_2+y45_3;	y45add2<=y45_4+y45_5+y45_6+y45_7; y45add3=y45add1+y45add2;
+	y67add1<=y67_0+y67_1+y67_2+y67_3;	y67add2<=y67_4+y67_5+y67_6+y67_7; y67add3=y67add1+y67add2;
+end
+assign x01=x01add3;
+assign x23=x23add3;
+assign x45=x45add3;
+assign x67=x67add3;
+assign y01=y01add3;
+assign y23=y23add3;
+assign y45=y45add3;
+assign y67=y67add3;
+assign dac0={x01,x01,x01,x01};
+assign dac1={y01,y01,y01,y01};
+assign dac2={x23,x23,x23,x23};
+assign dac3={y23,y23,y23,y23};
+assign dac4={x45,x45,x45,x45};
+assign dac5={y45,y45,y45,y45};
+assign dac6={x67,x67,x67,x67};
+assign dac7={y67,y67,y67,y67};
 
+wire reset01=|{lbreg.stb_dac01_0freq,lbreg.stb_dac01_1freq,lbreg.stb_dac01_2freq,lbreg.stb_dac01_3freq,lbreg.stb_dac01_4freq,lbreg.stb_dac01_5freq,lbreg.stb_dac01_6freq,lbreg.stb_dac01_7freq};
+wire reset23=|{lbreg.stb_dac23_0freq,lbreg.stb_dac23_1freq,lbreg.stb_dac23_2freq,lbreg.stb_dac23_3freq,lbreg.stb_dac23_4freq,lbreg.stb_dac23_5freq,lbreg.stb_dac23_6freq,lbreg.stb_dac23_7freq};
+wire reset45=|{lbreg.stb_dac45_0freq,lbreg.stb_dac45_1freq,lbreg.stb_dac45_2freq,lbreg.stb_dac45_3freq,lbreg.stb_dac45_4freq,lbreg.stb_dac45_5freq,lbreg.stb_dac45_6freq,lbreg.stb_dac45_7freq};
+wire reset67=|{lbreg.stb_dac67_0freq,lbreg.stb_dac67_1freq,lbreg.stb_dac67_2freq,lbreg.stb_dac67_3freq,lbreg.stb_dac67_4freq,lbreg.stb_dac67_5freq,lbreg.stb_dac67_6freq,lbreg.stb_dac67_7freq};
+
+dlo dlo01_0(.reset(reset01),.amp(lbreg.dac01_0amp),.clk(dsp.clk),.freq(lbreg.dac01_0freq),.xout(x01_0),.yout(y01_0));
+dlo dlo01_1(.reset(reset01),.amp(lbreg.dac01_1amp),.clk(dsp.clk),.freq(lbreg.dac01_1freq),.xout(x01_1),.yout(y01_1));
+dlo dlo01_2(.reset(reset01),.amp(lbreg.dac01_2amp),.clk(dsp.clk),.freq(lbreg.dac01_2freq),.xout(x01_2),.yout(y01_2));
+dlo dlo01_3(.reset(reset01),.amp(lbreg.dac01_3amp),.clk(dsp.clk),.freq(lbreg.dac01_3freq),.xout(x01_3),.yout(y01_3));
+dlo dlo01_4(.reset(reset01),.amp(lbreg.dac01_4amp),.clk(dsp.clk),.freq(lbreg.dac01_4freq),.xout(x01_4),.yout(y01_4));
+dlo dlo01_5(.reset(reset01),.amp(lbreg.dac01_5amp),.clk(dsp.clk),.freq(lbreg.dac01_5freq),.xout(x01_5),.yout(y01_5));
+dlo dlo01_6(.reset(reset01),.amp(lbreg.dac01_6amp),.clk(dsp.clk),.freq(lbreg.dac01_6freq),.xout(x01_6),.yout(y01_6));
+dlo dlo01_7(.reset(reset01),.amp(lbreg.dac01_7amp),.clk(dsp.clk),.freq(lbreg.dac01_7freq),.xout(x01_7),.yout(y01_7));
+dlo dlo23_0(.reset(reset23),.amp(lbreg.dac23_0amp),.clk(dsp.clk),.freq(lbreg.dac23_0freq),.xout(x23_0),.yout(y23_0));
+dlo dlo23_1(.reset(reset23),.amp(lbreg.dac23_1amp),.clk(dsp.clk),.freq(lbreg.dac23_1freq),.xout(x23_1),.yout(y23_1));
+dlo dlo23_2(.reset(reset23),.amp(lbreg.dac23_2amp),.clk(dsp.clk),.freq(lbreg.dac23_2freq),.xout(x23_2),.yout(y23_2));
+dlo dlo23_3(.reset(reset23),.amp(lbreg.dac23_3amp),.clk(dsp.clk),.freq(lbreg.dac23_3freq),.xout(x23_3),.yout(y23_3));
+dlo dlo23_4(.reset(reset23),.amp(lbreg.dac23_4amp),.clk(dsp.clk),.freq(lbreg.dac23_4freq),.xout(x23_4),.yout(y23_4));
+dlo dlo23_5(.reset(reset23),.amp(lbreg.dac23_5amp),.clk(dsp.clk),.freq(lbreg.dac23_5freq),.xout(x23_5),.yout(y23_5));
+dlo dlo23_6(.reset(reset23),.amp(lbreg.dac23_6amp),.clk(dsp.clk),.freq(lbreg.dac23_6freq),.xout(x23_6),.yout(y23_6));
+dlo dlo23_7(.reset(reset23),.amp(lbreg.dac23_7amp),.clk(dsp.clk),.freq(lbreg.dac23_7freq),.xout(x23_7),.yout(y23_7));
+dlo dlo45_0(.reset(reset45),.amp(lbreg.dac45_0amp),.clk(dsp.clk),.freq(lbreg.dac45_0freq),.xout(x45_0),.yout(y45_0));
+dlo dlo45_1(.reset(reset45),.amp(lbreg.dac45_1amp),.clk(dsp.clk),.freq(lbreg.dac45_1freq),.xout(x45_1),.yout(y45_1));
+dlo dlo45_2(.reset(reset45),.amp(lbreg.dac45_2amp),.clk(dsp.clk),.freq(lbreg.dac45_2freq),.xout(x45_2),.yout(y45_2));
+dlo dlo45_3(.reset(reset45),.amp(lbreg.dac45_3amp),.clk(dsp.clk),.freq(lbreg.dac45_3freq),.xout(x45_3),.yout(y45_3));
+dlo dlo45_4(.reset(reset45),.amp(lbreg.dac45_4amp),.clk(dsp.clk),.freq(lbreg.dac45_4freq),.xout(x45_4),.yout(y45_4));
+dlo dlo45_5(.reset(reset45),.amp(lbreg.dac45_5amp),.clk(dsp.clk),.freq(lbreg.dac45_5freq),.xout(x45_5),.yout(y45_5));
+dlo dlo45_6(.reset(reset45),.amp(lbreg.dac45_6amp),.clk(dsp.clk),.freq(lbreg.dac45_6freq),.xout(x45_6),.yout(y45_6));
+dlo dlo45_7(.reset(reset45),.amp(lbreg.dac45_7amp),.clk(dsp.clk),.freq(lbreg.dac45_7freq),.xout(x45_7),.yout(y45_7));
+dlo dlo67_0(.reset(reset67),.amp(lbreg.dac67_0amp),.clk(dsp.clk),.freq(lbreg.dac67_0freq),.xout(x67_0),.yout(y67_0));
+dlo dlo67_1(.reset(reset67),.amp(lbreg.dac67_1amp),.clk(dsp.clk),.freq(lbreg.dac67_1freq),.xout(x67_1),.yout(y67_1));
+dlo dlo67_2(.reset(reset67),.amp(lbreg.dac67_2amp),.clk(dsp.clk),.freq(lbreg.dac67_2freq),.xout(x67_2),.yout(y67_2));
+dlo dlo67_3(.reset(reset67),.amp(lbreg.dac67_3amp),.clk(dsp.clk),.freq(lbreg.dac67_3freq),.xout(x67_3),.yout(y67_3));
+dlo dlo67_4(.reset(reset67),.amp(lbreg.dac67_4amp),.clk(dsp.clk),.freq(lbreg.dac67_4freq),.xout(x67_4),.yout(y67_4));
+dlo dlo67_5(.reset(reset67),.amp(lbreg.dac67_5amp),.clk(dsp.clk),.freq(lbreg.dac67_5freq),.xout(x67_5),.yout(y67_5));
+dlo dlo67_6(.reset(reset67),.amp(lbreg.dac67_6amp),.clk(dsp.clk),.freq(lbreg.dac67_6freq),.xout(x67_6),.yout(y67_6));
+dlo dlo67_7(.reset(reset67),.amp(lbreg.dac67_7amp),.clk(dsp.clk),.freq(lbreg.dac67_7freq),.xout(x67_7),.yout(y67_7));
 
 //bufread #(.AWW(10),.DWW(32),.DWR(32)) adc0buf(.full(lbreg.adc0buffull),.reset(lbreg.stb_adc0bufreset),.rd(lbreg.adc0bufrdif.source),.wr(adc0bufwrif.destin));
 
