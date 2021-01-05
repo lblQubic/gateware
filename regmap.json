@@ -156,4 +156,8 @@
 ,"dac67_6freq": {"access": "rw","addr_width": 0,"base_addr": 152,"data_width": 16,"sign": "unsigned","init": 9000}
 ,"dac67_7amp":  {"access": "rw","addr_width": 0,"base_addr": 153,"data_width": 16,"sign": "unsigned","init": 1500}
 ,"dac67_7freq": {"access": "rw","addr_width": 0,"base_addr": 154,"data_width": 16,"sign": "unsigned","init": 9000}
+,"smasfptesttx": {"access": "rw","addr_width": 0,"base_addr": 155,"data_width": 32,"sign": "unsigned","init": "32'h5555cccc"}
+,"smasfptestrx": {"access": "r","addr_width": 0,"base_addr": 156,"data_width": 32,"sign": "unsigned","init": 0}
+,"freq_rxusrclk_smasfp": {"access": "r","addr_width": 0,"base_addr": 157,"data_width": 28,"sign": "unsigned","init": 0}
+,"freq_txusrclk_smasfp": {"access": "r","addr_width": 0,"base_addr": 158,"data_width": 28,"sign": "unsigned","init": 0}
 }

@@ -198,7 +198,7 @@ wire [3:0] dbi2cnext;
 wire dbsi2cinitreset;
 seqinit #(.INITWIDTH(32+4+1),.INITLENGTH(SIM ? 2 : 21),.RESULTWIDTH(33)
 ,.INITCMDS(SIM ? {{1'h1,4'h2,32'he8080000},{1'h0,4'h2,32'ha8000000}} :
-	{{1'h1,4'h2,32'he8080000}
+	{{1'h1,4'h2,32'he8080000}  // read eeprom for mac and ip address
 ,{1'h0,4'h2,32'ha8000000}
 ,{1'h1,4'h2,32'ha9000000}
 ,{1'h0,4'h2,32'ha8010000}
@@ -321,9 +321,7 @@ end
 
 wire readyforreset_sfp;
 wire reset_sfp;
-wire readyforreset_eth;
-wire reset_eth;
-
+assign hw.vc707.sfp.tx_disable=lbreg.sfptxdisable;
 wire rxusrclk_sfp;
 wire txusrclk_sfp;
 wire [3:0] rxcharisk_sfp;
@@ -351,6 +349,37 @@ gticc_gt gticc_gt_sfp(.CPLLLOCKDETCLK(hw.vc707.sysclk)
 ,.resetdone(resetdone_sfp)
 ,.readyforreset(readyforreset_sfp)
 );
+
+wire reset_smasfp=reset_sfp;
+wire rxusrclk_smasfp;
+wire txusrclk_smasfp;
+wire [3:0] rxcharisk_smasfp;
+wire [31:0] rxdata_smasfp;
+assign lbreg.smasfptestrx=rxdata_smasfp;
+wire rxuserrdy_smasfp=1'b1;
+wire [3:0] txcharisk_smasfp=4'b0;
+wire [31:0] txdata_smasfp=lbreg.smasfptesttx;//32'habcdbeef;
+wire txuserrdy_smasfp=1'b1;
+gticc_gt gticc_gt_smasfp(.CPLLLOCKDETCLK(hw.vc707.sysclk)
+,.GTNORTHREFCLK0(1'b0),.GTNORTHREFCLK1(1'b0),.GTREFCLK0(sgmiiclk),.GTREFCLK1(sma_mgt_refclk),.GTSOUTHREFCLK0(si5324_out_c),.GTSOUTHREFCLK1(1'b0)
+,.GTXRXN(hw.vc707.sma_mgt_rx_n),.GTXRXP(hw.vc707.sma_mgt_rx_p),.GTXTXN(hw.vc707.sma_mgt_tx_n),.GTXTXP(hw.vc707.sma_mgt_tx_p)
+,.QPLLCLK(qplloutclk_113),.QPLLREFCLK(qplloutrefclk_113)
+//,.CPLLREFCLKSEL(3'b1)
+,.CPLLREFCLKSEL(3'h5)
+,.rxusrclk(rxusrclk_smasfp)
+,.txusrclk(txusrclk_smasfp)
+,.RXCHARISK(rxcharisk_smasfp)
+,.RXDATA(rxdata_smasfp)
+,.RXUSERRDY(rxuserrdy_smasfp)
+,.TXCHARISK(txcharisk_smasfp)
+,.TXDATA(txdata_smasfp)
+,.TXUSERRDY(txuserrdy_smasfp)
+,.reset(reset_smasfp)//||smasfpreconnected)
+,.resetdone(resetdone_smasfp)
+,.readyforreset(readyforreset_smasfp)
+);
+
+
 wire sgmiieth_reset;
 wire sgmiieth_resetdone;
 reg sgmiieth_reset_r=0;
@@ -411,7 +440,6 @@ chainreset(.clk(hw.vc707.sysclk)
 ,.done,.donecriteria,.donestrobe,.error,.readycriteria,.readylength,.resetin,.resetlength,.resetout,.timeout);
 wire [NSTEP-2-1:0] dummyready;
 assign readyforreset_sfp=qpllresetdone_113;
-assign readyforreset_eth=resetdone_sfp;
 
 
 	genvar simtest;
@@ -421,8 +449,8 @@ assign readyforreset_eth=resetdone_sfp;
 			assign donecriteria={sysclkmmcm_locked,idelayctrl_rdy,qpllresetdone_113,resetdone_sfp,sgmiieth_resetdone,1'b1,1'b1,jesdreset0_done,jesdreset1_done,i2cresetdone,i2cinitdone,~loadmacip,mdioinitdone,ethresetdone,1'b1};
 		end
 		else begin
-			assign {sysclkmmcm_reset,idelayctrl_reset,qpllreset_113,reset_sfp,sgmiieth_reset,uartreset,uartlbreset,i2creset,i2cinitreset,loadmacip,mdioreset,ethreset_w,axireset,jesdreset0,jesdreset1}=resetout;
-			assign donecriteria={sysclkmmcm_locked,idelayctrl_rdy,qpllresetdone_113,resetdone_sfp,sgmiieth_resetdone,1'b1,1'b1,i2cresetdone,i2cinitdone,~loadmacip,mdioinitdone,ethresetdone,1'b1,jesdreset0_done,jesdreset1_done};
+			assign {sysclkmmcm_reset,idelayctrl_reset,qpllreset_113,sgmiieth_reset,uartreset,uartlbreset,i2creset,i2cinitreset,loadmacip,mdioreset,ethreset_w,axireset,jesdreset0,jesdreset1,reset_sfp}=resetout;
+			assign donecriteria={sysclkmmcm_locked,idelayctrl_rdy,qpllresetdone_113,sgmiieth_resetdone,1'b1,1'b1,i2cresetdone,i2cinitdone,~loadmacip,mdioinitdone,ethresetdone,1'b1,jesdreset0_done,jesdreset1_done,resetdone_sfp};
 		end
 	endgenerate
 
@@ -1039,8 +1067,8 @@ dlo dlo67_7(.reset(reset67),.amp(lbreg.dac67_7amp),.clk(dsp.clk),.freq(lbreg.dac
 
 //bufread #(.AWW(10),.DWW(32),.DWR(32)) adc0buf(.full(lbreg.adc0buffull),.reset(lbreg.stb_adc0bufreset),.rd(lbreg.adc0bufrdif.source),.wr(adc0bufwrif.destin));
 
-`include "ilaadcauto.vh"
+//`include "ilaadcauto.vh"
 //`include "ila125auto.vh"
-//`include "ilaauto.vh"
+`include "ilaauto.vh"
 
 endmodule

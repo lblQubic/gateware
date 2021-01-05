@@ -261,9 +261,10 @@ if __name__=="__main__":
 		vc707.cpldwrite(addr=0x01,data=0xf0)
 		vc707.lmkwrite(addr=0,data=0x90)
 		vc707.lmkwrite(addr=0,data=0x10)
+# for 148		vc707.lmkwrite(addr=0x148,data=0x33)
+
 #	   lmkwrite(addr=0x146,data=0x00)
 #	   lmkwrite(addr=0x147,data=0x10)
-		vc707.lmkwrite(addr=0x148,data=0x33)
 #	   lmkwrite(addr=0x149,data=0x00)
 #	   lmkwrite(addr=0x14a,data=0x00)
 #	   lmkwrite(addr=0x14b,data=0x05)
@@ -381,10 +382,10 @@ if __name__=="__main__":
 #		print(rdatavalid)
 #		time.sleep(0.1)
 	if 0:
-		import axiinit
+		import jesdaxi 
 		axiinsts={2:['axifmc1adc0','axifmc1adc1','axifmc1dac'],4:['axifmc2adc0','axifmc2adc1','axifmc2dac']}
 		for axi in axiinsts[fmcdest]:
-			for w0r1,addr,data in axiinit.axiinit:
+			for w0r1,addr,data in jesdaxi.default:
 				if w0r1:
 					data,valid=vc707.axi4lite_read(axi,addr=addr)
 				else:

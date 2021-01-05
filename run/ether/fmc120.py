@@ -20,8 +20,14 @@ class c_fmc120:
 		addrdata=(addr)
 		val=self.devread(addrdata=addrdata,devaddr=devaddr,nack=nack)
 		return val&0xff
-	def cpldcheck(self):
-		return (self.cpldread(addr=0x05)[0]==0x10)
+	def cpldcheck(self,reglist):
+		regmatch=True
+		for (addr,data) in reglist:
+			rdbk=self.cpldread(addr)
+			if rdbk!=data:
+				regmatch=False
+				print('cpld check','addr',addr,hex(addr),'should be',hex(data),'read back',hex(rdbk))
+		return regmatch #(self.cpldread(addr=0x05)[0]==0x10)
 	def spiwrite(self,cmd24,action):
 		data08=(cmd24>>16)&0xff
 		data07=(cmd24>>8)&0xff
@@ -56,7 +62,7 @@ class c_fmc120:
 			rdbk=self.lmkread(addr)
 			if rdbk!=data:
 				regmatch=False
-				print('lmkcheck','addr',addr,'should be',hex(data),'read back',hex(rdbk))
+				print('lmkcheck','addr',addr,hex(addr),'should be',hex(data),'read back',hex(rdbk))
 		return regmatch
 
 
@@ -114,7 +120,7 @@ class c_fmc120:
 			if (rdbk==data):
 				pass
 			else:
-				print('dac addr',hex(addr),hex(data),hex(rdbk))
+				print('dac check','addr',addr,hex(addr),'should be',hex(data),'read back',hex(rdbk))
 				checkpass=False
 		return checkpass
 
@@ -214,19 +220,22 @@ class c_fmc120:
 			ireset=ireset+1
 	def reset(self):
 		#reset dac
-		self.cpldwrite(addr=0x02,data=0x20)
-		self.cpldwrite(addr=0x02,data=0x00)
-		self.cpldwrite(addr=0x02,data=0x20)
-		self.dacwrite(addr=0x02,data=0x2082)
+		import cpld
+		import lmk04828
+		import dac39j84
+		for (addr,data) in cpld.dacreset:
+			self.cpldwrite(addr=addr,data=data)
+		for (addr,data) in dac39j84.if4lane:
+			self.dacwrite(addr=addr,data=data)
 		# reset adc and lmk
-		self.cpldwrite(addr=0x03,data=0x00)
-		self.cpldwrite(addr=0x03,data=0x07)
-		self.cpldwrite(addr=0x03,data=0x08)
-		self.cpldwrite(addr=0x01,data=0xf0)
+		for (addr,data) in cpld.adcreset:
+			self.cpldwrite(addr=addr,data=data)
 
-		self.lmkwrite(addr=0,data=0x90)
-		self.lmkwrite(addr=0,data=0x10)
-		self.lmkwrite(addr=0x148,data=0x33)  # lmk default using SPIreadback, type output pushpull ?
+		for (addr,data) in cpld.lmkreset:
+			self.cpldwrite(addr=addr,data=data)
+		for (addr,data) in lmk04828.softreset:
+			self.lmkwrite(addr=addr,data=data)
+		print('c_fmc120 reset')
 	def lmk04828load(self,reglist):
 		for addr,data in reglist:
 			self.lmkwrite(addr,data)
@@ -300,7 +309,7 @@ if __name__=="__main__":
 		vc707.lmkwrite(addr=0,data=0x10)
 #	   lmkwrite(addr=0x146,data=0x00)
 #	   lmkwrite(addr=0x147,data=0x10)
-		vc707.lmkwrite(addr=0x148,data=0x33)
+# for 148		vc707.lmkwrite(addr=0x148,data=0x33)
 #	   lmkwrite(addr=0x149,data=0x00)
 #	   lmkwrite(addr=0x14a,data=0x00)
 #	   lmkwrite(addr=0x14b,data=0x05)
@@ -339,7 +348,7 @@ if __name__=="__main__":
 		val=vc707.si570read(addr)
 		print(addr,val)
 #		print(format(addr,'3d'),format(addr,'02x'),format(val,'02x'))
-	if 1:
+	if 0:
 		#   lmkwrite(addr=0,data=0x80);
 		#lmkwrite(addr=0,data=0x10);
 		#lmkwrite(addr=2,data=0x00);
@@ -417,7 +426,7 @@ if __name__=="__main__":
 #		rdatavalid=vc707.read(('axifmc1adc0_rdatavalid',))
 #		print(rdatavalid)
 #		time.sleep(0.1)
-	if 1:
+	if 0:
 		import axiinit
 		axiinsts={2:['axifmc1adc0','axifmc1adc1','axifmc1dac'],4:['axifmc2adc0','axifmc2adc1','axifmc2dac']}
 		for axi in axiinsts[fmcdest]:
@@ -439,7 +448,7 @@ if __name__=="__main__":
 		#	time.sleep(0.1)
 #	for addr in range(4):
 #		print('addr',addr,vc707.axi4lite_read('axifmc1adc0',addr=addr))
-	if 1:
+	if 0:
 		freqregs=['freq_lb'
 	,'freq_sgmiiclk'
 	,'freq_sma_mgt_refclk'

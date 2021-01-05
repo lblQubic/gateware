@@ -13,7 +13,7 @@ from udplb import c_udplb
 import lmk04828
 import ads54j60
 import dac39j84
-import axiinit
+import jesdaxi 
 import si5324
 class c_qubichw():
 	def __init__(self,ip='192.168.1.224',port=0xd003,regmappath='regmap.json',init=False,commcheck=True,freqoffpercent=1):
@@ -70,10 +70,13 @@ class c_qubichw():
 		self.lbaxi={}
 		for name in self.axinames:
 			self.lbaxi[name]=c_lbaxi(read=self.vc707.read,write=self.vc707.write)
-		if init:
+		if init :
 			self.fmcprsntpg()
-			self.vc707.i2cenable()
-			self.i2cenabled=True
+			#self.vc707.i2cenable()
+			for fmc in [self.fmc120_1,self.fmc120_2]:
+				self.i2cswitch(fmc.i2cid)
+				print('reset fmc')
+				fmc.reset()
 			freqdict=self.freqs()
 			ok=True
 			for k,v in freqdict.items():
@@ -93,28 +96,38 @@ class c_qubichw():
 				print(self.vc707.si570setfreq(125.005e6))
 				self.si5324init(si5324.init250)
 #			if commcheck:
-#				if self.commcheck(lmkreglist=lmk04828.ver,adcreglist=ads54j60.reg5f,dacreglist=dac39j84.vid,axireglist=axiinit.axiver):
+#				if self.commcheck(lmkreglist=lmk04828.ver,adcreglist=ads54j60.reg5f,dacreglist=dac39j84.vid,axireglist=jesdaxi.axiver):
 			#if commcheck:
 			#	print(self.vc707.si570readinit())
 			self.adcinit(initregs=ads54j60.init,checkregs=ads54j60.init)
 			self.dacinit(initregs=dac39j84.init)
 			for name in self.lbaxi:
 				if ('adc' in name):
-						self.axiinit(name,initregs=axiinit.axiinit_adc)
+						self.axiinit(name,initregs=jesdaxi.adc)
 				elif ('dac' in name):
-						self.axiinit(name,initregs=axiinit.axiinit_dac)
+						self.axiinit(name,initregs=jesdaxi.dac)
 				else:
 					print('unknown',name)
 				#self.axiinit(initregs=axiinit.axiinit)
 
-			self.vc707.i2cswitch('si570')
+			self.i2cswitch('si570')
 
 			freqdict=(self.freqs())
 			for k,v in freqdict.items():
 				print('%8.3f %s'%(v,k))
 			for fmc in [self.fmc120_1,self.fmc120_2]:
-				self.vc707.i2cswitch(fmc.i2cid)
+				self.i2cswitch(fmc.i2cid)
 				print(fmc.i2cid,'ad7291',fmc.ad7291check())
+	def i2cenable(self):
+		print('enable i2c')
+		self.vc707.i2cenable()
+		self.i2cenabled=True
+	def i2cswitch(self,i2cid):
+		print('i2cswitch to ',i2cid)
+		if not self.i2cenabled:
+			self.i2cenable()
+		self.vc707.i2cswitch(i2cid)
+
 	def uartinit(self):
 		self.uartregmap.write((('uartmode',1),('clk4ratio',5000)))
 		self.uartlb.resetlb()
@@ -125,7 +138,7 @@ class c_qubichw():
 	def commcheck(self,lmkreglist,adcreglist,dacreglist,axireglist):
 		commpass=True
 		for fmc in [self.fmc120_1,self.fmc120_2]:
-			self.vc707.i2cswitch(fmc.i2cid)
+			self.i2cswitch(fmc.i2cid)
 			commpass=commpass & fmc.lmkcheck(lmkreglist)
 			for adc in range(2):
 				commpass=commpass & fmc.adccheck(adca0b1=adc,reglist=adcreglist)
@@ -138,15 +151,14 @@ class c_qubichw():
 	def clkinit(self,lmkinitregs):
 		print('clkinit')
 		for fmc in [self.fmc120_1,self.fmc120_2]:
-			self.vc707.i2cswitch(fmc.i2cid)
-			fmc.reset()
+			self.i2cswitch(fmc.i2cid)
 			fmc.lmk04828load(lmkinitregs)
 		print('clkinit done')
 	def adcinit(self,initregs=None,checkregs=None,softreset=True):
 		if not self.i2cenabled:
 			self.vc707.i2cenable()
 		for fmc in [self.fmc120_1,self.fmc120_2]:
-			self.vc707.i2cswitch(fmc.i2cid)
+			self.i2cswitch(fmc.i2cid)
 			for adc in range(2):
 				print('fmc120 %s adc %d'%(fmc.i2cid,adc))
 				if softreset:
@@ -158,12 +170,12 @@ class c_qubichw():
 					fmc.adccheck(adca0b1=adc,reglist=checkregs,printall=True)
 	def dacinit(self,initregs):
 		for fmc in [self.fmc120_1,self.fmc120_2]:
-			self.vc707.i2cswitch(fmc.i2cid)
+			self.i2cswitch(fmc.i2cid)
 			fmc.dacload(initregs)
 			fmc.daccheck(initregs)
 	def axiinit(self,name,initregs):
 		axi=self.lbaxi[name]
-		if (axi.axi4lite_check(axiprefix=name,reglist=axiinit.axiver)):
+		if (axi.axi4lite_check(axiprefix=name,reglist=jesdaxi.axiver)):
 			for addr,data in initregs:
 				#data,valid=axi.axi4lite_read(axiprefix=name,addr=addr)
 				axi.axi4lite_write(axiprefix=name,addr=addr,wdata=data)
@@ -211,7 +223,7 @@ class c_qubichw():
 		print('si5324init')
 		import si5324
 		self.si5324enable()
-		self.vc707.i2cswitch('si5324')
+		self.i2cswitch('si5324')
 #		for addr,data in si5324.default:
 		for addr,data in reglist:#si5324.init250:
 			self.vc707.si5324write(addr,data)
@@ -233,7 +245,7 @@ class c_qubichw():
 		self.uartinit()
 		self.vc707.setuarti2c(uarti2c=True)
 		self.vc707.i2cenable()
-		self.vc707.i2cswitch('eeprom')
+		self.i2cswitch('eeprom')
 		for addr,val in ad:
 			self.vc707.eepromwrite(addr=addr,data=val,devaddr=0x54)
 		time.sleep(0.5)
@@ -269,7 +281,7 @@ if __name__=="__main__":
 	clargs=parser.parse_args()
 
 	qubichw=c_qubichw(ip=clargs.ip,init=True)
-	qubichw.vc707.i2cenable()
+#	qubichw.vc707.i2cenable()
 
 	freqdict=(qubichw.freqs())
 	for k,v in freqdict.items():
@@ -592,7 +604,7 @@ if __name__=="__main__":
 #	if 0:
 #		import axiinit
 #		for name,axi in qubichw.lbaxi.items():
-#			for w0r1,addr,data in axiinit.axiinit:
+#			for w0r1,addr,data in jesdaxi.default:
 #				if w0r1:
 #					data,valid=axi.axi4lite_read(axiprefix=name,addr=addr)
 #				else:
@@ -605,7 +617,7 @@ if __name__=="__main__":
 ##
 ##		axiinsts={2:['axifmc1adc0','axifmc1adc1','axifmc1dac'],4:['axifmc2adc0','axifmc2adc1','axifmc2dac']}
 ##		for axi in axiinsts[fmcdest]:
-##			for w0r1,addr,data in axiinit.axiinit:
+##			for w0r1,addr,data in jesdaxi.default:
 ##				if w0r1:
 ##					data,valid=qubichw.vc707.axi4lite_read(axi,addr=addr)
 ##				else:
@@ -658,17 +670,17 @@ if __name__=="__main__":
 #		print([hex(i) for i in qubichw.read(('macmsb24','maclsb24','ipaddr','hwresetstatus'))])
 #		for name,axi in qubichw.lbaxi.items():
 #			if 'fmc1' in name:
-#				print(axi.axi4lite_check(axiprefix=name,reglist=axiinit.axiver))
+#				print(axi.axi4lite_check(axiprefix=name,reglist=jesdaxi.axiver))
 #				if ('adc' in name):
-#						qubichw.axiinit(initregs=axiinit.axiinit_adc)
+#						qubichw.axiinit(initregs=jesdaxi.axiinit_adc)
 #				elif ('dac' in name):
-#						qubichw.axiinit(initregs=axiinit.axiinit_dac)
+#						qubichw.axiinit(initregs=jesdaxi.axiinit_dac)
 #				else:
 #					print('unknown',name)
 #			else:
 #				print(name,'unknow')
 #	if 1:
-#		qubichw.axiinit(initregs=axiinit.axiinit)
+#		qubichw.axiinit(initregs=jesdaxi.axiinit)
 #	print(qubichw.write((("hwreset",1),)))
 #	time.sleep(1)
 #	for fmc in [qubichw.fmc120_1,qubichw.fmc120_2]:

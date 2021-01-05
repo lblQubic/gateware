@@ -42,20 +42,9 @@
 		,"hw.fmc2__adcb_sync_in_l_vadj":1
 		,"hw.fmc2.dac_sync_req_to_fpga":1
 		,"dbgt0_rxdata":32
-		,"dbgt0_txdata":32
-		,"dbgt1_rxdata":32
-		,"dbgt1_txdata":32
-		,"dbgt2_rxdata":32
-		,"dbgt2_txdata":32
-		,"dbgt3_rxdata":32
-		,"dbgt3_txdata":32
-		,"dbgt4_rxdata":32
-		,"dbgt4_txdata":32
-		,"dbgt5_rxdata":32
-		,"dbgt5_txdata":32
-		,"dbgt6_rxdata":32
-		,"dbgt6_txdata":32
-		,"dbgt7_rxdata":32
-		,"dbgt7_txdata":32
+		,"reset_smasfp":1
+		,"resetdone_smasfp":1
+		,"rxdata_smasfp":32
+		,"txdata_smasfp":32
 	}
 }

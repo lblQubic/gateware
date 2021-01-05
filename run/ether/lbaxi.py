@@ -1,5 +1,3 @@
-import json
-import numpy
 import time
 import sys
 import devcom
@@ -36,13 +34,17 @@ class c_lbaxi():
 		return self.axi4lite_readwrite(axiprefix=axiprefix,addr=addr,w0r1=1,wdata=0)
 	def axi4lite_write(self,axiprefix,addr,wdata):
 		return self.axi4lite_readwrite(axiprefix=axiprefix,addr=addr,w0r1=0,wdata=wdata)
+	def axi4lite_load(self,axiprefix,reglist):
+		for addr,data in reglist:
+			rdbk=self.axi4lite_write(axiprefix=axiprefix,addr=addr,wdata=data)[0]
 	def axi4lite_check(self,axiprefix,reglist):
-		print('axi4lite check begin')
+		print('axi4lite %s check begin'%axiprefix)
 		checkpass=True
 		for addr,data in reglist:
 			rdbk=self.axi4lite_read(axiprefix=axiprefix,addr=addr)[0]
 			if rdbk!=data:
-				print('axi check addr',addr,'should be ',hex(data),'read ',hex(rdbk))
+				print('axi check','addr',addr,hex(addr),'should be',hex(data),'read back',hex(rdbk))
+
 				checkpass=False
 		print('axi4lite check end')
 		return checkpass
