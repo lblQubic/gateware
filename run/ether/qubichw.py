@@ -16,18 +16,20 @@ import dac39j84
 import jesdaxi 
 import si5324
 class c_qubichw():
-	def __init__(self,ip='192.168.1.224',port=0xd003,regmappath='regmap.json',init=False,commcheck=True,freqoffpercent=1):
+	def __init__(self,ip='192.168.1.224',port=0xd003,regmappath='regmap.json',init=False,commcheck=True,freqoffpercent=1,comport=False):
 		self.ether=c_ether(ip=ip,port=port,timeout=1)
 		self.udplb=c_udplb(interface=self.ether,run=True)
 		self.regmap=c_regmap(interface=self.udplb,regmappath='regmap.json',wavegrppath='wavegrp.json')
 
 		self.etherd002=c_ether(ip=ip,port=0xd002,timeout=1)
 		self.udplbd002=c_udplb(interface=self.etherd002)
-
-		dev=devcom.devcom(devcom.sndev)
-		vc707uart=dev['vc707uart']
-		self.uartlb=c_uartlb(vc707uart,9600,0)
-		self.uartregmap=c_regmap(self.uartlb,regmappath='uartregmap.json',wavegrppath='uartwavegrp.json')
+		if comport:
+			dev=devcom.devcom(devcom.sndev)
+			vc707uart=dev['vc707uart']
+			self.uartlb=c_uartlb(vc707uart,9600,0)
+			self.uartregmap=c_regmap(self.uartlb,regmappath='uartregmap.json',wavegrppath='uartwavegrp.json')
+		else:
+			self.uartregmap=None
 
 		self.vc707=c_vc707(self.regmap,self.uartregmap)
 		self.read=self.vc707.read
@@ -73,10 +75,6 @@ class c_qubichw():
 		if init :
 			self.fmcprsntpg()
 			#self.vc707.i2cenable()
-			for fmc in [self.fmc120_1,self.fmc120_2]:
-				self.i2cswitch(fmc.i2cid)
-				print('reset fmc')
-				fmc.reset()
 			freqdict=self.freqs()
 			ok=True
 			for k,v in freqdict.items():
@@ -92,6 +90,10 @@ class c_qubichw():
 			if ok:
 				print('all clk frequency seems ok, skip lmk init')
 			else:
+				for fmc in [self.fmc120_1,self.fmc120_2]:
+					self.i2cswitch(fmc.i2cid)
+					print('reset fmc')
+					fmc.reset()
 				self.clkinit(lmkinitregs=lmk04828.init)
 				print(self.vc707.si570setfreq(125.005e6))
 				self.si5324init(si5324.init250)
@@ -167,7 +169,7 @@ class c_qubichw():
 				if initregs:
 					fmc.adcload(adca0b1=adc,reglist=initregs)
 				if checkregs:
-					fmc.adccheck(adca0b1=adc,reglist=checkregs,printall=True)
+					fmc.adccheck(adca0b1=adc,reglist=checkregs,printall=False)
 	def dacinit(self,initregs):
 		for fmc in [self.fmc120_1,self.fmc120_2]:
 			self.i2cswitch(fmc.i2cid)

@@ -16,7 +16,8 @@ class c_vc707:
 		self.uarti2c=False
 		self.read=regmap.read
 		self.write=regmap.write
-		self.setuarti2c(self.uarti2c)
+		if uartregmap:
+			self.setuarti2c(self.uarti2c)
 	def setuarti2c(self,uarti2c=True):
 		#		print('setuarti2c',uarti2c)
 		self.uarti2c=uarti2c

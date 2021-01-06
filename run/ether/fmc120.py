@@ -110,9 +110,13 @@ class c_fmc120:
 		cmd24=self.daccmd(r1w0=1,addr=addr,data=0)
 		vmsb,vlsb=self.spiread(cmd24=cmd24,action=0x02)
 		return ((vmsb&0xff)<<8)+(vlsb&0xff)
-	def dacload(self,reglist):
+	def dacload(self,reglist,delay=None):
 		for addr,data in reglist:
 			self.dacwrite(addr,data)
+			print('dacload addr %d 0x%x, value %d 0x%x'%(addr,addr,data,data))
+			if delay:
+				time.sleep(delay)
+
 	def daccheck(self,reglist):
 		checkpass=True
 		for addr,data in reglist:

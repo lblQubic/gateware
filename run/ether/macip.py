@@ -19,7 +19,7 @@ if __name__=="__main__":
 	parser.add_argument('-mac','--mac',help='mac address',dest='mac',type=str,default=None)
 	clargs=parser.parse_args()
 
-	qubichw=c_qubichw(init=False)
+	qubichw=c_qubichw(init=False,comport=True)
 	print('c_qubichw')
 	qubichw.macip(mac=clargs.mac,ip=clargs.ip)
 

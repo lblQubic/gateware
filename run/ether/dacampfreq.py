@@ -20,11 +20,17 @@ if __name__=="__main__":
 	regs=[('fmcdacen',3)]
 
 	if clargs.amp is not None:
-		for index,value in enumerate(clargs.amp):
-			regs.append(('dac%s_%damp'%(clargs.chan,index),int(round(value*32767))))
+		if len(clargs.amp)>8:
+			print('you got %d amp input, I can only take 8 now'%len(clargs.amp))
+		else:
+			for index,value in enumerate(clargs.amp):
+				regs.append(('dac%s_%damp'%(clargs.chan,index),int(round(value*32767))))
 	if clargs.freq is not None:
-		for index,value in enumerate(clargs.freq):
-			regs.append(('dac%s_%dfreq'%(clargs.chan,index),int(round(value*4.0*2**17*1.0e-9))))
+		if len(clargs.freq)>8:
+			print('you got %d freq input, I can only take 8 now'%len(clargs.freq))
+		else:
+			for index,value in enumerate(clargs.freq):
+				regs.append(('dac%s_%dfreq'%(clargs.chan,index),int(round(value*4.0*2**17*1.0e-9))))
 	print(regs)
 	if len(regs):
 		qubichw.write(regs)
