@@ -83,8 +83,10 @@ class c_fmc120:
 		#print('adcread',hex(vmsb),hex(vlsb))
 		return vlsb
 	def adcload(self,adca0b1,reglist):
+		print('adclod')
 		for mpchaddr,data in reglist:
 			self.adcwrite(mpchaddr,data,adca0b1)
+		print('adclod done')
 	def adccheck(self,adca0b1,reglist,printall=False):
 		import ads54j60
 		checkpass=True
@@ -111,11 +113,13 @@ class c_fmc120:
 		vmsb,vlsb=self.spiread(cmd24=cmd24,action=0x02)
 		return ((vmsb&0xff)<<8)+(vlsb&0xff)
 	def dacload(self,reglist,delay=None):
+		print('dac load init')
 		for addr,data in reglist:
 			self.dacwrite(addr,data)
-			print('dacload addr %d 0x%x, value %d 0x%x'%(addr,addr,data,data))
+		#	print('dacload addr %d 0x%x, value %d 0x%x'%(addr,addr,data,data))
 			if delay:
 				time.sleep(delay)
+		print('dac load init done')
 
 	def daccheck(self,reglist):
 		checkpass=True
@@ -227,6 +231,7 @@ class c_fmc120:
 		import cpld
 		import lmk04828
 		import dac39j84
+		print('c_fmc120 reset')
 		for (addr,data) in cpld.dacreset:
 			self.cpldwrite(addr=addr,data=data)
 		for (addr,data) in dac39j84.if4lane:
@@ -239,10 +244,12 @@ class c_fmc120:
 			self.cpldwrite(addr=addr,data=data)
 		for (addr,data) in lmk04828.softreset:
 			self.lmkwrite(addr=addr,data=data)
-		print('c_fmc120 reset')
+		print('c_fmc120 reset done')
 	def lmk04828load(self,reglist):
+		print('lmk04828 load ')
 		for addr,data in reglist:
 			self.lmkwrite(addr,data)
+		print('lmk04828 load done')
 
 
 if __name__=="__main__":

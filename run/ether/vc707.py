@@ -47,7 +47,7 @@ class c_vc707:
 		#print('i2creadwrite r1w0 data',r1w0,hex(data))
 		r0=((devaddr&0x7f)<<25)+((r1w0&1)<<24)+(data&0xffffff)
 		self.writefori2c(((regs['i2cdatatx'],r0),(regs['i2cstart'],(nack&0xf)+((stop&0x1)<<4))))
-#		print(",{32'h%08x,1'h%01x,4'h%01x}"%(r0,stop&0x1,nack&0xf),hex((r0<<5)+((stop&1)<<4)+(nack&0xf)))
+		print(",{1'h%01x,4'h%01x,32'h%08x}"%(stop&0x1,nack&0xf,r0))#,hex((nack&0xf)+((stop&1)<<4)+(r0<<5)))
 		#print(regs['i2crxvalid'])
 		valid=self.readfori2c((regs['i2crxvalid'],))
 		index=0
@@ -126,9 +126,11 @@ class c_vc707:
 			si570regs[addr]=self.si570read(addr)
 		return si570regs
 	def si570setfreq(self,freq):
+		print('start si570setfreq')
 		initreg=self.si570readinit()
 		newregs=si570.fset(freq,si570.fxtal(initreg))
 		print(newregs)
+		print('si570 set freq to %f'%freq)
 		if len(newregs)>0:
 			newreg=newregs[0]
 			print(newreg)
@@ -139,6 +141,7 @@ class c_vc707:
 		else:
 			print('failed find setting')
 		time.sleep(1)
+		print('si570 set freq done')
 	def si5324write(self,addr,data,devaddr=0x68):
 		addrdata=((addr&0xff)<<8)+(data)
 		self.devwrite(devaddr=devaddr,addrdata=addrdata,nack=3)
@@ -146,6 +149,11 @@ class c_vc707:
 		addrdata=((addr&0xff))#<<16)
 		val=self.devread(devaddr=devaddr,addrdata=addrdata,nack=2)
 		return val&0xff
+	def si5324load(self,reglist,delay=1):
+		for addr,data in reglist:
+			self.si5324write(addr,data)
+			if delay:
+				time.sleep(delay)
 	def sfpinfo(self):
 		#		self.i2cwrite(devaddr=0x74,data=16)#0x04)
 		self.i2cswitch('sfp')

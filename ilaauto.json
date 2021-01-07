@@ -8,7 +8,7 @@
 		,"reseted125":1
 		,"dbaxistate":3
 		,"dbaxinext":3
-		,"done_r3":15
+		,"done_r3":17
 		,"i2ccmd":37
 		,"i2cresult":33
 		,"i2cdatarx_d":32
@@ -18,7 +18,8 @@
 		,"i2cinitdone":1
 		,"i2cswlocation":8
 		,"eepromrd":80
-		,"i2cinitreset":1
+		,"i2cinitreset":3
+		,"i2cinitdone":3
 		,"dbi2cstate":4
 		,"dbi2cnext":4
 		,"dbsi2cinitreset":1
@@ -46,5 +47,11 @@
 		,"resetdone_smasfp":1
 		,"rxdata_smasfp":32
 		,"txdata_smasfp":32
+		,"dbchainstate":3
+		,"dbchainnext":3
+		,"dbrising":1
+		,"dbshift": 16
+		,"dbshiftnext":16
+		,"donecriteria":17
 	}
 }
