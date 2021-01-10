@@ -1,50 +1,44 @@
 {
-	"clk":"clkcfg"
+	"clk":"clk125"
 	,"probes":{
-		"sdatx":1
-		,"sdarx":1
-		,"sdaasrx":1
-		,"i2creset":1
-		,"reseted125":1
+		"done_r3":17
+		,"dbchainstate":3
+		,"dbchainnext":3
+		,"eepromrd":80
+		,"i2cinitreset_d":3
+		,"i2cinitdone":3
+		,"dbi2cstate":4
+		,"dbi2cnext":4
+		,"i2cswlocation":8
+		,"i2cdatarx_d":32
+		,"i2cdatatx_d":32
+		,"i2creset_d":1
+		,"loadeeprom":1
+	}
+	,"backup":{
+		"reseted125":1
 		,"dbaxistate":3
 		,"dbaxinext":3
-		,"done_r3":15
 		,"i2ccmd":37
 		,"i2cresult":33
-		,"i2cdatarx_d":32
 		,"i2crxvalid":1
 		,"i2crxvalid_d":1
 		,"i2crxvalid_d2":1
-		,"i2cinitdone":1
-		,"i2cswlocation":8
-		,"eepromrd":80
-		,"i2cinitreset":1
-		,"dbi2cstate":4
-		,"dbi2cnext":4
 		,"dbsi2cinitreset":1
 		,"loadmacip":1
 		,"hw.vc707.gpio_sw_c":1
-		,"jesdreset":1
-		,"jesd_reset_done":1
-		,"jesd_reset_done_1":1
-		,"jesd_reset_status_1":4
-		,"hw.fmc1.llmk_sclkout_3":1
-		,"adc01_valid":1
-		,"adc23_valid":1
-		,"fmc1_tx_tready":1
-		,"common0_qpll_lock_out_1":1
-		,"common1_qpll_lock_out_2":1
-		,"rxencommaalign":2
-		,"hw.fmc1__adca_sync_in_l_vadj":1
-		,"hw.fmc1__adcb_sync_in_l_vadj":1
-		,"hw.fmc1.dac_sync_req_to_fpga":1
-		,"hw.fmc2__adca_sync_in_l_vadj":1
-		,"hw.fmc2__adcb_sync_in_l_vadj":1
-		,"hw.fmc2.dac_sync_req_to_fpga":1
-		,"dbgt0_rxdata":32
-		,"reset_smasfp":1
-		,"resetdone_smasfp":1
-		,"rxdata_smasfp":32
-		,"txdata_smasfp":32
+		,"scl":1
+		,"sdatx":1
+		,"sdarx":1
+		,"sdaasrx":1
+		,"i2cstart":1
+		,"stopbit":1
+		,"nack":4
+		,"fmci2cdevcmd":28
+		,"fmci2cstb_devcmd":1
+		,"i2cinitdone_d2":3
+		,"i2crxvalid_d":1
+		,"i2crxvalid_d2":1
+		,"i2ccmd_rd[24]":1
 	}
 }

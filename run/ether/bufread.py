@@ -17,7 +17,7 @@ if __name__=="__main__":
 	if 1:
 		adc0buf=qubichw.read((('adc0buf'),))
 		print(type(adc0buf))
-		print('adc0buf read',adc0buf)
+		print('adc0buf read',[hex(i) for i in adc0buf[0:10]])
 		adc0buf_1=vtosigned(adc0buf>>16)
 		adc0buf_0=vtosigned(adc0buf&0xffff)
 		pyplot.plot(adc0buf_0)

@@ -1,3 +1,5 @@
+xc7vx485tffg1761pkg.vh
+xc7vx485tffg1761pkg.xdc
 fifocore_64_8.tcl
 fifocore_8_64.tcl
 gig_ethernet_pcs_pma.tcl
@@ -7,9 +9,6 @@ ilaauto.tcl
 ilaauto.vh
 ilaadcauto.tcl
 ilaadcauto.vh
-jesd204_ads54j60.tcl
-jesd204_dac39j84.tcl
-jesd204_phy_8lane.tcl
 uartread.vh
 uartwrite.vh
 uartdefine.vh
@@ -59,12 +58,9 @@ submodules/common-hdl/uartrx.v
 submodules/common-hdl/uarttx.v
 submodules/common-hdl/via.v
 submodules/common-hdl/viapairs.v
-submodules/fpga-family/7series/xc7vx485tffg1761pkg/xc7vx485tffg1761pkg.vh
-submodules/fpga-family/7series/xc7vx485tffg1761pkg/xc7vx485tffg1761pkg.xdc
 submodules/fpga-family/gtx/gticc_common.sv
 submodules/fpga-family/gtx/gticc_gt.sv
 sysclkmmcm.v
-xadc.tcl
 submodules/common-hdl/freq_count.v
 submodules/common-hdl/seqinit.v
 bufread.sv
@@ -73,3 +69,4 @@ bufio.sv
 submodules/common-hdl/cordicg1.v
 submodules/common-hdl/reg_delay1.v
 dlo.v
+fmc120cpldspiwriteonvc707.v
