@@ -1,17 +1,26 @@
 {
-	"clk":"clkcfg"
+	"clk":"clk125"
 	,"probes":{
-		"sdatx":1
-		,"sdarx":1
-		,"sdaasrx":1
-		,"i2creset":1
-		,"reseted125":1
+		"done_r3":19
+		,"dbchainstate":3
+		,"dbchainnext":3
+		,"eepromrd":80
+		,"i2cinitreset_d":3
+		,"i2cinitdone":3
+		,"dbi2cstate":4
+		,"dbi2cnext":4
+		,"i2cswlocation":8
+		,"i2cdatarx_d":32
+		,"i2cdatatx_d":32
+		,"i2creset_d":1
+		,"loadeeprom":1
 		,"dbaxistate":3
 		,"dbaxinext":3
-		,"done_r3":17
-		,"i2ccmd":37
+		,"reseted125":1
+	}
+	,"backup":{
+		"i2ccmd":37
 		,"i2cresult":33
-		,"i2cdatarx_d":32
 		,"i2crxvalid":1
 		,"i2crxvalid_d":1
 		,"i2crxvalid_d2":1
@@ -53,5 +62,21 @@
 		,"dbshift": 16
 		,"dbshiftnext":16
 		,"donecriteria":17
+		,"dbsi2cinitreset":1
+		,"loadmacip":1
+		,"hw.vc707.gpio_sw_c":1
+		,"scl":1
+		,"sdatx":1
+		,"sdarx":1
+		,"sdaasrx":1
+		,"i2cstart":1
+		,"stopbit":1
+		,"nack":4
+		,"fmci2cdevcmd":28
+		,"fmci2cstb_devcmd":1
+		,"i2cinitdone_d2":3
+		,"i2crxvalid_d":1
+		,"i2crxvalid_d2":1
+		,"i2ccmd_rd[24]":1
 	}
 }

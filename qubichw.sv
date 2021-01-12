@@ -1,7 +1,7 @@
-module qubichw (hw.hw hw,xc7vx485tffg1761pkg fpga);
+module qubichw (hw hw,xc7vx485tffg1761pkg fpga);
 vc707 vc707(.fpga(fpga),.hw(hw.vc707.hw));
 fmc120 fmc120_fmc1(.fmcpin(hw.vc707.fmc1pin.pin),.fmc120(hw.fmc1.hw));
-fmc120 fmc120_fmc2(.fmcpin(hw.vc707.fmc2pin.pin),.fmc120(hw.fmc2.hw));
+fmc120_2 fmc120_fmc2(.fmcpin(hw.vc707.fmc2pin.pin),.fmc120(hw.fmc2.hw));
 endmodule
 
 interface hw ();
@@ -9,7 +9,7 @@ interface hw ();
 //`include "vc707.vh"
 ivc707 vc707();
 ifmc120 fmc1();
-ifmc120 fmc2();
+ifmc120_2 fmc2();
 
 /*modport hw(inout fmc_vadj_on_b_ls,phy_mdio,pmbus_alert,pmbus_clk,pmbus_data,user_clock_n,user_clock_p,user_sma_clock_n,user_sma_clock_p,user_sma_gpio_n,user_sma_gpio_p
 ,input gpio_led_0,gpio_led_1,gpio_led_2,gpio_led_3,gpio_led_4,gpio_led_5,gpio_led_6,gpio_led_7,phy_int,phy_mdc,phy_reset,sgmii_tx_n,sgmii_tx_p,si5324_rst,sm_fan_pwm
@@ -26,7 +26,7 @@ inout fmc_vadj_on_b_ls,phy_mdio,pmbus_alert,pmbus_clk,pmbus_data,user_clock_n,us
 );
 */
 
-wire fmc1__adcb_sync_in_l_vadj;
+/*wire fmc1__adcb_sync_in_l_vadj;
 wire fmc1__adca_sync_in_l_vadj;
 wire fmc2__adcb_sync_in_l_vadj;
 wire fmc2__adca_sync_in_l_vadj;
@@ -80,5 +80,5 @@ modport cfg(output  fmc1__adcb_sync_in_l_vadj,fmc1__adca_sync_in_l_vadj,fmc2__ad
 ,fmc2__adc0_da1_p,fmc2__adc0_da1_n,fmc2__adc0_da2_p,fmc2__adc0_da2_n,fmc2__adc0_db1_p,fmc2__adc0_db1_n,fmc2__adc0_db2_p,fmc2__adc0_db2_n,fmc2__adc1_da1_p,fmc2__adc1_da1_n,fmc2__adc1_da2_p,fmc2__adc1_da2_n,fmc2__adc1_db1_p,fmc2__adc1_db1_n,fmc2__adc1_db2_p,fmc2__adc1_db2_n
 );
 modport hw(input fmc1__adcb_sync_in_l_vadj,fmc1__adca_sync_in_l_vadj,fmc2__adcb_sync_in_l_vadj,fmc2__adca_sync_in_l_vadj
-);
+);*/
 endinterface

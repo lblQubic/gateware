@@ -84,13 +84,31 @@ reg [23:0] slavereg=24'hadbeef;
 reg slavetx1rx0=0;
 wire slaverxvalid;
 wire [31:0] slavedatarx;
-i2cslave #(.NACK(2)) i2cslave(.clk(sgmiiclk),.SCL(hw.vc707.iic.scl),.SDA(hw.vc707.iic.sda),.rst(1'b0),.datatx({8'h0,slavereg}),.ack1(slaveack1),.ack1valid(slaveack1valid),.datarx(slavedatarx),.rxvalid(slaverxvalid));
-always @(posedge sysclk) begin
+wire [6:0] i2cslavedevaddr;
+wire [7:0] i2cslaveaddr;
+wire i2cslavew0r1;
+reg [15:0] i2cslavenack_r=0;
+assign hw.vc707.iic.sda=qubic.qubichw_config.sdaasrx ? 1'b1 : 1'bz;
+/*i2cslave #(.NACK(2)) i2cslave(.clk(sgmiiclk),.SCL(hw.vc707.iic.scl),.SDA(hw.vc707.iic.sda),.rst(1'b0),.datatx({8'h0,slavereg}),.ack1(slaveack1),.ack1valid(slaveack1valid),.datarx(slavedatarx),.rxvalid(slaverxvalid)
+,.devaddr(i2cslavedevaddr)
+,.addr(i2cslaveaddr)
+,.w0r1(i2cslavew0r1)
+,.nack(i2cslavenack_r)
+);*/
+always @(posedge sgmiiclk) begin
 	if (slaveack1valid)
 		slavetx1rx0<=slaveack1[0];
 	if (slaveack1[0]==0)
 		if (slaverxvalid)
 			slavereg<=slavedatarx[23:0];
+	case (i2cslavedevaddr)
+		7'h74: i2cslavenack_r<=16'h2;
+		7'h54: i2cslavenack_r<=16'h2;//i2cslavew0r1 ? 16'h4 : 16'h2;
+		7'h68: i2cslavenack_r<=16'h2;
+		7'h5d: i2cslavenack_r<=16'h2;
+		7'h1c: i2cslavenack_r<=16'h3;
+		default: i2cslavenack_r<=16'h3;
+	endcase
 end
 
 

@@ -12,7 +12,6 @@ always @(posedge clk) begin
     phacc<=reset ? 0 : phacc+freq;
     ampset<=amp;
 end
-wire [15:0] x16,y16;
 cordicg1 #(.WIDTH(16),.NSTAGE(16),.NORMALIZE(1),.BUFIN(0),.GW(1),.NRIDER(0))
 cordicg1(.clk(clk),.opin(1'b0),.xin(ampset),.yin(16'h0),.phasein(phacc),.xout(xout),.yout(yout),.phaseout(),.error(),.gin(1'b1),.gout());
 endmodule
