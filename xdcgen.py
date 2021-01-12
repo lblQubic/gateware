@@ -9,19 +9,24 @@ fpga=fpga_module.xilinx_pinmap(filein)
 fpgapins=fpga.verilog_io_pin()
 exceptlist=["A12","AA41","AL40","B11","B18","B24","C41","D12","D31","H35","L11","P17"]
 
+
 yespins=[p for p in fpgapins if p.package_pin not in exceptlist]
 nopins=[p for p in fpgapins if p.package_pin in exceptlist]
+yesport=[p for p in fpgapins if p.package_pin not in exceptlist]
+noport=[p for p in fpgapins if p.package_pin in exceptlist]
 f=open(basename+'.vh','w')
-f.write(fpga.pininterface(yespins=yespins,nopins=nopins))
+f.write(fpga.pininterface(yespins=yespins,nopins=nopins,yesport=yespins,noport=nopins))
 f.close()
 #print(mgtexcept)
 #print(len(exceptlist))
 #fpga.svxdc_gen(fpga.verilog_io_pin(),'t2.xdc',)
 
-mgtexcept=([p.package_pin for p in fpgapins if p.iotype=="GTX" and re.match('MGTXTX[PN][0123]_11[3456789]',p.pinname)])
-exceptlist.extend(mgtexcept)
-yespins=[p for p in fpgapins if p.package_pin not in exceptlist]
-nopins=[p for p in fpgapins if p.package_pin in exceptlist]
+#mgtexcept=([p.package_pin for p in fpgapins if p.iotype=="GTX" and re.match('MGTX[TR]X[PN][0123]_11[345]',p.pinname)])
+#exceptlist.extend(mgtexcept)
+
+#yespins=[p for p in fpgapins if p.package_pin not in exceptlist]
+#nopins=[p for p in fpgapins if p.package_pin in exceptlist]
+
 f=open(basename+'.xdc','w')
 f.write(fpga.svxdc(yespins,nopins))
 f.close()

@@ -1,7 +1,7 @@
 {
 	"clk":"clk125"
 	,"probes":{
-		"done_r3":17
+		"done_r3":19
 		,"dbchainstate":3
 		,"dbchainnext":3
 		,"eepromrd":80
@@ -14,12 +14,12 @@
 		,"i2cdatatx_d":32
 		,"i2creset_d":1
 		,"loadeeprom":1
-	}
-	,"backup":{
-		"reseted125":1
 		,"dbaxistate":3
 		,"dbaxinext":3
-		,"i2ccmd":37
+		,"reseted125":1
+	}
+	,"backup":{
+		"i2ccmd":37
 		,"i2cresult":33
 		,"i2crxvalid":1
 		,"i2crxvalid_d":1

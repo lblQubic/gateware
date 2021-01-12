@@ -3,6 +3,9 @@ xc7vx485tffg1761pkg.xdc
 fifocore_64_8.tcl
 fifocore_8_64.tcl
 gig_ethernet_pcs_pma.tcl
+jesd204_ads54j60.tcl
+jesd204_dac39j84.tcl
+jesd204_phy_8lane.tcl
 ila125auto.tcl
 ila125auto.vh
 ilaauto.tcl
@@ -70,3 +73,4 @@ submodules/common-hdl/cordicg1.v
 submodules/common-hdl/reg_delay1.v
 dlo.v
 fmc120cpldspiwriteonvc707.v
+i2cinit.vh

@@ -1,5 +1,5 @@
 module qubichw_config #(parameter DEBUG="false",parameter BAUD=9600,parameter SIM=0)
-(hw.cfg hw
+(hw hw
 ,regmap.cfg lbreg
 ,dsp.cfg dsp
 );
@@ -120,14 +120,14 @@ wire [31:0] i2cdatatx;
 wire [31:0] i2cdatarx;
 wire i2crxvalid;
 wire i2cstart;
-wire [2:0] i2cinitdone;
+wire [3:0] i2cinitdone;
 wire [36:0] i2ccmd;
 wire [36:0] fmci2ccmd;
 reg [36:0] i2ccmd_r=0;
 reg [36:0] i2ccmd_rd=0;
 reg [32:0] i2cresult=0;
-wire [2:0] i2cinitreset;
-reg [2:0] i2cinitreset_d=0;
+wire [3:0] i2cinitreset;
+reg [3:0] i2cinitreset_d=0;
 reg i2creset_d=0;
 always @(posedge hw.vc707.sysclk) begin
 	i2cinitreset_d<=i2cinitreset;
@@ -161,16 +161,18 @@ wire [3:0] fmci2cnack;
 wire fmci2creset;
 wire fmci2crunning;
 wire [27:0] fmci2cdevcmd_2;
+wire [27:0] fmci2cdevcmd_3;
 wire fmci2cstb_devcmd_2;
+wire fmci2cstb_devcmd_3;
 wire [27:0] fmci2cdevcmd_1;
 wire fmci2cstb_devcmd_1;
-wire [27:0] fmci2cdevcmd=~i2cinitdone[1] ? fmci2cdevcmd_1 : ~i2cinitdone[2] ? fmci2cdevcmd_2 : 0;
-wire fmci2cstb_devcmd=~i2cinitdone[1] ? fmci2cstb_devcmd_1 : ~i2cinitdone[2] ? fmci2cstb_devcmd_2 : 0;
+wire [27:0] fmci2cdevcmd=~i2cinitdone[1] ? fmci2cdevcmd_1 : (~i2cinitdone[2]) ? fmci2cdevcmd_2 : (~i2cinitdone[3]) ? fmci2cdevcmd_3 :0;
+wire fmci2cstb_devcmd=~i2cinitdone[1] ? fmci2cstb_devcmd_1 : (~i2cinitdone[2]) ? fmci2cstb_devcmd_2 : (~i2cinitdone[3]) ? fmci2cstb_devcmd_3:0;
 wire fmci2cstart;
 wire fmci2cstopbit;
 assign hw.vc707.iic.mux_reset_b=lbreg.i2cmux_reset_b | uartreg.i2cmux_reset_b | ~&i2cinitdone;
 assign {i2cstart,stopbit,nack,i2cdatatx}=~i2cinitdone[0] ? {i2cinitstart,i2ccmd} :
-	(~i2cinitdone[1])|(~i2cinitdone[2]) ? {fmci2cstart,fmci2ccmd} :
+	(~i2cinitdone[1])|(~i2cinitdone[2])|(~i2cinitdone[3]) ? {fmci2cstart,fmci2ccmd} :
 	uartreg.uarti2c ? {uartreg.stb_i2cstart,uartreg.i2cstart[4],uartreg.i2cstart[3:0],uartreg.i2cdatatx} :
 	lbreg.lbi2c ?    {lbreg.stb_i2cstart,lbreg.i2cstart[4],lbreg.i2cstart[3:0],lbreg.i2cdatatx} :
 	cfgi2ccmd;
@@ -226,8 +228,8 @@ reg [2:0] i2crxvalid_d2=0;
 reg [31:0] i2cdatarx_d=0;
 reg [48+32-1:0] eepromrd=0;
 reg [7:0] i2cswlocation=0;
-reg [2:0] i2cinitdone_d=0;
-reg [2:0] i2cinitdone_d2=0;
+reg [3:0] i2cinitdone_d=0;
+reg [3:0] i2cinitdone_d2=0;
 reg [31:0] i2cdatatx_d=0;
 wire [7:0] l=i2cdatatx_d[31:24];
 wire [7:0] r={7'h74,1'h1};
@@ -258,12 +260,7 @@ end
 assign {lbreg.macmsb24,lbreg.maclsb24,lbreg.ipaddr}=eepromrd;
 assign {uartreg.macmsb24,uartreg.maclsb24,uartreg.ipaddr}=eepromrd;
 
-seqinit #(.INITWIDTH(28),.INITLENGTH(INITDACLEN)
-,.INITCMDS(INITDAC)
-//	{{4'h1,8'h3,16'h5}
-//,{4'ha,8'h4,16'h5}
-//})
-)
+seqinit #(.INITWIDTH(28),.INITLENGTH(INITDACLEN),.INITCMDS(INITDAC))
 fmcdacinit(.clk(clkcfg)
 ,.areset(i2cinitreset[2])
 ,.cmd(fmci2cdevcmd_2)
@@ -271,13 +268,15 @@ fmcdacinit(.clk(clkcfg)
 ,.runing(fmci2cbusy)
 ,.initdone(i2cinitdone[2])
 );
-seqinit #(.INITWIDTH(28),.INITLENGTH(INITLMKADCLEN)
-,.INITCMDS(INITLMKADC)
-//{{4'h1,8'h3,16'h5}
-//,{4'h1,8'h4,16'h5}
-//,{4'h2,8'h4,16'h5}
-//})
-)
+seqinit #(.INITWIDTH(28),.INITLENGTH(INITDAC2LEN),.INITCMDS(INITDAC2))
+fmcdac2init(.clk(clkcfg)
+,.areset(i2cinitreset[3])
+,.cmd(fmci2cdevcmd_3)
+,.start(fmci2cstb_devcmd_3)
+,.runing(fmci2cbusy)
+,.initdone(i2cinitdone[3])
+);
+seqinit #(.INITWIDTH(28),.INITLENGTH(INITLMKADCLEN),.INITCMDS(INITLMKADC))
 fmclmkadcinit(.clk(clkcfg)
 ,.areset(i2cinitreset[1])
 ,.cmd(fmci2cdevcmd_1)
@@ -309,6 +308,8 @@ wire pcie_clk_qo;
 IBUFDS_GTE2 mgtrefclk1_115_pcie(.I(hw.vc707.pcie.clk_qo_p),.IB(hw.vc707.pcie.clk_qo_n),.O(pcie_clk_qo),.ODIV2());
 wire user_clock;
 IBUFGDS user_clock_ibufgds(.I(hw.vc707.user_clock_p),.IB(hw.vc707.user_clock_n),.O(user_clock));
+wire dspclk;
+BUFG dspclkbufg(.I(hw.fmc1.llmk_dclkout_2),.O(dspclk));
 wire sfpreconnected;
 reg hwreset=0;
 wire hwreset_w;
@@ -336,7 +337,7 @@ wire qpllrefclklost_113;
 wire qpllreset_113;
 //wire [2:0] qpllrefclksel_113=3'h1;
 wire [2:0] qpllrefclksel_113=3'h5;
-/*gticc_common
+gticc_common
 gticc_common_113(.QPLLLOCKDETCLK(hw.vc707.sysclk)
 ,.GTNORTHREFCLK0(1'b0),.GTNORTHREFCLK1(1'b0),.GTREFCLK0(sgmiiclk),.GTREFCLK1(sma_mgt_refclk),.GTSOUTHREFCLK0(si5324_out_c),.GTSOUTHREFCLK1(1'b0)
 ,.QPLLREFCLKSEL(qpllrefclksel_113)
@@ -345,7 +346,7 @@ gticc_common_113(.QPLLLOCKDETCLK(hw.vc707.sysclk)
 ,.reset(qpllreset_113)
 ,.resetdone(qpllresetdone_113)
 );
-*/
+
 wire rdyfortxrxreset;
 wire pllresetdonestrobe;
 reg sfplos=0;
@@ -368,8 +369,8 @@ wire rxuserrdy_sfp=1'b1;
 wire [3:0] txcharisk_sfp=4'b0;
 wire [31:0] txdata_sfp=lbreg.sfptesttx;//32'habcdbeef;
 wire txuserrdy_sfp=1'b1;
-wire resetdone_sfp =1;  // debug
-/*gticc_gt gticc_gt_sfp(.CPLLLOCKDETCLK(hw.vc707.sysclk)
+wire resetdone_sfp ;
+gticc_gt gticc_gt_sfp(.CPLLLOCKDETCLK(hw.vc707.sysclk)
 ,.GTNORTHREFCLK0(1'b0),.GTNORTHREFCLK1(1'b0),.GTREFCLK0(sgmiiclk),.GTREFCLK1(sma_mgt_refclk),.GTSOUTHREFCLK0(si5324_out_c),.GTSOUTHREFCLK1(1'b0)
 ,.GTXRXN(hw.vc707.sfp.rx_n),.GTXRXP(hw.vc707.sfp.rx_p),.GTXTXN(hw.vc707.sfp.tx_n),.GTXTXP(hw.vc707.sfp.tx_p)
 ,.QPLLCLK(qplloutclk_113),.QPLLREFCLK(qplloutrefclk_113)
@@ -387,7 +388,7 @@ wire resetdone_sfp =1;  // debug
 ,.resetdone(resetdone_sfp)
 ,.readyforreset(readyforreset_sfp)
 );
-*/
+
 wire reset_smasfp=reset_sfp;
 wire rxusrclk_smasfp;
 wire txusrclk_smasfp;
@@ -398,7 +399,7 @@ wire rxuserrdy_smasfp=1'b1;
 wire [3:0] txcharisk_smasfp=4'b0;
 wire [31:0] txdata_smasfp=lbreg.smasfptesttx;//32'habcdbeef;
 wire txuserrdy_smasfp=1'b1;
-/*gticc_gt gticc_gt_smasfp(.CPLLLOCKDETCLK(hw.vc707.sysclk)
+gticc_gt gticc_gt_smasfp(.CPLLLOCKDETCLK(hw.vc707.sysclk)
 ,.GTNORTHREFCLK0(1'b0),.GTNORTHREFCLK1(1'b0),.GTREFCLK0(sgmiiclk),.GTREFCLK1(sma_mgt_refclk),.GTSOUTHREFCLK0(si5324_out_c),.GTSOUTHREFCLK1(1'b0)
 ,.GTXRXN(hw.vc707.sma_mgt_rx_n),.GTXRXP(hw.vc707.sma_mgt_rx_p),.GTXTXN(hw.vc707.sma_mgt_tx_n),.GTXTXP(hw.vc707.sma_mgt_tx_p)
 ,.QPLLCLK(qplloutclk_113),.QPLLREFCLK(qplloutrefclk_113)
@@ -416,7 +417,7 @@ wire txuserrdy_smasfp=1'b1;
 ,.resetdone(resetdone_smasfp)
 ,.readyforreset(readyforreset_smasfp)
 );
-*/
+
 
 wire sgmiieth_reset;
 wire sgmiieth_resetdone;
@@ -449,19 +450,21 @@ wire ethreset;
 wire ethclk;
 areset ethareset(.clk(ethclk),.areset(ethreset_w),.sreset(ethreset));
 wire ethresetdone=~ethreset;
-wire jesdreset0_done =1; // debug
-wire jesdreset1_done =1;// debug;
+wire jesdreset0_done;
+wire jesdreset1_done;
 wire jesd_reset_done_1;//&jesd_reset_done_2;
 wire jesdreset0;
 wire jesdreset1;
 wire axireset;
+wire axiinitreset;
+wire axiinitdone;
 wire loadmacip;
-localparam NSTEP=17;
+localparam NSTEP=19;
 wire [NSTEP-1:0] done;
 wire [NSTEP-1:0] donestrobe;
 wire [NSTEP-1:0] error;
 wire [NSTEP-1:0] resetout;
-wire [NSTEP-1:0] dbresetout;
+//wire [NSTEP-1:0] dbresetout;
 wire [NSTEP-1:0] donecriteria;
 wire [NSTEP-1:0] readycriteria={1'b1,donecriteria[NSTEP-1:1]};
 wire [NSTEP-1:0] resetin={hwreset|poweronreset,donestrobe[NSTEP-1:1]};
@@ -482,29 +485,41 @@ wire [NSTEP-2-1:0] dummyready;
 assign readyforreset_sfp=qpllresetdone_113;
 
 wire testi2cinitreset;
-	//genvar simtest;
-	//generate
-	//	if (SIM) begin
-	//		assign {sysclkmmcm_reset,idelayctrl_reset,qpllreset_113,reset_sfp,sgmiieth_reset,uartreset,uartlbreset,jesdreset0,jesdreset1,i2creset,i2cinitreset[2],i2cinitreset[1],loadmacip,mdioreset,ethreset_w,axireset}=resetout;
-	//		assign donecriteria={sysclkmmcm_locked,idelayctrl_rdy,qpllresetdone_113,resetdone_sfp,sgmiieth_resetdone,1'b1,1'b1,jesdreset0_done,jesdreset1_done,i2cresetdone,i2cinitdone[2],i2cinitdone[1],~loadmacip,mdioinitdone,ethresetdone,1'b1};
-	//	end
-	//	else begin
+genvar simtest;
+	generate
+	if (SIM) begin
 			assign {sysclkmmcm_reset
-			,idelayctrl_reset,sgmiieth_reset,uartreset,uartlbreset
+			,idelayctrl_reset,sgmiieth_reset,axiinitreset,uartreset,uartlbreset
 			,i2creset,i2cinitreset[0],mdioreset,loadmacip
 			,ethreset_w,i2cinitreset[1],axireset,jesdreset0
-			,jesdreset1,i2cinitreset[2],qpllreset_113,reset_sfp
+			,jesdreset1,i2cinitreset[2],qpllreset_113,reset_sfp,i2cinitreset[3]
 		}=resetout;
 			assign donecriteria={sysclkmmcm_locked
-			,idelayctrl_rdy,sgmiieth_resetdone,1'b1,1'b1
+			,idelayctrl_rdy,sgmiieth_resetdone,axiinitdone,1'b1,1'b1
 			,i2cresetdone	,i2cinitdone[0],mdioinitdone,~loadmacip
 			,ethresetdone,i2cinitdone[1],1'b1,jesdreset0_done
-			,jesdreset1_done,i2cinitdone[2],qpllresetdone_113,resetdone_sfp
+			,jesdreset1_done,i2cinitdone[2],qpllresetdone_113,resetdone_sfp,i2cinitdone[3]
+		};
+//	assign {sysclkmmcm_reset,idelayctrl_reset,qpllreset_113,reset_sfp,sgmiieth_reset,uartreset,uartlbreset,jesdreset0,jesdreset1,i2creset,i2cinitreset[2],i2cinitreset[1],loadmacip,mdioreset,ethreset_w,axireset}=resetout;
+//	assign donecriteria={sysclkmmcm_locked,idelayctrl_rdy,qpllresetdone_113,resetdone_sfp,sgmiieth_resetdone,1'b1,1'b1,jesdreset0_done,jesdreset1_done,i2cresetdone,i2cinitdone[2],i2cinitdone[1],~loadmacip,mdioinitdone,ethresetdone,1'b1};
+	end
+	else begin
+			assign {sysclkmmcm_reset,idelayctrl_reset,sgmiieth_reset
+			,uartreset,uartlbreset,i2creset,i2cinitreset[0]
+			,mdioreset,loadmacip,ethreset_w,i2cinitreset[1]
+			,axireset,jesdreset0,jesdreset1,axiinitreset
+			,i2cinitreset[2],qpllreset_113,reset_sfp,i2cinitreset[3]
+		}=resetout;
+			assign donecriteria={sysclkmmcm_locked,idelayctrl_rdy,sgmiieth_resetdone
+			,1'b1,1'b1,i2cresetdone,i2cinitdone[0]
+			,mdioinitdone,~loadmacip,ethresetdone,i2cinitdone[1]
+			,1'b1,jesdreset0_done,jesdreset1_done,axiinitdone
+			,i2cinitdone[2],qpllresetdone_113,resetdone_sfp,i2cinitdone[3]
 		};
 			//assign {sysclkmmcm_reset,idelayctrl_reset,sgmiieth_reset,uartreset,uartlbreset,i2creset,i2cinitreset[2],i2cinitreset[1],loadmacip,mdioreset,ethreset_w,axireset,jesdreset0,jesdreset1,i2cinitreset[0],qpllreset_113,reset_sfp}=resetout;
 			//assign donecriteria={sysclkmmcm_locked,idelayctrl_rdy,sgmiieth_resetdone,1'b1,1'b1,i2cresetdone,i2cinitdone[2],i2cinitdone[1],~loadmacip,mdioinitdone,ethresetdone,1'b1,jesdreset0_done,jesdreset1_done,i2cinitdone[0],qpllresetdone_113,resetdone_sfp};
-	//	end
-	//endgenerate
+	end
+	endgenerate
 
 reg [NSTEP-1:0] done_r=0;
 reg [NSTEP-1:0] done_r2=0;
@@ -608,7 +623,7 @@ assign txlength=rxlength;
 //assign lbreg.lbrready=lbreg.lbwvalid;  // for this current uart lb, response immidiately
 wire [31:0] test=lbreg.test;
 
-/*
+///*
 wire [63:0] adc0;
 wire [63:0] adc1;
 wire [63:0] adc2;
@@ -638,26 +653,52 @@ axi4lite axi_fmc1_dac(.aclk(clkcfg));
 axi4lite axi_fmc2_adc0(.aclk(clkcfg));
 axi4lite axi_fmc2_adc1(.aclk(clkcfg));
 axi4lite axi_fmc2_dac(.aclk(clkcfg));
+reg [11:0] fmc1_adc0_addr=0,fmc1_adc1_addr=0,fmc2_adc0_addr=0,fmc2_adc1_addr=0,fmc1_dac_addr=0,fmc2_dac_addr=0;
+reg [31:0] fmc1_adc0_wdata=0,fmc1_adc1_wdata=0,fmc2_adc0_wdata=0,fmc2_adc1_wdata=0,fmc1_dac_wdata=0,fmc2_dac_wdata=0;
+reg [3:0] fmc1_adc0_wstrb=0,fmc1_adc1_wstrb=0,fmc2_adc0_wstrb=0,fmc2_adc1_wstrb=0,fmc1_dac_wstrb=0,fmc2_dac_wstrb=0;
+reg fmc1_adc0_start=0,fmc1_adc1_start=0,fmc2_adc0_start=0,fmc2_adc1_start=0,fmc1_dac_start=0,fmc2_dac_start=0;
+reg fmc1_adc0_w0r1=0,fmc1_adc1_w0r1=0,fmc2_adc0_w0r1=0,fmc2_adc1_w0r1=0,fmc1_dac_w0r1=0,fmc2_dac_w0r1=0;
+wire [46:0] axiinitcmd;
+wire [5:0] axibusy;
+seqinit #(.INITWIDTH(3+12+32),.INITLENGTH(AXIINITCMDLENGTH),.INITCMDS(AXIINITCMD))
+axiinit(.clk(clkcfg)
+,.areset(axiinitreset)
+,.cmd(axiinitcmd)
+,.start(axiinitstart)
+,.runing(|axibusy)
+,.initdone(axiinitdone)
+);
+wire [2:0] axiid;
+always @(posedge clkcfg) begin
+{fmc1_adc0_addr,fmc1_adc0_wdata,fmc1_adc0_wstrb,fmc1_adc0_w0r1,fmc1_adc0_start}=(~axiinitdone & axiinitcmd[46:44]==3'h0) ? {axiinitcmd[43:0],4'hf,1'b0,axiinitstart} : {lbreg.axifmc1adc0_addr,lbreg.axifmc1adc0_wdata ,4'hf,lbreg.axifmc1adc0_w0r1,lbreg.stb_axifmc1adc0_start};
+{fmc1_adc1_addr,fmc1_adc1_wdata,fmc1_adc1_wstrb,fmc1_adc1_w0r1,fmc1_adc1_start}=(~axiinitdone & axiinitcmd[46:44]==3'h1) ? {axiinitcmd[43:0],4'hf,1'b0,axiinitstart} : {lbreg.axifmc1adc1_addr,lbreg.axifmc1adc1_wdata ,4'hf,lbreg.axifmc1adc1_w0r1,lbreg.stb_axifmc1adc1_start};
+{fmc1_dac_addr,fmc1_dac_wdata,fmc1_dac_wstrb,fmc1_dac_w0r1,fmc1_dac_start}=(~axiinitdone & axiinitcmd[46:44]==3'h2) ? {axiinitcmd[43:0],4'hf,1'b0,axiinitstart} : {lbreg.axifmc1dac_addr,lbreg.axifmc1dac_wdata ,4'hf,lbreg.axifmc1dac_w0r1,lbreg.stb_axifmc1dac_start};
+{fmc2_adc0_addr,fmc2_adc0_wdata,fmc2_adc0_wstrb,fmc2_adc0_w0r1,fmc2_adc0_start}=(~axiinitdone & axiinitcmd[46:44]==3'h3) ? {axiinitcmd[43:0],4'hf,1'b0,axiinitstart} : {lbreg.axifmc2adc0_addr,lbreg.axifmc2adc0_wdata ,4'hf,lbreg.axifmc2adc0_w0r1,lbreg.stb_axifmc2adc0_start};
+{fmc2_adc1_addr,fmc2_adc1_wdata,fmc2_adc1_wstrb,fmc2_adc1_w0r1,fmc2_adc1_start}=(~axiinitdone & axiinitcmd[46:44]==3'h4) ? {axiinitcmd[43:0],4'hf,1'b0,axiinitstart} : {lbreg.axifmc2adc1_addr,lbreg.axifmc2adc1_wdata ,4'hf,lbreg.axifmc2adc1_w0r1,lbreg.stb_axifmc2adc1_start};
+{fmc2_dac_addr,fmc2_dac_wdata,fmc2_dac_wstrb,fmc2_dac_w0r1,fmc2_dac_start}=(~axiinitdone & axiinitcmd[46:44]==3'h5) ? {axiinitcmd[43:0],4'hf,1'b0,axiinitstart} : {lbreg.axifmc2dac_addr,lbreg.axifmc2dac_wdata ,4'hf,lbreg.axifmc2dac_w0r1,lbreg.stb_axifmc2dac_start};
+end
+
 lb_axi4lite #(.AWIDTH(12),.DWIDTH(32))
 lb_axi4lite_fmc1_adc0
-(.clk(clkcfg),.slave(axi_fmc1_adc0),.addr(lbreg.axifmc1adc0_addr),.wdata(lbreg.axifmc1adc0_wdata),.wstrb(4'hf),.rdata(lbreg.axifmc1adc0_rdata),.rdatavalid(lbreg.axifmc1adc0_rdatavalid),.start(lbreg.stb_axifmc1adc0_start),.w0r1(lbreg.axifmc1adc0_w0r1),.reset(axireset),.dbstate(dbaxistate),.dbnext(dbaxinext));
+(.clk(clkcfg),.slave(axi_fmc1_adc0),.addr(fmc1_adc0_addr),.wdata(fmc1_adc0_wdata),.wstrb(fmc1_adc0_wstrb),.rdata(lbreg.axifmc1adc0_rdata),.rdatavalid(lbreg.axifmc1adc0_rdatavalid),.start(fmc1_adc0_start),.w0r1(fmc1_adc0_w0r1),.reset(axireset),.dbstate(dbaxistate),.dbnext(dbaxinext),.busy(axibusy[0]));
 lb_axi4lite #(.AWIDTH(12),.DWIDTH(32))
 lb_axi4lite_fmc1_adc1
-(.clk(clkcfg),.slave(axi_fmc1_adc1),.addr(lbreg.axifmc1adc1_addr),.wdata(lbreg.axifmc1adc1_wdata),.wstrb(4'hf),.rdata(lbreg.axifmc1adc1_rdata),.rdatavalid(lbreg.axifmc1adc1_rdatavalid),.start(lbreg.stb_axifmc1adc1_start),.w0r1(lbreg.axifmc1adc1_w0r1),.reset(axireset));
+(.clk(clkcfg),.slave(axi_fmc1_adc1),.addr(fmc1_adc1_addr),.wdata(fmc1_adc1_wdata),.wstrb(fmc1_adc1_wstrb),.rdata(lbreg.axifmc1adc1_rdata),.rdatavalid(lbreg.axifmc1adc1_rdatavalid),.start(fmc1_adc1_start),.w0r1(fmc1_adc1_w0r1),.reset(axireset),.dbstate(),.dbnext(),.busy(axibusy[1]));
 lb_axi4lite #(.AWIDTH(12),.DWIDTH(32))
 lb_axi4lite_fmc1_dac
-(.clk(clkcfg),.slave(axi_fmc1_dac),.addr(lbreg.axifmc1dac_addr),.wdata(lbreg.axifmc1dac_wdata),.wstrb(4'hf),.rdata(lbreg.axifmc1dac_rdata),.rdatavalid(lbreg.axifmc1dac_rdatavalid),.start(lbreg.stb_axifmc1dac_start),.w0r1(lbreg.axifmc1dac_w0r1),.reset(axireset));
+(.clk(clkcfg),.slave(axi_fmc1_dac),.addr(fmc1_dac_addr),.wdata(fmc1_dac_wdata),.wstrb(fmc1_dac_wstrb),.rdata(lbreg.axifmc1dac_rdata),.rdatavalid(lbreg.axifmc1dac_rdatavalid),.start(fmc1_dac_start),.w0r1(fmc1_dac_w0r1),.reset(axireset),.dbstate(),.dbnext(),.busy(axibusy[2]));
 lb_axi4lite #(.AWIDTH(12),.DWIDTH(32))
 lb_axi4lite_fmc2_adc0
-(.clk(clkcfg),.slave(axi_fmc2_adc0),.addr(lbreg.axifmc2adc0_addr),.wdata(lbreg.axifmc2adc0_wdata),.wstrb(4'hf),.rdata(lbreg.axifmc2adc0_rdata),.rdatavalid(lbreg.axifmc2adc0_rdatavalid),.start(lbreg.stb_axifmc2adc0_start),.w0r1(lbreg.axifmc2adc0_w0r1),.reset(axireset));
+(.clk(clkcfg),.slave(axi_fmc2_adc0),.addr(fmc2_adc0_addr),.wdata(fmc2_adc0_wdata),.wstrb(fmc2_adc0_wstrb),.rdata(lbreg.axifmc2adc0_rdata),.rdatavalid(lbreg.axifmc2adc0_rdatavalid),.start(fmc2_adc0_start),.w0r1(fmc2_adc0_w0r1),.reset(axireset),.dbstate(),.dbnext(),.busy(axibusy[3]));
 lb_axi4lite #(.AWIDTH(12),.DWIDTH(32))
 lb_axi4lite_fmc2_adc1
-(.clk(clkcfg),.slave(axi_fmc2_adc1),.addr(lbreg.axifmc2adc1_addr),.wdata(lbreg.axifmc2adc1_wdata),.wstrb(4'hf),.rdata(lbreg.axifmc2adc1_rdata),.rdatavalid(lbreg.axifmc2adc1_rdatavalid),.start(lbreg.stb_axifmc2adc1_start),.w0r1(lbreg.axifmc2adc1_w0r1),.reset(axireset));
+(.clk(clkcfg),.slave(axi_fmc2_adc1),.addr(fmc2_adc1_addr),.wdata(fmc2_adc1_wdata),.wstrb(fmc2_adc1_wstrb),.rdata(lbreg.axifmc2adc1_rdata),.rdatavalid(lbreg.axifmc2adc1_rdatavalid),.start(fmc2_adc1_start),.w0r1(fmc2_adc1_w0r1),.reset(axireset),.dbstate(),.dbnext(),.busy(axibusy[4]));
 lb_axi4lite #(.AWIDTH(12),.DWIDTH(32))
 lb_axi4lite_fmc2_dac
-(.clk(clkcfg),.slave(axi_fmc2_dac),.addr(lbreg.axifmc2dac_addr),.wdata(lbreg.axifmc2dac_wdata),.wstrb(4'hf),.rdata(lbreg.axifmc2dac_rdata),.rdatavalid(lbreg.axifmc2dac_rdatavalid),.start(lbreg.stb_axifmc2dac_start),.w0r1(lbreg.axifmc2dac_w0r1),.reset(axireset));
-wire [3:0] jesd_reset_status_1;
-wire [3:0] jesd_reset_status_2;
+(.clk(clkcfg),.slave(axi_fmc2_dac),.addr(fmc2_dac_addr),.wdata(fmc2_dac_wdata),.wstrb(fmc2_dac_wstrb),.rdata(lbreg.axifmc2dac_rdata),.rdatavalid(lbreg.axifmc2dac_rdatavalid),.start(fmc2_dac_start),.w0r1(fmc2_dac_w0r1),.reset(axireset),.dbstate(),.dbnext(),.busy(axibusy[5]));
+//(.clk(clkcfg),.slave(axi_fmc1_adc1),.addr(lbreg.axifmc1adc1_addr),.wdata(lbreg.axifmc1adc1_wdata),.wstrb(4'hf),.rdata(lbreg.axifmc1adc1_rdata),.rdatavalid(lbreg.axifmc1adc1_rdatavalid),.start(lbreg.stb_axifmc1adc1_start),.w0r1(lbreg.axifmc1adc1_w0r1),.reset(axireset));
+wire [1:0] jesd_reset_status_1;
+wire [1:0] jesd_reset_status_2;
 wire adc01_valid;
 wire adc23_valid;
 wire fmc1_tx_tready;
@@ -671,23 +712,23 @@ always @(posedge clkcfg) begin
 end
 reg [31:0] dbgt0_rxdata_r=0, dbgt0_txdata_r=0, dbgt1_rxdata_r=0, dbgt1_txdata_r=0, dbgt2_rxdata_r=0, dbgt2_txdata_r=0, dbgt3_rxdata_r=0, dbgt3_txdata_r=0, dbgt4_rxdata_r=0, dbgt4_txdata_r=0, dbgt5_rxdata_r=0, dbgt5_txdata_r=0, dbgt6_rxdata_r=0, dbgt6_txdata_r=0, dbgt7_rxdata_r=0, dbgt7_txdata_r=0;
 wire [31:0] dbgt0_rxdata, dbgt0_txdata, dbgt1_rxdata, dbgt1_txdata, dbgt2_rxdata, dbgt2_txdata, dbgt3_rxdata, dbgt3_txdata, dbgt4_rxdata, dbgt4_txdata, dbgt5_rxdata, dbgt5_txdata, dbgt6_rxdata, dbgt6_txdata, dbgt7_rxdata, dbgt7_txdata;
-always @(posedge hw.fmc1.llmk_dclkout_2) begin
+always @(posedge dspclk) begin
 	{dbgt0_rxdata_r, dbgt0_txdata_r, dbgt1_rxdata_r, dbgt1_txdata_r, dbgt2_rxdata_r, dbgt2_txdata_r, dbgt3_rxdata_r, dbgt3_txdata_r, dbgt4_rxdata_r, dbgt4_txdata_r, dbgt5_rxdata_r, dbgt5_txdata_r, dbgt6_rxdata_r, dbgt6_txdata_r, dbgt7_rxdata_r, dbgt7_txdata_r}<={dbgt0_rxdata, dbgt0_txdata, dbgt1_rxdata, dbgt1_txdata, dbgt2_rxdata, dbgt2_txdata, dbgt3_rxdata, dbgt3_txdata, dbgt4_rxdata, dbgt4_txdata, dbgt5_rxdata, dbgt5_txdata, dbgt6_rxdata, dbgt6_txdata, dbgt7_rxdata, dbgt7_txdata};
 end
 wire [1:0] rx_sync_1;
 wire [1:0] rx_sync_2;
-assign {hw.fmc1__adca_sync_in_l_vadj,hw.fmc1__adcb_sync_in_l_vadj}=rx_sync_1;
-assign {hw.fmc2__adca_sync_in_l_vadj,hw.fmc2__adcb_sync_in_l_vadj}=rx_sync_2;
+assign {hw.fmc1.adca_sync_in_l_vadj,hw.fmc1.adcb_sync_in_l_vadj}=rx_sync_1;
+assign {hw.fmc2.adca_sync_in_l_vadj,hw.fmc2.adcb_sync_in_l_vadj}=rx_sync_2;
 
-jesdfmc120 jesdfmc120_1(.core_clk(hw.fmc1.llmk_dclkout_2)
+jesdfmc120 jesdfmc120_1(.core_clk(dspclk)
 ,.drpclk(clkcfg)
 ,.qpll_refclk(hw.fmc1.lmk_dclk8_m2c_to_fpga)
-,.rxn_in({hw.fmc1__adc1_db2_n,hw.fmc1__adc1_db1_n,hw.fmc1__adc1_da2_n,hw.fmc1__adc1_da1_n,hw.fmc1__adc0_db2_n,hw.fmc1__adc0_db1_n,hw.fmc1__adc0_da2_n,hw.fmc1__adc0_da1_n})
-,.rxp_in({hw.fmc1__adc1_db2_p,hw.fmc1__adc1_db1_p,hw.fmc1__adc1_da2_p,hw.fmc1__adc1_da1_p,hw.fmc1__adc0_db2_p,hw.fmc1__adc0_db1_p,hw.fmc1__adc0_da2_p,hw.fmc1__adc0_da1_p})
+,.rxn_in({hw.fmc1.adc1_db2_n,hw.fmc1.adc1_db1_n,hw.fmc1.adc1_da2_n,hw.fmc1.adc1_da1_n,hw.fmc1.adc0_db2_n,hw.fmc1.adc0_db1_n,hw.fmc1.adc0_da2_n,hw.fmc1.adc0_da1_n})
+,.rxp_in({hw.fmc1.adc1_db2_p,hw.fmc1.adc1_db1_p,hw.fmc1.adc1_da2_p,hw.fmc1.adc1_da1_p,hw.fmc1.adc0_db2_p,hw.fmc1.adc0_db1_p,hw.fmc1.adc0_da2_p,hw.fmc1.adc0_da1_p})
 ,.tx_sysref(hw.fmc1.llmk_sclkout_3)
 ,.rx_sysref(hw.fmc1.llmk_sclkout_3)
-,.txn_out(hw.fmc1__dac_lane_n)
-,.txp_out(hw.fmc1__dac_lane_p)
+,.txn_out(hw.fmc1.dac_lane_n)
+,.txp_out(hw.fmc1.dac_lane_p)
 ,.axi_adc0(axi_fmc1_adc0)
 ,.axi_adc1(axi_fmc1_adc1)
 ,.axi_dac(axi_fmc1_dac)
@@ -737,15 +778,15 @@ jesdfmc120 jesdfmc120_1(.core_clk(hw.fmc1.llmk_dclkout_2)
 );
 assign jesdreset0_done=common0_qpll_lock_out_1& common1_qpll_lock_out_2;
 assign jesdreset1_done=&{jesd_reset_done_1};
-jesdfmc120 jesdfmc120_2(.core_clk(hw.fmc1.llmk_dclkout_2)
+jesdfmc120 jesdfmc120_2(.core_clk(dspclk)
 ,.drpclk(clkcfg)
 ,.qpll_refclk(hw.fmc2.lmk_dclk8_m2c_to_fpga)
-,.rxn_in({hw.fmc2__adc1_db2_n,hw.fmc2__adc1_db1_n,hw.fmc2__adc1_da2_n,hw.fmc2__adc1_da1_n,hw.fmc2__adc0_db2_n,hw.fmc2__adc0_db1_n,hw.fmc2__adc0_da2_n,hw.fmc2__adc0_da1_n})
-,.rxp_in({hw.fmc2__adc1_db2_p,hw.fmc2__adc1_db1_p,hw.fmc2__adc1_da2_p,hw.fmc2__adc1_da1_p,hw.fmc2__adc0_db2_p,hw.fmc2__adc0_db1_p,hw.fmc2__adc0_da2_p,hw.fmc2__adc0_da1_p})
+,.rxn_in({hw.fmc2.adc1_db2_n,hw.fmc2.adc1_db1_n,hw.fmc2.adc1_da2_n,hw.fmc2.adc1_da1_n,hw.fmc2.adc0_db2_n,hw.fmc2.adc0_db1_n,hw.fmc2.adc0_da2_n,hw.fmc2.adc0_da1_n})
+,.rxp_in({hw.fmc2.adc1_db2_p,hw.fmc2.adc1_db1_p,hw.fmc2.adc1_da2_p,hw.fmc2.adc1_da1_p,hw.fmc2.adc0_db2_p,hw.fmc2.adc0_db1_p,hw.fmc2.adc0_da2_p,hw.fmc2.adc0_da1_p})
 ,.tx_sysref(hw.fmc2.llmk_sclkout_3)
 ,.rx_sysref(hw.fmc2.llmk_sclkout_3)
-,.txn_out(hw.fmc2__dac_lane_n)
-,.txp_out(hw.fmc2__dac_lane_p)
+,.txn_out(hw.fmc2.dac_lane_n)
+,.txp_out(hw.fmc2.dac_lane_p)
 ,.axi_adc0(axi_fmc2_adc0)
 ,.axi_adc1(axi_fmc2_adc1)
 ,.axi_dac(axi_fmc2_dac)
@@ -753,7 +794,7 @@ jesdfmc120 jesdfmc120_2(.core_clk(hw.fmc1.llmk_dclkout_2)
 ,.tx_reset(tx_reset)
 ,.rx_sys_reset(rx_sys_reset)
 ,.tx_sys_reset(tx_sys_reset)
-,.rx_sync(rx_sync_2)//{hw.fmc2__adca_sync_in_l_vadj,hw.fmc2__adcb_sync_in_l_vadj})
+,.rx_sync(rx_sync_2)//{hw.fmc2.adca_sync_in_l_vadj,hw.fmc2.adcb_sync_in_l_vadj})
 ,.tx_sync(hw.fmc2.dac_sync_req_to_fpga)
 ,.adc0(adc4)
 ,.adc1(adc5)
@@ -776,9 +817,9 @@ jesdfmc120 jesdfmc120_2(.core_clk(hw.fmc1.llmk_dclkout_2)
 ,.reset_status(jesd_reset_status_2)
 );
 
-*/
+//*/
 reg [31:0] dclkcnt=0;
-always @(posedge hw.fmc1.llmk_dclkout_2) begin
+always @(posedge dspclk) begin
 	dclkcnt<=dclkcnt+1;
 end
 wire sclk=dclkcnt[lbreg.sclkdclkdiv];
@@ -817,7 +858,7 @@ lbreg.lb.clk
 ,si5324_out_c
 ,pcie_clk_qo
 ,user_clock
-,hw.fmc1.llmk_dclkout_2
+,dspclk
 ,hw.fmc1.llmk_sclkout_3
 ,hw.fmc1.lmk_dclk8_m2c_to_fpga
 ,hw.fmc1.lmk_dclk10_m2c_to_fpga
@@ -920,8 +961,7 @@ end
 assign lb.xadctemp=xadctemp;
 assign lb.xadcaux4=xadcaux4;
 assign lb.xadcaux12=xadcaux12;
-*/
-/*reg [NSTEP-1:0] dbdone=0;
+reg [NSTEP-1:0] dbdone=0;
 reg [NSTEP-1:0] dbdonestrobe=0;
 reg [NSTEP-1:0] dberror=0;
 reg [NSTEP-1:0] dbresetout=0;
@@ -938,23 +978,8 @@ always @(posedge hw.vc707.sysclk) begin
 	dbresetin<=resetin;
 end
 */
-/*assign lbreg.adc0buf.wclk=hw.fmc1.llmk_dclkout_2;
-assign lbreg.adc0buf.wren=1'b1;
-assign lbreg.adc0buf.wrdata=adc0;
-areset areset_adc0bufreset(.clk(hw.fmc1.llmk_dclkout_2),.areset(lbreg.stb_adc0bufreset),.sreset(lbreg.adc0buf.reset));
-assign lbreg.adc0buffull=lbreg.adc0buf.full;
-*/
-/*ibufio #(.DW(32),.AW(10)) bufreadtestrdif();
-assign bufreadtestrdif.clk=udplb.clk;
-assign lbreg.bufreadtestrdif__data=bufreadtestrdif.data;
-assign bufreadtestrdif.en=lbreg.stb_bufreadtestrdif;
-assign bufreadtestrdif.addr=lbreg.bufreadtestrdif__addr;
-ibufio #(.DW(32),.AW(10)) bufreadtestwrif();
-assign bufreadtestwrif.clk=clk250;
-assign bufreadtestwrif.data=clk250cnt;
-assign bufreadtestwrif.en=1'b1;
-*/
-/*bufread #(.AWW(10)
+///*
+bufread #(.AWW(10)
 ,.DWW(32)
 ,.DWR(32)) bufreadtest(.wclk(clk250)
 ,.rclk(udplb.clk)
@@ -969,7 +994,7 @@ assign bufreadtestwrif.en=1'b1;
 
 bufread #(.AWW(10)
 ,.DWW(32)
-,.DWR(32)) adc0buf(.wclk(hw.fmc1.llmk_dclkout_2)
+,.DWR(32)) adc0buf(.wclk(dspclk)
 ,.rclk(udplb.clk)
 ,.wdata(adc0)
 ,.waddr(0)
@@ -980,18 +1005,7 @@ bufread #(.AWW(10)
 ,.full(lbreg.adc0buffull)
 ,.reset(lbreg.stb_adc0bufreset));
 
-*/
-assign dsp.clk=hw.fmc1.llmk_dclkout_2;;
-/*reg [16:0] phacc=0;
-reg [15:0] amp=0;
-always @(posedge hw.fmc1.llmk_dclkout_2) begin
-	phacc<=phacc+lbreg.dacfreq;
-	amp<=lbreg.dacamp;
-end
-wire [15:0] x16,y16;
-cordicg1 #(.WIDTH(16),.NSTAGE(16),.NORMALIZE(1),.BUFIN(0),.GW(1),.NRIDER(0))
-cordicg1(.clk(hw.fmc1.llmk_dclkout_2),.opin(1'b0),.xin(amp),.yin(16'h0),.phasein(phacc),.xout(x16),.yout(y16),.phaseout(),.error(),.gin(1'b1),.gout());
-*/
+assign dsp.clk=dspclk;;
 wire signed [15:0] x01_0,x01_1,x01_2,x01_3,x01_4,x01_5,x01_6,x01_7;
 wire signed [15:0] x23_0,x23_1,x23_2,x23_3,x23_4,x23_5,x23_6,x23_7;
 wire signed [15:0] x45_0,x45_1,x45_2,x45_3,x45_4,x45_5,x45_6,x45_7;
@@ -1041,23 +1055,26 @@ wire reset23=|{lbreg.stb_dac23_0freq,lbreg.stb_dac23_1freq,lbreg.stb_dac23_2freq
 wire reset45=|{lbreg.stb_dac45_0freq,lbreg.stb_dac45_1freq,lbreg.stb_dac45_2freq,lbreg.stb_dac45_3freq,lbreg.stb_dac45_4freq,lbreg.stb_dac45_5freq,lbreg.stb_dac45_6freq,lbreg.stb_dac45_7freq};
 wire reset67=|{lbreg.stb_dac67_0freq,lbreg.stb_dac67_1freq,lbreg.stb_dac67_2freq,lbreg.stb_dac67_3freq,lbreg.stb_dac67_4freq,lbreg.stb_dac67_5freq,lbreg.stb_dac67_6freq,lbreg.stb_dac67_7freq};
 
-/*dlo dlo01_0(.reset(reset01),.amp(lbreg.dac01_0amp),.clk(dsp.clk),.freq(lbreg.dac01_0freq),.xout(x01_0),.yout(y01_0));
-dlo dlo01_1(.reset(reset01),.amp(lbreg.dac01_1amp),.clk(dsp.clk),.freq(lbreg.dac01_1freq),.xout(x01_1),.yout(y01_1));
+dlo dlo01_0(.reset(reset01),.amp(lbreg.dac01_0amp),.clk(dsp.clk),.freq(lbreg.dac01_0freq),.xout(x01_0),.yout(y01_0));
+/*dlo dlo01_1(.reset(reset01),.amp(lbreg.dac01_1amp),.clk(dsp.clk),.freq(lbreg.dac01_1freq),.xout(x01_1),.yout(y01_1));
 dlo dlo01_2(.reset(reset01),.amp(lbreg.dac01_2amp),.clk(dsp.clk),.freq(lbreg.dac01_2freq),.xout(x01_2),.yout(y01_2));
 dlo dlo01_3(.reset(reset01),.amp(lbreg.dac01_3amp),.clk(dsp.clk),.freq(lbreg.dac01_3freq),.xout(x01_3),.yout(y01_3));
 dlo dlo01_4(.reset(reset01),.amp(lbreg.dac01_4amp),.clk(dsp.clk),.freq(lbreg.dac01_4freq),.xout(x01_4),.yout(y01_4));
 dlo dlo01_5(.reset(reset01),.amp(lbreg.dac01_5amp),.clk(dsp.clk),.freq(lbreg.dac01_5freq),.xout(x01_5),.yout(y01_5));
 dlo dlo01_6(.reset(reset01),.amp(lbreg.dac01_6amp),.clk(dsp.clk),.freq(lbreg.dac01_6freq),.xout(x01_6),.yout(y01_6));
 dlo dlo01_7(.reset(reset01),.amp(lbreg.dac01_7amp),.clk(dsp.clk),.freq(lbreg.dac01_7freq),.xout(x01_7),.yout(y01_7));
+*/
 dlo dlo23_0(.reset(reset23),.amp(lbreg.dac23_0amp),.clk(dsp.clk),.freq(lbreg.dac23_0freq),.xout(x23_0),.yout(y23_0));
-dlo dlo23_1(.reset(reset23),.amp(lbreg.dac23_1amp),.clk(dsp.clk),.freq(lbreg.dac23_1freq),.xout(x23_1),.yout(y23_1));
+/*dlo dlo23_1(.reset(reset23),.amp(lbreg.dac23_1amp),.clk(dsp.clk),.freq(lbreg.dac23_1freq),.xout(x23_1),.yout(y23_1));
 dlo dlo23_2(.reset(reset23),.amp(lbreg.dac23_2amp),.clk(dsp.clk),.freq(lbreg.dac23_2freq),.xout(x23_2),.yout(y23_2));
 dlo dlo23_3(.reset(reset23),.amp(lbreg.dac23_3amp),.clk(dsp.clk),.freq(lbreg.dac23_3freq),.xout(x23_3),.yout(y23_3));
 dlo dlo23_4(.reset(reset23),.amp(lbreg.dac23_4amp),.clk(dsp.clk),.freq(lbreg.dac23_4freq),.xout(x23_4),.yout(y23_4));
 dlo dlo23_5(.reset(reset23),.amp(lbreg.dac23_5amp),.clk(dsp.clk),.freq(lbreg.dac23_5freq),.xout(x23_5),.yout(y23_5));
 dlo dlo23_6(.reset(reset23),.amp(lbreg.dac23_6amp),.clk(dsp.clk),.freq(lbreg.dac23_6freq),.xout(x23_6),.yout(y23_6));
 dlo dlo23_7(.reset(reset23),.amp(lbreg.dac23_7amp),.clk(dsp.clk),.freq(lbreg.dac23_7freq),.xout(x23_7),.yout(y23_7));
+*/
 dlo dlo45_0(.reset(reset45),.amp(lbreg.dac45_0amp),.clk(dsp.clk),.freq(lbreg.dac45_0freq),.xout(x45_0),.yout(y45_0));
+/*
 dlo dlo45_1(.reset(reset45),.amp(lbreg.dac45_1amp),.clk(dsp.clk),.freq(lbreg.dac45_1freq),.xout(x45_1),.yout(y45_1));
 dlo dlo45_2(.reset(reset45),.amp(lbreg.dac45_2amp),.clk(dsp.clk),.freq(lbreg.dac45_2freq),.xout(x45_2),.yout(y45_2));
 dlo dlo45_3(.reset(reset45),.amp(lbreg.dac45_3amp),.clk(dsp.clk),.freq(lbreg.dac45_3freq),.xout(x45_3),.yout(y45_3));
@@ -1065,7 +1082,9 @@ dlo dlo45_4(.reset(reset45),.amp(lbreg.dac45_4amp),.clk(dsp.clk),.freq(lbreg.dac
 dlo dlo45_5(.reset(reset45),.amp(lbreg.dac45_5amp),.clk(dsp.clk),.freq(lbreg.dac45_5freq),.xout(x45_5),.yout(y45_5));
 dlo dlo45_6(.reset(reset45),.amp(lbreg.dac45_6amp),.clk(dsp.clk),.freq(lbreg.dac45_6freq),.xout(x45_6),.yout(y45_6));
 dlo dlo45_7(.reset(reset45),.amp(lbreg.dac45_7amp),.clk(dsp.clk),.freq(lbreg.dac45_7freq),.xout(x45_7),.yout(y45_7));
+*/
 dlo dlo67_0(.reset(reset67),.amp(lbreg.dac67_0amp),.clk(dsp.clk),.freq(lbreg.dac67_0freq),.xout(x67_0),.yout(y67_0));
+/*
 dlo dlo67_1(.reset(reset67),.amp(lbreg.dac67_1amp),.clk(dsp.clk),.freq(lbreg.dac67_1freq),.xout(x67_1),.yout(y67_1));
 dlo dlo67_2(.reset(reset67),.amp(lbreg.dac67_2amp),.clk(dsp.clk),.freq(lbreg.dac67_2freq),.xout(x67_2),.yout(y67_2));
 dlo dlo67_3(.reset(reset67),.amp(lbreg.dac67_3amp),.clk(dsp.clk),.freq(lbreg.dac67_3freq),.xout(x67_3),.yout(y67_3));
@@ -1078,7 +1097,7 @@ dlo dlo67_7(.reset(reset67),.amp(lbreg.dac67_7amp),.clk(dsp.clk),.freq(lbreg.dac
 //bufread #(.AWW(10),.DWW(32),.DWR(32)) adc0buf(.full(lbreg.adc0buffull),.reset(lbreg.stb_adc0bufreset),.rd(lbreg.adc0bufrdif.source),.wr(adc0bufwrif.destin));
 
 //`include "ilaadcauto.vh"
-//`include "ila125auto.vh"
-//`include "ilaauto.vh"
+`include "ila125auto.vh"
+`include "ilaauto.vh"
 
 endmodule
