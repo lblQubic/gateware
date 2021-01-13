@@ -307,7 +307,7 @@ IBUFDS_GTE2 mgtrefclk1_115_pcie(.I(hw.vc707.pcie.clk_qo_p),.IB(hw.vc707.pcie.clk
 wire user_clock;
 IBUFGDS user_clock_ibufgds(.I(hw.vc707.user_clock_p),.IB(hw.vc707.user_clock_n),.O(user_clock));
 wire dspclk;
-BUFG dspclkbufg(.I(hw.fmc1.llmk_dclkout_2),.O(dspclk));
+BUFG dspclkbufg(.I(hw.fmc2.llmk_dclkout_2),.O(dspclk));
 wire sfpreconnected;
 reg hwreset=0;
 wire hwreset_w;
@@ -700,6 +700,7 @@ wire [1:0] jesd_reset_status_2;
 wire adc01_valid;
 wire adc23_valid;
 wire fmc1_tx_tready;
+wire fmc2_tx_tready;
 wire common0_qpll_lock_out_1;
 wire common1_qpll_lock_out_2;
 wire rxencommaalign_0;
@@ -715,6 +716,12 @@ always @(posedge dspclk) begin
 end
 wire [1:0] rx_sync_1;
 wire [1:0] rx_sync_2;
+reg [1:0] rx_sync_1_d=0;
+reg [1:0] rx_sync_2_d=0;
+always @(posedge dspclk) begin
+	rx_sync_1_d<=rx_sync_1;
+	rx_sync_2_d<=rx_sync_2;
+end
 assign {hw.fmc1.adca_sync_in_l_vadj,hw.fmc1.adcb_sync_in_l_vadj}=rx_sync_1;
 assign {hw.fmc2.adca_sync_in_l_vadj,hw.fmc2.adcb_sync_in_l_vadj}=rx_sync_2;
 
@@ -806,7 +813,7 @@ jesdfmc120 jesdfmc120_2(.core_clk(dspclk)
 ,.rx_aresetn_1()
 ,.rx_frame_error()
 ,.tx_aresetn()
-,.tx_tready()
+,.tx_tready(fmc2_tx_tready)
 ,.adc01_valid()
 ,.adc23_valid()
 ,.common0_qpll_lock_out()

@@ -57,25 +57,27 @@ wire reset45=|{lbreg.stb_dac45_0freq,lbreg.stb_dac45_1freq,lbreg.stb_dac45_2freq
 wire reset67=|{lbreg.stb_dac67_0freq,lbreg.stb_dac67_1freq,lbreg.stb_dac67_2freq,lbreg.stb_dac67_3freq,lbreg.stb_dac67_4freq,lbreg.stb_dac67_5freq,lbreg.stb_dac67_6freq,lbreg.stb_dac67_7freq};
 
 dlo dlo01_0(.reset(reset01),.amp(lbreg.dac01_0amp),.clk(dsp.clk),.freq(lbreg.dac01_0freq),.xout(x01_0),.yout(y01_0));
-/*dlo dlo01_1(.reset(reset01),.amp(lbreg.dac01_1amp),.clk(dsp.clk),.freq(lbreg.dac01_1freq),.xout(x01_1),.yout(y01_1));
+///*
+dlo dlo01_1(.reset(reset01),.amp(lbreg.dac01_1amp),.clk(dsp.clk),.freq(lbreg.dac01_1freq),.xout(x01_1),.yout(y01_1));
 dlo dlo01_2(.reset(reset01),.amp(lbreg.dac01_2amp),.clk(dsp.clk),.freq(lbreg.dac01_2freq),.xout(x01_2),.yout(y01_2));
 dlo dlo01_3(.reset(reset01),.amp(lbreg.dac01_3amp),.clk(dsp.clk),.freq(lbreg.dac01_3freq),.xout(x01_3),.yout(y01_3));
 dlo dlo01_4(.reset(reset01),.amp(lbreg.dac01_4amp),.clk(dsp.clk),.freq(lbreg.dac01_4freq),.xout(x01_4),.yout(y01_4));
 dlo dlo01_5(.reset(reset01),.amp(lbreg.dac01_5amp),.clk(dsp.clk),.freq(lbreg.dac01_5freq),.xout(x01_5),.yout(y01_5));
 dlo dlo01_6(.reset(reset01),.amp(lbreg.dac01_6amp),.clk(dsp.clk),.freq(lbreg.dac01_6freq),.xout(x01_6),.yout(y01_6));
 dlo dlo01_7(.reset(reset01),.amp(lbreg.dac01_7amp),.clk(dsp.clk),.freq(lbreg.dac01_7freq),.xout(x01_7),.yout(y01_7));
-*/
+//*/
 dlo dlo23_0(.reset(reset23),.amp(lbreg.dac23_0amp),.clk(dsp.clk),.freq(lbreg.dac23_0freq),.xout(x23_0),.yout(y23_0));
-/*dlo dlo23_1(.reset(reset23),.amp(lbreg.dac23_1amp),.clk(dsp.clk),.freq(lbreg.dac23_1freq),.xout(x23_1),.yout(y23_1));
+///*
+dlo dlo23_1(.reset(reset23),.amp(lbreg.dac23_1amp),.clk(dsp.clk),.freq(lbreg.dac23_1freq),.xout(x23_1),.yout(y23_1));
 dlo dlo23_2(.reset(reset23),.amp(lbreg.dac23_2amp),.clk(dsp.clk),.freq(lbreg.dac23_2freq),.xout(x23_2),.yout(y23_2));
 dlo dlo23_3(.reset(reset23),.amp(lbreg.dac23_3amp),.clk(dsp.clk),.freq(lbreg.dac23_3freq),.xout(x23_3),.yout(y23_3));
 dlo dlo23_4(.reset(reset23),.amp(lbreg.dac23_4amp),.clk(dsp.clk),.freq(lbreg.dac23_4freq),.xout(x23_4),.yout(y23_4));
 dlo dlo23_5(.reset(reset23),.amp(lbreg.dac23_5amp),.clk(dsp.clk),.freq(lbreg.dac23_5freq),.xout(x23_5),.yout(y23_5));
 dlo dlo23_6(.reset(reset23),.amp(lbreg.dac23_6amp),.clk(dsp.clk),.freq(lbreg.dac23_6freq),.xout(x23_6),.yout(y23_6));
 dlo dlo23_7(.reset(reset23),.amp(lbreg.dac23_7amp),.clk(dsp.clk),.freq(lbreg.dac23_7freq),.xout(x23_7),.yout(y23_7));
-*/
+//*/
 dlo dlo45_0(.reset(reset45),.amp(lbreg.dac45_0amp),.clk(dsp.clk),.freq(lbreg.dac45_0freq),.xout(x45_0),.yout(y45_0));
-/*
+///*
 dlo dlo45_1(.reset(reset45),.amp(lbreg.dac45_1amp),.clk(dsp.clk),.freq(lbreg.dac45_1freq),.xout(x45_1),.yout(y45_1));
 dlo dlo45_2(.reset(reset45),.amp(lbreg.dac45_2amp),.clk(dsp.clk),.freq(lbreg.dac45_2freq),.xout(x45_2),.yout(y45_2));
 dlo dlo45_3(.reset(reset45),.amp(lbreg.dac45_3amp),.clk(dsp.clk),.freq(lbreg.dac45_3freq),.xout(x45_3),.yout(y45_3));
@@ -83,9 +85,9 @@ dlo dlo45_4(.reset(reset45),.amp(lbreg.dac45_4amp),.clk(dsp.clk),.freq(lbreg.dac
 dlo dlo45_5(.reset(reset45),.amp(lbreg.dac45_5amp),.clk(dsp.clk),.freq(lbreg.dac45_5freq),.xout(x45_5),.yout(y45_5));
 dlo dlo45_6(.reset(reset45),.amp(lbreg.dac45_6amp),.clk(dsp.clk),.freq(lbreg.dac45_6freq),.xout(x45_6),.yout(y45_6));
 dlo dlo45_7(.reset(reset45),.amp(lbreg.dac45_7amp),.clk(dsp.clk),.freq(lbreg.dac45_7freq),.xout(x45_7),.yout(y45_7));
-*/
+//*/
 dlo dlo67_0(.reset(reset67),.amp(lbreg.dac67_0amp),.clk(dsp.clk),.freq(lbreg.dac67_0freq),.xout(x67_0),.yout(y67_0));
-/*
+///*
 dlo dlo67_1(.reset(reset67),.amp(lbreg.dac67_1amp),.clk(dsp.clk),.freq(lbreg.dac67_1freq),.xout(x67_1),.yout(y67_1));
 dlo dlo67_2(.reset(reset67),.amp(lbreg.dac67_2amp),.clk(dsp.clk),.freq(lbreg.dac67_2freq),.xout(x67_2),.yout(y67_2));
 dlo dlo67_3(.reset(reset67),.amp(lbreg.dac67_3amp),.clk(dsp.clk),.freq(lbreg.dac67_3freq),.xout(x67_3),.yout(y67_3));
@@ -93,7 +95,7 @@ dlo dlo67_4(.reset(reset67),.amp(lbreg.dac67_4amp),.clk(dsp.clk),.freq(lbreg.dac
 dlo dlo67_5(.reset(reset67),.amp(lbreg.dac67_5amp),.clk(dsp.clk),.freq(lbreg.dac67_5freq),.xout(x67_5),.yout(y67_5));
 dlo dlo67_6(.reset(reset67),.amp(lbreg.dac67_6amp),.clk(dsp.clk),.freq(lbreg.dac67_6freq),.xout(x67_6),.yout(y67_6));
 dlo dlo67_7(.reset(reset67),.amp(lbreg.dac67_7amp),.clk(dsp.clk),.freq(lbreg.dac67_7freq),.xout(x67_7),.yout(y67_7));
-*/
+//*/
 
 endmodule
 

@@ -195,6 +195,8 @@ class c_qubichw():
 			axi.jesd204axi_reset(axiprefix=name)
 
 
+	def lbi2c(self,enable=True):
+		self.write((('lbi2c',1 if enable else 0),))
 	def si5324enable(self,enable=True):
 		self.write((('si5324_rst',1 if enable else 0),))
 	def fmcprsntpg(self):
