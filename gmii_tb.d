@@ -18,16 +18,12 @@ submodules/common-hdl/reg_delay1.v
 ./submodules/common-hdl/eth/udplb64.sv
 fifocore_64_8.tcl
 fifocore_8_64.tcl
-lbread.vh
-lbwrite.vh
 submodules/common-hdl/localbus.sv
 simin.vh
-lbread.vh
-lbwrite.vh
 regmap.sv
-submodules/common-hdl/localbus.sv
 buf6.sv
 bufread.sv
 dpram.sv
 submodules/common-hdl/areset.v
 bufio.sv
+submodules/common-hdl/eth/gmii2udp.sv

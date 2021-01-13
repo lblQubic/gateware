@@ -1,7 +1,7 @@
 module qubichw (hw hw,xc7vx485tffg1761pkg fpga);
 vc707 vc707(.fpga(fpga),.hw(hw.vc707.hw));
 fmc120 fmc120_fmc1(.fmcpin(hw.vc707.fmc1pin.pin),.fmc120(hw.fmc1.hw));
-fmc120_2 fmc120_fmc2(.fmcpin(hw.vc707.fmc2pin.pin),.fmc120(hw.fmc2.hw));
+fmc120 fmc120_fmc2(.fmcpin(hw.vc707.fmc2pin.pin),.fmc120(hw.fmc2.hw));
 endmodule
 
 interface hw ();
@@ -9,7 +9,7 @@ interface hw ();
 //`include "vc707.vh"
 ivc707 vc707();
 ifmc120 fmc1();
-ifmc120_2 fmc2();
+ifmc120 fmc2();
 
 /*modport hw(inout fmc_vadj_on_b_ls,phy_mdio,pmbus_alert,pmbus_clk,pmbus_data,user_clock_n,user_clock_p,user_sma_clock_n,user_sma_clock_p,user_sma_gpio_n,user_sma_gpio_p
 ,input gpio_led_0,gpio_led_1,gpio_led_2,gpio_led_3,gpio_led_4,gpio_led_5,gpio_led_6,gpio_led_7,phy_int,phy_mdc,phy_reset,sgmii_tx_n,sgmii_tx_p,si5324_rst,sm_fan_pwm

@@ -2,7 +2,39 @@ import zlib
 import random
 import struct
 pac=(
-[2100,'udp',((8,0xfe_000003_00000000)
+[500,'udp',(
+(8,0x1000000000000000)
+,(8,0x1000000100000000)
+,(8,0x1000000100000000)
+,(8,0x1000000100000000)
+,(8,0x1000000000000000)
+,(8,0x1000000000000000)
+,(8,0x1000000000000000)
+,(8,0x1000000000000000)
+,(8,0x1000000000000000)
+,(8,0x1000000000000000)
+,(8,0x1000000000000000)
+,(8,0x1000000200000000)
+,(8,0x1000000100000000)
+)]
+,[1000,'frame',(
+(8,0x55555555555555d5)
+,(8,0x55aabbccddeec46e)
+,(8,0x1f01d90d08004500)
+,(8,0x0054ffd940004001)
+,(8,0xb5d6c0a801c8c0a8)
+,(8,0x01e00800bef40706)
+,(8,0x02752d73fe5f0000)
+,(8,0x00003dea07000000)
+,(8,0x0000101112131415)
+,(8,0x161718191a1b1c1d)
+,(8,0x1e1f202122232425)
+,(8,0x262728292a2b2c2d)
+,(8,0x2e2f303132333435)
+,(6,0x3637a4f9df29)
+)]
+
+,[2100,'udp',((8,0xfe_000003_00000000)
 	,(8,0x10_00000d_00000000)
 	,(8,0x00_000021_00000023)
 	,(8,0xff_000000_00000000))]
@@ -33,24 +65,24 @@ pac=(
 
 class packets():
 	def __init__(self):
-		self.smac=0xabcdef123456
-		self.sip=0xc0a80112
-		self.dmac=0x503eaa059701#,32'hc0a801e0#0x55aabbccddee
+		self.smac=0x00249b59c771#0xabcdef123456
+		self.sip=0xc0a80102
+		self.dmac=0x515542494301#0x503eaa059701#,32'hc0a801e0#0x55aabbccddee
 		self.dip=0xc0a801e0
-		self.sport=0x1234
+		self.sport=0xb92a#0x1234
 		self.dport=0xd003
 		self.ipv4protocol={'icmp':1,'udp':0x11}
 		self.ethertype={'ipv4':0x0800,'arp':0x0806}
 		self.itype={'echoreply':0,'echorequest':8}
 	def udp(self,payload):
-		return self.sport.to_bytes(2,'big')+self.dport.to_bytes(2,'big')+len(payload).to_bytes(2,'big')+(0).to_bytes(2,'big')+payload
+		return self.sport.to_bytes(2,'big')+self.dport.to_bytes(2,'big')+(len(payload)+8).to_bytes(2,'big')+(0).to_bytes(2,'big')+payload
 	def ipv4(self,payload,protocol):
 		verihl=0x45.to_bytes(1,'big')
 		dscpecn=(0).to_bytes(1,'big')
 		totallength=(len(payload)+20).to_bytes(2,'big')
-		identification=random.randint(0,2**16-1).to_bytes(2,'big')
-		flagfrag=0x40.to_bytes(2,'big')
-		ttl=(10).to_bytes(1,'big')
+		identification=0xb63e.to_bytes(2,'big') # random.randint(0,2**16-1).to_bytes(2,'big')
+		flagfrag=0x4000.to_bytes(2,'big')
+		ttl=(0x40).to_bytes(1,'big')
 		protocol=self.ipv4protocol[protocol].to_bytes(1,'big')
 		checksum0=(0).to_bytes(2,'big')
 		sip=self.sip.to_bytes(4,'big')
@@ -85,6 +117,8 @@ class packets():
 		crc=(zlib.crc32(header+payload)&0xffffffff).to_bytes(4,'little')
 		return preamble+header+payload+crc#+tail
 
+
+
 	def parse(self,pac):
 		timeframe=[]
 		for time,proto,l in pac:
@@ -97,6 +131,8 @@ class packets():
 				frame=self.ether(self.ipv4(self.icmp(self.ping(payload),'echorequest'),'icmp'),'ipv4')
 			elif proto=='arp':
 				frame=self.ether(self.arp(payload),'arp')
+			elif proto=='frame':
+				frame=payload
 			else:
 				print('unknown proto')
 			timeframe.append((time,frame))

@@ -19,16 +19,18 @@ tar: $(TAR_SOURCE) $(SYNTH_SOURCE) $(SIM_SOURCE) $(SYNTH_CONSTR) $(SIM_CONSTR)
 	tar -cvzf $(TGT)_$(DATETIME)_$(COMMITNUM).tar.gz $^
 
 gitcommit: $(filter-out ./config_romx.v, $(SYNTH_SOURCE))
-ifeq ($(COMMITMSG),$(AUTOCOMMITMSG))
-	echo yes
-	git reset --soft HEAD^
-	-git commit -a -m $(AUTOCOMMITMSG)
-else
-	echo no,
-	echo $(AUTOCOMMITMSG)
-	echo $(COMMITMSG)
-	-git commit -a -m $(AUTOCOMMITMSG)
-endif
+	python submodules/tools/autocommitgit.py
+
+#ifeq ($(COMMITMSG),$(AUTOCOMMITMSG))
+#echo yes
+#git reset --soft HEAD^
+#-git commit -a -m $(AUTOCOMMITMSG)
+#else
+#	echo no,
+#	echo $(AUTOCOMMITMSG)
+#	echo $(COMMITMSG)
+#	-git commit -a -m $(AUTOCOMMITMSG)
+#endif
 
 fname: FNAME = $(TGT)_$(DATETIME)_$(COMMITNUM)
 fname:

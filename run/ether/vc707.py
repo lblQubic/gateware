@@ -47,7 +47,7 @@ class c_vc707:
 		#print('i2creadwrite r1w0 data',r1w0,hex(data))
 		r0=((devaddr&0x7f)<<25)+((r1w0&1)<<24)+(data&0xffffff)
 		self.writefori2c(((regs['i2cdatatx'],r0),(regs['i2cstart'],(nack&0xf)+((stop&0x1)<<4))))
-		print(",{1'h%01x,4'h%01x,32'h%08x}"%(stop&0x1,nack&0xf,r0))#,hex((nack&0xf)+((stop&1)<<4)+(r0<<5)))
+		#print(",{1'h%01x,4'h%01x,32'h%08x}"%(stop&0x1,nack&0xf,r0))#,hex((nack&0xf)+((stop&1)<<4)+(r0<<5)))
 		#print(regs['i2crxvalid'])
 		valid=self.readfori2c((regs['i2crxvalid'],))
 		index=0
