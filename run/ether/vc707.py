@@ -160,7 +160,7 @@ class c_vc707:
 		#print('mux read',self.i2cread(devaddr=0x74))
 		vals=[]
 		for addr in range(128):
-			val=self.sfpread(addr=addr)[0]
+			val=self.sfpread(addr=addr)
 			vals.append(val)
 #			print('sfp addr ',hex(addr),addr,'value',hex(val),chr(val))
 		return vals

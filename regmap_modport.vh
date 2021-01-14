@@ -15,3 +15,14 @@ modport dsp(input test,test2,err
 ,stb_dac67_0freq,stb_dac67_1freq,stb_dac67_2freq,stb_dac67_3freq,stb_dac67_4freq,stb_dac67_5freq,stb_dac67_6freq,stb_dac67_7freq
 ,output test1
 );
+modport dspsim(output test,test2,err
+,dac01_0amp,dac01_0freq,dac01_1amp,dac01_1freq,dac01_2amp,dac01_2freq,dac01_3amp,dac01_3freq,dac01_4amp,dac01_4freq,dac01_5amp,dac01_5freq,dac01_6amp,dac01_6freq,dac01_7amp,dac01_7freq
+,stb_dac01_0freq,stb_dac01_1freq,stb_dac01_2freq,stb_dac01_3freq,stb_dac01_4freq,stb_dac01_5freq,stb_dac01_6freq,stb_dac01_7freq
+,dac23_0amp,dac23_0freq,dac23_1amp,dac23_1freq,dac23_2amp,dac23_2freq,dac23_3amp,dac23_3freq,dac23_4amp,dac23_4freq,dac23_5amp,dac23_5freq,dac23_6amp,dac23_6freq,dac23_7amp,dac23_7freq
+,stb_dac23_0freq,stb_dac23_1freq,stb_dac23_2freq,stb_dac23_3freq,stb_dac23_4freq,stb_dac23_5freq,stb_dac23_6freq,stb_dac23_7freq
+,dac45_0amp,dac45_0freq,dac45_1amp,dac45_1freq,dac45_2amp,dac45_2freq,dac45_3amp,dac45_3freq,dac45_4amp,dac45_4freq,dac45_5amp,dac45_5freq,dac45_6amp,dac45_6freq,dac45_7amp,dac45_7freq
+,stb_dac45_0freq,stb_dac45_1freq,stb_dac45_2freq,stb_dac45_3freq,stb_dac45_4freq,stb_dac45_5freq,stb_dac45_6freq,stb_dac45_7freq
+,dac67_0amp,dac67_0freq,dac67_1amp,dac67_1freq,dac67_2amp,dac67_2freq,dac67_3amp,dac67_3freq,dac67_4amp,dac67_4freq,dac67_5amp,dac67_5freq,dac67_6amp,dac67_6freq,dac67_7amp,dac67_7freq
+,stb_dac67_0freq,stb_dac67_1freq,stb_dac67_2freq,stb_dac67_3freq,stb_dac67_4freq,stb_dac67_5freq,stb_dac67_6freq,stb_dac67_7freq
+,input test1
+);

@@ -55,12 +55,12 @@ end
 
 
 //reg [47:0] mac=48'h00105ad155b2;
-reg [47:0] mac=48'h515542494301;
+//reg [47:0] mac=48'h515542494301;
 //reg [47:0] mac=48'hc46e1f01d90d;
 //reg [47:0] mac=48'h515542494301;//503eaa059701;
 //reg [47:0] mac=48'h503eaa059701;
 //reg [31:0] ip=32'hc0a801e0;
-//reg [47:0] mac=48'h55aabbccddee;
+reg [47:0] mac=48'h55aabbccddee;
 reg [31:0] ip=32'hc0a801e0;
 
 localparam MAXNBYTES=200*8;

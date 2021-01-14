@@ -25,7 +25,7 @@ initial begin
 end
 reg si5324clk=0;
 initial begin
-    forever #(0.5) si5324clk=~si5324clk;
+    forever #(4) si5324clk=~si5324clk;
 end
 reg ghzclk=0;
 initial begin
@@ -121,6 +121,8 @@ assign hw.vc707.pcie.clk_qo_p=1'b0;
 assign hw.vc707.pcie.clk_qo_n=1'b1;
 assign hw.vc707.sma_mgt_refclk_p=1'b0;
 assign hw.vc707.sma_mgt_refclk_n=1'b1;
+assign hw.vc707.sma_mgt_rx_p=hw.vc707.sma_mgt_tx_p;
+assign hw.vc707.sma_mgt_rx_n=hw.vc707.sma_mgt_tx_n;
 assign hw.vc707.gpio_sw_c=1'b1;
 assign hw.fmc1.llmk_dclkout_2=clk250;
 assign hw.fmc1.llmk_sclkout_3=clk500cnt[12];

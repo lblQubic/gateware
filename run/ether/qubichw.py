@@ -64,7 +64,10 @@ class c_qubichw():
 ,'freq_fmc2_lmk_dclk10_m2c_to_fpga':0
 ,'freq_rxusrclk_sfp':100
 ,'freq_txusrclk_sfp':100
-,'freq_clkcfg':125}
+,'freq_clkcfg':125
+,'freq_rxusrclk_smasfp':100
+,'freq_txusrclk_smasfp':100
+}
 		self.fmc120_1=c_fmc120(i2cid='fmc1',devread=self.vc707.devread,devwrite=self.vc707.devwrite)
 		self.fmc120_2=c_fmc120(i2cid='fmc2',devread=self.vc707.devread,devwrite=self.vc707.devwrite)
 		self.axiinsts={'fmc1':['axifmc1adc0','axifmc1adc1','axifmc1dac'],'fmc2':['axifmc2adc0','axifmc2adc1','axifmc2dac']}
@@ -207,24 +210,25 @@ class c_qubichw():
 		self.fmc120_2.pg=((pg>>1)&0x1)==1
 		return (prsnt,pg)
 	def freqs(self):
-		freqregs=['freq_lb'
-	,'freq_sgmiiclk'
-	,'freq_sma_mgt_refclk'
-	,'freq_si5324_out_c'
-	,'freq_pcie_clk_qo'
-	,'freq_user_clock'
-	,'freq_fmc1_llmk_dclkout_2'
-	,'freq_fmc1_llmk_sclkout_3'
-	,'freq_fmc1_lmk_dclk8_m2c_to_fpga'
-	,'freq_fmc1_lmk_dclk10_m2c_to_fpga'
-	,'freq_fmc2_llmk_dclkout_2'
-	,'freq_fmc2_llmk_sclkout_3'
-	,'freq_fmc2_lmk_dclk8_m2c_to_fpga'
-	,'freq_fmc2_lmk_dclk10_m2c_to_fpga'
-	,'freq_rxusrclk_sfp'
-	,'freq_txusrclk_sfp'
-	,'freq_clkcfg'
-	]
+		freqregs=list(self.freqnominal.keys())
+	#	['freq_lb'
+	#,'freq_sgmiiclk'
+	#,'freq_sma_mgt_refclk'
+	#,'freq_si5324_out_c'
+	#,'freq_pcie_clk_qo'
+	#,'freq_user_clock'
+	#,'freq_fmc1_llmk_dclkout_2'
+	#,'freq_fmc1_llmk_sclkout_3'
+	#,'freq_fmc1_lmk_dclk8_m2c_to_fpga'
+	#,'freq_fmc1_lmk_dclk10_m2c_to_fpga'
+	#,'freq_fmc2_llmk_dclkout_2'
+	#,'freq_fmc2_llmk_sclkout_3'
+	#,'freq_fmc2_lmk_dclk8_m2c_to_fpga'
+	#,'freq_fmc2_lmk_dclk10_m2c_to_fpga'
+	#,'freq_rxusrclk_sfp'
+	#,'freq_txusrclk_sfp'
+	#,'freq_clkcfg'
+	#]
 		freqs=(numpy.array(self.vc707.read(freqregs))*125.0/2**24)
 		freqdict={}
 		for index,freq in enumerate(freqs):
