@@ -11,9 +11,9 @@ set_property -dict {
     CONFIG.C_DEFAULT_K {32}
     CONFIG.AXICLK_FREQ {125.0}
 } [get_ips jesd204_ads54j60]
-generate_target {instantiation_template} [get_files jesd204_ads54j60.xci]
-generate_target all [get_files  jesd204_ads54j60.xci]
-catch { config_ip_cache -export [get_ips -all jesd204_ads54j60] }
-export_ip_user_files -of_objects [get_files jesd204_ads54j60.xci] -no_script -sync -force -quiet
-create_ip_run [get_files -of_objects [get_fileset sources_1] jesd204_ads54j60.xci]
+#generate_target {instantiation_template} [get_files jesd204_ads54j60.xci]
+#generate_target all [get_files  jesd204_ads54j60.xci]
+#catch { config_ip_cache -export [get_ips -all jesd204_ads54j60] }
+#export_ip_user_files -of_objects [get_files jesd204_ads54j60.xci] -no_script -sync -force -quiet
+#create_ip_run [get_files -of_objects [get_fileset sources_1] jesd204_ads54j60.xci]
 # launch_runs -jobs 8 jesd204_ads54j60_synth_1

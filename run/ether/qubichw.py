@@ -17,9 +17,11 @@ import jesdaxi
 import si5324
 class c_qubichw():
 	def __init__(self,ip='192.168.1.224',port=0xd003,regmappath='regmap.json',init=False,commcheck=True,freqoffpercent=1,comport=False):
+		t0=time.time()
 		self.ether=c_ether(ip=ip,port=port,timeout=1)
 		self.udplb=c_udplb(interface=self.ether,run=True)
 		self.regmap=c_regmap(interface=self.udplb,regmappath='regmap.json',wavegrppath='wavegrp.json')
+		print(time.time()-t0)
 
 		self.etherd002=c_ether(ip=ip,port=0xd002,timeout=1)
 		self.udplbd002=c_udplb(interface=self.etherd002)
@@ -30,11 +32,13 @@ class c_qubichw():
 			self.uartregmap=c_regmap(self.uartlb,regmappath='uartregmap.json',wavegrppath='uartwavegrp.json')
 		else:
 			self.uartregmap=None
+		print(time.time()-t0)
 
 		self.vc707=c_vc707(self.regmap,self.uartregmap)
 		self.read=self.vc707.read
 		self.write=self.vc707.write
 		self.i2cenabled=False
+		print(time.time()-t0)
 
 #		self.vc707.i2cswitch('si570')
 #		import random

@@ -6,6 +6,6 @@ CONFIG.Management_Interface {false}
 CONFIG.Ext_Management_Interface {false}
 CONFIG.Auto_Negotiation {false}
 } [get_ips gig_ethernet_pcs_pma_0]
-generate_target {instantiation_template} [get_files gig_ethernet_pcs_pma_0.xci]
-generate_target all [get_files  gig_ethernet_pcs_pma_0.xci]
+#generate_target {instantiation_template} [get_files gig_ethernet_pcs_pma_0.xci]
+#generate_target all [get_files  gig_ethernet_pcs_pma_0.xci]
 #CONFIG.SGMII_PHY_Mode {true}

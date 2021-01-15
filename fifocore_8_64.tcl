@@ -15,7 +15,7 @@ CONFIG.Full_Threshold_Assert_Value {125}
 CONFIG.Full_Threshold_Negate_Value {124}
 CONFIG.Enable_Safety_Circuit {true}
 } [get_ips fifocore_8_64]
-generate_target {instantiation_template} [get_files fifocore_8_64.xci]
-generate_target all [get_files  fifocore_8_64.xci]
-export_ip_user_files -of_objects [get_files fifocore_8_64.xci] -no_script -sync -force -quiet
-create_ip_run [get_files -of_objects [get_fileset sources_1] fifocore_8_64.xci]
+#generate_target {instantiation_template} [get_files fifocore_8_64.xci]
+#generate_target all [get_files  fifocore_8_64.xci]
+#export_ip_user_files -of_objects [get_files fifocore_8_64.xci] -no_script -sync -force -quiet
+#create_ip_run [get_files -of_objects [get_fileset sources_1] fifocore_8_64.xci]

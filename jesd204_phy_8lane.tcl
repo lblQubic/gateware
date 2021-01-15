@@ -10,9 +10,9 @@ set_property -dict {
     CONFIG.RX_PLL_SELECTION {3}
     CONFIG.Min_Line_Rate {10} CONFIG.Max_Line_Rate {10}
 } [get_ips jesd204_phy_fmc120]
-generate_target {instantiation_template} [get_files jesd204_phy_fmc120.xci]
-update_compile_order -fileset sources_1
-generate_target all [get_files  jesd204_phy_fmc120.xci]
-catch { config_ip_cache -export [get_ips -all jesd204_phy_fmc120] }
-export_ip_user_files -of_objects [get_files jesd204_phy_fmc120.xci] -no_script -sync -force -quiet
-create_ip_run [get_files -of_objects [get_fileset sources_1] jesd204_phy_fmc120.xci]
+#generate_target {instantiation_template} [get_files jesd204_phy_fmc120.xci]
+#update_compile_order -fileset sources_1
+#generate_target all [get_files  jesd204_phy_fmc120.xci]
+#catch { config_ip_cache -export [get_ips -all jesd204_phy_fmc120] }
+#export_ip_user_files -of_objects [get_files jesd204_phy_fmc120.xci] -no_script -sync -force -quiet
+#create_ip_run [get_files -of_objects [get_fileset sources_1] jesd204_phy_fmc120.xci]

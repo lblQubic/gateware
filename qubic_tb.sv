@@ -121,8 +121,11 @@ assign hw.vc707.pcie.clk_qo_p=1'b0;
 assign hw.vc707.pcie.clk_qo_n=1'b1;
 assign hw.vc707.sma_mgt_refclk_p=1'b0;
 assign hw.vc707.sma_mgt_refclk_n=1'b1;
-assign hw.vc707.sma_mgt_rx_p=hw.vc707.sma_mgt_tx_p;
-assign hw.vc707.sma_mgt_rx_n=hw.vc707.sma_mgt_tx_n;
+assign hw.vc707.sma_mgt_rx_p=hw.vc707.sfp.tx_p;
+assign hw.vc707.sma_mgt_rx_n=hw.vc707.sfp.tx_n;
+assign hw.vc707.sfp.rx_n=hw.vc707.sma_mgt_tx_n;
+assign hw.vc707.sfp.rx_p=hw.vc707.sma_mgt_tx_p;
+assign hw.vc707.sfp.los=1'b0;
 assign hw.vc707.gpio_sw_c=1'b1;
 assign hw.fmc1.llmk_dclkout_2=clk250;
 assign hw.fmc1.llmk_sclkout_3=clk500cnt[12];
@@ -214,9 +217,6 @@ assign mdio_t=qubic.qubichw_config.mdio_t;
 assign mdio_i=mdio_o;
 IOBUF mdiobuf(.O(mdio_o),.I(mdio_i),.T(~mdio_t),.IO(hw.vc707.phy_mdio));
 
-assign hw.vc707.sfp.rx_n=hw.vc707.sfp.tx_n;
-assign hw.vc707.sfp.rx_p=hw.vc707.sfp.tx_p;
-assign hw.vc707.sfp.los=1'b0;
 wire resetdone;
 gmii ifgmii();
 sgmii_ethernet_pcs_pma #(.SIM(SIM))
@@ -227,7 +227,7 @@ sgmii_ethernet_pcs_pma(.gtrefclk(sgmiiclk)
 ,.txp(hw.vc707.sgmii_rx_p)
 ,.gmii(ifgmii.phy)
 ,.independent_clock_bufg(sysclk)
-,.reset(sysclkcnt==20)//hwreset)
+,.resetin(sysclkcnt==20)//hwreset)
 ,.resetdone(resetdone)
 ,.status_vector()
 );

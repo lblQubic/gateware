@@ -12,6 +12,8 @@ ilaauto.tcl
 ilaauto.vh
 ilaadcauto.tcl
 ilaadcauto.vh
+ilasysauto.tcl
+ilasysauto.vh
 uartread.vh
 uartwrite.vh
 uartdefine.vh

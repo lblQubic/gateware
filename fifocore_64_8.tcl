@@ -13,7 +13,7 @@ CONFIG.Write_Data_Count_Width {7}
 CONFIG.Read_Data_Count_Width {4}
 CONFIG.Enable_Safety_Circuit {true}
 } [get_ips fifocore_64_8]
-generate_target {instantiation_template} [get_files fifocore_64_8.xci]
-generate_target all [get_files  fifocore_64_8.xci]
-export_ip_user_files -of_objects [get_files fifocore_64_8.xci] -no_script -sync -force -quiet
-create_ip_run [get_files -of_objects [get_fileset sources_1] fifocore_64_8.xci]
+#generate_target {instantiation_template} [get_files fifocore_64_8.xci]
+#generate_target all [get_files  fifocore_64_8.xci]
+#export_ip_user_files -of_objects [get_files fifocore_64_8.xci] -no_script -sync -force -quiet
+#create_ip_run [get_files -of_objects [get_fileset sources_1] fifocore_64_8.xci]
