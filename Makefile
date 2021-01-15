@@ -19,7 +19,9 @@ tar: $(TAR_SOURCE) $(SYNTH_SOURCE) $(SIM_SOURCE) $(SYNTH_CONSTR) $(SIM_CONSTR)
 	tar -cvzf $(TGT)_$(DATETIME)_$(COMMITNUM).tar.gz $^
 
 gitcommit: $(filter-out ./config_romx.v, $(SYNTH_SOURCE))
-	python submodules/tools/autocommitgit.py
+	python submodules/tools/gitauto.py -action autocommit
+gitlist: $(filter-out ./config_romx.v, $(SYNTH_SOURCE))
+	python submodules/tools/gitauto.py -action list
 
 #ifeq ($(COMMITMSG),$(AUTOCOMMITMSG))
 #echo yes
