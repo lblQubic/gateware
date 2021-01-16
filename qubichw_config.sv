@@ -294,7 +294,6 @@ wire udphwreset;
 wire uarthwreset;
 areset hwresetareset(.clk(hw.vc707.sysclk),.areset(lbreg.stb_hwreset),.sreset(udphwreset));
 areset uarthwresetareset(.clk(hw.vc707.sysclk),.areset(uartreg.stb_hwreset),.sreset(uarthwreset));
-wire pllreset;
 wire qpllresetdone_113;
 wire qplloutclk_113;
 wire qplloutrefclk_113;
@@ -330,10 +329,10 @@ wire rxusrclk_sfp;
 wire txusrclk_sfp;
 wire [3:0] rxcharisk_sfp;
 wire [31:0] rxdata_sfp;
-assign lbreg.sfptestrx=rxdata_sfp;
+assign lbreg.sfptestrx=sfprx;
 wire rxuserrdy_sfp=1'b1;
-wire [3:0] txcharisk_sfp=4'b0;
-wire [31:0] txdata_sfp=lbreg.sfptesttx;//32'habcdbeef;
+wire [3:0] txcharisk_sfp;//=4'b0;
+wire [31:0] txdata_sfp;//=0;//lbreg.sfptesttx;//32'habcdbeef;
 wire txuserrdy_sfp=1'b1;
 wire resetdone_sfp ;
 gticc_gt #(.SIM_CPLLREFCLK_SEL(3'h005))
@@ -362,10 +361,10 @@ wire txusrclk_smasfp;
 wire resetdone_smasfp;
 wire [3:0] rxcharisk_smasfp;
 wire [31:0] rxdata_smasfp;
-assign lbreg.smasfptestrx=rxdata_smasfp;
+assign lbreg.smasfptestrx=smasfprx;
 wire rxuserrdy_smasfp=1'b1;
-wire [3:0] txcharisk_smasfp=4'b0;
-wire [31:0] txdata_smasfp=lbreg.smasfptesttx;//32'habcdbeef;
+wire [3:0] txcharisk_smasfp;//=4'b0;
+wire [31:0] txdata_smasfp;//=0;//lbreg.smasfptesttx;//32'habcdbeef;
 wire txuserrdy_smasfp=1'b1;
 gticc_gt #(.SIM_CPLLREFCLK_SEL(3'h005))
 gticc_gt_smasfp(.CPLLLOCKDETCLK(hw.vc707.sysclk)
@@ -387,6 +386,32 @@ gticc_gt_smasfp(.CPLLLOCKDETCLK(hw.vc707.sysclk)
 //,.readyforreset(readyforreset_smasfp)
 );
 
+reg [31:0] smasfptxclkcnt=0;
+always @(posedge txusrclk_smasfp) begin
+	smasfptxclkcnt<=smasfptxclkcnt+1;
+end
+assign	txdata_smasfp=(~|smasfptxclkcnt[3:0]) ? 32'h000000bc : lbreg.smasfptesttx;//32'habcdbeef;
+assign	txcharisk_smasfp=(~|smasfptxclkcnt[3:0]) ? 4'h1 : 4'h0;
+
+reg [31:0] sfptxclkcnt=0;
+always @(posedge txusrclk_sfp) begin
+	sfptxclkcnt<=sfptxclkcnt+1;
+end
+assign txdata_sfp=(~|sfptxclkcnt[3:0]) ? 32'h000000bc : lbreg.sfptesttx;//32'habcdbeef;
+assign txcharisk_sfp=(~|sfptxclkcnt[3:0]) ? 4'h1 : 4'h0;
+reg [31:0] sfprx=0;
+reg [31:0] smasfprx=0;
+always @(posedge rxusrclk_sfp) begin
+	if (~|rxcharisk_sfp) begin
+		sfprx<=rxdata_sfp;
+	end
+end
+
+always @(posedge rxusrclk_smasfp) begin
+	if (~|rxcharisk_smasfp) begin
+		smasfprx<=rxdata_smasfp;
+	end
+end
 
 wire sgmiieth_reset;
 wire sgmiieth_resetdone;
@@ -855,6 +880,32 @@ assign dsp.adc5=adc5;
 assign dsp.adc6=adc6;
 assign dsp.adc7=adc7;
 
+localparam SYSCLKMMCM_RESET=0;
+localparam IDELAYCTRL_RESET=1;
+localparam SGMIIETH_RESET=2;
+localparam UARTRESET=3;
+
+localparam UARTLBRESET=4;
+localparam I2CRESET=5;
+localparam MDIORESET=6;
+localparam I2CINITRESET_0=7;
+
+localparam LOADMACIP=8;
+localparam ETHRESET_W=9;
+localparam I2CINITRESET_1=10;
+localparam AXIRESET=11;
+
+localparam JESDRESET0=12;
+localparam JESDRESET1=13;
+localparam AXIINITRESET=14;
+localparam I2CINITRESET_2=15;
+
+localparam QPLLRESET_113=16;
+localparam RESET_SFP=17;
+localparam RESET_SMASFP=18;
+localparam I2CINITRESET_3=19;
+
+localparam NSTEP=20;
 
 wire [NSTEP-1:0] done;
 wire [NSTEP-1:0] dbdone_w;
@@ -882,32 +933,6 @@ wire [NSTEP*16-1:0] resetlength;//={NSTEP{16'd20}};
 wire [NSTEP*32-1:0] resettimeout;//={NSTEP{32'b0}};
 wire [NSTEP*16-1:0] resettodonecheck;//={16'd10,16'd20,16'd1};
 
-localparam SYSCLKMMCM_RESET=0;
-localparam IDELAYCTRL_RESET=1;
-localparam SGMIIETH_RESET=2;
-localparam UARTRESET=3;
-
-localparam UARTLBRESET=4;
-localparam I2CRESET=5;
-localparam MDIORESET=6;
-localparam I2CINITRESET_0=7;
-
-localparam LOADMACIP=8;
-localparam ETHRESET_W=9;
-localparam I2CINITRESET_1=10;
-localparam AXIRESET=11;
-
-localparam JESDRESET0=12;
-localparam JESDRESET1=13;
-localparam AXIINITRESET=14;
-localparam I2CINITRESET_2=15;
-
-localparam QPLLRESET_113=16;
-localparam RESET_SFP=17;
-localparam RESET_SMASFP=18;
-localparam I2CINITRESET_3=19;
-
-localparam NSTEP=20;
 
 wire [2:0] dbchainstate,dbchainnext;
 chainreset #(.NSTEP(NSTEP))
