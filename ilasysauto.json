@@ -1,0 +1,14 @@
+{
+	"clk":"hw.vc707.sysclk"
+	,"probes":{
+		"dbdone":20
+		,"dbchainstate":3
+		,"dbchainnext":3
+		,"eepromrd":80
+		,"dbresetout":20
+		,"reseted125":1
+		,"donecriteria_r":20
+		,"resetcnt":32
+		,"stbdone":1
+	}
+}

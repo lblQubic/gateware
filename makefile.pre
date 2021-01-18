@@ -36,6 +36,9 @@ uartwrite.vh: submodules/tools/lbrw.py uartregmap.json
 	python3 submodules/tools/lbrw.py -m uartregmap.json -b submodules/common-hdl/localbus.json -w uartwrite.vh
 uartdefine.vh: submodules/tools/lbrw.py uartregmap.json
 	python3 submodules/tools/lbrw.py -m uartregmap.json -b submodules/common-hdl/localbus.json -d uartdefine.vh
+
+xc7vx485tffg1761pkg.vh:
+	python xdcgen.py submodules/tools/fpga_module.py submodules/fpga-family/7series/xc7vx485tffg1761pkg/xc7vx485tffg1761pkg.txt
 uartclean:
 	rm -rf uartread.vh uartwrite.vh
 ilaclean:

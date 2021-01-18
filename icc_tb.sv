@@ -1,6 +1,6 @@
 //`include "constants.vams"
 //`include "xc7vx485tffg1761pkg.vh"
-`timescale 1ns / 100ps
+`timescale 1ns / 10ps
 module icc_tb(
 );
 
@@ -59,12 +59,12 @@ always @(posedge clk500) begin
 end
 reg si5324_out_c=0;
 initial begin
-    forever #(2) si5324_out_c=~si5324_out_c;
+    forever #(4) si5324_out_c=~si5324_out_c;
 end
 localparam SIM=1;
-
-
-
+reg sma_mgt_refclk=0;
+always @(*)
+	#0.2 sma_mgt_refclk=si5324_out_c;
 
 
 
@@ -76,7 +76,7 @@ wire qpllrefclklost_113;
 wire qpllreset_113;
 //wire [2:0] qpllrefclksel_113=3'h1;
 wire [2:0] qpllrefclksel_113=3'h5;
-gticc_common #(.SIM_QPLLREFCLK_SEL(3'h005))
+gticc_common #(.SIM_QPLLREFCLK_SEL(3'h5))
 gticc_common_113(.QPLLLOCKDETCLK(sysclk)
 ,.GTNORTHREFCLK0(1'b0),.GTNORTHREFCLK1(1'b0),.GTREFCLK0(1'b0),.GTREFCLK1(1'b0),.GTSOUTHREFCLK0(si5324_out_c),.GTSOUTHREFCLK1(1'b0)
 ,.QPLLREFCLKSEL(qpllrefclksel_113)
@@ -107,9 +107,9 @@ wire sfp_tx_p,sfp_tx_n,sfp_rx_p,sfp_rx_n;
 wire sma_mgt_tx_p,sma_mgt_tx_n,sma_mgt_rx_p,sma_mgt_rx_n;
 assign {sma_mgt_rx_p,sma_mgt_rx_n}={sfp_tx_p,sfp_tx_n};
 assign {sfp_rx_p,sfp_rx_n}={sma_mgt_tx_p,sma_mgt_tx_n};
-gticc_gt #(.SIM_CPLLREFCLK_SEL(3'b001))
+gticc_gt #(.SIM_CPLLREFCLK_SEL(3'h5))
 gticc_gt_sfp(.CPLLLOCKDETCLK(sysclk)
-,.GTNORTHREFCLK0(1'b0),.GTNORTHREFCLK1(1'b0),.GTREFCLK0(1'b0),.GTREFCLK1(1'b0),.GTSOUTHREFCLK0(si5324_out_c),.GTSOUTHREFCLK1(1'b0)
+,.GTNORTHREFCLK0(1'b0),.GTNORTHREFCLK1(1'b0),.GTREFCLK0(1'b0),.GTREFCLK1(sma_mgt_refclk),.GTSOUTHREFCLK0(si5324_out_c),.GTSOUTHREFCLK1(1'b0)
 ,.GTXRXN(sfp_rx_n),.GTXRXP(sfp_rx_p),.GTXTXN(sfp_tx_n),.GTXTXP(sfp_tx_p)
 ,.QPLLCLK(qplloutclk_113),.QPLLREFCLK(qplloutrefclk_113)
 //,.CPLLREFCLKSEL(3'b1)
@@ -125,9 +125,9 @@ gticc_gt_sfp(.CPLLLOCKDETCLK(sysclk)
 ,.reset(reset_sfp||sfpreconnected)
 ,.resetdone(resetdone_sfp)
 //,.readyforreset(readyforreset_sfp)
+,.RXOUTCLKFABRIC(rxoutclkfabric_sfp)
+,.RXOUTCLKPCS(rxoutclkpcs_sfp)
 );
-
-
 wire reset_smasfp;//=reset_sfp;
 wire rxusrclk_smasfp;
 wire txusrclk_smasfp;
@@ -140,12 +140,13 @@ wire [31:0] smasfptesttx=32'h12345678;
 wire [31:0] txdata_smasfp;//=smasfptesttx;//32'habcdbeef;
 wire txuserrdy_smasfp=1'b1;
 wire resetdone_smasfp;
-gticc_gt gticc_gt_smasfp(.CPLLLOCKDETCLK(sysclk)
+gticc_gt #(.SIM_CPLLREFCLK_SEL(3'h2))
+gticc_gt_smasfp(.CPLLLOCKDETCLK(sysclk)
 ,.GTNORTHREFCLK0(1'b0),.GTNORTHREFCLK1(1'b0),.GTREFCLK0(sgmiiclk),.GTREFCLK1(sma_mgt_refclk),.GTSOUTHREFCLK0(si5324_out_c),.GTSOUTHREFCLK1(1'b0)
 ,.GTXRXN(sma_mgt_rx_n),.GTXRXP(sma_mgt_rx_p),.GTXTXN(sma_mgt_tx_n),.GTXTXP(sma_mgt_tx_p)
 ,.QPLLCLK(qplloutclk_113),.QPLLREFCLK(qplloutrefclk_113)
 //,.CPLLREFCLKSEL(3'b1)
-,.CPLLREFCLKSEL(3'h5)
+,.CPLLREFCLKSEL(3'h2)
 ,.rxusrclk(rxusrclk_smasfp)
 ,.txusrclk(txusrclk_smasfp)
 ,.RXCHARISK(rxcharisk_smasfp)
@@ -157,6 +158,8 @@ gticc_gt gticc_gt_smasfp(.CPLLLOCKDETCLK(sysclk)
 ,.reset(reset_smasfp)//||smasfpreconnected)
 ,.resetdone(resetdone_smasfp)
 //,.readyforreset(readyforreset_smasfp)
+,.RXOUTCLKFABRIC(rxoutclkfabric_smasfp)
+,.RXOUTCLKPCS(rxoutclkpcs_smasfp)
 );
 
 reg [31:0] smasfptxclkcnt=0;
@@ -290,6 +293,7 @@ assign readylength[RESET_PLL*16+:16]=16'd30;assign resetlength[RESET_PLL*16+:16]
 	
 BUFG pllclkfb(.I(pllclkfbout),.O(pllclkfbin));
 BUFG helpclkbufg(.I(helpclk_w),.O(helpclk));
+
 endmodule
 
 /*
