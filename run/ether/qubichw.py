@@ -1,3 +1,4 @@
+import os
 import json
 import numpy
 import time
@@ -16,14 +17,26 @@ import dac39j84
 import jesdaxi 
 import si5324
 class c_qubichw():
-	def __init__(self,ip='192.168.1.224',port=0xd003,regmappath='regmap.json',init=False,commcheck=True,freqoffpercent=1,comport=False):
+	def __init__(self,ip=None,port=None,regmappath='regmap.json',init=False,commcheck=True,freqoffpercent=1,comport=False):
 		t0=time.time()
-		self.ether=c_ether(ip=ip,port=port,timeout=1)
+		if ip is not None:
+			self.ip=ip
+		elif 'QUBICIP' in os.environ:
+			self.ip=os.environ['QUBICIP']
+		else:
+			self.ip='192.168.1.224'
+		if port is not None:
+			self.port=port
+		elif 'QUBICPORT' in os.environ:
+			self.port=os.environ['QUBICPORT']
+		else:
+			self.port=0xd003
+		self.ether=c_ether(ip=self.ip,port=self.port,timeout=1)
 		self.udplb=c_udplb(interface=self.ether,run=True)
 		self.regmap=c_regmap(interface=self.udplb,regmappath='regmap.json',wavegrppath='wavegrp.json')
 		print(time.time()-t0)
 
-		self.etherd002=c_ether(ip=ip,port=0xd002,timeout=1)
+		self.etherd002=c_ether(ip=self.ip,port=0xd002,timeout=1)
 		self.udplbd002=c_udplb(interface=self.etherd002)
 		if comport:
 			dev=devcom.devcom(devcom.sndev)
