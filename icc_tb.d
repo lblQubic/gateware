@@ -1,5 +1,15 @@
 icc_tb.sv
-submodules/fpga-family/gtx/gticc_common.sv
-submodules/fpga-family/gtx/gticc_gt.sv
+gticc_common.sv
+gticc_gt.sv
+iccgt.vh
 submodules/common-hdl/areset.v
 submodules/common-hdl/chainreset.v
+w/ip_cores/general-cores/modules/common/gencores_pkg.vhd
+w/modules/timing/dmtd_phase_meas.vhd
+w/modules/timing/dmtd_with_deglitcher.vhd
+w/ip_cores/general-cores/modules/common/gc_sync_ffs.vhd
+w/ip_cores/general-cores/modules/common/gc_pulse_synchronizer2.vhd
+w/ip_cores/general-cores/modules/common/gc_pulse_synchronizer.vhd
+w/ip_cores/general-cores/modules/common/gc_extend_pulse.vhd
+w/ip_cores/general-cores/modules/common/gc_sync.vhd
+w/ip_cores/general-cores/modules/common/gc_edge_detect.vhd
