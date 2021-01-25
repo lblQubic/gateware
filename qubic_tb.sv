@@ -23,14 +23,23 @@ reg sgmiiclk=0;
 initial begin
     forever #(4) sgmiiclk=~sgmiiclk;
 end
-reg si5324clk=0;
+wire si5324clk;
+reg clk100=0;
 initial begin
-    forever #(4) si5324clk=~si5324clk;
+    forever #(5) clk100=~clk100;
+end
+reg clk125=0;
+initial begin
+    forever #(4) clk125=~clk125;
 end
 reg ghzclk=0;
 initial begin
     forever #(0.5) ghzclk=~ghzclk;
 end
+localparam DELAY=0.22;
+reg clk125_delay=0;
+always @(*)
+	clk125_delay= #DELAY clk125;
 reg clk250=0;
 initial begin
     forever #(2) clk250=~clk250;
@@ -46,7 +55,7 @@ end
 hw  hw();
 vc707_sim vc707_sim(.fpga(fpga),.hw(hw.vc707.sim));
 fmc120_sim fmc1(.fmcpin(hw.vc707.fmc1pin),.fmc120(hw.fmc1.sim));
-// gtio fmc120_sim fmc2(.fmcpin(hw.vc707.fmc2pin),.fmc120(hw.fmc2.sim));
+fmc120_sim_2 fmc2(.fmcpin(hw.vc707.fmc2pin),.fmc120(hw.fmc2.sim));
 wire [1:0] adc0=2'b01;
 wire [1:0] adc1=2'b10;
 wire [1:0] adc2=2'b01;
@@ -64,7 +73,8 @@ assign {hw.fmc1.sim.adc1_da1_p,hw.fmc1.sim.adc1_da1_n}={hw.fmc1.dac_lane_p[4],hw
 assign {hw.fmc1.sim.adc1_da2_p,hw.fmc1.sim.adc1_da2_n}={hw.fmc1.dac_lane_p[5],hw.fmc1.dac_lane_n[5]};
 assign {hw.fmc1.sim.adc1_db1_p,hw.fmc1.sim.adc1_db1_n}={hw.fmc1.dac_lane_p[6],hw.fmc1.dac_lane_n[6]};
 assign {hw.fmc1.sim.adc1_db2_p,hw.fmc1.sim.adc1_db2_n}={hw.fmc1.dac_lane_p[7],hw.fmc1.dac_lane_n[7]};
-
+assign {hw.vc707.sma_mgt_refclk_p, hw.vc707.sma_mgt_refclk_n}={hw.vc707.user_sma_clock_p, hw.vc707.user_sma_clock_n};
+assign {hw.vc707.user_clock_p,hw.vc707.user_clock_n}={clk100,~clk100};
 //assign {hw.fmc2.sim.adc0_da1_p,hw.fmc2.sim.adc0_da1_n}=hw.fmc2.adca_sync_in_l_vadj ? {adc0[0],~adc0[0]} : {hw.fmc2.dac_lane_p[0],hw.fmc2.dac_lane_n[0]};
 //assign {hw.fmc2.sim.adc0_da2_p,hw.fmc2.sim.adc0_da2_n}=hw.fmc2.adca_sync_in_l_vadj ? {adc0[1],~adc0[1]} : {hw.fmc2.dac_lane_p[1],hw.fmc2.dac_lane_n[1]};
 //assign {hw.fmc2.sim.adc0_db1_p,hw.fmc2.sim.adc0_db1_n}=hw.fmc2.adca_sync_in_l_vadj ? {adc1[0],~adc1[0]} : {hw.fmc2.dac_lane_p[2],hw.fmc2.dac_lane_n[2]};
@@ -75,7 +85,7 @@ assign {hw.fmc1.sim.adc1_db2_p,hw.fmc1.sim.adc1_db2_n}={hw.fmc1.dac_lane_p[7],hw
 //assign {hw.fmc2.sim.adc1_db2_p,hw.fmc2.sim.adc1_db2_n}=hw.fmc2.adca_sync_in_l_vadj ? {adc3[1],~adc3[1]} : {hw.fmc2.dac_lane_p[7],hw.fmc2.dac_lane_n[7]};
 
 assign hw.fmc1.dac_sync_req_to_fpga=hw.fmc1.adca_sync_in_l_vadj;//,hw.fmc1.adcb_sync_in_l_vadj
-// gtio assign hw.fmc2.dac_sync_req_to_fpga=hw.fmc2.adca_sync_in_l_vadj;//,hw.fmc2.adcb_sync_in_l_vadj
+assign hw.fmc2.dac_sync_req_to_fpga=hw.fmc2.adca_sync_in_l_vadj;//,hw.fmc2.adcb_sync_in_l_vadj
 
 
 wire slaveack1valid;
@@ -119,8 +129,6 @@ assign hw.vc707.si5324_out_c_p=si5324clk;
 assign hw.vc707.si5324_out_c_n=~si5324clk;
 assign hw.vc707.pcie.clk_qo_p=1'b0;
 assign hw.vc707.pcie.clk_qo_n=1'b1;
-assign hw.vc707.sma_mgt_refclk_p=1'b0;
-assign hw.vc707.sma_mgt_refclk_n=1'b1;
 assign hw.vc707.sma_mgt_rx_p=hw.vc707.sfp.tx_p;
 assign hw.vc707.sma_mgt_rx_n=hw.vc707.sfp.tx_n;
 assign hw.vc707.sfp.rx_n=hw.vc707.sma_mgt_tx_n;
@@ -130,11 +138,12 @@ assign hw.vc707.gpio_sw_c=1'b1;
 assign hw.fmc1.llmk_dclkout_2=clk250;
 assign hw.fmc1.llmk_sclkout_3=clk500cnt[12];
 assign hw.fmc1.lmk_dclk8_m2c_to_fpga=clk500;
-assign hw.fmc1.lmk_dclk10_m2c_to_fpga=0;
-// gtio assign hw.fmc2.llmk_dclkout_2=clk250;
-// gtio assign hw.fmc2.llmk_sclkout_3=clk500cnt[12];
-// gtio assign hw.fmc2.lmk_dclk8_m2c_to_fpga=clk500;
-// gtio assign hw.fmc2.lmk_dclk10_m2c_to_fpga=0;
+assign hw.fmc1.lmk_dclk10_m2c_to_fpga=clk125;
+assign si5324clk=hw.vc707.rec_clock;
+assign hw.fmc2.llmk_dclkout_2=clk250;
+assign hw.fmc2.llmk_sclkout_3=clk500cnt[12];
+assign hw.fmc2.lmk_dclk8_m2c_to_fpga=clk500;
+assign hw.fmc2.lmk_dclk10_m2c_to_fpga=clk125_delay;
 //assign hw.vc707.usb2uart.tx=0;
 //assign hw.vc707.usb2uart.rx=0;
 localparam BAUD=9600000;

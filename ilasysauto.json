@@ -1,13 +1,15 @@
 {
 	"clk":"hw.vc707.sysclk"
 	,"probes":{
-		"dbdone":20
+		"dbdone":22
+		,"reset_sfp":1
+		,"reset_smasfp":1
 		,"dbchainstate":3
 		,"dbchainnext":3
 		,"eepromrd":80
-		,"dbresetout":20
+		,"dbresetout":22
 		,"reseted125":1
-		,"donecriteria_r":20
+		,"donecriteria_r":22
 		,"resetcnt":32
 		,"stbdone":1
 	}

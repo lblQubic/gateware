@@ -1,0 +1,32 @@
+{
+	"clk":"ethclk"
+	,"probes":{
+		"gmii.txd":8
+		,"gmii.tx_en":1
+		,"gmii.rxd":8
+		,"gmii.rx_dv":1
+		,"udplb.wcmd":64
+		,"udplb.rcmd":64
+		,"udplb.wvalid":1
+		,"udplb.rready":1
+		,"rxlength":16
+		,"txlength":16
+		,"ethclkcnt":32
+
+		,"smallchange":1
+		,"hs_div":3
+		,"n1":7
+		,"rfreq":38
+		,"lbreg.stb_si5709abc":1
+		,"si570i2cstart":1
+		,"si570i2ccmd":1
+		,"si570updatebusy":1
+		,"i2cbusy":1
+		,"dbrfreq_w":38
+		,"dbsmallmax":38
+		,"dbsmallmin":38
+		,"si570start":1
+		,"dbupdatesi570":1
+		,"dbnewnow":6
+	}
+}

@@ -42,6 +42,7 @@ class c_vc707:
 #		vals=self.regmap.read(names)
 #		return vals
 	def i2cenable(self,clk4ratio=5000,enable=True):
+		print('i2cenable',clk4ratio)
 		self.writefori2c((('clk4ratio',clk4ratio),('i2cmux_reset_b',1 if enable else 0)))
 	def i2creadwrite(self,devaddr,r1w0,data,nack,stop=1,regs={'i2cdatatx':'i2cdatatx','i2cstart':'i2cstart','i2cdatarx':'i2cdatarx','i2crxvalid':'i2crxvalid','i2cclk4ratio':'clk4ratio','i2cmux_reset_b':'i2cmux_reset_b'}):
 		#print('i2creadwrite r1w0 data',r1w0,hex(data))
@@ -76,6 +77,8 @@ class c_vc707:
 		#print('i2cswitch i2cdest',i2cdest)
 		if i2cdest in self.i2csw.keys():
 			self.i2cwrite(devaddr=0x74,data=self.i2csw[i2cdest]);
+			time.sleep(1)
+			print('readback',hex(self.i2cread(devaddr=0x74)));
 		else:
 			print('i2cswitch options: %s'%'|'.join(self.i2csw.keys()))
 
@@ -116,9 +119,12 @@ class c_vc707:
 	def si570reset(self):
 		for addr,data in si570.reset:
 			self.si570write(addr,data)
+		time.sleep(1)
 	def si570readinit(self):
 		print('si570readinit')
 		self.si570reset()
+		time.sleep(1)
+		self.si570readallregs()
 		return self.si570readallregs()
 	def si570readallregs(self):
 		si570regs={}
@@ -128,6 +134,8 @@ class c_vc707:
 	def si570setfreq(self,freq):
 		print('start si570setfreq')
 		initreg=self.si570readinit()
+		print('initreg')
+		print({a:format(d,'02x') for a,d in initreg.items()})
 		newregs=si570.fset(freq,si570.fxtal(initreg))
 		print(newregs)
 		print('si570 set freq to %f'%freq)
@@ -142,6 +150,11 @@ class c_vc707:
 			print('failed find setting')
 		time.sleep(1)
 		print('si570 set freq done')
+	def si570load(self,reglist):
+		for addr,data in reglist:
+			#			print('si570load',addr,data)
+			self.si570write(addr,data)
+
 	def si5324write(self,addr,data,devaddr=0x68):
 		addrdata=((addr&0xff)<<8)+(data)
 		self.devwrite(devaddr=devaddr,addrdata=addrdata,nack=3)

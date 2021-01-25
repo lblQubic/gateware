@@ -81,7 +81,7 @@ class c_qubichw():
 ,'freq_fmc2_lmk_dclk10_m2c_to_fpga':0
 ,'freq_rxusrclk_sfp':100
 ,'freq_txusrclk_sfp':100
-,'freq_clkcfg':125
+,'freq_ethclk':125
 ,'freq_rxusrclk_smasfp':100
 ,'freq_txusrclk_smasfp':100
 }
@@ -110,11 +110,11 @@ class c_qubichw():
 			if ok:
 				print('all clk frequency seems ok, skip lmk init')
 			else:
-				if (0):
+				if (1):
 					self.fmcreset()
-#						self.clkinit(lmkinitregs=lmk04828.init)
-#					self.si570setfreq(125.005e6)
-#					self.si5324init(si5324.init125)
+					self.clkinit(lmkinitregs=lmk04828.init)
+					self.si570setfreq(105.005e6)
+					self.si5324init(si5324.init125)
 #			if commcheck:
 #				if self.commcheck(lmkreglist=lmk04828.ver,adcreglist=ads54j60.reg5f,dacreglist=dac39j84.vid,axireglist=jesdaxi.axiver):
 			#if commcheck:
@@ -147,9 +147,9 @@ class c_qubichw():
 	def si570setfreq(self,freq):
 		self.i2cswitch('si570')
 		print(self.vc707.si570setfreq(freq))
-	def i2cenable(self):
+	def i2cenable(self,clk4ratio=5000,enable=True):
 		print('enable i2c')
-		self.vc707.i2cenable()
+		self.vc707.i2cenable(clk4ratio=clk4ratio,enable=enable)
 		self.i2cenabled=True
 	def i2cswitch(self,i2cid):
 		print('i2cswitch to ',i2cid)
@@ -244,7 +244,7 @@ class c_qubichw():
 	#,'freq_fmc2_lmk_dclk10_m2c_to_fpga'
 	#,'freq_rxusrclk_sfp'
 	#,'freq_txusrclk_sfp'
-	#,'freq_clkcfg'
+	#,'freq_ethclk'
 	#]
 		freqs=(numpy.array(self.vc707.read(freqregs))*125.0/2**24)
 		freqdict={}

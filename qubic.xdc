@@ -14,7 +14,7 @@ create_clock -period 4.000 -name fmc1dclk2 -waveform {0.000 2.000} [get_ports {f
 create_clock -period 2.000 -name fmc1refclk8 -waveform {0.000 1.000} [get_ports {fpga\\.A10}]
 create_clock -period 4.000 -name fmc2dclk2 -waveform {0.000 2.000} [get_ports {fpga\\.AF39}]
 create_clock -period 2.000 -name fmc2refclk8 -waveform {0.000 1.000} [get_ports {fpga\\.K8}]
-
+create_clock -period 500.000 -name iicsclk -waveform {0.000 250.000} [get_ports {fpga\\.AT35}]
 
 create_generated_clock -name clk100 -source [get_ports {fpga\\.E19}] -divide_by 10 -multiply_by 5 [get_pins qubichw_config/sysclkmmcm/bufgclk100/I]
 create_generated_clock -name clk125 -source [get_ports {fpga\\.E19}] -divide_by 8 -multiply_by 5 [get_pins qubichw_config/sysclkmmcm/bufgclk125/I]
@@ -24,4 +24,5 @@ create_generated_clock -name eth125 -source [get_pins qubichw_config/sgmii_ether
 create_generated_clock -name eth62_5 -source [get_pins qubichw_config/sgmii_ethernet_pcs_pma/bufgtxoutclk/I] -divide_by 16 -multiply_by 16 [get_pins qubichw_config/sgmii_ethernet_pcs_pma/bufgclk62_5/I]
 
 
-set_clock_groups -name qubic -asynchronous -group [get_clocks -include_generated_clocks sgmiiclk] -group [get_clocks -include_generated_clocks sysclk] -group [get_clocks -include_generated_clocks si5324clk] -group [get_clocks -include_generated_clocks userclk] -group [get_clocks -include_generated_clocks ethclk] -group [get_clocks -include_generated_clocks fmc1dclk2] -group [get_clocks -include_generated_clocks fmc1refclk8] -group [get_clocks -include_generated_clocks fmc2dclk2] -group [get_clocks -include_generated_clocks fmc2refclk8]
+set_clock_groups -name qubic -asynchronous -group [get_clocks -include_generated_clocks sgmiiclk] -group [get_clocks -include_generated_clocks sysclk] -group [get_clocks -include_generated_clocks si5324clk] -group [get_clocks -include_generated_clocks userclk] -group [get_clocks -include_generated_clocks ethclk] -group [get_clocks -include_generated_clocks fmc1dclk2] -group [get_clocks -include_generated_clocks fmc1refclk8] -group [get_clocks -include_generated_clocks fmc2dclk2] -group [get_clocks -include_generated_clocks fmc2refclk8] -group [get_clocks -include_generated_clocks iicsclk]
+set_property CLOCK_DEDICATED_ROUTE FALSE [get_nets qubichw_config/gticc_common_114/QPLLOUTCLK]

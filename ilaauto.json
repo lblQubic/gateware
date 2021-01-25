@@ -1,12 +1,43 @@
 {
-	"clk":"clk125"
+	"clk":"ethclk"
 	,"probes":{
-		"reset_sfp":1
-		,"reset_smasfp":1
-		,"i2cstart":1
+		"i2cstart":1
 		,"dbi2cstate":4
 		,"dbi2cnext":4
 		,"loadeeprom":1
+		,"nack":4
+		,"stopbit":1
+		,"i2cdatarx_d":32
+		,"i2cdatatx_d":32
+		,"uartreg.uarti2c":1
+		,"lbreg.lbi2c":1
+		,"i2cswlocation":8
+		,"i2crxvalid_d":1
+		,"mux_reset_b":1
+		,"scl":1
+		,"sdatx":1
+		,"sdarx":1
+		,"sdaasrx":1
+		,"clk4ratio":32
+		,"i2cbusy":1
+		,"ethclkcnt":32
+		,"updatesi570":1
+		,"dbnewnow":6
+		,"hs_div_now":3
+		,"n1_now":7
+		,"rfreq_now":38
+		,"i2cdatatx":32
+		,"stb_freqdiff":1
+		,"stb_helppllctrl":1
+		,"helppllctrl":32
+		,"dbsamphelp_d1_ref_v":1
+		,"rfreqfdbk":38
+		,"lbreg.helppllki":16
+		,"lbreg.helppllkishift":16
+		,"lbreg.helppllkp":16
+		,"lbreg.helppllkpshift":16
+		,"freqdiff_x":32
+		,"stb_freqdiff_x":1
 	}
 	,"backup":{
 		"i2ccmd":37
@@ -14,9 +45,7 @@
 		,"resetdone_smasfp":1
 		,"i2cresult":33
 		,"i2crxvalid":1
-		,"i2crxvalid_d":1
 		,"i2crxvalid_d2":1
-		,"i2cswlocation":8
 		,"i2cinitreset":3
 		,"loadmacip":1
 		,"hw.vc707.gpio_sw_c":1
@@ -30,12 +59,6 @@
 		,"dbsi2cinitreset":1
 		,"loadmacip":1
 		,"hw.vc707.gpio_sw_c":1
-		,"scl":1
-		,"sdatx":1
-		,"sdarx":1
-		,"sdaasrx":1
-		,"stopbit":1
-		,"nack":4
 		,"fmci2cdevcmd":28
 		,"fmci2cstb_devcmd":1
 		,"i2cinitdone_d2":3
@@ -45,8 +68,6 @@
 		,"i2cinitreset_d":3
 		,"i2cinitdone":3
 		,"i2cswlocation":8
-		,"i2cdatarx_d":32
-		,"i2cdatatx_d":32
 		,"i2creset_d":1
 		,"dbaxistate":3
 		,"dbaxinext":3

@@ -3,11 +3,11 @@ ilasysauto.tcl: submodules/tools/ila.py $(ILASYSJSON)
 	python submodules/tools/ila.py -f $(ILASYSJSON) -t $@
 ilasysauto.vh: submodules/tools/ila.py $(ILASYSJSON)
 	python submodules/tools/ila.py -f $(ILASYSJSON) -v $@
-ILA125JSON=ila125auto.json
-ila125auto.tcl: submodules/tools/ila.py $(ILA125JSON)
-	python submodules/tools/ila.py -f $(ILA125JSON) -t $@
-ila125auto.vh: submodules/tools/ila.py $(ILA125JSON)
-	python submodules/tools/ila.py -f $(ILA125JSON) -v $@
+ILAETHJSON=ilaethauto.json
+ilaethauto.tcl: submodules/tools/ila.py $(ILAETHJSON)
+	python submodules/tools/ila.py -f $(ILAETHJSON) -t $@
+ilaethauto.vh: submodules/tools/ila.py $(ILAETHJSON)
+	python submodules/tools/ila.py -f $(ILAETHJSON) -v $@
 ILAJSON=ilaauto.json
 ilaauto.tcl: submodules/tools/ila.py $(ILAJSON)
 	python submodules/tools/ila.py -f $(ILAJSON) -t $@
@@ -18,6 +18,11 @@ ilaadcauto.tcl: submodules/tools/ila.py $(ILAADCJSON)
 	python submodules/tools/ila.py -f $(ILAADCJSON) -t $@
 ilaadcauto.vh: submodules/tools/ila.py $(ILAADCJSON)
 	python submodules/tools/ila.py -f $(ILAADCJSON) -v $@
+ILAHELPJSON=ilahelpauto.json
+ilahelpauto.tcl: submodules/tools/ila.py $(ILAHELPJSON)
+	python submodules/tools/ila.py -f $(ILAHELPJSON) -t $@
+ilahelpauto.vh: submodules/tools/ila.py $(ILAHELPJSON)
+	python submodules/tools/ila.py -f $(ILAHELPJSON) -v $@
 
 lbread.vh: submodules/tools/lbrw.py regmap.json
 	python3 submodules/tools/lbrw.py -m regmap.json -b submodules/common-hdl/localbus.json -r lbread.vh

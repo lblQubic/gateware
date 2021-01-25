@@ -59,11 +59,11 @@ always @(posedge clk500) begin
 end
 reg si5324_out_c=0;
 initial begin
-    forever #(2) si5324_out_c=~si5324_out_c;
+    forever #(4) si5324_out_c=~si5324_out_c;
 end
 localparam SIM=1;
 reg sma_mgt_refclk=0;
-real DELAY=0.1;
+real DELAY=0.15;
 always @(*)
 	sma_mgt_refclk= #DELAY si5324_out_c;
 wire resetcntdelay=~|sysclkcnt[13:0];
@@ -366,8 +366,30 @@ wire helpclk;
 wire pllclkfbout,pllclkfbin;
 wire pll_locked;
 wire pll_reset;
-
+localparam CLK125=1;
+localparam CLKIN1_PERIOD=CLK125 ? 8.0 : 4.0;
+localparam CLKFBOUT_MULT_F=CLK125 ? 63.625 : 63.125;
+localparam DIVCLK_DIVIDE=CLK125 ? 12 : 24;
+localparam CLKOUT0_DIVIDE_F=CLK125 ? 6.625 : 2.625;
 MMCME2_BASE#(.BANDWIDTH("OPTIMIZED")
+,.CLKIN1_PERIOD(CLKIN1_PERIOD)
+,.CLKFBOUT_MULT_F(CLKFBOUT_MULT_F)
+,.DIVCLK_DIVIDE(DIVCLK_DIVIDE)
+,.CLKFBOUT_PHASE(0.0)
+,.CLKOUT0_DIVIDE_F(CLKOUT0_DIVIDE_F)
+,.CLKOUT0_DUTY_CYCLE(0.5)
+,.CLKOUT0_PHASE(0.0)
+,.REF_JITTER1(0.0)
+,.STARTUP_WAIT("FALSE")
+) pllhelperclk (.CLKIN1(si5324_out_c)
+,.CLKOUT0(helpclk_w)
+,.LOCKED(pll_locked)
+,.CLKFBOUT(pllclkfbout)
+,.CLKFBIN(pllclkfbin)
+,.PWRDWN(1'b0)
+,.RST(pll_reset)
+);
+/*MMCME2_BASE#(.BANDWIDTH("OPTIMIZED")
 ,.CLKIN1_PERIOD(4.0)
 ,.CLKFBOUT_MULT_F(63.125)
 ,.DIVCLK_DIVIDE(24)
@@ -385,7 +407,7 @@ MMCME2_BASE#(.BANDWIDTH("OPTIMIZED")
 ,.PWRDWN(1'b0)
 ,.RST(pll_reset)
 );
-
+*/
 assign pll_reset=resetout[RESET_PLL];
 assign donecriteria[RESET_PLL]=pll_locked;
 assign readylength[RESET_PLL*16+:16]=16'd30;assign resetlength[RESET_PLL*16+:16]=16'd20;assign resettodonecheck[RESET_PLL*16+:16]=16'd10;assign resettimeout[RESET_PLL*32+:32]=32'h10000000;
@@ -404,10 +426,11 @@ always @(posedge helpclk) begin
 	phsmasfpcnt<=phcalcreset_s ? 0 : phsmasfpcnt+rxusrclk_smasfp;
 	phdiff<=&done ? phsfpcnt-phsmasfpcnt: 0;
 end
-
+wire dmtdreset_w;
+areset dmtdreset_areset(.clk(helpclk_w),.areset(dmtdreset),.sreset(dmtdreset_w));
 dmtd_phase_meas #(.g_deglitcher_threshold(100))
-dmte_phase_meas(.rst_sys_n_i(~dmtdreset)
-,.rst_dmtd_n_i(~dmtdreset)
+dmtd_phase_meas(.rst_sys_n_i(~dmtdreset_w)
+,.rst_dmtd_n_i(~dmtdreset_w)
 ,.clk_sys_i(sysclk)
 ,.clk_a_i(rxusrclk_sfp)
 ,.clk_b_i(rxusrclk_smasfp)
@@ -415,6 +438,24 @@ dmte_phase_meas(.rst_sys_n_i(~dmtdreset)
 ,.en_i(1'b1)
 ,.navg_i(4)
 );
+
+dmtd_phase_meas_v #(.g_deglitcher_threshold(100))
+dmtd_phase_meas_v(.rst_sys_n_i(~dmtdreset_w)
+,.rst_dmtd_n_i(~dmtdreset_w)
+,.clk_sys_i(sysclk)
+,.clk_a_i(rxusrclk_sfp)
+,.clk_b_i(rxusrclk_smasfp)
+,.clk_dmtd_i(helpclk_w)
+,.en_i(1'b1)
+,.navg_i(4)
+);
+
+dmtd #(.STABLE(100),.PHWIDTH(16))
+dmtd (.clkdmtd(helpclk_w)
+,.clka(rxusrclk_sfp)
+,.clkb(rxusrclk_smasfp)
+,.rst(dmtdreset_w)
+,.navr(12'h6));
 endmodule
 
 /*

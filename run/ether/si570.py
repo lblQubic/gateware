@@ -1,5 +1,12 @@
 def fxtal(regs,fdefault=156.25e6):
-	return fdefault*HS_DIV(regs)*N1(regs)/(RFREQ(regs)*1.0/2**28)
+	fxtal=fdefault*HS_DIV(regs)*N1(regs)/(RFREQ(regs)*1.0/2**28)
+	if abs(fxtal*1.0/1e6-114.285)>1:
+		print(abs(fxtal-114.285))
+		print('fdefault',fdefault,'HS_DIV',HS_DIV(regs),'N1',N1(regs),'RFREQ',hex(RFREQ(regs)),RFREQ(regs)*1.0/2**28)
+		print({a:format(d,'02x') for a,d in regs.items()})
+		print('fxtal should be 114.285',fxtal/1e6)
+		exit('si570 fxtal calculation wrong')
+	return fxtal
 def RFREQ(regs):
 	return ((regs[8]&0x3f)<<32)+((regs[9]&0xff)<<24)+((regs[10]&0xff)<<16)+((regs[11]&0xff)<<8)+((regs[12]&0xff)<<0)
 def N1(regs):
@@ -33,7 +40,7 @@ def list2dict(l):
 	return d
 
 hsdivdict={0:4,1:5,2:6,3:7,4:None,5:9,6:None,7:11}
-reset=[(135,1),]
+reset=[(135,0x01),]
 default=[(7,0x1)
 ,(8,0xc2)
 ,(9,0xbc)
@@ -49,7 +56,22 @@ default=[(7,0x1)
 ,(135,0x0)
 ,(137,0x8)
 ]
-
+f125=[
+(137,0x10)
+,(7,0x3)
+,(8,0x43)
+,(9,16)
+,(10,1)
+,(11,189)
+,(12,242)
+#,(137,0x00)
+#,(135,0x40)
+		]
+f1251=[
+(137,0x10)
+,(7,3)
+,(137,0xef)
+]
 if __name__=="__main__":
 	fxtalval=fxtal(list2dict(default))
 	print(fxtalval)
