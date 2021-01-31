@@ -12,5 +12,9 @@
 		,"donecriteria_r":22
 		,"resetcnt":32
 		,"stbdone":1
+		,"dblocked_smasfp":1
+		,"dbrxcdrlock_smasfp":1
+		,"dblocked_sfp":1
+		,"dbrxcdrlock_sfp":1
 	}
 }

@@ -1,0 +1,37 @@
+{
+	"clk":"si5324_out_c"
+	,"probes":{
+		"dbclkhelpcnt_samp0":32
+		,"dbclkhelpcnt_samp1":32
+		,"dbfreqhelp":32
+		,"dbfreqhelp5":32
+		,"dbfreqref4":32
+		,"dbfreqdiff":32
+		,"lbreg.refcntsamp":32
+		,"lbreg.freqdiff":32
+		,"dbsamp":1
+		,"dbclkrefcnt":32
+		,"dbsamphelp_d1_ref":1
+		,"dbsamphelp_d1_ref_v":1
+		,"dbsamphelp_v":1
+		,"stb_phdiffavr":1
+		,"phdiffavr":32
+		,"dbastable":32
+		,"dbbstable":32
+		,"dbphdiff":32
+		,"dbacc1":32
+		,"dbpvalid":1
+	}
+	,"dmtd":{
+		"clk":"helpclk"
+		,"probes":{
+			"stb_phdiffavr":1
+			,"phdiffavr":32
+			,"dbastable":32
+			,"dbbstable":32
+			,"dbphdiff":32
+			,"dbacc1":32
+			,"dbpvalid":1
+		}
+	}
+}

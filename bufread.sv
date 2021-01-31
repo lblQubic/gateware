@@ -3,6 +3,8 @@ module bufread #(parameter DWW=8
 	,parameter DWR=32
 	,parameter AWW=8
 	,parameter SIM=0
+	,localparam AWR=DWW>DWR ? (AWW+$clog2(DWW/DWR)) : (AWW-$clog2(DWR/DWW))
+	,localparam SZR=(32'b1<<AWR)-1
 	)
 	(
 //	ibufio.source rd
@@ -22,8 +24,6 @@ module bufread #(parameter DWW=8
 wire sreset;
 areset areset(.clk(wclk),.areset(reset),.sreset(sreset));
 
-	localparam AWR=DWW>DWR ? (AWW+$clog2(DWW/DWR)) : (AWW-$clog2(DWR/DWW));
-	localparam SZR=(32'b1<<AWR)-1;
 	reg [AWW-1:0] wraddr=0;
 	reg [AWW-1:0] wraddr_next=1;
 	reg wren=1;

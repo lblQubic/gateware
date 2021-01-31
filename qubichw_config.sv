@@ -420,12 +420,17 @@ wire rxusrclk_sfp;
 wire txusrclk_sfp;
 wire [3:0] rxcharisk_sfp;
 wire [31:0] rxdata_sfp;
+reg [31:0] sfprx=0;
+reg [31:0] smasfprx=0;
+
 assign lbreg.sfptestrx=sfprx;
 wire rxuserrdy_sfp=1'b1;
 wire [3:0] txcharisk_sfp;//=4'b0;
 wire [31:0] txdata_sfp;//=0;//lbreg.sfptesttx;//32'habcdbeef;
 wire txuserrdy_sfp=1'b1;
 wire resetdone_sfp ;
+wire dblocked_sfp;
+wire dbrxcdrlock_sfp;
 gticc_gt #(.SIM_CPLLREFCLK_SEL(3'h005))
 gticc_gt_sfp(.CPLLLOCKDETCLK(hw.vc707.sysclk)
 ,.GTNORTHREFCLK0(1'b0),.GTNORTHREFCLK1(1'b0),.GTREFCLK0(sgmiiclk),.GTREFCLK1(sma_mgt_refclk),.GTSOUTHREFCLK0(si5324_out_c),.GTSOUTHREFCLK1(1'b0)
@@ -445,6 +450,8 @@ gticc_gt_sfp(.CPLLLOCKDETCLK(hw.vc707.sysclk)
 ,.reset(reset_sfp_w||sfpreconnected|lbreg.stb_reset_sfp)
 ,.resetdone(resetdone_sfp)
 //,.readyforreset(readyforreset_sfp)
+,.dblocked(dblocked_sfp)
+,.dbrxcdrlock(dbrxcdrlock_sfp)
 );
 wire readyforreset_smasfp;
 wire reset_smasfp;//=reset_sfp;
@@ -460,6 +467,8 @@ wire rxuserrdy_smasfp=1'b1;
 wire [3:0] txcharisk_smasfp;//=4'b0;
 wire [31:0] txdata_smasfp;//=0;//lbreg.smasfptesttx;//32'habcdbeef;
 wire txuserrdy_smasfp=1'b1;
+wire dblocked_smasfp;
+wire dbrxcdrlock_smasfp;
 gticc_gt #(.SIM_CPLLREFCLK_SEL(3'h002))
 gticc_gt_smasfp(.CPLLLOCKDETCLK(hw.vc707.sysclk)
 ,.GTNORTHREFCLK0(1'b0),.GTNORTHREFCLK1(1'b0),.GTREFCLK0(sgmiiclk),.GTREFCLK1(sma_mgt_refclk),.GTSOUTHREFCLK0(si5324_out_c),.GTSOUTHREFCLK1(1'b0)
@@ -479,6 +488,8 @@ gticc_gt_smasfp(.CPLLLOCKDETCLK(hw.vc707.sysclk)
 ,.reset(reset_smasfp_w|lbreg.stb_reset_smasfp)//||smasfpreconnected)
 ,.resetdone(resetdone_smasfp)
 //,.readyforreset(readyforreset_smasfp)
+,.dblocked(dblocked_smasfp)
+,.dbrxcdrlock(dbrxcdrlock_smasfp)
 );
 
 reg [31:0] smasfptxclkcnt=0;
@@ -494,8 +505,6 @@ always @(posedge txusrclk_sfp) begin
 end
 assign txdata_sfp=(~|sfptxclkcnt[3:0]) ? 32'h000000bc : lbreg.sfptesttx;//32'habcdbeef;
 assign txcharisk_sfp=(~|sfptxclkcnt[3:0]) ? 4'h1 : 4'h0;
-reg [31:0] sfprx=0;
-reg [31:0] smasfprx=0;
 always @(posedge rxusrclk_sfp) begin
 	if (~|rxcharisk_sfp) begin
 		sfprx<=rxdata_sfp;
@@ -1093,15 +1102,14 @@ localparam JESDRESET1=13;
 localparam AXIINITRESET=14;
 localparam I2CINITRESET_2=15;
 
-localparam QPLLRESET_113=16;
-localparam RESET_SFP=17;
-localparam RESET_SMASFP=18;
-localparam I2CINITRESET_3=19;
+localparam I2CINITRESET_3=16;
+localparam HELPPLL=17;
+localparam RESET_SFP=18;
+localparam RESET_SMASFP=19;
 
-localparam QPLLRESET_114=20;
-localparam HELPPLL=21;
-
-localparam NSTEP=22;
+//localparam QPLLRESET_113=16;
+//localparam QPLLRESET_114=20;
+localparam NSTEP=20;
 
 wire [NSTEP-1:0] done;
 wire [NSTEP-1:0] dbdone_w;
@@ -1195,16 +1203,16 @@ assign donecriteria[JESDRESET0]=jesdreset0_done;
 assign readylength[JESDRESET0*16+:16]=16'd30;assign resetlength[JESDRESET0*16+:16]=16'd20;assign resettodonecheck[JESDRESET0*16+:16]=16'd10;assign resettimeout[JESDRESET0*32+:32]=32'h10000000;
 assign jesdreset1=resetout[JESDRESET1];
 assign donecriteria[JESDRESET1]=jesdreset1_done;
-assign readylength[JESDRESET1*16+:16]=16'd30;assign resetlength[JESDRESET1*16+:16]=16'd20;assign resettodonecheck[JESDRESET1*16+:16]=16'd10;assign resettimeout[JESDRESET1*32+:32]=32'h100000000;
+assign readylength[JESDRESET1*16+:16]=16'd30;assign resetlength[JESDRESET1*16+:16]=16'd20;assign resettodonecheck[JESDRESET1*16+:16]=16'd10;assign resettimeout[JESDRESET1*32+:32]=32'h10000000;
 assign axiinitreset=resetout[AXIINITRESET];
 assign donecriteria[AXIINITRESET]=axiinitdone;
 assign readylength[AXIINITRESET*16+:16]=16'd30;assign resetlength[AXIINITRESET*16+:16]=16'd20;assign resettodonecheck[AXIINITRESET*16+:16]=16'd10;assign resettimeout[AXIINITRESET*32+:32]=32'h10000000;
 assign i2cinitreset[2]=resetout[I2CINITRESET_2];
 assign donecriteria[I2CINITRESET_2]=SIM ? 1'b1 : i2cinitdone[2];
 assign readylength[I2CINITRESET_2*16+:16]=16'd30;assign resetlength[I2CINITRESET_2*16+:16]=16'd20;assign resettodonecheck[I2CINITRESET_2*16+:16]=16'd10;assign resettimeout[I2CINITRESET_2*32+:32]=32'h80000000;
-assign qpllreset_113=resetout[QPLLRESET_113];
-assign donecriteria[QPLLRESET_113]=qpllresetdone_113;
-assign readylength[QPLLRESET_113*16+:16]=16'd30;assign resetlength[QPLLRESET_113*16+:16]=16'd20;assign resettodonecheck[QPLLRESET_113*16+:16]=16'd10;assign resettimeout[QPLLRESET_113*32+:32]=32'h10000000;
+//assign qpllreset_113=resetout[QPLLRESET_113];
+//assign donecriteria[QPLLRESET_113]=qpllresetdone_113;
+//assign readylength[QPLLRESET_113*16+:16]=16'd30;assign resetlength[QPLLRESET_113*16+:16]=16'd20;assign resettodonecheck[QPLLRESET_113*16+:16]=16'd10;assign resettimeout[QPLLRESET_113*32+:32]=32'h10000000;
 assign reset_sfp=resetout[RESET_SFP];
 assign donecriteria[RESET_SFP]=resetdone_sfp;
 assign readylength[RESET_SFP*16+:16]=16'd30;assign resetlength[RESET_SFP*16+:16]=16'd20;assign resettodonecheck[RESET_SFP*16+:16]=16'd10;assign resettimeout[RESET_SFP*32+:32]=32'h10000000;
@@ -1214,9 +1222,9 @@ assign readylength[RESET_SMASFP*16+:16]=16'd30;assign resetlength[RESET_SMASFP*1
 assign i2cinitreset[3]=resetout[I2CINITRESET_3];
 assign donecriteria[I2CINITRESET_3]=SIM ? 1'b1 : i2cinitdone[3];
 assign readylength[I2CINITRESET_3*16+:16]=16'd30;assign resetlength[I2CINITRESET_3*16+:16]=16'd20;assign resettodonecheck[I2CINITRESET_3*16+:16]=16'd10;assign resettimeout[I2CINITRESET_3*32+:32]=32'h80000000;
-assign qpllreset_114=resetout[QPLLRESET_114];
-assign donecriteria[QPLLRESET_114]=qpllresetdone_114;
-assign readylength[QPLLRESET_114*16+:16]=16'd30;assign resetlength[QPLLRESET_114*16+:16]=16'd20;assign resettodonecheck[QPLLRESET_114*16+:16]=16'd10;assign resettimeout[QPLLRESET_114*32+:32]=32'h10000000;
+//assign qpllreset_114=resetout[QPLLRESET_114];
+//assign donecriteria[QPLLRESET_114]=qpllresetdone_114;
+//assign readylength[QPLLRESET_114*16+:16]=16'd30;assign resetlength[QPLLRESET_114*16+:16]=16'd20;assign resettodonecheck[QPLLRESET_114*16+:16]=16'd10;assign resettimeout[QPLLRESET_114*32+:32]=32'h10000000;
 assign pll_reset=resetout[HELPPLL];
 assign donecriteria[HELPPLL]=pll_locked;
 assign readylength[HELPPLL*16+:16]=16'd30;assign resetlength[HELPPLL*16+:16]=16'd20;assign resettodonecheck[HELPPLL*16+:16]=16'd10;assign resettimeout[HELPPLL*32+:32]=32'h10000000;

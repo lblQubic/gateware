@@ -139,7 +139,7 @@ if __name__=="__main__":
 ,"CPLLREFCLKSEL":"CPLLREFCLKSEL"
 ,"QPLLCLK":"QPLLCLK"
 ,"QPLLREFCLK":"QPLLREFCLK"
-,"RXUSERRDY":"RXUSERRDY"
+,"RXUSERRDY":"rxuserrdy"
 ,"RXUSRCLK":"RXUSRCLK"
 ,"RXUSRCLK2":"RXUSRCLK2"
 ,"GTXRXP":"GTXRXP"
@@ -150,6 +150,7 @@ if __name__=="__main__":
 ,"TXUSERRDY":"TXUSERRDY"
 ,"TXUSRCLK":"TXUSRCLK"
 ,"TXUSRCLK2":"TXUSRCLK2"
+,"RXCDRLOCK":"RXCDRLOCK"
 }
 	(modulename,paradict,instname,portdict)=extractfromgtwizard(s)
 	paraline=parastr(paradict)

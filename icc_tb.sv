@@ -428,7 +428,7 @@ always @(posedge helpclk) begin
 end
 wire dmtdreset_w;
 areset dmtdreset_areset(.clk(helpclk_w),.areset(dmtdreset),.sreset(dmtdreset_w));
-dmtd_phase_meas #(.g_deglitcher_threshold(100))
+/*dmtd_phase_meas #(.g_deglitcher_threshold(100))
 dmtd_phase_meas(.rst_sys_n_i(~dmtdreset_w)
 ,.rst_dmtd_n_i(~dmtdreset_w)
 ,.clk_sys_i(sysclk)
@@ -449,7 +449,7 @@ dmtd_phase_meas_v(.rst_sys_n_i(~dmtdreset_w)
 ,.en_i(1'b1)
 ,.navg_i(4)
 );
-
+*/
 dmtd #(.STABLE(100),.PHWIDTH(16))
 dmtd (.clkdmtd(helpclk_w)
 ,.clka(rxusrclk_sfp)

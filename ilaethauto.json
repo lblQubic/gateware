@@ -19,14 +19,14 @@
 		,"rfreq":38
 		,"lbreg.stb_si5709abc":1
 		,"si570i2cstart":1
-		,"si570i2ccmd":1
+		,"si570i2ccmd":37
 		,"si570updatebusy":1
 		,"i2cbusy":1
 		,"dbrfreq_w":38
 		,"dbsmallmax":38
 		,"dbsmallmin":38
 		,"si570start":1
-		,"dbupdatesi570":1
+		,"updatesi570":1
 		,"dbnewnow":6
 	}
 }

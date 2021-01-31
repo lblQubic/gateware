@@ -6,6 +6,7 @@ module dpram2
 	,parameter BUFIN=0
 	,parameter BUFOUT=1
 	,parameter SIM=0
+	,localparam AWR=DWW>DWR ? (AWW+$clog2(DWW/DWR)) : (AWW-$clog2(DWR/DWW))	
 	)(
 //		ibufio.destin wr
 //		,ibufio.source rd
@@ -23,7 +24,6 @@ module dpram2
 	);
 	`define max(a,b) {(a) > (b) ? (a) : (b)}
 	`define min(a,b) {(a) < (b) ? (a) : (b)}
-	localparam AWR=DWW>DWR ? (AWW+$clog2(DWW/DWR)) : (AWW-$clog2(DWR/DWW));
 	localparam SZW=(32'b1<<AWW)-1;
 	localparam SZR=(32'b1<<AWR)-1;
 	localparam DWMIN=`min(DWR,DWW);
