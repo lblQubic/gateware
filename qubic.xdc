@@ -25,4 +25,4 @@ create_generated_clock -name eth62_5 -source [get_pins qubichw_config/sgmii_ethe
 
 
 set_clock_groups -name qubic -asynchronous -group [get_clocks -include_generated_clocks sgmiiclk] -group [get_clocks -include_generated_clocks sysclk] -group [get_clocks -include_generated_clocks si5324clk] -group [get_clocks -include_generated_clocks userclk] -group [get_clocks -include_generated_clocks ethclk] -group [get_clocks -include_generated_clocks fmc1dclk2] -group [get_clocks -include_generated_clocks fmc1refclk8] -group [get_clocks -include_generated_clocks fmc2dclk2] -group [get_clocks -include_generated_clocks fmc2refclk8] -group [get_clocks -include_generated_clocks iicsclk]
-set_property CLOCK_DEDICATED_ROUTE FALSE [get_nets qubichw_config/gticc_common_114/QPLLOUTCLK]
+#set_property CLOCK_DEDICATED_ROUTE FALSE [get_nets qubichw_config/gticc_common_114/QPLLOUTCLK]

@@ -6,7 +6,6 @@
 ./fifocore_8_64.tcl
 ./fmc120cpldspiwriteonvc707.v
 ./gig_ethernet_pcs_pma.tcl
-./gticc_common.sv
 ./gticc_gt.sv
 ./helppll45.v
 ./i2cinit.vh
@@ -81,11 +80,10 @@ submodules/common-hdl/piloop5.v
 submodules/common-hdl/reg_delay1.v
 submodules/common-hdl/sat.v
 submodules/common-hdl/seqinit.v
-submodules/common-hdl/sext.v
-submodules/common-hdl/stable.v
 submodules/common-hdl/uart.v
 submodules/common-hdl/uartlb.v
 submodules/common-hdl/uartrx.v
 submodules/common-hdl/uarttx.v
 submodules/common-hdl/via.v
 submodules/common-hdl/viapairs.v
+gitrevision.v

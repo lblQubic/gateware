@@ -165,12 +165,15 @@
 ,"reset_smasfp": {"access": "rw","addr_width": 0,"base_addr": 161,"data_width": 1,"sign": "unsigned","init": 1}
 ,"phdiffavr": {"access": "r","addr_width": 0,"base_addr": 162,"data_width": 32,"sign": "signed","init": 0}
 ,"freqdiff": {"access": "r","addr_width": 0,"base_addr": 163,"data_width": 32,"sign": "signed","init": 0}
-,"refcntsamp": {"access": "rw","addr_width": 0,"base_addr": 164,"data_width": 32,"sign": "signed","init": 4096}
+,"refcntsamp": {"access": "rw","addr_width": 0,"base_addr": 164,"data_width": 32,"sign": "signed","init": 16777216}
 ,"si57078": {"access": "rw","addr_width": 0,"base_addr": 165,"data_width": 17,"sign": "unsigned","init": 0}
 ,"si5709abc": {"access": "rw","addr_width": 0,"base_addr": 166,"data_width": 32,"sign": "unsigned","init": 0}
-,"helpplloffset": {"access": "rw","addr_width": 0,"base_addr": 167,"data_width": 32,"sign": "unsigned","init": 0}
+,"helpplloffset": {"access": "rw","addr_width": 0,"base_addr": 167,"data_width": 32,"sign": "unsigned","init": 10}
 ,"helppllkp": {"access": "rw","addr_width": 0,"base_addr": 168,"data_width": 16,"sign": "unsigned","init": 0}
-,"helppllkpshift": {"access": "rw","addr_width": 0,"base_addr": 169,"data_width": 16,"sign": "unsigned","init": 8}
-,"helppllki": {"access": "rw","addr_width": 0,"base_addr": 170,"data_width": 16,"sign": "unsigned","init": 0}
-,"helppllkishift": {"access": "rw","addr_width": 0,"base_addr": 171,"data_width": 16,"sign": "unsigned","init": 8}
+,"helppllkpshift": {"access": "rw","addr_width": 0,"base_addr": 169,"data_width": 16,"sign": "unsigned","init": 6}
+,"helppllki": {"access": "rw","addr_width": 0,"base_addr": 170,"data_width": 16,"sign": "unsigned","init": 30000}
+,"helppllkishift": {"access": "rw","addr_width": 0,"base_addr": 171,"data_width": 16,"sign": "unsigned","init": 5}
+,"stableval": {"access": "rw","addr_width": 0,"base_addr": 172,"data_width": 32,"sign": "unsigned","init": 50000}
+,"dmtdnavr": {"access": "rw","addr_width": 0,"base_addr": 173,"data_width": 32,"sign": "unsigned","init": 8}
+,"gitrevision": {"access": "r","addr_width": 0,"base_addr": 174,"data_width": 32,"sign": "unsigned","init": 0}
 }

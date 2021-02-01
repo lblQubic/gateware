@@ -1,7 +1,60 @@
 {
-	"clk":"si5324_out_c"
+	"clk":"helpclk"
 	,"probes":{
-		"dbclkhelpcnt_samp0":32
+		"dbavalid":1
+		,"dbsclkacnt":32
+		,"dbafreq":32
+		,"dbstable_sclka":1
+		,"dbastable":32
+		,"dbsclka":1
+
+		,"dbsclkb":1
+		,"dbbstable":32
+		,"dbstable_sclkb":1
+		,"dbbfreq":32
+		,"dbsclkbcnt":32
+		,"dbbvalid":1
+
+		,"phdiffavr":32
+		,"stb_phdiffavr":1
+		,"dbphdiff":32
+		,"dbacc1":32
+		,"dbpvalid":1
+		,"dbclkdmtdcnt":32
+		,"dbdmtdstate":2
+		,"dbdmtdnext":2
+		,"dbtxavalid":1
+		,"dbtxsclkacnt":32
+		,"dbtxafreq":32
+		,"dbtxstable_sclka":1
+		,"dbtxastable":32
+		,"dbtxsclka":1
+
+		,"dbtxsclkb":1
+		,"dbtxbstable":32
+		,"dbtxstable_sclkb":1
+		,"dbtxbfreq":32
+		,"dbtxsclkbcnt":32
+		,"dbtxbvalid":1
+
+		,"phdiffavr_tx":32
+		,"stb_phdiffavr_tx":1
+		,"dbtxphdiff":32
+		,"dbtxacc1":32
+		,"dbtxpvalid":1
+		,"dbtxclkdmtdcnt":32
+		,"dbtxdmtdstate":2
+		,"dbtxdmtdnext":2
+		,"lbreg.phdiffavr":32
+	}
+	,"dmtd":{
+		"clk":"helpclk"
+		,"probes":{
+			"stb_phdiffavr":1
+			,"phdiffavr":32
+			,"dbastable":32
+			,"dbbstable":32
+		,"dbclkhelpcnt_samp0":32
 		,"dbclkhelpcnt_samp1":32
 		,"dbfreqhelp":32
 		,"dbfreqhelp5":32
@@ -16,22 +69,9 @@
 		,"dbsamphelp_v":1
 		,"stb_phdiffavr":1
 		,"phdiffavr":32
-		,"dbastable":32
-		,"dbbstable":32
 		,"dbphdiff":32
 		,"dbacc1":32
 		,"dbpvalid":1
-	}
-	,"dmtd":{
-		"clk":"helpclk"
-		,"probes":{
-			"stb_phdiffavr":1
-			,"phdiffavr":32
-			,"dbastable":32
-			,"dbbstable":32
-			,"dbphdiff":32
-			,"dbacc1":32
-			,"dbpvalid":1
 		}
 	}
 }

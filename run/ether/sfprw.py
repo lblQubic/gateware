@@ -17,8 +17,8 @@ if __name__=="__main__":
 		sfpinfo=qubichw.vc707.sfpinfo()
 		print(sfpinfo,[chr(i) for i in sfpinfo])
 
-	#qubichw.write((("reset_sfp",0),))
-	#qubichw.write((("reset_smasfp",0),))
+	qubichw.write((("reset_sfp",0),))
+	qubichw.write((("reset_smasfp",0),))
 	time.sleep(0.5)
 	print(('sfptestrx','smasfptestrx'))
 	for i in [1]:

@@ -60,7 +60,7 @@ assign {rxdata_float_i,RXDATA}=rxdata64;
 assign {rxdisperr_float_i,RXDISPERR}=rxdisperr8;
 assign {rxcharisk_float_i,RXCHARISK}=rxcharisk8;
 assign {rxnotintable_float_i,RXNOTINTABLE}=rxnotintable8;
-
+wire RXCDRRESET=txrxreset;
 wire CPLLRESET;
 wire GTTXRESET=txrxreset;
 wire GTRXRESET=txrxreset;
@@ -120,6 +120,7 @@ end
 
 
 wire txalign;
+//assign RXBYTEREALIGN=rxalign;
 wire rdyfortxrxreset=&{CPLLLOCK,~CPLLFBCLKLOST,~CPLLREFCLKLOST};
 wire txrxresetdone=&{TXRESETDONE,RXRESETDONE,rdyfortxrxreset};
 localparam NSTEP=4;

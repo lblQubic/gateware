@@ -51,7 +51,7 @@ always @(posedge clk) begin
 	smallmin<=rfreq_now-(rfreq_now>>9);
 end
 wire smallppm= &deltarfreq[38:29] | (~|deltarfreq[38:29]);
-wire midstep=(smallchange_r & ~smallppm & (~|n1_new) & (~|hs_div_new)) & (&newnow) ;
+wire midstep=smallchange_r & ~smallppm  & (&newnow) ;
 reg midstep_r=0;
 
 localparam IDLE=4'h0;
@@ -83,7 +83,7 @@ always @(*) begin
 		START:begin next = ~i2cbusy ? I2CSW : START; end
 		I2CSW:begin next = (cnt>CNT) & ~i2cbusy ? START2 :I2CSW; end
 		START2:begin next = ~i2cbusy ? smallchange_r ? SMALLFRZ : LARGEFRZ : START2; end
-		SMALLFRZ:begin next = (cnt>CNT) & ~i2cbusy ? REG9 : SMALLFRZ ; end
+		SMALLFRZ:begin next = (cnt>CNT) & ~i2cbusy ? REG8 : SMALLFRZ ; end
 		LARGEFRZ:begin next = (cnt>CNT) & ~i2cbusy ? REG7 : LARGEFRZ ; end
 		REG7:begin next = (cnt>CNT) & ~i2cbusy ? REG8 : REG7; end
 		REG8:begin next = (cnt>CNT) & ~i2cbusy ? REG9 : REG8; end

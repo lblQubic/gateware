@@ -70,7 +70,7 @@ class c_qubichw():
 ,'freq_sma_mgt_refclk':0
 ,'freq_si5324_out_c':250
 ,'freq_pcie_clk_qo':0
-,'freq_user_clock':125
+,'freq_ethclk':125
 ,'freq_fmc1_llmk_dclkout_2':250
 ,'freq_fmc1_llmk_sclkout_3':1.953
 ,'freq_fmc1_lmk_dclk8_m2c_to_fpga':500
@@ -81,7 +81,7 @@ class c_qubichw():
 ,'freq_fmc2_lmk_dclk10_m2c_to_fpga':0
 ,'freq_rxusrclk_sfp':100
 ,'freq_txusrclk_sfp':100
-,'freq_ethclk':125
+,'freq_user_clock':100
 ,'freq_rxusrclk_smasfp':100
 ,'freq_txusrclk_smasfp':100
 }
@@ -246,7 +246,10 @@ class c_qubichw():
 	#,'freq_txusrclk_sfp'
 	#,'freq_ethclk'
 	#]
-		freqs=(numpy.array(self.vc707.read(freqregs))*125.0/2**24)
+		freqsint=self.vc707.read(freqregs)
+		print(freqsint)
+	#	freqs=(numpy.array(self.vc707.read(freqregs))*125.0/2**24)
+		freqs=numpy.array(freqsint)*125.0/2**24
 		freqdict={}
 		for index,freq in enumerate(freqs):
 			freqdict[freqregs[index]]=freqs[index]

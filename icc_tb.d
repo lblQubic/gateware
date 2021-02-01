@@ -7,3 +7,4 @@ submodules/common-hdl/chainreset.v
 submodules/common-hdl/dmtd.v
 submodules/common-hdl/async.v
 submodules/common-hdl/stable.v
+codec8b10b.sv

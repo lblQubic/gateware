@@ -236,7 +236,7 @@ always @(posedge ethclk) begin
 	si570start_p<=lbreg.stb_si5709abc;
 	si570lbstart<=si570start_p;
 end
-assign {smallchange,hs_div,n1,rfreq} = si570lbstart ? {si57078[16:0],si5709abc} : {1'b1,7'h0,3'h0,rfreqfdbk};
+assign {smallchange,hs_div,n1,rfreq} = si570lbstart ? {si57078[16:0],si5709abc} : {1'b1,hs_div_now,n1_now,rfreqfdbk};
 si570vc707 si570vc707(.clk(ethclk),.hs_div(hs_div),.n1(n1),.rfreq(rfreq),.start(si570lbstart | stb_rfreqfdbk),.smallchange(smallchange),.busy(si570updatebusy)
 ,.i2ccmd(si570i2ccmd),.i2cstart(si570i2cstart),.i2cbusy(i2cbusy)
 ,.hs_div_now(hs_div_now),.n1_now(n1_now),.rfreq_now(rfreq_now),.newnow(newnow)
@@ -477,6 +477,7 @@ gticc_gt_smasfp(.CPLLLOCKDETCLK(hw.vc707.sysclk)
 ,.QPLLCLK(1'b0),.QPLLREFCLK(1'b0)
 //,.CPLLREFCLKSEL(3'b1)
 ,.CPLLREFCLKSEL(3'h2)
+//,.CPLLREFCLKSEL(3'h5)
 ,.rxusrclk(rxusrclk_smasfp)
 ,.txusrclk(txusrclk_smasfp)
 ,.RXCHARISK(rxcharisk_smasfp)
@@ -595,26 +596,77 @@ localparam CLKOUT0_DIVIDE_F=CLK125 ? 6.625 : 2.625;
 BUFG pllclkfb(.I(pllclkfbout),.O(pllclkfbin));
 BUFG helpclkbufg(.I(helpclk_w),.O(helpclk));
 */
+wire dmtdreset_w=0;
 BUFG helpclkbufg(.I(user_clock),.O(helpclk));
+wire stb_phdiffavr;
 wire [31:0] phdiffavr;
+wire signed [31:0] dbafreq;
+wire signed [31:0] dbbfreq;
 wire [31:0] dbastable,dbbstable,dbphdiff,dbacc1;
 wire dbpvalid;
-wire stb_phdiffavr;
-dmtd #(.STABLE(10),.PHWIDTH(16))
+wire dbsclka;
+wire dbsclkb;
+wire [31:0] dbclkdmtdcnt;
+wire dbavalid;
+wire dbbvalid;
+wire [1:0] dbdmtdstate;
+wire [1:0] dbdmtdnext;
+wire [2:0] dbastate;
+wire [2:0] dbanext;
+wire dbaval;
+wire [2:0] dbbstate;
+wire [2:0] dbbnext;
+wire dbbval;
+wire [31:0] dbsclkacnt;
+wire [31:0] dbsclkbcnt;
+wire dbstable_sclka;
+wire dbstable_sclkb;
+dmtd
 dmtd (.clkdmtd(helpclk)
 ,.clka(rxusrclk_sfp)
 ,.clkb(rxusrclk_smasfp)
 ,.rst(dmtdreset_w)
-,.navr(12'h6)
+,.navr(lbreg.dmtdnavr)
 ,.phdiffavr(phdiffavr)
 ,.stb_phdiffavr(stb_phdiffavr)
-,.dbastable(dbastable)
-,.dbbstable(dbbstable)
-,.dbphdiff(dbphdiff)
-,.dbacc1(dbacc1)
-,.dbpvalid(dbpvalid)
+,.stableval(lbreg.stableval)
+,.dbastable(dbastable),.dbbstable(dbbstable),.dbphdiff(dbphdiff),.dbacc1(dbacc1),.dbpvalid(dbpvalid),.dbafreq(dbafreq),.dbbfreq(dbbfreq),.dbsclka(dbsclka),.dbsclkb(dbsclkb),.dbclkdmtdcnt(dbclkdmtdcnt),.dbavalid(dbavalid),.dbbvalid(dbbvalid),.dbstate(dbdmtdstate),.dbnext(dbdmtdnext),.dbsclkacnt(dbsclkacnt),.dbsclkbcnt(dbsclkbcnt),.dbstable_sclka(dbstable_sclka),.dbstable_sclkb(dbstable_sclkb)
 );
 assign lbreg.phdiffavr=phdiffavr;
+wire stb_phdiffavr_tx;
+wire [31:0] phdiffavr_tx;
+wire signed [31:0] dbtxafreq;
+wire signed [31:0] dbtxbfreq;
+wire [31:0] dbtxastable,dbtxbstable,dbtxphdiff,dbtxacc1;
+wire dbtxpvalid;
+wire dbtxsclka;
+wire dbtxsclkb;
+wire [31:0] dbtxclkdmtdcnt;
+wire dbtxavalid;
+wire dbtxbvalid;
+wire [1:0] dbtxdmtdstate;
+wire [1:0] dbtxdmtdnext;
+wire [2:0] dbtxastate;
+wire [2:0] dbtxanext;
+wire dbtxaval;
+wire [2:0] dbtxbstate;
+wire [2:0] dbtxbnext;
+wire dbtxbval;
+wire [31:0] dbtxsclkacnt;
+wire [31:0] dbtxsclkbcnt;
+wire dbtxstable_sclka;
+wire dbtxstable_sclkb;
+dmtd
+dmtdtx (.clkdmtd(helpclk)
+,.clka(txusrclk_sfp)
+,.clkb(txusrclk_smasfp)
+,.rst(dmtdreset_w)
+,.navr(lbreg.dmtdnavr)
+,.phdiffavr(phdiffavr_tx)
+,.stb_phdiffavr(stb_phdiffavr_tx)
+,.stableval(lbreg.stableval)
+,.dbastable(dbtxastable),.dbbstable(dbtxbstable),.dbphdiff(dbtxphdiff),.dbacc1(dbtxacc1),.dbpvalid(dbtxpvalid),.dbafreq(dbtxafreq),.dbbfreq(dbtxbfreq),.dbsclka(dbtxsclka),.dbsclkb(dbtxsclkb),.dbclkdmtdcnt(dbtxclkdmtdcnt),.dbavalid(dbtxavalid),.dbbvalid(dbtxbvalid),.dbstate(dbtxdmtdstate),.dbnext(dbtxdmtdnext),.dbsclkacnt(dbtxsclkacnt),.dbsclkbcnt(dbtxsclkbcnt),.dbstable_sclka(dbtxstable_sclka),.dbstable_sclkb(dbtxstable_sclkb)
+);
 
 
 wire sgmiieth_reset;
@@ -1229,7 +1281,7 @@ assign pll_reset=resetout[HELPPLL];
 assign donecriteria[HELPPLL]=pll_locked;
 assign readylength[HELPPLL*16+:16]=16'd30;assign resetlength[HELPPLL*16+:16]=16'd20;assign resettodonecheck[HELPPLL*16+:16]=16'd10;assign resettimeout[HELPPLL*32+:32]=32'h10000000;
 
-
+gitrevision gitrevision(lbreg.gitrevision);
 
 //`include "ilaadcauto.vh"
 `include "ilaethauto.vh"

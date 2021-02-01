@@ -11,4 +11,4 @@ if __name__=="__main__":
 	if (1):
 		freqdict=(qubichw.freqs())
 		for k,v in freqdict.items():
-			print('%8.5f %s'%(v,k))
+			print('%8.8f %s'%(v,k))
