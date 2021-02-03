@@ -91,7 +91,7 @@ always @(*) begin
 		REGA:begin next = (cnt>CNT) & ~i2cbusy ? REGB : REGA; end
 		REGB:begin next = (cnt>CNT) & ~i2cbusy ? REGC : REGB; end
 		REGC:begin next = (cnt>CNT) & ~i2cbusy ? smallchange_r ? SMALLUNFRZ : LARGEUNFRZ : REGC ; end
-		SMALLUNFRZ:begin next = (cnt>CNT) & ~i2cbusy ? (midstep_r) ?  START2  : IDLE : SMALLUNFRZ; end
+		SMALLUNFRZ:begin next = (cnt>CNT) & ~i2cbusy ? (midstep_r) ?  I2CSW : IDLE : SMALLUNFRZ; end
 		LARGEUNFRZ:begin next = (cnt>CNT) & ~i2cbusy ?  NEWFREQ : LARGEUNFRZ ; end
 		NEWFREQ:begin next = (cnt>CNT) & ~i2cbusy ?  IDLE : NEWFREQ; end
 		default: next = IDLE;

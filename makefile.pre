@@ -24,13 +24,13 @@ ilahelpauto.tcl: submodules/tools/ila.py $(ILAHELPJSON)
 ilahelpauto.vh: submodules/tools/ila.py $(ILAHELPJSON)
 	python submodules/tools/ila.py -f $(ILAHELPJSON) -v $@
 
-lbread.vh: submodules/tools/lbrw.py regmap.json
-	python3 submodules/tools/lbrw.py -m regmap.json -b submodules/common-hdl/localbus.json -r lbread.vh
-lbwrite.vh: submodules/tools/lbrw.py regmap.json
-	python3 submodules/tools/lbrw.py -m regmap.json -b submodules/common-hdl/localbus.json -w lbwrite.vh
-lbdefine.vh: submodules/tools/lbrw.py regmap.json
-	python3 submodules/tools/lbrw.py -m regmap.json -b submodules/common-hdl/localbus.json -d lbdefine.vh
-regmap.sv: submodules/tools/localbus.py regmap.json
+#lbread.vh: submodules/tools/lbrw.py regmap.json
+#	python3 submodules/tools/lbrw.py -m regmap.json -b submodules/common-hdl/localbus.json -r lbread.vh
+#lbwrite.vh: submodules/tools/lbrw.py regmap.json
+#	python3 submodules/tools/lbrw.py -m regmap.json -b submodules/common-hdl/localbus.json -w lbwrite.vh
+#lbdefine.vh: submodules/tools/lbrw.py regmap.json
+#	python3 submodules/tools/lbrw.py -m regmap.json -b submodules/common-hdl/localbus.json -d lbdefine.vh
+regmap.sv: submodules/tools/localbus.py lbreg.json
 	python3 submodules/tools/localbus.py -m regmap.json -b submodules/common-hdl/localbus.json -o regmap
 lbclean:
 	rm -rf lbread.vh lbwrite.vh

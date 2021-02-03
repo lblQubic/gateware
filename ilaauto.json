@@ -38,6 +38,9 @@
 		,"lbreg.helppllkpshift":16
 		,"freqdiff_x":32
 		,"stb_freqdiff_x":1
+		,"datatx_run":32
+		,"nack_run":4
+		,"stopbit_run":1
 	}
 	,"backup":{
 		"i2ccmd":37

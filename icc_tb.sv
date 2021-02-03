@@ -1,6 +1,6 @@
 //`include "constants.vams"
 //`include "xc7vx485tffg1761pkg.vh"
-`timescale 1ns / 10ps
+`timescale 1ns / 1ps
 module icc_tb(
 );
 
@@ -23,9 +23,13 @@ reg si5324_out_c=0;
 initial begin
     forever #(4) si5324_out_c=~si5324_out_c;
 end
+reg helpclk=0;
+initial begin
+    forever #(8.001) helpclk=~helpclk;
+end
 localparam SIM=1;
 reg sma_mgt_refclk=0;
-real DELAY=0.15;
+real DELAY=1;
 always @(*)
 	sma_mgt_refclk= #DELAY si5324_out_c;
 wire resetcntdelay=~|sysclkcnt[13:0];
@@ -34,6 +38,15 @@ always @(*) begin
 		DELAY=DELAY+0.0;
 end
 localparam DWIDTH=32;
+
+reg [2:0] si5324_out_cnt=0;
+always @(posedge si5324_out_c) begin
+    si5324_out_cnt<=si5324_out_cnt+1;
+end
+reg [2:0] smamgtclk_cnt=0;
+always @(posedge sma_mgt_refclk) begin
+    smamgtclk_cnt<=smamgtclk_cnt+1;
+end
 
 
 wire readyforreset_sfp;
@@ -58,7 +71,7 @@ assign {sma_mgt_rx_p,sma_mgt_rx_n}
 ={sma_mgt_tx_p,sma_mgt_tx_n};
 assign {sfp_rx_p,sfp_rx_n}
 ={sfp_tx_p,sfp_tx_n};
-
+/*
 gticc_gt #(.SIM_CPLLREFCLK_SEL(3'h5),.DWIDTH(DWIDTH))
 gticc_gt_sfp(.CPLLLOCKDETCLK(sysclk)
 ,.GTNORTHREFCLK0(1'b0),.GTNORTHREFCLK1(1'b0),.GTREFCLK0(1'b0),.GTREFCLK1(1'b0),.GTSOUTHREFCLK0(si5324_out_c),.GTSOUTHREFCLK1(1'b0)
@@ -87,4 +100,13 @@ always @(posedge rxusrclk_sfp) begin
 	rxdata_sfp_d<=rxdata_sfp;
 	rxdatadiff<=rxdata_sfp-rxdata_sfp_d;
 end
+*/
+wire dmtdreset_w=0;
+wire [31:0] dmtdnavr=3;
+wire [31:0] stableval=200;
+dmtd
+dmtd (.clkdmtd(helpclk),.rst(dmtdreset_w),.navr(dmtdnavr),.stableval(stableval)
+,.clka(si5324_out_cnt[0]),.clkb(smamgtclk_cnt[0])
+,.phdiffavr(phdiffavr),.stb_phdiffavr(stb_phdiffavr)
+);
 endmodule

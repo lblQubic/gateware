@@ -69,6 +69,8 @@ class c_qubichw():
 ,'freq_sgmiiclk':125
 ,'freq_sma_mgt_refclk':0
 ,'freq_si5324_out_c':250
+,'freq_si5324_out_div2':62.5
+,'freq_smamgtclk_div2':62.5
 ,'freq_pcie_clk_qo':0
 ,'freq_ethclk':125
 ,'freq_fmc1_llmk_dclkout_2':250

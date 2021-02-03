@@ -22,7 +22,7 @@ wire samp=(~|clkrefcnt);
 reg samp_d=0;
 always @(posedge clkref) begin
 	samp_d<=samp;
-	clkrefcnt<=samp ? (refcntsamp-1'b1) : clkrefcnt-1'b1;
+	clkrefcnt<=samp_d ? (refcntsamp-1'b1) : (clkrefcnt-1'b1);
 	freqref4<=refcntsamp;// 125-62_5 <<2;
 //	freqref4<=refcntsamp <<2;
 end

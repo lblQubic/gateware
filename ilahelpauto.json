@@ -46,6 +46,7 @@
 		,"dbtxdmtdstate":2
 		,"dbtxdmtdnext":2
 		,"lbreg.phdiffavr":32
+		,"lbreg.helpplloffset":32
 	}
 	,"dmtd":{
 		"clk":"helpclk"
