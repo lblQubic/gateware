@@ -555,12 +555,13 @@ wire dbsamphelp_d1_ref;
 wire dbsamphelp_d1_ref_v;
 wire dbsamphelp_v;
 wire stb_freqdiff;
-wire [31:0] freqdiff;
+wire [37:0] freqdiff;
 wire helpclk;
-assign lbreg.freqdiff=freqdiff;
+assign lbreg.freqdiff=freqdiff[31:0];
 //helppll45 helppll45err(.clkref(si5324_out_c),.clkhelp(helpclk),.refcntsamp(lbreg.refcntsamp),.freqdiff(freqdiff),.stb_freqdiff(stb_freqdiff)
 
-helppll45 helppll45err(.clkref(hw.fmc1.lmk_dclk10_m2c_to_fpga),.clkhelp(helpclk),.refcntsamp(lbreg.refcntsamp),.freqdiff(freqdiff),.stb_freqdiff(stb_freqdiff)
+helppll45 #(.DWIDTH(38))
+helppll45err(.clkref(hw.fmc1.lmk_dclk10_m2c_to_fpga),.clkhelp(helpclk),.refcntsamp(lbreg.refcntsamp),.freqdiff(freqdiff),.stb_freqdiff(stb_freqdiff)
 ,.dbclkhelpcnt_samp0(dbclkhelpcnt_samp0)
 ,.dbclkhelpcnt_samp1(dbclkhelpcnt_samp1)
 ,.dbfreqhelp(dbfreqhelp)
@@ -579,13 +580,15 @@ wire stb_helppllctrl;
 wire helpplliloopreset=0;
 wire [NSTEP-1:0] done_r3;
 wire helppllclose=~|{~i2cinitdone,uartreg.uarti2c,lbreg.lbi2c,~done_r3};
-wire [32:0] freqdiff_s;
-wire [32:0] freqdiff_sv;
-areset #(.WIDTH(33)) helppllxdomainethclk (.clk(ethclk),.areset({stb_freqdiff,freqdiff}),.sreset(freqdiff_s),.sreset_val(freqdiff_sv));
+wire [38:0] freqdiff_s;
+wire [38:0] freqdiff_sv;
+areset #(.WIDTH(39)) helppllxdomainethclk (.clk(ethclk),.areset({stb_freqdiff,freqdiff}),.sreset(freqdiff_s),.sreset_val(freqdiff_sv));
 assign rfreqfdbk=$signed(rfreq_now)+$signed(helppllctrl);
 assign stb_rfreqfdbk=stb_helppllctrl;
-wire stb_freqdiff_x=freqdiff_s[32];
-wire [31:0] freqdiff_x=freqdiff_sv[31:0];
+wire stb_freqdiff_x=freqdiff_s[39];
+wire [31:0] freqdiff_x;//=freqdiff_sv[37:0];
+sat #(.WIN(38),.WOUT(32))
+freqdiffsat(.din(freqdiff_sv[37:0]),.dout(freqdiff_x));
 piloop5 #(.KPKISHIFTMAX(16),.KISHIFTSTATIC(6),.GWIDTH(16),.DWIDTH(32),.INTEWIDTH(16))
 helppllpiloop(.clk(ethclk),.reset(helpplliloopreset),.vin(freqdiff_x),.vopen(0),.vclose(lbreg.helpplloffset),.kp(lbreg.helppllkp),.kpshift(lbreg.helppllkpshift),.ki(lbreg.helppllki),.kishift(lbreg.helppllkishift),.vout(helppllctrl),.closeloop(helppllclose),.stb_vin(stb_freqdiff_x),.stb_vout(stb_helppllctrl));
 
@@ -994,7 +997,7 @@ end
 
 
 assign hw.vc707.si5324_rst=lbreg.si5324_rst;
-localparam NFCNT = 19;
+localparam NFCNT = 21;
 wire [28*NFCNT-1:0] freq_cnt;
 assign {lbreg.freq_lb
 ,lbreg.freq_sgmiiclk
