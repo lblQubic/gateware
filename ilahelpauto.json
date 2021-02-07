@@ -47,14 +47,7 @@
 		,"dbtxdmtdnext":2
 		,"lbreg.phdiffavr":32
 		,"lbreg.helpplloffset":32
-	}
-	,"dmtd":{
-		"clk":"helpclk"
-		,"probes":{
-			"stb_phdiffavr":1
-			,"phdiffavr":32
-			,"dbastable":32
-			,"dbbstable":32
+		,"hw.vc707.si5324_int_alm":1
 		,"dbclkhelpcnt_samp0":32
 		,"dbclkhelpcnt_samp1":32
 		,"dbfreqhelp":32
@@ -68,6 +61,14 @@
 		,"dbsamphelp_d1_ref":1
 		,"dbsamphelp_d1_ref_v":1
 		,"dbsamphelp_v":1
+	}
+	,"dmtd":{
+		"clk":"helpclk"
+		,"probes":{
+			"stb_phdiffavr":1
+			,"phdiffavr":32
+			,"dbastable":32
+			,"dbbstable":32
 		,"stb_phdiffavr":1
 		,"phdiffavr":32
 		,"dbphdiff":32

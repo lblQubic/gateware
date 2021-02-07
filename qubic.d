@@ -79,6 +79,7 @@ submodules/common-hdl/mdiomasterinit.v
 submodules/common-hdl/piloop5.v
 submodules/common-hdl/reg_delay1.v
 submodules/common-hdl/sat.v
+submodules/common-hdl/sext.v
 submodules/common-hdl/seqinit.v
 submodules/common-hdl/uart.v
 submodules/common-hdl/uartlb.v

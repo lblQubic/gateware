@@ -69,6 +69,7 @@ localparam REGC=4'hb;
 localparam SMALLUNFRZ=4'hc;
 localparam LARGEUNFRZ=4'hd;
 localparam NEWFREQ=4'he;
+//localparam REG70=4'hf;
 localparam CNT=16'd5;
 reg [15:0] cnt=0;
 reg [3:0] state=IDLE;
@@ -86,6 +87,7 @@ always @(*) begin
 		SMALLFRZ:begin next = (cnt>CNT) & ~i2cbusy ? REG8 : SMALLFRZ ; end
 		LARGEFRZ:begin next = (cnt>CNT) & ~i2cbusy ? REG7 : LARGEFRZ ; end
 		REG7:begin next = (cnt>CNT) & ~i2cbusy ? REG8 : REG7; end
+//		REG70:begin next = (cnt>CNT) & ~i2cbusy ? REG7 : REG70; end
 		REG8:begin next = (cnt>CNT) & ~i2cbusy ? REG9 : REG8; end
 		REG9:begin next = (cnt>CNT) & ~i2cbusy ? REGA : REG9; end
 		REGA:begin next = (cnt>CNT) & ~i2cbusy ? REGB : REGA; end
@@ -130,6 +132,11 @@ always @(posedge clk) begin
 			i2cstart_r<=~|cnt;
 			i2ccmd_r<={1'b1,4'h3,7'h5d,1'h0,8'd137,8'h10,8'h0};
 		end
+/*		REG70:begin
+			i2cstart_r<=~|cnt;
+			i2ccmd_r<={1'b1,4'h3,7'h5d,1'h0,8'h7,hs_div_new[2:0],n1_new[6:2],8'h0};
+		end
+		*/
 		REG7:begin
 			i2cstart_r<=~|cnt;
 			i2ccmd_r<={1'b1,4'h3,7'h5d,1'h0,8'h7,hs_div_new[2:0],n1_new[6:2],8'h0};

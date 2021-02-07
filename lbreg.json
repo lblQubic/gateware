@@ -184,4 +184,9 @@
 ,"phdiffdiv":{"access": "r", "addr_width": 0, "data_width": 32, "sign": "signed", "init": 0}
 ,"phsfprx":{"access": "r", "addr_width": 0, "data_width": 32, "sign": "signed", "init": 0}
 ,"phsmasfprx":{"access": "r", "addr_width": 0, "data_width": 32, "sign": "signed", "init": 0}
+,"phsrc":{"access": "rw", "addr_width": 0, "data_width": 3, "sign": "unsigned", "init": 1}
+,"recclk":{"access": "rw", "addr_width": 0, "data_width": 1, "sign": "unsigned", "init": 0}
+,"loopreset":{"access": "rw", "addr_width": 0, "data_width": 1, "sign": "unsigned", "init": 1}
+,"freqa":{"access": "r", "addr_width": 0, "data_width": 32, "sign": "signed", "init": 0}
+,"freqb":{"access": "r", "addr_width": 0, "data_width": 32, "sign": "signed", "init": 0}
 }
