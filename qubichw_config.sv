@@ -633,6 +633,7 @@ wire dmtdreset_w=|{lbreg.stb_dmtdnavr,lbreg.stb_stableval};
 BUFG helpclkbufg(.I(user_clock),.O(helpclk));
 wire stb_phdiffavr;
 wire [31:0] phdiffavr;
+wire [31:0] phdiffmidavr;
 wire signed [31:0] dbafreq;
 wire signed [31:0] dbbfreq;
 wire [31:0] dbastable,dbbstable,dbphdiff,dbacc1;
@@ -663,16 +664,37 @@ assign phsrc=	lbreg.phsrc==0 ? fmc1dclk10cnt[0]:
 	lbreg.phsrc==5 ? rxusrclk_sfp :
 	lbreg.phsrc==6 ? txusrclk_smasfp :
 	lbreg.phsrc==7 ? rxusrclk_smasfp : 0;
+wire [31:0] freqa;
+wire [31:0] freqb;
 dmtd
 dmtd (.clkdmtd(helpclk),.rst(dmtdreset_w),.navr(lbreg.dmtdnavr),.stableval(lbreg.stableval)
 ,.clka(fmc1dclk10cnt[0]),.clkb(phsrc)
 //,.clka(si5324_out_cnt[0]),.clkb(smamgtclk_cnt[0])
 //,.clka(rxusrclk_sfp),.clkb(rxusrclk_smasfp)
 ,.phdiffavr(phdiffavr),.stb_phdiffavr(stb_phdiffavr)
-,.freqa(lbreg.freqa),.freqb(lbreg.freqb)
+,.phdiffmidavr(phdiffmidavr)
+,.freqa(freqa),.freqb(freqb)
 ,.dbastable(dbastable),.dbbstable(dbbstable),.dbphdiff(dbphdiff),.dbacc1(dbacc1),.dbpvalid(dbpvalid),.dbafreq(dbafreq),.dbbfreq(dbbfreq),.dbsclka(dbsclka),.dbsclkb(dbsclkb),.dbclkdmtdcnt(dbclkdmtdcnt),.dbavalid(dbavalid),.dbbvalid(dbbvalid),.dbstate(dbdmtdstate),.dbnext(dbdmtdnext),.dbsclkacnt(dbsclkacnt),.dbsclkbcnt(dbsclkbcnt),.dbstable_sclka(dbstable_sclka),.dbstable_sclkb(dbstable_sclkb)
 );
-assign lbreg.phdiffavr=phdiffavr;
+wire [32*4+1-1:0] dmtd_x;
+wire [32*4+1-1:0] dmtd_xval;
+reg [32*4+1-1:0] dmtd_xval_r=0;
+wire [31:0] freqa_x;
+wire [31:0] freqb_x;
+wire [31:0] phdiffavr_x;
+wire [31:0] phdiffmidavr_x;
+areset #(.WIDTH(32*4+1))dmtdhelpclktoethclk(.clk(ethclk),.areset({stb_phdiffavr,phdiffavr,phdiffmidavr,freqa,freqb}),.sreset(dmtd_x),.sreset_val(dmtd_xval));
+always @(posedge ethclk) begin
+	if (dmtd_x[128]) begin
+		dmtd_xval_r<=dmtd_xval;
+	end
+end
+wire stbdmtd;
+assign {stbdmtd,lbreg.phdiffavr,lbreg.phdiffmidavr,lbreg.freqa,lbreg.freqb}=dmtd_xval_r;
+//assign lbreg.freqa=freqa_x;
+//assign lbreg.freqb=freqb_x;
+//assign lbreg.phdiffavr=phdiffavr_x;
+//assign lbreg.phdiffmidavr=phdiffmidavr_x;
 wire stb_phdiffavr_tx;
 wire [31:0] phdiffavr_tx;
 dmtd

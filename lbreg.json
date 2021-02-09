@@ -164,6 +164,7 @@
 ,"reset_sfp":{"access": "rw", "addr_width": 0, "data_width": 1, "sign": "unsigned", "init": 1}
 ,"reset_smasfp":{"access": "rw", "addr_width": 0, "data_width": 1, "sign": "unsigned", "init": 1}
 ,"phdiffavr":{"access": "r", "addr_width": 0, "data_width": 32, "sign": "signed", "init": 0}
+,"phdiffmidavr":{"access": "r", "addr_width": 0, "data_width": 32, "sign": "signed", "init": 0}
 ,"freqdiff":{"access": "r", "addr_width": 0, "data_width": 32, "sign": "signed", "init": 0}
 ,"refcntsamp":{"access": "rw", "addr_width": 0, "data_width": 32, "sign": "signed", "init": 524288}
 ,"si57078":{"access": "rw", "addr_width": 0, "data_width": 17, "sign": "unsigned", "init": 0}
@@ -173,7 +174,7 @@
 ,"helppllkpshift":{"access": "rw", "addr_width": 0, "data_width": 16, "sign": "unsigned", "init": 4}
 ,"helppllki":{"access": "rw", "addr_width": 0, "data_width": 16, "sign": "unsigned", "init": 0}
 ,"helppllkishift":{"access": "rw", "addr_width": 0, "data_width": 16, "sign": "unsigned", "init": 5}
-,"stableval":{"access": "rw", "addr_width": 0, "data_width": 32, "sign": "unsigned", "init": 20000}
+,"stableval":{"access": "rw", "addr_width": 0, "data_width": 32, "sign": "unsigned", "init": 150000}
 ,"dmtdnavr":{"access": "rw", "addr_width": 0, "data_width": 32, "sign": "unsigned", "init": 7}
 ,"gitrevision":{"access": "r", "addr_width": 0, "data_width": 32, "sign": "unsigned", "init": 0}
 ,"phdiffavr_tx":{"access": "r", "addr_width": 0, "data_width": 32, "sign": "signed", "init": 0}

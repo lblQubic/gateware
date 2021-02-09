@@ -41,6 +41,8 @@
 		,"datatx_run":32
 		,"nack_run":4
 		,"stopbit_run":1
+		,"lbreg.freqa":32
+		,"lbreg.freqb":32
 	}
 	,"backup":{
 		"i2ccmd":37
