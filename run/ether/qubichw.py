@@ -141,6 +141,7 @@ class c_qubichw():
 			for fmc in [self.fmc120_1,self.fmc120_2]:
 				self.i2cswitch(fmc.i2cid)
 				print(fmc.i2cid,'ad7291',fmc.ad7291check())
+		print(time.time()-t0)
 	def fmcreset(self):
 		for fmc in [self.fmc120_1,self.fmc120_2]:
 			self.i2cswitch(fmc.i2cid)
