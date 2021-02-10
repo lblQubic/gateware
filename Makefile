@@ -8,19 +8,22 @@ SIM_CONSTR = $(shell grep .xdc $(TGT)_tb.d)
 TAR_SOURCE = $(shell cat tar.d)
 SIM = ISIM
 #SIM = IVERILOG
-COMMITNUM = $(shell git log --pretty=oneline --abbrev-commit |head -1 | awk '{print $$1}')
-COMMITMSG = $(shell git log --pretty=oneline --abbrev-commit |head -1 | awk '{print $$2}')
+COMMITNUM = $(shell git log --pretty=oneline --abbrev-commit --abbrev=8|head -1 | awk '{print $$1}')
+COMMITMSG = $(shell git log --pretty=oneline --abbrev-commit --abbrev=8|head -1 | awk '{print $$2}')
 DATETIME = $(shell date  +'%Y%m%d%H%M%S')
 AUTOCOMMITMSG=Makefileautomatedcommit
 
 all: $(TGT).bit
 
+.PHONY: gitrevisionclean simclean bitclean clean lbclean ilaclean simclean_jesd gitcommit
+
 tar: $(TAR_SOURCE) $(SYNTH_SOURCE) $(SIM_SOURCE) $(SYNTH_CONSTR) $(SIM_CONSTR)
 	tar -cvzf $(TGT)_$(DATETIME)_$(COMMITNUM).tar.gz $^
 
-gitcommit: $(filter-out ./config_romx.v, $(SYNTH_SOURCE))
+gitcommit: $(filter-out ./gitrevision.v, $(SYNTH_SOURCE))
+	echo $^
 	python submodules/tools/gitauto.py -action autocommit
-gitlist: $(filter-out ./config_romx.v, $(SYNTH_SOURCE))
+gitlist:
 	python submodules/tools/gitauto.py -action list
 
 #ifeq ($(COMMITMSG),$(AUTOCOMMITMSG))
@@ -34,25 +37,33 @@ gitlist: $(filter-out ./config_romx.v, $(SYNTH_SOURCE))
 #	-git commit -a -m $(AUTOCOMMITMSG)
 #endif
 
-fname: FNAME = $(TGT)_$(DATETIME)_$(COMMITNUM)
-fname:
-	echo $(FNAME)
-	sleep 2
-	echo $(FNAME)
+#fname: FNAME = $(TGT)_$(DATETIME)_$(COMMITNUM)
+#fname:
+#	echo $(FNAME)
+#	sleep 2
+#	echo $(FNAME)
+#
+#test:
+#	echo $(FNAME)
+#
+gitrevision.v: gitcommit
+	echo $(COMMITNUM)
+	python submodules/tools/gitauto.py -action revisionverilog
+	cat gitrevision.v
 
-test:
-	echo $(FNAME)
-
-$(TGT).bit: FNAME := $(TGT)_$(DATETIME)_$(COMMITNUM)
-$(TGT).bit: $(TGT).tcl $(SYNTH_SOURCE) bitclean gitcommit fname
+#$(TGT).bit: FNAME := $(TGT)_$(DATETIME)_$(COMMITNUM)
+$(TGT).bit: $(TGT).tcl $(SYNTH_SOURCE) $(SYNTH_CONSTR) bitclean
+	$(eval FNAME:=$(TGT)_$(DATETIME)_$(COMMITNUM))
+	echo $(COMMITNUM)
 	echo $(FNAME)
 	time vivado -mode batch -source $<
+	echo $(FNAME)
 	cp -f vivado_project/$(TGT).runs/impl_1/$(TGT).bit	./bits/$(FNAME).bit
 	ln -sf ./bits/$(FNAME).bit $(TGT).bit
 	cp -f vivado_project/$(TGT).runs/impl_1/$(TGT).ltx ./bits/$(FNAME).ltx
 	ln -sf ./bits/$(FNAME).ltx $(TGT).ltx
-	printf "\a\a\a"
 	echo $(FNAME)
+	printf "\a\a\a"
 #	if ( [ -a vivado_project/$(TGT).runs/impl_1/$(TGT).bit ] ) then
 #		echo "exist"
 #	else
@@ -120,9 +131,8 @@ prog: submodules/tools/prog.tcl
 
 -include makefile.pre
 
-.PHONY: configromxclean simclean bitclean clean lbclean ilaclean simclean_jesd
-configromxclean:
-	rm -f config_romx.v
+gitrevisionclean:
+	rm -f gitrevision.v
 simclean:
 	rm -f $(TGT).vcd $(TGT)_tb $(TGT)_beh.prj $(TGT)_itb $(TGT)_vcd.cmd isim.wdb
 	rm -rf isim

@@ -24,14 +24,16 @@ ilahelpauto.tcl: submodules/tools/ila.py $(ILAHELPJSON)
 ilahelpauto.vh: submodules/tools/ila.py $(ILAHELPJSON)
 	python submodules/tools/ila.py -f $(ILAHELPJSON) -v $@
 
-lbread.vh: submodules/tools/lbrw.py regmap.json
-	python3 submodules/tools/lbrw.py -m regmap.json -b submodules/common-hdl/localbus.json -r lbread.vh
-lbwrite.vh: submodules/tools/lbrw.py regmap.json
-	python3 submodules/tools/lbrw.py -m regmap.json -b submodules/common-hdl/localbus.json -w lbwrite.vh
-lbdefine.vh: submodules/tools/lbrw.py regmap.json
-	python3 submodules/tools/lbrw.py -m regmap.json -b submodules/common-hdl/localbus.json -d lbdefine.vh
-regmap.sv: submodules/tools/localbus.py regmap.json
-	python3 submodules/tools/localbus.py -m regmap.json -b submodules/common-hdl/localbus.json -o regmap
+#lbread.vh: submodules/tools/lbrw.py regmap.json
+#	python3 submodules/tools/lbrw.py -m regmap.json -b submodules/common-hdl/localbus.json -r lbread.vh
+#lbwrite.vh: submodules/tools/lbrw.py regmap.json
+#	python3 submodules/tools/lbrw.py -m regmap.json -b submodules/common-hdl/localbus.json -w lbwrite.vh
+#lbdefine.vh: submodules/tools/lbrw.py regmap.json
+#	python3 submodules/tools/lbrw.py -m regmap.json -b submodules/common-hdl/localbus.json -d lbdefine.vh
+regmap.json: submodules/tools/localbus.py lbreg.json
+	python3 submodules/tools/localbus.py -m lbreg.json -b submodules/common-hdl/localbus.json -o regmap
+regmap.sv: submodules/tools/localbus.py lbreg.json
+	python3 submodules/tools/localbus.py -m lbreg.json -b submodules/common-hdl/localbus.json -o regmap
 lbclean:
 	rm -rf lbread.vh lbwrite.vh
 
@@ -42,10 +44,12 @@ uartwrite.vh: submodules/tools/lbrw.py uartregmap.json
 uartdefine.vh: submodules/tools/lbrw.py uartregmap.json
 	python3 submodules/tools/lbrw.py -m uartregmap.json -b submodules/common-hdl/localbus.json -d uartdefine.vh
 
-iccgt.vh:
-	vivado -mode batch -source iccgt_4G_125M_100M.tcl
-	python gtextract.py tmpproj/tmpproj.srcs/sources_1/ip/gtwizard_0/gtwizard_0_gt.v > iccgt.vh
+#iccgt.vh: iccgt_4G_125M_100M.tcl tmpprojclean
+iccgt.vh: iccgt_1G_125M_50M.tcl
 	rm -rf tmpproj
+	vivado -mode batch -source $<
+	python gtextract.py tmpproj/tmpproj.srcs/sources_1/ip/gtwizard_0/gtwizard_0_gt.v > iccgt.vh
+#	rm -rf tmpproj
 
 xc7vx485tffg1761pkg.xdc:
 	python xdcgen.py submodules/fpga-family/7series/xc7vx485tffg1761pkg/xc7vx485tffg1761pkg.txt
@@ -57,3 +61,5 @@ uartclean:
 	rm -rf uartread.vh uartwrite.vh
 ilaclean:
 	rm -rf ilaauto.tcl ilaauto.vh
+tmpprojclean:
+	rm -rf tmpproj

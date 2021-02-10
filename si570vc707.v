@@ -51,7 +51,7 @@ always @(posedge clk) begin
 	smallmin<=rfreq_now-(rfreq_now>>9);
 end
 wire smallppm= &deltarfreq[38:29] | (~|deltarfreq[38:29]);
-wire midstep=(smallchange_r & ~smallppm & (~|n1_new) & (~|hs_div_new)) & (&newnow) ;
+wire midstep=smallchange_r & ~smallppm  & (&newnow) ;
 reg midstep_r=0;
 
 localparam IDLE=4'h0;
@@ -69,6 +69,7 @@ localparam REGC=4'hb;
 localparam SMALLUNFRZ=4'hc;
 localparam LARGEUNFRZ=4'hd;
 localparam NEWFREQ=4'he;
+//localparam REG70=4'hf;
 localparam CNT=16'd5;
 reg [15:0] cnt=0;
 reg [3:0] state=IDLE;
@@ -83,15 +84,16 @@ always @(*) begin
 		START:begin next = ~i2cbusy ? I2CSW : START; end
 		I2CSW:begin next = (cnt>CNT) & ~i2cbusy ? START2 :I2CSW; end
 		START2:begin next = ~i2cbusy ? smallchange_r ? SMALLFRZ : LARGEFRZ : START2; end
-		SMALLFRZ:begin next = (cnt>CNT) & ~i2cbusy ? REG9 : SMALLFRZ ; end
+		SMALLFRZ:begin next = (cnt>CNT) & ~i2cbusy ? REG8 : SMALLFRZ ; end
 		LARGEFRZ:begin next = (cnt>CNT) & ~i2cbusy ? REG7 : LARGEFRZ ; end
 		REG7:begin next = (cnt>CNT) & ~i2cbusy ? REG8 : REG7; end
+//		REG70:begin next = (cnt>CNT) & ~i2cbusy ? REG7 : REG70; end
 		REG8:begin next = (cnt>CNT) & ~i2cbusy ? REG9 : REG8; end
 		REG9:begin next = (cnt>CNT) & ~i2cbusy ? REGA : REG9; end
 		REGA:begin next = (cnt>CNT) & ~i2cbusy ? REGB : REGA; end
 		REGB:begin next = (cnt>CNT) & ~i2cbusy ? REGC : REGB; end
 		REGC:begin next = (cnt>CNT) & ~i2cbusy ? smallchange_r ? SMALLUNFRZ : LARGEUNFRZ : REGC ; end
-		SMALLUNFRZ:begin next = (cnt>CNT) & ~i2cbusy ? (midstep_r) ?  START2  : IDLE : SMALLUNFRZ; end
+		SMALLUNFRZ:begin next = (cnt>CNT) & ~i2cbusy ? (midstep_r) ?  I2CSW : IDLE : SMALLUNFRZ; end
 		LARGEUNFRZ:begin next = (cnt>CNT) & ~i2cbusy ?  NEWFREQ : LARGEUNFRZ ; end
 		NEWFREQ:begin next = (cnt>CNT) & ~i2cbusy ?  IDLE : NEWFREQ; end
 		default: next = IDLE;
@@ -130,6 +132,11 @@ always @(posedge clk) begin
 			i2cstart_r<=~|cnt;
 			i2ccmd_r<={1'b1,4'h3,7'h5d,1'h0,8'd137,8'h10,8'h0};
 		end
+/*		REG70:begin
+			i2cstart_r<=~|cnt;
+			i2ccmd_r<={1'b1,4'h3,7'h5d,1'h0,8'h7,hs_div_new[2:0],n1_new[6:2],8'h0};
+		end
+		*/
 		REG7:begin
 			i2cstart_r<=~|cnt;
 			i2ccmd_r<={1'b1,4'h3,7'h5d,1'h0,8'h7,hs_div_new[2:0],n1_new[6:2],8'h0};

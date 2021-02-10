@@ -6,6 +6,8 @@ def fxtal(regs,fdefault=156.25e6):
 		print({a:format(d,'02x') for a,d in regs.items()})
 		print('fxtal should be 114.285',fxtal/1e6)
 		exit('si570 fxtal calculation wrong')
+	else:
+		print('fxtal',fxtal)
 	return fxtal
 def RFREQ(regs):
 	return ((regs[8]&0x3f)<<32)+((regs[9]&0xff)<<24)+((regs[10]&0xff)<<16)+((regs[11]&0xff)<<8)+((regs[12]&0xff)<<0)
@@ -40,16 +42,16 @@ def list2dict(l):
 	return d
 
 hsdivdict={0:4,1:5,2:6,3:7,4:None,5:9,6:None,7:11}
-reset=[(135,0x01),]
+reset=[(135,0x81),]
 default=[(7,0x1)
-,(8,0xc2)
-,(9,0xbc)
-,(10,0x1)
-,(11,0x8e)
-,(12,0x2a)
-,(13,0x7)
-,(14,0xc2)
-,(15,0xc0)
+,(8,0xc2) # 194
+,(9,0xbc) # 188
+,(10,0x1) # 1
+,(11,0x8e) # 142
+,(12,0x2a) # 42
+,(13,0x7) # 7
+,(14,0xc2) # 194
+,(15,0xc0) # 192
 ,(16,0x0)
 ,(17,0x0)
 ,(18,0x0)
