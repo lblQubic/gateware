@@ -21,18 +21,7 @@ module gticc_gt #
 ,input QPLLREFCLK
 ,input CPLLLOCKDETCLK
 ,input [2:0] CPLLREFCLKSEL
-,input RXUSERRDY
-,input TXUSERRDY
-,output [DWIDTH-1:0] RXDATA
-,input [DWIDTH-1:0] TXDATA
-,input [DBYTE-1:0] TXCHARISK
-,output [DBYTE-1:0] RXCHARISK
-,output [DBYTE-1:0] RXDISPERR
-,output [DBYTE-1:0] RXNOTINTABLE
-,output txusrclk
-,output rxusrclk
-,input reset
-,output resetdone
+,igticc.gt gticc
 ,output RXOUTCLKFABRIC
 ,output TXOUTCLKFABRIC
 ,output RXOUTCLKPCS
@@ -40,6 +29,26 @@ module gticc_gt #
 ,output dblocked
 ,output dbrxcdrlock
 );
+
+wire RXUSERRDY=gticc.rxuserrdy;
+wire TXUSERRDY=gticc.txuserrdy;
+wire [DBYTE-1:0] TXCHARISK=gticc.txcharisk;
+wire [DWIDTH-1:0] TXDATA=gticc.txdata;
+wire reset=gticc.reset;
+wire [DBYTE-1:0] RXCHARISK;
+assign gticc.rxcharisk=RXCHARISK;
+wire [DBYTE-1:0] RXDISPERR;
+assign gticc.rxdisperr=RXDISPERR;
+wire [DBYTE-1:0] RXNOTINTABLE;
+assign gticc.rxnotintable=RXNOTINTABLE;
+wire [DWIDTH-1:0] RXDATA;
+assign gticc.rxdata=RXDATA;
+wire rxusrclk;
+assign gticc.rxusrclk=rxusrclk;
+wire txusrclk;
+assign gticc.txusrclk=txusrclk;
+wire resetdone;
+assign gticc.resetdone=resetdone;
 
 wire txrxreset1;
 wire txrxreset0;

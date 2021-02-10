@@ -55,12 +55,14 @@ end
 reg [DWIDTH+2:0] freqhelp5_ref=0;
 areset aresetsampd1(.clk(clkref),.areset(samphelp_d3),.sreset(samphelp_d1_ref),.sreset_val(dbsamphelp_d1_ref_v));
 reg signed [DWIDTH-1:0] freqdiff_r=0;
+reg signed [DWIDTH-1:0] dbfreqdiff_r=0;
 reg stb_freqdiff_r=0;
 reg stb_freqdiff_r2=0;
 always @(posedge clkref) begin
 	if (samphelp_d1_ref)
 		freqhelp5_ref<=freqhelp5;
 	freqdiff_r<=$signed(freqhelp5_ref)-$signed(freqref4);
+	dbfreqdiff_r<=$signed(freqhelp5_ref)-$signed(freqref4);
 	stb_freqdiff_r<=samphelp_d1_ref;
 	stb_freqdiff_r2<=stb_freqdiff_r;
 end
@@ -73,7 +75,7 @@ assign dbclkhelpcnt_samp1=clkhelpcnt_samp1;
 assign dbfreqhelp=freqhelp;
 assign dbfreqhelp5=freqhelp5;
 assign dbfreqref4=freqref4;
-assign dbfreqdiff=freqdiff;
+assign dbfreqdiff=dbfreqdiff_r>>>1;
 assign dbsamp=samp_d;
 assign dbsamphelp_d1_ref=samphelp_d1_ref;
 endmodule

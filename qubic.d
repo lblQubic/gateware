@@ -88,3 +88,4 @@ submodules/common-hdl/uarttx.v
 submodules/common-hdl/via.v
 submodules/common-hdl/viapairs.v
 gitrevision.v
+iicc.sv
