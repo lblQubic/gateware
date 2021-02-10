@@ -59,15 +59,15 @@ class c_uartlb():
 		self.ser.reset_input_buffer()
 if __name__=="__main__":
 	import random
-	ser=c_uartlb('/dev/ttyUSB1',9600,0)
+	ser=c_uartlb('/dev/ttyUSB0',9600,0)
 	ser.resetlb()
 	r0=int(random.random()*(2**32-1))
 	r0=0xdeadbeef
-	ser.write(addr=0,data=r0)
-	ser.write(addr=4,data=1)
-	print(hex(r0))
+	ser.write(addr=3,data=r0)
+#	ser.write(addr=4,data=1)
+	print('rand',hex(r0))
 	(c,a,v)=ser.read(addr=1)
-	print(hex(int(v)))
+	print('read',hex(int(v)))
 #	r2=int(random.random()*(2**32-1))
 #	ser.write(addr=2,data=r2)
 #	r3=int(random.random()*(2**32-1))
