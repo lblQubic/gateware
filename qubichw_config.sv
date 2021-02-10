@@ -963,7 +963,8 @@ assign hw.fmc2.fpga_sync_out_to_trigmux=sclk;//dclkcnt[6];
 OBUFDS obufds_user_sma_clk(.I(hw.fmc1.lmk_dclk10_m2c_to_fpga),.O(hw.vc707.user_sma_clock_p),.OB(hw.vc707.user_sma_clock_n));
 //OBUFDS obufds_user_sma_gpio(.I(hw.vc707.iic.scl/*sclk*/),.O(hw.vc707.user_sma_gpio_p),.OB(hw.vc707.user_sma_gpio_n));
 
-assign hw.vc707.rec_clock= &i2cinitdone & lbreg.recclk ? hw.fmc2.lmk_dclk10_m2c_to_fpga : 0;
+//assign hw.vc707.rec_clock= &i2cinitdone & lbreg.recclk ? hw.fmc2.lmk_dclk10_m2c_to_fpga : 0;
+assign hw.vc707.rec_clock= phrefclk;//&i2cinitdone & lbreg.recclk ? hw.fmc2.lmk_dclk10_m2c_to_fpga : 0;
 //assign hw.vc707.rec_clock= hw.fmc2.lmk_dclk10_m2c_to_fpga;
 //OBUFDS obufds_rec_clk(.I(1'b0),.O(hw.vc707.rec_clock_c_p),.OB(hw.vc707.rec_clock_c_n));
 reg [3:0] fmc1dclk10cnt=0;
@@ -978,11 +979,15 @@ end
 always @(posedge sgmiiclk) begin
 	sgmiiclkcnt<=sgmiiclkcnt+1;
 end
-assign hw.vc707.user_sma_gpio_p=phrefclkdiv2;
+assign hw.vc707.user_sma_gpio_p=phrefclk;
 assign hw.vc707.user_sma_gpio_n= hw.vc707.gpio_dip_sw0 ? phrefclkdiv2 : si5324_out_cnt[0];
 assign hw.vc707.gpio_led_0=hw.vc707.gpio_dip_sw0;
 
 assign hw.vc707.si5324_rst=lbreg.si5324_rst;
+
+assign phrefclk=sgmiiclk;//hw.fmc1.lmk_dclk10_m2c_to_fpga;
+assign phrefclkdiv2=sgmiiclkcnt[0];//fmc1dclk10cnt[0];
+
 localparam NFCNT = 21;
 wire [28*NFCNT-1:0] freq_cnt;
 assign {lbreg.freq_lb
@@ -1232,7 +1237,7 @@ wire [NSTEP-1:0] dbresetout;
 wire [NSTEP-1:0] donecriteria;
 reg [NSTEP-1:0] donecriteria_r=0;
 wire stbdone;
-wire resetin=udphwreset|uarthwreset|poweronreset|(stbdone & lbreg.loopreset & ((~&done)| (~|eepromrd) | (&eepromrd)));
+wire resetin=udphwreset|uarthwreset|poweronreset|(stbdone & (lbreg.loopreset & hw.vc707.gpio_dip_sw1) & ((~&done)| (~|eepromrd) | (&eepromrd)));
 reg [31:0] resetcnt=0;
 always @(posedge hw.vc707.sysclk) begin
 	if (resetin) begin

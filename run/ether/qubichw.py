@@ -257,7 +257,7 @@ class c_qubichw():
 		for index,freq in enumerate(freqs):
 			freqdict[freqregs[index]]=freqs[index]
 		return freqdict
-	def si5324check(self,reglist):
+	def si5324check(self,reglist,printall=False):
 		print('si5324init')
 		import si5324
 		self.si5324enable()
@@ -266,6 +266,10 @@ class c_qubichw():
 			rdbk=self.vc707.si5324read(addr)
 			if rdbk!=data:
 				print('si5324 init addr',addr,hex(addr), 'should be ', data, hex(data), 'rdbk',rdbk, hex(rdbk))
+			else:
+				if printall:
+					print('si5324 init addr',addr,hex(addr), 'match, val', data, hex(data))
+
 		time.sleep(1)
 		print(' si5324 init done')
 	def si5324init(self,reglist):
