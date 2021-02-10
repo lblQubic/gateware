@@ -985,8 +985,8 @@ assign hw.vc707.gpio_led_0=hw.vc707.gpio_dip_sw0;
 
 assign hw.vc707.si5324_rst=lbreg.si5324_rst;
 
-assign phrefclk=sgmiiclk;//hw.fmc1.lmk_dclk10_m2c_to_fpga;
-assign phrefclkdiv2=sgmiiclkcnt[0];//fmc1dclk10cnt[0];
+//assign phrefclk=sgmiiclk;//hw.fmc1.lmk_dclk10_m2c_to_fpga;
+//assign phrefclkdiv2=sgmiiclkcnt[0];//fmc1dclk10cnt[0];
 
 localparam NFCNT = 21;
 wire [28*NFCNT-1:0] freq_cnt;
