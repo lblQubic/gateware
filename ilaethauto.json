@@ -66,6 +66,9 @@
 		,"udplb.wvalid":1
 		,"updatesi570":1
 		,"updatesi570":1
+		,"dbverr":32
+		,"freqerr_x":32
+		,"stb_freqerr_x":1
 	}
 	,"backup":{
 		"i2ccmd":37

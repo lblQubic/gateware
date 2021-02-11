@@ -49,7 +49,7 @@ always @(posedge clkhelp) begin
 		clkhelpcnt_samp1<=clkhelpcnt_samp0;
 	end
 	freqhelp<=clkhelpcnt_samp0-clkhelpcnt_samp1;
-	freqhelp5<=freqhelp<<1;// 125-62_5 (freqhelp<<2)+freqhelp;
+	freqhelp5<=freqhelp;//<<1;// 125-62_5 (freqhelp<<2)+freqhelp;
 //	freqhelp5<=(freqhelp<<2)+freqhelp;
 end
 reg [DWIDTH+2:0] freqhelp5_ref=0;
@@ -66,7 +66,7 @@ always @(posedge clkref) begin
 	stb_freqdiff_r<=samphelp_d1_ref;
 	stb_freqdiff_r2<=stb_freqdiff_r;
 end
-assign freqdiff=freqdiff_r>>>1;// 125-62_5 >>>2;
+assign freqdiff=freqdiff_r;//>>>1;// 125-62_5 >>>2;
 //assign freqdiff=freqdiff_r>>>2;
 assign stb_freqdiff=stb_freqdiff_r2;
 
@@ -75,7 +75,7 @@ assign dbclkhelpcnt_samp1=clkhelpcnt_samp1;
 assign dbfreqhelp=freqhelp;
 assign dbfreqhelp5=freqhelp5;
 assign dbfreqref4=freqref4;
-assign dbfreqdiff=dbfreqdiff_r>>>1;
+assign dbfreqdiff=dbfreqdiff_r;//>>>1;
 assign dbsamp=samp_d;
 assign dbsamphelp_d1_ref=samphelp_d1_ref;
 endmodule

@@ -26,8 +26,9 @@ reg [6:0] n1_r=0;
 reg [37:0] rfreq_r=0;
 reg [37:0] rfreq_new=0;
 reg [37:0] rfreq_w=0;
-reg [37:0] smallmax=0;
-reg [37:0] smallmin=0;
+localparam RFREQINIT=38'h2bc018e2a;
+reg [37:0] smallmax=RFREQINIT+(RFREQINIT>>9);
+reg [37:0] smallmin=RFREQINIT-(RFREQINIT>>9);
 assign dbrfreq_w=rfreq_w;
 assign dbsmallmax=smallmax;
 assign dbsmallmin=smallmin;
@@ -47,8 +48,8 @@ always @(posedge clk) begin
 		hs_div_r<=hs_div;
 		smallchange_r<=smallchange;
 	end
-	smallmax<=rfreq_now+(rfreq_now>>9);
-	smallmin<=rfreq_now-(rfreq_now>>9);
+	//smallmax<=rfreq_now+(rfreq_now>>9);
+	//smallmin<=rfreq_now-(rfreq_now>>9);
 end
 wire smallppm= &deltarfreq[38:29] | (~|deltarfreq[38:29]);
 wire midstep=smallchange_r & ~smallppm  & (&newnow) ;
@@ -120,7 +121,7 @@ always @(posedge clk) begin
 		end
 		START2:begin
 			rfreq_w<= midstep ? (deltarfreq[38] ? smallmin : smallmax) : rfreq_r;
-			midstep_r<=midstep;
+			midstep_r<=midstep&1'b0;
 			i2cstart_r<=0;
 			i2ccmd_r<=0;
 		end

@@ -1,3 +1,8 @@
+ILAICCJSON=ilaiccauto.json
+ilaiccauto.tcl: submodules/tools/ila.py $(ILAICCJSON)
+	python submodules/tools/ila.py -f $(ILAICCJSON) -t $@
+ilaiccauto.vh: submodules/tools/ila.py $(ILAICCJSON)
+	python submodules/tools/ila.py -f $(ILAICCJSON) -v $@
 ILASYSJSON=ilasysauto.json
 ilasysauto.tcl: submodules/tools/ila.py $(ILASYSJSON)
 	python submodules/tools/ila.py -f $(ILASYSJSON) -t $@

@@ -15,98 +15,96 @@ initial begin
 	end*/
 	$finish();
 end
+localparam SIM=1;
+localparam DWIDTH=16;
 reg [31:0] sysclkcnt=0;
 always @(posedge sysclk) begin
 	sysclkcnt<=sysclkcnt+1;
 end
-reg si5324_out_c=0;
+reg sma_mgt_refclk=0;
 initial begin
-    forever #(4) si5324_out_c=~si5324_out_c;
+    forever #(4) sma_mgt_refclk=~sma_mgt_refclk;
 end
 reg helpclk=0;
 initial begin
-    forever #(8.001) helpclk=~helpclk;
+    forever #(8.01) helpclk=~helpclk;
 end
-localparam SIM=1;
-reg sma_mgt_refclk=0;
-real DELAY=1;
-always @(*)
-	sma_mgt_refclk= #DELAY si5324_out_c;
-wire resetcntdelay=~|sysclkcnt[13:0];
-always @(*) begin
-	if (resetcntdelay)
-		DELAY=DELAY+0.0;
-end
-localparam DWIDTH=32;
 
-reg [2:0] si5324_out_cnt=0;
-always @(posedge si5324_out_c) begin
-    si5324_out_cnt<=si5324_out_cnt+1;
-end
 reg [2:0] smamgtclk_cnt=0;
 always @(posedge sma_mgt_refclk) begin
     smamgtclk_cnt<=smamgtclk_cnt+1;
 end
 
 
-wire readyforreset_sfp;
-wire reset_sfp=sysclkcnt==100;
-wire rxusrclk_sfp;
-wire txusrclk_sfp;
-wire [3:0] rxcharisk_sfp;
-wire [31:0] rxdata_sfp;
-wire [31:0] sfptestrx;
-assign sfptestrx=rxdata_sfp;
-wire rxuserrdy_sfp=1'b1;
-wire sfptesttx=32'habcdbeef;
-wire [3:0] txcharisk_sfp=0;//rxusrclk_sfpcnt[4:0]==0  ? 4'h1 : 0;//16'h00bc;4'b1;
-reg [31:0] rxusrclk_sfpcnt=0;
-wire [DWIDTH-1:0] txdata_sfp=rxusrclk_sfpcnt[DWIDTH-1:0];//rxusrclk_sfpcnt[4:0]==0  ? 32'hbc : rxusrclk_sfpcnt[DWIDTH-1:0];//16'h00bc;
-wire txuserrdy_sfp=1'b1;
-wire resetdone_sfp ;
+wire reset_sfp=sysclkcnt==1500;
+wire reset_sfp2=sysclkcnt==2000;
+wire [DWIDTH-1:0] sfptestrx;
 wire sfpreconnected=1'b0;
 wire sfp_tx_p,sfp_tx_n,sfp_rx_p,sfp_rx_n;
-wire sma_mgt_tx_p,sma_mgt_tx_n,sma_mgt_rx_p,sma_mgt_rx_n;
-assign {sma_mgt_rx_p,sma_mgt_rx_n}
-={sma_mgt_tx_p,sma_mgt_tx_n};
-assign {sfp_rx_p,sfp_rx_n}
+wire sfp2_tx_p,sfp2_tx_n,sfp2_rx_p,sfp2_rx_n;
+assign {sfp2_rx_p,sfp2_rx_n}
 ={sfp_tx_p,sfp_tx_n};
-/*
-gticc_gt #(.SIM_CPLLREFCLK_SEL(3'h5),.DWIDTH(DWIDTH))
+assign {sfp_rx_p,sfp_rx_n}
+={sfp2_tx_p,sfp2_tx_n};
+
+iicc #(.DWIDTH(16),.SIM(SIM)) sfpicc();
+gticc_gt #(.SIM_CPLLREFCLK_SEL(3'h2),.DWIDTH(DWIDTH))
 gticc_gt_sfp(.CPLLLOCKDETCLK(sysclk)
-,.GTNORTHREFCLK0(1'b0),.GTNORTHREFCLK1(1'b0),.GTREFCLK0(1'b0),.GTREFCLK1(1'b0),.GTSOUTHREFCLK0(si5324_out_c),.GTSOUTHREFCLK1(1'b0)
+,.GTNORTHREFCLK0(1'b0),.GTNORTHREFCLK1(1'b0),.GTREFCLK0(1'b0),.GTREFCLK1(sma_mgt_refclk),.GTSOUTHREFCLK0(1'b0),.GTSOUTHREFCLK1(1'b0)
 ,.GTXRXN(sfp_rx_n),.GTXRXP(sfp_rx_p),.GTXTXN(sfp_tx_n),.GTXTXP(sfp_tx_p)
 ,.QPLLCLK(1'b0),.QPLLREFCLK(1'b0)
-//,.CPLLREFCLKSEL(3'b1)
-,.CPLLREFCLKSEL(3'h5)
-,.rxusrclk(rxusrclk_sfp)
-,.txusrclk(txusrclk_sfp)
-,.RXCHARISK(rxcharisk_sfp)
-,.RXDATA(rxdata_sfp)
-,.RXUSERRDY(rxuserrdy_sfp)
-,.TXCHARISK(txcharisk_sfp)
-,.TXDATA(txdata_sfp)
-,.TXUSERRDY(txuserrdy_sfp)
-,.reset(reset_sfp||sfpreconnected)
-,.resetdone(resetdone_sfp)
-//,.readyforreset(readyforreset_sfp)
-,.RXOUTCLKFABRIC(rxoutclkfabric_sfp)
-,.RXOUTCLKPCS(rxoutclkpcs_sfp)
+,.CPLLREFCLKSEL(3'h2)
+,.gticc(sfpicc.gticc.gt)
 );
-reg [DWIDTH-1:0] rxdata_sfp_d=0;
-reg [DWIDTH-1:0] rxdatadiff=0;
-always @(posedge rxusrclk_sfp) begin
-	rxusrclk_sfpcnt<=rxusrclk_sfpcnt+1;
-	rxdata_sfp_d<=rxdata_sfp;
-	rxdatadiff<=rxdata_sfp-rxdata_sfp_d;
-end
-*/
+wire reset_sfp_w;
+areset resetsfpareset(.clk(sysclk),.areset(reset_sfp),.sreset(reset_sfp_w));
+assign sfpicc.sreset=(reset_sfp_w|sfpreconnected);
+assign sfpicc.txdata=16'h5c5c;
+assign sfpicc.stbtxdata=1'b1;
+assign sfptestrx=sfpicc.rxdata;
+assign sfpicc.rxphdmtd=0;
+assign sfpicc.master=1;
+
+wire [DWIDTH-1:0] sfptestrx2;
+wire sfpreconnected2=1'b0;
+iicc #(.DWIDTH(16),.SIM(SIM)) sfpicc2();
+gticc_gt #(.SIM_CPLLREFCLK_SEL(3'h2),.DWIDTH(DWIDTH))
+gticc_gt_sfp2(.CPLLLOCKDETCLK(sysclk)
+,.GTNORTHREFCLK0(1'b0),.GTNORTHREFCLK1(1'b0),.GTREFCLK0(1'b0),.GTREFCLK1(sma_mgt_refclk),.GTSOUTHREFCLK0(1'b0),.GTSOUTHREFCLK1(1'b0)
+,.GTXRXN(sfp2_rx_n),.GTXRXP(sfp2_rx_p),.GTXTXN(sfp2_tx_n),.GTXTXP(sfp2_tx_p)
+,.QPLLCLK(1'b0),.QPLLREFCLK(1'b0)
+,.CPLLREFCLKSEL(3'h2)
+,.gticc(sfpicc2.gticc.gt)
+);
+wire reset_sfp_w2;
+areset resetsfpareset2(.clk(sysclk),.areset(reset_sfp2),.sreset(reset_sfp_w2));
+assign sfpicc2.sreset=(reset_sfp_w2|sfpreconnected2);
+assign sfpicc2.txdata=16'h7878;
+assign sfpicc2.stbtxdata=1'b1;
+assign sfptestrx2=sfpicc2.rxdata;
+assign sfpicc2.rxphdmtd=0;
+assign sfpicc2.master=0;
+
+
 wire dmtdreset_w=0;
 wire [31:0] dmtdnavr=3;
 wire [31:0] stableval=200;
 dmtd
 dmtd (.clkdmtd(helpclk),.rst(dmtdreset_w),.navr(dmtdnavr),.stableval(stableval)
-,.clka(si5324_out_cnt[0]),.clkb(smamgtclk_cnt[0])
+,.clka(smamgtclk_cnt[0]),.clkb(sfpicc.gticc.rxusrclk)
 ,.phdiffavr(phdiffavr),.stb_phdiffavr(stb_phdiffavr)
 );
+wire [31:0] phdiffavr;
+wire stb_phdiffavr;
+reg [31:0] phdiffavr_x=0;
+reg stb_phdiffavr_x=0;
+wire [32:0] phx;
+wire [32:0] phxval;
+areset phdiffavrxdomain(.clk(sfpicc.gticc.txusrclk),.areset({stb_phdiffavr,phdiffavr}),.sreset(phx),.sreset_val(phxval));
+always @(posedge sfpicc.gticc.txusrclk) begin
+	if (phx[32])
+		phdiffavr_x<=phxval[31:0];
+	stb_phdiffavr_x<=phx[32];
+end
+assign sfpicc.rxphdmtd=phdiffavr_x[31:20];
 endmodule

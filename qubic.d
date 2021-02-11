@@ -6,10 +6,12 @@
 ./fifocore_8_64.tcl
 ./fmc120cpldspiwriteonvc707.v
 ./gig_ethernet_pcs_pma.tcl
+./gitrevision.v
 ./gticc_gt.sv
 ./helppll45.v
 ./i2cinit.vh
 ./iccgt.vh
+./iicc.sv
 ./ilaadcauto.tcl
 ./ilaadcauto.vh
 ./ilaauto.tcl
@@ -18,6 +20,8 @@
 ./ilaethauto.vh
 ./ilahelpauto.tcl
 ./ilahelpauto.vh
+./ilaiccauto.tcl
+./ilaiccauto.vh
 ./ilasysauto.tcl
 ./ilasysauto.vh
 ./jesd204_ads54j60.tcl
@@ -45,6 +49,7 @@ submodules/board-support/fmc120/jesdfmc120.sv
 submodules/board-support/vc707/vc707.sv
 submodules/board-support/vc707/vc707.vh
 submodules/board-support/vc707/vc707.xdc
+submodules/common-hdl/alatch.v
 submodules/common-hdl/areset.v
 submodules/common-hdl/async.v
 submodules/common-hdl/axi4lite.sv
@@ -79,13 +84,11 @@ submodules/common-hdl/mdiomasterinit.v
 submodules/common-hdl/piloop5.v
 submodules/common-hdl/reg_delay1.v
 submodules/common-hdl/sat.v
-submodules/common-hdl/sext.v
 submodules/common-hdl/seqinit.v
+submodules/common-hdl/sext.v
 submodules/common-hdl/uart.v
 submodules/common-hdl/uartlb.v
 submodules/common-hdl/uartrx.v
 submodules/common-hdl/uarttx.v
 submodules/common-hdl/via.v
 submodules/common-hdl/viapairs.v
-gitrevision.v
-iicc.sv

@@ -7,6 +7,7 @@
 		,"dbstable_sclka":1
 		,"dbastable":32
 		,"dbsclka":1
+		,"phaseab":32
 
 		,"dbsclkb":1
 		,"dbbstable":32
@@ -23,44 +24,27 @@
 		,"dbclkdmtdcnt":32
 		,"dbdmtdstate":2
 		,"dbdmtdnext":2
-		,"dbtxavalid":1
-		,"dbtxsclkacnt":32
-		,"dbtxafreq":32
-		,"dbtxstable_sclka":1
-		,"dbtxastable":32
-		,"dbtxsclka":1
-
-		,"dbtxsclkb":1
-		,"dbtxbstable":32
-		,"dbtxstable_sclkb":1
-		,"dbtxbfreq":32
-		,"dbtxsclkbcnt":32
-		,"dbtxbvalid":1
 
 		,"phdiffavr_tx":32
 		,"stb_phdiffavr_tx":1
-		,"dbtxphdiff":32
-		,"dbtxacc1":32
-		,"dbtxpvalid":1
-		,"dbtxclkdmtdcnt":32
-		,"dbtxdmtdstate":2
-		,"dbtxdmtdnext":2
 		,"lbreg.phdiffavr":32
 		,"lbreg.helpplloffset":32
 		,"hw.vc707.si5324_int_alm":1
-		,"dbclkhelpcnt_samp0":32
-		,"dbclkhelpcnt_samp1":32
-		,"dbfreqhelp":32
-		,"dbfreqhelp5":32
-		,"dbfreqref4":32
-		,"dbfreqdiff":32
+		,"dbclkhelpcnt_samp0":38
+		,"dbclkhelpcnt_samp1":38
+		,"dbfreqhelp":38
+		,"dbfreqhelp5":38
+		,"dbfreqref4":38
+		,"dbfreqdiff":38
 		,"lbreg.refcntsamp":32
 		,"lbreg.freqdiff":32
 		,"dbsamp":1
-		,"dbclkrefcnt":32
+		,"dbclkrefcnt":38
 		,"dbsamphelp_d1_ref":1
 		,"dbsamphelp_d1_ref_v":1
 		,"dbsamphelp_v":1
+		,"dbfreecnta":32
+		,"dbfreecntb":32
 	}
 	,"dmtd":{
 		"clk":"helpclk"

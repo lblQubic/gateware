@@ -17,7 +17,7 @@ if __name__=="__main__":
 		sfpinfo=qubichw.vc707.sfpinfo()
 		print(sfpinfo,[chr(i) for i in sfpinfo])
 
-	if 0:
+	if 1:
 		qubichw.write((("reset_sfp",0),))
 		qubichw.write((("reset_smasfp",0),))
 	if 1:

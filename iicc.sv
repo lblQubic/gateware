@@ -1,6 +1,300 @@
-interface igticc #(parameter DWIDTH=32
-,localparam DBYTE=DWIDTH/8
-)(
+interface iicc #(parameter DWIDTH=16,localparam DBYTE=DWIDTH/8,parameter SIM=0)(
+);
+
+igticc #(.DWIDTH(DWIDTH)) gticc ();
+wire sreset;
+assign gticc.reset=sreset;
+wire [DWIDTH-1:0] txdata;
+wire stbtxdata;
+reg [DWIDTH-1:0] rxdata=0;
+assign gticc.rxuserrdy=1'b1;
+assign gticc.txuserrdy=1'b1;
+assign resetdone=gticc.resetdone;
+
+reg [51:0] txusrclkcnt=0;
+reg [51:0] txusrclkcnt_corr=0;
+reg [51:0] corr=0;
+reg [51:0] txusrclkcnt_x=0;
+wire [11:0] rxphdmtd;
+always @(posedge gticc.txusrclk) begin
+	txusrclkcnt<=sreset ? 0 : txusrclkcnt+1;
+end
+always @(posedge gticc.rxusrclk) begin
+	txusrclkcnt_x<=txusrclkcnt;
+end
+
+wire [DWIDTH-1:0] txdata_w;
+reg [DBYTE-1:0] txcharisk_r=0;
+reg [DWIDTH-1:0] rxdata_x=0;
+reg [DBYTE-1:0] rxcharisk_x=0;
+reg [63:0] t1tx=0;
+reg [63:0] t2tx=0;
+reg [63:0] t3tx=0;
+reg [63:0] t4tx=0;
+wire [63:0] t1rx;
+reg [7:0] t1rxarray [7:0];
+reg [7:0] t2rxarray [7:0];
+reg [7:0] t3rxarray [7:0];
+reg [7:0] t4rxarray [7:0];
+wire [63:0] t2rx;
+wire [63:0] t3rx;
+wire [63:0] t4rx;
+assign t1rx={t1rxarray[0],t1rxarray[1],t1rxarray[2],t1rxarray[3],t1rxarray[4],t1rxarray[5],t1rxarray[6],t1rxarray[7]};
+assign t2rx={t2rxarray[0],t2rxarray[1],t2rxarray[2],t2rxarray[3],t2rxarray[4],t2rxarray[5],t2rxarray[6],t2rxarray[7]};
+assign t3rx={t3rxarray[0],t3rxarray[1],t3rxarray[2],t3rxarray[3],t3rxarray[4],t3rxarray[5],t3rxarray[6],t3rxarray[7]};
+assign t4rx={t4rxarray[0],t4rxarray[1],t4rxarray[2],t4rxarray[3],t4rxarray[4],t4rxarray[5],t4rxarray[6],t4rxarray[7]};
+reg [64:0] tdiff2=0;
+reg stb_t1rx=0;
+reg stb_t1tx=0;
+reg alignrequest=0;
+reg alignrequest_x=0;
+reg rxbyterealign_x=0;
+reg rxbyteisaligned_x=0;
+reg txstb_r=0;
+wire [DWIDTH-1:0] palignchar=16'h00bc;//{{(DWIDTH-8){1'b0}},8'hbc};
+wire [DBYTE-1:0] paligncharisk=16'h01;//{{(DBYTE-1){1'b0}},1'b1};
+wire [DWIDTH-1:0] palignreq=16'h01bc;
+wire [DBYTE-1:0] palignreqisk=2'h01;
+reg [4:0] actiontx=0;
+wire  [2:0] indextx;
+reg [7:0] txdata8=0;
+wire txclk=gticc.txusrclk;
+wire rxclk=gticc.rxusrclk;
+reg [55:0] tsyncsr=0;
+always @(posedge txclk) begin
+	alignrequest_x<=alignrequest;
+	rxbyterealign_x<=gticc.rxbyterealign;
+end
+reg [DWIDTH-1:0] rxchar_x=0;
+reg [DBYTE-1:0] rxcharisk_xd=0;
+reg [DWIDTH-1:0] rxchar_xd=0;
+always @(posedge txclk) begin
+	rxdata_x<=gticc.rxdata;
+	rxcharisk_x<=gticc.rxcharisk;
+	rxcharisk_xd<=rxcharisk_x;
+	rxchar_xd<=rxdata_x;
+	rxbyteisaligned_x<=gticc.rxbyteisaligned;
+	if (|rxcharisk_x) begin
+		if (rxcharisk_xd==2'b01 & rxchar_xd==16'h01bc) begin
+			alignrequest<=1'b1;
+		end
+		else begin
+			alignrequest<=1'b0;
+		end
+
+	end
+	else begin
+		alignrequest<=1'b0;
+		rxdata<=rxdata_x;
+/*		case (rxdata[15:8])
+			8'h1: begin t1rx[8*8-1-:8] <= rxdata[7:0]; t2tx<={txusrclkcnt_x,rxphdmtd}; stb_t1rx<=1'b1; end
+			8'h2: begin t1rx[7*8-1-:8] <= rxdata[7:0]; stb_t1rx<=1'b0; end
+			8'h3: begin t1rx[6*8-1-:8] <= rxdata[7:0]; stb_t1rx<=1'b0; end
+			8'h4: begin t1rx[5*8-1-:8] <= rxdata[7:0]; stb_t1rx<=1'b0; end
+			8'h5: begin t1rx[4*8-1-:8] <= rxdata[7:0]; stb_t1rx<=1'b0; end
+			8'h6: begin t1rx[3*8-1-:8] <= rxdata[7:0]; stb_t1rx<=1'b0; end
+			8'h7: begin t1rx[2*8-1-:8] <= rxdata[7:0]; stb_t1rx<=1'b0; end
+			8'h8: begin t1rx[1*8-1-:8] <= rxdata[7:0]; stb_t1rx<=1'b0; end
+		endcase
+		*/
+	end
+end
+always @(posedge txclk) begin
+end
+wire master;
+reg [7:0] gott1=0;
+reg [7:0] gott2=0;
+reg [7:0] gott3=0;
+reg [7:0] gott4=0;
+localparam SYNCIDLE=4'h0;
+localparam SYNCT1=4'h1;
+localparam SYNCT2=4'h2;
+localparam SYNCT3=4'h3;
+localparam SYNCT4=4'h4;
+localparam WAITT1=4'h5;
+localparam WAITT2=4'h6;
+localparam WAITT3=4'h7;
+localparam WAITT4=4'h8;
+localparam SYNCTO=4'h9;
+localparam SYNCCALC=4'ha;
+reg [3:0] syncstate=SYNCIDLE;
+reg [3:0] syncnext=SYNCIDLE;
+reg [3:0] syncnext_d=SYNCIDLE;
+reg [31:0] synccnt=0;
+assign indextx=synccnt[2:0];
+reg stbsyncdiff=0;
+wire syncreset=|{~gticc.resetdone,~gticc.rxbyteisaligned,sreset};
+always @(posedge txclk) begin
+	if (syncreset) begin
+		syncstate<=SYNCIDLE;
+	end
+	else begin
+		syncstate<=syncnext;
+		synccnt<=(syncstate==syncnext) & (syncstate!=SYNCIDLE) ? synccnt+1 : 0;
+	end
+end
+wire synctrig=SIM ? ~|txusrclkcnt[8:0] : ~|txusrclkcnt[25:0];
+always @(*) begin
+	if (syncreset) begin
+		syncnext=SYNCIDLE;
+	end
+	else begin
+		case (syncstate)
+			SYNCIDLE: syncnext = master ? synctrig  ? SYNCT1 : SYNCIDLE : WAITT1;
+			SYNCT1: syncnext = synccnt==7 ? WAITT2 : SYNCT1;
+			WAITT2: syncnext = synctrig ? SYNCTO : &gott2 ? WAITT3 : WAITT2;
+			WAITT3: syncnext = synctrig ? SYNCTO : &gott3 ? SYNCT4 : WAITT3;
+			SYNCT4: syncnext = synccnt==7 ? SYNCCALC : SYNCT4;
+
+			WAITT1: syncnext = &gott1 ? SYNCT2 : WAITT1;
+			SYNCT2: syncnext = synccnt==7 ? SYNCT3 : SYNCT2;
+			SYNCT3: syncnext = synccnt==7 ? WAITT4 : SYNCT3;
+			WAITT4: syncnext = synctrig ? SYNCTO : &gott4 ? SYNCCALC : WAITT4;
+			SYNCCALC: syncnext = SYNCIDLE;
+
+			SYNCTO: syncnext = SYNCIDLE;
+		endcase
+	end
+end
+wire [4:0] action=rxdata[15:11];
+wire [2:0] index=rxdata[10:8];
+assign indextx=synccnt[2:0];
+reg usecorr=0;
+wire [63:0] cnt64= (~master & usecorr )? {txusrclkcnt_corr,rxphdmtd}:{txusrclkcnt,rxphdmtd};
+//wire [63:0] cnt64={txusrclkcnt,rxphdmtd};
+reg first1=0;
+reg first2=0;
+reg first3=0;
+reg first4=0;
+reg txdata_r=0;
+reg synctx=0;
+reg t2done=0;
+reg t3done=0;
+reg t4done=0;
+reg t1done=0;
+always @(posedge txclk) begin
+	if (syncreset) begin
+	end
+	else begin
+		case (syncnext)
+			SYNCIDLE:begin
+				{gott1,gott2,gott3,gott4}<=0;
+				{first4,first3,first2,first1}<=4'hf;
+				txstb_r<=stbtxdata;
+				stbsyncdiff<=1'b0;
+				synctx<=1'b0;
+			end
+			SYNCT1: begin
+				first1<=1'b0;
+				if (first1)
+					t1tx<=cnt64;
+				actiontx<=5'h1;
+				{txdata8,tsyncsr}<=first1 ? cnt64 : {tsyncsr,8'h0};
+				txstb_r<=1'b1;
+				synctx<=1'b1;
+				txcharisk_r<=0;
+			end
+			SYNCT2: begin
+				first2<=1'b0;
+				actiontx<=5'h2;
+				{txdata8,tsyncsr}<=first2 ? t2tx : {tsyncsr,8'h0};
+				txstb_r<=1'b1;
+				synctx<=1'b1;
+				txcharisk_r<=0;
+			end
+			SYNCT3: begin
+				first3<=1'b0;
+				if (first3)
+					t3tx<=cnt64;
+				actiontx<=5'h3;
+				{txdata8,tsyncsr}<=first3 ? cnt64 : {tsyncsr,8'h0};
+				txstb_r<=1'b1;
+				synctx<=1'b1;
+				txcharisk_r<=0;
+			end
+			SYNCT4: begin
+				first4<=1'b0;
+				actiontx<=5'h4;
+				{txdata8,tsyncsr}<=first4 ? t4tx : {tsyncsr,8'h0};
+				txstb_r<=1'b1;
+				synctx<=1'b1;
+				txcharisk_r<=0;
+			end
+			WAITT1: begin
+				{first4,first3,first2,first1}<=4'hf;
+				if (action==5'h1) begin
+					if (~|gott1) begin
+						t2tx<=cnt64;
+						t2done<=1'b1;
+					end
+					gott1[index]<=1'b1;
+					t1rxarray[index]=rxdata[7:0];
+				end
+				else begin
+					gott1<=0;
+				end
+				synctx<=1'b0;
+				txstb_r<=stbtxdata;
+			end
+			WAITT2: begin
+				txstb_r<=stbtxdata;
+				{first4,first3,first2,first1}<=4'hf;
+				if (action==5'h2) begin
+					gott2[index]<=1'b1;
+					t2rxarray[index]=rxdata[7:0];
+				end
+				synctx<=1'b0;
+			end
+			WAITT3: begin
+				txstb_r<=stbtxdata;
+				synctx<=1'b0;
+				{first4,first3,first2,first1}<=4'hf;
+				if (action==5'h3) begin
+					if (~|gott3) begin
+						t4tx<=cnt64;
+						t4done<=1'b1;
+					end
+					gott3[index]<=1'b1;
+					t3rxarray[index]=rxdata[7:0];
+				end
+			end
+			WAITT4: begin
+				txstb_r<=stbtxdata;
+				synctx<=1'b0;
+				{first4,first3,first2,first1}<=4'hf;
+				if (action==5'h4) begin
+					gott4[index]<=1'b1;
+					t4rxarray[index]=rxdata[7:0];
+				end
+			end
+			SYNCCALC: begin
+				{first4,first3,first2,first1}<=4'hf;
+				//tdiff2<= master ? ((t4tx-t1tx)-(t3rx-t2rx)):((t4rx-t1rx)-(t3tx-t2tx));
+				tdiff2<= master ? (t4tx+t1tx-t3rx-t2rx):(t4rx+t1rx-t3tx-t2tx);
+				txstb_r<=1'b0;
+				stbsyncdiff<=1'b1;
+				synctx<=1'b0;
+				usecorr<=1'b1;
+			end
+		endcase
+	end
+end
+always@(posedge txclk) begin
+	if (stbsyncdiff)
+		corr<=corr+(tdiff2>>>13)+tdiff2[12];
+	txusrclkcnt_corr<=txusrclkcnt+corr;
+end
+
+assign gticc.txdata= ~rxbyteisaligned_x ? palignreq : alignrequest_x ? palignchar : txstb_r ? synctx ? {actiontx,indextx,txdata8} : txdata : palignchar;
+assign gticc.txcharisk= ~rxbyteisaligned_x ? palignreqisk :  alignrequest_x ?  paligncharisk : txstb_r ? 0: paligncharisk;
+
+/*modport cfg (input rxphdmtd
+,output
+);
+*/
+endinterface
+
+interface igticc #(parameter DWIDTH=16,localparam DBYTE=DWIDTH/8)(
 );
 wire rxusrclk;
 wire [DBYTE-1:0]rxcharisk;
@@ -9,6 +303,8 @@ wire [DBYTE-1:0] rxnotintable;
 wire [DWIDTH-1:0] rxdata;
 wire rxuserrdy;
 wire rxoutclkfabric;
+wire rxbyteisaligned;
+wire rxbyterealign;
 
 wire txusrclk;
 wire [DBYTE-1:0]txcharisk;
@@ -18,35 +314,7 @@ wire reset;
 wire resetdone;
 
 modport gt (input reset,rxuserrdy,txuserrdy,txdata,txcharisk
-,output txusrclk,rxusrclk,resetdone,rxdata,rxdisperr,rxnotintable,rxcharisk
+,output txusrclk,rxusrclk,resetdone,rxdata,rxdisperr,rxnotintable,rxcharisk,rxbyteisaligned,rxbyterealign
 );
 endinterface
 
-interface iicc #(parameter DWIDTH=32
-,localparam DBYTE=DWIDTH/8
-)(
-);
-
-igticc #(.DWIDTH(DWIDTH)) gticc ();
-assign gticc.reset=sreset;
-wire sreset;
-wire [DWIDTH-1:0] txdata;
-reg [DWIDTH-1:0] rxdata=0;
-assign gticc.rxuserrdy=1'b1;
-assign gticc.txuserrdy=1'b1;
-assign resetdone=gticc.resetdone;
-
-reg [31:0] txusrclkcnt=0;
-always @(posedge gticc.txusrclk) begin
-	txusrclkcnt<=sreset ? 0 : txusrclkcnt+1;
-end
-
-assign gticc.txdata=(~|txusrclkcnt[3:0]) ? 32'hbc : txdata;
-assign gticc.txcharisk=(~|txusrclkcnt[3:0]) ? {DBYTE{1'b1}} : 0;
-
-always @(posedge gticc.rxusrclk) begin
-	if (~gticc.rxcharisk) begin
-		rxdata<=gticc.rxdata;
-	end
-end
-endinterface

@@ -36,19 +36,13 @@ wire [DBYTE-1:0] TXCHARISK=gticc.txcharisk;
 wire [DWIDTH-1:0] TXDATA=gticc.txdata;
 wire reset=gticc.reset;
 wire [DBYTE-1:0] RXCHARISK;
-assign gticc.rxcharisk=RXCHARISK;
 wire [DBYTE-1:0] RXDISPERR;
-assign gticc.rxdisperr=RXDISPERR;
 wire [DBYTE-1:0] RXNOTINTABLE;
-assign gticc.rxnotintable=RXNOTINTABLE;
 wire [DWIDTH-1:0] RXDATA;
-assign gticc.rxdata=RXDATA;
-wire rxusrclk;
-assign gticc.rxusrclk=rxusrclk;
-wire txusrclk;
-assign gticc.txusrclk=txusrclk;
 wire resetdone;
-assign gticc.resetdone=resetdone;
+wire rxusrclk;
+wire txusrclk;
+
 
 wire txrxreset1;
 wire txrxreset0;
@@ -129,7 +123,6 @@ end
 
 
 wire txalign;
-//assign RXBYTEREALIGN=rxalign;
 wire rdyfortxrxreset=&{CPLLLOCK,~CPLLFBCLKLOST,~CPLLREFCLKLOST};
 wire txrxresetdone=&{TXRESETDONE,RXRESETDONE,rdyfortxrxreset};
 localparam NSTEP=4;
@@ -155,5 +148,15 @@ chainreset(.clk(CPLLLOCKDETCLK)
 ,.resettimeout(resettimeout)
 ,.done(done)
 );
+
+assign gticc.resetdone=resetdone;
+assign gticc.rxbyteisaligned=RXBYTEISALIGNED;
+assign gticc.rxbyterealign=RXBYTEREALIGN;
+assign gticc.rxcharisk=RXCHARISK;
+assign gticc.rxdata=RXDATA;
+assign gticc.rxdisperr=RXDISPERR;
+assign gticc.rxnotintable=RXNOTINTABLE;
+assign gticc.rxusrclk=rxusrclk;
+assign gticc.txusrclk=txusrclk;
 endmodule
 
