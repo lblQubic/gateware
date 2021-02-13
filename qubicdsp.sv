@@ -54,7 +54,6 @@ qcmd(.clk(dsp.clk),
 wire [3:0]resultx;
 wire [3:0]resulty;
 wire daczero=extra[0]&resultx[0];
-wire [63:0] command_test={2'b0,12'b0,12'd999,14'b0,24'd167772};
 localparam dw=16;
 localparam nel=8;  // maybe move to 16 later
 localparam nell=3;  // maybe move to 16 later
@@ -203,13 +202,16 @@ generate for (iacc=0; iacc<NMEAS; iacc=iacc+1) begin: gen_accbuf
 		else if (~full[iacc]&meas_done_2cycle[iacc])
 			accaddr[iacc] <= accaddr[iacc]+1'b1;
 	end
-	dpram #(.DW(32),.AW(12)) accbuf(.clka(dsp.clk)
+	dpram #(.DW(32),.AW(12),.BUFIN(0),.BUFOUT(1),.SIM(0)) accbuf(.clka(dsp.clk)
 	,.addra(accaddr[iacc][11:0])
 	,.dina(accaddr[iacc][0] ? yacc_d[iacc] : xacc[iacc])
 	,.wena(measxypush[iacc])
 	,.clkb(lb_clk)
 	,.addrb(lb_addr[11:0])
 	,.doutb(accout[iacc])
+	,.douta()
+	,.renb(1'b1)
+	,.reset()
 	);
 end
 endgenerate
@@ -326,13 +328,16 @@ panzoom #(.DW(dw),.MAXDAVR(20),.NCHAN(NMON),.MEMAW(MEMAW)) panzoom(.clk(dsp.clk)
 wire [dw-1:0] buf_monout [NMON-1:0];
 genvar imon;
 generate for (imon=0; imon<NMON; imon=imon+1) begin: gen_monitor
-	dpram #(.DW(dw),.AW(MEMAW)) monitor(.clka(dsp.clk)
+	dpram #(.DW(dw),.AW(MEMAW),.BUFIN(0),.BUFOUT(1),.SIM(0)) monitor(.clka(dsp.clk)
 	,.addra(mon_addr)
 	,.dina(lbreg.panzoom_test ? panzoom_testcnt : mon_out[(imon+1)*dw-1:imon*dw])
 	,.wena(mon_ena)
 	,.clkb(lb_clk)
 	,.addrb(lb_addr[MEMAW-1:0])
 	,.doutb(buf_monout[imon])
+	,.douta()
+	,.renb(1'b1)
+	,.reset()
 	);
 end
 endgenerate

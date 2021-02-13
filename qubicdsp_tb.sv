@@ -23,37 +23,53 @@ always @(posedge sysclk) begin
 	sysclkcnt<=sysclkcnt+1;
 end
 
-reg clk250=0;
+localparam LBCWIDTH=8;
+localparam LBAWIDTH=24;
+localparam LBDWIDTH=32;
+reg lb_clk=0;
 initial begin
-    forever #(4) clk250=~clk250;
+    forever #(4) lb_clk=~lb_clk;
 end
-
-reg [31:0] clk250cnt=0;
-always @(posedge clk250) begin
-	clk250cnt<=clk250cnt+1;
+reg [31:0] lbclkcnt=0;
+always @(posedge lb_clk) begin
+	lbclkcnt<=lbclkcnt+1;
 end
 
 reg dspclk=0;
 initial begin
-    forever #(4) dspclk=~dspclk;
+    forever #(2) dspclk=~dspclk;
 end
 assign qubicdsp.dsp.clk=dspclk;
-
-localparam SIM=1;
-
 reg [31:0] dspclkcnt=0;
-wire reset=dspclkcnt<100;
 
 always @(posedge qubicdsp.dsp.clk) begin
    dspclkcnt<=dspclkcnt+1;
 end
 
-reg [15:0] simdata=999;
-
-assign qubicdsp.dsp.dac0=simdata;
 assign qubicdsp.dsp.adc0=qubicdsp.dsp.dac0;
+assign qubicdsp.dsp.adc1=qubicdsp.dsp.dac1;
+assign qubicdsp.dsp.adc2=qubicdsp.dsp.dac2;
+assign qubicdsp.dsp.adc3=qubicdsp.dsp.dac3;
+assign qubicdsp.dsp.adc4=qubicdsp.dsp.dac4;
+assign qubicdsp.dsp.adc5=qubicdsp.dsp.dac5;
+assign qubicdsp.dsp.adc6=qubicdsp.dsp.dac6;
+assign qubicdsp.dsp.adc7=qubicdsp.dsp.dac7;
 
-//assign lbreg.test1=32'hfff000ab;
+reg lb_wvalid=0;
+reg lb_read=0;
+reg [LBCWIDTH-1:0] lb_wctrl=0;
+reg [LBAWIDTH-1:0] lb_addr=0;
+reg [LBDWIDTH-1:0] lb_wdata=0;
+
+`include "simcmdin.vh"
+
+assign lbreg.lb.clk=lb_clk;
+assign lbreg.lb.waddr=lb_addr;
+assign lbreg.lb.wdata=lb_wdata;
+assign lbreg.lb.wvalid=lb_wvalid;
+assign lbreg.lb.wctrl=lb_wctrl;
+assign lbreg.lb.writecmd=8'h01;
+assign lbreg.lb.read=lb_read;
 
 //always @ (*) begin
 //	qubicdsp.dsp.adc0 <= # 600 qubicdsp.dsp.dac0;
