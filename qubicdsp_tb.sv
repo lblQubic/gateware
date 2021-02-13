@@ -71,15 +71,4 @@ assign lbreg.lb.wctrl=lb_wctrl;
 assign lbreg.lb.writecmd=8'h01;
 assign lbreg.lb.read=lb_read;
 
-//always @ (*) begin
-//	qubicdsp.dsp.adc0 <= # 600 qubicdsp.dsp.dac0;
-//	qubicdsp.dsp.adc1 <= # 600 qubicdsp.dsp.dac1;
-//	qubicdsp.dsp.adc2 <= # 600 qubicdsp.dsp.dac2;
-//	qubicdsp.dsp.adc3 <= # 600 qubicdsp.dsp.dac3;
-//	qubicdsp.dsp.adc4 <= # 600 qubicdsp.dsp.dac4;
-//	qubicdsp.dsp.adc5 <= # 600 qubicdsp.dsp.dac5;
-//	qubicdsp.dsp.adc6 <= # 600 qubicdsp.dsp.dac6;
-//	qubicdsp.dsp.adc7 <= # 600 qubicdsp.dsp.dac7;
-//end
-
 endmodule
