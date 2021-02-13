@@ -97,20 +97,15 @@ assign meas_cstrobe[0]= cstrobe & (cmda==8'h8);
 assign meas_cstrobe[1]= cstrobe & (cmda==8'h9);
 assign meas_cstrobe[2]= cstrobe & (cmda==8'ha);
 assign meas_cstrobe[3]= cstrobe & (cmda==8'hb);
-wire [16*tslice-1:0] xmeasin [NMEAS-1:0];
-wire [16*tslice-1:0] ymeasin [NMEAS-1:0];
+wire [16*tslice-1:0] xmeasin;
+wire [16*tslice-1:0] ymeasin;
 
-assign xmeasin[0]=lbreg.digiloopback ? dsp.dac0 : dsp.adc0;
-assign ymeasin[0]=lbreg.digiloopback ? dsp.dac1 : dsp.adc1;
+assign xmeasin=lbreg.digiloopback ? dsp.dac0 : dsp.adc0;
+assign ymeasin=lbreg.digiloopback ? dsp.dac1 : dsp.adc1;
 
-reg [16*tslice-1:0] xmeasin_d1=0, xmeasin_d2=0;
-reg [16*tslice-1:0] ymeasin_d1=0, ymeasin_d2=0;
-always @(posedge dsp.clk) begin
-	xmeasin_d1 <= xmeasin[0];
-	xmeasin_d2 <= xmeasin_d1;
-	ymeasin_d1 <= ymeasin[0];
-	ymeasin_d2 <= ymeasin_d1;
-end
+reg [16*tslice-1:0] xmeasin_d=0, ymeasin_d=0;
+reg_delay #(.DW(16*tslice),.LEN(4)) delay_xmeasin(.clk(dsp.clk),.din(xmeasin),.dout(xmeasin_d),.gate(1'b1));
+reg_delay #(.DW(16*tslice),.LEN(4)) delay_ymeasin(.clk(dsp.clk),.din(ymeasin),.dout(ymeasin_d),.gate(1'b1));
 
 wire [dw-1:0] adc0_min, adc1_min;
 wire [dw-1:0] adc0_max, adc1_max;
@@ -146,8 +141,8 @@ for (imeas=0; imeas<NMEAS; imeas=imeas+1) begin: gen_meas
 ,.wstrobe(meas_wstrobe[imeas])
 ,.xacc(xacc[imeas])
 ,.yacc(yacc[imeas])
-,.xmeasin(xmeasin_d2)
-,.ymeasin(ymeasin_d2)
+,.xmeasin(xmeasin_d)
+,.ymeasin(ymeasin_d)
 ,.xbase(xbase[imeas])
 ,.ybase(ybase[imeas])
 ,.xlo(xlo_w[imeas])
@@ -236,8 +231,8 @@ initial begin
         mon_4slice[inittrigcnts] = {dw*tslice{1'b0}};
 end
 always @(posedge dsp.clk) begin
-	mon_4slice[0] <= xmeasin_d2;
-	mon_4slice[1] <= ymeasin_d2;
+	mon_4slice[0] <= xmeasin_d;
+	mon_4slice[1] <= ymeasin_d;
 	mon_4slice[2] <= xlo_w[0];
 	mon_4slice[3] <= ylo_w[0];
 	mon_4slice[4] <= xlo_w[1];
