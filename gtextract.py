@@ -104,7 +104,7 @@ if __name__=="__main__":
 	f=open(sys.argv[1])
 	s=f.read()
 	f.close()
-	portmoddict={"DRPADDR":'0',"DRPCLK":'0',"DRPDI":'0',"DRPDO":'',"DRPEN":'0',"DRPRDY":'',"DRPWE":'0'
+	portmoddict={"DRPADDR":"9'h0","DRPCLK":'0',"DRPDI":'0',"DRPDO":'',"DRPEN":'0',"DRPRDY":'',"DRPWE":'0'
 ,"DMONITOROUT":''
 ,"EYESCANDATAERROR":''
 ,"EYESCANRESET":'0'
@@ -130,10 +130,10 @@ if __name__=="__main__":
 ,"RXBYTEISALIGNED":"RXBYTEISALIGNED"
 ,"RXBYTEREALIGN":"RXBYTEREALIGN"
 ,"CPLLLOCKDETCLK":"CPLLLOCKDETCLK"
-,"RXCHARISCOMMA":"RXCHARISCOMMA"
 ,"RXDATA":"rxdata64"
 ,"RXDISPERR":"rxdisperr8"
 ,"RXCHARISK":"rxcharisk8"
+,"RXCHARISCOMMA":"rxchariscomma8"
 ,"RXNOTINTABLE":"rxnotintable8"
 ,"TXDATA":"txdata64"
 ,"TXCHARISK":"txcharisk8"

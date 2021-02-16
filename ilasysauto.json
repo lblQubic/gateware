@@ -17,5 +17,7 @@
 		,"dbrxcdrlock_smasfp":1
 		,"dblocked_sfp":1
 		,"dbrxcdrlock_sfp":1
+		,"dbdonecriteria_sfp":4
+		,"lbreg.sfpresetmask":4
 	}
 }

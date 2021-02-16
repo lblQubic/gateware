@@ -11,11 +11,12 @@ assign gticc.rxuserrdy=1'b1;
 assign gticc.txuserrdy=1'b1;
 assign resetdone=gticc.resetdone;
 
-reg [51:0] txusrclkcnt=0;
-reg [51:0] txusrclkcnt_corr=0;
-reg [51:0] corr=0;
-reg [51:0] txusrclkcnt_x=0;
-wire [11:0] rxphdmtd;
+reg [47:0] txusrclkcnt=0;
+reg [47:0] txusrclkcnt_corr=0;
+reg [47:0] corr=0;
+reg [47:0] txusrclkcnt_x=0;
+wire [15:0] rxphdmtd;
+wire [15:0] txphdmtd;
 always @(posedge gticc.txusrclk) begin
 	txusrclkcnt<=sreset ? 0 : txusrclkcnt+1;
 end
@@ -118,13 +119,17 @@ localparam WAITT4=4'h8;
 localparam SYNCTO=4'h9;
 localparam SYNCCALC=4'ha;
 reg [3:0] syncstate=SYNCIDLE;
+reg [3:0] dbsyncstate=SYNCIDLE;
 reg [3:0] syncnext=SYNCIDLE;
+reg [3:0] dbsyncnext=SYNCIDLE;
 reg [3:0] syncnext_d=SYNCIDLE;
 reg [31:0] synccnt=0;
 assign indextx=synccnt[2:0];
 reg stbsyncdiff=0;
 wire syncreset=|{~gticc.resetdone,~gticc.rxbyteisaligned,sreset};
 always @(posedge txclk) begin
+	dbsyncnext<=syncnext;
+	dbsyncstate<=syncstate;
 	if (syncreset) begin
 		syncstate<=SYNCIDLE;
 	end
@@ -160,7 +165,8 @@ wire [4:0] action=rxdata[15:11];
 wire [2:0] index=rxdata[10:8];
 assign indextx=synccnt[2:0];
 reg usecorr=0;
-wire [63:0] cnt64= (~master & usecorr )? {txusrclkcnt_corr,rxphdmtd}:{txusrclkcnt,rxphdmtd};
+wire [63:0] cnt64rx= (~master & usecorr )? {txusrclkcnt_corr,rxphdmtd}:{txusrclkcnt,rxphdmtd};
+wire [63:0] cnt64tx= (~master & usecorr )? {txusrclkcnt_corr,txphdmtd}:{txusrclkcnt,txphdmtd};
 //wire [63:0] cnt64={txusrclkcnt,rxphdmtd};
 reg first1=0;
 reg first2=0;
@@ -172,6 +178,7 @@ reg t2done=0;
 reg t3done=0;
 reg t4done=0;
 reg t1done=0;
+reg [15:0] phdiff=0;
 always @(posedge txclk) begin
 	if (syncreset) begin
 	end
@@ -187,9 +194,11 @@ always @(posedge txclk) begin
 			SYNCT1: begin
 				first1<=1'b0;
 				if (first1)
-					t1tx<=cnt64;
+					t1tx<=cnt64tx;
+					//t1tx<=cnt64rx;
 				actiontx<=5'h1;
-				{txdata8,tsyncsr}<=first1 ? cnt64 : {tsyncsr,8'h0};
+				//{txdata8,tsyncsr}<=first1 ? cnt64rx : {tsyncsr,8'h0};
+				{txdata8,tsyncsr}<=first1 ? cnt64tx : {tsyncsr,8'h0};
 				txstb_r<=1'b1;
 				synctx<=1'b1;
 				txcharisk_r<=0;
@@ -205,9 +214,11 @@ always @(posedge txclk) begin
 			SYNCT3: begin
 				first3<=1'b0;
 				if (first3)
-					t3tx<=cnt64;
+					t3tx<=cnt64tx;
+					//t3tx<=cnt64rx;
 				actiontx<=5'h3;
-				{txdata8,tsyncsr}<=first3 ? cnt64 : {tsyncsr,8'h0};
+				{txdata8,tsyncsr}<=first3 ? cnt64tx : {tsyncsr,8'h0};
+				//{txdata8,tsyncsr}<=first3 ? cnt64rx : {tsyncsr,8'h0};
 				txstb_r<=1'b1;
 				synctx<=1'b1;
 				txcharisk_r<=0;
@@ -224,7 +235,7 @@ always @(posedge txclk) begin
 				{first4,first3,first2,first1}<=4'hf;
 				if (action==5'h1) begin
 					if (~|gott1) begin
-						t2tx<=cnt64;
+						t2tx<=cnt64rx;
 						t2done<=1'b1;
 					end
 					gott1[index]<=1'b1;
@@ -251,7 +262,7 @@ always @(posedge txclk) begin
 				{first4,first3,first2,first1}<=4'hf;
 				if (action==5'h3) begin
 					if (~|gott3) begin
-						t4tx<=cnt64;
+						t4tx<=cnt64rx;
 						t4done<=1'b1;
 					end
 					gott3[index]<=1'b1;
@@ -281,8 +292,9 @@ always @(posedge txclk) begin
 end
 always@(posedge txclk) begin
 	if (stbsyncdiff)
-		corr<=corr+(tdiff2>>>13)+tdiff2[12];
+		corr<=corr+(tdiff2>>>17)+tdiff2[16];
 	txusrclkcnt_corr<=txusrclkcnt+corr;
+	phdiff=tdiff2[15:0];
 end
 
 assign gticc.txdata= ~rxbyteisaligned_x ? palignreq : alignrequest_x ? palignchar : txstb_r ? synctx ? {actiontx,indextx,txdata8} : txdata : palignchar;

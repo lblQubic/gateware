@@ -50,7 +50,7 @@ uartdefine.vh: submodules/tools/lbrw.py uartregmap.json
 	python3 submodules/tools/lbrw.py -m uartregmap.json -b submodules/common-hdl/localbus.json -d uartdefine.vh
 
 #iccgt.vh: iccgt_4G_125M_100M.tcl tmpprojclean
-iccgt.vh: iccgt_1G_125M_50M.tcl
+iccgt.vh: iccgt_1G_125M_50M.tcl gtextract.py
 	rm -rf tmpproj
 	vivado -mode batch -source $<
 	python gtextract.py tmpproj/tmpproj.srcs/sources_1/ip/gtwizard_0/gtwizard_0_gt.v > iccgt.vh

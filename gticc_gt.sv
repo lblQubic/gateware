@@ -28,6 +28,8 @@ module gticc_gt #
 ,output TXOUTCLKPCS
 ,output dblocked
 ,output dbrxcdrlock
+,output [3:0] dbdonecriteria
+,input [3:0] mask
 );
 
 wire RXUSERRDY=gticc.rxuserrdy;
@@ -36,6 +38,7 @@ wire [DBYTE-1:0] TXCHARISK=gticc.txcharisk;
 wire [DWIDTH-1:0] TXDATA=gticc.txdata;
 wire reset=gticc.reset;
 wire [DBYTE-1:0] RXCHARISK;
+wire [DBYTE-1:0] RXCHARISCOMMA;
 wire [DBYTE-1:0] RXDISPERR;
 wire [DBYTE-1:0] RXNOTINTABLE;
 wire [DWIDTH-1:0] RXDATA;
@@ -52,9 +55,11 @@ wire [7:0] txcharisk8;
 wire [63:0] rxdata64;
 wire [7:0] rxdisperr8;
 wire [7:0] rxcharisk8;
+wire [7:0] rxchariscomma8;
 wire [7:0] rxnotintable8;
 wire [64-DWIDTH-1:0] rxdata_float_i;
 wire [8-DBYTE-1:0] rxcharisk_float_i;
+wire [8-DBYTE-1:0] rxchariscomma_float_i;
 wire [8-DBYTE-1:0] rxdisperr_float_i;
 wire [8-DBYTE-1:0] rxnotintable_float_i;
 assign txcharisk8=~resetdone ? 8'h1 : {{8-DBYTE-1{1'b0}},TXCHARISK};
@@ -62,6 +67,7 @@ assign txdata64=~resetdone ? 64'h000000bc : {{64-DWIDTH{1'b0}},TXDATA} ;
 assign {rxdata_float_i,RXDATA}=rxdata64;
 assign {rxdisperr_float_i,RXDISPERR}=rxdisperr8;
 assign {rxcharisk_float_i,RXCHARISK}=rxcharisk8;
+assign {rxchariscomma_float_i,RXCHARISCOMMA}=rxchariscomma8;
 assign {rxnotintable_float_i,RXNOTINTABLE}=rxnotintable8;
 wire RXCDRRESET=txrxreset;
 wire CPLLRESET;
@@ -75,7 +81,6 @@ wire CPLLLOCK;
 wire CPLLREFCLKLOST;
 wire RXBYTEISALIGNED;
 wire RXBYTEREALIGN;
-wire [3:0] RXCHARISCOMMA;
 wire RXUSRCLK;
 wire RXUSRCLK2;
 wire TXUSRCLK;
@@ -128,9 +133,9 @@ wire txrxresetdone=&{TXRESETDONE,RXRESETDONE,rdyfortxrxreset};
 localparam NSTEP=4;
 wire [NSTEP-1:0] done;
 wire [NSTEP-1:0] resetout;
-wire [NSTEP-1:0] donecriteria={1'b1,txrxresetdone,txrxresetdone,rdyfortxrxreset};
-assign {txalign,txrxreset1,txrxreset0,CPLLRESET}=resetout;
-
+wire [NSTEP-1:0] donecriteria={1'b1,txrxresetdone,txrxresetdone,rdyfortxrxreset} | ~mask;
+assign {txalign,txrxreset1,txrxreset0,CPLLRESET}=resetout&mask;
+assign dbdonecriteria=donecriteria;
 wire [NSTEP*16-1:0] readylength={NSTEP{16'd10}};//,16'd10,16'd10};
 wire [NSTEP*16-1:0] resetlength={NSTEP{16'd100}};//,16'd10,16'd10};
 wire [NSTEP*16-1:0] resettodonecheck={NSTEP{16'd10}};//,16'd10,16'd10};

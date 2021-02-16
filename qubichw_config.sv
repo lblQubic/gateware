@@ -376,7 +376,7 @@ IBUFDS_GTE2 mgtrefclk1_115_pcie(.I(hw.vc707.pcie.clk_qo_p),.IB(hw.vc707.pcie.clk
 wire user_clock;
 IBUFGDS user_clock_ibufgds(.I(hw.vc707.user_clock_p),.IB(hw.vc707.user_clock_n),.O(user_clock));
 wire dspclk;
-BUFG dspclkbufg(.I(hw.fmc2.llmk_dclkout_2),.O(dspclk));
+BUFG dspclkbufg(.I(hw.fmc1.llmk_dclkout_2),.O(dspclk));
 
 wire si5324_out;
 wire si5324_out_div2;
@@ -417,6 +417,7 @@ iicc #(.DWIDTH(16)) sfpicc();
 
 wire dblocked_sfp;
 wire dbrxcdrlock_sfp;
+wire [3:0] dbdonecriteria_sfp;
 gticc_gt #(.SIM_CPLLREFCLK_SEL(3'h002),.DWIDTH(16))
 gticc_gt_sfp(.CPLLLOCKDETCLK(hw.vc707.sysclk)
 //,.GTNORTHREFCLK0(1'b0),.GTNORTHREFCLK1(1'b0),.GTREFCLK0(sgmiiclk),.GTREFCLK1(sma_mgt_refclk),.GTSOUTHREFCLK0(si5324_out_c),.GTSOUTHREFCLK1(1'b0)
@@ -427,14 +428,25 @@ gticc_gt_sfp(.CPLLLOCKDETCLK(hw.vc707.sysclk)
 ,.gticc(sfpicc.gticc.gt)
 ,.dblocked(dblocked_sfp)
 ,.dbrxcdrlock(dbrxcdrlock_sfp)
+,.dbdonecriteria(dbdonecriteria_sfp)
+,.mask(lbreg.sfpresetmask)
 );
 assign sfpicc.sreset=(reset_sfp_w|sfpreconnected|lbreg.stb_reset_sfp);
 assign sfpicc.txdata=lbreg.sfptesttx;
 assign sfpicc.stbtxdata=1'b1;
 assign lbreg.sfptestrx=sfpicc.rxdata;
+assign lbreg.phdiff=sfpicc.phdiff;
 wire master;
 assign sfpicc.master=master;
-assign sfpicc.rxphdmtd=phaseab[15:4];
+wire dmtdreset_w;
+simple_cic #(.DWIN(32),.MAXCICW(16),.DWOUT(16))
+txphasecic(.clk(ethclk),.reset(dmtdreset_w),.gin(stb_txphaseab_x),.ncic(lbreg.dmtdnavr),.gout(),.din(txphaseab_x),.dout(sfpicc.txphdmtd));
+
+simple_cic #(.DWIN(32),.MAXCICW(16),.DWOUT(16))
+rxphasecic(.clk(ethclk),.reset(dmtdreset_w),.gin(stb_rxphaseab_x),.ncic(lbreg.dmtdnavr),.gout(),.din(rxphaseab_x),.dout(sfpicc.rxphdmtd));
+
+//assign sfpicc.rxphdmtd=rxphaseab[15:0];
+//assign sfpicc.txphdmtd=txphaseab[15:0];
 
 iicc #(.DWIDTH(16)) smasfpicc();
 wire phrefclk62_5;
@@ -473,11 +485,15 @@ reg [31:0] dspclkcnt=0;
 always @(posedge dspclk) begin
 	dspclkcnt<=dspclkcnt+1;
 end
+reg [31:0] fmc2llmkdclkout2cnt=0;
+always @(posedge hw.fmc2.llmk_dclkout_2) begin
+	fmc2llmkdclkout2cnt<=fmc2llmkdclkout2cnt+1;
+end
 wire phrefclk125;
 assign phrefclk125=master ? smamgtclk : dspclkcnt[0];//hw.fmc1.lmk_dclk10_m2c_to_fpga;
 assign phrefclk62_5= master ? smamgtclk_cnt[0] : dspclkcnt[1];
 
-wire [32-1:0] dbclkhelpcnt_samp0;
+/*wire [32-1:0] dbclkhelpcnt_samp0;
 wire [32-1:0] dbclkhelpcnt_samp1;
 wire [32-1:0] dbfreqhelp;
 wire [32-1:0] dbfreqhelp5;
@@ -490,7 +506,6 @@ wire dbsamphelp_d1_ref_v;
 wire dbsamphelp_v;
 wire stb_freqdiff;
 wire [37:0] freqdiff;
-wire helpclk;
 assign lbreg.freqdiff=freqdiff[31:0];
 //helppll45 helppll45err(.clkref(si5324_out_c),.clkhelp(helpclk),.refcntsamp(lbreg.refcntsamp),.freqdiff(freqdiff),.stb_freqdiff(stb_freqdiff)
 wire [37:0] refcntsamp;
@@ -510,7 +525,9 @@ helppll45err(.clkref(phrefclk62_5),.clkhelp(helpclk),.refcntsamp(refcntsamp),.fr
 ,.dbsamphelp_d1_ref_v(dbsamphelp_d1_ref_v)
 ,.dbsamphelp_v(dbsamphelp_v)
 );
+*/
 //wire signed [15:0] freqdiff16;
+wire helpclk;
 wire signed [31:0] helppllctrl;
 wire stb_helppllctrl;
 wire helpplliloopreset=0;
@@ -536,7 +553,7 @@ wire stb_freqerr;
 wire [31:0] freqerr;
 wire stb_freqerr_x;
 wire [31:0] freqerr_x;
-alatch #(.DWIDTH(32)) pherrlatch (.clk(ethclk),.gatein(stb_freqerr),.datain(freqerr),.gateout(stb_freqerr_x),.dataout(freqerr_x));
+data_xdomain #(.DWIDTH(32)) pherrlatch (.clkin(helpclk),.clkout(ethclk),.gatein(stb_freqerr),.datain(freqerr),.gateout(stb_freqerr_x),.dataout(freqerr_x));
 piloop5 #(.KPKISHIFTMAX(16),.KISHIFTSTATIC(6),.GWIDTH(16),.DWIDTH(32),.INTEWIDTH(16))
 helppllpiloop(.clk(ethclk)
 ,.reset(helpplliloopreset)
@@ -561,7 +578,7 @@ helppllpiloop(.clk(ethclk)
 );
 
 
-wire dmtdreset_w=|{lbreg.stb_dmtdnavr,lbreg.stb_stableval};
+assign dmtdreset_w=|{lbreg.stb_stableval};
 BUFG helpclkbufg(.I(user_clock),.O(helpclk));
 wire stb_phdiffavr;
 wire [31:0] phdiffavr;
@@ -601,8 +618,8 @@ wire [31:0] dbfreecnta;
 wire [31:0] dbfreecntb;
 wire [31:0] phaseab;
 wire stb_phaseab;
-dmtd #(.SIM(SIM),.FOFFSETWIDTH(SIM ? 8 : 14))
-dmtd (.clkdmtd(helpclk),.rst(dmtdreset_w)
+dmtd #(.SIM(SIM),.FOFFSETWIDTH(SIM ? 9 : 14))
+dmtdtest (.clkdmtd(helpclk),.rst(dmtdreset_w)
 //,.navr(lbreg.dmtdnavr)
 ,.stableval(lbreg.stableval)
 ,.clka(phrefclk62_5),.clkb(phsrc)
@@ -610,18 +627,33 @@ dmtd (.clkdmtd(helpclk),.rst(dmtdreset_w)
 //,.clka(rxusrclk_sfp),.clkb(rxusrclk_smasfp)
 //,.phdiffavr(phdiffavr),.stb_phdiffavr(stb_phdiffavr)
 //,.phdiffmidavr(phdiffmidavr)
-,.freqa(freqa),.freqb(freqb)
-//,.freqa1(freqa1)
-,.freqerr(freqerr)
-,.stb_freqerr(stb_freqerr)
+,.freqerr()
+,.stb_freqerr()
 ,.stb_phaseab(stb_phaseab)
 ,.phaseab(phaseab)
 
+);
+wire [31:0] txphaseab;
+wire [31:0] rxphaseab;
+wire stb_txphaseab;
+wire stb_rxphaseab;
+wire dbafreq01;
+wire [31:0] dbfreqint;
+wire [31:0] dbfracerr;
+dmtd #(.SIM(SIM),.FOFFSETWIDTH(SIM ? 9 : 14))
+dmtdtx (.clkdmtd(helpclk),.rst(dmtdreset_w),.stableval(lbreg.stableval)
+,.clka(phrefclk62_5),.clkb(sfpicc.gticc.txusrclk)
+,.offsetwidth(lbreg.offsetwidth)
+,.freqerr(freqerr)
+,.stb_freqerr(stb_freqerr)
+,.stb_phaseab(stb_txphaseab)
+,.phaseab(txphaseab)
+
+,.dbfreqint(dbfreqint),.dbfracerr(dbfracerr)
+,.freqa(freqa),.freqb(freqb)
 ,.dbastable(dbastable)
 ,.dbbstable(dbbstable)
 ,.dbphdiff(dbphdiff)
-//,.dbacc1(dbacc1)
-//,.dbpvalid(dbpvalid)
 ,.dbafreq(dbafreq)
 ,.dbbfreq(dbbfreq)
 ,.dbsclka(dbsclka)
@@ -638,6 +670,14 @@ dmtd (.clkdmtd(helpclk),.rst(dmtdreset_w)
 ,.dbfreecnta(dbfreecnta)
 ,.dbfreecntb(dbfreecntb)
 );
+dmtd #(.SIM(SIM),.FOFFSETWIDTH(SIM ? 9 : 14))
+dmtdrx (.clkdmtd(helpclk),.rst(dmtdreset_w),.stableval(lbreg.stableval)
+,.clka(phrefclk62_5),.clkb(sfpicc.gticc.rxusrclk)
+,.freqerr()
+,.stb_freqerr()
+,.stb_phaseab(stb_rxphaseab)
+,.phaseab(rxphaseab)
+);
 wire [32*4+1-1:0] dmtd_x;
 wire [32*4+1-1:0] dmtd_xval;
 reg [32*4+1-1:0] dmtd_xval_r=0;
@@ -647,7 +687,13 @@ wire [31:0] phdiffavr_x;
 wire [31:0] phaseab_x;
 wire [31:0] phdiffmidavr_x;
 
-alatch #(.DWIDTH(32*3))dmtdhelpclktoethclk(.clk(ethclk),.gatein(stb_phaseab),.datain({phaseab,freqa,freqb}),.gateout(),.dataout({lbreg.phaseab,lbreg.freqa,lbreg.freqb}));
+data_xdomain #(.DWIDTH(32*3))dmtdhelpclktoethclk(.clkin(helpclk),.clkout(ethclk),.gatein(stb_phaseab),.datain({phaseab,freqa,freqb}),.gateout(),.dataout({lbreg.phaseab,lbreg.freqa,lbreg.freqb}));
+wire [31:0] txphaseab_x;
+wire stb_txphaseab_x;
+data_xdomain #(.DWIDTH(32))dmtdtxlatch(.clkin(helpclk),.clkout(ethclk),.gatein(stb_txphaseab),.datain(txphaseab),.gateout(stb_txphaseab_x),.dataout(txphaseab_x));
+wire [31:0] rxphaseab_x;
+wire stb_rxphaseab_x;
+data_xdomain #(.DWIDTH(32))dmtdrxlatch(.clkin(helpclk),.clkout(ethclk),.gatein(stb_rxphaseab),.datain(rxphaseab),.gateout(stb_rxphaseab_x),.dataout(rxphaseab_x));
 
 wire sgmiieth_reset;
 wire sgmiieth_resetdone;
@@ -927,7 +973,7 @@ end
 assign trigcnt = master ? sfpicc.txusrclkcnt : sfpicc.txusrclkcnt_corr;//fmc2_dclk10cnt;
 
 
-assign hw.vc707.user_sma_gpio_p=phrefclk125;//hw.fmc1.lmk_dclk10_m2c_to_fpga;
+assign hw.vc707.user_sma_gpio_p=fmc2llmkdclkout2cnt;//phrefclk125;//hw.fmc1.lmk_dclk10_m2c_to_fpga;
 assign hw.vc707.user_sma_gpio_n= ~|trigcnt[9:0];
 assign hw.vc707.gpio_led_0=master;
 assign master=hw.vc707.gpio_dip_sw0;
@@ -1195,7 +1241,7 @@ chainreset(.clk(hw.vc707.sysclk)
 
 wire [NSTEP-1:0] done_w;
 
-data_xdomain #(.size(NSTEP)) donexdomainethclk(.clk_in(hw.vc707.sysclk), .gate_in(1'b1), .data_in(done),.clk_out(ethclk),.data_out(done_r3));
+data_xdomain #(.DWIDTH(NSTEP)) donexdomainethclk(.clkin(hw.vc707.sysclk), .gatein(1'b1), .datain(done),.clkout(ethclk),.dataout(done_r3));
 assign lbreg.hwresetstatus=done_r3;
 assign uartreg.hwresetstatus=done_r3;
 

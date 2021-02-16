@@ -7,11 +7,9 @@
 		,"dbi2cstate":4
 		,"dbnewnow":6
 		,"dbrfreq_w":38
-		,"dbsamphelp_d1_ref_v":1
 		,"dbsmallmax":38
 		,"dbsmallmin":38
 		,"ethclkcnt":32
-		,"freqdiff_x":32
 		,"gmii.rx_dv":1
 		,"gmii.rxd":8
 		,"gmii.tx_en":1
@@ -67,8 +65,13 @@
 		,"updatesi570":1
 		,"updatesi570":1
 		,"dbverr":32
+		,"freqerr":32
+		,"stb_freqerr":1
 		,"freqerr_x":32
 		,"stb_freqerr_x":1
+		,"dbafreq01":1
+		,"dbfreqint":32
+		,"dbfracerr":32
 	}
 	,"backup":{
 		"i2ccmd":37
@@ -124,5 +127,7 @@
 		,"resetdone_smasfp":1
 		,"rxdata_smasfp":32
 		,"txdata_smasfp":32
+		,"dbsamphelp_d1_ref_v":1
+		,"freqdiff_x":32
 	}
 }

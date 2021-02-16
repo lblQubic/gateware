@@ -92,3 +92,4 @@ submodules/common-hdl/uartrx.v
 submodules/common-hdl/uarttx.v
 submodules/common-hdl/via.v
 submodules/common-hdl/viapairs.v
+submodules/common-hdl/simple_cic.v

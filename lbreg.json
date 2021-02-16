@@ -174,7 +174,7 @@
 ,"helppllkpshift":{"access": "rw", "addr_width": 0, "data_width": 5, "sign": "unsigned", "init": 8}
 ,"helppllki":{"access": "rw", "addr_width": 0, "data_width": 16, "sign": "unsigned", "init": 0}
 ,"helppllkishift":{"access": "rw", "addr_width": 0, "data_width": 5, "sign": "unsigned", "init": 5}
-,"stableval":{"access": "rw", "addr_width": 0, "data_width": 32, "sign": "unsigned", "init": 150000}
+,"stableval":{"access": "rw", "addr_width": 0, "data_width": 32, "sign": "unsigned", "init": 1000}
 ,"dmtdnavr":{"access": "rw", "addr_width": 0, "data_width": 5, "sign": "unsigned", "init": 7}
 ,"gitrevision":{"access": "r", "addr_width": 0, "data_width": 32, "sign": "unsigned", "init": 0}
 ,"phdiffavr_tx":{"access": "r", "addr_width": 0, "data_width": 32, "sign": "signed", "init": 0}
@@ -191,4 +191,7 @@
 ,"freqa":{"access": "r", "addr_width": 0, "data_width": 32, "sign": "signed", "init": 0}
 ,"freqb":{"access": "r", "addr_width": 0, "data_width": 32, "sign": "signed", "init": 0}
 ,"phaseab":{"access": "r", "addr_width": 0, "data_width": 32, "sign": "signed", "init": 0}
+,"offsetwidth":{"access": "rw", "addr_width": 0, "data_width": 5, "sign": "unsigned", "init": 0}
+,"phdiff":{"access": "r", "addr_width": 0, "data_width": 16, "sign": "signed", "init": 0}
+,"sfpresetmask":{"access": "rw", "addr_width": 0, "data_width": 4, "sign": "unsigned", "init": 15}
 }

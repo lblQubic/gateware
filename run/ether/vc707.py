@@ -78,7 +78,7 @@ class c_vc707:
 		if i2cdest in self.i2csw.keys():
 			self.i2cwrite(devaddr=0x74,data=self.i2csw[i2cdest]);
 			time.sleep(1)
-			print('readback',hex(self.i2cread(devaddr=0x74)));
+#			print('readback',hex(self.i2cread(devaddr=0x74)));
 		else:
 			print('i2cswitch options: %s'%'|'.join(self.i2csw.keys()))
 

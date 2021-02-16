@@ -6,3 +6,5 @@ submodules/common-hdl/areset.v
 submodules/common-hdl/chainreset.v
 submodules/common-hdl/dmtd.v
 submodules/common-hdl/async.v
+submodules/common-hdl/sat.v
+submodules/common-hdl/alatch.v
