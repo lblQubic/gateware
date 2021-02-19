@@ -25,10 +25,11 @@ create_generated_clock -name clk200 -source [get_ports {fpga\\.E19}] -divide_by 
 create_generated_clock -name clk250 -source [get_ports {fpga\\.E19}] -divide_by 4 -multiply_by 5 [get_pins qubichw_config/sysclkmmcm/bufgclk250/I]
 create_generated_clock -name eth125 -source [get_pins qubichw_config/sgmii_ethernet_pcs_pma/bufgtxoutclk/I] -divide_by 8 -multiply_by 16 [get_pins qubichw_config/sgmii_ethernet_pcs_pma/bufgclk125/I]
 create_generated_clock -name eth62_5 -source [get_pins qubichw_config/sgmii_ethernet_pcs_pma/bufgtxoutclk/I] -divide_by 16 -multiply_by 16 [get_pins qubichw_config/sgmii_ethernet_pcs_pma/bufgclk62_5/I]
-create_generated_clock -name si5324clkdiv2 -source [get_pins {qubichw_config/si5324divbufgce/I}] -divide_by 2 [get_pins qubichw_config/si5324divbufgce/O]
-create_generated_clock -name smamgtclkdiv2 -source [get_pins {qubichw_config/smamgtdivbufgce/I}] -divide_by 2 [get_pins qubichw_config/smamgtdivbufgce/O]
+#create_generated_clock -name si5324clkdiv2 -source [get_pins {qubichw_config/si5324divbufgce/I}] -divide_by 2 [get_pins qubichw_config/si5324divbufgce/O]
+#create_generated_clock -name smamgtclkdiv2 -source [get_pins {qubichw_config/smamgtdivbufgce/I}] -divide_by 2 [get_pins qubichw_config/smamgtdivbufgce/O]
 #-edges {1,2,3} 
 #-edges {1,2,3}
 
 set_clock_groups -name qubic -asynchronous -group [get_clocks -include_generated_clocks sgmiiclk] -group [get_clocks -include_generated_clocks sysclk] -group [get_clocks -include_generated_clocks si5324clk] -group [get_clocks -include_generated_clocks smamgtclk] -group [get_clocks -include_generated_clocks userclk] -group [get_clocks -include_generated_clocks ethclk] -group [get_clocks -include_generated_clocks fmc1dclk2] -group [get_clocks -include_generated_clocks fmc1refclk8] -group [get_clocks -include_generated_clocks fmc1refclk10] -group [get_clocks -include_generated_clocks fmc2dclk2] -group [get_clocks -include_generated_clocks fmc2refclk8] -group [get_clocks -include_generated_clocks fmc2refclk10] -group [get_clocks -include_generated_clocks iicsclk]
 #set_property CLOCK_DEDICATED_ROUTE FALSE [get_nets qubichw_config/gticc_common_114/QPLLOUTCLK]
+set_property CLOCK_DEDICATED_ROUTE FALSE [get_nets qubichw_config/gticc_gt_smasfp/TXOUTCLK]

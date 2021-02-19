@@ -8,3 +8,4 @@ submodules/common-hdl/dmtd.v
 submodules/common-hdl/async.v
 submodules/common-hdl/sat.v
 submodules/common-hdl/alatch.v
+submodules/common-hdl/sext.v

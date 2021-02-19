@@ -72,6 +72,10 @@
 		,"dbafreq01":1
 		,"dbfreqint":32
 		,"dbfracerr":32
+		,"lb570processed":1
+		,"si570lbstart":1
+		,"dbstatesi570vc707":4
+		,"dbnextsi570vc707":4
 	}
 	,"backup":{
 		"i2ccmd":37

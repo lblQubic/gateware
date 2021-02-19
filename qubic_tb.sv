@@ -44,6 +44,11 @@ reg clk250=0;
 initial begin
     forever #(2) clk250=~clk250;
 end
+reg [31:0] clk250cnt=0;
+always @(posedge clk250) begin
+	clk250cnt<=clk250cnt+1;
+end
+
 reg clk500=0;
 initial begin
     forever #(1) clk500=~clk500;
@@ -73,8 +78,10 @@ assign {hw.fmc1.sim.adc1_da1_p,hw.fmc1.sim.adc1_da1_n}={hw.fmc1.dac_lane_p[4],hw
 assign {hw.fmc1.sim.adc1_da2_p,hw.fmc1.sim.adc1_da2_n}={hw.fmc1.dac_lane_p[5],hw.fmc1.dac_lane_n[5]};
 assign {hw.fmc1.sim.adc1_db1_p,hw.fmc1.sim.adc1_db1_n}={hw.fmc1.dac_lane_p[6],hw.fmc1.dac_lane_n[6]};
 assign {hw.fmc1.sim.adc1_db2_p,hw.fmc1.sim.adc1_db2_n}={hw.fmc1.dac_lane_p[7],hw.fmc1.dac_lane_n[7]};
-assign {hw.vc707.sma_mgt_refclk_p, hw.vc707.sma_mgt_refclk_n}={hw.vc707.user_sma_clock_p, hw.vc707.user_sma_clock_n};
+wire master=1'b1;
+assign {hw.vc707.sma_mgt_refclk_p, hw.vc707.sma_mgt_refclk_n}=master ? {clk250cnt[0],~clk250cnt[0]} : {hw.vc707.user_sma_clock_p, hw.vc707.user_sma_clock_n};
 assign {hw.vc707.user_clock_p,hw.vc707.user_clock_n}={clk100,~clk100};
+assign hw.vc707.gpio_dip_sw0=master;
 //assign {hw.fmc2.sim.adc0_da1_p,hw.fmc2.sim.adc0_da1_n}=hw.fmc2.adca_sync_in_l_vadj ? {adc0[0],~adc0[0]} : {hw.fmc2.dac_lane_p[0],hw.fmc2.dac_lane_n[0]};
 //assign {hw.fmc2.sim.adc0_da2_p,hw.fmc2.sim.adc0_da2_n}=hw.fmc2.adca_sync_in_l_vadj ? {adc0[1],~adc0[1]} : {hw.fmc2.dac_lane_p[1],hw.fmc2.dac_lane_n[1]};
 //assign {hw.fmc2.sim.adc0_db1_p,hw.fmc2.sim.adc0_db1_n}=hw.fmc2.adca_sync_in_l_vadj ? {adc1[0],~adc1[0]} : {hw.fmc2.dac_lane_p[2],hw.fmc2.dac_lane_n[2]};

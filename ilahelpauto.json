@@ -32,6 +32,11 @@
 		,"stb_txphaseab":1
 		,"rxphaseab":32
 		,"stb_rxphaseab":1
+		,"txphaseab_x":32
+		,"rxphaseab_x":32
+		,"sfpicc.txphdmtd":16
+		,"sfpicc.rxphdmtd":16
+		,"lbreg.dmtdnavr":5
 	}
 	,"dmtd":{
 		"clk":"helpclk"

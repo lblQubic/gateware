@@ -17,6 +17,8 @@ module si570vc707(input clk
 ,output [37:0] dbsmallmax
 ,output [37:0] dbsmallmin
 ,output [5:0] dbnewnow
+,output [3:0] dbstate
+,output [3:0] dbnext
 );
 
 reg [2:0] hs_div_new=0;
@@ -75,6 +77,9 @@ localparam CNT=16'd5;
 reg [15:0] cnt=0;
 reg [3:0] state=IDLE;
 reg [3:0] next=IDLE;
+assign dbstate=state;
+assign dbnext=next;
+reg busy1=0;
 always @(posedge clk) begin
 	state<=next;
 	cnt<= (state==next)&(state!=IDLE) ? (&cnt ? cnt : cnt+1) : 0;
@@ -83,24 +88,29 @@ always @(*) begin
 	case (state)
 		IDLE:begin next = start_r ? START: IDLE; end
 		START:begin next = ~i2cbusy ? I2CSW : START; end
-		I2CSW:begin next = (cnt>CNT) & ~i2cbusy ? START2 :I2CSW; end
+		I2CSW:begin next = busy1 &(cnt>CNT) & ~i2cbusy ? START2 :I2CSW; end
 		START2:begin next = ~i2cbusy ? smallchange_r ? SMALLFRZ : LARGEFRZ : START2; end
-		SMALLFRZ:begin next = (cnt>CNT) & ~i2cbusy ? REG8 : SMALLFRZ ; end
-		LARGEFRZ:begin next = (cnt>CNT) & ~i2cbusy ? REG7 : LARGEFRZ ; end
-		REG7:begin next = (cnt>CNT) & ~i2cbusy ? REG8 : REG7; end
-//		REG70:begin next = (cnt>CNT) & ~i2cbusy ? REG7 : REG70; end
-		REG8:begin next = (cnt>CNT) & ~i2cbusy ? REG9 : REG8; end
-		REG9:begin next = (cnt>CNT) & ~i2cbusy ? REGA : REG9; end
-		REGA:begin next = (cnt>CNT) & ~i2cbusy ? REGB : REGA; end
-		REGB:begin next = (cnt>CNT) & ~i2cbusy ? REGC : REGB; end
-		REGC:begin next = (cnt>CNT) & ~i2cbusy ? smallchange_r ? SMALLUNFRZ : LARGEUNFRZ : REGC ; end
-		SMALLUNFRZ:begin next = (cnt>CNT) & ~i2cbusy ? (midstep_r) ?  I2CSW : IDLE : SMALLUNFRZ; end
-		LARGEUNFRZ:begin next = (cnt>CNT) & ~i2cbusy ?  NEWFREQ : LARGEUNFRZ ; end
-		NEWFREQ:begin next = (cnt>CNT) & ~i2cbusy ?  IDLE : NEWFREQ; end
+		SMALLFRZ:begin next = busy1 &(cnt>CNT) & ~i2cbusy ? REG8 : SMALLFRZ ; end
+		LARGEFRZ:begin next = busy1 &(cnt>CNT) & ~i2cbusy ? REG7 : LARGEFRZ ; end
+		REG7:begin next = busy1 &(cnt>CNT) & ~i2cbusy ? REG8 : REG7; end
+//		REG70:begin next = busy1 &(cnt>CNT) & ~i2cbusy ? REG7 : REG70; end
+		REG8:begin next = busy1 &(cnt>CNT) & ~i2cbusy ? REG9 : REG8; end
+		REG9:begin next = busy1 &(cnt>CNT) & ~i2cbusy ? REGA : REG9; end
+		REGA:begin next = busy1 &(cnt>CNT) & ~i2cbusy ? REGB : REGA; end
+		REGB:begin next = busy1 &(cnt>CNT) & ~i2cbusy ? REGC : REGB; end
+		REGC:begin next = busy1 &(cnt>CNT) & ~i2cbusy ? smallchange_r ? SMALLUNFRZ : LARGEUNFRZ : REGC ; end
+		SMALLUNFRZ:begin next = busy1 &(cnt>CNT) & ~i2cbusy ? (midstep_r) ?  I2CSW : IDLE : SMALLUNFRZ; end
+		LARGEUNFRZ:begin next = busy1 &(cnt>CNT) & ~i2cbusy ?  NEWFREQ : LARGEUNFRZ ; end
+		NEWFREQ:begin next = busy1 &(cnt>CNT) & ~i2cbusy ?  IDLE : NEWFREQ; end
 		default: next = IDLE;
 	endcase
 end
 always @(posedge clk) begin
+	if (state==next)
+		if (i2cbusy)
+			busy1<=1'b1;
+	else
+		busy1<=1'b0;
 	case (next)
 		IDLE:begin
 			busy_r<=1'b0;
