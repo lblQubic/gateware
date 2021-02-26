@@ -10,7 +10,7 @@ wire lb_write=lbreg.lb.write;
 wire lb_read=lbreg.lb.read;
 wire [31:0] lb_wdata=lbreg.lb.wdata;
 
-reg [31:0] trig_cnts;
+/*reg [31:0] trig_cnts;
 wire trig_chan;
 assign trig_chan = trig_cnts == lbreg.period_dac0-1;
 initial begin
@@ -361,7 +361,7 @@ generate for (idigi=0; idigi<4; idigi=idigi+1) begin: digigen
 	digimark mark1(.clk(dsp.clk),.cstrobe(digi_cstrobe),.command(command),.mark(markpin[idigi]));
 end
 endgenerate
-
+*/
 endmodule
 
 interface dsp#(parameter DEBUG="false")();

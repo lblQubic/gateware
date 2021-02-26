@@ -1274,12 +1274,13 @@ always @(posedge hw.vc707.sysclk) begin
 	end
 end
 wire [NSTEP*16-1:0] readylength;//={NSTEP{16'd20}};
+wire [NSTEP*16-1:0] donelength;//={NSTEP{16'd20}};
 wire [NSTEP*16-1:0] resetlength;//={NSTEP{16'd20}};
 wire [NSTEP*32-1:0] resettimeout;//={NSTEP{32'b0}};
 wire [NSTEP*16-1:0] resettodonecheck;//={16'd10,16'd20,16'd1};
 
 
-wire [2:0] dbchainstate,dbchainnext;
+wire [3:0] dbchainstate,dbchainnext;
 chainreset #(.NSTEP(NSTEP))
 chainreset(.clk(hw.vc707.sysclk)
 ,.resetin(resetin)
@@ -1287,6 +1288,7 @@ chainreset(.clk(hw.vc707.sysclk)
 ,.donecriteria(donecriteria)
 ,.resetlength(resetlength)
 ,.readylength(readylength)
+,.donelength(donelength)
 ,.resettodonecheck(resettodonecheck)
 ,.resettimeout(resettimeout)
 ,.done(done)
@@ -1306,73 +1308,76 @@ assign uartreg.hwresetstatus=done_r3;
 
 assign sysclkmmcm_reset=resetout[SYSCLKMMCM_RESET];
 assign donecriteria[SYSCLKMMCM_RESET]=sysclkmmcm_locked;
-assign readylength[SYSCLKMMCM_RESET*16+:16]=16'd30;assign resetlength[SYSCLKMMCM_RESET*16+:16]=16'd20;assign resettodonecheck[SYSCLKMMCM_RESET*16+:16]=16'd10;assign resettimeout[SYSCLKMMCM_RESET*32+:32]=32'h10000000;
+assign donelength[SYSCLKMMCM_RESET*16+:16]=16'd1;assign readylength[SYSCLKMMCM_RESET*16+:16]=16'd30;assign resetlength[SYSCLKMMCM_RESET*16+:16]=16'd20;assign resettodonecheck[SYSCLKMMCM_RESET*16+:16]=16'd10;assign resettimeout[SYSCLKMMCM_RESET*32+:32]=32'h10000000;
 assign idelayctrl_reset=resetout[IDELAYCTRL_RESET];
 assign donecriteria[IDELAYCTRL_RESET]=idelayctrl_rdy;
-assign readylength[IDELAYCTRL_RESET*16+:16]=16'd30;assign resetlength[IDELAYCTRL_RESET*16+:16]=16'd20;assign resettodonecheck[IDELAYCTRL_RESET*16+:16]=16'd10;assign resettimeout[IDELAYCTRL_RESET*32+:32]=32'h10000000;
+assign donelength[IDELAYCTRL_RESET*16+:16]=16'd1;assign readylength[IDELAYCTRL_RESET*16+:16]=16'd30;assign resetlength[IDELAYCTRL_RESET*16+:16]=16'd20;assign resettodonecheck[IDELAYCTRL_RESET*16+:16]=16'd10;assign resettimeout[IDELAYCTRL_RESET*32+:32]=32'h10000000;
 assign sgmiieth_reset=resetout[SGMIIETH_RESET];
 assign donecriteria[SGMIIETH_RESET]=sgmiieth_resetdone;
-assign readylength[SGMIIETH_RESET*16+:16]=16'd30;assign resetlength[SGMIIETH_RESET*16+:16]=16'd20;assign resettodonecheck[SGMIIETH_RESET*16+:16]=16'd10;assign resettimeout[SGMIIETH_RESET*32+:32]=32'h10000000;
+assign donelength[SGMIIETH_RESET*16+:16]=16'd1;assign readylength[SGMIIETH_RESET*16+:16]=16'd30;assign resetlength[SGMIIETH_RESET*16+:16]=16'd20;assign resettodonecheck[SGMIIETH_RESET*16+:16]=16'd10;assign resettimeout[SGMIIETH_RESET*32+:32]=32'h10000000;
 assign uartreset=resetout[UARTRESET];
 assign donecriteria[UARTRESET]=1'b1;
-assign readylength[UARTRESET*16+:16]=16'd30;assign resetlength[UARTRESET*16+:16]=16'd20;assign resettodonecheck[UARTRESET*16+:16]=16'd10;assign resettimeout[UARTRESET*32+:32]=32'h10000000;
+assign donelength[UARTRESET*16+:16]=16'd1;assign readylength[UARTRESET*16+:16]=16'd30;assign resetlength[UARTRESET*16+:16]=16'd20;assign resettodonecheck[UARTRESET*16+:16]=16'd10;assign resettimeout[UARTRESET*32+:32]=32'h10000000;
 assign uartlbreset=resetout[UARTLBRESET];
 assign donecriteria[UARTLBRESET]=1'b1;
-assign readylength[UARTLBRESET*16+:16]=16'd30;assign resetlength[UARTLBRESET*16+:16]=16'd20;assign resettodonecheck[UARTLBRESET*16+:16]=16'd10;assign resettimeout[UARTLBRESET*32+:32]=32'h10000000;
+assign donelength[UARTLBRESET*16+:16]=16'd1;assign readylength[UARTLBRESET*16+:16]=16'd30;assign resetlength[UARTLBRESET*16+:16]=16'd20;assign resettodonecheck[UARTLBRESET*16+:16]=16'd10;assign resettimeout[UARTLBRESET*32+:32]=32'h10000000;
 assign i2creset=resetout[I2CRESET];
 assign donecriteria[I2CRESET]=i2cresetdone;
-assign readylength[I2CRESET*16+:16]=16'd30;assign resetlength[I2CRESET*16+:16]=16'd20;assign resettodonecheck[I2CRESET*16+:16]=16'd10;assign resettimeout[I2CRESET*32+:32]=32'h10000000;
+assign donelength[I2CRESET*16+:16]=16'd1;assign readylength[I2CRESET*16+:16]=16'd30;assign resetlength[I2CRESET*16+:16]=16'd20;assign resettodonecheck[I2CRESET*16+:16]=16'd10;assign resettimeout[I2CRESET*32+:32]=32'h10000000;
 assign i2cinitreset[0]=resetout[I2CINITRESET_0];
 assign donecriteria[I2CINITRESET_0]=SIM ? 1'b1 : i2cinitdone[0];
-assign readylength[I2CINITRESET_0*16+:16]=16'd30;assign resetlength[I2CINITRESET_0*16+:16]=16'd20;assign resettodonecheck[I2CINITRESET_0*16+:16]=16'd10;assign resettimeout[I2CINITRESET_0*32+:32]=32'h80000000;
+assign donelength[I2CINITRESET_0*16+:16]=16'd1;assign readylength[I2CINITRESET_0*16+:16]=16'd30;assign resetlength[I2CINITRESET_0*16+:16]=16'd20;assign resettodonecheck[I2CINITRESET_0*16+:16]=16'd10;assign resettimeout[I2CINITRESET_0*32+:32]=32'h80000000;
 assign mdioreset=resetout[MDIORESET];
 assign donecriteria[MDIORESET]=SIM ? 1'b1 : mdioinitdone;
-assign readylength[MDIORESET*16+:16]=16'd30;assign resetlength[MDIORESET*16+:16]=16'd20;assign resettodonecheck[MDIORESET*16+:16]=16'd10;assign resettimeout[MDIORESET*32+:32]=32'h80000000;
+assign donelength[MDIORESET*16+:16]=16'd1;assign readylength[MDIORESET*16+:16]=16'd30;assign resetlength[MDIORESET*16+:16]=16'd20;assign resettodonecheck[MDIORESET*16+:16]=16'd10;assign resettimeout[MDIORESET*32+:32]=32'h80000000;
 assign loadmacip=resetout[LOADMACIP];
 assign donecriteria[LOADMACIP]=maciploaded;
-assign readylength[LOADMACIP*16+:16]=16'd30;assign resetlength[LOADMACIP*16+:16]=16'd20;assign resettodonecheck[LOADMACIP*16+:16]=16'd10;assign resettimeout[LOADMACIP*32+:32]=32'h10000000;
+assign donelength[LOADMACIP*16+:16]=16'd1;assign readylength[LOADMACIP*16+:16]=16'd30;assign resetlength[LOADMACIP*16+:16]=16'd20;assign resettodonecheck[LOADMACIP*16+:16]=16'd10;assign resettimeout[LOADMACIP*32+:32]=32'h10000000;
 assign ethreset_w=resetout[ETHRESET_W];
 assign donecriteria[ETHRESET_W]=ethresetdone;
-assign readylength[ETHRESET_W*16+:16]=16'd30;assign resetlength[ETHRESET_W*16+:16]=16'd20;assign resettodonecheck[ETHRESET_W*16+:16]=16'd10;assign resettimeout[ETHRESET_W*32+:32]=32'h10000000;
+assign donelength[ETHRESET_W*16+:16]=16'd1;assign readylength[ETHRESET_W*16+:16]=16'd30;assign resetlength[ETHRESET_W*16+:16]=16'd20;assign resettodonecheck[ETHRESET_W*16+:16]=16'd10;assign resettimeout[ETHRESET_W*32+:32]=32'h10000000;
 assign i2cinitreset[1]=resetout[I2CINITRESET_1];
 assign donecriteria[I2CINITRESET_1]=SIM ? 1'b1 : i2cinitdone[1];
-assign readylength[I2CINITRESET_1*16+:16]=16'd30;assign resetlength[I2CINITRESET_1*16+:16]=16'd20;assign resettodonecheck[I2CINITRESET_1*16+:16]=16'd10;assign resettimeout[I2CINITRESET_1*32+:32]=32'h80000000;
+assign donelength[I2CINITRESET_1*16+:16]=16'd1;assign readylength[I2CINITRESET_1*16+:16]=16'd30;assign resetlength[I2CINITRESET_1*16+:16]=16'd20;assign resettodonecheck[I2CINITRESET_1*16+:16]=16'd10;assign resettimeout[I2CINITRESET_1*32+:32]=32'h80000000;
 assign axireset=resetout[AXIRESET];
 assign donecriteria[AXIRESET]=1'b1;
-assign readylength[AXIRESET*16+:16]=16'd30;assign resetlength[AXIRESET*16+:16]=16'd20;assign resettodonecheck[AXIRESET*16+:16]=16'd10;assign resettimeout[AXIRESET*32+:32]=32'h10000000;
+assign donelength[AXIRESET*16+:16]=16'd1;assign readylength[AXIRESET*16+:16]=16'd30;assign resetlength[AXIRESET*16+:16]=16'd20;assign resettodonecheck[AXIRESET*16+:16]=16'd10;assign resettimeout[AXIRESET*32+:32]=32'h10000000;
 assign jesdreset0=resetout[JESDRESET0];
 assign donecriteria[JESDRESET0]=jesdreset0_done|master;
-assign readylength[JESDRESET0*16+:16]=16'd30;assign resetlength[JESDRESET0*16+:16]=16'd20;assign resettodonecheck[JESDRESET0*16+:16]=16'd10;assign resettimeout[JESDRESET0*32+:32]=32'h10000000;
+assign donelength[JESDRESET0*16+:16]=16'd1;assign readylength[JESDRESET0*16+:16]=16'd30;assign resetlength[JESDRESET0*16+:16]=16'd20;assign resettodonecheck[JESDRESET0*16+:16]=16'd10;assign resettimeout[JESDRESET0*32+:32]=32'h10000000;
 assign jesdreset1=resetout[JESDRESET1];
 assign donecriteria[JESDRESET1]=jesdreset1_done|master;
-assign readylength[JESDRESET1*16+:16]=16'd30;assign resetlength[JESDRESET1*16+:16]=16'd20;assign resettodonecheck[JESDRESET1*16+:16]=16'd10;assign resettimeout[JESDRESET1*32+:32]=32'h10000000;
+assign donelength[JESDRESET1*16+:16]=16'd1;assign readylength[JESDRESET1*16+:16]=16'd30;assign resetlength[JESDRESET1*16+:16]=16'd20;assign resettodonecheck[JESDRESET1*16+:16]=16'd10;assign resettimeout[JESDRESET1*32+:32]=32'h10000000;
 assign axiinitreset=resetout[AXIINITRESET];
 assign donecriteria[AXIINITRESET]=axiinitdone|master;
-assign readylength[AXIINITRESET*16+:16]=16'd30;assign resetlength[AXIINITRESET*16+:16]=16'd20;assign resettodonecheck[AXIINITRESET*16+:16]=16'd10;assign resettimeout[AXIINITRESET*32+:32]=32'h10000000;
+assign donelength[AXIINITRESET*16+:16]=16'd1;assign readylength[AXIINITRESET*16+:16]=16'd30;assign resetlength[AXIINITRESET*16+:16]=16'd20;assign resettodonecheck[AXIINITRESET*16+:16]=16'd10;assign resettimeout[AXIINITRESET*32+:32]=32'h10000000;
 assign i2cinitreset[2]=resetout[I2CINITRESET_2];
 assign donecriteria[I2CINITRESET_2]=SIM ? 1'b1 : i2cinitdone[2];
-assign readylength[I2CINITRESET_2*16+:16]=16'd30;assign resetlength[I2CINITRESET_2*16+:16]=16'd20;assign resettodonecheck[I2CINITRESET_2*16+:16]=16'd10;assign resettimeout[I2CINITRESET_2*32+:32]=32'h80000000;
+assign donelength[I2CINITRESET_2*16+:16]=16'd1;assign readylength[I2CINITRESET_2*16+:16]=16'd30;assign resetlength[I2CINITRESET_2*16+:16]=16'd20;assign resettodonecheck[I2CINITRESET_2*16+:16]=16'd10;assign resettimeout[I2CINITRESET_2*32+:32]=32'h80000000;
 //assign qpllreset_113=resetout[QPLLRESET_113];
 //assign donecriteria[QPLLRESET_113]=qpllresetdone_113;
+//assign donelength[QPLLRESET_113*16+:16]=16'd30;
 //assign readylength[QPLLRESET_113*16+:16]=16'd30;assign resetlength[QPLLRESET_113*16+:16]=16'd20;assign resettodonecheck[QPLLRESET_113*16+:16]=16'd10;assign resettimeout[QPLLRESET_113*32+:32]=32'h10000000;
 assign reset_sfp=resetout[RESET_SFP];
 assign donecriteria[RESET_SFP]=sfpicc.resetdone;//_sfp;
-assign readylength[RESET_SFP*16+:16]=16'd30;assign resetlength[RESET_SFP*16+:16]=16'd20;assign resettodonecheck[RESET_SFP*16+:16]=16'd10;assign resettimeout[RESET_SFP*32+:32]=32'h10000000;
+assign donelength[RESET_SFP*16+:16]=16'd1;assign readylength[RESET_SFP*16+:16]=16'd30;assign resetlength[RESET_SFP*16+:16]=16'd20;assign resettodonecheck[RESET_SFP*16+:16]=16'd10;assign resettimeout[RESET_SFP*32+:32]=32'h10000000;
 assign reset_done=resetout[RESETDONE];
 assign donecriteria[RESETDONE]=1'b1;//_sfp;
-assign readylength[RESETDONE*16+:16]=16'd30;assign resetlength[RESETDONE*16+:16]=16'd20;assign resettodonecheck[RESETDONE*16+:16]=16'd10;assign resettimeout[RESETDONE*32+:32]=32'h10000000;
+assign donelength[RESETDONE*16+:16]=16'd1;assign readylength[RESETDONE*16+:16]=16'd30;assign resetlength[RESETDONE*16+:16]=16'd20;assign resettodonecheck[RESETDONE*16+:16]=16'd10;assign resettimeout[RESETDONE*32+:32]=32'h10000000;
 /*assign reset_smasfp=resetout[RESET_SMASFP];
 assign donecriteria[RESET_SMASFP]=smasfpicc.resetdone;//resetdone_smasfp;
-assign readylength[RESET_SMASFP*16+:16]=16'd30;assign resetlength[RESET_SMASFP*16+:16]=16'd20;assign resettodonecheck[RESET_SMASFP*16+:16]=16'd10;assign resettimeout[RESET_SMASFP*32+:32]=32'h10000000;
+assign donelength[RESET_SMASFP*16+:16]=16'd1;assign readylength[RESET_SMASFP*16+:16]=16'd30;assign resetlength[RESET_SMASFP*16+:16]=16'd20;assign resettodonecheck[RESET_SMASFP*16+:16]=16'd10;assign resettimeout[RESET_SMASFP*32+:32]=32'h10000000;
 */
 assign i2cinitreset[3]=resetout[I2CINITRESET_3];
 assign donecriteria[I2CINITRESET_3]=SIM ? 1'b1 : i2cinitdone[3];
-assign readylength[I2CINITRESET_3*16+:16]=16'd30;assign resetlength[I2CINITRESET_3*16+:16]=16'd20;assign resettodonecheck[I2CINITRESET_3*16+:16]=16'd10;assign resettimeout[I2CINITRESET_3*32+:32]=32'h80000000;
+assign donelength[I2CINITRESET_3*16+:16]=16'd1;assign readylength[I2CINITRESET_3*16+:16]=16'd30;assign resetlength[I2CINITRESET_3*16+:16]=16'd20;assign resettodonecheck[I2CINITRESET_3*16+:16]=16'd10;assign resettimeout[I2CINITRESET_3*32+:32]=32'h80000000;
 //assign qpllreset_114=resetout[QPLLRESET_114];
 //assign donecriteria[QPLLRESET_114]=qpllresetdone_114;
+//assign donelength[QPLLRESET_114*16+:16]=16'd30;
 //assign readylength[QPLLRESET_114*16+:16]=16'd30;assign resetlength[QPLLRESET_114*16+:16]=16'd20;assign resettodonecheck[QPLLRESET_114*16+:16]=16'd10;assign resettimeout[QPLLRESET_114*32+:32]=32'h10000000;
 //assign pll_reset=resetout[HELPPLL];
 //assign donecriteria[HELPPLL]=pll_locked;
+//assign donelength[HELPPLL*16+:16]=16'd30;
 //assign readylength[HELPPLL*16+:16]=16'd30;assign resetlength[HELPPLL*16+:16]=16'd20;assign resettodonecheck[HELPPLL*16+:16]=16'd10;assign resettimeout[HELPPLL*32+:32]=32'h10000000;
 
 gitrevision gitrevision(lbreg.gitrevision);

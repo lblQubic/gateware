@@ -4,8 +4,8 @@
 		"dbdone":22
 		,"reset_sfp":1
 		,"reset_smasfp":1
-		,"dbchainstate":3
-		,"dbchainnext":3
+		,"dbchainstate":4
+		,"dbchainnext":4
 		,"eepromrd":80
 		,"dbresetout":22
 		,"reseted125":1

@@ -248,5 +248,5 @@
 ,"elementmem_9":{"access": "w", "addr_width": 14, "data_width": 32, "sign": "unsigned", "init": 0}
 ,"elementmem_a":{"access": "w", "addr_width": 14, "data_width": 32, "sign": "unsigned", "init": 0}
 ,"elementmem_b":{"access": "w", "addr_width": 14, "data_width": 32, "sign": "unsigned", "init": 0}
-,"command":{"access": "w", "addr_width": 16, "data_width": 128, "sign": "unsigned", "init": 0}
+,"command":{"access": "w", "addr_width": 16, "data_width": 32, "sign": "unsigned", "init": 0}
 }

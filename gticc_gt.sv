@@ -37,10 +37,11 @@ module gticc_gt #
 ,output [2:0] dbnext
 );
 
+wire waitrxpcommaalignen;
 wire RXUSERRDY=gticc.rxuserrdy;
 wire TXUSERRDY=gticc.txuserrdy;
-wire [DBYTE-1:0] TXCHARISK=gticc.txcharisk;
-wire [DWIDTH-1:0] TXDATA=gticc.txdata;
+wire [DBYTE-1:0] TXCHARISK=waitrxpcommaalignen ? 4'h1 : gticc.txcharisk;
+wire [DWIDTH-1:0] TXDATA=waitrxpcommaalignen ? 32'h01bc : gticc.txdata;
 wire reset;
 wire [DBYTE-1:0] RXCHARISK;
 wire [DBYTE-1:0] RXCHARISCOMMA;
@@ -54,7 +55,7 @@ wire txusrclk;
 
 
 wire txrxreset1;
-wire txrxreset0;
+wire txrxreset0=1'b0;
 wire txrxreset=txrxreset0|txrxreset1;
 wire [63:0] txdata64;
 wire [7:0] txcharisk8;
@@ -129,12 +130,14 @@ assign dbrxcdrlock=RXCDRLOCK;
 `include "iccgt.vh"
 
 wire txoutclk2;
-//BUFG txoutclk_bufg(.I(TXOUTCLK),.O(TXUSRCLK));
-BUFG txoutclk_bufg(.I(txoutclk2),.O(TXUSRCLK));
+BUFG txoutclk_bufg(.I(TXOUTCLK),.O(TXUSRCLK));
+//BUFG txoutclk_bufg(.I(txoutclk2),.O(TXUSRCLK));
+//BUFG txoutclk_bufg(.I(RXOUTCLK),.O(TXUSRCLK));
 assign TXUSRCLK2=TXUSRCLK;
 
 wire mmcmclkfb;
-wire mmcmreset=txrxreset;
+wire mmcmreset;
+wire rdyfortxrxreset;
 MMCME2_ADV#(.BANDWIDTH("OPTIMIZED"),.CLKFBOUT_MULT_F(5.0),.CLKOUT0_DIVIDE_F(10),.CLKIN1_PERIOD(8),.DIVCLK_DIVIDE(1)
 )mmcm_adv_inst
 (.CLKIN1(TXOUTCLK),.CLKIN2(1'b0),.CLKINSEL(1'b1)
@@ -144,7 +147,7 @@ MMCME2_ADV#(.BANDWIDTH("OPTIMIZED"),.CLKFBOUT_MULT_F(5.0),.CLKOUT0_DIVIDE_F(10),
 ,.DADDR(7'h0),.DCLK(1'b0),.DEN(1'b0),.DI(16'h0),.DO(),.DRDY(),.DWE(1'b0)
 ,.PSCLK(1'b0),.PSEN(1'b0),.PSINCDEC(1'b0),.PSDONE()
 ,.LOCKED(mmcmlocked)
-,.RST(mmcmreset)
+,.RST(mmcmreset|~rdyfortxrxreset)
 ,.PWRDWN(1'b0)
 );
 
@@ -212,23 +215,24 @@ always @(posedge CPLLLOCKDETCLK) begin
 	end
 end
 wire txalign;
-wire rdyfortxrxreset=&{CPLLLOCK,~CPLLFBCLKLOST,~CPLLREFCLKLOST};
+assign rdyfortxrxreset=&{CPLLLOCK,~CPLLFBCLKLOST,~CPLLREFCLKLOST};
 wire txrxresetdone=&{TXRESETDONE,RXRESETDONE,rdyfortxrxreset,mmcmlocked};
 wire rxalign=&{rxphaligndone,~RXNOTINTABLE,~RXDISPERR};
 wire [NSTEP-1:0] done;
 wire [NSTEP-1:0] resetout;
 wire [NSTEP-1:0] resetoutmask=resetout&mask;
 assign RXPCOMMAALIGNEN=1'b1;
-wire waitrxpcommaalignen;
 //wire [NSTEP-1:0] donecriteria={1'b1,RXPHALIGNDONE,txrxresetdone,txrxresetdone,rdyfortxrxreset} | ~mask;
 //assign {txalign,rxdlyreset,txrxreset1,txrxreset0,CPLLRESET}=resetout&mask;
-wire [NSTEP-1:0] donecriteria={rxalign,rxphaligndone,txphaligndone&RXCDRLOCK&~RXELECIDLE,txrxresetdone,txrxresetdone,rdyfortxrxreset} | ~mask;
-assign {waitrxpcommaalignen,RXDLYSRESET,TXDLYSRESET,txrxreset1,txrxreset0,CPLLRESET}=resetoutmask;
+//wire [NSTEP-1:0] donecriteria={rxalign,rxphaligndone,txphaligndone&RXCDRLOCK&~RXELECIDLE,txrxresetdone,txrxresetdone,rdyfortxrxreset} | ~mask;
+wire [NSTEP-1:0] donecriteria={rxalign,rxphaligndone,txphaligndone&RXCDRLOCK&~RXELECIDLE,txrxresetdone,mmcmlocked,rdyfortxrxreset} | ~mask;
+assign {waitrxpcommaalignen,RXDLYSRESET,TXDLYSRESET,txrxreset1,mmcmreset,CPLLRESET}=resetoutmask;
 assign dbdonecriteria=donecriteria;
-wire [NSTEP*16-1:0] readylength={NSTEP{16'd10}};//,16'd10,16'd10};
+wire [NSTEP*16-1:0] readylength={{3{16'd10}},16'd100,16'd100,16'd100};//,16'd10,16'd10};
 wire [NSTEP*16-1:0] resetlength={16'd10,16'd2,16'd2,{3{16'd10}}};//,16'd10,16'd10};
 wire [NSTEP*16-1:0] resettodonecheck={NSTEP{16'd100}};//,16'd10,16'd10};
 wire [NSTEP*32-1:0] resettimeout={NSTEP{32'h10000000}};
+wire [NSTEP*32-1:0] donelength={NSTEP{16'd10}};
 assign resetdone=&done & txrxresetdone;
 reg [NSTEP-1:0] dbresetout_r=0;
 reg lost_d=0;
@@ -256,6 +260,7 @@ chainreset(.clk(CPLLLOCKDETCLK)
 ,.readylength(readylength)
 ,.resettodonecheck(resettodonecheck)
 ,.resettimeout(resettimeout)
+,.donelength(donelength)
 ,.done(done)
 ,.dbstate(dbstate)
 ,.dbnext(dbnext)
