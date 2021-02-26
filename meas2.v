@@ -50,14 +50,10 @@ genvar ix;
 generate for (ix=0; ix<tslice; ix=ix+1) begin: timeslice
 	wire signed [48-1:0] xbase48;
 	wire signed [48-1:0] ybase48;
-	wire signed [15:0] xbasetmp;
-	wire signed [15:0] ybasetmp;
 	cmultiplier #(.FPGA(FPGA))
 	measmult(.clk(clk),.rst(1'b0),.xi({ymeasin[ix*dw+:dw],2'b0}),.xr({xmeasin[ix*dw+:dw],2'b0}),.yi({-ylo[ix*dw+:dw],2'b0}),.yr({xlo[ix*dw+:dw],2'b0}),.zr(xbase48),.zi(ybase48));  // multiply with xlo-j*ylo complex of conjugate
 	assign xbase[ix*dw+:dw]=xbase48[34:19]+xbase48[18];
 	assign ybase[ix*dw+:dw]=ybase48[34:19]+ybase48[18];
-	assign xbasetmp=xbase48[34:19]+xbase48[18];
-	assign ybasetmp=ybase48[34:19]+ybase48[18];
 end
 endgenerate
 wire [15:0] xbase3,xbase2,xbase1,xbase0;
@@ -73,8 +69,8 @@ reg elactive_d=0;
 wire active_rising=elactive&~elactive_d;
 wire active_faling=~elactive&elactive_d;
 wire falingdelay;
-reg_delay #(.dw(1),.len(4)) delayreset(.clk(clk),.din(active_rising),.dout(reset_delay),.gate(1'b1));
-reg_delay #(.dw(2),.len(5)) activedelay(.clk(clk),.din({elactive|elactive_d,active_faling}),.dout({active_delay,falingdelay}),.gate(1'b1));
+reg_delay #(.DW(1),.LEN(4)) delayreset(.clk(clk),.din(active_rising),.dout(reset_delay),.gate(1'b1));
+reg_delay #(.DW(2),.LEN(5)) activedelay(.clk(clk),.din({elactive|elactive_d,active_faling}),.dout({active_delay,falingdelay}),.gate(1'b1));
 reg resultx_r=0;
 reg resulty_r=0;
 wire signed [32-1:0] xbaserot;

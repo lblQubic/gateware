@@ -13,7 +13,13 @@ modport dsp(input test,test2,err
 ,stb_dac45_0freq,stb_dac45_1freq,stb_dac45_2freq,stb_dac45_3freq,stb_dac45_4freq,stb_dac45_5freq,stb_dac45_6freq,stb_dac45_7freq
 ,dac67_0amp,dac67_0freq,dac67_1amp,dac67_1freq,dac67_2amp,dac67_2freq,dac67_3amp,dac67_3freq,dac67_4amp,dac67_4freq,dac67_5amp,dac67_5freq,dac67_6amp,dac67_6freq,dac67_7amp,dac67_7freq
 ,stb_dac67_0freq,stb_dac67_1freq,stb_dac67_2freq,stb_dac67_3freq,stb_dac67_4freq,stb_dac67_5freq,stb_dac67_6freq,stb_dac67_7freq
-,output test1
+,dsp_reset,period_dac0,start,digiloopback,mon_navr,mon_dt,mon_slice,mon_sel0,mon_sel1,panzoom_reset,panzoom_test,opsel
+,stb_dsp_reset,stb_period_dac0,stb_start,stb_digiloopback,stb_mon_navr,stb_mon_dt,stb_mon_slice,stb_mon_sel0,stb_mon_sel1,stb_panzoom_reset,stb_panzoom_test,stb_opsel
+,dac0_dc,dac1_dc,dac2_dc,dac3_dc,dac4_dc,dac5_dc,dac6_dc,dac7_dc,xoffset,yoffset,iqrot
+,stb_dac0_dc,stb_dac1_dc,stb_dac2_dc,stb_dac3_dc,stb_dac4_dc,stb_dac5_dc,stb_dac6_dc,stb_dac7_dc,stb_xoffset,stb_yoffset,stb_iqrot
+,elementmem_0,elementmem_1,elementmem_2,elementmem_3,elementmem_4,elementmem_5,elementmem_6,elementmem_7,elementmem_8,elementmem_9,elementmem_a,elementmem_b,command
+,stb_elementmem_0,stb_elementmem_1,stb_elementmem_2,stb_elementmem_3,stb_elementmem_4,stb_elementmem_5,stb_elementmem_6,stb_elementmem_7,stb_elementmem_8,stb_elementmem_9,stb_elementmem_a,stb_elementmem_b,stb_command
+,output test1,full,stopped,accout_0__data,accout_1__data,accout_2__data,accout_3__data,adc0_min,adc0_max,adc1_min,adc1_max,buf_monout_0__data,buf_monout_1__data
 );
 modport dspsim(output test,test2,err
 ,dac01_0amp,dac01_0freq,dac01_1amp,dac01_1freq,dac01_2amp,dac01_2freq,dac01_3amp,dac01_3freq,dac01_4amp,dac01_4freq,dac01_5amp,dac01_5freq,dac01_6amp,dac01_6freq,dac01_7amp,dac01_7freq
@@ -24,5 +30,11 @@ modport dspsim(output test,test2,err
 ,stb_dac45_0freq,stb_dac45_1freq,stb_dac45_2freq,stb_dac45_3freq,stb_dac45_4freq,stb_dac45_5freq,stb_dac45_6freq,stb_dac45_7freq
 ,dac67_0amp,dac67_0freq,dac67_1amp,dac67_1freq,dac67_2amp,dac67_2freq,dac67_3amp,dac67_3freq,dac67_4amp,dac67_4freq,dac67_5amp,dac67_5freq,dac67_6amp,dac67_6freq,dac67_7amp,dac67_7freq
 ,stb_dac67_0freq,stb_dac67_1freq,stb_dac67_2freq,stb_dac67_3freq,stb_dac67_4freq,stb_dac67_5freq,stb_dac67_6freq,stb_dac67_7freq
-,input test1
+,dsp_reset,period_dac0,start,digiloopback,mon_navr,mon_dt,mon_slice,mon_sel0,mon_sel1,panzoom_reset,panzoom_test,opsel
+,stb_dsp_reset,stb_period_dac0,stb_start,stb_digiloopback,stb_mon_navr,stb_mon_dt,stb_mon_slice,stb_mon_sel0,stb_mon_sel1,stb_panzoom_reset,stb_panzoom_test,stb_opsel
+,dac0_dc,dac1_dc,dac2_dc,dac3_dc,dac4_dc,dac5_dc,dac6_dc,dac7_dc,xoffset,yoffset,iqrot
+,stb_dac0_dc,stb_dac1_dc,stb_dac2_dc,stb_dac3_dc,stb_dac4_dc,stb_dac5_dc,stb_dac6_dc,stb_dac7_dc,stb_xoffset,stb_yoffset,stb_iqrot
+,elementmem_0,elementmem_1,elementmem_2,elementmem_3,elementmem_4,elementmem_5,elementmem_6,elementmem_7,elementmem_8,elementmem_9,elementmem_a,elementmem_b,command
+,stb_elementmem_0,stb_elementmem_1,stb_elementmem_2,stb_elementmem_3,stb_elementmem_4,stb_elementmem_5,stb_elementmem_6,stb_elementmem_7,stb_elementmem_8,stb_elementmem_9,stb_elementmem_a,stb_elementmem_b,stb_command
+,input test1,full,stopped,accout_0__data,accout_1__data,accout_2__data,accout_3__data,adc0_min,adc0_max,adc1_min,adc1_max,buf_monout_0__data,buf_monout_1__data
 );
