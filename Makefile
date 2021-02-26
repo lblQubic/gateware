@@ -23,6 +23,8 @@ tar: $(TAR_SOURCE) $(SYNTH_SOURCE) $(SIM_SOURCE) $(SYNTH_CONSTR) $(SIM_CONSTR)
 gitcommit: $(filter-out ./gitrevision.v, $(SYNTH_SOURCE))
 	echo $^
 	python submodules/tools/gitauto.py -action autocommit
+gitpush:
+	python submodules/tools/gitauto.py -action push
 gitlist:
 	python submodules/tools/gitauto.py -action list
 
