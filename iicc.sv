@@ -343,9 +343,9 @@ always@(posedge txclk) begin
 	//txcnt_corr<=txcnt+corr48;
 //	phdiff<=(tdiff2[14:1]+tdiff2[0]);
 end
-
-assign gticc.txdata= ~rxbyteisaligned_x ? palignreq : alignrequest_x ? palignchar : txstb_r ? synctx ? {actiontx,indextx,txdata8} : txdata : palignchar;
-assign gticc.txcharisk= ~rxbyteisaligned_x ? palignreqisk :  alignrequest_x ?  paligncharisk : txstb_r ? 0: paligncharisk;
+reg gtxtest=0;
+assign gticc.txdata= ~rxbyteisaligned_x|gtxtest ? palignreq : alignrequest_x ? palignchar : txstb_r ? synctx ? {actiontx,indextx,txdata8} : txdata : palignchar;
+assign gticc.txcharisk= ~rxbyteisaligned_x|gtxtest ? palignreqisk :  alignrequest_x ?  paligncharisk : txstb_r ? 0: paligncharisk;
 
 /*modport cfg (input rxphdmtd
 ,output

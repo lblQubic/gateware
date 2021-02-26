@@ -27,5 +27,8 @@
 		,"reset_sfp_w":1
 		,"sfpreconnected":1
 		,"lbreg.stb_reset_sfp":1
+		,"sw67":2
+		,"clk100cntshift":32
+		,"gtxperiodicreset":1
 	}
 }

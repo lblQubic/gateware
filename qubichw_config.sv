@@ -444,10 +444,10 @@ areset resetsfpareset(.clk(hw.vc707.sysclk),.areset(reset_sfp),.sreset(reset_sfp
 gticc_gt #(.SIM_CPLLREFCLK_SEL(3'h002),.DWIDTH(16))
 gticc_gt_sfp(.CPLLLOCKDETCLK(hw.vc707.sysclk)
 //,.GTNORTHREFCLK0(1'b0),.GTNORTHREFCLK1(1'b0),.GTREFCLK0(sgmiiclk),.GTREFCLK1(sma_mgt_refclk),.GTSOUTHREFCLK0(si5324_out_c),.GTSOUTHREFCLK1(1'b0)
-,.GTNORTHREFCLK0(1'b0),.GTNORTHREFCLK1(1'b0),.GTREFCLK0(1'b0),.GTREFCLK1(sma_mgt_refclk),.GTSOUTHREFCLK0(1'b0),.GTSOUTHREFCLK1(1'b0)
+,.GTNORTHREFCLK0(1'b0),.GTNORTHREFCLK1(1'b0),.GTREFCLK0(sgmiiclk),.GTREFCLK1(sma_mgt_refclk),.GTSOUTHREFCLK0(1'b0),.GTSOUTHREFCLK1(1'b0)
 ,.GTXRXN(hw.vc707.sfp.rx_n),.GTXRXP(hw.vc707.sfp.rx_p),.GTXTXN(hw.vc707.sfp.tx_n),.GTXTXP(hw.vc707.sfp.tx_p)
 ,.QPLLCLK(1'b0),.QPLLREFCLK(1'b0)
-,.CPLLREFCLKSEL(3'h2)
+,.CPLLREFCLKSEL(hw.vc707.gpio_dip_sw2 ? 3'h1 : 3'h2)
 ,.gticc(sfpicc.gticc.gt)
 ,.dblocked(dblocked_sfp)
 ,.dbrxcdrlock(dbrxcdrlock_sfp)
@@ -458,9 +458,16 @@ gticc_gt_sfp(.CPLLLOCKDETCLK(hw.vc707.sysclk)
 ,.dbstate(dbstate_sfp)
 ,.dbnext(dbnext_sfp)
 );
-assign sfpicc.sreset=(reset_sfp_w|sfpreconnected|lbreg.stb_reset_sfp);
+wire [1:0] sw67={hw.vc707.gpio_dip_sw6,hw.vc707.gpio_dip_sw7};
+wire [31:0] clk100cntshift=clk100cnt<<(sw67+7);
+wire gtxperiodicreset=hw.vc707.gpio_dip_sw5 ? 1'b0 : ~|(clk100cntshift);
+wire gtxperiodicreset_x;
+areset gtxareset(.clk(hw.vc707.sysclk),.areset(gtxperiodicreset),.sreset(gtxperiodicreset_x));
+
+assign sfpicc.sreset=(reset_sfp_w|sfpreconnected|lbreg.stb_reset_sfp|gtxperiodicreset_x);
 assign sfpicc.txdata=lbreg.sfptesttx;
 assign sfpicc.stbtxdata=1'b1;
+assign sfpicc.gtxtest=hw.vc707.gpio_dip_sw4;
 assign lbreg.sfptestrx=sfpicc.rxdata;
 assign lbreg.phdiff=sfpicc.phdiff;
 wire master;
@@ -548,7 +555,7 @@ always @(posedge hw.fmc2.llmk_dclkout_2) begin
 	fmc2llmkdclkout2cnt<=fmc2llmkdclkout2cnt+1;
 end
 wire phrefclk125;
-assign phrefclk125=master ? smamgtclk : dspclkcnt[0];//hw.fmc1.lmk_dclk10_m2c_to_fpga;
+assign phrefclk125=master ? (hw.vc707.gpio_dip_sw2 ? sgmiiclk : smamgtclk) : dspclkcnt[0];//hw.fmc1.lmk_dclk10_m2c_to_fpga;
 assign phrefclk62_5= master ? smamgtclk_cnt[0] : dspclkcnt[1];
 
 /*wire [32-1:0] dbclkhelpcnt_samp0;
@@ -1031,8 +1038,8 @@ wire locked= (~|sfpicc.cdiff2[47:1] | &sfpicc.cdiff2);  // 0, 1, -1
 assign trigcnt = master ? dspclkcnt : dspclkcntcorr;
 
 
-assign hw.vc707.user_sma_gpio_p=fmc2llmkdclkout2cnt;//phrefclk125;//hw.fmc1.lmk_dclk10_m2c_to_fpga;
-assign hw.vc707.user_sma_gpio_n= (master | (locked & sfpicc.usecorr)) ? ~|trigcnt[9:0] : 0;
+assign hw.vc707.user_sma_gpio_p=hw.vc707.gpio_dip_sw3 ? sfpicc.txclk : fmc2llmkdclkout2cnt;//phrefclk125;//hw.fmc1.lmk_dclk10_m2c_to_fpga;
+assign hw.vc707.user_sma_gpio_n=hw.vc707.gpio_dip_sw3 ? sfpicc.rxclk :  (master | (locked & sfpicc.usecorr)) ? ~|trigcnt[9:0] : 0;
 assign hw.vc707.gpio_led_0=master;
 assign master=hw.vc707.gpio_dip_sw0;
 

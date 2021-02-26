@@ -193,7 +193,7 @@
 ,"phaseab":{"access": "r", "addr_width": 0, "data_width": 32, "sign": "signed", "init": 0, "base_addr": 190}
 ,"offsetwidth":{"access": "rw", "addr_width": 0, "data_width": 5, "sign": "unsigned", "init": "10", "base_addr": 191}
 ,"phdiff":{"access": "r", "addr_width": 0, "data_width": 16, "sign": "signed", "init": 0, "base_addr": 192}
-,"sfpresetmask":{"access": "rw", "addr_width": 0, "data_width": 6, "sign": "unsigned", "init": "7", "base_addr": 193}
+,"sfpresetmask":{"access": "rw", "addr_width": 0, "data_width": 6, "sign": "unsigned", "init": "63", "base_addr": 193}
 ,"manualcorr":{"access": "rw", "addr_width": 0, "data_width": 16, "sign": "unsigned", "init": "0", "base_addr": 194}
 ,"corrh":{"access": "r", "addr_width": 0, "data_width": 32, "sign": "unsigned", "init": 0, "base_addr": 195}
 ,"corrl":{"access": "r", "addr_width": 0, "data_width": 32, "sign": "unsigned", "init": 0, "base_addr": 196}
