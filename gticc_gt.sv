@@ -130,8 +130,8 @@ assign dbrxcdrlock=RXCDRLOCK;
 `include "iccgt.vh"
 
 wire txoutclk2;
-BUFG txoutclk_bufg(.I(TXOUTCLK),.O(TXUSRCLK));
-//BUFG txoutclk_bufg(.I(txoutclk2),.O(TXUSRCLK));
+//BUFG txoutclk_bufg(.I(TXOUTCLK),.O(TXUSRCLK));
+BUFG txoutclk_bufg(.I(txoutclk2),.O(TXUSRCLK));
 //BUFG txoutclk_bufg(.I(RXOUTCLK),.O(TXUSRCLK));
 assign TXUSRCLK2=TXUSRCLK;
 

@@ -22,10 +22,13 @@
 		,"dbdone_sfp":25
 		,"sfpicc.resetdone":1
 		,"dbresetout_sfp":6
-		,"dbstate_sfp":3
-		,"dbnext_sfp":3
+		,"dbstate_sfp":5
+		,"dbnext_sfp":5
 		,"reset_sfp_w":1
 		,"sfpreconnected":1
 		,"lbreg.stb_reset_sfp":1
+		,"dbattemptcnt":16
+		,"dbtxphase5":5
+		,"dbcnt_sfp":32
 	}
 }

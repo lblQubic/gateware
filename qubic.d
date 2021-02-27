@@ -7,7 +7,7 @@
 ./fmc120cpldspiwriteonvc707.v
 ./gig_ethernet_pcs_pma.tcl
 ./gitrevision.v
-./gticc_gt.sv
+./iccgt_1G_125M_50M.sv
 ./helppll45.v
 ./i2cinit.vh
 ./iccgt.vh

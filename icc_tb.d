@@ -1,5 +1,5 @@
 icc_tb.sv
-gticc_gt.sv
+iccgt_1G_125M_50M.sv
 iccgt.vh
 iicc.sv
 submodules/common-hdl/areset.v

@@ -50,7 +50,7 @@ end
 //end
 reg helpclk=0;
 initial begin
-    forever #(8.000488) helpclk=~helpclk;
+    forever #(8.010488) helpclk=~helpclk;
 end
 
 reg [2:0] smamgtclk_cnt=0;
@@ -126,14 +126,18 @@ assign {sfp2_rx_p,sfp2_rx_n} ={sfptxpr_8,sfptxnr_8};//{sfp_tx_p,sfp_tx_n};//
 assign {sfp_rx_p,sfp_rx_n}={sfp2txpr_8,sfp2txnr_8};//{sfp2_tx_p,sfp2_tx_n};
 // {sfp2txpr,sfp2txnr};//
 
+wire stb_txphaseab;
+wire [31:0] txphaseab;
 iicc #(.DWIDTH(16),.SIM(SIM)) sfpiccmaster();
-gticc_gt #(.SIM_CPLLREFCLK_SEL(3'h2),.DWIDTH(DWIDTH))
+gticc_gt #(.SIM_CPLLREFCLK_SEL(3'h2),.DWIDTH(DWIDTH),.TXPHTARGET(5'h0))
 gticc_gt_sfp(.CPLLLOCKDETCLK(sysclk)
 ,.GTNORTHREFCLK0(1'b0),.GTNORTHREFCLK1(1'b0),.GTREFCLK0(1'b0),.GTREFCLK1(sma_mgt_refclk),.GTSOUTHREFCLK0(1'b0),.GTSOUTHREFCLK1(1'b0)
 ,.GTXRXN(sfp_rx_n),.GTXRXP(sfp_rx_p),.GTXTXN(sfp_tx_n),.GTXTXP(sfp_tx_p)
 ,.QPLLCLK(1'b0),.QPLLREFCLK(1'b0)
 ,.CPLLREFCLKSEL(3'h2)
 ,.gticc(sfpiccmaster.gticc.gt)
+,.stb_txphase(stb_txphaseab_x)
+,.txphase(txphaseab)
 ,.mask(6'h3f)
 );
 wire reset_sfp_w;
@@ -148,7 +152,7 @@ assign sfpiccmaster.rxcnt=dspclk_cnt[49:2];
 wire [DWIDTH-1:0] sfptestrx2;
 wire sfpreconnected2=1'b0;
 iicc #(.DWIDTH(16),.SIM(SIM)) sfpiccslave();
-gticc_gt #(.SIM_CPLLREFCLK_SEL(3'h2),.DWIDTH(DWIDTH))
+gticc_gt #(.SIM_CPLLREFCLK_SEL(3'h2),.DWIDTH(DWIDTH),.TXPHTARGET(5'd19))
 gticc_gt_sfp2(.CPLLLOCKDETCLK(sysclk)
 ,.GTNORTHREFCLK0(1'b0),.GTNORTHREFCLK1(1'b0),.GTREFCLK0(1'b0),.GTREFCLK1(sma_mgt_refclk2),.GTSOUTHREFCLK0(1'b0),.GTSOUTHREFCLK1(1'b0)
 ,.GTXRXN(sfp2_rx_n),.GTXRXP(sfp2_rx_p),.GTXTXN(sfp2_tx_n),.GTXTXP(sfp2_tx_p)
@@ -156,6 +160,8 @@ gticc_gt_sfp2(.CPLLLOCKDETCLK(sysclk)
 ,.CPLLREFCLKSEL(3'h2)
 ,.gticc(sfpiccslave.gticc.gt)
 ,.mask(6'h3f)
+,.stb_txphase(stb_txphaseab_x2)
+,.txphase(txphaseab2)
 );
 wire reset_sfp_w2;
 areset resetsfpareset2(.clk(sysclk),.areset(reset_sfp2),.sreset(reset_sfp_w2));
@@ -176,10 +182,8 @@ assign sfpiccslave.txcnt=sfpiccslave.usecorr ? dspclk2cntcorr[49:2] : dspclk2_cn
 
 wire dmtdreset_w=0;
 wire [31:0] stableval=200;
-wire [31:0] txphaseab;
 wire [31:0] rxphaseab;
 wire stb_rxphaseab;
-wire stb_txphaseab;
 wire [31:0] txphaseab_x;
 wire stb_txphaseab_x;
 wire [31:0] rxphaseab_x;

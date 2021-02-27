@@ -437,17 +437,25 @@ wire dbrxcdrlock_sfp;
 wire [5:0] dbdonecriteria_sfp;
 wire  [24:0]  dbdone_sfp;
 wire [5:0] dbresetout_sfp;
-wire [2:0] dbstate_sfp;
-wire [2:0] dbnext_sfp;
+wire [4:0] dbstate_sfp;
+wire [4:0] dbnext_sfp;
 wire reset_sfp;
+wire stb_txphaseab_cic;
+wire [15:0] txphaseab_cic;
+wire [15:0] dbattemptcnt;
+wire [4:0] dbtxphase5;
+wire [31:0] dbcnt_sfp;
 areset resetsfpareset(.clk(hw.vc707.sysclk),.areset(reset_sfp),.sreset(reset_sfp_w));
-gticc_gt #(.SIM_CPLLREFCLK_SEL(3'h002),.DWIDTH(16))
+gticc_gt #(.SIM_CPLLREFCLK_SEL(3'h002),.DWIDTH(16),.TXPHTARGET(5'd1))
 gticc_gt_sfp(.CPLLLOCKDETCLK(hw.vc707.sysclk)
 //,.GTNORTHREFCLK0(1'b0),.GTNORTHREFCLK1(1'b0),.GTREFCLK0(sgmiiclk),.GTREFCLK1(sma_mgt_refclk),.GTSOUTHREFCLK0(si5324_out_c),.GTSOUTHREFCLK1(1'b0)
 ,.GTNORTHREFCLK0(1'b0),.GTNORTHREFCLK1(1'b0),.GTREFCLK0(1'b0),.GTREFCLK1(sma_mgt_refclk),.GTSOUTHREFCLK0(1'b0),.GTSOUTHREFCLK1(1'b0)
 ,.GTXRXN(hw.vc707.sfp.rx_n),.GTXRXP(hw.vc707.sfp.rx_p),.GTXTXN(hw.vc707.sfp.tx_n),.GTXTXP(hw.vc707.sfp.tx_p)
 ,.QPLLCLK(1'b0),.QPLLREFCLK(1'b0)
 ,.CPLLREFCLKSEL(3'h2)
+,.stb_txphase(stb_txphaseab_cic)
+,.txphase(txphaseab_cic)
+,.bypasstxphcheck(lbreg.bypasstxphcheck)
 ,.gticc(sfpicc.gticc.gt)
 ,.dblocked(dblocked_sfp)
 ,.dbrxcdrlock(dbrxcdrlock_sfp)
@@ -457,6 +465,9 @@ gticc_gt_sfp(.CPLLLOCKDETCLK(hw.vc707.sysclk)
 ,.dbresetout(dbresetout_sfp)
 ,.dbstate(dbstate_sfp)
 ,.dbnext(dbnext_sfp)
+,.dbattemptcnt(dbattemptcnt)
+,.dbtxphase5(dbtxphase5)
+,.dbcnt(dbcnt_sfp)
 );
 assign sfpicc.sreset=(reset_sfp_w|sfpreconnected|lbreg.stb_reset_sfp);
 assign sfpicc.txdata=lbreg.sfptesttx;
@@ -471,8 +482,8 @@ wire stb_txphaseab_x;
 wire [31:0] rxphaseab_x;
 wire stb_rxphaseab_x;
 simple_cic #(.DWIN(32),.MAXCICW(16),.DWOUT(16))
-txphasecic(.clk(ethclk),.reset(dmtdreset_w),.gin(stb_txphaseab_x),.ncic(lbreg.dmtdnavr),.gout(),.din(txphaseab_x),.dout(sfpicc.txphdmtd));
-
+txphasecic(.clk(ethclk),.reset(dmtdreset_w),.gin(stb_txphaseab_x),.ncic(lbreg.dmtdnavr),.gout(stb_txphaseab_cic),.din(txphaseab_x),.dout(txphaseab_cic));
+assign sfpicc.txphdmtd=txphaseab_cic;
 simple_cic #(.DWIN(32),.MAXCICW(16),.DWOUT(16))
 rxphasecic(.clk(ethclk),.reset(dmtdreset_w),.gin(stb_rxphaseab_x),.ncic(lbreg.dmtdnavr),.gout(),.din(rxphaseab_x),.dout(sfpicc.rxphdmtd));
 assign lbreg.txphaseab=sfpicc.txphdmtd;//txphaseab_x;
@@ -488,7 +499,7 @@ wire reset_smasfp_w;
 areset resetsmasfpareset(.clk(hw.vc707.sysclk),.areset(reset_smasfp),.sreset(reset_smasfp_w));
 wire dblocked_smasfp;
 wire dbrxcdrlock_smasfp;
-gticc_gt #(.SIM_CPLLREFCLK_SEL(3'h002),.DWIDTH(16))
+gticc_gt #(.SIM_CPLLREFCLK_SEL(3'h002),.DWIDTH(16),.TXPHTARGET(5'd1))
 gticc_gt_smasfp(.CPLLLOCKDETCLK(hw.vc707.sysclk)
 //,.GTNORTHREFCLK0(1'b0),.GTNORTHREFCLK1(1'b0),.GTREFCLK0(sgmiiclk),.GTREFCLK1(sma_mgt_refclk),.GTSOUTHREFCLK0(si5324_out_c),.GTSOUTHREFCLK1(1'b0)
 ,.GTNORTHREFCLK0(1'b0),.GTNORTHREFCLK1(1'b0),.GTREFCLK0(1'b0),.GTREFCLK1(sma_mgt_refclk),.GTSOUTHREFCLK0(1'b0),.GTSOUTHREFCLK1(1'b0)
@@ -496,6 +507,9 @@ gticc_gt_smasfp(.CPLLLOCKDETCLK(hw.vc707.sysclk)
 ,.QPLLCLK(1'b0),.QPLLREFCLK(1'b0)
 ,.CPLLREFCLKSEL(3'h2)
 ,.gticc(smasfpicc.gticc.gt)
+,.stb_txphase(1'b0)
+,.txphase(0)
+,.bypasstxphcheck(lbreg.bypasstxphcheck)
 ,.dblocked(dblocked_smasfp)
 ,.dbrxcdrlock(dbrxcdrlock_smasfp)
 );
@@ -1031,8 +1045,18 @@ wire locked= (~|sfpicc.cdiff2[47:1] | &sfpicc.cdiff2);  // 0, 1, -1
 assign trigcnt = master ? dspclkcnt : dspclkcntcorr;
 
 
-assign hw.vc707.user_sma_gpio_p=fmc2llmkdclkout2cnt;//phrefclk125;//hw.fmc1.lmk_dclk10_m2c_to_fpga;
-assign hw.vc707.user_sma_gpio_n= (master | (locked & sfpicc.usecorr)) ? ~|trigcnt[9:0] : 0;
+assign hw.vc707.user_sma_gpio_p=lbreg.scopeselp==16'b0 ? fmc2llmkdclkout2cnt //phrefclk125;//hw.fmc1.lmk_dclk10_m2c_to_fpga;
+: lbreg.scopeselp==16'd1 ? phrefclk125
+: lbreg.scopeselp==16'd2 ? sfpicc.gticc.txusrclk
+: lbreg.scopeselp==16'd3 ? sfpicc.gticc.rxusrclk
+:0 ;
+assign hw.vc707.user_sma_gpio_n=
+	lbreg.scopeseln==16'b0 ? (master | (locked & sfpicc.usecorr)) ? ~|trigcnt[9:0] : 0
+: lbreg.scopeseln==16'd1 ? phrefclk125
+: lbreg.scopeseln==16'd2 ? sfpicc.gticc.txusrclk
+: lbreg.scopeseln==16'd3 ? sfpicc.gticc.rxusrclk
+:0 ;
+
 assign hw.vc707.gpio_led_0=master;
 assign master=hw.vc707.gpio_dip_sw0;
 
