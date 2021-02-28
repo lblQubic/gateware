@@ -126,10 +126,11 @@ assign {sfp2_rx_p,sfp2_rx_n} ={sfptxpr_8,sfptxnr_8};//{sfp_tx_p,sfp_tx_n};//
 assign {sfp_rx_p,sfp_rx_n}={sfp2txpr_8,sfp2txnr_8};//{sfp2_tx_p,sfp2_tx_n};
 // {sfp2txpr,sfp2txnr};//
 
+wire stb_txphaseab_x;
 wire stb_txphaseab;
 wire [31:0] txphaseab;
 iicc #(.DWIDTH(16),.SIM(SIM)) sfpiccmaster();
-gticc_gt #(.SIM_CPLLREFCLK_SEL(3'h2),.DWIDTH(DWIDTH),.TXPHTARGET(5'h0))
+gticc_gt #(.SIM_CPLLREFCLK_SEL(3'h2),.DWIDTH(DWIDTH),.TXPHTARGET(5'h0),.SIM(SIM))
 gticc_gt_sfp(.CPLLLOCKDETCLK(sysclk)
 ,.GTNORTHREFCLK0(1'b0),.GTNORTHREFCLK1(1'b0),.GTREFCLK0(1'b0),.GTREFCLK1(sma_mgt_refclk),.GTSOUTHREFCLK0(1'b0),.GTSOUTHREFCLK1(1'b0)
 ,.GTXRXN(sfp_rx_n),.GTXRXP(sfp_rx_p),.GTXTXN(sfp_tx_n),.GTXTXP(sfp_tx_p)
@@ -138,6 +139,7 @@ gticc_gt_sfp(.CPLLLOCKDETCLK(sysclk)
 ,.gticc(sfpiccmaster.gticc.gt)
 ,.stb_txphase(stb_txphaseab_x)
 ,.txphase(txphaseab)
+,.bypasstxphcheck(1'b0)
 ,.mask(6'h3f)
 );
 wire reset_sfp_w;
@@ -149,10 +151,12 @@ assign sfptestrx=sfpiccmaster.rxdata;
 assign sfpiccmaster.master=1;
 assign sfpiccmaster.txcnt=dspclk_cnt[49:2];
 assign sfpiccmaster.rxcnt=dspclk_cnt[49:2];
+wire [31:0] txphaseab2;
+wire stb_txphaseab_x2;
 wire [DWIDTH-1:0] sfptestrx2;
 wire sfpreconnected2=1'b0;
 iicc #(.DWIDTH(16),.SIM(SIM)) sfpiccslave();
-gticc_gt #(.SIM_CPLLREFCLK_SEL(3'h2),.DWIDTH(DWIDTH),.TXPHTARGET(5'd19))
+gticc_gt #(.SIM_CPLLREFCLK_SEL(3'h2),.DWIDTH(DWIDTH),.TXPHTARGET(5'd19),.SIM(SIM))
 gticc_gt_sfp2(.CPLLLOCKDETCLK(sysclk)
 ,.GTNORTHREFCLK0(1'b0),.GTNORTHREFCLK1(1'b0),.GTREFCLK0(1'b0),.GTREFCLK1(sma_mgt_refclk2),.GTSOUTHREFCLK0(1'b0),.GTSOUTHREFCLK1(1'b0)
 ,.GTXRXN(sfp2_rx_n),.GTXRXP(sfp2_rx_p),.GTXTXN(sfp2_tx_n),.GTXTXP(sfp2_tx_p)
@@ -161,6 +165,7 @@ gticc_gt_sfp2(.CPLLLOCKDETCLK(sysclk)
 ,.gticc(sfpiccslave.gticc.gt)
 ,.mask(6'h3f)
 ,.stb_txphase(stb_txphaseab_x2)
+,.bypasstxphcheck(1'b0)
 ,.txphase(txphaseab2)
 );
 wire reset_sfp_w2;
@@ -185,7 +190,6 @@ wire [31:0] stableval=200;
 wire [31:0] rxphaseab;
 wire stb_rxphaseab;
 wire [31:0] txphaseab_x;
-wire stb_txphaseab_x;
 wire [31:0] rxphaseab_x;
 wire stb_rxphaseab_x;
 dmtd #(.SIM(SIM),.FOFFSETWIDTH(SIM ? 9 : 14))
@@ -197,18 +201,16 @@ dmtdmastertx (.clkdmtd(helpclk),.rst(dmtdreset_w),.stableval(stableval)
 ,.clka(dspclk_cnt[1]),.clkb(sfpiccmaster.gticc.txusrclk),.phaseab(txphaseab),.stb_phaseab(stb_txphaseab)
 );
 
-alatch #(.DWIDTH(32)) phaselatchmastertx(.clk(sfpiccmaster.gticc.txusrclk),.gatein(stb_txphaseab),.datain(txphaseab),.gateout(stb_txphaseab_x),.dataout(txphaseab_x));
-alatch #(.DWIDTH(32)) phaselatchmasterrx(.clk(sfpiccmaster.gticc.txusrclk),.gatein(stb_rxphaseab),.datain(rxphaseab),.gateout(stb_rxphaseab_x),.dataout(rxphaseab_x));
+data_xdomain #(.DWIDTH(32)) phaselatchmastertx(.clkin(helpclk),.clkout(sfpiccmaster.gticc.txusrclk),.gatein(stb_txphaseab),.datain(txphaseab),.gateout(stb_txphaseab_x),.dataout(txphaseab_x));
+data_xdomain #(.DWIDTH(32)) phaselatchmasterrx(.clkin(helpclk),.clkout(sfpiccmaster.gticc.txusrclk),.gatein(stb_rxphaseab),.datain(rxphaseab),.gateout(stb_rxphaseab_x),.dataout(rxphaseab_x));
 assign sfpiccmaster.txphdmtd=txphaseab_x[15:0];
 assign sfpiccmaster.rxphdmtd=rxphaseab_x[15:0];
 
 
 wire dmtdreset_w2=0;
 wire [31:0] stableval2=200;
-wire [31:0] txphaseab2;
 wire stb_txphaseab2;
 wire [31:0] txphaseab_x2;
-wire stb_txphaseab_x2;
 wire [31:0] rxphaseab2;
 wire stb_rxphaseab2;
 wire [31:0] rxphaseab_x2;
@@ -224,8 +226,8 @@ dmtdslaverx(.clkdmtd(helpclk),.rst(dmtdreset_w2),.stableval(stableval2)
 ,.phaseab(rxphaseab2),.stb_phaseab(stb_rxphaseab2)
 );
 
-alatch #(.DWIDTH(32)) phaselatchslaverx(.clk(sfpiccslave.gticc.txusrclk),.gatein(stb_rxphaseab2),.datain(rxphaseab2),.gateout(stb_rxphaseab_x2),.dataout(rxphaseab_x2));
-alatch #(.DWIDTH(32)) phaselatchslavetx(.clk(sfpiccslave.gticc.txusrclk),.gatein(stb_txphaseab2),.datain(txphaseab2),.gateout(stb_txphaseab_x2),.dataout(txphaseab_x2));
+data_xdomain #(.DWIDTH(32)) phaselatchslaverx(.clkin(helpclk),.clkout(sfpiccslave.gticc.txusrclk),.gatein(stb_rxphaseab2),.datain(rxphaseab2),.gateout(stb_rxphaseab_x2),.dataout(rxphaseab_x2));
+data_xdomain #(.DWIDTH(32)) phaselatchslavetx(.clkin(helpclk),.clkout(sfpiccslave.gticc.txusrclk),.gatein(stb_txphaseab2),.datain(txphaseab2),.gateout(stb_txphaseab_x2),.dataout(txphaseab_x2));
 assign sfpiccslave.rxphdmtd=rxphaseab_x2[15:0];
 assign sfpiccslave.txphdmtd=txphaseab_x2[15:0];
 endmodule

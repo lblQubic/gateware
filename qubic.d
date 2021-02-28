@@ -8,8 +8,8 @@
 ./gig_ethernet_pcs_pma.tcl
 ./gitrevision.v
 ./iccgt_1G_125M_50M.sv
+./iccgt_1G_125M_50M.vh
 ./i2cinit.vh
-./iccgt.vh
 ./iicc.sv
 ./ilaadcauto.tcl
 ./ilaadcauto.vh

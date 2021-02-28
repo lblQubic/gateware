@@ -136,20 +136,21 @@ reg [7:0] gott1=0;
 reg [7:0] gott2=0;
 reg [7:0] gott3=0;
 reg [7:0] gott4=0;
-localparam SYNCIDLE=4'h0;
-localparam SYNCT1=4'h1;
-localparam SYNCT2=4'h2;
-localparam SYNCT3=4'h3;
-localparam SYNCT4=4'h4;
-localparam WAITT1=4'h5;
-localparam WAITT2=4'h6;
-localparam WAITT3=4'h7;
-localparam WAITT4=4'h8;
-localparam SYNCTO=4'h9;
-localparam SYNCCALC=4'ha;
-reg [3:0] syncstate=SYNCIDLE;
+enum {SYNCIDLE
+,SYNCT1
+,SYNCT2
+,SYNCT3
+,SYNCT4
+,WAITT1
+,WAITT2
+,WAITT3
+,WAITT4
+,SYNCTO
+,SYNCCALC
+} syncstate=SYNCIDLE,syncnext=SYNCIDLE;
+//reg [3:0] syncstate=SYNCIDLE;
 reg [3:0] dbsyncstate=SYNCIDLE;
-reg [3:0] syncnext=SYNCIDLE;
+//reg [3:0] syncnext=SYNCIDLE;
 reg [3:0] dbsyncnext=SYNCIDLE;
 reg [3:0] syncnext_d=SYNCIDLE;
 reg [31:0] synccnt=0;
@@ -211,6 +212,7 @@ reg t2done=0;
 reg t3done=0;
 reg t4done=0;
 reg t1done=0;
+reg aligntx=0;
 reg [15:0] phdiff=0;
 always @(posedge txclk) begin
 	if (syncreset) begin
@@ -224,6 +226,7 @@ always @(posedge txclk) begin
 				txstb_r<=stbtxdata;
 				stbsyncdiff<=1'b0;
 				synctx<=1'b0;
+				aligntx<=1'b0;
 			end
 			SYNCT1: begin
 				first1<=1'b0;
@@ -322,6 +325,7 @@ always @(posedge txclk) begin
 				stbsyncdiff<=1'b1;
 				synctx<=1'b0;
 				usecorr<=1'b1;
+				aligntx<=1'b1;
 			end
 		endcase
 	end
@@ -346,8 +350,8 @@ end
 
 //assign gticc.txdata= ~rxbyteisaligned_x ? palignreq : alignrequest_x ? palignchar : txstb_r ? synctx ? {actiontx,indextx,txdata8} : txdata : palignchar;
 //assign gticc.txcharisk= ~rxbyteisaligned_x ? palignreqisk :  alignrequest_x ?  paligncharisk : txstb_r ? 0: paligncharisk;
-assign gticc.txdata= txstb_r ? synctx ? {actiontx,indextx,txdata8} : txdata : palignchar;
-assign gticc.txcharisk= txstb_r ? 0: paligncharisk;
+assign gticc.txdata= txstb_r ? synctx ? {actiontx,indextx,txdata8} : aligntx ? palignchar : txdata : palignchar ;
+assign gticc.txcharisk= txstb_r ? (synctx ? 0 : (aligntx ? paligncharisk : 0)) : paligncharisk;
 
 /*modport cfg (input rxphdmtd
 ,output
@@ -371,11 +375,13 @@ wire txusrclk;
 wire [DBYTE-1:0]txcharisk;
 wire txuserrdy;
 wire [DWIDTH-1:0] txdata;
+wire [DWIDTH-1:0] txdataout;
+wire [DBYTE-1:0]txchariskout;
 wire reset;
 wire resetdone;
 
 modport gt (input reset,rxuserrdy,txuserrdy,txdata,txcharisk
-,output txusrclk,rxusrclk,resetdone,rxdata,rxdisperr,rxnotintable,rxcharisk,rxbyteisaligned,rxbyterealign
+,output txusrclk,rxusrclk,resetdone,rxdata,rxdisperr,rxnotintable,rxcharisk,rxbyteisaligned,rxbyterealign,txdataout,txchariskout
 );
 endinterface
 
