@@ -8,7 +8,6 @@
 ./gig_ethernet_pcs_pma.tcl
 ./gitrevision.v
 ./iccgt_1G_125M_50M.sv
-./helppll45.v
 ./i2cinit.vh
 ./iccgt.vh
 ./iicc.sv
@@ -24,9 +23,6 @@
 ./ilaiccauto.vh
 ./ilasysauto.tcl
 ./ilasysauto.vh
-./jesd204_ads54j60.tcl
-./jesd204_dac39j84.tcl
-./jesd204_phy_8lane.tcl
 ./qubic.sv
 ./qubic.xdc
 ./qubicdsp.sv

@@ -319,7 +319,7 @@ always @(*) begin
 			STRXDLYSRESETD1: next= rxphaligndonerising ? STRXDLYSRESETD2 : STRXDLYSRESETD1;
 			STRXDLYSRESETD2: next= rxphaligndonerising ? ALIGNREQ : STRXDLYSRESETD2;
 			ALIGNREQ: next= RXBYTEISALIGNED ? RXALIGN : ~cdrlocked ? STRXCDRRDY :ALIGNREQ;
-			RXALIGN: next= alignchar_r ? DATA : ~cdrlocked ? STRXCDRRDY : RXALIGN;
+			RXALIGN: next= alignchar_r & cnt>10 ? DATA : ~cdrlocked ? STRXCDRRDY : RXALIGN;
 			DATA: next = 1'b0 & err ? ERR : cdrlocked ? DATA : STRXCDRRDY;
 			ERR: next= STWAIT500NS;
 		endcase

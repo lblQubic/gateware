@@ -3,6 +3,7 @@ module qubichw_config #(parameter DEBUG="false",parameter BAUD=9600,parameter SI
 ,regmap.cfg lbreg
 ,dsp.cfg dsp
 );
+//`define JESD
 localparam SYSCLKMMCM_RESET=0;
 localparam IDELAYCTRL_RESET=1;
 localparam SGMIIETH_RESET=2;
@@ -26,12 +27,12 @@ localparam I2CINITRESET_2=15;
 localparam I2CINITRESET_3=16;
 localparam RESET_SFP=17;
 localparam RESETDONE=18;
-//localparam RESET_SMASFP=18;
+localparam RESET_SMASFP=19;
 
 //localparam QPLLRESET_113=16;
 //localparam QPLLRESET_114=20;
 //localparam HELPPLL=17;
-localparam NSTEP=19;
+localparam NSTEP=20;
 wire  clk100;
 wire  clk125;
 wire  clk200;
@@ -430,7 +431,7 @@ always @(posedge hw.vc707.sysclk) begin
 	sfplos_d<=sfplos;
 end
 
-iicc #(.DWIDTH(16)) sfpicc();
+iicc #(.DWIDTH(16),.SIM(SIM)) sfpicc();
 
 wire dblocked_sfp;
 wire dbrxcdrlock_sfp;
@@ -440,6 +441,8 @@ wire [5:0] dbresetout_sfp;
 wire [4:0] dbstate_sfp;
 wire [4:0] dbnext_sfp;
 wire reset_sfp;
+wire stb_txphaseab_cic2;
+wire [15:0] txphaseab_cic2;
 wire stb_txphaseab_cic;
 wire [15:0] txphaseab_cic;
 wire [15:0] dbattemptcnt;
@@ -481,18 +484,28 @@ wire [31:0] txphaseab_x;
 wire stb_txphaseab_x;
 wire [31:0] rxphaseab_x;
 wire stb_rxphaseab_x;
+wire [31:0] txphaseab_x2;
+wire stb_txphaseab_x2;
+wire [31:0] rxphaseab_x2;
+wire stb_rxphaseab_x2;
 simple_cic #(.DWIN(32),.MAXCICW(16),.DWOUT(16))
-txphasecic(.clk(ethclk),.reset(dmtdreset_w),.gin(stb_txphaseab_x),.ncic(lbreg.dmtdnavr),.gout(stb_txphaseab_cic),.din(txphaseab_x),.dout(txphaseab_cic));
+txphasecic(.clk(ethclk),.reset(dmtdreset_w),.gin(stb_txphaseab_x),.ncic(SIM ? 3 :lbreg.dmtdnavr),.gout(stb_txphaseab_cic),.din(txphaseab_x),.dout(txphaseab_cic));
+simple_cic #(.DWIN(32),.MAXCICW(16),.DWOUT(16))
+rxphasecic(.clk(ethclk),.reset(dmtdreset_w),.gin(stb_rxphaseab_x),.ncic(SIM ? 3 : lbreg.dmtdnavr),.gout(),.din(rxphaseab_x),.dout(sfpicc.rxphdmtd));
+simple_cic #(.DWIN(32),.MAXCICW(16),.DWOUT(16))
+txphasecic2(.clk(ethclk),.reset(dmtdreset_w),.gin(stb_txphaseab_x2),.ncic(SIM ? 3 :lbreg.dmtdnavr),.gout(stb_txphaseab_cic2),.din(txphaseab_x2),.dout(txphaseab_cic2));
+simple_cic #(.DWIN(32),.MAXCICW(16),.DWOUT(16))
+rxphasecic2(.clk(ethclk),.reset(dmtdreset_w),.gin(stb_rxphaseab_x2),.ncic(SIM ? 3 : lbreg.dmtdnavr),.gout(),.din(rxphaseab_x2),.dout(smasfpicc.rxphdmtd));
+
 assign sfpicc.txphdmtd=txphaseab_cic;
-simple_cic #(.DWIN(32),.MAXCICW(16),.DWOUT(16))
-rxphasecic(.clk(ethclk),.reset(dmtdreset_w),.gin(stb_rxphaseab_x),.ncic(lbreg.dmtdnavr),.gout(),.din(rxphaseab_x),.dout(sfpicc.rxphdmtd));
+assign smasfpicc.txphdmtd=txphaseab_cic2;
 assign lbreg.txphaseab=sfpicc.txphdmtd;//txphaseab_x;
 assign lbreg.rxphaseab=sfpicc.rxphdmtd;//rxphaseab_x;
 
 //assign sfpicc.rxphdmtd=rxphaseab[15:0];
 //assign sfpicc.txphdmtd=txphaseab[15:0];
 
-iicc #(.DWIDTH(16)) smasfpicc();
+iicc #(.DWIDTH(16),.SIM(SIM)) smasfpicc();
 wire phrefclk62_5;
 wire reset_smasfp;//=reset_sfp;
 wire reset_smasfp_w;
@@ -507,15 +520,17 @@ gticc_gt_smasfp(.CPLLLOCKDETCLK(hw.vc707.sysclk)
 ,.QPLLCLK(1'b0),.QPLLREFCLK(1'b0)
 ,.CPLLREFCLKSEL(3'h2)
 ,.gticc(smasfpicc.gticc.gt)
-,.stb_txphase(1'b0)
-,.txphase(0)
+,.stb_txphase(stb_txphaseab_cic2)
+,.txphase(smasfpicc.txphdmtd)
 ,.bypasstxphcheck(lbreg.bypasstxphcheck)
 ,.dblocked(dblocked_smasfp)
 ,.dbrxcdrlock(dbrxcdrlock_smasfp)
 );
 assign smasfpicc.sreset=(reset_smasfp_w|lbreg.stb_reset_smasfp);//||smasfpreconnected)
 assign smasfpicc.txdata=lbreg.smasfptesttx;
+assign smasfpicc.stbtxdata=1'b1;
 assign lbreg.smasfptestrx=smasfpicc.rxdata;//smasfprx;
+assign smasfpicc.master=1'b0;
 reg [3:0] fmc1dclk10cnt=0;
 reg [3:0] fmc2dclk10cnt=0;
 reg [3:0] sgmiiclkcnt=0;
@@ -553,6 +568,7 @@ always @(posedge sfpicc.txclk) begin
 	txcnt_r3<=txcnt_r2;
 end
 assign sfpicc.txcnt=txcnt_r3;
+assign smasfpicc.txcnt=txcnt_r3;
 //assign sfpicc.txcnt= dspclkcnt[49:2];
 //assign sfpicc.rxcnt=sfpicc.usecorr ? dspclkcntcorr[49:2] : dspclkcnt[49:2];
 
@@ -715,7 +731,7 @@ wire dbafreq01;
 wire [31:0] dbfreqint;
 wire [31:0] dbfracerr;
 dmtd #(.SIM(SIM),.FOFFSETWIDTH(SIM ? 9 : 14))
-dmtdtx (.clkdmtd(helpclk),.rst(dmtdreset_w),.stableval(lbreg.stableval)
+dmtdtx (.clkdmtd(helpclk),.rst(dmtdreset_w),.stableval(SIM ? 10 : lbreg.stableval)
 ,.clka(phrefclk62_5),.clkb(sfpicc.gticc.txusrclk)
 ,.offsetwidth(lbreg.offsetwidth)
 ,.freqerr(freqerr)
@@ -745,7 +761,7 @@ dmtdtx (.clkdmtd(helpclk),.rst(dmtdreset_w),.stableval(lbreg.stableval)
 ,.dbfreecntb(dbfreecntb)
 );
 dmtd #(.SIM(SIM),.FOFFSETWIDTH(SIM ? 9 : 14))
-dmtdrx (.clkdmtd(helpclk),.rst(dmtdreset_w),.stableval(lbreg.stableval)
+dmtdrx (.clkdmtd(helpclk),.rst(dmtdreset_w),.stableval(SIM ? 10 : lbreg.stableval)
 ,.clka(phrefclk62_5),.clkb(sfpicc.gticc.rxusrclk)
 ,.freqerr()
 ,.stb_freqerr()
@@ -764,6 +780,41 @@ wire [31:0] phdiffmidavr_x;
 //data_xdomain #(.DWIDTH(32*2))dmtdhelpclktoethclk(.clkin(helpclk),.clkout(ethclk),.gatein(stb_phaseab),.datain({freqa,freqb}),.gateout(),.dataout({lbreg.phaseab,lbreg.freqa,lbreg.freqb}));
 data_xdomain #(.DWIDTH(32*3))dmtdtxlatch(.clkin(helpclk),.clkout(ethclk),.gatein(stb_txphaseab),.datain({txphaseab,freqa,freqb}),.gateout(stb_txphaseab_x),.dataout({txphaseab_x,lbreg.freqa,lbreg.freqb}));
 data_xdomain #(.DWIDTH(32))dmtdrxlatch(.clkin(helpclk),.clkout(ethclk),.gatein(stb_rxphaseab),.datain(rxphaseab),.gateout(stb_rxphaseab_x),.dataout(rxphaseab_x));
+
+
+
+wire [31:0] txphaseab2;
+wire [31:0] rxphaseab2;
+wire stb_txphaseab2;
+wire stb_rxphaseab2;
+dmtd #(.SIM(SIM),.FOFFSETWIDTH(SIM ? 9 : 14))
+dmtdtx2(.clkdmtd(helpclk),.rst(dmtdreset_w),.stableval(SIM ? 10 : lbreg.stableval)
+,.clka(phrefclk62_5),.clkb(smasfpicc.gticc.txusrclk)
+,.offsetwidth(lbreg.offsetwidth)
+,.freqerr()
+,.stb_freqerr()
+,.stb_phaseab(stb_txphaseab2)
+,.phaseab(txphaseab2)
+);
+dmtd #(.SIM(SIM),.FOFFSETWIDTH(SIM ? 9 : 14))
+dmtdrx2(.clkdmtd(helpclk),.rst(dmtdreset_w),.stableval(SIM ? 10 : lbreg.stableval)
+,.clka(phrefclk62_5),.clkb(smasfpicc.gticc.rxusrclk)
+,.freqerr()
+,.stb_freqerr()
+,.stb_phaseab(stb_rxphaseab2)
+,.phaseab(rxphaseab2)
+);
+wire [32*4+1-1:0] dmtd_x2;
+wire [32*4+1-1:0] dmtd_xval2;
+reg [32*4+1-1:0] dmtd_xval_r2=0;
+
+//data_xdomain #(.DWIDTH(32*2))dmtdhelpclktoethclk(.clkin(helpclk),.clkout(ethclk),.gatein(stb_phaseab),.datain({freqa,freqb}),.gateout(),.dataout({lbreg.phaseab,lbreg.freqa,lbreg.freqb}));
+data_xdomain #(.DWIDTH(32))dmtdtxlatch2(.clkin(helpclk),.clkout(ethclk),.gatein(stb_txphaseab2),.datain(txphaseab2),.gateout(stb_txphaseab_x2),.dataout(txphaseab_x2));
+data_xdomain #(.DWIDTH(32))dmtdrxlatch2(.clkin(helpclk),.clkout(ethclk),.gatein(stb_rxphaseab2),.datain(rxphaseab2),.gateout(stb_rxphaseab_x2),.dataout(rxphaseab_x2));
+
+
+
+
 
 wire sgmiieth_reset;
 wire sgmiieth_resetdone;
@@ -929,6 +980,7 @@ reg fmc1_adc0_start=0,fmc1_adc1_start=0,fmc2_adc0_start=0,fmc2_adc1_start=0,fmc1
 reg fmc1_adc0_w0r1=0,fmc1_adc1_w0r1=0,fmc2_adc0_w0r1=0,fmc2_adc1_w0r1=0,fmc1_dac_w0r1=0,fmc2_dac_w0r1=0;
 wire [46:0] axiinitcmd;
 wire [5:0] axibusy;
+`ifdef JESD
 seqinit #(.INITWIDTH(3+12+32),.INITLENGTH(AXIINITCMDLENGTH),.INITCMDS(AXIINITCMD))
 axiinit(.clk(ethclk)
 ,.areset(axiinitreset)
@@ -965,6 +1017,9 @@ lb_axi4lite_fmc2_adc1
 lb_axi4lite #(.AWIDTH(12),.DWIDTH(32))
 lb_axi4lite_fmc2_dac
 (.clk(ethclk),.slave(axi_fmc2_dac),.addr(fmc2_dac_addr),.wdata(fmc2_dac_wdata),.wstrb(fmc2_dac_wstrb),.rdata(lbreg.axifmc2dac_rdata),.rdatavalid(lbreg.axifmc2dac_rdatavalid),.start(fmc2_dac_start),.w0r1(fmc2_dac_w0r1),.reset(axireset),.dbstate(),.dbnext(),.busy(axibusy[5]));
+`else
+assign axiinitdone=1'b1;
+`endif
 //(.clk(ethclk),.slave(axi_fmc1_adc1),.addr(lbreg.axifmc1adc1_addr),.wdata(lbreg.axifmc1adc1_wdata),.wstrb(4'hf),.rdata(lbreg.axifmc1adc1_rdata),.rdatavalid(lbreg.axifmc1adc1_rdatavalid),.start(lbreg.stb_axifmc1adc1_start),.w0r1(lbreg.axifmc1adc1_w0r1),.reset(axireset));
 wire [1:0] jesd_reset_status_1;
 wire [1:0] jesd_reset_status_2;
@@ -998,6 +1053,7 @@ assign {hw.fmc2.adca_sync_in_l_vadj,hw.fmc2.adcb_sync_in_l_vadj}=rx_sync_2;
 
 //generate
 //if (SIM==0) begin
+`ifdef JESD
 jesdfmc120 jesdfmc120_1(.core_clk(dspclk)
 ,.drpclk(ethclk)
 ,.qpll_refclk(hw.fmc1.lmk_dclk8_m2c_to_fpga)
@@ -1006,8 +1062,6 @@ jesdfmc120 jesdfmc120_1(.core_clk(dspclk)
 ,.tx_sysref(hw.fmc1.llmk_sclkout_3),.rx_sysref(hw.fmc1.llmk_sclkout_3),.txn_out(hw.fmc1.dac_lane_n),.txp_out(hw.fmc1.dac_lane_p),.axi_adc0(axi_fmc1_adc0),.axi_adc1(axi_fmc1_adc1),.axi_dac(axi_fmc1_dac),.rx_reset(rx_reset),.tx_reset(tx_reset),.rx_sys_reset(rx_sys_reset),.tx_sys_reset(tx_sys_reset),.rx_sync(rx_sync_1),.tx_sync(hw.fmc1.dac_sync_req_to_fpga),.adc0(adc0),.adc1(adc1),.adc2(adc2),.adc3(adc3),.dac0(dac0),.dac1(dac1),.dac2(dac2),.dac3(dac3),.rx_aresetn_0(),.rx_aresetn_1(),.rx_frame_error(),.tx_aresetn(),.tx_tready(fmc1_tx_tready),.adc01_valid(adc01_valid),.adc23_valid(adc23_valid),.common0_qpll_lock_out(common0_qpll_lock_out_1),.common1_qpll_lock_out(common1_qpll_lock_out_2),.reset_done(jesd_reset_done_1),.reset_status(jesd_reset_status_1),.rxencommaalign_0(rxencommaalign_0),.rxencommaalign_1(rxencommaalign_1)
 ,.dbgt0_rxdata,.dbgt0_txdata,.dbgt1_rxdata,.dbgt1_txdata,.dbgt2_rxdata,.dbgt2_txdata,.dbgt3_rxdata,.dbgt3_txdata,.dbgt4_rxdata,.dbgt4_txdata,.dbgt5_rxdata,.dbgt5_txdata,.dbgt6_rxdata,.dbgt6_txdata,.dbgt7_rxdata,.dbgt7_txdata
 );
-assign jesdreset0_done=common0_qpll_lock_out_1& common1_qpll_lock_out_2;
-assign jesdreset1_done=&{jesd_reset_done_1,jesd_reset_done_2};
 jesdfmc120 jesdfmc120_2(.core_clk(dspclk)
 ,.drpclk(ethclk)
 ,.qpll_refclk(hw.fmc2.lmk_dclk8_m2c_to_fpga)
@@ -1015,6 +1069,12 @@ jesdfmc120 jesdfmc120_2(.core_clk(dspclk)
 ,.rxp_in({hw.fmc2.adc1_db2_p,hw.fmc2.adc1_db1_p,hw.fmc2.adc1_da2_p,hw.fmc2.adc1_da1_p,hw.fmc2.adc0_db2_p,hw.fmc2.adc0_db1_p,hw.fmc2.adc0_da2_p,hw.fmc2.adc0_da1_p})
 ,.tx_sysref(hw.fmc2.llmk_sclkout_3),.rx_sysref(hw.fmc2.llmk_sclkout_3),.txn_out(hw.fmc2.dac_lane_n),.txp_out(hw.fmc2.dac_lane_p),.axi_adc0(axi_fmc2_adc0),.axi_adc1(axi_fmc2_adc1),.axi_dac(axi_fmc2_dac),.rx_reset(rx_reset),.tx_reset(tx_reset),.rx_sys_reset(rx_sys_reset),.tx_sys_reset(tx_sys_reset),.rx_sync(rx_sync_2),.tx_sync(hw.fmc2.dac_sync_req_to_fpga),.adc0(adc4),.adc1(adc5),.adc2(adc6),.adc3(adc7),.dac0(dac4),.dac1(dac5),.dac2(dac6),.dac3(dac7),.rx_aresetn_0(),.rx_aresetn_1(),.rx_frame_error(),.tx_aresetn(),.tx_tready(fmc2_tx_tready),.adc01_valid(),.adc23_valid(),.common0_qpll_lock_out(),.common1_qpll_lock_out(),.reset_done(jesd_reset_done_2),.reset_status(jesd_reset_status_2)
 );
+assign jesdreset0_done=common0_qpll_lock_out_1& common1_qpll_lock_out_2;
+assign jesdreset1_done=&{jesd_reset_done_1,jesd_reset_done_2};
+`else
+assign jesdreset0_done=1'b1;
+assign jesdreset1_done=1'b1;
+`endif
 //end
 //endgenerate
 
@@ -1388,10 +1448,10 @@ assign donelength[RESET_SFP*16+:16]=16'd1;assign readylength[RESET_SFP*16+:16]=1
 assign reset_done=resetout[RESETDONE];
 assign donecriteria[RESETDONE]=1'b1;//_sfp;
 assign donelength[RESETDONE*16+:16]=16'd1;assign readylength[RESETDONE*16+:16]=16'd30;assign resetlength[RESETDONE*16+:16]=16'd20;assign resettodonecheck[RESETDONE*16+:16]=16'd10;assign resettimeout[RESETDONE*32+:32]=32'h10000000;
-/*assign reset_smasfp=resetout[RESET_SMASFP];
+assign reset_smasfp=resetout[RESET_SMASFP];
 assign donecriteria[RESET_SMASFP]=smasfpicc.resetdone;//resetdone_smasfp;
 assign donelength[RESET_SMASFP*16+:16]=16'd1;assign readylength[RESET_SMASFP*16+:16]=16'd30;assign resetlength[RESET_SMASFP*16+:16]=16'd20;assign resettodonecheck[RESET_SMASFP*16+:16]=16'd10;assign resettimeout[RESET_SMASFP*32+:32]=32'h10000000;
-*/
+
 assign i2cinitreset[3]=resetout[I2CINITRESET_3];
 assign donecriteria[I2CINITRESET_3]=SIM ? 1'b1 : i2cinitdone[3];
 assign donelength[I2CINITRESET_3*16+:16]=16'd1;assign readylength[I2CINITRESET_3*16+:16]=16'd30;assign resetlength[I2CINITRESET_3*16+:16]=16'd20;assign resettodonecheck[I2CINITRESET_3*16+:16]=16'd10;assign resettimeout[I2CINITRESET_3*32+:32]=32'h80000000;
@@ -1408,8 +1468,8 @@ gitrevision gitrevision(lbreg.gitrevision);
 
 //`include "ilaadcauto.vh"
 `include "ilaethauto.vh"
-`include "ilaauto.vh"
+//`include "ilaauto.vh"
 `include "ilasysauto.vh"
-`include "ilahelpauto.vh"
+//`include "ilahelpauto.vh"
 `include "ilaiccauto.vh"
 endmodule

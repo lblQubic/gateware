@@ -83,7 +83,7 @@ class packets():
 	def __init__(self):
 		self.smac=0x00249b59c771#0xabcdef123456
 		self.sip=0xc0a80102
-		self.dmac=0x515542494301#0x503eaa059701#,32'hc0a801e0#0x55aabbccddee
+		self.dmac=0x503eaa059701#0x515542494301#0x503eaa059701#,32'hc0a801e0#0x55aabbccddee
 		self.dip=0xc0a801e0
 		self.sport=0xb92a#0x1234
 		self.dport=0xd003

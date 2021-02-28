@@ -9,7 +9,7 @@ wire stbtxdata;
 reg [DWIDTH-1:0] rxdata=0;
 assign gticc.rxuserrdy=1'b1;
 assign gticc.txuserrdy=1'b1;
-assign resetdone=gticc.resetdone;
+wire resetdone=gticc.resetdone;
 
 reg [47:0] txusrclkcnt=0;
 wire [47:0] txcnt;
@@ -84,8 +84,8 @@ reg rxbyteisaligned_x=0;
 reg txstb_r=0;
 wire [DWIDTH-1:0] palignchar=16'h00bc;//{{(DWIDTH-8){1'b0}},8'hbc};
 wire [DBYTE-1:0] paligncharisk=2'b01;//{{(DBYTE-1){1'b0}},1'b1};
-wire [DWIDTH-1:0] palignreq=16'h01bc;
-wire [DBYTE-1:0] palignreqisk=2'b01;
+//wire [DWIDTH-1:0] palignreq=16'h01bc;
+//wire [DBYTE-1:0] palignreqisk=2'b01;
 reg [4:0] actiontx=0;
 wire  [2:0] indextx;
 reg [7:0] txdata8=0;
@@ -344,8 +344,10 @@ always@(posedge txclk) begin
 //	phdiff<=(tdiff2[14:1]+tdiff2[0]);
 end
 
-assign gticc.txdata= ~rxbyteisaligned_x ? palignreq : alignrequest_x ? palignchar : txstb_r ? synctx ? {actiontx,indextx,txdata8} : txdata : palignchar;
-assign gticc.txcharisk= ~rxbyteisaligned_x ? palignreqisk :  alignrequest_x ?  paligncharisk : txstb_r ? 0: paligncharisk;
+//assign gticc.txdata= ~rxbyteisaligned_x ? palignreq : alignrequest_x ? palignchar : txstb_r ? synctx ? {actiontx,indextx,txdata8} : txdata : palignchar;
+//assign gticc.txcharisk= ~rxbyteisaligned_x ? palignreqisk :  alignrequest_x ?  paligncharisk : txstb_r ? 0: paligncharisk;
+assign gticc.txdata= txstb_r ? synctx ? {actiontx,indextx,txdata8} : txdata : palignchar;
+assign gticc.txcharisk= txstb_r ? 0: paligncharisk;
 
 /*modport cfg (input rxphdmtd
 ,output
