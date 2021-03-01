@@ -7,7 +7,6 @@ module gticc_gt #
 ,parameter PCS_RSVD_ATTR_IN = 48'h000000000000
 ,localparam DBYTE=DWIDTH/8
 ,localparam NSTEP=6
-,parameter TXPHTARGET=5'h1
 ,parameter SIM=0
 )
 (input GTXRXP
@@ -26,6 +25,7 @@ module gticc_gt #
 ,input [2:0] CPLLREFCLKSEL
 ,input stb_txphase
 ,input [15:0] txphase
+,input [4:0] txphtarget
 ,igticc.gt gticc
 ,input bypasstxphcheck
 ,output RXOUTCLKFABRIC
@@ -120,7 +120,7 @@ wire RXPHSLIPMONITOR;
 wire RXPHMONITOR;
 wire RXPHALIGNDONE;
 wire RXDLYSRESETDONE;
-wire [2:0] TXOUTCLKSEL=3'b011;//SIM ? 3'b011 : 3'b010;
+wire [2:0] TXOUTCLKSEL;
 
 assign txusrclk=TXUSRCLK2;
 assign rxusrclk=RXUSRCLK2;
@@ -140,13 +140,17 @@ assign dbrxcdrlock=RXCDRLOCK;
 
 wire txoutclk2;
 //BUFG txoutclk_bufg(.I(SIM ? txoutclk2 : TXOUTCLK),.O(TXUSRCLK));
-BUFG txoutclk_bufg(.I(txoutclk2),.O(TXUSRCLK));
-//BUFG txoutclk_bufg(.I(RXOUTCLK),.O(TXUSRCLK));
 assign TXUSRCLK2=TXUSRCLK;
 
 wire mmcmreset;
 wire mmcmclkfb;
 wire rdyfortxrxreset;
+
+BUFG txoutclk_bufg(.I(RXOUTCLK),.O(TXUSRCLK));
+assign mmcmlocked=1'b1;
+assign TXOUTCLKSEL=3'b010;//SIM ? 3'b011 : 3'b010;
+/*BUFG txoutclk_bufg(.I(txoutclk2),.O(TXUSRCLK));
+assign TXOUTCLKSEL=3'b011;//SIM ? 3'b011 : 3'b010;
 MMCME2_ADV#(.BANDWIDTH("OPTIMIZED"),.CLKFBOUT_MULT_F(5.0),.CLKOUT0_DIVIDE_F(10),.CLKIN1_PERIOD(8),.DIVCLK_DIVIDE(1)
 )mmcm_adv_inst
 (.CLKIN1(TXOUTCLK),.CLKIN2(1'b0),.CLKINSEL(1'b1)
@@ -159,7 +163,7 @@ MMCME2_ADV#(.BANDWIDTH("OPTIMIZED"),.CLKFBOUT_MULT_F(5.0),.CLKOUT0_DIVIDE_F(10),
 ,.RST(mmcmreset)
 ,.PWRDWN(1'b0)
 );
-
+*/
 
 BUFG rxoutclk_bufg(.I(RXOUTCLK),.O(RXUSRCLK));
 assign RXUSRCLK2=RXUSRCLK;
@@ -335,9 +339,9 @@ always @(*) begin
 			STMMCMRESETING: next =tmo ? TXTMO :  mmcmlocked_x ? STGTTXRESET : STMMCMRESETING;
 			STGTTXRESET: next = tmo ? TXTMO : cnt==100 ? STGTTXRESETING : STGTTXRESET;
 			STGTTXRESETING: next = tmolong ? TXTMO : &{TXRESETDONE,CPLLLOCK,~CPLLFBCLKLOST,~CPLLREFCLKLOST} ? STTXPHSTB1 : STGTTXRESETING;
-			STTXPHSTB1: next = tmo ? TXTMO : 1'b1 |stb_txphase_x ? STTXPHSTB2 : STTXPHSTB1;
-			STTXPHSTB2: next = tmo ? TXTMO : 1'b1 |stb_txphase_x ? STTXPHCHECK : STTXPHSTB2;
-			STTXPHCHECK: next = tmo ? TXTMO :  1'b1 |bypasstxphcheck_x | (txphase5_x ==TXPHTARGET) ?  STTXDLYSRESET : STTXWAIT500NS;
+			STTXPHSTB1: next = tmo ? TXTMO : stb_txphase_x ? STTXPHSTB2 : STTXPHSTB1;
+			STTXPHSTB2: next = tmo ? TXTMO : stb_txphase_x ? STTXPHCHECK : STTXPHSTB2;
+			STTXPHCHECK: next = tmo ? TXTMO :  bypasstxphcheck_x | (txphase5_x ==txphtarget) ?  STTXDLYSRESET : STGTTXRESET;
 			STTXDLYSRESET: next =tmo ? TXTMO :  cnt==5 ? STTXDLYSRESETD1: STTXDLYSRESET;
 			STTXDLYSRESETD1: next = tmo ? TXTMO : txphaligndone_x ? STRXWAIT500NS : STTXDLYSRESETD1;
 			STRXWAIT500NS: next = tmo ? RXTMO : (cnt==200) ? STRXCDRRDY : STRXWAIT500NS;
@@ -462,6 +466,7 @@ always @(posedge clk) begin
 				txreq1<=1'b0;txreq2<=1'b0;txreq3<=1'b1;txseldata<=1'b0;
 			end
 			DATA: begin
+				done_r<=1'b1;
 				farendaligned<=1'b0;
 				txreq1<=1'b0;txreq2<=1'b0;txreq3<=1'b0;txseldata<=1'b1;
 			end

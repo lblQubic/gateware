@@ -449,7 +449,7 @@ wire [15:0] dbattemptcnt;
 wire [4:0] dbtxphase5;
 wire [31:0] dbcnt_sfp;
 areset resetsfpareset(.clk(hw.vc707.sysclk),.areset(reset_sfp),.sreset(reset_sfp_w));
-gticc_gt #(.SIM_CPLLREFCLK_SEL(3'h002),.DWIDTH(16),.TXPHTARGET(5'd1))
+gticc_gt #(.SIM_CPLLREFCLK_SEL(3'h002),.DWIDTH(16))
 gticc_gt_sfp(.CPLLLOCKDETCLK(hw.vc707.sysclk)
 //,.GTNORTHREFCLK0(1'b0),.GTNORTHREFCLK1(1'b0),.GTREFCLK0(sgmiiclk),.GTREFCLK1(sma_mgt_refclk),.GTSOUTHREFCLK0(si5324_out_c),.GTSOUTHREFCLK1(1'b0)
 ,.GTNORTHREFCLK0(1'b0),.GTNORTHREFCLK1(1'b0),.GTREFCLK0(1'b0),.GTREFCLK1(sma_mgt_refclk),.GTSOUTHREFCLK0(1'b0),.GTSOUTHREFCLK1(1'b0)
@@ -458,6 +458,7 @@ gticc_gt_sfp(.CPLLLOCKDETCLK(hw.vc707.sysclk)
 ,.CPLLREFCLKSEL(3'h2)
 ,.stb_txphase(stb_txphaseab_cic)
 ,.txphase(txphaseab_cic)
+,.txphtarget(lbreg.sfptxphtarget)
 ,.bypasstxphcheck(lbreg.bypasstxphcheck)
 ,.gticc(sfpicc.gticc.gt)
 ,.dblocked(dblocked_sfp)
@@ -512,7 +513,7 @@ wire reset_smasfp_w;
 areset resetsmasfpareset(.clk(hw.vc707.sysclk),.areset(reset_smasfp),.sreset(reset_smasfp_w));
 wire dblocked_smasfp;
 wire dbrxcdrlock_smasfp;
-gticc_gt #(.SIM_CPLLREFCLK_SEL(3'h002),.DWIDTH(16),.TXPHTARGET(5'd1))
+gticc_gt #(.SIM_CPLLREFCLK_SEL(3'h002),.DWIDTH(16))
 gticc_gt_smasfp(.CPLLLOCKDETCLK(hw.vc707.sysclk)
 //,.GTNORTHREFCLK0(1'b0),.GTNORTHREFCLK1(1'b0),.GTREFCLK0(sgmiiclk),.GTREFCLK1(sma_mgt_refclk),.GTSOUTHREFCLK0(si5324_out_c),.GTSOUTHREFCLK1(1'b0)
 ,.GTNORTHREFCLK0(1'b0),.GTNORTHREFCLK1(1'b0),.GTREFCLK0(1'b0),.GTREFCLK1(sma_mgt_refclk),.GTSOUTHREFCLK0(1'b0),.GTSOUTHREFCLK1(1'b0)
@@ -522,6 +523,7 @@ gticc_gt_smasfp(.CPLLLOCKDETCLK(hw.vc707.sysclk)
 ,.gticc(smasfpicc.gticc.gt)
 ,.stb_txphase(stb_txphaseab_cic2)
 ,.txphase(smasfpicc.txphdmtd)
+,.txphtarget(lbreg.smasfptxphtarget)
 ,.bypasstxphcheck(lbreg.bypasstxphcheck)
 ,.dblocked(dblocked_smasfp)
 ,.dbrxcdrlock(dbrxcdrlock_smasfp)
