@@ -1,5 +1,6 @@
 ./bufio.sv
 ./bufread.sv
+./digimark.v
 ./dlo.v
 ./dpram.sv
 ./fifocore_64_8.tcl
@@ -23,6 +24,8 @@
 ./ilaiccauto.vh
 ./ilasysauto.tcl
 ./ilasysauto.vh
+./meas2.v
+./panzoom.v
 ./qubic.sv
 ./qubic.xdc
 ./qubicdsp.sv
@@ -38,6 +41,11 @@
 ./uartwrite.vh
 ./xc7vx485tffg1761pkg.vh
 ./xc7vx485tffg1761pkg.xdc
+otherrepo/qcmd_gen.v
+otherrepo/wave-elements/adder_bank.v
+otherrepo/wave-elements/element.v
+otherrepo/wave-elements/phalanx.v
+otherrepo/wave-elements/pulser.v
 submodules/board-support/fmc120/fmc120.sv
 submodules/board-support/fmc120/fmc120.vh
 submodules/board-support/fmc120/ifmc120.vh
@@ -50,6 +58,7 @@ submodules/common-hdl/areset.v
 submodules/common-hdl/async.v
 submodules/common-hdl/axi4lite.sv
 submodules/common-hdl/chainreset.v
+submodules/common-hdl/cmultiplier.v
 submodules/common-hdl/cordicg1.v
 submodules/common-hdl/data_xdomain.v
 submodules/common-hdl/dmtd.v
@@ -77,7 +86,9 @@ submodules/common-hdl/i2cmaster.v
 submodules/common-hdl/localbus.sv
 submodules/common-hdl/mdiomaster.v
 submodules/common-hdl/mdiomasterinit.v
+submodules/common-hdl/minmax2.v
 submodules/common-hdl/piloop5.v
+submodules/common-hdl/reg_delay.v
 submodules/common-hdl/reg_delay1.v
 submodules/common-hdl/sat.v
 submodules/common-hdl/seqinit.v
