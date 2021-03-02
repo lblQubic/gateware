@@ -17,5 +17,5 @@ qubichw_config #(.DEBUG(DEBUG),.BAUD(BAUD),.SIM(SIM))qubichw_config(.hw(hw),.lbr
 //,.lb(lb.cfg)
 //,.lb(udplocalbus.cfg)
 ,.dsp(dsp.cfg));
-qubicdsp qubicdsp(.dsp(dsp.dsp),.lbreg(lbreg.dsp));
+//qubicdsp qubicdsp(.dsp(dsp.dsp),.lbreg(lbreg.dsp));
 endmodule

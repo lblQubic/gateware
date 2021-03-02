@@ -26,7 +26,7 @@
 ,"mdiostart":{"access": "rw", "addr_width": 0, "data_width": 32, "sign": "unsigned", "init": 0}
 ,"mdiodatarx":{"access": "r", "addr_width": 0, "data_width": 32, "sign": "unsigned", "init": 0}
 ,"mdiorxvalid":{"access": "r", "addr_width": 0, "data_width": 1, "sign": "unsigned", "init": 0}
-,"mdioclk4ratio":{"access": "rw", "addr_width": 0, "data_width": 32, "sign": "unsigned", "init": 300}
+,"mdioclk4ratio":{"access": "rw", "addr_width": 0, "data_width": 32, "sign": "unsigned", "init": 1250}
 ,"axifmc1adc0_addr":{"access": "rw", "addr_width": 0, "data_width": 12, "sign": "unsigned", "init": 0}
 ,"axifmc1adc0_wdata":{"access": "rw", "addr_width": 0, "data_width": 32, "sign": "unsigned", "init": 0}
 ,"axifmc1adc0_rdata":{"access": "r", "addr_width": 0, "data_width": 32, "sign": "unsigned", "init": 0}
@@ -175,7 +175,7 @@
 ,"helppllki":{"access": "rw", "addr_width": 0, "data_width": 16, "sign": "unsigned", "init": 0}
 ,"helppllkishift":{"access": "rw", "addr_width": 0, "data_width": 5, "sign": "unsigned", "init": 5}
 ,"stableval":{"access": "rw", "addr_width": 0, "data_width": 32, "sign": "unsigned", "init": 500}
-,"dmtdnavr":{"access": "rw", "addr_width": 0, "data_width": 5, "sign": "unsigned", "init": 4}
+,"dmtdnavr":{"access": "rw", "addr_width": 0, "data_width": 5, "sign": "unsigned", "init": 10}
 ,"gitrevision":{"access": "r", "addr_width": 0, "data_width": 32, "sign": "unsigned", "init": 0}
 ,"phdiffavr_tx":{"access": "r", "addr_width": 0, "data_width": 32, "sign": "signed", "init": 0}
 ,"phdiffavrsfptxrx":{"access": "r", "addr_width": 0, "data_width": 32, "sign": "signed", "init": 0}
@@ -254,4 +254,6 @@
 ,"scopeseln":{"access": "rw", "addr_width": 0, "data_width": 16, "sign": "unsigned", "init": 0}
 ,"sfptxphtarget":{"access": "rw", "addr_width": 0, "data_width": 5, "sign": "unsigned", "init": 0}
 ,"smasfptxphtarget":{"access": "rw", "addr_width": 0, "data_width": 5, "sign": "unsigned", "init": 0}
+,"dbstate_sfp":{"access": "r", "addr_width": 0, "data_width": 5, "sign": "unsigned", "init": 0}
+,"dbtxphase5":{"access": "r", "addr_width": 0, "data_width": 5, "sign": "unsigned", "init": 0}
 }

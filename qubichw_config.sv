@@ -4,35 +4,66 @@ module qubichw_config #(parameter DEBUG="false",parameter BAUD=9600,parameter SI
 ,dsp.cfg dsp
 );
 //`define JESD
-localparam SYSCLKMMCM_RESET=0;
-localparam IDELAYCTRL_RESET=1;
-localparam SGMIIETH_RESET=2;
-localparam UARTRESET=3;
+//localparam SYSCLKMMCM_RESET=0;
+//localparam IDELAYCTRL_RESET=1;
+//localparam SGMIIETH_RESET=2;
+//localparam UARTRESET=3;
 
-localparam UARTLBRESET=4;
-localparam I2CRESET=5;
-localparam MDIORESET=6;
-localparam I2CINITRESET_0=7;
+//localparam UARTLBRESET=4;
+//localparam I2CRESET=5;
+//localparam MDIORESET=6;
+//localparam I2CINITRESET_0=7;
 
-localparam LOADMACIP=8;
-localparam ETHRESET_W=9;
-localparam I2CINITRESET_1=10;
-localparam AXIRESET=11;
+//localparam LOADMACIP=8;
+//localparam ETHRESET_W=9;
+//localparam I2CINITRESET_1=10;
+//localparam AXIRESET=11;
 
-localparam JESDRESET0=12;
-localparam JESDRESET1=13;
-localparam AXIINITRESET=14;
-localparam I2CINITRESET_2=15;
+//localparam JESDRESET0=12;
+//localparam JESDRESET1=13;
+//localparam AXIINITRESET=14;
+//localparam I2CINITRESET_2=15;
 
-localparam I2CINITRESET_3=16;
-localparam RESET_SFP=17;
-localparam RESETDONE=18;
-localparam RESET_SMASFP=19;
+//localparam I2CINITRESET_3=16;
+//localparam RESET_SFP=17;
+//localparam RESETDONE=18;
+//localparam RESET_SMASFP=19;
 
 //localparam QPLLRESET_113=16;
 //localparam QPLLRESET_114=20;
 //localparam HELPPLL=17;
-localparam NSTEP=20;
+//localparam NSTEP=20;
+
+
+enum {SYSCLKMMCM_RESET
+,IDELAYCTRL_RESET
+,SGMIIETH_RESET
+,UARTRESET
+,UARTLBRESET
+,I2CRESET
+,PHYRESET
+,PHYRESETWAIT5MS
+,MDIORESET
+,I2CINITRESET_0
+,LOADMACIP
+,ETHRESET_W
+,I2CINITRESET_1
+,AXIRESET
+,JESDRESET0
+,JESDRESET1
+,AXIINITRESET
+,I2CINITRESET_2
+,I2CINITRESET_3
+,RESET_SFP
+,RESETDONE
+,RESET_SMASFP
+,NSTEP
+} chainnode;
+
+//localparam QPLLRESET_113=16;
+//localparam QPLLRESET_114=20;
+//localparam HELPPLL=17;
+//localparam NSTEP=20;
 wire  clk100;
 wire  clk125;
 wire  clk200;
@@ -117,13 +148,13 @@ wire [15:0] rxbaudcnt;
 wire [15:0] txbaudcnt;
 wire txline_r;
 wire rxline_r;
-wire uartclk=clk100;//cfg;
+wire uartclk=clk125;//cfg;
 wire uartreset;
 wire uartreset_x;
 wire idelayctrl_reset;
 wire dbresetcmd;
 flag_xdomain uartresetxdomain(.clk2(uartclk),.clk1(hw.vc707.sysclk),.flagin_clk1(uartreset),.flagout_clk2(uartreset_x));
-uart #(.DWIDTH(8),.NSTOP(1),.UARTCLK(100000000),.BAUD(BAUD))
+uart #(.DWIDTH(8),.NSTOP(1),.UARTCLK(125000000),.BAUD(BAUD))
 uart (.clk(uartclk),.TX(uarttx),.RX(uartrx),.rst(uartreset_x),.txdata(txdata),.txstart(txstart),.rxdata(rxdata),.rxvalid(rxvalid),.txready(txready));
 wire uartlbreset;
 wire uartlbreset_x;
@@ -167,22 +198,25 @@ reg [36:0] i2ccmd_r=0;
 reg [36:0] i2ccmd_rd=0;
 reg [32:0] i2cresult=0;
 wire [3:0] i2cinitreset;
-reg [3:0] i2cinitreset_d=0;
+/*reg [3:0] i2cinitreset_d=0;
 reg i2creset_d=0;
 always @(posedge hw.vc707.sysclk) begin
 	i2cinitreset_d<=i2cinitreset;
 	i2creset_d<=i2creset;
 end
+*/
 wire si2cinitreset;
 wire i2cbusy;
 reg i2cbusy_d=0;
 wire uarti2c_w;
+reg uarti2c_r=0;
 reg [31:0] uartreg__clk4ratio=0;
 reg [31:0] lbreg__clk4ratio=0;
 areset uari2cxdomain(.clk(ethclk),.areset(uartreg.uarti2c),.sreset_val(uarti2c_w));
 reg mux_reset_b=0;
 assign hw.vc707.iic.mux_reset_b=mux_reset_b;
 always @(posedge ethclk) begin
+	uarti2c_r<=uarti2c_w;
 	uartreg__clk4ratio<=uartreg.clk4ratio;
 	lbreg__clk4ratio<=lbreg.clk4ratio;
 	mux_reset_b<=lbreg.i2cmux_reset_b | uartreg.i2cmux_reset_b | ~&i2cinitdone;
@@ -191,7 +225,7 @@ end
 wire [32-1:0] datatx_run;
 wire [3:0] nack_run;
 wire stopbit_run;
-wire [31:0] clk4ratio=SIM ? 2 : uarti2c_w ? uartreg__clk4ratio : lbreg__clk4ratio;
+wire [31:0] clk4ratio=SIM ? 2 : uarti2c_r ? uartreg__clk4ratio : lbreg__clk4ratio;
 IOBUF sdaiobuf (.IO(hw.vc707.iic.sda),.I(sdatx),.O(sdarx),.T(sdaasrx));
 i2cmaster #(.MAXNACK(4))
 i2cmaster (.clk(ethclk),.sdatx(sdatx),.sdarx(sdarx),.sdaasrx(sdaasrx),.scl(hw.vc707.iic.scl),.clk4ratio(clk4ratio),.nack(nack),.stopbit(stopbit),.datatx(i2cdatatx),.start(i2cstart),.datarx(i2cdatarx),.rxvalid(i2crxvalid),.resetdone(i2cresetdone),.rst(i2creset),.busy(i2cbusy),.datatx_run(datatx_run),.nack_run(nack_run),.stopbit_run(stopbit_run)
@@ -216,16 +250,17 @@ wire fmci2cstopbit;
 wire [37:0] i2c_x;
 wire [37:0] i2c_s;
 wire [37:0] i2c_v;
-wire [37:0] uarti2c_s;
-wire [37:0] uarti2c_v;
+wire uarti2c_s;
+wire [36:0] uarti2c_v;
 //areset #(.WIDTH(38)) i2cxdomain(.clk(ethclk),.areset(i2c_x),.sreset(i2c_s),.sreset_val(i2c_v));
 assign {i2cstart,stopbit,nack,i2cdatatx}={i2c_x[37],i2c_x[36:0]};
 assign i2c_x=~i2cinitdone[0] ? {i2cinitstart,i2ccmd} :
 	(~i2cinitdone[1])|(~i2cinitdone[2])|(~i2cinitdone[3]) ? {fmci2cstart,fmci2ccmd} :
-	uartreg.uarti2c ? {uarti2c_s[37],uarti2c_v} : //{uartreg.stb_i2cstart,uartreg.i2cstart[4],uartreg.i2cstart[3:0],uartreg.i2cdatatx} :
+	uartreg.uarti2c ? {uarti2c_s,uarti2c_v} : //{uartreg.stb_i2cstart,uartreg.i2cstart[4],uartreg.i2cstart[3:0],uartreg.i2cdatatx} :
 	lbreg.lbi2c ?    {lbreg.stb_i2cstart,lbreg.i2cstart[4],lbreg.i2cstart[3:0],lbreg.i2cdatatx} :
 	cfgi2ccmd;
-areset #(.WIDTH(38)) uarti2cxdomain(.clk(ethclk),.areset({uartreg.stb_i2cstart,uartreg.i2cstart[4],uartreg.i2cstart[3:0],uartreg.i2cdatatx} ),.sreset(uarti2c_s),.sreset_val(uarti2c_v));
+data_xdomain #(.DWIDTH(32+4+1))
+uarti2cxdomain(.clkin(clk125),.clkout(ethclk),.gatein(uartreg.stb_i2cstart),.datain({uartreg.i2cstart[4],uartreg.i2cstart[3:0],uartreg.i2cdatatx} ),.gateout(uarti2c_s),.dataout(uarti2c_v));
 wire [3:0] dbi2cstate;
 wire [3:0] dbi2cnext;
 wire dbsi2cinitreset;
@@ -432,7 +467,7 @@ wire pllresetdonestrobe;
 reg sfplos=0;
 reg sfplos_d=0;
 assign sfpreconnected=~sfplos&sfplos_d;
-always @(posedge hw.vc707.sysclk) begin
+always @(posedge ethclk) begin
 	sfplos<=hw.vc707.sfp.los;
 	sfplos_d<=sfplos;
 end
@@ -454,9 +489,9 @@ wire [15:0] txphaseab_cic;
 wire [15:0] dbattemptcnt;
 wire [4:0] dbtxphase5;
 wire [31:0] dbcnt_sfp;
-areset resetsfpareset(.clk(hw.vc707.sysclk),.areset(reset_sfp),.sreset(reset_sfp_w));
+areset resetsfpareset(.clk(ethclk),.areset(reset_sfp),.sreset(reset_sfp_w));
 gticc_gt #(.SIM_CPLLREFCLK_SEL(3'h002),.DWIDTH(16))
-gticc_gt_sfp(.CPLLLOCKDETCLK(hw.vc707.sysclk)
+gticc_gt_sfp(.CPLLLOCKDETCLK(ethclk)
 //,.GTNORTHREFCLK0(1'b0),.GTNORTHREFCLK1(1'b0),.GTREFCLK0(sgmiiclk),.GTREFCLK1(sma_mgt_refclk),.GTSOUTHREFCLK0(si5324_out_c),.GTSOUTHREFCLK1(1'b0)
 ,.GTNORTHREFCLK0(1'b0),.GTNORTHREFCLK1(1'b0),.GTREFCLK0(1'b0),.GTREFCLK1(sma_mgt_refclk),.GTSOUTHREFCLK0(1'b0),.GTSOUTHREFCLK1(1'b0)
 ,.GTXRXN(hw.vc707.sfp.rx_n),.GTXRXP(hw.vc707.sfp.rx_p),.GTXTXN(hw.vc707.sfp.tx_n),.GTXTXP(hw.vc707.sfp.tx_p)
@@ -479,14 +514,15 @@ gticc_gt_sfp(.CPLLLOCKDETCLK(hw.vc707.sysclk)
 ,.dbtxphase5(dbtxphase5)
 ,.dbcnt(dbcnt_sfp)
 );
+alatch #(.DWIDTH(10)) dbstatesfplatch(.clk(ethclk),.datain({dbstate_sfp,dbtxphase5}),.dataout({lbreg.dbstate_sfp,lbreg.dbtxphase5}));
 reg [4:0] txphase5=0;
 wire phasegood=dbtxphase5==lbreg.sfptxphtarget;
 wire phasechanged=dbtxphase5==txphase5;
-always @(posedge hw.vc707.sysclk) begin
+always @(posedge ethclk) begin
 	txphase5<=dbtxphase5;
 
 end
-assign sfpicc.sreset=(reset_sfp_w|sfpreconnected|lbreg.stb_reset_sfp);
+assign sfpicc.sreset=(reset_sfp_w|lbreg.stb_reset_sfp);//|sfpreconnected
 assign sfpicc.txdata=lbreg.sfptesttx;
 assign sfpicc.stbtxdata=1'b1;
 assign lbreg.sfptestrx=sfpicc.rxdata;
@@ -523,11 +559,11 @@ iicc #(.DWIDTH(16),.SIM(SIM)) smasfpicc();
 wire phrefclk62_5;
 wire reset_smasfp;//=reset_sfp;
 wire reset_smasfp_w;
-areset resetsmasfpareset(.clk(hw.vc707.sysclk),.areset(reset_smasfp),.sreset(reset_smasfp_w));
+areset resetsmasfpareset(.clk(ethclk),.areset(reset_smasfp),.sreset(reset_smasfp_w));
 wire dblocked_smasfp;
 wire dbrxcdrlock_smasfp;
 gticc_gt #(.SIM_CPLLREFCLK_SEL(3'h002),.DWIDTH(16))
-gticc_gt_smasfp(.CPLLLOCKDETCLK(hw.vc707.sysclk)
+gticc_gt_smasfp(.CPLLLOCKDETCLK(ethclk)
 //,.GTNORTHREFCLK0(1'b0),.GTNORTHREFCLK1(1'b0),.GTREFCLK0(sgmiiclk),.GTREFCLK1(sma_mgt_refclk),.GTSOUTHREFCLK0(si5324_out_c),.GTSOUTHREFCLK1(1'b0)
 ,.GTNORTHREFCLK0(1'b0),.GTNORTHREFCLK1(1'b0),.GTREFCLK0(1'b0),.GTREFCLK1(sma_mgt_refclk),.GTSOUTHREFCLK0(1'b0),.GTSOUTHREFCLK1(1'b0)
 ,.GTXRXN(hw.vc707.sma_mgt_rx_n),.GTXRXP(hw.vc707.sma_mgt_rx_p),.GTXTXN(hw.vc707.sma_mgt_tx_n),.GTXTXP(hw.vc707.sma_mgt_tx_p)
@@ -681,7 +717,7 @@ helppllpiloop(.clk(ethclk)
 );
 
 
-assign dmtdreset_w=|{lbreg.stb_stableval};
+assign dmtdreset_w=|{lbreg.stb_stableval,lbreg.stb_dmtdnavr};
 BUFG helpclkbufg(.I(user_clock),.O(helpclk));
 wire stb_phdiffavr;
 wire [31:0] phdiffavr;
@@ -830,20 +866,30 @@ data_xdomain #(.DWIDTH(32))dmtdrxlatch2(.clkin(helpclk),.clkout(ethclk),.gatein(
 
 
 
-
+wire sgmii_ethernet_pcs_pma_mdc;
+wire sgmii_ethernet_pcs_pma_mdio_i;//=1'b1;// don't know how to use yet
+wire sgmii_ethernet_pcs_pma_mdio_o;
+wire sgmii_ethernet_pcs_pma_mdio_t;
+wire [15:0] status_vector;
 wire sgmiieth_reset;
 wire sgmiieth_resetdone;
 gmii gmii();
-sgmii_ethernet_pcs_pma #(.SIM(SIM))
+sgmii_ethernet_pcs_pma #(.SIM(SIM),.PHYADDR(5'b00110))
 sgmii_ethernet_pcs_pma(.gtrefclk(sgmiiclk)
 ,.rxn(hw.vc707.sgmii_rx_n)
 ,.rxp(hw.vc707.sgmii_rx_p)
 ,.txn(hw.vc707.sgmii_tx_n)
 ,.txp(hw.vc707.sgmii_tx_p)
 ,.gmii(gmii.phy)
-,.independent_clock_bufg(hw.vc707.sysclk)
+,.independent_clock_bufg(clk125)
 ,.resetin(sgmiieth_reset)
 ,.resetdone(sgmiieth_resetdone)
+,.status_vector(status_vector)
+
+,.mdc(sgmii_ethernet_pcs_pma_mdc)
+,.mdio_i(sgmii_ethernet_pcs_pma_mdio_i)
+,.mdio_o(sgmii_ethernet_pcs_pma_mdio_o)
+,.mdio_t(sgmii_ethernet_pcs_pma_mdio_t)
 );
 
 //assign ethclk=clk125;//gmii.tx_clk;
@@ -869,27 +915,80 @@ wire loadmacip;
 wire  mdio_i;
 wire  mdio_o;
 wire  mdio_t;
-IOBUF mdiobuf(.O(mdio_i),.I(mdio_o),.T(mdio_t),.IO(hw.vc707.phy_mdio));
+wire  phy_mdio_i;
+wire  phy_mdio_o=mdio_o;
+wire  phy_mdio_t=mdio_t;
+IOBUF mdiobuf(.O(phy_mdio_i),.I(phy_mdio_o),.T(phy_mdio_t),.IO(hw.vc707.phy_mdio));
 wire  opr1w0;
 wire [4:0] phyaddr;
 wire [4:0] regaddr;
 wire [15:0] datatx;
 reg stb_mdiostart_d=0;
 reg [31:0] mdioclk4ratio=0;
-always @(posedge ethclk) begin
-	mdioclk4ratio<=lbreg.mdioclk4ratio;
-	stb_mdiostart_d<=lbreg.stb_mdiostart;
+reg [26:0] mdiodatatx=0;
+wire [31:0] mdiodatarx;
+wire mdiorxvalid;
+assign lbreg.mdiodatarx=mdiodatarx;
+assign uartreg.mdiodatarx=mdiodatarx;
+assign lbreg.mdiorxvalid=mdiorxvalid;
+assign uartreg.mdiorxvalid=mdiorxvalid;
+reg mdioreset_r=1'b0;
+wire mdioreset_x;
+wire mdc;
+reg phy_mdc_r=0;
+wire phy_reset;
+reg [31:0] phy_resetwait_cnt=0;
+wire phy_resetwait;
+wire phy_resetwait_done=(phy_resetwait_cnt==(SIM ? 32'h80 : 32'h800000));
+always @(posedge hw.vc707.sysclk) begin
+	phy_resetwait_cnt<=phy_resetwait? 0 : (phy_resetwait_cnt+ (phy_resetwait_done ? 1'b0: 1'b1));
 end
-assign {opr1w0,phyaddr,regaddr,datatx}=lbreg.mdiodatatx[26:0];
-mdiomasterinit #(.INITLENGTH(4),.INITWIDTH(27),.INITCLK4RATIO(SIM ? 2 : 100),.INITCMDS(
-    {1'b0,5'b00111,5'h0,16'h0140
+reg phy_reset_r=0;
+wire phy_reset_x;
+alatch #(.DWIDTH(1)) phyresetxdomain(.clk(clk125),.datain(phy_reset),.dataout(phy_reset_x));
+always @(posedge clk125) begin
+	if (mdioreset_x)begin
+		mdioreset_r<=1'b0;
+	end
+
+	if (lbreg.stb_mdiostart) begin
+		mdioclk4ratio<=lbreg.mdioclk4ratio ;
+		stb_mdiostart_d<=lbreg.stb_mdiostart ;
+		mdiodatatx<=lbreg.mdiodatatx[26:0] ;
+	end
+	else if (uartreg.stb_mdiostart) begin
+		mdioclk4ratio<=uartreg.mdioclk4ratio;
+		stb_mdiostart_d<=uartreg.stb_mdiostart;
+		mdiodatatx<= uartreg.mdiodatatx[26:0];
+	end
+	else begin
+		stb_mdiostart_d<=0;
+		mdiodatatx<=0;
+	end
+	phy_reset_r<=phy_reset_x; // the task before mdioreset
+	phy_mdc_r<=mdc;
+end
+assign {opr1w0,phyaddr,regaddr,datatx}=mdiodatatx;
+assign hw.vc707.phy_reset=~phy_reset;// the task before mdioreset
+assign hw.vc707.phy_mdc=mdc;
+wire phy_int=hw.vc707.phy_int;
+areset mdioresetareset (.clk(clk125),.areset(mdioreset),.sreset(mdioreset_x));
+mdiomasterinit #(.INITLENGTH(6),.INITWIDTH(27),.INITCLK4RATIO(SIM ? 2 : 100),.INITCMDS(
+    {
+    1'b0,5'b00110,5'h0,16'h0140
+	,1'b0,5'b00111,5'h0,16'h0140
     ,1'b0,5'b00111,5'h4,16'h9801
     ,1'b0,5'b00111,5'h16,16'h1
     ,1'b0,5'b00111,5'h0,16'h8140
+    ,1'b0,5'b00110,5'h0,16'h8140
     }
 ))
-mdiomasterinit(.clk(ethclk),.busy(),.clk4ratio(SIM ? 32'd10 : mdioclk4ratio),.datarx(lbreg.mdiodatarx),.datatx(datatx),.mdc(hw.vc707.phy_mdc),.mdio_i(mdio_i),.mdio_o(mdio_o),.mdio_t(mdio_t),.opr1w0(opr1w0),.phyaddr(phyaddr),.regaddr(regaddr),.rst(mdioreset),.rxvalid(lbreg.mdiorxvalid),.start(stb_mdiostart_d),.initdone(mdioinitdone));
+mdiomasterinit(.clk(clk125),.busy(),.clk4ratio(SIM ? 32'd10 : mdioclk4ratio),.datarx(mdiodatarx),.datatx(datatx),.mdc(mdc),.mdio_i(mdio_i),.mdio_o(mdio_o),.mdio_t(mdio_t),.opr1w0(opr1w0),.phyaddr(phyaddr),.regaddr(regaddr),.rst(phy_reset),.rxvalid(mdiorxvalid),.start(stb_mdiostart_d),.initdone(mdioinitdone),.initstart(mdioreset_x));
 
+assign sgmii_ethernet_pcs_pma_mdc=mdc;
+assign mdio_i=&{sgmii_ethernet_pcs_pma_mdio_o,phy_mdio_i};
+assign sgmii_ethernet_pcs_pma_mdio_i=mdio_o;
+//assign sgmii_ethernet_pcs_pma_mdio_t=mdio_t;
 
 wire [7:0] last_ip_byte=8'b0;
 wire [23:0] lb_addr;
@@ -1359,6 +1458,7 @@ wire [NSTEP-1:0] error;
 wire [NSTEP-1:0] resetout;
 wire [NSTEP-1:0] dbresetout;
 wire [NSTEP-1:0] donecriteria;
+wire [NSTEP-1:0] donecriteria_x;
 reg [NSTEP-1:0] donecriteria_r=0;
 wire stbdone;
 wire resetin=udphwreset|uarthwreset|poweronreset|(stbdone & (lbreg.loopreset & ~hw.vc707.gpio_dip_sw1) & ((~&done)| (~|eepromrd) | (&eepromrd)));
@@ -1378,13 +1478,13 @@ wire [NSTEP*16-1:0] resetlength;//={NSTEP{16'd20}};
 wire [NSTEP*32-1:0] resettimeout;//={NSTEP{32'b0}};
 wire [NSTEP*16-1:0] resettodonecheck;//={16'd10,16'd20,16'd1};
 
-
+alatch #(.DWIDTH(NSTEP))donecriteriaxdomain(.clk(hw.vc707.sysclk),.datain(donecriteria),.dataout(donecriteria_x));
 wire [3:0] dbchainstate,dbchainnext;
 chainreset #(.NSTEP(NSTEP))
 chainreset(.clk(hw.vc707.sysclk)
 ,.resetin(resetin)
 ,.resetout(resetout)
-,.donecriteria(donecriteria)
+,.donecriteria(donecriteria_x)
 ,.resetlength(resetlength)
 ,.readylength(readylength)
 ,.donelength(donelength)
@@ -1426,6 +1526,12 @@ assign donelength[I2CRESET*16+:16]=16'd1;assign readylength[I2CRESET*16+:16]=16'
 assign i2cinitreset[0]=resetout[I2CINITRESET_0];
 assign donecriteria[I2CINITRESET_0]=SIM ? 1'b1 : i2cinitdone[0];
 assign donelength[I2CINITRESET_0*16+:16]=16'd1;assign readylength[I2CINITRESET_0*16+:16]=16'd30;assign resetlength[I2CINITRESET_0*16+:16]=16'd20;assign resettodonecheck[I2CINITRESET_0*16+:16]=16'd10;assign resettimeout[I2CINITRESET_0*32+:32]=32'h80000000;
+assign phy_reset=resetout[PHYRESET];
+assign donecriteria[PHYRESET]=1'b1;
+assign donelength[PHYRESET*16+:16]=16'd1;assign readylength[PHYRESET*16+:16]=16'd30;assign resetlength[PHYRESET*16+:16]=16'd20;assign resettodonecheck[PHYRESET*16+:16]=16'd10;assign resettimeout[PHYRESET*32+:32]=32'h800;
+assign phy_resetwait=resetout[PHYRESETWAIT5MS];
+assign donecriteria[PHYRESETWAIT5MS]=phy_resetwait_done;
+assign donelength[PHYRESETWAIT5MS*16+:16]=16'd1;assign readylength[PHYRESETWAIT5MS*16+:16]=16'd30;assign resetlength[PHYRESETWAIT5MS*16+:16]=16'd20;assign resettodonecheck[PHYRESETWAIT5MS*16+:16]=16'd10;assign resettimeout[PHYRESETWAIT5MS*32+:32]=SIM ?  32'h800 : 32'h8000000;
 assign mdioreset=resetout[MDIORESET];
 assign donecriteria[MDIORESET]=SIM ? 1'b1 : mdioinitdone;
 assign donelength[MDIORESET*16+:16]=16'd1;assign readylength[MDIORESET*16+:16]=16'd30;assign resetlength[MDIORESET*16+:16]=16'd20;assign resettodonecheck[MDIORESET*16+:16]=16'd10;assign resettimeout[MDIORESET*32+:32]=32'h80000000;
@@ -1482,9 +1588,9 @@ assign donelength[I2CINITRESET_3*16+:16]=16'd1;assign readylength[I2CINITRESET_3
 gitrevision gitrevision(lbreg.gitrevision);
 
 //`include "ilaadcauto.vh"
-//`include "ilaauto.vh"
-//`include "ilahelpauto.vh"
-//`include "ilaethauto.vh"
-//`include "ilasysauto.vh"
-//`include "ilaiccauto.vh"
+`include "ilaauto.vh"
+`include "ilahelpauto.vh"
+`include "ilaethauto.vh"
+`include "ilasysauto.vh"
+`include "ilaiccauto.vh"
 endmodule

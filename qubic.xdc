@@ -4,13 +4,13 @@
 #create_clock -period 8.000 -name userclk -waveform {0.000 4.000} [get_pins qubichw_config/hw\\.vc707\\.user_clock_p]
 #create_clock -period 16.000 -name ethclk -waveform {0.000 8.000} [get_pins qubichw_config/sgmii_ethernet_pcs_pma/bufgtxoutclk/I]
 
-create_clock -period 8.000 -name sgmiiclk -waveform {0.000 4.000} [get_ports {fpga\\.AH7}]
+create_clock -period 7.500 -name sgmiiclk -waveform {0.000 3.750} [get_ports {fpga\\.AH7}]
 create_clock -period 5.000 -name sysclk -waveform {0.000 2.500} [get_ports  {fpga\\.E19}]
 create_clock -period 8.000 -name si5324clk -waveform {0.000 4.000} [get_ports  {fpga\\.AD8}]
 create_clock -period 8.000 -name userclk -waveform {0.000 4.000} [get_ports  {fpga\\.AK34}]
 create_clock -period 8.000 -name smamgtclk -waveform {0.000 4.000} [get_ports  {fpga\\.AK8}]
 #create_clock -period 16.000 -name ethclk -waveform {0.000 8.000} [get_pins qubichw_config/sgmii_ethernet_pcs_pma/bufgtxoutclk/I]
-create_clock -period 16.000 -name ethclk -waveform {0.000 8.000} [get_pins qubichw_config/sgmii_ethernet_pcs_pma/gig_ethernet_pcs_pma_0/txoutclk]
+#create_clock -period 16.000 -name ethclk -waveform {0.000 8.000} [get_pins qubichw_config/sgmii_ethernet_pcs_pma/gig_ethernet_pcs_pma_0/txoutclk]
 create_clock -period 4.000 -name fmc1dclk2 -waveform {0.000 2.000} [get_ports {fpga\\.L39}]
 create_clock -period 2.000 -name fmc1refclk8 -waveform {0.000 1.000} [get_ports {fpga\\.A10}]
 create_clock -period 8.000 -name fmc1refclk10 -waveform {0.000 4.000} [get_ports {fpga\\.E10}]
@@ -30,9 +30,10 @@ create_generated_clock -name eth62_5 -source [get_pins qubichw_config/sgmii_ethe
 #-edges {1,2,3} 
 #-edges {1,2,3}
 
-set_clock_groups -name qubic -asynchronous -group [get_clocks -include_generated_clocks sgmiiclk] -group [get_clocks -include_generated_clocks sysclk] -group [get_clocks -include_generated_clocks si5324clk] -group [get_clocks -include_generated_clocks smamgtclk] -group [get_clocks -include_generated_clocks userclk] -group [get_clocks -include_generated_clocks ethclk] -group [get_clocks -include_generated_clocks fmc1dclk2] -group [get_clocks -include_generated_clocks fmc1refclk8] -group [get_clocks -include_generated_clocks fmc1refclk10] -group [get_clocks -include_generated_clocks fmc2dclk2] -group [get_clocks -include_generated_clocks fmc2refclk8] -group [get_clocks -include_generated_clocks fmc2refclk10] -group [get_clocks -include_generated_clocks iicsclk]
+set_clock_groups -name qubic -asynchronous -group [get_clocks -include_generated_clocks sgmiiclk] -group [get_clocks -include_generated_clocks sysclk] -group [get_clocks -include_generated_clocks si5324clk] -group [get_clocks -include_generated_clocks smamgtclk] -group [get_clocks -include_generated_clocks userclk] -group [get_clocks -include_generated_clocks fmc1dclk2] -group [get_clocks -include_generated_clocks fmc1refclk8] -group [get_clocks -include_generated_clocks fmc1refclk10] -group [get_clocks -include_generated_clocks fmc2dclk2] -group [get_clocks -include_generated_clocks fmc2refclk8] -group [get_clocks -include_generated_clocks fmc2refclk10] -group [get_clocks -include_generated_clocks iicsclk] -group [get_clocks -include_generated_clocks eth125]
+
 #set_property CLOCK_DEDICATED_ROUTE FALSE [get_nets qubichw_config/gticc_common_114/QPLLOUTCLK]
-set_property CLOCK_DEDICATED_ROUTE FALSE [get_nets qubichw_config/gticc_gt_smasfp/TXOUTCLK]
+#set_property CLOCK_DEDICATED_ROUTE FALSE [get_nets qubichw_config/gticc_gt_smasfp/TXOUTCLK]
 
 set_max_delay -from [get_clocks sgmiiclk] -to [get_clocks clk100] 8.0
 set_max_delay -to [get_clocks sgmiiclk] -from [get_clocks clk100] 8.0
@@ -40,4 +41,18 @@ set_max_delay -to [get_clocks sgmiiclk] -from [get_clocks clk100] 8.0
 #set_max_delay -from [get_pins qubichw_config/uartlbresetxdomain/flagtoggle_clk1_reg/C] -to [get_pins {qubichw_config/uartlbresetxdomain/sync1_clk2_reg[0]/D}] 10.0
 #set_max_delay -from [get_pins qubichw_config/uartresetxdomain/flagtoggle_clk1_reg/C] -to [get_pins {qubichw_config/uartresetxdomain/sync1_clk2_reg[0]/D}] 10.0
 set_max_delay -from [get_pins -hierarchical -filter {NAME=~"*flagtoggle_clk1_reg/C"}] -to [get_pins -hierarchical -filter {NAME=~"*sync1_clk2_reg*/D"}] 10.0
+#set_max_delay -from [get_pins -hierarchical -filter {NAME=~"*areset/C"}] -to [get_pins -hierarchical -filter {NAME=~"*areset*/D"}] 16.0
+#set_max_delay -to [get_pins -hierarchical -filter {NAME=~"*areset/C"}] -from [get_pins -hierarchical -filter {NAME=~"*areset*/D"}] 16.0
+#set_max_delay -from [get_pins -hierarchical -filter {NAME=~"*areset/C"}] -to [get_pins -hierarchical -filter {NAME=~"*areset*/*/PRE"}] 16.0
+#set_max_delay -to [get_pins -hierarchical -filter {NAME=~"*areset/C"}] -from [get_pins -hierarchical -filter {NAME=~"*areset*/*/PRE"}] 16.0
+#set_max_delay -from [get_pins -hierarchical -filter {NAME=~"*freq_count/C"}] -to [get_pins -hierarchical -filter {NAME=~"*freq_count*/*/PRE"}] 16.0
+#set_max_delay -to [get_pins -hierarchical -filter {NAME=~"*freq_count/C"}] -from [get_pins -hierarchical -filter {NAME=~"*freq_count*/*/PRE"}] 16.0
+set_max_delay -from [get_pins {qubichw_config/uartlb64/*/C}] -to [get_pins {qubichw_config/uarthwresetareset/genblk1*.areset_i/reset_p_reg/PRE}] 16.0
+set_max_delay -from [get_pins {qubichw_config/chainreset/*/C}] -to [get_pins {qubichw_config/*/areset/genblk1*.areset_i/reset_p_reg/PRE}] 16.0
+#set_max_delay -from [get_pins {qubichw_config/chainreset/resetout_r_reg[8]/C}] -to [get_pins {qubichw_config/mdioresetareset/genblk1[0].areset_i/reset_p_reg/PRE}] 16.0
+set_max_delay -from [get_pins {qubichw_config/chainreset/resetout_r_reg*/C}] -to [get_pins {qubichw_config/mdioresetareset/genblk1*.areset_i/reset_p_reg/PRE}] 16.0
+set_max_delay -from [get_pins {qubichw_config/chainreset/resetout_r_reg*/C}] -to [get_pins {qubichw_config/phyresetxdomain/datasr2*_srl2_srlopt/D}] 16.0
+set_max_delay -from [get_pins qubichw_config/mdiomasterinit/done_reg/C] -to [get_pins {qubichw_config/donecriteria_r_reg*/D}] 16.0
+set_max_delay -from [get_pins qubichw_config/mdiomasterinit/done_reg/C] -to [get_pins {qubichw_config/donecriteriaxdomain/datasr2_reg*_srl2/D}] 16.0
+set_max_delay -from [get_pins {qubichw_config/chainreset/resetout_r_reg*/C}] -to [get_pins {qubichw_config/phyresetxdomain/datasr2_reg*_srl2/D}] 16.0
 

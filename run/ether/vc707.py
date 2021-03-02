@@ -214,6 +214,36 @@ class c_vc707:
 			print('reset',reset)
 			time.sleep(0.1)
 			ireset=ireset+1
+	def mdiowrite(self,addr,data,devaddr=0b00111,uart=True):
+		mdiocmd=(0<<26)+((devaddr&0x1f)<<21)+((int(addr)&0x1f)<<16)+((int(data)&0xffff))
+		#print('mdiocmd',format(mdiocmd,'8x'))
+		if uart:
+			self.uartregmap.write((('mdiodatatx',mdiocmd),('mdiostart',0)))
+		else:
+			self.regmap.write((('mdiodatatx',mdiocmd),('mdiostart',0)))
+	def mdioread(self,addr,devaddr=0b00111,uart=True):
+		mdiocmd=(1<<26)+((devaddr&0x1f)<<21)+((int(addr)&0x1f)<<16)+((0&0xffff)<<0)
+	#	print('mdiocmd',format(mdiocmd,'8x'))
+		if uart:
+			self.uartregmap.write((('mdiodatatx',mdiocmd),('mdiostart',0)))
+#			time.sleep(0.01)
+			v=self.uartregmap.read(('mdiodatarx',))
+		else:
+			self.regmap.write((('mdiodatatx',mdiocmd),('mdiostart',0)))
+#			time.sleep(0.01)
+			v=self.regmap.read(('mdiodatarx',))
+		(op,devaddr,regaddr,data)=self.mdiodecode(v)
+		return int(data)
+	def mdiodecode(self,v):
+		vint=int(v)
+		st=(vint>>30)&0x3
+		op=(vint>>28)&0x3
+		devaddr=(vint>>23)&0x1f
+		regaddr=(vint>>18)&0x1f
+		tr=(vint>>16)&0x3
+		data=vint&0xffff
+		return (op,devaddr,regaddr,data)
+
 
 
 if __name__=="__main__":
