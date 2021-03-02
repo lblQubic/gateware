@@ -62,10 +62,11 @@ $(TGT).bit: $(TGT).tcl $(SYNTH_SOURCE) $(SYNTH_CONSTR) bitclean
 	echo $(FNAME)
 	cp -f vivado_project/$(TGT).runs/impl_1/$(TGT).bit	./bits/$(FNAME).bit
 	ln -sf ./bits/$(FNAME).bit $(TGT).bit
-	cp -f vivado_project/$(TGT).runs/impl_1/$(TGT).ltx ./bits/$(FNAME).ltx
-	ln -sf ./bits/$(FNAME).ltx $(TGT).ltx
+	ls bits/$(FNAME).bit >> bits/bits
 	echo $(FNAME)
 	printf "\a\a\a"
+	cp -f vivado_project/$(TGT).runs/impl_1/$(TGT).ltx ./bits/$(FNAME).ltx
+	ln -sf ./bits/$(FNAME).ltx $(TGT).ltx
 #	if ( [ -a vivado_project/$(TGT).runs/impl_1/$(TGT).bit ] ) then
 #		echo "exist"
 #	else

@@ -3,13 +3,21 @@
 	,"probes":{
 		"clk4ratio":32
 		,"datatx_run":32
+		,"dbafreq01":1
+		,"dbfracerr":32
+		,"dbfreqint":32
 		,"dbi2cnext":4
 		,"dbi2cstate":4
 		,"dbnewnow":6
+		,"dbnextsi570vc707":4
 		,"dbrfreq_w":38
 		,"dbsmallmax":38
 		,"dbsmallmin":38
+		,"dbstatesi570vc707":4
+		,"dbverr":32
 		,"ethclkcnt":32
+		,"freqerr":32
+		,"freqerr_x":32
 		,"gmii.rx_dv":1
 		,"gmii.rxd":8
 		,"gmii.tx_en":1
@@ -24,6 +32,7 @@
 		,"i2crxvalid_d":1
 		,"i2cstart":1
 		,"i2cswlocation":8
+		,"lb570processed":1
 		,"lbreg.freqa":32
 		,"lbreg.freqb":32
 		,"lbreg.helppllki":16
@@ -48,11 +57,14 @@
 		,"sdatx":1
 		,"si570i2ccmd":37
 		,"si570i2cstart":1
+		,"si570lbstart":1
 		,"si570start":1
 		,"si570updatebusy":1
 		,"smallchange":1
 		,"stb_freqdiff":1
 		,"stb_freqdiff_x":1
+		,"stb_freqerr":1
+		,"stb_freqerr_x":1
 		,"stb_helppllctrl":1
 		,"stopbit":1
 		,"stopbit_run":1
@@ -64,18 +76,6 @@
 		,"udplb.wvalid":1
 		,"updatesi570":1
 		,"updatesi570":1
-		,"dbverr":32
-		,"freqerr":32
-		,"stb_freqerr":1
-		,"freqerr_x":32
-		,"stb_freqerr_x":1
-		,"dbafreq01":1
-		,"dbfreqint":32
-		,"dbfracerr":32
-		,"lb570processed":1
-		,"si570lbstart":1
-		,"dbstatesi570vc707":4
-		,"dbnextsi570vc707":4
 	}
 	,"backup":{
 		"i2ccmd":37

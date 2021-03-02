@@ -139,6 +139,7 @@ gticc_gt_sfp(.CPLLLOCKDETCLK(sysclk)
 ,.gticc(sfpiccmaster.gticc.gt)
 ,.stb_txphase(stb_txphaseab_x)
 ,.txphase(txphaseab)
+,.txphtarget(5'd0)
 ,.bypasstxphcheck(1'b0)
 ,.mask(6'h3f)
 );
@@ -167,6 +168,7 @@ gticc_gt_sfp2(.CPLLLOCKDETCLK(sysclk)
 ,.stb_txphase(stb_txphaseab_x2)
 ,.bypasstxphcheck(1'b0)
 ,.txphase(txphaseab2)
+,.txphtarget(5'd19)
 );
 wire reset_sfp_w2;
 areset resetsfpareset2(.clk(sysclk),.areset(reset_sfp2),.sreset(reset_sfp_w2));

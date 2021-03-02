@@ -43,21 +43,21 @@ if __name__=="__main__":
 	if (1):
 		for regaddr in range(32):
 			print(hex(regaddr),hex(mdioread(ser,regaddr)))
-	if (1):
+	if (0):
 		regmap=((0x0,0x140),(0x4,0x9801))
 		mdiowrite(ser,0x0,0x0140)
 		mdiowrite(ser,0x4,0x9801)
 		mdiowrite(ser,0x16,0x1)
 		mdiowrite(ser,0x0,0x8140)
-	if (1):
+	if (0):
 		for regaddr in range(32):
 			print(hex(regaddr),hex(mdioread(ser,regaddr)))
 	time.sleep(2)
-	if (1):
+	if (0):
 		for regaddr in range(32):
 			print(hex(regaddr),hex(mdioread(ser,regaddr)))
 	time.sleep(5)
-	if (1):
+	if (0):
 		for regaddr in range(32):
 			print(hex(regaddr),hex(mdioread(ser,regaddr)))
 	if (0):

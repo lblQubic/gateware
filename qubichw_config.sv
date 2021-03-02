@@ -119,13 +119,17 @@ wire txline_r;
 wire rxline_r;
 wire uartclk=clk100;//cfg;
 wire uartreset;
+wire uartreset_x;
 wire idelayctrl_reset;
 wire dbresetcmd;
+flag_xdomain uartresetxdomain(.clk2(uartclk),.clk1(hw.vc707.sysclk),.flagin_clk1(uartreset),.flagout_clk2(uartreset_x));
 uart #(.DWIDTH(8),.NSTOP(1),.UARTCLK(100000000),.BAUD(BAUD))
-uart (.clk(uartclk),.TX(uarttx),.RX(uartrx),.rst(uartreset),.txdata(txdata),.txstart(txstart),.rxdata(rxdata),.rxvalid(rxvalid),.txready(txready));
+uart (.clk(uartclk),.TX(uarttx),.RX(uartrx),.rst(uartreset_x),.txdata(txdata),.txstart(txstart),.rxdata(rxdata),.rxvalid(rxvalid),.txready(txready));
 wire uartlbreset;
+wire uartlbreset_x;
+flag_xdomain uartlbresetxdomain(.clk2(uartclk),.clk1(hw.vc707.sysclk),.flagin_clk1(uartlbreset),.flagout_clk2(uartlbreset_x));
 uartlb #(.UARTDWIDTH(8),.LBWIDTH(64))
-uartlb64 (.clk(uartclk),.areset(uartlbreset),.fromuartdata(rxdata),.fromuartvalid(rxvalid),.touartdata(txdata),.touartready(txready),.touartstart(txstart),.lbrcmd(uartlb.rcmd),.lbrready(uartlb.rready),.lbwcmd(uartlb.wcmd),.lbwvalid(uartlb.wvalid)
+uartlb64 (.clk(uartclk),.areset(uartlbreset_x),.fromuartdata(rxdata),.fromuartvalid(rxvalid),.touartdata(txdata),.touartready(txready),.touartstart(txstart),.lbrcmd(uartlb.rcmd),.lbrready(uartlb.rready),.lbwcmd(uartlb.wcmd),.lbwvalid(uartlb.wvalid)
 ,.dbresetcmd(dbresetcmd)
 );
 
@@ -420,6 +424,8 @@ wire uarthwreset;
 areset hwresetareset(.clk(hw.vc707.sysclk),.areset(lbreg.stb_hwreset),.sreset(udphwreset));
 areset uarthwresetareset(.clk(hw.vc707.sysclk),.areset(uartreg.stb_hwreset),.sreset(uarthwreset));
 
+//flag_xdomain udphwresetxdomain(.clk1(udplb.clk),.clk2(hw.vc707.sysclk),.flagin_clk1(lbreg.stb_hwreset),.flagout_clk2(udphwreset));
+//flag_xdomain uarthwresetxdomain(.clk1(uartclk),.clk2(hw.vc707.sysclk),.flagin_clk1(uartreg.stb_hwreset),.flagout_clk2(uarthwreset));
 
 wire rdyfortxrxreset;
 wire pllresetdonestrobe;
@@ -473,6 +479,13 @@ gticc_gt_sfp(.CPLLLOCKDETCLK(hw.vc707.sysclk)
 ,.dbtxphase5(dbtxphase5)
 ,.dbcnt(dbcnt_sfp)
 );
+reg [4:0] txphase5=0;
+wire phasegood=dbtxphase5==lbreg.sfptxphtarget;
+wire phasechanged=dbtxphase5==txphase5;
+always @(posedge hw.vc707.sysclk) begin
+	txphase5<=dbtxphase5;
+
+end
 assign sfpicc.sreset=(reset_sfp_w|sfpreconnected|lbreg.stb_reset_sfp);
 assign sfpicc.txdata=lbreg.sfptesttx;
 assign sfpicc.stbtxdata=1'b1;
@@ -635,7 +648,7 @@ always @(posedge ethclk) begin
 end
 //wire stb_freqdiff_x=freqdiff_s[38];
 //wire signed [31:0] freqdiff_x;//=freqdiff_sv[37:0];
-//wire [31:0] dbverr;
+wire [31:0] dbverr;
 //sat #(.WIN(38),.WOUT(32))
 //freqdiffsat(.din(freqdiff_sv[37:0]),.dout(freqdiff_x));
 
@@ -1469,9 +1482,9 @@ assign donelength[I2CINITRESET_3*16+:16]=16'd1;assign readylength[I2CINITRESET_3
 gitrevision gitrevision(lbreg.gitrevision);
 
 //`include "ilaadcauto.vh"
-`include "ilaethauto.vh"
 //`include "ilaauto.vh"
-`include "ilasysauto.vh"
 //`include "ilahelpauto.vh"
-`include "ilaiccauto.vh"
+//`include "ilaethauto.vh"
+//`include "ilasysauto.vh"
+//`include "ilaiccauto.vh"
 endmodule

@@ -33,3 +33,11 @@ create_generated_clock -name eth62_5 -source [get_pins qubichw_config/sgmii_ethe
 set_clock_groups -name qubic -asynchronous -group [get_clocks -include_generated_clocks sgmiiclk] -group [get_clocks -include_generated_clocks sysclk] -group [get_clocks -include_generated_clocks si5324clk] -group [get_clocks -include_generated_clocks smamgtclk] -group [get_clocks -include_generated_clocks userclk] -group [get_clocks -include_generated_clocks ethclk] -group [get_clocks -include_generated_clocks fmc1dclk2] -group [get_clocks -include_generated_clocks fmc1refclk8] -group [get_clocks -include_generated_clocks fmc1refclk10] -group [get_clocks -include_generated_clocks fmc2dclk2] -group [get_clocks -include_generated_clocks fmc2refclk8] -group [get_clocks -include_generated_clocks fmc2refclk10] -group [get_clocks -include_generated_clocks iicsclk]
 #set_property CLOCK_DEDICATED_ROUTE FALSE [get_nets qubichw_config/gticc_common_114/QPLLOUTCLK]
 set_property CLOCK_DEDICATED_ROUTE FALSE [get_nets qubichw_config/gticc_gt_smasfp/TXOUTCLK]
+
+set_max_delay -from [get_clocks sgmiiclk] -to [get_clocks clk100] 8.0
+set_max_delay -to [get_clocks sgmiiclk] -from [get_clocks clk100] 8.0
+
+#set_max_delay -from [get_pins qubichw_config/uartlbresetxdomain/flagtoggle_clk1_reg/C] -to [get_pins {qubichw_config/uartlbresetxdomain/sync1_clk2_reg[0]/D}] 10.0
+#set_max_delay -from [get_pins qubichw_config/uartresetxdomain/flagtoggle_clk1_reg/C] -to [get_pins {qubichw_config/uartresetxdomain/sync1_clk2_reg[0]/D}] 10.0
+set_max_delay -from [get_pins -hierarchical -filter {NAME=~"*flagtoggle_clk1_reg/C"}] -to [get_pins -hierarchical -filter {NAME=~"*sync1_clk2_reg*/D"}] 10.0
+

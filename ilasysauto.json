@@ -1,34 +1,36 @@
 {
 	"clk":"hw.vc707.sysclk"
 	,"probes":{
-		"dbdone":22
-		,"reset_sfp":1
-		,"reset_smasfp":1
-		,"dbchainstate":4
+		"dbattemptcnt":16
 		,"dbchainnext":4
-		,"eepromrd":80
-		,"dbresetout":22
-		,"reseted125":1
-		,"donecriteria_r":22
-		,"donecriteria":22
-		,"resetcnt":32
-		,"stbdone":1
-		,"dblocked_smasfp":1
-		,"dbrxcdrlock_smasfp":1
-		,"dblocked_sfp":1
-		,"dbrxcdrlock_sfp":1
-		,"dbdonecriteria_sfp":6
-		,"lbreg.sfpresetmask":6
-		,"dbdone_sfp":25
-		,"sfpicc.resetdone":1
-		,"dbresetout_sfp":6
-		,"dbstate_sfp":5
-		,"dbnext_sfp":5
-		,"reset_sfp_w":1
-		,"sfpreconnected":1
-		,"lbreg.stb_reset_sfp":1
-		,"dbattemptcnt":16
-		,"dbtxphase5":5
+		,"dbchainstate":4
 		,"dbcnt_sfp":32
+		,"dbdone":22
+		,"dbdone_sfp":25
+		,"dbdonecriteria_sfp":6
+		,"dblocked_sfp":1
+		,"dblocked_smasfp":1
+		,"dbnext_sfp":5
+		,"dbresetout":22
+		,"dbresetout_sfp":6
+		,"dbrxcdrlock_sfp":1
+		,"dbrxcdrlock_smasfp":1
+		,"dbstate_sfp":5
+		,"dbtxphase5":5
+		,"donecriteria":22
+		,"donecriteria_r":22
+		,"eepromrd":80
+		,"lbreg.sfpresetmask":6
+		,"lbreg.stb_reset_sfp":1
+		,"phasechanged":1
+		,"phasegood":1
+		,"reset_sfp":1
+		,"reset_sfp_w":1
+		,"reset_smasfp":1
+		,"resetcnt":32
+		,"reseted125":1
+		,"sfpicc.resetdone":1
+		,"sfpreconnected":1
+		,"stbdone":1
 	}
 }
