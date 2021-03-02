@@ -4,13 +4,18 @@ module qubicdsp #(parameter DEBUG="false"
 );
 
 
-wire lb_clk=lbreg.lb.clk;
-wire [19:0] lb_addr=lbreg.lb.waddr;
-wire lb_write=lbreg.lb.write;
-wire lb_read=lbreg.lb.read;
-wire [31:0] lb_wdata=lbreg.lb.wdata;
+wire lb_clk;
+assign lb_clk=lbreg.lb.clk;
+wire [19:0] lb_addr;
+assign lb_addr=lbreg.lb.waddr;
+wire lb_write;
+assign lb_write=lbreg.lb.write;
+wire lb_read;
+assign lb_read=lbreg.lb.read;
+wire [31:0] lb_wdata;
+assign lb_wdata=lbreg.lb.wdata;
 
-/*reg [31:0] trig_cnts;
+reg [31:0] trig_cnts;
 wire trig_chan;
 assign trig_chan = trig_cnts == lbreg.period_dac0-1;
 initial begin
@@ -41,16 +46,38 @@ assign d_write=phalanx_gstrobe;
 
 // Command memory - temporary placeholder for a real program generator
 parameter CMDAW=18;
-wire phalanx_cstrobe = d_write & (d_addr[19:CMDAW]==2'b10);// 0x80000 to 0xbffff
+//wire phalanx_cstrobe = d_write & (d_addr[19:CMDAW]==2'b10);// 0x80000 to 0xbffff
+wire phalanx_cstrobe = d_write & (d_addr[19:CMDAW]==2'b01);// 0x40000 to 0x7ffff
 wire cstrobe;
 wire [7:0] cmda;
 wire [63:0] command;
 wire  [31:0]  extra;
+reg cstrobe_d=0;
+reg [7:0] cmda_d=0;
+reg [63:0] command_d=0;
+reg  [31:0]  extra_d=0;
+wire cstrobe_w;
+wire [7:0] cmda_w;
+wire [63:0] command_w;
+wire  [31:0]  extra_w;
+
 qcmd_gen #(.aw(CMDAW))
 qcmd(.clk(dsp.clk),
 	.waddr(d_addr[CMDAW-1:0]), .wdata(d_wdata), .wstrobe(phalanx_cstrobe), .trig(trig_chan),
-	.command(command), .cmda(cmda), .cstrobe(cstrobe), .extra(extra)
+	//.command(command), .cmda(cmda), .cstrobe(cstrobe), .extra(extra)
+	.command(command_w), .cmda(cmda_w), .cstrobe(cstrobe_w), .extra(extra_w)
 );
+always @(posedge dsp.clk) begin
+	command_d <= command_w;
+	cmda_d <= cmda_w;
+	cstrobe_d <= cstrobe_w;
+	extra_d <= extra_w;
+end
+assign cstrobe=cstrobe_d;
+assign cmda=cmda_d;
+assign command=command_d;
+assign extra=extra_d;
+
 wire [3:0]resultx;
 wire [3:0]resulty;
 wire daczero=extra[0]&resultx[0];
@@ -61,7 +88,8 @@ localparam qbits=4;
 localparam tslice=4;
 wire fault0;
 wire [qbits*2*tslice*dw-1:0] dacout;
-wire phalanx_wstrobe = d_write & (d_addr[19:15]==6'b00111);  // 0x38000
+//wire phalanx_wstrobe = d_write & (d_addr[19:15]==6'b00111);  // 0x38000
+wire phalanx_wstrobe = d_write & ((d_addr[19:12]==8'h06)|(d_addr[19:12]==8'h07)|(d_addr[19:12]==8'h08)|(d_addr[19:12]==8'h09)|(d_addr[19:12]==8'h0a)|(d_addr[19:12]==8'h0b)|(d_addr[19:12]==8'h0c)|(d_addr[19:12]==8'h0d));  // 0x6000,0x7000,0x8000,0x9000,0xa000,0xb000,0xc000,0xd000
 phalanx #(.aw(10), .dw(dw), .nel(nel), .qbits(qbits), .tslice(tslice)) phalanx(
 	.clk(dsp.clk), .fault(fault0),
 	.command(command), .cmda(cmda[nell-1:0]), .cstrobe(cstrobe&~cmda[nell]),
@@ -70,7 +98,8 @@ phalanx #(.aw(10), .dw(dw), .nel(nel), .qbits(qbits), .tslice(tslice)) phalanx(
 );
 
 wire [qbits*2*tslice*dw-1:0] dacout_d;
-wire [16*8-1:0] dac_dc={lbreg.dac7_dc,lbreg.dac6_dc,lbreg.dac5_dc,lbreg.dac4_dc,lbreg.dac3_dc,lbreg.dac2_dc,lbreg.dac1_dc,lbreg.dac0_dc};
+wire [16*8-1:0] dac_dc;
+assign dac_dc={lbreg.dac7_dc,lbreg.dac6_dc,lbreg.dac5_dc,lbreg.dac4_dc,lbreg.dac3_dc,lbreg.dac2_dc,lbreg.dac1_dc,lbreg.dac0_dc};
 genvar idac;
 genvar islice;
 generate
@@ -88,10 +117,14 @@ end
 endgenerate
 localparam NMEAS=4;
 wire [NMEAS-1:0] meas_wstrobe;
-assign meas_wstrobe[0] = d_write & (d_addr[19:12]==8'hc0);  //  0xc0000
-assign meas_wstrobe[1] = d_write & (d_addr[19:12]==8'hc4);  //  0xc4000
-assign meas_wstrobe[2] = d_write & (d_addr[19:12]==8'hc8);  //  0xc8000
-assign meas_wstrobe[3] = d_write & (d_addr[19:12]==8'hcc);  //  0xcc000
+//assign meas_wstrobe[0] = d_write & (d_addr[19:12]==8'hc0);  //  0xc0000
+//assign meas_wstrobe[1] = d_write & (d_addr[19:12]==8'hc4);  //  0xc4000
+//assign meas_wstrobe[2] = d_write & (d_addr[19:12]==8'hc8);  //  0xc8000
+//assign meas_wstrobe[3] = d_write & (d_addr[19:12]==8'hcc);  //  0xcc000
+assign meas_wstrobe[0] = d_write & (d_addr[19:12]==8'h10);  //  0x10000
+assign meas_wstrobe[1] = d_write & (d_addr[19:12]==8'h14);  //  0x14000
+assign meas_wstrobe[2] = d_write & (d_addr[19:12]==8'h18);  //  0x18000
+assign meas_wstrobe[3] = d_write & (d_addr[19:12]==8'h1c);  //  0x1c000
 wire [NMEAS-1:0] meas_cstrobe ;
 assign meas_cstrobe[0]= cstrobe & (cmda==8'h8);
 assign meas_cstrobe[1]= cstrobe & (cmda==8'h9);
@@ -103,9 +136,9 @@ wire [16*tslice-1:0] ymeasin;
 assign xmeasin=lbreg.digiloopback ? dsp.dac0 : dsp.adc0;
 assign ymeasin=lbreg.digiloopback ? dsp.dac1 : dsp.adc1;
 
-reg [16*tslice-1:0] xmeasin_d=0, ymeasin_d=0;
-reg_delay #(.DW(16*tslice),.LEN(4)) delay_xmeasin(.clk(dsp.clk),.din(xmeasin),.dout(xmeasin_d),.gate(1'b1));
-reg_delay #(.DW(16*tslice),.LEN(4)) delay_ymeasin(.clk(dsp.clk),.din(ymeasin),.dout(ymeasin_d),.gate(1'b1));
+wire [16*tslice-1:0] xmeasin_d, ymeasin_d;
+reg_delay #(.DW(16*tslice),.LEN(5)) delay_xmeasin(.clk(dsp.clk),.din(xmeasin),.dout(xmeasin_d),.gate(1'b1));
+reg_delay #(.DW(16*tslice),.LEN(5)) delay_ymeasin(.clk(dsp.clk),.din(ymeasin),.dout(ymeasin_d),.gate(1'b1));
 
 wire [dw-1:0] adc0_min, adc1_min;
 wire [dw-1:0] adc0_max, adc1_max;
@@ -361,7 +394,7 @@ generate for (idigi=0; idigi<4; idigi=idigi+1) begin: digigen
 	digimark mark1(.clk(dsp.clk),.cstrobe(digi_cstrobe),.command(command),.mark(markpin[idigi]));
 end
 endgenerate
-*/
+
 endmodule
 
 interface dsp#(parameter DEBUG="false")();
