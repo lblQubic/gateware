@@ -18,7 +18,7 @@ export QUBICIP=192.168.1.225
 export HWSERVER="baci-desktop.dhcp.lbl.gov:3121"
 ```
 
-source testb71.sh
+`source testb71.sh`
 
 The test software are located in the run/ether directory
 `cd run/ether`
