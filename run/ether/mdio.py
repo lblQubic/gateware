@@ -13,12 +13,12 @@ if __name__=="__main__":
 	qubichw=c_qubichw(init=False,comport=True)
 	qubichw.uartinit()
 	if clargs.resetphy:
-		qubichw.vc707.mdiowrite(0x0,0x0140,devaddr=0b00111)
-		qubichw.vc707.mdiowrite(0x4,0x9801,devaddr=0b00111)
-		qubichw.vc707.mdiowrite(0x16,0x1,devaddr=0b00111)
 		qubichw.vc707.mdiowrite(0x4,0x8140,devaddr=0b00111)
+		qubichw.vc707.mdiowrite(0x16,0x1,devaddr=0b00111)
+		qubichw.vc707.mdiowrite(0x4,0x9801,devaddr=0b00111)
+		qubichw.vc707.mdiowrite(0x0,0x0140,devaddr=0b00111)
 	if clargs.resetpcs:
-		#		qubichw.vc707.mdiowrite(0x0,0x8140,devaddr=0b00110)
+		qubichw.vc707.mdiowrite(0x0,0x8140,devaddr=0b00110)
 		qubichw.vc707.mdiowrite(0x0,0x0140,devaddr=0b00110)
 		time.sleep(0.5)
 	if clargs.read:

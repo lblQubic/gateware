@@ -14,6 +14,7 @@
 		,"dbnext_sfp":5
 		,"dbresetout_sfp":6
 		,"dbstate_sfp":5
+		,"sfplos":1
 		,"dbtxphase5":5
 		,"phasechanged":1
 		,"phasegood":1

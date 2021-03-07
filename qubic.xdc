@@ -51,7 +51,7 @@ set_max_delay -from [get_pins {qubichw_config/uartlb64/*/C}] -to [get_pins {qubi
 set_max_delay -from [get_pins {qubichw_config/chainreset/*/C}] -to [get_pins {qubichw_config/*/areset/genblk1*.areset_i/reset_p_reg/PRE}] 16.0
 #set_max_delay -from [get_pins {qubichw_config/chainreset/resetout_r_reg[8]/C}] -to [get_pins {qubichw_config/mdioresetareset/genblk1[0].areset_i/reset_p_reg/PRE}] 16.0
 set_max_delay -from [get_pins {qubichw_config/chainreset/resetout_r_reg*/C}] -to [get_pins {qubichw_config/mdioresetareset/genblk1*.areset_i/reset_p_reg/PRE}] 16.0
-set_max_delay -from [get_pins {qubichw_config/chainreset/resetout_r_reg*/C}] -to [get_pins {qubichw_config/phyresetxdomain/datasr2*_srl2_srlopt/D}] 16.0
+#set_max_delay -from [get_pins {qubichw_config/chainreset/resetout_r_reg*/C}] -to [get_pins {qubichw_config/phyresetxdomain/datasr2*_srl2_srlopt/D}] 16.0
 set_max_delay -from [get_pins qubichw_config/mdiomasterinit/done_reg/C] -to [get_pins {qubichw_config/donecriteria_r_reg*/D}] 16.0
 set_max_delay -from [get_pins qubichw_config/mdiomasterinit/done_reg/C] -to [get_pins {qubichw_config/donecriteriaxdomain/datasr2_reg*_srl2/D}] 16.0
 set_max_delay -from [get_pins {qubichw_config/chainreset/resetout_r_reg*/C}] -to [get_pins {qubichw_config/phyresetxdomain/datasr2_reg*_srl2/D}] 16.0

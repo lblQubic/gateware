@@ -26,6 +26,7 @@ module gticc_gt #
 ,input stb_txphase
 ,input [15:0] txphase
 ,input [4:0] txphtarget
+,input sfplos
 ,igticc.gt gticc
 ,input bypasstxphcheck
 ,output RXOUTCLKFABRIC
@@ -277,11 +278,11 @@ reg txreq1=0;
 reg txreq2=0;
 reg txreq3=0;
 reg txseldata=0;
-wire stb_txphase_x,mmcmlocked_x,bypasstxphcheck_x,txphaligndone_x,rxphaligndone_x,cdrlocked_x,farendaligned_x,align1req_x,align2req_x,align3req_x;
-alatch #(.DWIDTH(5+8)) xdomaintostable(.clk(clk),.datain(
-	{stb_txphase,mmcmlocked,bypasstxphcheck,cdrlocked,farendaligned,align1req,align2req,align3req,txphase5}
+wire sfplos_x,stb_txphase_x,mmcmlocked_x,bypasstxphcheck_x,txphaligndone_x,rxphaligndone_x,cdrlocked_x,farendaligned_x,align1req_x,align2req_x,align3req_x;
+alatch #(.DWIDTH(5+9)) xdomaintostable(.clk(clk),.datain(
+	{sfplos,stb_txphase,mmcmlocked,bypasstxphcheck,cdrlocked,farendaligned,align1req,align2req,align3req,txphase5}
 ),.dataout(
-	{stb_txphase_x,mmcmlocked_x,bypasstxphcheck_x,cdrlocked_x,farendaligned_x,align1req_x,align2req_x,align3req_x,txphase5_x}
+	{sfplos_x,stb_txphase_x,mmcmlocked_x,bypasstxphcheck_x,cdrlocked_x,farendaligned_x,align1req_x,align2req_x,align3req_x,txphase5_x}
 ));
 areset txphaligndone_areset(.clk(clk),.areset(txphaligndone),.sreset(txphaligndone_x));
 areset rxphaligndone_areset(.clk(clk),.areset(rxphaligndone),.sreset(rxphaligndone_x));
@@ -369,8 +370,8 @@ always @(*) begin
 			STTXPHSTB2: next = stb_txphase_x ? STTXPHCHECK : STTXPHSTB2;
 			STTXPHCHECK: next = txphgood ?  STRXWAIT500NS : STTXWAIT500NS;
 			STRXWAIT500NS: next = ~txphgood ? STTXWAIT500NS :  (cnt==200) ? STRXCDRRDY : STRXWAIT500NS;
-			STRXCDRRDY: next= ~txphgood ? STTXWAIT500NS :  cdrlocked_x ? STRXCDRSTABLE : STRXCDRRDY;
-			STRXCDRSTABLE: next = ~txphgood ? STTXWAIT500NS :  ~cdrlocked_x  ?  STRXCDRRDY :  cnt==32'hffffff ? STRXDLYSRESET :STRXCDRSTABLE  ;
+			STRXCDRRDY: next= ~txphgood ? STTXWAIT500NS :  ~sfplos_x & cdrlocked_x ? STRXCDRSTABLE : STRXCDRRDY;
+			STRXCDRSTABLE: next = ~txphgood ? STTXWAIT500NS :  ~cdrlocked_x|sfplos_x  ?  STRXCDRRDY :  cnt==32'hffffff ? STRXDLYSRESET :STRXCDRSTABLE  ;
 			STRXDLYSRESET: next = tmo ? RXTMO : ~txphgood ? STTXWAIT500NS :  cnt==5 ? STRXDLYSRESETD1 : STRXDLYSRESET;
 			STRXDLYSRESETD1: next= tmo ? RXTMO : rxphaligndone_x ? ALIGN1REQ : STRXDLYSRESETD1;
 

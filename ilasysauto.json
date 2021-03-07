@@ -7,6 +7,11 @@
 		,"dbchainnext":4
 		,"dbchainstate":4
 		,"donecriteria_r":32
+		,"uarthwreset":1
+		,"udphwreset":1
+		,"resetin":1
+		,"phy_resetwait_done":1
+		,"phy_resetwait_cnt":32
 	}
 	,"backup":{
 		"dbdonecriteria_sfp":6

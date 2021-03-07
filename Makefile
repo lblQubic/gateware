@@ -27,6 +27,8 @@ gitpush:
 	python submodules/tools/gitauto.py -action push
 gitlist:
 	python submodules/tools/gitauto.py -action list
+gitlog:
+	git reflog --pretty=format:"%h %cd %cn %s"
 
 #ifeq ($(COMMITMSG),$(AUTOCOMMITMSG))
 #echo yes
