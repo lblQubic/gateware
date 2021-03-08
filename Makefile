@@ -109,6 +109,10 @@ qubicdsp.fst: qubicdsp_tb.tcl simclean
 	vcd2fst -v  ./vivado_project_sim/qubicdsp.sim/sim_1/behav/xsim/qubicdsp.vcd -f qubicdsp.fst
 	printf "\a"
 
+icc2.fst: icc2_tb.tcl simclean
+	vivado -mode batch -source $< -tclargs $(TEND)
+	vcd2fst -v  ./vivado_project_sim/icc2.sim/sim_1/behav/xsim/icc2.vcd -f icc2.fst
+	printf "\a"
 icc.fst: icc_tb.tcl simclean
 	vivado -mode batch -source $< -tclargs $(TEND)
 	vcd2fst -v  ./vivado_project_sim/icc.sim/sim_1/behav/xsim/icc.vcd -f icc.fst

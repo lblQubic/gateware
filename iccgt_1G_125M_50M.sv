@@ -27,6 +27,9 @@ module gticc_gt #
 ,input [15:0] txphase
 ,input [4:0] txphtarget
 ,input sfplos
+,input phrefclk62_5
+,input reset
+,output txoutclk
 ,igticc.gt gticc
 ,input bypasstxphcheck
 ,output RXOUTCLKFABRIC
@@ -46,7 +49,7 @@ module gticc_gt #
 ,output [31:0] dbcnt
 );
 
-localparam TIMEOUTSHORT=32'h40000000;
+localparam TIMEOUTSHORT=32'h4000000;
 localparam TIMEOUTLONG=32'hc0000000;
 //wire waitrxpcommaalignen;
 wire RXUSERRDY=gticc.rxuserrdy;
@@ -55,8 +58,6 @@ reg [DBYTE-1:0] txcharisk_r=0;//waitrxpcommaalignen ? 4'h1 : gticc.txcharisk;
 reg [DWIDTH-1:0] txdata_r=0;//waitrxpcommaalignen ? 32'h01bc : gticc.txdata;
 wire [DBYTE-1:0] txcharisk=txcharisk_r;
 wire [DWIDTH-1:0] txdata=txdata_r;
-wire reset;
-assign reset=gticc.reset;//|(lost_d&~lost);
 wire [DBYTE-1:0] RXCHARISK;
 wire [DBYTE-1:0] RXCHARISCOMMA;
 wire [DBYTE-1:0] RXDISPERR;
@@ -117,8 +118,8 @@ wire TXPHDLYRESET;//=txrxreset;
 wire TXPHINITDONE;
 wire TXPHALIGNDONE;
 wire TXDLYSRESETDONE;
-wire RXPHSLIPMONITOR;
-wire RXPHMONITOR;
+wire [4:0] RXPHSLIPMONITOR;
+wire [4:0] RXPHMONITOR;
 wire RXPHALIGNDONE;
 wire RXDLYSRESETDONE;
 wire [2:0] TXOUTCLKSEL;
@@ -165,7 +166,9 @@ if (SIM) begin
 	);
 end
 else begin
-	BUFG txoutclk_bufg(.I(RXOUTCLK),.O(TXUSRCLK));
+	//BUFG txoutclk_bufg(.I(TXOUTCLK),.O(TXUSRCLK));
+	BUFG txoutclk_bufg(.I(TXOUTCLK),.O(txoutclk));
+	BUFG txusrclk_bufg(.I(phrefclk62_5),.O(TXUSRCLK));
 	assign mmcmlocked=1'b1;
 	assign TXOUTCLKSEL=3'b010;//SIM ? 3'b011 : 3'b010;
 end
@@ -174,8 +177,8 @@ endgenerate
 BUFG rxoutclk_bufg(.I(RXOUTCLK),.O(RXUSRCLK));
 assign RXUSRCLK2=RXUSRCLK;
 localparam LOCKMAX=3;
-always @(posedge RXUSRCLK or posedge reset) begin
-	if (reset) begin
+always @(posedge RXUSRCLK) begin
+	if (gticc.rxreset) begin
 		unlockcnt<=0;
 		cdrlocked<=1'b0;
 	end
@@ -266,8 +269,7 @@ wire align1req=RXDATA==palign1data & RXCHARISK==palign1isk;
 wire align2req=RXDATA==palign2data & RXCHARISK==palign2isk;
 wire align3req=RXDATA==palign3data & RXCHARISK==palign3isk;
 
-wire sreset;
-reg sreset_d=0;
+reg reset_d=0;
 wire [13:0] txphase14=txphase&14'h3fff;
 wire [16:0] txphase17=((txphase14<<<2)+(txphase14));
 wire [4:0] txphase5=txphase17>>>12;
@@ -331,14 +333,14 @@ reg [31:0] cnt=0;
 assign tmo=cnt==TIMEOUTSHORT;
 assign tmolong=cnt==TIMEOUTLONG;
 assign dbcnt=cnt;
-areset resetxdomain (.clk(clk),.areset(reset),.sreset(sreset));
+areset resettxxdomain (.clk(txusrclk),.areset(reset),.sreset(gticc.txreset));
+areset resetrxxdomain (.clk(rxusrclk),.areset(reset),.sreset(gticc.rxreset));
 reg txphgood=0;
 always @(posedge clk) begin
 	txphgood<=bypasstxphcheck_x | (txphase5_x ==txphtarget) ;
 end
 always @(posedge clk) begin
-	sreset_d<=sreset;
-	if (sreset)begin
+	if (reset)begin
 		state<=IDLE;
 	end
 	else begin
@@ -348,7 +350,7 @@ always @(posedge clk) begin
 end
 wire rxerr=|{RXDISPERR,RXNOTINTABLE};
 always @(*) begin
-	if (sreset) begin
+	if (reset) begin
 		next=IDLE;
 	end
 	else begin
@@ -365,10 +367,11 @@ always @(*) begin
 			STTXRXRESETDONE: next =  tmolong ? RXTMO :&{TXRESETDONE,RXRESETDONE,CPLLLOCK,~CPLLFBCLKLOST,~CPLLREFCLKLOST} ? STTXDLYSRESET : STTXWAIT500NS;
 
 			STTXDLYSRESET: next =cnt==5 ? STTXDLYSRESETD1: STTXDLYSRESET;
-			STTXDLYSRESETD1: next = tmo ? TXTMO : txphaligndone_x ? STTXPHSTB1 : STTXDLYSRESETD1;
+			STTXDLYSRESETD1: next = tmo ? TXTMO : (txphaligndone_x | 1'b1 )? STTXPHSTB1 : STTXDLYSRESETD1;
 			STTXPHSTB1: next = stb_txphase_x ? STTXPHSTB2 : STTXPHSTB1;
 			STTXPHSTB2: next = stb_txphase_x ? STTXPHCHECK : STTXPHSTB2;
 			STTXPHCHECK: next = txphgood ?  STRXWAIT500NS : STTXWAIT500NS;
+			//STTXPHCHECK: next = txphgood ?  DATA : STTXWAIT500NS;
 			STRXWAIT500NS: next = ~txphgood ? STTXWAIT500NS :  (cnt==200) ? STRXCDRRDY : STRXWAIT500NS;
 			STRXCDRRDY: next= ~txphgood ? STTXWAIT500NS :  ~sfplos_x & cdrlocked_x ? STRXCDRSTABLE : STRXCDRRDY;
 			STRXCDRSTABLE: next = ~txphgood ? STTXWAIT500NS :  ~cdrlocked_x|sfplos_x  ?  STRXCDRRDY :  cnt==32'hffffff ? STRXDLYSRESET :STRXCDRSTABLE  ;
@@ -382,11 +385,11 @@ always @(*) begin
 			ALIGN3REQ: next= tmo ? RXTMO : ~cdrlocked_x  ? STRXWAIT500NS  : ~RXBYTEISALIGNED ? ALIGN1REQ : cnt==100 ? DATA : ALIGN3REQ;
 			//ALIGN3REQ: next= tmo ? RXTMO : ~cdrlocked_x  ? STRXWAIT500NS  : ~RXBYTEISALIGNED ? ALIGN1REQ : cnt==100 ? STRXWAIT500NS : ALIGN3REQ;
 			DATA: next = |{~CPLLLOCK,CPLLFBCLKLOST,CPLLREFCLKLOST,~mmcmlocked_x,~txphgood } ? STTXWAIT500NS :
-				~cdrlocked_x  ? STRXWAIT500NS :
-				rxerr ? RXERR :
-				~RXBYTEISALIGNED ? ALIGN1REQ :
-				align1req_x ? ALIGN2REQ :
-				align2req_x ? ALIGN3REQ :
+//				~cdrlocked_x  ? STRXWAIT500NS :
+//				rxerr ? RXERR :
+//				~RXBYTEISALIGNED ? ALIGN1REQ :
+//				align1req_x ? ALIGN2REQ :
+//				align2req_x ? ALIGN3REQ :
 				DATA ;
 			RXERR: next= ALIGN1REQ;//STRXWAIT500NS ;
 			TXTMO: next = STTXWAIT500NS;
@@ -408,7 +411,7 @@ assign RXDLYSRESET=rxdlysreset_r;
 assign TXDLYSRESET=txdlysreset_r;
 reg done_r=0;
 always @(posedge clk) begin
-	if (sreset) begin
+	if (reset) begin
 	end
 	else begin
 		case (next)
@@ -437,6 +440,7 @@ always @(posedge clk) begin
 			end
 			STTXRXRESET: begin
 				gttxrxreset_r<=1'b1;
+				done_r<=1'b1;
 			end
 			STTXRXRESETING: begin
 				gttxrxreset_r<=1'b0;
@@ -446,7 +450,6 @@ always @(posedge clk) begin
 			end
 			STTXRXRESETDONE: begin
 				gttxrxreset_r<=1'b0;
-				done_r<=1'b1;
 			end
 			STTXPHSTB1: begin
 			end

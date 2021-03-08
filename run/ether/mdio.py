@@ -13,10 +13,15 @@ if __name__=="__main__":
 	qubichw=c_qubichw(init=False,comport=True)
 	qubichw.uartinit()
 	if clargs.resetphy:
+		#		qubichw.vc707.mdiowrite(22,0x0,devaddr=0b00111)
 		qubichw.vc707.mdiowrite(0x4,0x8140,devaddr=0b00111)
 		qubichw.vc707.mdiowrite(0x16,0x1,devaddr=0b00111)
+#		qubichw.vc707.mdiowrite(0x1b,0x8480,devaddr=0b00111)
 		qubichw.vc707.mdiowrite(0x4,0x9801,devaddr=0b00111)
+#		qubichw.vc707.mdiowrite(0x9,0x0000,devaddr=0b00111)
 		qubichw.vc707.mdiowrite(0x0,0x0140,devaddr=0b00111)
+#		qubichw.vc707.mdiowrite(0x4,0x8140,devaddr=0b00111)
+		time.sleep(6)
 	if clargs.resetpcs:
 		qubichw.vc707.mdiowrite(0x0,0x8140,devaddr=0b00110)
 		qubichw.vc707.mdiowrite(0x0,0x0140,devaddr=0b00110)
@@ -31,7 +36,7 @@ if __name__=="__main__":
 			revnum=(reg3&0xf)
 			print('oui:',hex(oui),'model',hex(model),'revnum',hex(revnum))
 			for regaddr in range(32):
-				print(hex(regaddr),format(qubichw.vc707.mdioread(regaddr,devaddr=devaddr),'04x'))
+				print(format(regaddr,'02x'),format(regaddr,'2d'),format(qubichw.vc707.mdioread(regaddr,devaddr=devaddr),'04x'))
 
 #	dev=devcom.devcom(devcom.sndev)
 #	vc707uart=dev['vc707uart']

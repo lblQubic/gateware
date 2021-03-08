@@ -60,8 +60,6 @@ always @(posedge clk) begin
 	endcase
 end
 
-wire sreset;
-areset areset(.clk(clk),.areset(reset),.sreset(sreset));
 
 
 localparam IDLE=0;
@@ -84,8 +82,8 @@ reg [3:0] next=IDLE;
 reg [31:0] scnt=0;
 reg [7:0] lastswitch=0;
 wire scnt5=|scnt[31:3];
-always @(posedge clk or posedge sreset) begin
-	if (sreset) begin
+always @(posedge clk or posedge reset) begin
+	if (reset) begin
 		state<=IDLE;
 	end
 	else begin
@@ -107,7 +105,7 @@ always @(*) begin
 	endcase
 end
 always @(posedge clk) begin
-	if (sreset) begin
+	if (reset) begin
 		start_r<=1'b0;
 		stopbit_r<=1'b0;
 		nack_r<=1'b0;

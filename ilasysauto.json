@@ -2,7 +2,7 @@
 	"clk":"hw.vc707.sysclk"
 	,"probes":{
 		"dbdone":32
-		,"eepromrd":80
+		,"eepromrd_x":80
 		,"dbresetout":32
 		,"dbchainnext":4
 		,"dbchainstate":4

@@ -247,7 +247,7 @@ sgmii_ethernet_pcs_pma(.gtrefclk(sgmiiclk)
 ,.txp(hw.vc707.sgmii_rx_p)
 ,.gmii(ifgmii.phy)
 ,.independent_clock_bufg(sysclk)
-,.resetin(sysclkcnt==20)//hwreset)
+,.reset(sysclkcnt==20)//hwreset)
 ,.resetdone(resetdone)
 ,.status_vector()
 );

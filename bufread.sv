@@ -21,8 +21,6 @@ module bufread #(parameter DWW=8
 	,output full
 	,input reset
 );
-wire sreset;
-areset areset(.clk(wclk),.areset(reset),.sreset(sreset));
 
 	reg [AWW-1:0] wraddr=0;
 	reg [AWW-1:0] wraddr_next=1;
@@ -33,9 +31,9 @@ areset areset(.clk(wclk),.areset(reset),.sreset(sreset));
 	dpram2 #(.DWW(DWW),.DWR(DWR),.AWW(AWW),.SIM(SIM),.BUFIN(1),.BUFOUT(1))
 	dpram(.wrclk(wrclk),.rdclk(rclk),.wraddr(wraddr),.wrdata(wrdata),.wren(wren),.rden(ren),.rddata(rdata),.rddv(rdv),.rdaddr(raddr));
 
-	always @(posedge wclk or posedge sreset) begin
+	always @(posedge wclk or posedge reset) begin
 		wrdata<=wdata;
-		if (sreset) begin
+		if (reset) begin
 			wraddr<= 0;
 			wraddr_next<= 1;
 			full_r<=0;

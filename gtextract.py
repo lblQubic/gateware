@@ -47,43 +47,56 @@ def modifygenerate(portdict,portmoddict={}):
 		if pval=='tied_to_ground_i':
 			pval="1'b0";
 			portzeroone.append(".%s(%s)"%(pname,pval))
+			#print(pname,1)
 		elif pval=='tied_to_vcc_i':
 			pval="1'b1";
 			portzeroone.append(".%s(%s)"%(pname,pval))
+			#print(pname,2)
 		elif mgndvec:
 			pval="%d'h0"%(int(mgndvec.group('msb'))-int(mgndvec.group('lsb'))+1)
 			portzeroone.append(".%s(%s)"%(pname,pval))
+			#print(pname,3)
 		elif mvccvec:
 			pval="{%d{1'b1}}"%(int(mvccvec.group('msb'))-int(mvccvec.group('lsb'))+1)
 			portzeroone.append(".%s(%s)"%(pname,pval))
+			#print(pname,4)
 		elif mconst:
 			portconst.append(".%s(%s)"%(pname,pval))
+			#print(pname,5)
 		elif mconst1:
 			portconst.append(".%s(%s)"%(pname,pval))
+			#print(pname,6)
 		elif mempty:
 			portempty.append(".%s(%s)"%(pname,pval))
+			#print(pname,7)
 		elif mportin:
 			if mportin.group('name').lower()==pname.lower():
 				pval=pname
 				portsamename.append(".%s"%(pname))
-				if pname not in portmoddict:
+				if pname not in portmoddict and pname not in portwire:
 					portwire.append("wire %s;"%pname)
 			else:
 				portvariable.append(".%s(%s)"%(pname,pval))
+			#print(pname,8)
 		elif mportout:
 			if mportout.group('name').lower()==pname.lower():
 				pval=pname
 				portsamename.append(".%s"%(pname))
 			else:
 				portvariable.append(".%s(%s)"%(pname,pval))
+			#print(pname,9)
+			if pname not in portmoddict and pname not in portwire:
+				portwire.append("wire %s;"%pname)
 		elif mportsame:
 			if mportsame.group('name').lower()==pname.lower():
 				pval=pname
 				portsamename.append(".%s"%(pname))
 			else:
 				portvariable.append(".%s(%s)"%(pname,pval))
+			#print(pname,10)
 		else:
 			portvariable.append(".%s(%s)"%(pname,pval))
+			#print(pname,1)
 		portdict[pname]=pval
 	return (portdict,portwire,portzeroone,portconst,portempty,portsamename,portvariable)
 def modulegen(modulename,instname,paraline,portwire,portzeroone,portconst,portempty,portsamename,portvariable):

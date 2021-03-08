@@ -2,8 +2,6 @@ interface iicc #(parameter DWIDTH=16,localparam DBYTE=DWIDTH/8,parameter SIM=0)(
 );
 
 igticc #(.DWIDTH(DWIDTH)) gticc ();
-wire sreset;
-assign gticc.reset=sreset;
 wire [DWIDTH-1:0] txdata;
 wire stbtxdata;
 reg [DWIDTH-1:0] rxdata=0;
@@ -26,7 +24,7 @@ reg [47:0] txusrclkcnt_x=0;
 wire [15:0] rxphdmtd;
 wire [15:0] txphdmtd;
 always @(posedge gticc.txusrclk) begin
-	txusrclkcnt<=sreset ? 0 : txusrclkcnt+1;
+	txusrclkcnt<=gticc.txreset ? 0 : txusrclkcnt+1;
 end
 always @(posedge gticc.rxusrclk) begin
 	txusrclkcnt_x<=txusrclkcnt;
@@ -156,7 +154,7 @@ reg [3:0] syncnext_d=SYNCIDLE;
 reg [31:0] synccnt=0;
 assign indextx=synccnt[2:0];
 reg stbsyncdiff=0;
-wire syncreset=|{~gticc.resetdone,~gticc.rxbyteisaligned,sreset};
+wire syncreset=|{~gticc.resetdone,~gticc.rxbyteisaligned,gticc.txreset,gticc.rxreset,gticc.reset};
 always @(posedge txclk) begin
 	dbsyncnext<=syncnext;
 	dbsyncstate<=syncstate;
@@ -378,10 +376,12 @@ wire [DWIDTH-1:0] txdata;
 wire [DWIDTH-1:0] txdataout;
 wire [DBYTE-1:0]txchariskout;
 wire reset;
+wire txreset;
+wire rxreset;
 wire resetdone;
 
 modport gt (input reset,rxuserrdy,txuserrdy,txdata,txcharisk
-,output txusrclk,rxusrclk,resetdone,rxdata,rxdisperr,rxnotintable,rxcharisk,rxbyteisaligned,rxbyterealign,txdataout,txchariskout
+,output txusrclk,rxusrclk,rxdata,rxdisperr,rxnotintable,rxcharisk,rxbyteisaligned,rxbyterealign,txdataout,txchariskout,resetdone,rxreset,txreset
 );
 endinterface
 

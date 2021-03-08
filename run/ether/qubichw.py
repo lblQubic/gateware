@@ -14,7 +14,7 @@ from udplb import c_udplb
 import lmk04828
 import ads54j60
 import dac39j84
-import jesdaxi 
+import jesdaxi
 import si5324
 class c_qubichw():
 	def __init__(self,ip=None,port=None,regmappath='regmap.json',init=False,commcheck=True,freqoffpercent=1,comport=False):
@@ -39,8 +39,14 @@ class c_qubichw():
 		self.etherd002=c_ether(ip=self.ip,port=0xd002,timeout=1)
 		self.udplbd002=c_udplb(interface=self.etherd002)
 		if comport:
+			if 'QUBICUSBSN' in os.environ:
+				self.qubicusbsn=os.environ['QUBICUSBSN']
+			else:
+				self.qubicusbsn='vc707uart'
+			print('qubic usb sn',self.qubicusbsn)
 			dev=devcom.devcom(devcom.sndev)
-			vc707uart=dev['vc707uart']
+			print(dev.keys())
+			vc707uart=dev[self.qubicusbsn]
 			self.uartlb=c_uartlb(vc707uart,9600,0)
 			self.uartregmap=c_regmap(self.uartlb,regmappath='uartregmap.json',wavegrppath='uartwavegrp.json')
 		else:
