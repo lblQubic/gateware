@@ -3,6 +3,7 @@ interface iicc #(parameter DWIDTH=16,localparam DBYTE=DWIDTH/8,parameter SIM=0)(
 
 igticc #(.DWIDTH(DWIDTH)) gticc ();
 wire [DWIDTH-1:0] txdata;
+wire [DBYTE-1:0] txcharisk;
 wire stbtxdata;
 reg [DWIDTH-1:0] rxdata=0;
 assign gticc.rxuserrdy=1'b1;
@@ -348,8 +349,8 @@ end
 
 //assign gticc.txdata= ~rxbyteisaligned_x ? palignreq : alignrequest_x ? palignchar : txstb_r ? synctx ? {actiontx,indextx,txdata8} : txdata : palignchar;
 //assign gticc.txcharisk= ~rxbyteisaligned_x ? palignreqisk :  alignrequest_x ?  paligncharisk : txstb_r ? 0: paligncharisk;
-assign gticc.txdata= txstb_r ? synctx ? {actiontx,indextx,txdata8} : aligntx ? palignchar : txdata : palignchar ;
-assign gticc.txcharisk= txstb_r ? (synctx ? 0 : (aligntx ? paligncharisk : 0)) : paligncharisk;
+assign gticc.txdata=    txstb_r ? (synctx ? {actiontx,indextx,txdata8} : (aligntx ? palignchar    : txdata      )) : palignchar   ;
+assign gticc.txcharisk= txstb_r ? (synctx ? 0                          : (aligntx ? paligncharisk : txcharisk   )) : paligncharisk;
 
 /*modport cfg (input rxphdmtd
 ,output
