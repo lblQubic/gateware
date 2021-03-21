@@ -381,7 +381,8 @@ wire txreset;
 wire rxreset;
 wire resetdone;
 
-modport gt (input reset,rxuserrdy,txuserrdy,txdata,txcharisk
+modport gt (inout reset
+,input rxuserrdy,txuserrdy,txdata,txcharisk
 ,output txusrclk,rxusrclk,rxdata,rxdisperr,rxnotintable,rxcharisk,rxbyteisaligned,rxbyterealign,txdataout,txchariskout,resetdone,rxreset,txreset
 );
 endinterface

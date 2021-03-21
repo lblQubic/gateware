@@ -111,4 +111,4 @@ set_max_delay -datapath_only -from [get_pins qubichw_config/jesdfmc120_2/jesd204
 set_max_delay -datapath_only -from [get_pins qubichw_config/jesdfmc120_2/jesd204_phy_fmc120/inst/jesd204_phy_block_i/tx_reset_done_r_reg/C] -to [get_pins {qubichw_config/donecriteriaxdomain/datasr1_reg[*]/D}] 32.0
 
 set_max_delay -from [get_pins qubichw_config/jesdreset1xdomain/flagtoggle_clk1*/C] -to [get_pins {qubichw_config/jesdreset1xdomain/sync1_clk2_reg*/D}] 16.0
-set_max_delay -from [get_pins qubichw_config/jesdreset0xdomain/flagtoggle_clk1*/C] -to [get_pins {qubichw_config/jesdreset0xdomain/sync1_clk2_reg*/D}] 16.0
+set_max_delay -from [get_pins qubichw_config/*/C] -to [get_pins {qubichw_config/jesdreset0xdomain/*/D}] 16.0

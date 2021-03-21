@@ -59,7 +59,7 @@ class c_uartlb():
 		self.ser.reset_input_buffer()
 if __name__=="__main__":
 	import random
-	ser=c_uartlb('/dev/ttyUSB0',9600,0)
+	ser=c_uartlb('/dev/ttyUSB2',9600,0)
 	ser.resetlb()
 	r0=int(random.random()*(2**32-1))
 	r0=0xdeadbeef

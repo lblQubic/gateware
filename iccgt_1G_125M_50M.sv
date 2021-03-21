@@ -1,4 +1,4 @@
-module gticc_gt #
+module iccgt_1G_125M_50M#
 (parameter DWIDTH=16
 ,parameter GT_SIM_GTRESET_SPEEDUP = "TRUE"
 ,parameter RX_DFE_KL_CFG2_IN = 32'h301148AC
@@ -56,7 +56,6 @@ wire TXUSERRDY=gticc.txuserrdy;
 reg [DBYTE-1:0] txcharisk_r=0;//waitrxpcommaalignen ? 4'h1 : gticc.txcharisk;
 reg [DWIDTH-1:0] txdata_r=0;//waitrxpcommaalignen ? 32'h01bc : gticc.txdata;
 wire [DBYTE-1:0] txcharisk=txcharisk_r;
-wire [DWIDTH-1:0] txdata=txdata_r;
 wire [DBYTE-1:0] RXCHARISK;
 wire [DBYTE-1:0] RXCHARISCOMMA;
 wire [DBYTE-1:0] RXDISPERR;
@@ -84,7 +83,7 @@ wire [8-DBYTE-1:0] rxchariscomma_float_i;
 wire [8-DBYTE-1:0] rxdisperr_float_i;
 wire [8-DBYTE-1:0] rxnotintable_float_i;
 assign txcharisk8={{8-DBYTE-1{1'b0}},txcharisk};
-assign txdata64={{64-DWIDTH{1'b0}},txdata} ;
+assign txdata64={{64-DWIDTH{1'b0}},txdata_r} ;
 assign {rxdata_float_i,RXDATA}=rxdata64;
 assign {rxdisperr_float_i,RXDISPERR}=rxdisperr8;
 assign {rxcharisk_float_i,RXCHARISK}=rxcharisk8;
@@ -502,15 +501,17 @@ always @(posedge clk) begin
 	end
 end
 always @(posedge txusrclk) begin
-	txdata_r <=  txreq1_x ? palign1data : txreq2_x ? palign2data : txreq3_x ? palign3data : txseldata_x ? gticc.txdata : comma;
-	txcharisk_r<=txreq1_x ? palign1isk : txreq2_x ? palign2isk : txreq3_x ? palign3isk : txseldata_x ? gticc.txcharisk : commaisk;
+	txdata_r <=  gticc.txdata;//txreq1_x ? palign1data : txreq2_x ? palign2data : txreq3_x ? palign3data : txseldata_x ? gticc.txdata : comma;
+	txcharisk_r<=gticc.txcharisk;//txreq1_x ? palign1isk : txreq2_x ? palign2isk : txreq3_x ? palign3isk : txseldata_x ? gticc.txcharisk : commaisk;
+//	txdata_r <=  txreq1_x ? palign1data : txreq2_x ? palign2data : txreq3_x ? palign3data : txseldata_x ? gticc.txdata : comma;
+//	txcharisk_r<=txreq1_x ? palign1isk : txreq2_x ? palign2isk : txreq3_x ? palign3isk : txseldata_x ? gticc.txcharisk : commaisk;
 end
 assign CPLLRESET=cpllreset_r;
 assign mmcmreset=mmcmreset_r;
 assign GTTXRESET=gttxrxreset_r;
 assign GTRXRESET=gttxrxreset_r;
 assign resetdone=done_r;
-assign gticc.txdataout=txdata;
+assign gticc.txdataout=txdata_r;
 assign gticc.txchariskout=txcharisk;
 /*
 wire txalign;
@@ -541,7 +542,6 @@ always @(posedge CPLLLOCKDETCLK)  begin
 	lost_d<=reset ? 1'b0 : lost;
 	lost<= reset ? 1'b0 : CPLLREFCLKLOST;
 end
-assign reset=gticc.reset;//|(lost_d&~lost);
 
 assign dbresetout=dbresetout_r;
 chainreset #(.NSTEP(NSTEP))
@@ -560,6 +560,7 @@ chainreset(.clk(CPLLLOCKDETCLK)
 );
 */
 //,TXPHINITDONE,TXPHALIGNDONE,TXDLYSRESETDONE,RXPHSLIPMONITOR,RXPHMONITOR,RXPHALIGNDONE,RXDLYSRESETDONE
+assign reset=gticc.reset;//|(lost_d&~lost);
 assign dbresetout={
 	rxdlysreset_r
 	,txdlysreset_r
@@ -582,4 +583,3 @@ assign gticc.rxnotintable=RXNOTINTABLE;
 assign gticc.rxusrclk=rxusrclk;
 assign gticc.txusrclk=txusrclk;
 endmodule
-

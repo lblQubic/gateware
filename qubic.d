@@ -103,3 +103,4 @@ submodules/common-hdl/simple_cic.v
 jesd204_ads54j60.tcl
 jesd204_dac39j84.tcl
 jesd204_phy_8lane.tcl
+gticc_gt.sv

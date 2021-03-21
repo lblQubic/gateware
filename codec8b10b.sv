@@ -21,13 +21,16 @@ modport port10b(input tx10b
 ,output rx10b
 );
 
-
+//reg [9:0] rx10br=0;
+//always @(posedge rxclk) begin
+//	rx10br<=rx10b;
+//end
 
 reg [4:0] RXEDCBA=0;
 reg [2:0] RXHGF=0;
 wire [5:0] rxabcdei;
 wire [3:0] rxfghj;
-assign {rxfghj[0],rxfghj[1],rxfghj[2],rxfghj[3],rxabcdei[0],rxabcdei[1],rxabcdei[2],rxabcdei[3],rxabcdei[4],rxabcdei[5]}=rx10b;
+assign {rxfghj[0],rxfghj[1],rxfghj[2],rxfghj[3],rxabcdei[0],rxabcdei[1],rxabcdei[2],rxabcdei[3],rxabcdei[4],rxabcdei[5]}=0;//rx10b;
 assign rx8b ={RXHGF,RXEDCBA};
 reg rxisk6=0;
 reg rxisk4=0;
@@ -110,12 +113,12 @@ end
 localparam K285P=10'b1100000101;
 localparam K285M=10'b0011111010;
 wire rxrdcalc=rxrd6 ? ~(rxrd^rxrd4) : (rxrd^rxrd4);
-wire rxrdset=rx10b==K285P ? 1'b1 : rx10b==K285M ? 1'b0 : 1'b0;// rxrdcalc;
+wire rxrdset;//=rx10b==K285P ? 1'b1 : rx10b==K285M ? 1'b0 : 1'b0;// rxrdcalc;
 reg rxdisperr_r=0;
 always @(posedge rxclk) begin
-	rxdispinit<= rxreset ? 1'b0 : rx10b==K285P ? 1'b1 : rx10b==K285M ? 1'b1 : rxdispinit;
-	rxrd<=rxreset ? 0 : rx10b==K285P ? 1'b1 : rx10b==K285M ? 1'b0 :  rxrdcalc;
-	rxdisperr<= rxreset ? 0 : ~rxdispinit ? 0 : (rx10b==K285P & ~rxrdcalc) | (rx10b==K285M & rxrdcalc);
+//	rxdispinit<= rxreset ? 1'b0 : rx10b==K285P ? 1'b1 : rx10b==K285M ? 1'b1 : rxdispinit;
+//	rxrd<=rxreset ? 0 : rx10b==K285P ? 1'b1 : rx10b==K285M ? 1'b0 :  rxrdcalc;
+//	rxdisperr<= rxreset ? 0 : ~rxdispinit ? 0 : (rx10b==K285P & ~rxrdcalc) | (rx10b==K285M & rxrdcalc);
 	rxdisperr_r<= rxreset ? 0 : rxdisperr ? 1'b1 : rxdisperr_r;
 end
 
