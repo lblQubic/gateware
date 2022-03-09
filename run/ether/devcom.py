@@ -12,7 +12,10 @@ sndev={'B14E4CB55151363448202020FF172513':'attn1'
 	,'AK08KYQC':'switch8'
 	,'0001':'vc707uart'
 	,'QubiCVC707224':'vc707uart224'
+	,'QubiCVC707225':'vc707uart225'
 	,'QubiCVC707226':'vc707uart226'
+	,'QubiCVC707227':'vc707uart227'
+	,'QubiCVC707228':'vc707uart228'
 	}
 
 def devcom(sndev,idVendor=0x2341,idProduct=0x0058):

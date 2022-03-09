@@ -1023,7 +1023,8 @@ always @(posedge ethclk) begin
 //	mac<=48'h525542494301;//MAC;//48'haabbccddeeff;
 //	mac<=48'h001924515501;  // LBNL oui
 	if (loadmacip_s) begin
-		{mac,ip}<=hw.vc707.gpio_sw_c ? {48'h503eaa059701,32'hc0a801e0} : eepromrd;  // TPLINK OUI
+		//{mac,ip}<=hw.vc707.gpio_sw_c ? {48'h503eaa059701,32'hc0a801e0} : eepromrd;  // TPLINK OUI
+		{mac,ip}<=1'b1 ? {48'h503eaa059701,32'hc0a801e0} : eepromrd;  // TPLINK OUI
 		maciploaded<=1'b1;
 	end
 
