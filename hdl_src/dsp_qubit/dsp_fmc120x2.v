@@ -272,16 +272,24 @@ wire phalanx_cstrobe = d_write & (d_addr[19:CMDAW]==2'b10);// 0x80000 to 0xbffff
 wire cstrobe;
 wire [7:0] cmda;
 wire [63:0] command;
+wire [71:0] command_raw;
+assign command = command_raw[63:0];
+assign cmda = command_raw[71:64];
 
 wire  [31:0]  extra;
 parameter CMDAW=18;
-qcmd_gen #(.aw(CMDAW))
-qcmd(.clk(dsp_clk),
-        .waddr(d_addr[CMDAW-1:0]), .wdata(d_wdata), .wstrobe(phalanx_cstrobe),
-	.trig(trig_chan[0]),
-	.command(command), .cmda(cmda), .cstrobe(cstrobe)
-	,.extra(extra)
-);
+//qcmd_gen #(.aw(CMDAW))
+//qcmd(.clk(dsp_clk),
+//        .waddr(d_addr[CMDAW-1:0]), .wdata(d_wdata), .wstrobe(phalanx_cstrobe),
+//	.trig(trig_chan[0]),
+//	.command(command), .cmda(cmda), .cstrobe(cstrobe)
+//	,.extra(extra)
+//);
+
+proc dpr(.clk(dsp_clk), .reset(trig_chan[0]), 
+    .cmd_addr(d_addr[7:0]), .cmd_data(d_wdata), .write_prog_enable(phalanx_cstrobe),
+    .cmd_out(command_raw), .cstrobe(cstrobe));
+
 wire [3:0]resultx;
 wire [3:0]resulty;
 wire daczero=extra[0]&resultx[0];

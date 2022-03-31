@@ -100,3 +100,10 @@ vc707_fmc120x2.v
 xilinx_ip/gtwizard_0.tcl
 xilinx_ip/xcvr_fmc120.tcl
 ../../submodules/common_hdl/reg_delay1.v
+/home/neelay/gateware/distributed_processor/hdl/proc.v
+/home/neelay/gateware/distributed_processor/hdl/cmd_mem.v
+/home/neelay/gateware/distributed_processor/hdl/reg_file.v
+/home/neelay/gateware/distributed_processor/hdl/qclk.v
+/home/neelay/gateware/distributed_processor/hdl/instr_ptr.v
+/home/neelay/gateware/distributed_processor/hdl/ctrl.v
+/home/neelay/gateware/distributed_processor/hdl/alu.v
