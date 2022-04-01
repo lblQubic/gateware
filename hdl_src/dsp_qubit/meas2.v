@@ -48,17 +48,24 @@ element #(.tslice(tslice), .qbits(qbits),
 );
 genvar ix;
 generate for (ix=0; ix<tslice; ix=ix+1) begin: timeslice
-	wire signed [48-1:0] xbase48;
-	wire signed [48-1:0] ybase48;
-	wire signed [15:0] xbasetmp;
-	wire signed [15:0] ybasetmp;
-	cmultiplier #(.FPGA(FPGA))
-	measmult(.clk(clk),.rst(1'b0),.xi({ymeasin[ix*dw+:dw],2'b0}),.xr({xmeasin[ix*dw+:dw],2'b0}),.yi({-ylo[ix*dw+:dw],2'b0}),.yr({xlo[ix*dw+:dw],2'b0}),.zr(xbase48),.zi(ybase48));  // multiply with xlo-j*ylo complex of conjugate
-	assign xbase[ix*dw+:dw]=xbase48[34:19]+xbase48[18];
-	assign ybase[ix*dw+:dw]=ybase48[34:19]+ybase48[18];
-	assign xbasetmp=xbase48[34:19]+xbase48[18];
-	assign ybasetmp=ybase48[34:19]+ybase48[18];
-end
+        wire signed [48-1:0] xbase48;
+        wire signed [48-1:0] ybase48;
+        reg signed [18-1:0] xmeasin_18=0;
+        reg signed [18-1:0] ymeasin_18=0;
+        reg signed [18-1:0] xlo_18=0;
+        reg signed [18-1:0] ylo_18=0;
+        always @(posedge clk) begin
+                    xmeasin_18 <= {xmeasin[ix*dw+:dw],2'b0};
+                    ymeasin_18 <= {ymeasin[ix*dw+:dw],2'b0};
+                    xlo_18 <= {xlo[ix*dw+:dw],2'b0};
+                    ylo_18 <= {-ylo[ix*dw+:dw],2'b0};
+                end
+        cmultiplier #(.FPGA(FPGA))
+        measmult(.clk(clk),.rst(1'b0),.xi(ymeasin_18),.xr(xmeasin_18),.yi(ylo_18),.yr(xlo_18),.zr(xbase48),.zi(ybase48));
+        //measmult(.clk(clk),.rst(1'b0),.xi({ymeasin[ix*dw+:dw],2'b0}),.xr({xmeasin[ix*dw+:dw],2'b0}),.yi({-ylo[ix*dw+:dw],2'b0}),.yr({xlo[ix*dw+:dw],2'b0}),.zr(xbase48),.zi(ybase48));  // multiply with xlo-j*ylo complex of conjugate
+        assign xbase[ix*dw+:dw]=xbase48[34:19]+xbase48[18];
+        assign ybase[ix*dw+:dw]=ybase48[34:19]+ybase48[18];
+   end
 endgenerate
 wire [15:0] xbase3,xbase2,xbase1,xbase0;
 wire [15:0] ybase3,ybase2,ybase1,ybase0;
