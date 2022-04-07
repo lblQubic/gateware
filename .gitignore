@@ -10,7 +10,6 @@ vivado*.jou
 vivado*.str
 vivado*.zip
 vivado*.debug
-otherrepo
 .nfs*
 .fuse*
 vivado_project
