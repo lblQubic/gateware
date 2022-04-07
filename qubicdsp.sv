@@ -36,11 +36,11 @@ wire phalanx_gstrobe;
 wire [10+9:0] d_addr;
 wire [31:0] d_wdata;
 wire [0:0] d_write;
-data_xdomain #(.size(20+32)) dxw(.clk_in(lb_clk),
-	.gate_in(phalanx_gstrobe0),
-	.data_in({lb_addr[19:0], lb_wdata}),
-	.clk_out(dsp.clk), .gate_out(phalanx_gstrobe),
-	.data_out({d_addr, d_wdata})
+data_xdomain #(.DWIDTH(20+32)) dxw(.clkin(lb_clk),
+	.gatein(phalanx_gstrobe0),
+	.datain({lb_addr[19:0], lb_wdata}),
+	.clkout(dsp.clk), .gateout(phalanx_gstrobe),
+	.dataout({d_addr, d_wdata})
 );
 assign d_write=phalanx_gstrobe;
 
