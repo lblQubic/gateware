@@ -65,6 +65,9 @@ wire [71:0] command_raw_w;
 assign command_w = command_raw_w[63:0];
 assign cmda_w = command_raw_w[71:64];
 
+wire cmd_in[127:0];
+assign cmd_in[127:96] = d_wdata;
+
 //qcmd_gen #(.aw(CMDAW))
 //qcmd(.clk(dsp.clk),
 //	.waddr(d_addr[CMDAW-1:0]), .wdata(d_wdata), .wstrobe(phalanx_cstrobe), .trig(trig_chan),
@@ -72,7 +75,7 @@ assign cmda_w = command_raw_w[71:64];
 //	.command(command_w), .cmda(cmda_w), .cstrobe(cstrobe_w), .extra(extra_w)
 //);
 proc dpr(.clk(dsp.clk), .reset(trig_chan),
-    .cmd_addr(d_addr[7:0]), .cmd_data(d_wdata), .write_prog_enable(phalanx_cstrobe),
+    .cmd_addr(d_addr[7:0]), .cmd_data(cmd_in), .write_prog_enable(phalanx_cstrobe),
     .cmd_out(command_raw_w), .cstrobe(cstrobe_w));
 
 always @(posedge dsp.clk) begin
