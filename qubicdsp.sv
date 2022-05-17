@@ -49,10 +49,10 @@ assign d_write=phalanx_gstrobe;
 localparam CMD_ADDR_WIDTH = 8; //CMD address width inside individual proc
 localparam MEM_TO_CMD = 4;
 localparam MEM_WIDTH = 32;
-wire cmd_write_enable = d_write & (d_addr[19:18]==2'b01);// 0x40000 to 0x7ffff
-wire cmd_write_addr = d_addr[CMD_ADDR_WIDTH-1:0];
-wire cmd_write_mem_sel = d_addr[CMD_ADDR_WIDTH+1:CMD_ADDR_WIDTH]; //4x32 bit mem banks
-wire cmd_write_proc_sel = d_addr[CMD_ADDR_WIDTH+5:CMD_ADDR_WIDTH+2]; //up to 16x procs
+wire[1:0] cmd_write_enable = d_write & (d_addr[19:18]==2'b01);// 0x40000 to 0x7ffff
+wire[CMD_ADDR_WIDTH-1:0] cmd_write_addr = d_addr[CMD_ADDR_WIDTH-1:0];
+wire[3:0] cmd_write_mem_sel = d_addr[CMD_ADDR_WIDTH+1:CMD_ADDR_WIDTH]; //4x32 bit mem banks
+wire[3:0] cmd_write_proc_sel = d_addr[CMD_ADDR_WIDTH+5:CMD_ADDR_WIDTH+2]; //up to 16x procs
 
 wire cstrobe;
 wire [7:0] cmda;
@@ -75,7 +75,7 @@ cmd_mem_iface #(.CMD_ADDR_WIDTH(CMD_ADDR_WIDTH), .MEM_WIDTH(MEM_WIDTH), .MEM_TO_
     memif();
 genvar i;
 generate for(i = 0; i < MEM_TO_CMD; i = i + 1)
-    cmd_mem #(.CMD_WIDTH(MEM_WIDTH), .ADDR_WIDTH(CMD_ADDR_WIDTH)) mem(.clk(clk), 
+    cmd_mem #(.CMD_WIDTH(MEM_WIDTH), .ADDR_WIDTH(CMD_ADDR_WIDTH)) mem(.clk(dsp.clk), 
         .write_enable(cmd_write_enable & (cmd_write_mem_sel == i)), .cmd_in(d_wdata), 
         .write_address(cmd_write_addr), .read_address(memif.instr_ptr), 
         .cmd_out(memif.mem_bus[i]));
@@ -92,7 +92,7 @@ endgenerate
 //	//.command(command), .cmda(cmda), .cstrobe(cstrobe), .extra(extra)
 //	.command(command_w), .cmda(cmda_w), .cstrobe(cstrobe_w), .extra(extra_w)
 //);
-proc dpr(.clk(dsp.clk), .reset(trig_chan), .cmd_mem_iface(memif),
+proc dpr(.clk(dsp.clk), .reset(trig_chan), .cmd_iface(memif),
     .cmd_out(command_raw_w), .cstrobe_out(cstrobe_w));
 
 always @(posedge dsp.clk) begin
