@@ -45,9 +45,15 @@ data_xdomain #(.DWIDTH(20+32)) dxw(.clkin(lb_clk),
 assign d_write=phalanx_gstrobe;
 
 // Command memory - temporary placeholder for a real program generator
-parameter CMDAW=18;
 //wire phalanx_cstrobe = d_write & (d_addr[19:CMDAW]==2'b10);// 0x80000 to 0xbffff
-wire phalanx_cstrobe = d_write & (d_addr[19:CMDAW]==2'b01);// 0x40000 to 0x7ffff
+localparam CMD_ADDR_WIDTH = 8; //CMD address width inside individual proc
+localparam MEM_TO_CMD = 4;
+localparam MEM_WIDTH = 32;
+wire cmd_write_enable = d_write & (d_addr[19:18]==2'b01);// 0x40000 to 0x7ffff
+wire cmd_write_addr = d_addr[CMD_ADDR_WIDTH-1:0];
+wire cmd_write_mem_sel = d_addr[CMD_ADDR_WIDTH+1:CMD_ADDR_WIDTH]; //4x32 bit mem banks
+wire cmd_write_proc_sel = d_addr[CMD_ADDR_WIDTH+5:CMD_ADDR_WIDTH+2]; //up to 16x procs
+
 wire cstrobe;
 wire [7:0] cmda;
 wire [63:0] command;
@@ -65,11 +71,20 @@ wire [71:0] command_raw_w;
 assign command_w = command_raw_w[63:0];
 assign cmda_w = command_raw_w[71:64];
 
-wire[127:0] cmd_in;
-assign cmd_in[127:96] = d_wdata;
-assign cmd_in[95:64] = d_wdata;
-assign cmd_in[63:32] = d_wdata;
-assign cmd_in[31:0] = d_wdata;
+cmd_mem_iface #(.CMD_ADDR_WIDTH(CMD_ADDR_WIDTH), .MEM_WIDTH(MEM_WIDTH), .MEM_TO_CMD(MEM_TO_CMD))
+    memif();
+genvar i;
+generate for(i = 0; i < MEM_TO_CMD; i = i + 1)
+    cmd_mem #(.CMD_WIDTH(MEM_WIDTH), .ADDR_WIDTH(CMD_ADDR_WIDTH)) mem(.clk(clk), 
+        .write_enable(cmd_write_enable & (cmd_write_mem_sel == i)), .cmd_in(d_wdata), 
+        .write_address(cmd_write_addr), .read_address(memif.instr_ptr), 
+        .cmd_out(memif.mem_bus[i]));
+endgenerate
+
+//assign cmd_in[127:96] = d_wdata;
+//assign cmd_in[95:64] = d_wdata;
+//assign cmd_in[63:32] = d_wdata;
+//assign cmd_in[31:0] = d_wdata;
 
 //qcmd_gen #(.aw(CMDAW))
 //qcmd(.clk(dsp.clk),
@@ -77,8 +92,7 @@ assign cmd_in[31:0] = d_wdata;
 //	//.command(command), .cmda(cmda), .cstrobe(cstrobe), .extra(extra)
 //	.command(command_w), .cmda(cmda_w), .cstrobe(cstrobe_w), .extra(extra_w)
 //);
-proc dpr(.clk(dsp.clk), .reset(trig_chan),
-    .cmd_addr(d_addr[7:0]), .cmd_data(cmd_in), .write_prog_enable(phalanx_cstrobe),
+proc dpr(.clk(dsp.clk), .reset(trig_chan), .cmd_mem_iface(memif),
     .cmd_out(command_raw_w), .cstrobe_out(cstrobe_w));
 
 always @(posedge dsp.clk) begin

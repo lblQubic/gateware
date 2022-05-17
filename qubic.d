@@ -100,8 +100,9 @@ submodules/common-hdl/uarttx.v
 submodules/common-hdl/via.v
 submodules/common-hdl/viapairs.v
 submodules/common-hdl/simple_cic.v
-/home/neelay/gateware/distributed_processor/hdl/proc.v
+/home/neelay/gateware/distributed_processor/hdl/proc.sv
 /home/neelay/gateware/distributed_processor/hdl/cmd_mem.v
+/home/neelay/gateware/distributed_processor/hdl/cmd_mem_iface.v
 /home/neelay/gateware/distributed_processor/hdl/reg_file.v
 /home/neelay/gateware/distributed_processor/hdl/qclk.v
 /home/neelay/gateware/distributed_processor/hdl/instr_ptr.v
