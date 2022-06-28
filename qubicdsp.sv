@@ -78,7 +78,7 @@ generate for(i = 0; i < MEM_TO_CMD; i = i + 1)
     cmd_mem #(.CMD_WIDTH(MEM_WIDTH), .ADDR_WIDTH(CMD_ADDR_WIDTH)) mem(.clk(dsp.clk), 
         .write_enable(cmd_write_enable & (cmd_write_mem_sel == i)), .cmd_in(d_wdata), 
         .write_address(cmd_write_addr), .read_address(memif.instr_ptr), 
-        .cmd_out(memif.mem_bus[i]));
+        .cmd_out(memif.mem_bus[i])); //give this default value
 endgenerate
 
 //assign cmd_in[127:96] = d_wdata;
