@@ -78,7 +78,7 @@ generate for (ix=0; ix<tslice; ix=ix+1) begin: timeslice
 		.addra(waddr_h), .dina(wdata), .wena(wstrobe1), .douta(), .renb(1'b1), .reset(),
 		.addrb(mindex), .doutb(memout)
 	);
-	wire signed [dw-1:0] wave_i = zero ? 0 : memout[dw-1:0];
+	wire signed [dw-1:0] wave_i = zero ? 0 : memout[dw-1:0]; //I is first dw bits, Q is next dw bits
 	wire signed [dw-1:0] wave_q = zero ? 0 : memout[2*dw-1:dw];
 	wire [16:0] l_phase_adj = (ix * ts_phstep) >> tslicel;  // Vivado can do this without a DSP element
 	reg [16:0] l_phase=0;
