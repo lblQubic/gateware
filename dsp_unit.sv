@@ -62,10 +62,17 @@ module dsp_unit #(
         end
     endgenerate
 
+    reg[11:0] a;
+    reg[31:0] d;
     //DSP element side
+    always @(posedge clk) begin
+        a = mem_write_addr[11:0];
+        d = mem_write_data;
+    end
     assign cmd_out = cmd_raw_out[71:8];    
     element elem(.clk(clk), .command(cmd_out), .cstrobe(cmd_strobe), .active(),
         .collision(), .waddr(mem_write_addr[11:0]), .wdata(mem_write_data),
+        //.collision(), .waddr(mem_write_addr[11:0]), .wdata(d),
         .wstrobe(mem_write_en & (mem_write_addr[12] == 1)), .xout(dac_i), 
         .yout(dac_q), .qsel(), .daczero());
 

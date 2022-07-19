@@ -63,15 +63,16 @@ genvar ix;
 generate for (ix=0; ix<tslice; ix=ix+1) begin: timeslice
 	// Write-path pipeline step, localized copy of shared bus
 	wire waddr_hit = waddr_l == ix;
-	reg wstrobe1=0;
-	reg [2*dw-1:0] memin=0;
-	always @(posedge clk) begin
-		wstrobe1 <= 0;
-		if (wstrobe & waddr_hit) begin
-			wstrobe1 <= 1;
-			memin <= wdata;
-		end
-	end
+	wire wstrobe1=wstrobe&waddr_hit;;
+//	reg [2*dw-1:0] memin=0;
+//	always @(posedge clk) begin
+//		wstrobe1 <= 0;
+//		if (wstrobe & waddr_hit) begin
+//			wstrobe1 <= 1;
+//		if (wstrobe1)
+//			memin <= wdata;
+//		end
+//	end
 	// First real pipeline cycle: memory lookup, phase adjust
 	wire [2*dw-1:0] memout;
 	dpram #(.AW(aw), .DW(2*dw), .BUFIN(0), .BUFOUT(1), .SIM(0)) waves(.clka(clk), .clkb(clk),
@@ -84,7 +85,7 @@ generate for (ix=0; ix<tslice; ix=ix+1) begin: timeslice
 	reg [16:0] l_phase=0;
 	always @(posedge clk) l_phase <= phase + l_phase_adj;
 	// Second and following pipeline cycles in CORDIC
-	cordicg1 #(.WIDTH(dw),.NSTAGE(dw),.NORMALIZE(0),.BUFIN(1),.GW(1),.NRIDER(0))
+	cordicg1 #(.WIDTH(dw),.NSTAGE(dw),.NORMALIZE(1),.BUFIN(1),.GW(1),.NRIDER(0))
 	cordic(.clk(clk), .opin(1'b0), .xin(wave_i), .yin(wave_q), .phasein(l_phase), .xout(xout_w[ix*dw+:dw]), .yout(yout_w[ix*dw+:dw]), .phaseout(),.error(),.gin(1'b1),.gout());
 	//cordicg #(.width(dw))
 	//cordic(.clk(clk), .opin(2'b0),
