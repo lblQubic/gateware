@@ -5,10 +5,12 @@ import numpy as np
 import matplotlib.pyplot as plt
 from cocotb.triggers import Timer, RisingEdge
 import distproc.command_gen as cg
-from distproc.assembler import SingleUnitScheduler
+from distproc.assembler import SingleUnitScheduler, ENV_BITS
 
-CLK_CYCLE = 5
+CLK_CYCLE = 4
 N_CLKS = 500
+DAC_SAMPLES_PER_CLK = 4
+CORDIC_DELAY = 84
 
 PULSE_INSTR_TIME = 1
 ALU_INSTR_TIME = 2
@@ -122,21 +124,39 @@ def check_pulse_output(prog_dict, dac_i, dac_q):
     ----------
         prog_dict : dict
             {'freq': <freq in Hz>, 'phase': initial phase in rad
-             'tstart': pulse start time in clks, 'env': complex
+             'start_time': pulse start time in clks, 'env': complex
              env samples}
     """
     pass
 
-def generate_pulse_output(prog_dict):
+def generate_sim_output(program, ncycles=N_CLKS):
     """
     Parameters
     ----------
-        prog_dict : dict
+        program : list of dict:
             {'freq': <freq in Hz>, 'phase': initial phase in rad
-             'tstart': pulse start time in clks, 'env_i': env samples
+             'start_time': pulse start time in clks, 'env_i': env samples
              'env_q': env samples}
     """
-    pass
+    dac_i_sim = np.zeros(ncycles)
+    dac_q_sim = np.zeros(ncycles)
+    scale_factor = 2**(ENV_BITS - 1)
+    for pulse in program:
+        sample_inds = np.arange(0, pulse['length'])
+        phases = pulse['phase'] + 2*np.pi*(CLK_CYCLE/DAC_SAMPLES_PER_CLK)*1.e-9*sample_inds*pulse['freq']
+        env_i = scale_factor*np.real(pulse['env'])[:pulse['length']]
+        env_q = scale_factor*np.imag(pulse['env'])[:pulse['length']]
+        pulse_i = env_i*np.cos(phases) - env_q*np.sin(phases)
+        pulse_q = env_q*np.cos(phases) + env_i*np.sin(phases)
+
+        dac_i_sim[CORDIC_DELAY + pulse['start_time'] : CORDIC_DELAY + pulse['start_time'] + pulse['length']] = pulse_i
+        dac_q_sim[CORDIC_DELAY + pulse['start_time'] : CORDIC_DELAY + pulse['start_time'] + pulse['length']] = pulse_q
+
+    return dac_i_sim, dac_q_sim
+
+
+
+
 
 @cocotb.test()
 async def pulse_out_test(dut):
@@ -148,7 +168,7 @@ async def pulse_out_test(dut):
     env_q = 0.1*np.ones(pulse_length)
 
     prog = SingleUnitScheduler()
-    prog.add_pulse(freq, phase, tstart, env_i + 1j*env_q)
+    prog.add_pulse(freq, phase, 0, env_i + 1j*env_q)
     cmd_list, env_buffer = prog.get_compiled_program()
 
     
@@ -181,12 +201,14 @@ async def pulse_out_test(dut):
     #plt.plot(dac_q)
     #plt.show()
     dspunit = DSPUnitDriver(dut)
-    ipdb.set_trace()
+    dac_i_sim, dac_q_sim = generate_sim_output(prog.get_sim_program())
     await dspunit.load_program(cmd_list)
     await dspunit.load_env(env_buffer)
     await dspunit.run_program(200)
     plt.plot(dspunit.dac_i)
     plt.plot(dspunit.dac_q)
+    plt.plot(dac_i_sim)
+    plt.plot(dac_q_sim)
     plt.show()
 
 def unravel_dac(dac_out):
