@@ -5,7 +5,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 from cocotb.triggers import Timer, RisingEdge
 import distproc.command_gen as cg
-from distproc.assembler import SingleUnitScheduler, ENV_BITS
+from distproc.assembler import SingleUnitAssembler, ENV_BITS
 
 CLK_CYCLE = 4
 N_CLKS = 500
@@ -118,18 +118,7 @@ async def generate_clock(dut):
     dut._log.debug("clk cycle {}".format(i))
 
 
-def check_pulse_output(prog_dict, dac_i, dac_q):
-    """
-    Parameters
-    ----------
-        prog_dict : dict
-            {'freq': <freq in Hz>, 'phase': initial phase in rad
-             'start_time': pulse start time in clks, 'env': complex
-             env samples}
-    """
-    pass
-
-def generate_sim_output(program, ncycles=N_CLKS):
+def check_pulse_output(program, dac_i, dac_q, tol=.005):
     """
     Parameters
     ----------
@@ -137,7 +126,29 @@ def generate_sim_output(program, ncycles=N_CLKS):
             {'freq': <freq in Hz>, 'phase': initial phase in rad
              'start_time': pulse start time in clks, 'env_i': env samples
              'env_q': env samples}
+        tol : float
+            tolerance as a fraction of max value
     """
+    dac_i_sim, dac_q_sim = generate_sim_output(program)
+
+    tol = tol*np.max(np.append(dac_i, dac_q))
+    max_len = max(len(dac_i), len(dac_i_sim))
+    dac_i = np.pad(dac_i, (0, max_len-len(dac_i)))
+    dac_q = np.pad(dac_q, (0, max_len-len(dac_q)))
+    dac_i_sim = np.pad(dac_i_sim, (0, max_len-len(dac_i_sim)))
+    dac_q_sim = np.pad(dac_q_sim, (0, max_len-len(dac_q_sim)))
+    return np.all((np.abs(dac_i - dac_i_sim) < tol) & (np.abs(dac_q - dac_q_sim) < tol))
+
+def debug_plots(program, dac_i, dac_q):
+    dac_i_sim, dac_q_sim = generate_sim_output(program)
+    plt.plot(dac_i, '-', label='I')
+    plt.plot(dac_q, '-', label='Q')
+    plt.plot(dac_i_sim, ':', label='Sim I')
+    plt.plot(dac_q_sim, ':', label='Sim Q')
+    plt.legend()
+    plt.show()
+
+def generate_sim_output(program, ncycles=N_CLKS):
     dac_i_sim = np.zeros(ncycles)
     dac_q_sim = np.zeros(ncycles)
     scale_factor = 2**(ENV_BITS - 1)
@@ -149,67 +160,66 @@ def generate_sim_output(program, ncycles=N_CLKS):
         pulse_i = env_i*np.cos(phases) - env_q*np.sin(phases)
         pulse_q = env_q*np.cos(phases) + env_i*np.sin(phases)
 
-        dac_i_sim[CORDIC_DELAY + pulse['start_time'] : CORDIC_DELAY + pulse['start_time'] + pulse['length']] = pulse_i
-        dac_q_sim[CORDIC_DELAY + pulse['start_time'] : CORDIC_DELAY + pulse['start_time'] + pulse['length']] = pulse_q
+        dac_i_sim[CORDIC_DELAY + DAC_SAMPLES_PER_CLK*pulse['start_time'] : CORDIC_DELAY + DAC_SAMPLES_PER_CLK*pulse['start_time'] + pulse['length']] = pulse_i
+        dac_q_sim[CORDIC_DELAY + DAC_SAMPLES_PER_CLK*pulse['start_time'] : CORDIC_DELAY + DAC_SAMPLES_PER_CLK*pulse['start_time'] + pulse['length']] = pulse_q
 
-    return dac_i_sim, dac_q_sim
+    return dac_i_sim.astype(int), dac_q_sim.astype(int)
 
 
 
 
 
 @cocotb.test()
-async def pulse_out_test(dut):
+async def const_pulse_out_test(dut):
     freq = 100.e6
     phase = 0
-    tstart = 5
+    tstart = 0
     pulse_length = 40
     env_i = 0.2*np.ones(pulse_length)
     env_q = 0.1*np.ones(pulse_length)
 
-    prog = SingleUnitScheduler()
-    prog.add_pulse(freq, phase, 0, env_i + 1j*env_q)
+    prog = SingleUnitAssembler()
+    prog.add_pulse(freq, phase, tstart, env_i + 1j*env_q)
     cmd_list, env_buffer = prog.get_compiled_program()
+
+    cocotb.start_soon(generate_clock(dut))
+    dspunit = DSPUnitDriver(dut)
+    await dspunit.load_program(cmd_list)
+    await dspunit.load_env(env_buffer)
+    await dspunit.run_program(200)
+
+    debug_plots(prog.get_sim_program(), dspunit.dac_i, dspunit.dac_q)
+    assert check_pulse_output(prog.get_sim_program(), dspunit.dac_i, dspunit.dac_q)
+
+@cocotb.test()
+async def two_const_pulse_out_test(dut):
+    freq = 100.e6
+    phase = 0
+    tstart = 5
+    pulse_length = 30
+    env_i = 0.2*np.ones(pulse_length)
+    env_q = 0.1*np.ones(pulse_length)
+
+    prog = SingleUnitAssembler()
+    prog.add_pulse(freq, phase, tstart, env_i + 1j*env_q)
+
+    #env_i = 0.99*np.ones(pulse_length)
+    #env_q = 0.5*np.ones(pulse_length)
+    prog.add_pulse(freq, phase, 50, 1.05*env_i + 1j*env_q)
+    cmd_list, env_buffer = prog.get_compiled_program()
+
 
     
 
     cocotb.start_soon(generate_clock(dut))
-
-    #await load_commands(dut, [cmd])
-    #await load_env(dut, env_i, env_q, 0)
-
-    #dac_q_out = []
-    #dac_i_out = []
-
-    #await RisingEdge(dut.clk)
-    #await RisingEdge(dut.clk)
-    #dut.reset.value = 1
-    #await RisingEdge(dut.clk)
-    #await RisingEdge(dut.clk)
-    #dut.reset.value = 0
-    #await RisingEdge(dut.clk)
-
-    #for i in range(200):
-    #    await RisingEdge(dut.clk)
-    #    dac_i_out.append(int(dut.dac_i.value))
-    #    dac_q_out.append(int(dut.dac_q.value))
-
-    #ipdb.set_trace()
-    #dac_i = unravel_dac(dac_i_out)
-    #dac_q = unravel_dac(dac_q_out)
-    #plt.plot(dac_i)
-    #plt.plot(dac_q)
-    #plt.show()
     dspunit = DSPUnitDriver(dut)
-    dac_i_sim, dac_q_sim = generate_sim_output(prog.get_sim_program())
     await dspunit.load_program(cmd_list)
     await dspunit.load_env(env_buffer)
     await dspunit.run_program(200)
-    plt.plot(dspunit.dac_i)
-    plt.plot(dspunit.dac_q)
-    plt.plot(dac_i_sim)
-    plt.plot(dac_q_sim)
-    plt.show()
+
+    debug_plots(prog.get_sim_program(), dspunit.dac_i, dspunit.dac_q)
+    assert check_pulse_output(prog.get_sim_program(), dspunit.dac_i, dspunit.dac_q)
+
 
 def unravel_dac(dac_out):
     dac_out_unravel = []
