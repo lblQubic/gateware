@@ -12,6 +12,8 @@ N_CLKS = 500
 DAC_SAMPLES_PER_CLK = 4
 CORDIC_DELAY = 84
 
+N_MAX_CMD = 10 #for flushing cmd buffer
+
 PULSE_INSTR_TIME = 1
 ALU_INSTR_TIME = 2
 COND_JUMP_INSTR_TIME = 2
@@ -55,6 +57,10 @@ class DSPUnitDriver:
         self.mon_signals.update({name: sig})
         self.mon_data.update({name: []})
 
+    async def flush_cmd_mem(self, ncmd=N_MAX_CMD):
+        cmd_list = np.zeros(ncmd, dtype=int)
+        await self.load_program(cmd_list)
+
     async def load_program(self, cmd_list):
         cmd_addr = 0
         self._dut.reset.value = 1
@@ -62,8 +68,8 @@ class DSPUnitDriver:
             for i in range(4):
                 mem_val = (cmd >> (32*i)) & (2**32-1)
                 mem_addr = cmd_addr + (i << 8)
-                self._dut.mem_write_data.value = mem_val
-                self._dut.mem_write_addr.value = mem_addr
+                self._dut.mem_write_data.value = int(mem_val)
+                self._dut.mem_write_addr.value = int(mem_addr)
                 self._dut.mem_write_en.value = 1 
                 await RisingEdge(self._dut.clk)
             cmd_addr += 1
@@ -188,7 +194,7 @@ async def const_pulse_out_test(dut):
     await dspunit.load_env(env_buffer)
     await dspunit.run_program(200)
 
-    debug_plots(prog.get_sim_program(), dspunit.dac_i, dspunit.dac_q)
+    #debug_plots(prog.get_sim_program(), dspunit.dac_i, dspunit.dac_q)
     assert check_pulse_output(prog.get_sim_program(), dspunit.dac_i, dspunit.dac_q)
 
 @cocotb.test()
@@ -203,9 +209,9 @@ async def two_const_pulse_out_test(dut):
     prog = SingleUnitAssembler()
     prog.add_pulse(freq, phase, tstart, env_i + 1j*env_q)
 
-    #env_i = 0.99*np.ones(pulse_length)
-    #env_q = 0.5*np.ones(pulse_length)
-    prog.add_pulse(freq, phase, 50, 1.05*env_i + 1j*env_q)
+    env_i = 0.7*np.ones(pulse_length)
+    env_q = 0.5*np.ones(pulse_length)
+    prog.add_pulse(freq, phase, 50, env_i + 1j*env_q)
     cmd_list, env_buffer = prog.get_compiled_program()
 
 
@@ -217,9 +223,115 @@ async def two_const_pulse_out_test(dut):
     await dspunit.load_env(env_buffer)
     await dspunit.run_program(200)
 
-    debug_plots(prog.get_sim_program(), dspunit.dac_i, dspunit.dac_q)
+    #debug_plots(prog.get_sim_program(), dspunit.dac_i, dspunit.dac_q)
     assert check_pulse_output(prog.get_sim_program(), dspunit.dac_i, dspunit.dac_q)
 
+@cocotb.test()
+async def two_const_pulse_out_same_env_test(dut):
+    freq = 100.e6
+    phase = 0
+    tstart = 5
+    pulse_length = 30
+    env_i = 0.2*np.ones(pulse_length)
+    env_q = 0.1*np.ones(pulse_length)
+
+    prog = SingleUnitAssembler()
+    prog.add_pulse(freq, phase, tstart, env_i + 1j*env_q)
+
+    #env_i = 0.7*np.ones(pulse_length)
+    #env_q = 0.5*np.ones(pulse_length)
+    phase = np.pi/4
+    prog.add_pulse(freq, phase, 50, env_i + 1j*env_q)
+    cmd_list, env_buffer = prog.get_compiled_program()
+
+
+    
+
+    cocotb.start_soon(generate_clock(dut))
+    dspunit = DSPUnitDriver(dut)
+    await dspunit.load_program(cmd_list)
+    await dspunit.load_env(env_buffer)
+    await dspunit.run_program(200)
+
+    #debug_plots(prog.get_sim_program(), dspunit.dac_i, dspunit.dac_q)
+    assert check_pulse_output(prog.get_sim_program(), dspunit.dac_i, dspunit.dac_q)
+
+@cocotb.test()
+async def two_gauss_pulse(dut):
+    freq = 425.e6
+    phase = 0
+    tstart = 5
+    pulse_length = 30
+    env_t = np.arange(pulse_length)
+    env_i = 0.4*np.exp(-(pulse_length/2 - env_t)**2/pulse_length/2)
+    env_q = 0.3*np.exp(-(pulse_length/2 - env_t)**2/pulse_length/2)
+
+    prog = SingleUnitAssembler()
+    prog.add_pulse(freq, phase, tstart, env_i + 1j*env_q)
+
+    #env_i = 0.7*np.ones(pulse_length)
+    #env_q = 0.5*np.ones(pulse_length)
+    phase = np.pi/4
+    prog.add_pulse(freq, phase, 50, env_i + 1j*env_q)
+    cmd_list, env_buffer = prog.get_compiled_program()
+
+
+    
+
+    cocotb.start_soon(generate_clock(dut))
+    dspunit = DSPUnitDriver(dut)
+    await dspunit.load_program(cmd_list)
+    await dspunit.load_env(env_buffer)
+    await dspunit.run_program(200)
+
+    #debug_plots(prog.get_sim_program(), dspunit.dac_i, dspunit.dac_q)
+    assert check_pulse_output(prog.get_sim_program(), dspunit.dac_i, dspunit.dac_q)
+
+@cocotb.test()
+async def ramp_pulse(dut):
+    freq = 20.e6
+    phase = np.pi
+    tstart = 40
+    pulse_length = 40
+    
+    env_i = np.arange(pulse_length)/pulse_length
+    env_q = 0
+
+    prog = SingleUnitAssembler()
+    prog.add_pulse(freq, phase, tstart, env_i + 1j*env_q)
+    cmd_list, env_buffer = prog.get_compiled_program()
+
+    cocotb.start_soon(generate_clock(dut))
+    dspunit = DSPUnitDriver(dut)
+    await dspunit.flush_cmd_mem()
+    await dspunit.load_program(cmd_list)
+    await dspunit.load_env(env_buffer)
+    await dspunit.run_program(200)
+
+    #debug_plots(prog.get_sim_program(), dspunit.dac_i, dspunit.dac_q)
+    assert check_pulse_output(prog.get_sim_program(), dspunit.dac_i, dspunit.dac_q)
+
+@cocotb.test()
+async def neg_pulse(dut):
+    freq = 100.e6
+    phase = 0
+    tstart = 0
+    pulse_length = 40
+    env_i = -0.2*np.ones(pulse_length)
+    env_q = 0.1*np.ones(pulse_length)
+
+    prog = SingleUnitAssembler()
+    prog.add_pulse(freq, phase, tstart, env_i + 1j*env_q)
+    cmd_list, env_buffer = prog.get_compiled_program()
+
+    cocotb.start_soon(generate_clock(dut))
+    dspunit = DSPUnitDriver(dut)
+    await dspunit.load_program(cmd_list)
+    await dspunit.load_env(env_buffer)
+    await dspunit.run_program(200)
+
+    #debug_plots(prog.get_sim_program(), dspunit.dac_i, dspunit.dac_q)
+    assert check_pulse_output(prog.get_sim_program(), dspunit.dac_i, dspunit.dac_q)
 
 def unravel_dac(dac_out):
     dac_out_unravel = []
