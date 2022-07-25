@@ -43,8 +43,8 @@ class DSPUnitDriver:
     """
     def __init__(self, dut, mon_signals=None):
         self._dut = dut
-        self._dac_i_signal = self._dut.dac_i
-        self._dac_q_signal = self._dut.dac_q
+        self._dac_i_signal = self._dut.dac_i[0]
+        self._dac_q_signal = self._dut.dac_q[0]
         self.mon_signals = {}
         self.mon_data = {}
         self.dac_i = []
