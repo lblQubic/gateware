@@ -171,10 +171,6 @@ def generate_sim_output(program, ncycles=N_CLKS):
 
     return dac_i_sim.astype(int), dac_q_sim.astype(int)
 
-
-
-
-
 @cocotb.test()
 async def const_pulse_out_test(dut):
     freq = 100.e6
@@ -338,11 +334,11 @@ def unravel_dac(dac_out):
     for val in dac_out:
         for i in range(4):
             sliced_val = (val >> (i*16)) & (2**16 - 1)
-            dac_out_unravel.append(convert_to_signed(sliced_val, 16))
+            dac_out_unravel.append(twoscomp_to_signed(sliced_val, 16))
 
     return np.asarray(dac_out_unravel)
 
-def convert_to_signed(value, nbits=16):
+def twoscomp_to_signed(value, nbits=16):
     sval = value & (2**(nbits - 1) - 1)
     sval += -1*(value & (2**(nbits - 1)))
     return sval
