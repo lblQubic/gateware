@@ -14,11 +14,11 @@ module dsp_unit_sim#(
     input[12+$clog2(N_DSP_UNIT):0] mem_write_addr,
     input[DATA_WIDTH-1:0] mem_write_data,
     input mem_write_en,
-    output[DAC_WORD_WIDTH-1:0] dac_i[N_DSP_UNIT],
-    output[DAC_WORD_WIDTH-1:0] dac_q[N_DSP_UNIT]);
+    output[DAC_WORD_WIDTH-1:0] dac_i[N_DSP_UNIT-1:0],
+    output[DAC_WORD_WIDTH-1:0] dac_q[N_DSP_UNIT-1:0]);
 
-    sync_iface sync[N_DSP_UNIT];
-    fproc_iface fproc[N_DSP_UNIT];
+    sync_iface sync[N_DSP_UNIT-1:0];
+    fproc_iface fproc[N_DSP_UNIT-1:0];
 
     genvar i;
     generate 
