@@ -36,10 +36,10 @@ class DSPUnitDriver:
         self.mon_data : dict -> [str : list]
             Dictionary of data corresponding to mon_signals;
             list indexed by clock cycle
-        self.dac_i : list of int
-            Signed 16-bit dac_i out
-        self.dac_q : list of int
-            Signed 16-bit dac_q out
+        self.dac_i : numpy array
+            shape: (n_dspunit, nsamples). values are signed 16-bit dac_i out
+        self.dac_q : numpy array
+            shape: (n_dspunit, nsamples). values are signed 16-bit dac_q out
     """
     def __init__(self, dut, mon_signals=None):
         self._dut = dut
@@ -360,6 +360,37 @@ async def neg_pulse(dut):
 
     #debug_plots(prog.get_sim_program()[0], dspunit.dac_i[0], dspunit.dac_q[0])
     assert check_pulse_output(prog.get_sim_program()[0], dspunit.dac_i[0], dspunit.dac_q[0])
+
+@cocotb.test()
+async def two_unit_pulse(dut):
+    freq = 100.e6
+    phase = np.pi/2
+    tstart = 0
+    pulse_length = 40
+    env_i = 0.2*np.ones(pulse_length)
+    env_q = 0.1*np.ones(pulse_length)
+
+    dspunit = DSPUnitDriver(dut)
+    prog = MultiUnitAssembler(dspunit.n_dspunit)
+    prog.add_pulse(0, freq, phase, tstart, env_i + 1j*env_q)
+
+    freq = 200.e6
+    tstart = 5
+    env_q = 0.4*np.ones(pulse_length)
+    prog.add_pulse(1, freq, phase, tstart, env_i + 1j*env_q)
+    cmd_lists, env_buffers = prog.get_compiled_program()
+
+    cocotb.start_soon(generate_clock(dut))
+    await dspunit.load_program(cmd_lists)
+    await dspunit.load_env(env_buffers)
+    await dspunit.run_program(200)
+
+    #debug_plots(prog.get_sim_program()[0], dspunit.dac_i[0], dspunit.dac_q[0])
+    assert check_pulse_output(prog.get_sim_program()[0], dspunit.dac_i[0], dspunit.dac_q[0])
+
+    #debug_plots(prog.get_sim_program()[1], dspunit.dac_i[1], dspunit.dac_q[1])
+    assert check_pulse_output(prog.get_sim_program()[1], dspunit.dac_i[1], dspunit.dac_q[1])
+
 
 def unravel_dac(dac_out):
     dac_out_unravel = []
