@@ -180,6 +180,7 @@ def debug_plots(program, dac_i, dac_q):
     plt.plot(dac_i_sim, ':', label='Sim I')
     plt.plot(dac_q_sim, ':', label='Sim Q')
     plt.legend()
+    plt.xlabel('Time (ns)')
     plt.show()
 
 def generate_sim_output(program, ncycles=N_CLKS):
@@ -269,9 +270,6 @@ async def two_const_pulse_out_same_env_test(dut):
     prog.add_pulse(0, freq, phase, 50, env_i + 1j*env_q)
     cmd_list, env_buffer = prog.get_compiled_program()
 
-
-    
-
     cocotb.start_soon(generate_clock(dut))
 
     await dspunit.load_program(cmd_list)
@@ -302,15 +300,12 @@ async def two_gauss_pulse(dut):
     prog.add_pulse(0, freq, phase, 50, env_i + 1j*env_q)
     cmd_list, env_buffer = prog.get_compiled_program()
 
-
-    
-
     cocotb.start_soon(generate_clock(dut))
     await dspunit.load_program(cmd_list)
     await dspunit.load_env(env_buffer)
     await dspunit.run_program(200)
 
-    #debug_plots(prog.get_sim_program()[0], dspunit.dac_i[0], dspunit.dac_q[0])
+    debug_plots(prog.get_sim_program()[0], dspunit.dac_i[0], dspunit.dac_q[0])
     assert check_pulse_output(prog.get_sim_program()[0], dspunit.dac_i[0], dspunit.dac_q[0])
 
 @cocotb.test()
@@ -365,7 +360,7 @@ async def neg_pulse(dut):
 async def two_unit_pulse(dut):
     freq = 100.e6
     phase = np.pi/2
-    tstart = 0
+    tstart = 5
     pulse_length = 40
     env_i = 0.2*np.ones(pulse_length)
     env_q = 0.1*np.ones(pulse_length)
@@ -390,6 +385,37 @@ async def two_unit_pulse(dut):
 
     #debug_plots(prog.get_sim_program()[1], dspunit.dac_i[1], dspunit.dac_q[1])
     assert check_pulse_output(prog.get_sim_program()[1], dspunit.dac_i[1], dspunit.dac_q[1])
+
+@cocotb.test()
+async def cond_j_pulse(dut):
+    """
+    see if we can jump over a pulse
+    """
+    freq = 100.e6
+    phase = np.pi/2
+    pulse_length = 40
+    env_i = 0.2*np.ones(pulse_length)
+    env_q = 0.1*np.ones(pulse_length)
+
+    dspunit = DSPUnitDriver(dut)
+    prog = MultiUnitAssembler(dspunit.n_dspunit)
+    prog.assemblers[0].add_reg_write('r0', 5)
+    prog.assemblers[0].add_jump_cond(2, 'le', 'r0', 'loc0')
+    prog.add_pulse(0, freq, phase, 10, env_i + 1j*env_q)
+    prog.add_pulse(0, 2*freq, phase, 20, 2*env_i + 1j*2*env_q, label='loc0')
+
+    cmd_lists, env_buffers = prog.get_compiled_program()
+
+    cocotb.start_soon(generate_clock(dut))
+    await dspunit.load_program(cmd_lists)
+    await dspunit.load_env(env_buffers)
+    await dspunit.run_program(200)
+
+    #ipdb.set_trace()
+    sim_prog = prog.get_sim_program()[0]
+    sim_prog = [sim_prog[-1]]
+    debug_plots(sim_prog, dspunit.dac_i[0], dspunit.dac_q[0])
+    assert check_pulse_output(sim_prog, dspunit.dac_i[0], dspunit.dac_q[0])
 
 
 def unravel_dac(dac_out):

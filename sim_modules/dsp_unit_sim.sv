@@ -11,12 +11,13 @@ module dsp_unit_sim#(
     parameter N_DSP_UNIT=2)(
     input clk,
     input reset,
-    input[12+$clog2(N_DSP_UNIT):0] mem_write_addr,
+    input[12+LOG_N_DSP:0] mem_write_addr,
     input[DATA_WIDTH-1:0] mem_write_data,
     input mem_write_en,
     output[DAC_WORD_WIDTH-1:0] dac_i[N_DSP_UNIT-1:0],
     output[DAC_WORD_WIDTH-1:0] dac_q[N_DSP_UNIT-1:0]);
 
+    parameter LOG_N_DSP = $clog2(N_DSP_UNIT);
     sync_iface sync[N_DSP_UNIT-1:0];
     fproc_iface fproc[N_DSP_UNIT-1:0];
 
@@ -27,7 +28,7 @@ module dsp_unit_sim#(
                 .sync(sync[i]), .fproc(fproc[i]),
                 .mem_write_addr(mem_write_addr),
                 .mem_write_data(mem_write_data),
-                .mem_write_en(mem_write_en & (mem_write_addr[12+$clog2(N_DSP_UNIT):13] == i)),
+                .mem_write_en(mem_write_en & (mem_write_addr[12+LOG_N_DSP:13] == i)),
                 .dac_i(dac_i[i]), .dac_q(dac_q[i]));
         end
     endgenerate
