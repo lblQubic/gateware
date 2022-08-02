@@ -1,6 +1,7 @@
 import cocotb
 import random
 import ipdb
+import copy
 import numpy as np
 import matplotlib.pyplot as plt
 from cocotb.triggers import Timer, RisingEdge
@@ -262,7 +263,7 @@ async def jump_fproc_true(dut):
     #ipdb.set_trace()
     sim_prog = prog.get_sim_program()[0]
     sim_prog = [sim_prog[-1]]
-    debug_plots(sim_prog, dspunit.dac_i[0], dspunit.dac_q[0])
+    #debug_plots(sim_prog, dspunit.dac_i[0], dspunit.dac_q[0])
     assert check_pulse_output(sim_prog, dspunit.dac_i[0], dspunit.dac_q[0])
 
 @cocotb.test()
@@ -300,7 +301,51 @@ async def jump_fproc_false(dut):
     #ipdb.set_trace()
     sim_prog = prog.get_sim_program()[0]
     sim_prog = sim_prog[1:]
-    debug_plots(sim_prog, dspunit.dac_i[0], dspunit.dac_q[0])
+    #debug_plots(sim_prog, dspunit.dac_i[0], dspunit.dac_q[0])
     assert check_pulse_output(sim_prog, dspunit.dac_i[0], dspunit.dac_q[0])
 
+@cocotb.test()
+async def loop_pulse_test(dut):
+    #TODO: when clk increment is -40, cstrobe gets sent at the end
+    #  b/c qclk counter will wrap
+    freq = 225.e6
+    phase = 0
+    tstart = 10
+    pulse_length = 30
+    env_t = np.arange(pulse_length)
+    env_i = 0.4*np.exp(-(pulse_length/2 - env_t)**2/pulse_length/2)
+    env_q = 0.3*np.exp(-(pulse_length/2 - env_t)**2/pulse_length/2)
 
+    n_loop_iters = 5
+    qclk_inc = -15
+
+    dspunit = DSPUnitDriver(dut)
+    prog = MultiUnitAssembler(dspunit.n_dspunit)
+    prog.assemblers[0].add_reg_write('loop_iters', n_loop_iters)
+    prog.assemblers[0].add_reg_write('loop_cnt', 0)
+    prog.add_pulse(0, freq, phase, tstart, env_i + 1j*env_q, label='pulse0')
+    prog.assemblers[0].add_reg_alu(1, 'add', 'loop_cnt', 'loop_cnt')
+    prog.assemblers[0].add_inc_qclk(qclk_inc)
+    prog.assemblers[0].add_jump_cond('loop_cnt', 'le', 'loop_iters', 'pulse0')
+
+    cmd_lists, env_buffers = prog.get_compiled_program()
+    cocotb.start_soon(generate_clock(dut))
+    await dspunit.flush_cmd_mem(30)
+    await dspunit.load_program(cmd_lists)
+    await dspunit.load_env(env_buffers)
+    await dspunit.reset()
+    await dspunit.monitor_outputs(300)
+
+    sim_prog = prog.get_sim_program()[0]
+    sim_pulse = sim_prog[2]
+    sim_prog = []
+    for i in range(n_loop_iters):
+        ts = tstart - i*qclk_inc
+        sim_pulse['start_time'] = ts
+        sim_prog.append(copy.deepcopy(sim_pulse))
+
+    debug_plots(sim_prog, dspunit.dac_i[0], dspunit.dac_q[0])
+    assert check_pulse_output(sim_prog, dspunit.dac_i[0], dspunit.dac_q[0])
+    #plt.plot(dspunit.dac_i[0])
+    #plt.plot(dspunit.dac_q[0])
+    #plt.show()

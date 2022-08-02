@@ -8,7 +8,7 @@ import distproc.command_gen as cg
 from sim_tools import unravel_dac
 
 N_MAX_CMD = 10 #for flushing cmd buffer
-N_CLKS = 500
+N_CLKS = 1000
 CLK_CYCLE = 4
 
 async def generate_clock(dut):
