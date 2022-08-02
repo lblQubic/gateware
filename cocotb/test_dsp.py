@@ -10,7 +10,7 @@ from distproc.assembler import MultiUnitAssembler, SingleUnitAssembler, ENV_BITS
 CLK_CYCLE = 4
 N_CLKS = 500
 DAC_SAMPLES_PER_CLK = 4
-CORDIC_DELAY = 84
+CORDIC_DELAY = 88 #in samples (ns)
 
 N_MAX_CMD = 10 #for flushing cmd buffer
 
@@ -116,15 +116,25 @@ class DSPUnitDriver:
         
         self._dut.mem_write_en.value = 0
 
-    async def run_program(self, ncycles):
+    async def reset(self):
+        """
+        Reset all of the proc cores and DSP elements
+        """
         await RisingEdge(self._dut.clk)
         await RisingEdge(self._dut.clk)
         self._dut.reset.value = 1
         await RisingEdge(self._dut.clk)
         await RisingEdge(self._dut.clk)
         self._dut.reset.value = 0
-        await RisingEdge(self._dut.clk)
 
+    async def monitor_outputs(self, ncycles):
+        """
+        Monitor program output for ncycles clocks.
+        Sets class attributes dac_i and dac_q, each of
+        which is a (n_dspunit, n_samples) numpy array of
+        DAC values. Also populates self.mon_data, if any
+        mon signals have been declared
+        """
         dac_i = []
         dac_q = []
 
@@ -142,6 +152,35 @@ class DSPUnitDriver:
         for i in range(self._n_dspunit):
             self.dac_i[i] = unravel_dac(dac_i[i])
             self.dac_q[i] = unravel_dac(dac_q[i])
+
+    async def run_program(self, ncycles):
+        """
+        For backwards compatibility with earlier tests; can be used 
+        to run simple programs without external (fproc) input.
+        """
+        await self.reset()
+        await self.monitor_outputs(ncycles)
+
+    async def load_fproc(self, dspunit_ind, fproc_data, fproc_ready):
+        #dspunit_ind = self.n_dspunit - dspunit_ind - 1 #indexing is backwards on module ports
+        if len(fproc_data) != len(fproc_ready):
+            raise Exception('data and ready arrays must be same length')
+        for i in range(len(fproc_data)):
+            #ipdb.set_trace()
+            self._dut.fproc_data[dspunit_ind].value = int(fproc_data[i])
+            self._dut.fproc_ready[dspunit_ind].value = int(fproc_ready[i])
+            await RisingEdge(self._dut.clk)
+
+    async def load_fproc_async(self, dspunit_ind, fproc_data):
+        #TODO: this will probably hang if enough ready signals aren't 
+        # provided...
+        #dspunit_ind = self.n_dspunit - dspunit_ind - 1 #indexing is backwards on module ports
+        for i in range(len(fproc_data)):
+            await RisingEdge(self._dut.fproc_enable[dspunit_ind])
+            self._dut.fproc_data[dspunit_ind].value = fproc_data[i]
+            self._dut.fproc_ready[dspunit_ind].value = fproc_ready[i]
+
+
 
 async def generate_clock(dut):
     for i in range(N_CLKS):
@@ -305,7 +344,7 @@ async def two_gauss_pulse(dut):
     await dspunit.load_env(env_buffer)
     await dspunit.run_program(200)
 
-    debug_plots(prog.get_sim_program()[0], dspunit.dac_i[0], dspunit.dac_q[0])
+    #debug_plots(prog.get_sim_program()[0], dspunit.dac_i[0], dspunit.dac_q[0])
     assert check_pulse_output(prog.get_sim_program()[0], dspunit.dac_i[0], dspunit.dac_q[0])
 
 @cocotb.test()
@@ -403,6 +442,7 @@ async def cond_j_pulse(dut):
     prog.assemblers[0].add_jump_cond(2, 'le', 'r0', 'loc0')
     prog.add_pulse(0, freq, phase, 10, env_i + 1j*env_q)
     prog.add_pulse(0, 2*freq, phase, 20, 2*env_i + 1j*2*env_q, label='loc0')
+    #prog.add_declare_freq(ph_acc_ind, freq)
 
     cmd_lists, env_buffers = prog.get_compiled_program()
 
@@ -414,9 +454,84 @@ async def cond_j_pulse(dut):
     #ipdb.set_trace()
     sim_prog = prog.get_sim_program()[0]
     sim_prog = [sim_prog[-1]]
+    #debug_plots(sim_prog, dspunit.dac_i[0], dspunit.dac_q[0])
+    assert check_pulse_output(sim_prog, dspunit.dac_i[0], dspunit.dac_q[0])
+
+@cocotb.test()
+async def jump_fproc_true(dut):
+    """
+    skip over pulse given FPROC = 1 input
+    """
+    freq = 100.e6
+    phase = np.pi/2
+    pulse_length = 40
+    env_i = 0.2*np.ones(pulse_length)
+    env_q = 0.1*np.ones(pulse_length)
+    ncycles = 200
+
+    dspunit = DSPUnitDriver(dut)
+    prog = MultiUnitAssembler(dspunit.n_dspunit)
+    prog.assemblers[0].add_jump_fproc(0, 'le', 'loc0')
+    prog.add_pulse(0, freq, phase, 10, env_i + 1j*env_q)
+    prog.add_pulse(0, 2*freq, phase, 20, 2*env_i + 1j*2*env_q, label='loc0')
+    #prog.add_declare_freq(ph_acc_ind, freq)
+
+    cmd_lists, env_buffers = prog.get_compiled_program()
+    fproc_input = np.zeros(ncycles)
+    fproc_input[5] = 1
+    fproc_ready = np.zeros(ncycles)
+    fproc_ready[5] = 1
+
+    cocotb.start_soon(generate_clock(dut))
+    await dspunit.load_program(cmd_lists)
+    await dspunit.load_env(env_buffers)
+    await dspunit.reset()
+    cocotb.start_soon(dspunit.load_fproc(0, fproc_input, fproc_ready))
+    await dspunit.monitor_outputs(ncycles)
+
+    #ipdb.set_trace()
+    sim_prog = prog.get_sim_program()[0]
+    sim_prog = [sim_prog[-1]]
     debug_plots(sim_prog, dspunit.dac_i[0], dspunit.dac_q[0])
     assert check_pulse_output(sim_prog, dspunit.dac_i[0], dspunit.dac_q[0])
 
+@cocotb.test()
+async def jump_fproc_false(dut):
+    """
+    DON'T skip over pulse given FPROC = 1 input
+    """
+    freq = 100.e6
+    phase = np.pi/2
+    pulse_length = 40
+    env_i = 0.2*np.ones(pulse_length)
+    env_q = 0.1*np.ones(pulse_length)
+    ncycles = 200
+
+    dspunit = DSPUnitDriver(dut)
+    prog = MultiUnitAssembler(dspunit.n_dspunit)
+    prog.assemblers[0].add_jump_fproc(1, 'le', 'loc0')
+    prog.add_pulse(0, freq, phase, 10, env_i + 1j*env_q)
+    prog.add_pulse(0, 2*freq, phase, 20, 2*env_i + 1j*2*env_q, label='loc0')
+    #prog.add_declare_freq(ph_acc_ind, freq)
+
+    cmd_lists, env_buffers = prog.get_compiled_program()
+    fproc_input = np.zeros(ncycles)
+    fproc_input[5] = 1
+    fproc_ready = np.zeros(ncycles)
+    fproc_ready[5] = 1
+
+    cocotb.start_soon(generate_clock(dut))
+    await dspunit.load_program(cmd_lists)
+    await dspunit.load_env(env_buffers)
+    await dspunit.reset()
+    cocotb.start_soon(dspunit.load_fproc(0, fproc_input, fproc_ready))
+    await dspunit.monitor_outputs(ncycles)
+
+    #ipdb.set_trace()
+    sim_prog = prog.get_sim_program()[0]
+    sim_prog = sim_prog[1:]
+    debug_plots(sim_prog, dspunit.dac_i[0], dspunit.dac_q[0])
+    assert check_pulse_output(sim_prog, dspunit.dac_i[0], dspunit.dac_q[0])
 
 def unravel_dac(dac_out):
     dac_out_unravel = []
