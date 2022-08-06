@@ -7,7 +7,7 @@ import matplotlib.pyplot as plt
 from cocotb.triggers import Timer, RisingEdge
 import distproc.command_gen as cg
 from distproc.assembler import MultiUnitAssembler, SingleUnitAssembler, ENV_BITS
-from drivers import DSPUnitDriver, generate_clock
+from drivers import DSPUnitSimDriver, generate_clock
 from sim_tools import check_pulse_output, debug_plots
 
 @cocotb.test()
@@ -19,7 +19,7 @@ async def const_pulse_out_test(dut):
     env_i = 0.2*np.ones(pulse_length)
     env_q = 0.1*np.ones(pulse_length)
 
-    dspunit = DSPUnitDriver(dut)
+    dspunit = DSPUnitSimDriver(dut)
 
     prog = MultiUnitAssembler(dspunit.n_dspunit)
     prog.add_pulse(0, freq, phase, tstart, env_i + 1j*env_q)
@@ -42,7 +42,7 @@ async def two_const_pulse_out_test(dut):
     env_i = 0.2*np.ones(pulse_length)
     env_q = 0.1*np.ones(pulse_length)
 
-    dspunit = DSPUnitDriver(dut)
+    dspunit = DSPUnitSimDriver(dut)
 
     prog = MultiUnitAssembler(dspunit.n_dspunit)
     prog.add_pulse(0, freq, phase, tstart, env_i + 1j*env_q)
@@ -69,7 +69,7 @@ async def two_const_pulse_out_same_env_test(dut):
     env_i = 0.2*np.ones(pulse_length)
     env_q = 0.1*np.ones(pulse_length)
     
-    dspunit = DSPUnitDriver(dut)
+    dspunit = DSPUnitSimDriver(dut)
 
     prog = MultiUnitAssembler(dspunit.n_dspunit)
     prog.add_pulse(0, freq, phase, tstart, env_i + 1j*env_q)
@@ -99,7 +99,7 @@ async def two_gauss_pulse(dut):
     env_i = 0.4*np.exp(-(pulse_length/2 - env_t)**2/pulse_length/2)
     env_q = 0.3*np.exp(-(pulse_length/2 - env_t)**2/pulse_length/2)
 
-    dspunit = DSPUnitDriver(dut)
+    dspunit = DSPUnitSimDriver(dut)
 
     prog = MultiUnitAssembler(dspunit.n_dspunit)
     prog.add_pulse(0, freq, phase, tstart, env_i + 1j*env_q)
@@ -128,7 +128,7 @@ async def ramp_pulse(dut):
     env_i = np.arange(pulse_length)/pulse_length
     env_q = 0
 
-    dspunit = DSPUnitDriver(dut)
+    dspunit = DSPUnitSimDriver(dut)
 
     prog = MultiUnitAssembler(dspunit.n_dspunit)
     prog.add_pulse(0, freq, phase, tstart, env_i + 1j*env_q)
@@ -152,7 +152,7 @@ async def neg_pulse(dut):
     env_i = -0.2*np.ones(pulse_length)
     env_q = 0.1*np.ones(pulse_length)
 
-    dspunit = DSPUnitDriver(dut)
+    dspunit = DSPUnitSimDriver(dut)
 
     prog = MultiUnitAssembler(dspunit.n_dspunit)
     prog.add_pulse(0, freq, phase, tstart, env_i + 1j*env_q)
@@ -175,7 +175,7 @@ async def two_unit_pulse(dut):
     env_i = 0.2*np.ones(pulse_length)
     env_q = 0.1*np.ones(pulse_length)
 
-    dspunit = DSPUnitDriver(dut)
+    dspunit = DSPUnitSimDriver(dut)
     prog = MultiUnitAssembler(dspunit.n_dspunit)
     prog.add_pulse(0, freq, phase, tstart, env_i + 1j*env_q)
 
@@ -207,7 +207,7 @@ async def cond_j_pulse(dut):
     env_i = 0.2*np.ones(pulse_length)
     env_q = 0.1*np.ones(pulse_length)
 
-    dspunit = DSPUnitDriver(dut)
+    dspunit = DSPUnitSimDriver(dut)
     prog = MultiUnitAssembler(dspunit.n_dspunit)
     prog.assemblers[0].add_reg_write('r0', 5)
     prog.assemblers[0].add_jump_cond(2, 'le', 'r0', 'loc0')
@@ -240,7 +240,7 @@ async def jump_fproc_true(dut):
     env_q = 0.1*np.ones(pulse_length)
     ncycles = 200
 
-    dspunit = DSPUnitDriver(dut)
+    dspunit = DSPUnitSimDriver(dut)
     prog = MultiUnitAssembler(dspunit.n_dspunit)
     prog.assemblers[0].add_jump_fproc(0, 'le', 'loc0')
     prog.add_pulse(0, freq, phase, 10, env_i + 1j*env_q)
@@ -278,7 +278,7 @@ async def jump_fproc_false(dut):
     env_q = 0.1*np.ones(pulse_length)
     ncycles = 200
 
-    dspunit = DSPUnitDriver(dut)
+    dspunit = DSPUnitSimDriver(dut)
     prog = MultiUnitAssembler(dspunit.n_dspunit)
     prog.assemblers[0].add_jump_fproc(1, 'le', 'loc0')
     prog.add_pulse(0, freq, phase, 10, env_i + 1j*env_q)
@@ -319,7 +319,7 @@ async def loop_pulse_test(dut):
     n_loop_iters = 5
     qclk_inc = -15
 
-    dspunit = DSPUnitDriver(dut)
+    dspunit = DSPUnitSimDriver(dut)
     prog = MultiUnitAssembler(dspunit.n_dspunit)
     prog.assemblers[0].add_reg_write('loop_iters', n_loop_iters)
     prog.assemblers[0].add_reg_write('loop_cnt', 0)
