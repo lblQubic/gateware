@@ -103,22 +103,22 @@ async def syndrome_plots(dut):
     q0_phase = 0
     pulse_length = 32
     env_t = np.arange(pulse_length)
-    q0_env_i = 0.4*np.exp(-(pulse_length/2 - env_t)**2/pulse_length/2)
+    q0_env_i = 0.6*np.exp(-(pulse_length/2 - env_t)**2/pulse_length/2)
     q0_env_q = 0.5*np.exp(-(pulse_length/2 - env_t)**2/pulse_length/2)
 
     q1_freq = 400.e6
     q1_phase = 0
     q1_pulse_length = 32
     q1_env_t = np.arange(pulse_length)
-    q1_env_i = 0.4*np.exp(-(pulse_length/2 - env_t)**2/pulse_length/2)
+    q1_env_i = 0.5*np.exp(-(pulse_length/2 - env_t)**2/pulse_length/2)
     q1_env_q = 0.5*np.exp(-(pulse_length/2 - env_t)**2/pulse_length/2)
 
-    q2_freq = 450.e6
+    q2_freq = 350.e6
     q2_phase = 0
     q2_pulse_length = 32
     q2_env_t = np.arange(pulse_length)
-    q2_env_i = 0.4*np.exp(-(pulse_length/2 - env_t)**2/pulse_length/2)
-    q2_env_q = 0.5*np.exp(-(pulse_length/2 - env_t)**2/pulse_length/2)
+    q2_env_i = 0.5*np.exp(-(pulse_length/2 - env_t)**2/pulse_length/2)
+    q2_env_q = 0.6*np.exp(-(pulse_length/2 - env_t)**2/pulse_length/2)
 
     prog.assemblers[2].add_jump_fproc(0, 'eq', 'no_error', 1)
     prog.add_pulse(2, q0_freq, q0_phase, 10, q0_env_i + 1j*q0_env_q)
@@ -143,7 +143,7 @@ async def syndrome_plots(dut):
     prog.add_pulse(1, q2_freq, q2_phase, 200, np.zeros(10), label='no_reset')
     cmd_lists, env_buffers = prog.get_compiled_program()
 
-    m0 = 1
+    m0 = 0
     m1 = 1
 
     meas0 = np.zeros(ncycles, dtype=int)
@@ -182,44 +182,44 @@ async def syndrome_plots(dut):
     ax4 = fig.add_subplot(515)
     ax4.set_ylim((-1.1,1.1))
 
-    def meastodac(y):
-        return 2*(y-1) + 1
-    def dactomeas(m):
-        return 0.5*(m-1) + 1
-    def format_meas_func(value):
-        if value==0:
-            return '0'
-        elif value==1:
-            return'1'
-        elif value==0.5:
-            return 'idle'
-
     ax0.plot(dspunit.dac_i[2]/dac_fullscale, label='DAC I')
     ax0.plot(dspunit.dac_q[2]/dac_fullscale, label='DAC Q')
+    ax0.set_ylabel('Q0')
     ax0.legend()
     ax1.plot(dspunit.dac_i[3]/dac_fullscale)
     ax1.plot(dspunit.dac_q[3]/dac_fullscale)
+    ax1.set_ylabel('Q1')
     ax2.plot(dspunit.dac_i[4]/dac_fullscale)
     ax2.plot(dspunit.dac_q[4]/dac_fullscale)
+    ax2.set_ylabel('Q2')
     ax3.plot(dspunit.dac_i[0]/dac_fullscale)
     ax3.plot(dspunit.dac_q[0]/dac_fullscale)
+    ax3.set_ylabel('A0')
 
     meas0_plt = np.zeros(len(meas0))
     meas1_plt = np.zeros(len(meas1))
-    meas0_plt[5:7] = m0#(m0-0.5)*2
-    meas1_plt[6:8] = m1#(m1-0.5)*2
-    #ax3.plot(dt[::4], meas0_plt, ':', color='g')
-    #ax3.plot(dt[20:25], meas0_plt[5]*np.ones(5), '-', linewidth=3, label='measured state')#, 'x')
-    measax3 = ax3.twiny()
-    measax3.plot(dt[::4], meas0_plt, ':', color='g')
-    measax3.plot(dt[20:25], meas0_plt[5]*np.ones(5), '-', linewidth=3, label='measured state', color='g')#, 'x')
-    #measax3 = ax3.secondary_yaxis('right', functions=(dactomeas, meastodac))    
-    #measax3.set_major_formatter(plt.FuncFormatter(format_meas_func))
+    meas0_plt[5:7] = (m0-0.5)*2
+    meas1_plt[6:8] = (m1-0.5)*2
 
-    ax3.legend()
+    measax3 = ax3.twinx()
+    measax3.plot(dt[::4], meas0_plt, ':', color='tab:green')
+    measax3.plot(dt[20:25], meas0_plt[5]*np.ones(5), '-', linewidth=3, label='measured state', color='tab:green')#, 'x')
+    measax3.set_ylim((-1.1,1.1))
+    measax3.set_yticks([-1, 0, 1])
+    measax3.set_yticklabels(['0', 'idle', '1'], color='tab:green')
+    measax3.legend()
+
     ax4.plot(dspunit.dac_i[1]/dac_fullscale)
     ax4.plot(dspunit.dac_q[1]/dac_fullscale)
-    ax4.plot(dt[::4], meas1_plt, ':', color='g')
-    ax4.plot(dt[24:29], meas1_plt[6]*np.ones(5), '-', linewidth=3)#, 'x')
+    ax4.set_ylabel('A1')
+    measax4 = ax4.twinx()
+    measax4.plot(dt[::4], meas1_plt, ':', color='tab:green')
+    measax4.plot(dt[24:29], meas1_plt[6]*np.ones(5), '-', linewidth=3, label='measured state', color='tab:green')#, 'x')
+    measax4.set_ylim((-1.1,1.1))
+    measax4.set_yticks([-1, 0, 1])
+    measax4.set_yticklabels(['0', 'idle', '1'], color='tab:green')
+    #measax4.legend()
+
+    fig.supylabel('DAC value (arb)')
     ax4.set_xlabel('Time (ns)')
     plt.show()
