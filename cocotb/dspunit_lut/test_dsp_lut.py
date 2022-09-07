@@ -94,7 +94,7 @@ async def syndrome_plots(dut):
     """
     Not a real test, just for making plots of 3-qubit repetition code
     """
-    ncycles = 50
+    ncycles = 40
     dspunit = DSPUnitLUTDriver(dut)
     prog = MultiUnitAssembler(dspunit.n_dspunit)
 
@@ -121,29 +121,29 @@ async def syndrome_plots(dut):
     q2_env_q = 0.6*np.exp(-(pulse_length/2 - env_t)**2/pulse_length/2)
 
     prog.assemblers[2].add_jump_fproc(0, 'eq', 'no_error', 1)
-    prog.add_pulse(2, q0_freq, q0_phase, 10, q0_env_i + 1j*q0_env_q)
+    prog.add_pulse(2, q0_freq, q0_phase, 8, q0_env_i + 1j*q0_env_q)
     prog.add_pulse(2, q0_freq, q0_phase, 200, np.zeros(10), label='no_error')
 
     prog.assemblers[3].add_jump_fproc(0, 'eq', 'no_error', 1)
-    prog.add_pulse(3, q1_freq, q1_phase, 10, q1_env_i + 1j*q1_env_q)
+    prog.add_pulse(3, q1_freq, q1_phase, 8, q1_env_i + 1j*q1_env_q)
     prog.add_pulse(3, q1_freq, q1_phase, 200, np.zeros(10), label='no_error')
 
     prog.assemblers[4].add_jump_fproc(0, 'eq', 'no_error', 1)
-    prog.add_pulse(4, q2_freq, q2_phase, 10, q2_env_i + 1j*q2_env_q)
+    prog.add_pulse(4, q2_freq, q2_phase, 8, q2_env_i + 1j*q2_env_q)
     prog.add_pulse(4, q2_freq, q2_phase, 200, np.zeros(10), label='no_error')
 
     #ancilla qubits
 
     prog.assemblers[0].add_jump_fproc(0, 'eq', 'no_reset', 0)
-    prog.add_pulse(0, q2_freq, q2_phase, 10, q0_env_i + 1j*q0_env_q)
+    prog.add_pulse(0, q2_freq, q2_phase, 8, q0_env_i + 1j*q0_env_q)
     prog.add_pulse(0, q2_freq, q2_phase, 200, np.zeros(10), label='no_reset')
 
     prog.assemblers[1].add_jump_fproc(0, 'eq', 'no_reset', 0)
-    prog.add_pulse(1, q2_freq, q2_phase, 10, q0_env_i + 1j*q0_env_q)
+    prog.add_pulse(1, q2_freq, q2_phase, 8, q0_env_i + 1j*q0_env_q)
     prog.add_pulse(1, q2_freq, q2_phase, 200, np.zeros(10), label='no_reset')
     cmd_lists, env_buffers = prog.get_compiled_program()
 
-    m0 = 0
+    m0 = 1
     m1 = 1
 
     meas0 = np.zeros(ncycles, dtype=int)
@@ -170,7 +170,7 @@ async def syndrome_plots(dut):
     dt = np.arange(ncycles*4)
     dac_fullscale = 32768
 
-    fig = plt.figure(figsize=(12.5,10))
+    fig = plt.figure(figsize=(12.5,9))
     ax0 = fig.add_subplot(511)
     ax0.set_ylim((-1.1,1.1))
     ax1 = fig.add_subplot(512)
@@ -203,7 +203,7 @@ async def syndrome_plots(dut):
 
     measax3 = ax3.twinx()
     measax3.plot(dt[::4], meas0_plt, ':', color='tab:green')
-    measax3.plot(dt[20:25], meas0_plt[5]*np.ones(5), '-', linewidth=3, label='measured state', color='tab:green')#, 'x')
+    measax3.plot(dt[20:25], meas0_plt[5]*np.ones(5), '-', linewidth=1.5, label='measured state', color='tab:green')#, 'x')
     measax3.set_ylim((-1.1,1.1))
     measax3.set_yticks([-1, 0, 1])
     measax3.set_yticklabels(['0', 'idle', '1'], color='tab:green')
@@ -214,7 +214,7 @@ async def syndrome_plots(dut):
     ax4.set_ylabel('A1')
     measax4 = ax4.twinx()
     measax4.plot(dt[::4], meas1_plt, ':', color='tab:green')
-    measax4.plot(dt[24:29], meas1_plt[6]*np.ones(5), '-', linewidth=3, label='measured state', color='tab:green')#, 'x')
+    measax4.plot(dt[24:29], meas1_plt[6]*np.ones(5), '-', linewidth=1.5, label='measured state', color='tab:green')#, 'x')
     measax4.set_ylim((-1.1,1.1))
     measax4.set_yticks([-1, 0, 1])
     measax4.set_yticklabels(['0', 'idle', '1'], color='tab:green')
