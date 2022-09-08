@@ -3,9 +3,9 @@ TOPLEVEL_LANG ?= verilog
 
 export PYTHONPATH := ..:$(PYTHONPATH)
 
-VERILOG_SOURCES += $(PWD)/../../sim_modules/dsp_fproc_lut_sim.sv
-VERILOG_SOURCES += $(PWD)/../../dsp_unit.sv
-VERILOG_SOURCES += $(PWD)/../../otherrepo/wave-elements/*.v
+VERILOG_SOURCES += $(PWD)/../../dsp/sim_modules/dsp_fproc_lut_sim.sv
+VERILOG_SOURCES += $(PWD)/../../dsp/dsp_unit.sv
+VERILOG_SOURCES += $(PWD)/../../dsp/wave-elements/*.v
 VERILOG_SOURCES += $(PWD)/../../submodules/distributed_processor/hdl/*.sv
 VERILOG_SOURCES += $(PWD)/../../submodules/distributed_processor/hdl/*.v
 VERILOG_SOURCES += $(PWD)/../../submodules/distributed_processor/hdl/*.vh
