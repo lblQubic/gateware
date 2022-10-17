@@ -60,7 +60,7 @@ end else if (active_r) begin
 end
 assign qsel = (32'b1 << dest_r) & {qbits{active_r}};
 assign mindex = mindex_r;
-assign phase = phase_acc[23-tslicel:7-tslicel];
+assign phase = phase_acc[23-tslicel:7-tslicel]; //todo: ask about slices here?
 assign ts_phstep = freq_r[23:7-tslicel];
 assign active = active_r;
 assign collision = active_r & strobe;

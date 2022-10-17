@@ -144,7 +144,7 @@ async def syndrome_plots(dut):
     cmd_lists, env_buffers = prog.get_compiled_program()
 
     m0 = 1
-    m1 = 1
+    m1 = 0
 
     meas0 = np.zeros(ncycles, dtype=int)
     meas0_valid = np.zeros(ncycles, dtype=int)
@@ -170,7 +170,8 @@ async def syndrome_plots(dut):
     dt = np.arange(ncycles*4)
     dac_fullscale = 32768
 
-    fig = plt.figure(figsize=(12.5,9))
+    #fig = plt.figure(figsize=(4.5,9)) size in poster
+    fig = plt.figure(figsize=(7,9))
     ax0 = fig.add_subplot(511)
     ax0.set_ylim((-1.1,1.1))
     ax1 = fig.add_subplot(512)
