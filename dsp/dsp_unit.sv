@@ -29,6 +29,8 @@ module dsp_unit #(
     localparam MEM_TO_CMD = 4;
     localparam REG_ADDR_WIDTH = 4;
     localparam SYNC_BARRIER_WIDTH = 8;
+    localparam ENV_ADDR_WIDTH = 10;
+    localparam ENV_DATA_WIDTH = 16;
 
     //wire declarations
     wire[63:0] cmd_out;
@@ -62,18 +64,16 @@ module dsp_unit #(
         end
     endgenerate
 
-    reg[11:0] a;
-    reg[31:0] d;
-    //DSP element side
-    always @(posedge clk) begin
-        a = mem_write_addr[11:0];
-        d = mem_write_data;
-    end
+    //element stuff
     assign cmd_out = cmd_raw_out[71:8];    
+    wire[ENV_ADDR_WIDTH-1:0] env_mem_raddr;
+    wire[ENV_DATA_WIDTH*2*4-1:0] env_data;
+    //TODO: replace hardcoded params below
+    aligned_ram #(.DIN_WIDTH(2*ENV_DATA_WIDTH), .N_DIN_TO_DOUT(4), .DOUT_ADDR_WIDTH(ENV_ADDR_WIDTH)) wavemem(.clk(clk), 
+        .write_enable(mem_write_en & (mem_write_addr[12] == 1)), .write_data(mem_write_data), 
+        .write_addr(mem_write_addr[11:0]), .read_addr(env_mem_raddr), .read_data(env_data));
     element elem(.clk(clk), .command(cmd_out), .cstrobe(cmd_strobe), .active(),
-        .collision(), .waddr(mem_write_addr[11:0]), .wdata(mem_write_data),
-        //.collision(), .waddr(mem_write_addr[11:0]), .wdata(d),
-        .wstrobe(mem_write_en & (mem_write_addr[12] == 1)), .xout(dac_i), 
+        .collision(), .env_mem_raddr(env_mem_raddr), .env_data_in(env_data), .xout(dac_i), 
         .yout(dac_q), .qsel(), .daczero());
 
 

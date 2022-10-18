@@ -14,10 +14,12 @@ module element #(
 	input cstrobe,
 	output active,
 	output collision,
-	// write access to waveform (envelope) memory
-	input [aw+tslicel-1:0] waddr,
-	input [2*dw-1:0] wdata,
-	input wstrobe,
+	// read interface to envelope memory
+    output[aw-1:0] env_mem_raddr,
+    input[2*dw*tslice-1:0] env_data_in, 
+	//input [aw+tslicel-1:0] waddr,
+	//input [2*dw-1:0] wdata,
+	//input wstrobe,
 	// output to summing matrix
 	output [dw*tslice-1:0] xout,
 	output [dw*tslice-1:0] yout,
@@ -26,13 +28,13 @@ module element #(
 );
 
 wire [qbits-1:0] qseli;
-wire [aw-1:0] mindex;
+//wire [aw-1:0] mindex;
 wire [16:0] phase;
 wire active_el;
 wire [16+tslicel:0] ts_phstep;  // read as "timeslice phase step"
 pulser #(.aw(aw), .qbits(qbits), .tslicel(tslicel)) pulser(.clk(clk),
 	.command(command), .strobe(cstrobe), .active(active_el), .collision(collision),
-	.qsel(qseli), .mindex(mindex), .phase(phase), .ts_phstep(ts_phstep)
+	.qsel(qseli), .mindex(env_mem_raddr), .phase(phase), .ts_phstep(ts_phstep)
 	,.daczero(daczero),.zero(zero)
 );
 
@@ -46,13 +48,13 @@ always @(posedge clk) begin
 end
 assign active=active_d2;
 
-wire [aw-1:0] waddr_h = waddr[aw+tslicel-1:tslicel];
-// Stupid avoidance of illegal Verilog zero-length array in the case tslice==1.
-// waddr_l is one bit wider than otherwise needed.
-wire [tslicel:0] waddr_l;
-generate if (tslicel > 0) assign waddr_l = waddr[tslicel-1:0];
-else assign waddr_l = 0;
-endgenerate
+//wire [aw-1:0] waddr_h = waddr[aw+tslicel-1:tslicel];
+//// Stupid avoidance of illegal Verilog zero-length array in the case tslice==1.
+//// waddr_l is one bit wider than otherwise needed.
+//wire [tslicel:0] waddr_l;
+//generate if (tslicel > 0) assign waddr_l = waddr[tslicel-1:0];
+//else assign waddr_l = 0;
+//endgenerate
 
 wire [dw*tslice-1:0] xout_w;
 wire [dw*tslice-1:0] yout_w;
@@ -62,23 +64,14 @@ reg [dw*tslice-1:0] yout_r=0;
 genvar ix;
 generate for (ix=0; ix<tslice; ix=ix+1) begin: timeslice
 	// Write-path pipeline step, localized copy of shared bus
-	wire waddr_hit = waddr_l == ix;
-	wire wstrobe1=wstrobe&waddr_hit;;
-//	reg [2*dw-1:0] memin=0;
-//	always @(posedge clk) begin
-//		wstrobe1 <= 0;
-//		if (wstrobe & waddr_hit) begin
-//			wstrobe1 <= 1;
-//		if (wstrobe1)
-//			memin <= wdata;
-//		end
-//	end
+
 	// First real pipeline cycle: memory lookup, phase adjust
 	wire [2*dw-1:0] memout;
-	dpram #(.AW(aw), .DW(2*dw), .BUFIN(0), .BUFOUT(1), .SIM(0)) waves(.clka(clk), .clkb(clk),
-		.addra(waddr_h), .dina(wdata), .wena(wstrobe1), .douta(), .renb(1'b1), .reset(),
-		.addrb(mindex), .doutb(memout)
-	);
+	//dpram #(.AW(aw), .DW(2*dw), .BUFIN(0), .BUFOUT(1), .SIM(0)) waves(.clka(clk), .clkb(clk),
+	//	.addra(waddr_h), .dina(wdata), .wena(wstrobe1), .douta(), .renb(1'b1), .reset(),
+	//	.addrb(mindex), .doutb(memout)
+	//);
+    assign memout = env_data_in[2*dw*(ix+1) - 1 : 2*dw*ix];
 	wire signed [dw-1:0] wave_i = zero ? 0 : memout[dw-1:0]; //I is first dw bits, Q is next dw bits
 	wire signed [dw-1:0] wave_q = zero ? 0 : memout[2*dw-1:dw];
 	wire [16:0] l_phase_adj = (ix * ts_phstep) >> tslicel;  // Vivado can do this without a DSP element
