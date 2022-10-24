@@ -5,6 +5,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 from cocotb.triggers import Timer, RisingEdge
 import distproc.command_gen as cg
+from distproc.hwconfig import HardwareConfig
 from sim_tools import unravel_dac
 
 N_MAX_CMD = 10 #for flushing cmd buffer
@@ -161,3 +162,25 @@ class DSPDriver:
         await self.reset()
         await self.monitor_outputs(ncycles)
 
+class DSPUnitHWConf(HardwareConfig):
+    def __init__(self):
+        self.env_n_bits = 16
+        super().__init__(4.e-9, 4, 4)
+
+    def get_freq_word(self, freq):
+        return int((freq/self.dac_sample_freq) * 2**24)
+
+    def get_phase_word(self, phase):
+        return int((phase/(2*np.pi) * 2**14))
+
+    def get_env_addr(self, env_ind):
+        return env_ind//self.dac_samples_per_clk
+    
+    def get_length_word(self, length):
+        return int(np.ceil(length/self.dac_samples_per_clk))
+
+    def get_env_buffer(self, env_samples):
+        env_samples = np.pad(env_samples, (0, (self.dac_samples_per_clk - len(env_samples) \
+                % self.dac_samples_per_clk) % self.dac_samples_per_clk))
+        return cg.twos_complement(np.real(env_samples*2**(self.env_n_bits-1)).astype(int), nbits=self.env_n_bits) \
+                    + (cg.twos_complement(np.imag(env_samples*2**(self.env_n_bits-1)).astype(int), nbits=self.env_n_bits) << self.env_n_bits)
