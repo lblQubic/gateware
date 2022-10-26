@@ -34,7 +34,9 @@ def check_pulse_output(program, dac_i, dac_q, tol=.005):
             tolerance as a fraction of max value
     """
     dac_i_sim, dac_q_sim = generate_sim_output(program)
+    return check_dacout_equal(dac_i_sim, dac_q_sim, dac_i, dac_q, tol)
 
+def check_dacout_equal(dac_i_sim, dac_q_sim, dac_i, dac_q, tol=.005):
     tol = tol*np.max(np.append(dac_i, dac_q))
     max_len = max(len(dac_i), len(dac_i_sim))
     dac_i = np.pad(dac_i, (0, max_len-len(dac_i)))

@@ -10,7 +10,7 @@ import distproc.compiler as cm
 from distproc.assembler import MultiUnitAssembler, SingleUnitAssembler, ENV_BITS
 from drivers import DSPUnitSimDriver, generate_clock
 from dsp_drivers import DSPUnitHWConf
-from sim_tools import check_pulse_output, debug_plots, generate_sim_output, CORDIC_DELAY
+from sim_tools import check_pulse_output, check_dacout_equal, debug_plots, generate_sim_output, CORDIC_DELAY
 from qubitconfig.qchip import QChip
 from qubitconfig.wiremap import Wiremap
 
@@ -359,7 +359,7 @@ async def loop_pulse_test(dut):
         sim_pulse['start_time'] = ts
         sim_prog.append(copy.deepcopy(sim_pulse))
 
-    debug_plots(sim_prog, dspunit.dac_i[0], dspunit.dac_q[0])
+    #debug_plots(sim_prog, dspunit.dac_i[0], dspunit.dac_q[0])
     assert check_pulse_output(sim_prog, dspunit.dac_i[0], dspunit.dac_q[0])
     #plt.plot(dspunit.dac_i[0])
     #plt.plot(dspunit.dac_q[0])
@@ -396,7 +396,7 @@ async def basic_compile_test(dut):
     await dspunit.load_program(cmd_lists)
     await dspunit.load_env(env_buffers)
     await dspunit.reset()
-    await dspunit.monitor_outputs(5000)
+    await dspunit.monitor_outputs(1000)
 
     for coreind in compiler.assemblers.keys():
         dac_i_asm, dac_q_asm = generate_sim_output(sim_progs[coreind])
@@ -409,8 +409,8 @@ async def basic_compile_test(dut):
         #plt.plot(dac_i_precomp)
         #plt.plot(dac_q_precomp)
         #plt.show()
-        check_pulse_output(sim_progs[coreind], dspunit.dac_i[coreind], dspunit.dac_q[coreind])
 
         if len(sim_progs[coreind]) > 0:
             assert check_pulse_output(sim_progs[coreind], dspunit.dac_i[coreind], dspunit.dac_q[coreind])
             assert check_pulse_output(sim_progs[coreind], dac_i_precomp, dac_q_precomp)
+            assert check_dacout_equal(dac_i_precomp, dac_q_precomp, dspunit.dac_i[coreind], dspunit.dac_q[coreind])
