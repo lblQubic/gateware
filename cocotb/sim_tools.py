@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 DAC_SAMPLES_PER_CLK = 4
 CORDIC_DELAY = 88 #in samples (ns)
 CLK_CYCLE = 4
-N_CLKS = 500
+N_CLKS = 5000
 ENV_BITS = 16
 
 
@@ -69,3 +69,4 @@ def generate_sim_output(program, ncycles=N_CLKS):
         dac_q_sim[CORDIC_DELAY + DAC_SAMPLES_PER_CLK*pulse['start_time'] : CORDIC_DELAY + DAC_SAMPLES_PER_CLK*pulse['start_time'] + pulse['length']] = pulse_q
 
     return dac_i_sim.astype(int), dac_q_sim.astype(int)
+

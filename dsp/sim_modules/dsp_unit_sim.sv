@@ -8,7 +8,7 @@
 module dsp_unit_sim#(
     parameter DATA_WIDTH=32,
     parameter DAC_WORD_WIDTH=64,
-    parameter N_DSP_UNIT=2,
+    parameter N_DSP_UNIT=8,
     parameter FPROC_ID_WIDTH=8)(
     input clk,
     input reset,

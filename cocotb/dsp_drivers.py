@@ -9,7 +9,7 @@ from distproc.hwconfig import HardwareConfig
 from sim_tools import unravel_dac
 
 N_MAX_CMD = 10 #for flushing cmd buffer
-N_CLKS = 1000
+N_CLKS = 100000
 CLK_CYCLE = 4
 
 async def generate_clock(dut):
@@ -182,5 +182,8 @@ class DSPUnitHWConf(HardwareConfig):
     def get_env_buffer(self, env_samples):
         env_samples = np.pad(env_samples, (0, (self.dac_samples_per_clk - len(env_samples) \
                 % self.dac_samples_per_clk) % self.dac_samples_per_clk))
-        return cg.twos_complement(np.real(env_samples*2**(self.env_n_bits-1)).astype(int), nbits=self.env_n_bits) \
-                    + (cg.twos_complement(np.imag(env_samples*2**(self.env_n_bits-1)).astype(int), nbits=self.env_n_bits) << self.env_n_bits)
+        return cg.twos_complement(np.real(env_samples*(2**(self.env_n_bits-1)-1)).astype(int), nbits=self.env_n_bits) \
+                    + (cg.twos_complement(np.imag(env_samples*(2**(self.env_n_bits-1)-1)).astype(int), nbits=self.env_n_bits) << self.env_n_bits)
+
+    def length_nclks(self, tlength):
+        return int(np.ceil(tlength/self.fpga_clk_period))

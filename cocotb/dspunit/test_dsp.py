@@ -6,10 +6,13 @@ import numpy as np
 import matplotlib.pyplot as plt
 from cocotb.triggers import Timer, RisingEdge
 import distproc.command_gen as cg
+import distproc.compiler as cm
 from distproc.assembler import MultiUnitAssembler, SingleUnitAssembler, ENV_BITS
 from drivers import DSPUnitSimDriver, generate_clock
 from dsp_drivers import DSPUnitHWConf
-from sim_tools import check_pulse_output, debug_plots
+from sim_tools import check_pulse_output, debug_plots, generate_sim_output, CORDIC_DELAY
+from qubitconfig.qchip import QChip
+from qubitconfig.wiremap import Wiremap
 
 @cocotb.test()
 async def const_pulse_out_test(dut):
@@ -361,3 +364,53 @@ async def loop_pulse_test(dut):
     #plt.plot(dspunit.dac_i[0])
     #plt.plot(dspunit.dac_q[0])
     #plt.show()
+
+@cocotb.test()
+async def basic_compile_test(dut):
+    wiremap = Wiremap('wiremap_test0.json')
+    qchip = QChip('qubitcfg_test0.json')
+    hwconf = DSPUnitHWConf()
+    compiler = cm.Compiler(['Q0', 'Q1'], wiremap, qchip, hwconf)
+    compiler.add_statement({'name':'X90', 'qubit':'Q0'})
+    compiler.add_statement({'name':'X90', 'qubit':'Q1'})
+    compiler.add_statement({'name':'X90Z90', 'qubit':'Q0'})
+    compiler.add_statement({'name':'X90', 'qubit':'Q0'})
+    compiler.add_statement({'name':'X90', 'qubit':'Q1'})
+    compiler.add_statement({'name':'read', 'qubit':'Q0'})
+    compiler.compile()
+    sim_out_dict = compiler.generate_sim_output()
+
+
+    dspunit = DSPUnitSimDriver(dut)
+    cmd_lists = [[] for i in range(dspunit.n_dspunit)]
+    env_buffers = [[] for i in range(dspunit.n_dspunit)]
+    sim_progs = [[] for i in range(dspunit.n_dspunit)]
+    cocotb.start_soon(generate_clock(dut))
+    await dspunit.flush_cmd_mem(30)
+    for coreind, asm in compiler.assemblers.items():
+        cmd_list, env_buffer = asm.get_compiled_program()
+        cmd_lists[coreind] = cmd_list
+        env_buffers[coreind] = env_buffer
+        sim_progs[coreind] = asm.get_sim_program()
+
+    await dspunit.load_program(cmd_lists)
+    await dspunit.load_env(env_buffers)
+    await dspunit.reset()
+    await dspunit.monitor_outputs(5000)
+
+    for coreind in compiler.assemblers.keys():
+        dac_i_asm, dac_q_asm = generate_sim_output(sim_progs[coreind])
+        dac_i_precomp = np.roll(sim_out_dict[coreind][0], CORDIC_DELAY)
+        dac_q_precomp = np.roll(sim_out_dict[coreind][1], CORDIC_DELAY)
+        #plt.plot(dspunit.dac_i[coreind])
+        #plt.plot(dspunit.dac_q[coreind])
+        #plt.plot(dac_i_asm)
+        #plt.plot(dac_q_asm)
+        #plt.plot(dac_i_precomp)
+        #plt.plot(dac_q_precomp)
+        #plt.show()
+        check_pulse_output(sim_progs[coreind], dspunit.dac_i[coreind], dspunit.dac_q[coreind])
+
+        if len(sim_progs[coreind]) > 0:
+            assert check_pulse_output(sim_progs[coreind], dspunit.dac_i[coreind], dspunit.dac_q[coreind])
+            assert check_pulse_output(sim_progs[coreind], dac_i_precomp, dac_q_precomp)
