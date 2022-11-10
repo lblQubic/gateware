@@ -18,6 +18,7 @@ variables:
   PROC_DRIVER_PATH: ./submodules/distributed_processor/python
   DSPUNIT_TEST_PATH: cocotb/dspunit
   DSPUNIT_LUT_TEST_PATH: cocotb/dspunit_lut
+  GIT_SUBMODULE_STRATEGY: recursive
 
 stages:          # List of stages for jobs, and their order of execution
   - test
