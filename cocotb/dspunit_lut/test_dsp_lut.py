@@ -8,6 +8,7 @@ from cocotb.triggers import Timer, RisingEdge
 import distproc.command_gen as cg
 from distproc.assembler import MultiUnitAssembler, SingleUnitAssembler, ENV_BITS
 from drivers import DSPUnitLUTDriver, generate_clock
+from dsp_drivers import DSPUnitHWConf
 from sim_tools import check_pulse_output, debug_plots
 
 @cocotb.test()
@@ -22,7 +23,8 @@ async def syndrome_unit2_10_out_test(dut):
     pulse_unit_ind = 2
 
     dspunit = DSPUnitLUTDriver(dut)
-    prog = MultiUnitAssembler(dspunit.n_dspunit)
+    hwconf = DSPUnitHWConf()
+    prog = MultiUnitAssembler(dspunit.n_dspunit, hwconf)
     prog.assemblers[pulse_unit_ind].add_jump_fproc(0, 'le', 'loc0', 1)
     prog.add_pulse(pulse_unit_ind, freq, phase, 10, env_i + 1j*env_q)
     prog.add_pulse(pulse_unit_ind, 2*freq, phase, 20, 2*env_i + 1j*2*env_q, label='loc0')
@@ -61,7 +63,8 @@ async def syndrome_unit2_11_out_test(dut):
     pulse_unit_ind = 2
 
     dspunit = DSPUnitLUTDriver(dut)
-    prog = MultiUnitAssembler(dspunit.n_dspunit)
+    hwconf = DSPUnitHWConf()
+    prog = MultiUnitAssembler(dspunit.n_dspunit, hwconf)
     prog.assemblers[pulse_unit_ind].add_jump_fproc(0, 'le', 'loc0', 1)
     prog.add_pulse(pulse_unit_ind, freq, phase, 10, env_i + 1j*env_q)
     prog.add_pulse(pulse_unit_ind, 2*freq, phase, 20, 2*env_i + 1j*2*env_q, label='loc0')
@@ -96,7 +99,8 @@ async def syndrome_plots(dut):
     """
     ncycles = 40
     dspunit = DSPUnitLUTDriver(dut)
-    prog = MultiUnitAssembler(dspunit.n_dspunit)
+    hwconf = DSPUnitHWConf()
+    prog = MultiUnitAssembler(dspunit.n_dspunit, hwconf)
 
     #initial pulse/ASM code defs
     q0_freq = 300.e6
