@@ -25,14 +25,7 @@ stages:          # List of stages for jobs, and their order of execution
 
 before_script:
     - pip install -e $PROC_DRIVER_PATH
-
-      #test-compiler:
-      #  stage: test
-      #  script:
-      #    - pip install git+https://gitlab.com/LBL-QubiC/experiments/qubitconfig.git
-      #    - cd $DRIVER_TEST_PATH 
-      #    - pip install pytest
-      #    - pytest
+    - pip install git+https://gitlab.com/LBL-QubiC/experiments/qubitconfig.git
 
 test-dspunit:   # This job runs in the test stage.
   stage: test    # It only starts when the job in the build stage completes successfully.
