@@ -31,14 +31,27 @@ module dsp_unit #(
     localparam SYNC_BARRIER_WIDTH = 8;
     localparam ENV_ADDR_WIDTH = 10;
     localparam ENV_DATA_WIDTH = 16;
+    localparam FREQ_WIDTH = 24;
+    localparam ENV_WIDTH = 24;
+    localparam PHASE_WIDTH = 14;
+
+    reg[FREQ_WIDTH-1:0] phase_tref;
+    always @(posedge clk) begin
+        if(reset)
+            phase_tref <= 0;
+        else
+            phase_tref <= phase_tref + 1;
+    end
 
     //wire declarations
     wire[63:0] cmd_out;
-    wire[71:0] cmd_raw_out;
     wire cmd_strobe;
     wire[CMD_ADDR_WIDTH-1:0] cmd_buffer_addr;
     wire[$clog2(MEM_TO_CMD)-1:0] cmd_mem_sel;
     wire[MEM_TO_CMD-1:0] cmd_write_enable;
+    wire[FREQ_WIDTH-1:0] freq;
+    wire[ENV_WIDTH-1:0] env_word;
+    wire[PHASE_WIDTH-1:0] phase;
 
     //proc side
     cmd_mem_iface #(.CMD_ADDR_WIDTH(CMD_ADDR_WIDTH), .MEM_WIDTH(CMD_MEM_WIDTH), 
@@ -46,7 +59,8 @@ module dsp_unit #(
     proc #(.DATA_WIDTH(DATA_WIDTH), .CMD_WIDTH(CMD_MEM_WIDTH*MEM_TO_CMD), 
         .CMD_ADDR_WIDTH(CMD_ADDR_WIDTH), .REG_ADDR_WIDTH(REG_ADDR_WIDTH),
         .SYNC_BARRIER_WIDTH(SYNC_BARRIER_WIDTH)) dpr(.clk(clk), .reset(reset),
-        .cmd_iface(memif), .cmd_out(cmd_raw_out), .cstrobe_out(cmd_strobe), 
+        .phase_tref(phase_tref), .env_word_out(env_word), .freq_out(freq),
+        .phase_out(phase), .cmd_iface(memif), .cstrobe_out(cmd_strobe), 
         .fproc(fproc), .sync(sync));
         
     assign cmd_buffer_addr = mem_write_addr[CMD_ADDR_WIDTH-1:0];
@@ -65,7 +79,9 @@ module dsp_unit #(
     endgenerate
 
     //element stuff
-    assign cmd_out = cmd_raw_out[71:8];    
+    assign cmd_out[61:62-ENV_WIDTH] = env_word;
+    assign cmd_out[62-ENV_WIDTH-1:62-ENV_WIDTH-PHASE_WIDTH] = phase;
+    assign cmd_out[62-ENV_WIDTH-PHASE_WIDTH-1:62-ENV_WIDTH-PHASE_WIDTH-FREQ_WIDTH] = freq;
     wire[ENV_ADDR_WIDTH-1:0] env_mem_raddr;
     wire[ENV_DATA_WIDTH*2*4-1:0] env_data;
     //TODO: replace hardcoded params below

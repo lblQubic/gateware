@@ -10,7 +10,7 @@ import distproc.compiler as cm
 from distproc.assembler import MultiUnitAssembler, SingleUnitAssembler, ENV_BITS
 from drivers import DSPUnitSimDriver, generate_clock
 from dsp_drivers import DSPUnitHWConf
-from sim_tools import check_pulse_output, check_dacout_equal, debug_plots, generate_sim_output, CORDIC_DELAY
+from sim_tools import check_pulse_output, check_dacout_equal, debug_plots, generate_sim_output, CORDIC_DELAY, CSTROBE_DELAY
 from qubitconfig.qchip import QChip
 from qubitconfig.wiremap import Wiremap
 
@@ -37,6 +37,30 @@ async def const_pulse_out_test(dut):
 
     #debug_plots(prog.get_sim_program()[0], dspunit.dac_i[0], dspunit.dac_q[0])
     assert check_pulse_output(prog.get_sim_program()[0], dspunit.dac_i[0], dspunit.dac_q[0])
+
+@cocotb.test()
+async def const_pulse_out_test_core2(dut):
+    freq = 100.e6
+    phase = 0
+    tstart = 0
+    pulse_length = 40
+    env_i = 0.2*np.ones(pulse_length)
+    env_q = 0.1*np.ones(pulse_length)
+    hwconf = DSPUnitHWConf()
+
+    dspunit = DSPUnitSimDriver(dut)
+
+    prog = MultiUnitAssembler(dspunit.n_dspunit, hwconf)
+    prog.add_pulse(1, freq, phase, tstart, env_i + 1j*env_q)
+    cmd_lists, env_buffers = prog.get_compiled_program()
+
+    cocotb.start_soon(generate_clock(dut))
+    await dspunit.load_program(cmd_lists)
+    await dspunit.load_env(env_buffers)
+    await dspunit.run_program(200)
+
+    #debug_plots(prog.get_sim_program()[0], dspunit.dac_i[0], dspunit.dac_q[0])
+    assert check_pulse_output(prog.get_sim_program()[1], dspunit.dac_i[1], dspunit.dac_q[1])
 
 @cocotb.test()
 async def two_const_pulse_out_test(dut):
@@ -400,14 +424,14 @@ async def basic_compile_test(dut):
 
     for coreind in compiler.assemblers.keys():
         dac_i_asm, dac_q_asm = generate_sim_output(sim_progs[coreind])
-        dac_i_precomp = np.roll(sim_out_dict[coreind][0], CORDIC_DELAY)
-        dac_q_precomp = np.roll(sim_out_dict[coreind][1], CORDIC_DELAY)
-        #plt.plot(dspunit.dac_i[coreind][60:200], label='dac_i_hw')
-        #plt.plot(dspunit.dac_q[coreind][60:200], label='dac_q_hw')
-        #plt.plot(dac_i_asm[60:200], '--', label='dac_i_compiled')
-        #plt.plot(dac_q_asm[60:200], '--', label='dac_q_compiled')
-        #plt.plot(dac_i_precomp[60:200], ':', label='dac_i_precomp')
-        #plt.plot(dac_q_precomp[60:200], ':', label='dac_q_precomp')
+        dac_i_precomp = np.roll(sim_out_dict[coreind][0], CORDIC_DELAY + CSTROBE_DELAY)
+        dac_q_precomp = np.roll(sim_out_dict[coreind][1], CORDIC_DELAY + CSTROBE_DELAY)
+        #plt.plot(dspunit.dac_i[coreind][60:400], label='dac_i_hw')
+        #plt.plot(dspunit.dac_q[coreind][60:400], label='dac_q_hw')
+        #plt.plot(dac_i_asm[60:400], '--', label='dac_i_compiled')
+        #plt.plot(dac_q_asm[60:400], '--', label='dac_q_compiled')
+        #plt.plot(dac_i_precomp[60:400], ':', label='dac_i_precomp')
+        #plt.plot(dac_q_precomp[60:400], ':', label='dac_q_precomp')
         #plt.xlabel('t (ns)')
         #plt.ylabel('DAC out (arb)')
         #plt.legend()

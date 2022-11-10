@@ -3,6 +3,7 @@ import matplotlib.pyplot as plt
 
 DAC_SAMPLES_PER_CLK = 4
 CORDIC_DELAY = 88 #in samples (ns)
+CSTROBE_DELAY = 4 #in samples
 CLK_CYCLE = 4
 N_CLKS = 5000
 ENV_BITS = 16
@@ -61,14 +62,15 @@ def generate_sim_output(program, ncycles=N_CLKS):
     scale_factor = 2**(ENV_BITS - 1)
     for pulse in program:
         sample_inds = np.arange(0, pulse['length'])
-        phases = pulse['phase'] + 2*np.pi*(CLK_CYCLE/DAC_SAMPLES_PER_CLK)*1.e-9*sample_inds*pulse['freq']
+        start_time = DAC_SAMPLES_PER_CLK*pulse['start_time'] + CSTROBE_DELAY
+        phases = pulse['phase'] + 2*np.pi*(CLK_CYCLE/DAC_SAMPLES_PER_CLK)*1.e-9*(sample_inds + start_time)*pulse['freq']
         env_i = scale_factor*np.real(pulse['env'])[:pulse['length']]
         env_q = scale_factor*np.imag(pulse['env'])[:pulse['length']]
         pulse_i = env_i*np.cos(phases) - env_q*np.sin(phases)
         pulse_q = env_q*np.cos(phases) + env_i*np.sin(phases)
 
-        dac_i_sim[CORDIC_DELAY + DAC_SAMPLES_PER_CLK*pulse['start_time'] : CORDIC_DELAY + DAC_SAMPLES_PER_CLK*pulse['start_time'] + pulse['length']] = pulse_i
-        dac_q_sim[CORDIC_DELAY + DAC_SAMPLES_PER_CLK*pulse['start_time'] : CORDIC_DELAY + DAC_SAMPLES_PER_CLK*pulse['start_time'] + pulse['length']] = pulse_q
+        dac_i_sim[CORDIC_DELAY + start_time : CORDIC_DELAY + start_time + pulse['length']] = pulse_i
+        dac_q_sim[CORDIC_DELAY + start_time : CORDIC_DELAY + start_time + pulse['length']] = pulse_q
 
     return dac_i_sim.astype(int), dac_q_sim.astype(int)
 
