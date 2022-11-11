@@ -24,8 +24,10 @@ module meas_unit #(
     input[12:0] mem_write_addr,
     input[DATA_WIDTH-1:0] mem_write_data,
     input mem_write_en,
-    input[DAC_WORD_WIDTH-1:0] adc_i,
-    input[DAC_WORD_WIDTH-1:0] adc_q,
+    input[ADC_WORD_WIDTH-1:0] adc_i,
+    input[ADC_WORD_WIDTH-1:0] adc_q,
+    output[ADC_WORD_WIDTH-1:0] xbase,
+    output[ADC_WORD_WIDTH-1:0] ybase,
     output resultx,
     output resulty);
 
@@ -92,9 +94,10 @@ module meas_unit #(
     aligned_ram #(.DIN_WIDTH(2*ENV_DATA_WIDTH), .N_DIN_TO_DOUT(4), .DOUT_ADDR_WIDTH(ENV_ADDR_WIDTH)) wavemem(.clk(clk), 
         .write_enable(mem_write_en & (mem_write_addr[12] == 1)), .write_data(mem_write_data), 
         .write_addr(mem_write_addr[11:0]), .read_addr(env_mem_raddr), .read_data(env_data));
-    element elem(.clk(clk), .command(cmd_out), .cstrobe(cmd_strobe), .active(),
-        .collision(), .env_mem_raddr(env_mem_raddr), .env_data_in(env_data), .xout(dac_i), 
-        .yout(dac_q), .qsel(), .daczero());
+    meas2 elem(.clk(clk), .reset(reset), .xmeasin(adc_i), .ymeasin(adc_q),  .command(cmd_out), 
+        .cstrobe(cmd_strobe), .active(), .collision(), .env_mem_raddr(env_mem_raddr), 
+        .env_data_in(env_data), .xbase(xbase), .ybase(ybase),
+        .resultx(resultx), .resulty(resulty));
 
 
 endmodule
