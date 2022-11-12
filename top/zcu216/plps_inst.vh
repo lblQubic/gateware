@@ -16,13 +16,23 @@
 ,.cfgresetn13(cfgresetn13)
 ,.cfgresetn14(cfgresetn14)
 ,.cfgresetn15(cfgresetn15)
+,.cfgresetn16(cfgresetn16)
+,.cfgresetn17(cfgresetn17)
+,.cfgresetn18(cfgresetn18)
 ,.dspresetn00(dspresetn00)
 ,.dspresetn01(dspresetn01)
+,.dspresetn02(dspresetn02)
+,.dspresetn03(dspresetn03)
+,.dspresetn04(dspresetn04)
+,.dspresetn05(dspresetn05)
 
 
 ,.psresetn00(psresetn00)
 ,.psresetn01(psresetn01)
 ,.psresetn02(psresetn02)
+,.adc2resetn00(adc2resetn00)
+,.adc2resetn01(adc2resetn01)
+,.adc2resetn02(adc2resetn02)
 
 ,.lb1_wvalid(lb1_wvalid)
 ,.lb1_waddr(lb1_waddr)
@@ -87,7 +97,7 @@
 ,.BRAM_WRITE3_dout(BRAM_WRITE3_dout)
 ,.BRAM_WRITE3_en(BRAM_WRITE3_en)
 ,.BRAM_WRITE3_we(BRAM_WRITE3_we)
-/*
+
 ,.clkadc2_300(clkadc2_300)
 ,.clkadc2_600(clkadc2_600)
 ,.DAC20_M_AXIS_ACLK(DAC20_M_AXIS_ACLK)
@@ -122,7 +132,6 @@
 ,.ADC21_S_AXIS_TDATA(ADC21_S_AXIS_TDATA)
 ,.ADC21_S_AXIS_TSTRB(ADC21_S_AXIS_TSTRB)
 ,.ADC21_S_AXIS_TLAST(ADC21_S_AXIS_TLAST)
-*/
 
 ,.cfgclk(cfgclk)
 ,.dspclk(dspclk)

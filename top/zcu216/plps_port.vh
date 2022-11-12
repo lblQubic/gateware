@@ -16,11 +16,21 @@ input aresetn
 ,output cfgresetn13
 ,output cfgresetn14
 ,output cfgresetn15
+,output cfgresetn16
+,output cfgresetn17
+,output cfgresetn18
 ,output dspresetn00
 ,output dspresetn01
+,output dspresetn02
+,output dspresetn03
+,output dspresetn04
+,output dspresetn05
 ,output psresetn00
 ,output psresetn01
 ,output psresetn02
+,output adc2resetn00
+,output adc2resetn01
+,output adc2resetn02
 
 ,input lb1_wvalid
 ,input [ADDR_WIDTH-1:0] lb1_waddr
@@ -61,42 +71,42 @@ input aresetn
 
 ,output BRAM_WRITE0_clk
 ,output BRAM_WRITE0_rst
-,output [BRAMREAD_ADDRWIDTH-1:0]BRAM_WRITE0_addr
-,output [BRAMREAD_DATAWIDTH-1:0] BRAM_WRITE0_din
-,input [BRAMREAD_DATAWIDTH-1:0] BRAM_WRITE0_dout
+,output [BRAMWRITE_ADDRWIDTH-1:0]BRAM_WRITE0_addr
+,output [BRAMWRITE_DATAWIDTH-1:0] BRAM_WRITE0_din
+,input [BRAMWRITE_DATAWIDTH-1:0] BRAM_WRITE0_dout
 ,output BRAM_WRITE0_en
 ,output [7:0] BRAM_WRITE0_we
 
 
 ,output BRAM_WRITE1_clk
 ,output BRAM_WRITE1_rst
-,output [BRAMREAD_ADDRWIDTH-1:0]BRAM_WRITE1_addr
-,output [BRAMREAD_DATAWIDTH-1:0] BRAM_WRITE1_din
-,input [BRAMREAD_DATAWIDTH-1:0] BRAM_WRITE1_dout
+,output [BRAMWRITE_ADDRWIDTH-1:0]BRAM_WRITE1_addr
+,output [BRAMWRITE_DATAWIDTH-1:0] BRAM_WRITE1_din
+,input [BRAMWRITE_DATAWIDTH-1:0] BRAM_WRITE1_dout
 ,output BRAM_WRITE1_en
 ,output [7:0] BRAM_WRITE1_we
 
 
 ,output BRAM_WRITE2_clk
 ,output BRAM_WRITE2_rst
-,output [BRAMREAD_ADDRWIDTH-1:0]BRAM_WRITE2_addr
-,output [BRAMREAD_DATAWIDTH-1:0] BRAM_WRITE2_din
-,input [BRAMREAD_DATAWIDTH-1:0] BRAM_WRITE2_dout
+,output [BRAMWRITE_ADDRWIDTH-1:0]BRAM_WRITE2_addr
+,output [BRAMWRITE_DATAWIDTH-1:0] BRAM_WRITE2_din
+,input [BRAMWRITE_DATAWIDTH-1:0] BRAM_WRITE2_dout
 ,output BRAM_WRITE2_en
 ,output [7:0] BRAM_WRITE2_we
 
 
 ,output BRAM_WRITE3_clk
 ,output BRAM_WRITE3_rst
-,output [BRAMREAD_ADDRWIDTH-1:0]BRAM_WRITE3_addr
-,output [BRAMREAD_DATAWIDTH-1:0] BRAM_WRITE3_din
-,input [BRAMREAD_DATAWIDTH-1:0] BRAM_WRITE3_dout
+,output [BRAMWRITE_ADDRWIDTH-1:0]BRAM_WRITE3_addr
+,output [BRAMWRITE_DATAWIDTH-1:0] BRAM_WRITE3_din
+,input [BRAMWRITE_DATAWIDTH-1:0] BRAM_WRITE3_dout
 ,output BRAM_WRITE3_en
 ,output [7:0] BRAM_WRITE3_we
 
 
 
-/*,input  DAC20_M_AXIS_ACLK
+,input  DAC20_M_AXIS_ACLK
 ,input  DAC20_M_AXIS_ARESETN
 ,input  DAC20_M_AXIS_TREADY
 ,output  DAC20_M_AXIS_TVALID
@@ -132,9 +142,5 @@ input aresetn
 ,input  ADC21_S_AXIS_TLAST
 
 
-*/
-
 ,output cfgclk
 ,output dspclk
-,output clkadc2_300
-,output clkadc2_600

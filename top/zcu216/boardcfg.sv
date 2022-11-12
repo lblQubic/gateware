@@ -6,16 +6,16 @@ module boardcfg(hwif.cfg hw
 ,ifbram bram_write1
 ,ifbram bram_write2
 ,ifbram bram_write3
-//,axi4stream.master dac30axis 
-//,axi4stream.master dac20axis 
-//,axi4stream.slave adc20axis 
+,axi4stream.master dac30axis 
+,axi4stream.master dac20axis 
+,axi4stream.slave adc20axis 
 ,ifdsp.cfg dspif
 ,output cfgclk
 ,output dspclk
 ,input pl_clk0
-//,input clk_dac2
-//,input clk_dac3
-//,input clk_adc2
+,input clk_dac2
+,input clk_dac3
+,input clk_adc2
 ,input clkadc2_300
 ,input clkadc2_600
 );
@@ -35,7 +35,8 @@ always @(posedge hw.clk125) begin
 end
 assign cfgclk=hw.clk100;
 wire t1=hw.clk100;
-assign dspclk=hw.clk104_pl_clk;// clk_dac2;
+//assign dspclk=hw.clk104_pl_clk;// clk_dac2;
+assign dspclk=clk_dac2;
 assign hw.ledrgb[0][1]=cnt100[27];
 assign hw.ledrgb[1][1]=cnt100[26];
 assign hw.ledrgb[2][1]=cnt100[25];
@@ -76,9 +77,9 @@ enum {CLK100
 ,USERSI570C1
 ,CLK104PLSYSREF
 ,CLK104PLCLK
-//,CLKDAC2
-//,CLKDAC3
-//,CLKADC2
+,CLKDAC2
+,CLKDAC3
+,CLKADC2
 ,CLKADC2_300
 ,CLKADC2_600
 ,NFCNT
@@ -91,9 +92,9 @@ assign freq_cnt={regs.fclk100
 ,regs.fusersi570c1
 ,regs.fclk104plsysref
 ,regs.fclk104plclk
-//,regs.fclk_dac2
-//,regs.fclk_dac3
-//,regs.fclk_adc2
+,regs.fclk_dac2
+,regs.fclk_dac3
+,regs.fclk_adc2
 ,regs.fclkadc2_300
 ,regs.fclkadc2_600
 };
@@ -105,9 +106,9 @@ wire [NFCNT-1:0] freqcnt_clks = {
 	,hw.usersi570c1
 	,hw.clk104_pl_sysref
 	,hw.clk104_pl_clk
-	//,clk_dac2
-	//,clk_dac3
-	//,clk_adc2
+	,clk_dac2
+	,clk_dac3
+	,clk_adc2
 	,clkadc2_300
 	,clkadc2_600
 };
