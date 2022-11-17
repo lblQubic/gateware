@@ -32,26 +32,30 @@ input aresetn
 ,output adc2resetn01
 ,output adc2resetn02
 
-,input lb1_wvalid
+,input [0:0] lb1_wren
+,input [1:0] lb1_rden
 ,input [ADDR_WIDTH-1:0] lb1_waddr
-,input [DATA_WIDTH/8-1:0] lb1_wstrb
 ,input [DATA_WIDTH-1:0] lb1_wdata
 ,input [ADDR_WIDTH-1:0] lb1_raddr
 ,output [DATA_WIDTH-1:0] lb1_rdata
+,output [1:0] lb1_rvalid
 ,input lb1_clk
 ,input  lb1_aresetn
-,input lb2_wvalid
+
+
+,input [0:0] lb2_wren
+,input [1:0] lb2_rden
 ,input [ADDR_WIDTH-1:0] lb2_waddr
-,input [DATA_WIDTH/8-1:0] lb2_wstrb
 ,input [DATA_WIDTH-1:0] lb2_wdata
 ,input [ADDR_WIDTH-1:0] lb2_raddr
 ,output [DATA_WIDTH-1:0] lb2_rdata
+,output [1:0] lb2_rvalid
 ,input lb2_clk
 ,input  lb2_aresetn
 
 ,output BRAM_READ0_clk
 ,output BRAM_READ0_rst
-,output [BRAMREAD_ADDRWIDTH-1:0]BRAM_READ0_addr
+,output [BRAMREAD_ADDRWIDTH-1:0] BRAM_READ0_addr
 ,output [BRAMREAD_DATAWIDTH-1:0] BRAM_READ0_din
 ,input [BRAMREAD_DATAWIDTH-1:0] BRAM_READ0_dout
 ,output BRAM_READ0_en
@@ -62,7 +66,7 @@ input aresetn
 
 ,output BRAM_READ1_clk
 ,output BRAM_READ1_rst
-,output [BRAMREAD_ADDRWIDTH-1:0]BRAM_READ1_addr
+,output [BRAMREAD_ADDRWIDTH-1:0] BRAM_READ1_addr
 ,output [BRAMREAD_DATAWIDTH-1:0] BRAM_READ1_din
 ,input [BRAMREAD_DATAWIDTH-1:0] BRAM_READ1_dout
 ,output BRAM_READ1_en
@@ -71,7 +75,7 @@ input aresetn
 
 ,output BRAM_WRITE0_clk
 ,output BRAM_WRITE0_rst
-,output [BRAMWRITE_ADDRWIDTH-1:0]BRAM_WRITE0_addr
+,output [BRAMWRITE_ADDRWIDTH-1:0] BRAM_WRITE0_addr
 ,output [BRAMWRITE_DATAWIDTH-1:0] BRAM_WRITE0_din
 ,input [BRAMWRITE_DATAWIDTH-1:0] BRAM_WRITE0_dout
 ,output BRAM_WRITE0_en
@@ -80,7 +84,7 @@ input aresetn
 
 ,output BRAM_WRITE1_clk
 ,output BRAM_WRITE1_rst
-,output [BRAMWRITE_ADDRWIDTH-1:0]BRAM_WRITE1_addr
+,output [BRAMWRITE_ADDRWIDTH-1:0] BRAM_WRITE1_addr
 ,output [BRAMWRITE_DATAWIDTH-1:0] BRAM_WRITE1_din
 ,input [BRAMWRITE_DATAWIDTH-1:0] BRAM_WRITE1_dout
 ,output BRAM_WRITE1_en
@@ -89,7 +93,7 @@ input aresetn
 
 ,output BRAM_WRITE2_clk
 ,output BRAM_WRITE2_rst
-,output [BRAMWRITE_ADDRWIDTH-1:0]BRAM_WRITE2_addr
+,output [BRAMWRITE_ADDRWIDTH-1:0] BRAM_WRITE2_addr
 ,output [BRAMWRITE_DATAWIDTH-1:0] BRAM_WRITE2_din
 ,input [BRAMWRITE_DATAWIDTH-1:0] BRAM_WRITE2_dout
 ,output BRAM_WRITE2_en
@@ -98,7 +102,7 @@ input aresetn
 
 ,output BRAM_WRITE3_clk
 ,output BRAM_WRITE3_rst
-,output [BRAMWRITE_ADDRWIDTH-1:0]BRAM_WRITE3_addr
+,output [BRAMWRITE_ADDRWIDTH-1:0] BRAM_WRITE3_addr
 ,output [BRAMWRITE_DATAWIDTH-1:0] BRAM_WRITE3_din
 ,input [BRAMWRITE_DATAWIDTH-1:0] BRAM_WRITE3_dout
 ,output BRAM_WRITE3_en

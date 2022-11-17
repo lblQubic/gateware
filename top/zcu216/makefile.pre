@@ -3,7 +3,7 @@ ilaauto.tcl: ../../submodules/tools/ila.py $(ILAJSON)
 	python ../../submodules/tools/ila.py -f $(ILAJSON) -t $@
 ilaauto.vh: ../../submodules/tools/ila.py $(ILAJSON)
 	python ../../submodules/tools/ila.py -f $(ILAJSON) -v $@
-ifdspregs.sv: dspreg.json
+ifdspregs.sv: dspreg.json ../../submodules/tools/axilb.py ../../submodules/common-hdl/axilb.json
 	python ../../submodules/tools/axilb.py -m dspreg.json -b ../../submodules/common-hdl/axilb.json -o ifdspregs
-ifregs.sv:	cfgreg.json
+ifregs.sv:	cfgreg.json ../../submodules/tools/axilb.py ../../submodules/common-hdl/axilb.json
 	python ../../submodules/tools/axilb.py -m cfgreg.json -b ../../submodules/common-hdl/axilb.json -o ifregs

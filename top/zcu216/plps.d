@@ -11,6 +11,7 @@
 ../../submodules/board-support/zcu216/hwif.sv
 ../../submodules/common-hdl/areset.v
 ../../submodules/common-hdl/axi4stream.sv
+../../submodules/common-hdl/axi4_lb.v
 ../../submodules/common-hdl/bram_if.sv
 ../../submodules/common-hdl/cordicg1.v
 ../../submodules/common-hdl/freq_count3.v
@@ -23,7 +24,6 @@ plpsboard.sv
 plps_inst.vh
 plps_port.vh
 plps.v
-../../submodules/common-hdl/axi4lite_lb.v
 ../../submodules/common-hdl/iflocalbus.tcl
 plsv.sv
 pltop.sv

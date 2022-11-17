@@ -1,3 +1,7 @@
+proc portpin {busname portname physical_name} {
+ipx::add_port_map ${portname} [ipx::get_bus_interfaces ${busname}  -of_objects [ipx::current_core]]
+set_property physical_name ${physical_name} [ipx::get_port_maps ${portname} -of_objects [ipx::get_bus_interfaces ${busname} -of_objects [ipx::current_core]]]
+}
 proc brambus {bramname} {
 	ipx::add_bus_interface ${bramname} [ipx::current_core]
 	set_property abstraction_type_vlnv xilinx.com:interface:bram_rtl:1.0 [ipx::get_bus_interfaces ${bramname} -of_objects [ipx::current_core]]
@@ -153,41 +157,61 @@ update_ip_catalog
 ipx::add_bus_interface lb1 [ipx::current_core]
 set_property abstraction_type_vlnv user:user:iflocalbus_rtl:1.0 [ipx::get_bus_interfaces lb1 -of_objects [ipx::current_core]]
 set_property bus_type_vlnv user:user:iflocalbus:1.0 [ipx::get_bus_interfaces lb1 -of_objects [ipx::current_core]]
-ipx::add_port_map waddr [ipx::get_bus_interfaces lb1 -of_objects [ipx::current_core]]
-set_property physical_name lb1_waddr [ipx::get_port_maps waddr -of_objects [ipx::get_bus_interfaces lb1 -of_objects [ipx::current_core]]]
-ipx::add_port_map wren [ipx::get_bus_interfaces lb1 -of_objects [ipx::current_core]]
-set_property physical_name lb1_wvalid [ipx::get_port_maps wren -of_objects [ipx::get_bus_interfaces lb1 -of_objects [ipx::current_core]]]
-ipx::add_port_map clk [ipx::get_bus_interfaces lb1 -of_objects [ipx::current_core]]
-set_property physical_name lb1_clk [ipx::get_port_maps clk -of_objects [ipx::get_bus_interfaces lb1 -of_objects [ipx::current_core]]]
-ipx::add_port_map raddr [ipx::get_bus_interfaces lb1 -of_objects [ipx::current_core]]
-set_property physical_name lb1_raddr [ipx::get_port_maps raddr -of_objects [ipx::get_bus_interfaces lb1 -of_objects [ipx::current_core]]]
-ipx::add_port_map rdata [ipx::get_bus_interfaces lb1 -of_objects [ipx::current_core]]
-set_property physical_name lb1_rdata [ipx::get_port_maps rdata -of_objects [ipx::get_bus_interfaces lb1 -of_objects [ipx::current_core]]]
-ipx::add_port_map wstrb [ipx::get_bus_interfaces lb1 -of_objects [ipx::current_core]]
-set_property physical_name lb1_wstrb [ipx::get_port_maps wstrb -of_objects [ipx::get_bus_interfaces lb1 -of_objects [ipx::current_core]]]
-ipx::add_port_map wdata [ipx::get_bus_interfaces lb1 -of_objects [ipx::current_core]]
-set_property physical_name lb1_wdata [ipx::get_port_maps wdata -of_objects [ipx::get_bus_interfaces lb1 -of_objects [ipx::current_core]]]
-ipx::add_port_map aresetn [ipx::get_bus_interfaces lb1 -of_objects [ipx::current_core]]
-set_property physical_name lb1_aresetn [ipx::get_port_maps aresetn -of_objects [ipx::get_bus_interfaces lb1 -of_objects [ipx::current_core]]]
+#ipx::add_port_map waddr [ipx::get_bus_interfaces lb1 -of_objects [ipx::current_core]]
+#set_property physical_name lb1_waddr [ipx::get_port_maps waddr -of_objects [ipx::get_bus_interfaces lb1 -of_objects [ipx::current_core]]]
+#ipx::add_port_map wren [ipx::get_bus_interfaces lb1 -of_objects [ipx::current_core]]
+#set_property physical_name lb1_wvalid [ipx::get_port_maps wren -of_objects [ipx::get_bus_interfaces lb1 -of_objects [ipx::current_core]]]
+#ipx::add_port_map clk [ipx::get_bus_interfaces lb1 -of_objects [ipx::current_core]]
+#set_property physical_name lb1_clk [ipx::get_port_maps clk -of_objects [ipx::get_bus_interfaces lb1 -of_objects [ipx::current_core]]]
+#ipx::add_port_map raddr [ipx::get_bus_interfaces lb1 -of_objects [ipx::current_core]]
+#set_property physical_name lb1_raddr [ipx::get_port_maps raddr -of_objects [ipx::get_bus_interfaces lb1 -of_objects [ipx::current_core]]]
+#ipx::add_port_map rdata [ipx::get_bus_interfaces lb1 -of_objects [ipx::current_core]]
+#set_property physical_name lb1_rdata [ipx::get_port_maps rdata -of_objects [ipx::get_bus_interfaces lb1 -of_objects [ipx::current_core]]]
+#ipx::add_port_map wstrb [ipx::get_bus_interfaces lb1 -of_objects [ipx::current_core]]
+#set_property physical_name lb1_wstrb [ipx::get_port_maps wstrb -of_objects [ipx::get_bus_interfaces lb1 -of_objects [ipx::current_core]]]
+#ipx::add_port_map wdata [ipx::get_bus_interfaces lb1 -of_objects [ipx::current_core]]
+#set_property physical_name lb1_wdata [ipx::get_port_maps wdata -of_objects [ipx::get_bus_interfaces lb1 -of_objects [ipx::current_core]]]
+#ipx::add_port_map aresetn [ipx::get_bus_interfaces lb1 -of_objects [ipx::current_core]]
+#set_property physical_name lb1_aresetn [ipx::get_port_maps aresetn -of_objects [ipx::get_bus_interfaces lb1 -of_objects [ipx::current_core]]]
+portpin lb1 rdata lb1_rdata
+portpin lb1 raddr lb1_raddr
+portpin lb1 rden lb1_rden
+portpin lb1 wdata lb1_wdata
+portpin lb1 waddr lb1_waddr
+portpin lb1 wren lb1_wren
+portpin lb1 rvalid lb1_rvalid
+portpin lb1 clk lb1_clk
+portpin lb1 aresetn lb1_aresetn
+
 ipx::add_bus_interface lb2 [ipx::current_core]
 set_property abstraction_type_vlnv user:user:iflocalbus_rtl:1.0 [ipx::get_bus_interfaces lb2 -of_objects [ipx::current_core]]
 set_property bus_type_vlnv user:user:iflocalbus:1.0 [ipx::get_bus_interfaces lb2 -of_objects [ipx::current_core]]
-ipx::add_port_map waddr [ipx::get_bus_interfaces lb2 -of_objects [ipx::current_core]]
-set_property physical_name lb2_waddr [ipx::get_port_maps waddr -of_objects [ipx::get_bus_interfaces lb2 -of_objects [ipx::current_core]]]
-ipx::add_port_map wren [ipx::get_bus_interfaces lb2 -of_objects [ipx::current_core]]
-set_property physical_name lb2_wvalid [ipx::get_port_maps wren -of_objects [ipx::get_bus_interfaces lb2 -of_objects [ipx::current_core]]]
-ipx::add_port_map clk [ipx::get_bus_interfaces lb2 -of_objects [ipx::current_core]]
-set_property physical_name lb2_clk [ipx::get_port_maps clk -of_objects [ipx::get_bus_interfaces lb2 -of_objects [ipx::current_core]]]
-ipx::add_port_map raddr [ipx::get_bus_interfaces lb2 -of_objects [ipx::current_core]]
-set_property physical_name lb2_raddr [ipx::get_port_maps raddr -of_objects [ipx::get_bus_interfaces lb2 -of_objects [ipx::current_core]]]
-ipx::add_port_map rdata [ipx::get_bus_interfaces lb2 -of_objects [ipx::current_core]]
-set_property physical_name lb2_rdata [ipx::get_port_maps rdata -of_objects [ipx::get_bus_interfaces lb2 -of_objects [ipx::current_core]]]
-ipx::add_port_map wstrb [ipx::get_bus_interfaces lb2 -of_objects [ipx::current_core]]
-set_property physical_name lb2_wstrb [ipx::get_port_maps wstrb -of_objects [ipx::get_bus_interfaces lb2 -of_objects [ipx::current_core]]]
-ipx::add_port_map wdata [ipx::get_bus_interfaces lb2 -of_objects [ipx::current_core]]
-set_property physical_name lb2_wdata [ipx::get_port_maps wdata -of_objects [ipx::get_bus_interfaces lb2 -of_objects [ipx::current_core]]]
-ipx::add_port_map aresetn [ipx::get_bus_interfaces lb2 -of_objects [ipx::current_core]]
-set_property physical_name lb2_aresetn [ipx::get_port_maps aresetn -of_objects [ipx::get_bus_interfaces lb2 -of_objects [ipx::current_core]]]
+#ipx::add_port_map waddr [ipx::get_bus_interfaces lb2 -of_objects [ipx::current_core]]
+#set_property physical_name lb2_waddr [ipx::get_port_maps waddr -of_objects [ipx::get_bus_interfaces lb2 -of_objects [ipx::current_core]]]
+#ipx::add_port_map wren [ipx::get_bus_interfaces lb2 -of_objects [ipx::current_core]]
+#set_property physical_name lb2_wvalid [ipx::get_port_maps wren -of_objects [ipx::get_bus_interfaces lb2 -of_objects [ipx::current_core]]]
+#ipx::add_port_map clk [ipx::get_bus_interfaces lb2 -of_objects [ipx::current_core]]
+#set_property physical_name lb2_clk [ipx::get_port_maps clk -of_objects [ipx::get_bus_interfaces lb2 -of_objects [ipx::current_core]]]
+#ipx::add_port_map raddr [ipx::get_bus_interfaces lb2 -of_objects [ipx::current_core]]
+#set_property physical_name lb2_raddr [ipx::get_port_maps raddr -of_objects [ipx::get_bus_interfaces lb2 -of_objects [ipx::current_core]]]
+#ipx::add_port_map rdata [ipx::get_bus_interfaces lb2 -of_objects [ipx::current_core]]
+#set_property physical_name lb2_rdata [ipx::get_port_maps rdata -of_objects [ipx::get_bus_interfaces lb2 -of_objects [ipx::current_core]]]
+#ipx::add_port_map wstrb [ipx::get_bus_interfaces lb2 -of_objects [ipx::current_core]]
+#set_property physical_name lb2_wstrb [ipx::get_port_maps wstrb -of_objects [ipx::get_bus_interfaces lb2 -of_objects [ipx::current_core]]]
+#ipx::add_port_map wdata [ipx::get_bus_interfaces lb2 -of_objects [ipx::current_core]]
+#set_property physical_name lb2_wdata [ipx::get_port_maps wdata -of_objects [ipx::get_bus_interfaces lb2 -of_objects [ipx::current_core]]]
+#ipx::add_port_map aresetn [ipx::get_bus_interfaces lb2 -of_objects [ipx::current_core]]
+#set_property physical_name lb2_aresetn [ipx::get_port_maps aresetn -of_objects [ipx::get_bus_interfaces lb2 -of_objects [ipx::current_core]]]
+portpin lb2 rdata lb2_rdata
+portpin lb2 raddr lb2_raddr
+portpin lb2 rden lb2_rden
+portpin lb2 wdata lb2_wdata
+portpin lb2 waddr lb2_waddr
+portpin lb2 wren lb2_wren
+portpin lb2 rvalid lb2_rvalid
+portpin lb2 clk lb2_clk
+portpin lb2 aresetn lb2_aresetn
+
 set_property core_revision 2 [ipx::current_core]
 ipx::create_xgui_files [ipx::current_core]
 ipx::update_checksums [ipx::current_core]

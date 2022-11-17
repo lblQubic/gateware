@@ -1,11 +1,11 @@
 module boardcfg(hwif.cfg hw
-,ifbram bram_read0
-,ifbram bram_read1
+,ifbram.write  bram_read0
+,ifbram.write  bram_read1
 ,ifregs.regs regs
-,ifbram bram_write0
-,ifbram bram_write1
-,ifbram bram_write2
-,ifbram bram_write3
+,ifbram.read  bram_write0
+,ifbram.read  bram_write1
+,ifbram.read  bram_write2
+,ifbram.read  bram_write3
 ,axi4stream.master dac30axis 
 ,axi4stream.master dac20axis 
 ,axi4stream.slave adc20axis 
@@ -18,9 +18,22 @@ module boardcfg(hwif.cfg hw
 ,input clk_adc2
 ,input clkadc2_300
 ,input clkadc2_600
+,input aresetn
+,output cfgreset
+,output dspreset
+,output  psreset
+,output adc2reset
 );
 parameter DEBUG="true";
-
+wire reset=(~aresetn)|hw.gpio_sw_c;
+areset #(.WIDTH(1),.SRWIDTH(4))
+cfgareset(.clk(cfgclk),.areset(reset),.sreset(cfgreset),.sreset_val());
+areset #(.WIDTH(1),.SRWIDTH(4))
+dspareset(.clk(dspclk),.areset(reset),.sreset(dspreset),.sreset_val());
+areset #(.WIDTH(1),.SRWIDTH(4))
+psareset(.clk(pl_clk0),.areset(reset),.sreset(psreset),.sreset_val());
+areset #(.WIDTH(1),.SRWIDTH(4))
+adc2areset(.clk(clkadc2_600),.areset(reset),.sreset(adc2reset),.sreset_val());
 
 
 
@@ -124,20 +137,17 @@ endgenerate
 //wire bramclk=clk_adc2;
 //wire bramclk=clkadc2_600;
 wire bramclk=dspclk;
-/*bram_cfg bram_readcfg(.bram(bram_read.cfg),.clk(bramclk),.rst(1'b0));
 parameter READ_DATA_WIDTH=64;
 parameter READ_ADDR_WIDTH=14;
 localparam BYTEPERDATA=$clog2(READ_DATA_WIDTH)-3;
-bram_write_test #(.ADDR_WIDTH(READ_ADDR_WIDTH),.DATA_WIDTH(READ_DATA_WIDTH))
-bram_write_test(.bram(bram_read0)
+bram_write#(.ADDR_WIDTH(READ_ADDR_WIDTH),.DATA_WIDTH(READ_DATA_WIDTH))
+bram_write(.bram(bram_read0)
 ,.addr({dspif.bramaddr,{BYTEPERDATA{1'b0}}})
 //,.addr(bramaddr)
 ,.data(dspif.bramval)
 ,.we(dspif.bramwe)
-,.en(1'b1)
 );
-*/
-/*
+
 wire adc20datavalid;
 wire [READ_DATA_WIDTH-1:0] adc20data_x;
 wire [READ_DATA_WIDTH-1:0] adc20data;
@@ -159,6 +169,5 @@ assign dspif.clk=dspclk;
 assign dspif.reset=1'b0;
 assign dspif.adc20=adc20data;
 
-*/
 //`include "ilaauto.vh"
 endmodule
