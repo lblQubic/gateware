@@ -30,6 +30,8 @@ set_property -dict [list CONFIG.CLK_FREQ_HZ {100000000}] [get_bd_cells ctrlregs]
 set_property -dict [list CONFIG.CLK_FREQ_HZ {600000000}] [get_bd_cells dspregs]
 set_property -dict [list CONFIG.FREQ_HZ {600000000}] [get_bd_pins plps_0/DAC20_M_AXIS_ACLK]
 set_property -dict [list CONFIG.FREQ_HZ {600000000}] [get_bd_pins plps_0/DAC30_M_AXIS_ACLK]
+set_property -dict [list CONFIG.FREQ_HZ {600000000}] [get_bd_pins plps_0/DAC22_M_AXIS_ACLK]
+set_property -dict [list CONFIG.FREQ_HZ {600000000}] [get_bd_pins plps_0/DAC32_M_AXIS_ACLK]
 set_property -dict [list CONFIG.FREQ_HZ {600000000}] [get_bd_pins plps_0/ADC20_S_AXIS_ACLK]
 set_property -dict [list CONFIG.FREQ_HZ {600000000}] [get_bd_pins plps_0/ADC21_S_AXIS_ACLK]
 set_property -dict [list CONFIG.FREQ_HZ {600000000}] [get_bd_pins dspregs/axi_aclk]
@@ -108,6 +110,8 @@ connect_bd_intf_net [get_bd_intf_pins plps_0/ADC20_S_AXIS] [get_bd_intf_pins rf_
 connect_bd_intf_net [get_bd_intf_pins plps_0/ADC21_S_AXIS] [get_bd_intf_pins rf_data_converter/m21_axis]
 connect_bd_intf_net [get_bd_intf_pins plps_0/DAC20_M_AXIS] [get_bd_intf_pins rf_data_converter/s20_axis]
 connect_bd_intf_net [get_bd_intf_pins plps_0/DAC30_M_AXIS] [get_bd_intf_pins rf_data_converter/s30_axis]
+connect_bd_intf_net [get_bd_intf_pins plps_0/DAC22_M_AXIS] [get_bd_intf_pins rf_data_converter/s22_axis]
+connect_bd_intf_net [get_bd_intf_pins plps_0/DAC32_M_AXIS] [get_bd_intf_pins rf_data_converter/s32_axis]
 connect_bd_intf_net [get_bd_intf_pins plps_0/bram_read0] [get_bd_intf_pins blk_mem_bram_read0/BRAM_PORTB]
 connect_bd_intf_net [get_bd_intf_pins plps_0/bram_read1] [get_bd_intf_pins blk_mem_bram_read1/BRAM_PORTB]
 connect_bd_intf_net [get_bd_intf_pins plps_0/bram_write0] [get_bd_intf_pins blk_mem_bram_write0/BRAM_PORTB]
@@ -167,43 +171,48 @@ connect_bd_net [get_bd_pins plps_0/dspclk] [get_bd_pins axi_clock_converter_0/m_
 connect_bd_net [get_bd_pins plps_0/dspclk] [get_bd_pins dspregs/axi_aclk]
 connect_bd_net [get_bd_pins plps_0/dspclk] [get_bd_pins plps_0/DAC20_M_AXIS_ACLK]
 connect_bd_net [get_bd_pins plps_0/dspclk] [get_bd_pins plps_0/DAC30_M_AXIS_ACLK]
+connect_bd_net [get_bd_pins plps_0/dspclk] [get_bd_pins plps_0/DAC22_M_AXIS_ACLK]
+connect_bd_net [get_bd_pins plps_0/dspclk] [get_bd_pins plps_0/DAC32_M_AXIS_ACLK]
 connect_bd_net [get_bd_pins plps_0/dspclk] [get_bd_pins rf_data_converter/s2_axis_aclk]
 connect_bd_net [get_bd_pins plps_0/dspclk] [get_bd_pins rf_data_converter/s3_axis_aclk]
 connect_bd_net [get_bd_pins plps_0/dspresetn00] [get_bd_pins dspregs/axi_aresetn] 
 connect_bd_net [get_bd_pins plps_0/dspresetn01] [get_bd_pins axi_clock_converter_0/m_axi_aresetn]
-connect_bd_net [get_bd_pins plps_0/dspresetn03] [get_bd_pins plps_0/DAC20_M_AXIS_ARESETN]
-connect_bd_net [get_bd_pins plps_0/dspresetn02] [get_bd_pins plps_0/DAC30_M_AXIS_ARESETN]
-connect_bd_net [get_bd_pins plps_0/dspresetn04] [get_bd_pins rf_data_converter/s2_axis_aresetn]
-connect_bd_net [get_bd_pins plps_0/dspresetn05] [get_bd_pins rf_data_converter/s3_axis_aresetn]
+connect_bd_net [get_bd_pins plps_0/dspresetn02] [get_bd_pins plps_0/DAC20_M_AXIS_ARESETN]
+connect_bd_net [get_bd_pins plps_0/dspresetn03] [get_bd_pins plps_0/DAC30_M_AXIS_ARESETN]
+connect_bd_net [get_bd_pins plps_0/dspresetn04] [get_bd_pins plps_0/DAC22_M_AXIS_ARESETN]
+connect_bd_net [get_bd_pins plps_0/dspresetn05] [get_bd_pins plps_0/DAC32_M_AXIS_ARESETN]
+connect_bd_net [get_bd_pins plps_0/dspresetn06] [get_bd_pins rf_data_converter/s2_axis_aresetn]
+connect_bd_net [get_bd_pins plps_0/dspresetn07] [get_bd_pins rf_data_converter/s3_axis_aresetn]
 connect_bd_net [get_bd_pins plps_0/pl_clk0] [get_bd_pins zynq_ultra_ps_e_0/pl_clk0]
 connect_bd_net [get_bd_pins plps_0/psresetn00] [get_bd_pins axi_interconnect_1/ARESETN]
 connect_bd_net [get_bd_pins plps_0/psresetn01] [get_bd_pins axi_interconnect_1/S00_ARESETN]
 
 
 
-create_bd_cell -type ip -vlnv xilinx.com:ip:c_counter_binary:12.0 c_counter_binary_0
-connect_bd_net [get_bd_pins c_counter_binary_0/CLK] [get_bd_pins plps_0/dspclk]
-connect_bd_net -net Q [get_bd_pins c_counter_binary_0/Q]
-set_property HDL_ATTRIBUTE.DEBUG true [get_bd_intf_nets {axi_clock_converter_0_M_AXI dspregs_lb}]
-set_property HDL_ATTRIBUTE.DEBUG true [get_bd_nets {Q }]
-connect_bd_net -net awstate_dbg [get_bd_pins dspregs/awstate_dbg]
-connect_bd_net -net arstate_dbg [get_bd_pins dspregs/arstate_dbg]
-connect_bd_net -net wstate_dbg [get_bd_pins dspregs/wstate_dbg]
-connect_bd_net -net rstate_dbg [get_bd_pins dspregs/rstate_dbg]
-connect_bd_net -net bstate_dbg [get_bd_pins dspregs/bstate_dbg]
-set_property HDL_ATTRIBUTE.DEBUG true [get_bd_nets {awstate_dbg arstate_dbg wstate_dbg rstate_dbg bstate_dbg }]
-													 
-apply_bd_automation -rule xilinx.com:bd_rule:debug -dict [list \
-                                                          [get_bd_nets arstate_dbg] {PROBE_TYPE "Data and Trigger" CLK_SRC "/plps_0/dspclk" SYSTEM_ILA "Auto" } \
-                                                          [get_bd_nets awstate_dbg] {PROBE_TYPE "Data and Trigger" CLK_SRC "/plps_0/dspclk" SYSTEM_ILA "Auto" } \
-                                                          [get_bd_intf_nets axi_clock_converter_0_M_AXI] {AXI_R_ADDRESS "Data and Trigger" AXI_R_DATA "Data and Trigger" AXI_W_ADDRESS "Data and Trigger" AXI_W_DATA "Data and Trigger" AXI_W_RESPONSE "Data and Trigger" CLK_SRC "/plps_0/dspclk" SYSTEM_ILA "Auto" APC_EN "0" } \
-                                                          [get_bd_nets bstate_dbg] {PROBE_TYPE "Data and Trigger" CLK_SRC "/plps_0/dspclk" SYSTEM_ILA "Auto" } \
-                                                          [get_bd_intf_nets dspregs_lb] {NON_AXI_SIGNALS "Data and Trigger" CLK_SRC "/plps_0/dspclk" SYSTEM_ILA "Auto" } \
-                                                          [get_bd_nets rstate_dbg] {PROBE_TYPE "Data and Trigger" CLK_SRC "/plps_0/dspclk" SYSTEM_ILA "Auto" } \
-                                                          [get_bd_nets wstate_dbg] {PROBE_TYPE "Data and Trigger" CLK_SRC "/plps_0/dspclk" SYSTEM_ILA "Auto" } \
-                                                          [get_bd_nets Q] {PROBE_TYPE "Data and Trigger" CLK_SRC "/plps_0/dspclk" SYSTEM_ILA "Auto" } \
-                                                         ]
-connect_bd_net [get_bd_pins rst_psbd_600M/ext_reset_in] [get_bd_pins zynq_ultra_ps_e_0/pl_resetn0]
+
+#create_bd_cell -type ip -vlnv xilinx.com:ip:c_counter_binary:12.0 c_counter_binary_0
+#connect_bd_net [get_bd_pins c_counter_binary_0/CLK] [get_bd_pins plps_0/dspclk]
+#connect_bd_net -net Q [get_bd_pins c_counter_binary_0/Q]
+#set_property HDL_ATTRIBUTE.DEBUG true [get_bd_intf_nets {axi_clock_converter_0_M_AXI dspregs_lb}]
+#set_property HDL_ATTRIBUTE.DEBUG true [get_bd_nets {Q }]
+#connect_bd_net -net awstate_dbg [get_bd_pins dspregs/awstate_dbg]
+#connect_bd_net -net arstate_dbg [get_bd_pins dspregs/arstate_dbg]
+#connect_bd_net -net wstate_dbg [get_bd_pins dspregs/wstate_dbg]
+#connect_bd_net -net rstate_dbg [get_bd_pins dspregs/rstate_dbg]
+#connect_bd_net -net bstate_dbg [get_bd_pins dspregs/bstate_dbg]
+#set_property HDL_ATTRIBUTE.DEBUG true [get_bd_nets {awstate_dbg arstate_dbg wstate_dbg rstate_dbg bstate_dbg }]
+#													 
+#apply_bd_automation -rule xilinx.com:bd_rule:debug -dict [list \
+#                                                          [get_bd_nets arstate_dbg] {PROBE_TYPE "Data and Trigger" CLK_SRC "/plps_0/dspclk" SYSTEM_ILA "Auto" } \
+#                                                          [get_bd_nets awstate_dbg] {PROBE_TYPE "Data and Trigger" CLK_SRC "/plps_0/dspclk" SYSTEM_ILA "Auto" } \
+#                                                          [get_bd_intf_nets axi_clock_converter_0_M_AXI] {AXI_R_ADDRESS "Data and Trigger" AXI_R_DATA "Data and Trigger" AXI_W_ADDRESS "Data and Trigger" AXI_W_DATA "Data and Trigger" AXI_W_RESPONSE "Data and Trigger" CLK_SRC "/plps_0/dspclk" SYSTEM_ILA "Auto" APC_EN "0" } \
+#                                                          [get_bd_nets bstate_dbg] {PROBE_TYPE "Data and Trigger" CLK_SRC "/plps_0/dspclk" SYSTEM_ILA "Auto" } \
+#                                                          [get_bd_intf_nets dspregs_lb] {NON_AXI_SIGNALS "Data and Trigger" CLK_SRC "/plps_0/dspclk" SYSTEM_ILA "Auto" } \
+#                                                          [get_bd_nets rstate_dbg] {PROBE_TYPE "Data and Trigger" CLK_SRC "/plps_0/dspclk" SYSTEM_ILA "Auto" } \
+#                                                          [get_bd_nets wstate_dbg] {PROBE_TYPE "Data and Trigger" CLK_SRC "/plps_0/dspclk" SYSTEM_ILA "Auto" } \
+#                                                          [get_bd_nets Q] {PROBE_TYPE "Data and Trigger" CLK_SRC "/plps_0/dspclk" SYSTEM_ILA "Auto" } \
+#                                                         ]
+#connect_bd_net [get_bd_pins rst_psbd_600M/ext_reset_in] [get_bd_pins zynq_ultra_ps_e_0/pl_resetn0]
 
 assign_bd_address
 validate_bd_design

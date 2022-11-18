@@ -25,6 +25,8 @@ input aresetn
 ,output dspresetn03
 ,output dspresetn04
 ,output dspresetn05
+,output dspresetn06
+,output dspresetn07
 ,output psresetn00
 ,output psresetn01
 ,output psresetn02
@@ -117,6 +119,13 @@ input aresetn
 ,output  [DAC_AXIS_DATAWIDTH-1 : 0] DAC20_M_AXIS_TDATA
 ,output  [(DAC_AXIS_DATAWIDTH/8)-1 : 0] DAC20_M_AXIS_TSTRB
 ,output  DAC20_M_AXIS_TLAST
+,input  DAC22_M_AXIS_ACLK
+,input  DAC22_M_AXIS_ARESETN
+,input  DAC22_M_AXIS_TREADY
+,output  DAC22_M_AXIS_TVALID
+,output  [DAC_AXIS_DATAWIDTH-1 : 0] DAC22_M_AXIS_TDATA
+,output  [(DAC_AXIS_DATAWIDTH/8)-1 : 0] DAC22_M_AXIS_TSTRB
+,output  DAC22_M_AXIS_TLAST
 ,input clk_dac2
 
 ,input  DAC30_M_AXIS_ACLK
@@ -126,6 +135,13 @@ input aresetn
 ,output  [DAC_AXIS_DATAWIDTH-1 : 0] DAC30_M_AXIS_TDATA
 ,output  [(DAC_AXIS_DATAWIDTH/8)-1 : 0] DAC30_M_AXIS_TSTRB
 ,output  DAC30_M_AXIS_TLAST
+,input  DAC32_M_AXIS_ACLK
+,input  DAC32_M_AXIS_ARESETN
+,input  DAC32_M_AXIS_TREADY
+,output  DAC32_M_AXIS_TVALID
+,output  [DAC_AXIS_DATAWIDTH-1 : 0] DAC32_M_AXIS_TDATA
+,output  [(DAC_AXIS_DATAWIDTH/8)-1 : 0] DAC32_M_AXIS_TSTRB
+,output  DAC32_M_AXIS_TLAST
 ,input clk_dac3
 
 ,input  ADC20_S_AXIS_ACLK

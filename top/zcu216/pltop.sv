@@ -18,6 +18,8 @@ module pltop #(parameter DATA_WIDTH=32
 ,iflocalbus lb2
 ,axi4stream.master dac30axis
 ,axi4stream.master dac20axis
+,axi4stream.master dac32axis
+,axi4stream.master dac22axis
 ,axi4stream.slave adc20axis
 ,input pl_clk0
 ,output cfgclk
@@ -89,6 +91,8 @@ boardcfg(.hw(hw),.regs(ctrlregs.regs)
 	,.bram_write3(bram_write3)
 ,.dac30axis(dac30axis)
 ,.dac20axis(dac20axis)
+,.dac32axis(dac32axis)
+,.dac22axis(dac22axis)
 ,.adc20axis(adc20axis)
 ,.dspif(dspif.cfg)
 ,.pl_clk0(pl_clk0)

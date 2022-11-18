@@ -8,6 +8,8 @@ module boardcfg(hwif.cfg hw
 ,ifbram.read  bram_write3
 ,axi4stream.master dac30axis 
 ,axi4stream.master dac20axis 
+,axi4stream.master dac32axis 
+,axi4stream.master dac22axis 
 ,axi4stream.slave adc20axis 
 ,ifdsp.cfg dspif
 ,output cfgclk
@@ -165,6 +167,10 @@ axi4stream_master_handshake_data #(.DATA_WIDTH (256))
 dac30hsda(.axis(dac30axis),.datavalid(1'b1),.data(dspif.dac30));
 axi4stream_master_handshake_data #(.DATA_WIDTH (256))
 dac20hsda(.axis(dac20axis),.datavalid(1'b1),.data(dspif.dac20));
+axi4stream_master_handshake_data #(.DATA_WIDTH (256))
+dac32hsda(.axis(dac32axis),.datavalid(1'b1),.data(dspif.dac32));
+axi4stream_master_handshake_data #(.DATA_WIDTH (256))
+dac22hsda(.axis(dac22axis),.datavalid(1'b1),.data(dspif.dac22));
 assign dspif.clk=dspclk;
 assign dspif.reset=1'b0;
 assign dspif.adc20=adc20data;

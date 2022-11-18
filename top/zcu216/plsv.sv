@@ -20,7 +20,7 @@ wire [31:0] psresetn_r;
 wire [31:0] adc2resetn_r;
 wire cfgresetn31,cfgresetn30,cfgresetn29,cfgresetn28,cfgresetn27,cfgresetn26,cfgresetn25,cfgresetn24,cfgresetn23,cfgresetn22,cfgresetn21,cfgresetn20,cfgresetn19;//,cfgresetn18,cfgresetn17,cfgresetn16,cfgresetn15,cfgresetn14,cfgresetn13,cfgresetn12,cfgresetn11,cfgresetn10,cfgresetn09,cfgresetn08,cfgresetn07,cfgresetn06,cfgresetn05,cfgresetn04,cfgresetn03,cfgresetn02,cfgresetn01,cfgresetn00;
 assign {cfgresetn31,cfgresetn30,cfgresetn29,cfgresetn28,cfgresetn27,cfgresetn26,cfgresetn25,cfgresetn24,cfgresetn23,cfgresetn22,cfgresetn21,cfgresetn20,cfgresetn19,cfgresetn18,cfgresetn17,cfgresetn16,cfgresetn15,cfgresetn14,cfgresetn13,cfgresetn12,cfgresetn11,cfgresetn10,cfgresetn09,cfgresetn08,cfgresetn07,cfgresetn06,cfgresetn05,cfgresetn04,cfgresetn03,cfgresetn02,cfgresetn01,cfgresetn00}=cfgresetn_r;
-wire dspresetn31,dspresetn30,dspresetn29,dspresetn28,dspresetn27,dspresetn26,dspresetn25,dspresetn24,dspresetn23,dspresetn22,dspresetn21,dspresetn20,dspresetn19,dspresetn18,dspresetn17,dspresetn16,dspresetn15,dspresetn14,dspresetn13,dspresetn12,dspresetn11,dspresetn10,dspresetn09,dspresetn08,dspresetn07,dspresetn06;//,dspresetn05,dspresetn04,dspresetn03,dspresetn02,dspresetn01,dspresetn00;
+wire dspresetn31,dspresetn30,dspresetn29,dspresetn28,dspresetn27,dspresetn26,dspresetn25,dspresetn24,dspresetn23,dspresetn22,dspresetn21,dspresetn20,dspresetn19,dspresetn18,dspresetn17,dspresetn16,dspresetn15,dspresetn14,dspresetn13,dspresetn12,dspresetn11,dspresetn10,dspresetn09,dspresetn08;//,dspresetn07,dspresetn06,dspresetn05,dspresetn04,dspresetn03,dspresetn02,dspresetn01,dspresetn00;
 assign {dspresetn31,dspresetn30,dspresetn29,dspresetn28,dspresetn27,dspresetn26,dspresetn25,dspresetn24,dspresetn23,dspresetn22,dspresetn21,dspresetn20,dspresetn19,dspresetn18,dspresetn17,dspresetn16,dspresetn15,dspresetn14,dspresetn13,dspresetn12,dspresetn11,dspresetn10,dspresetn09,dspresetn08,dspresetn07,dspresetn06,dspresetn05,dspresetn04,dspresetn03,dspresetn02,dspresetn01,dspresetn00}=dspresetn_r;
 wire psresetn31,psresetn30,psresetn29,psresetn28,psresetn27,psresetn26,psresetn25,psresetn24,psresetn23,psresetn22,psresetn21,psresetn20,psresetn19,psresetn18,psresetn17,psresetn16,psresetn15,psresetn14,psresetn13,psresetn12,psresetn11,psresetn10,psresetn09,psresetn08,psresetn07,psresetn06,psresetn05,psresetn04,psresetn03;//,psresetn02,psresetn01,psresetn00;
 assign {psresetn31,psresetn30,psresetn29,psresetn28,psresetn27,psresetn26,psresetn25,psresetn24,psresetn23,psresetn22,psresetn21,psresetn20,psresetn19,psresetn18,psresetn17,psresetn16,psresetn15,psresetn14,psresetn13,psresetn12,psresetn11,psresetn10,psresetn09,psresetn08,psresetn07,psresetn06,psresetn05,psresetn04,psresetn03,psresetn02,psresetn01,psresetn00}=psresetn_r;
@@ -213,6 +213,8 @@ pltop(.bram_read0(bram_read0)
 ,.hw(hw)
 ,.dac30axis(dac30axis.master)
 ,.dac20axis(dac20axis.master)
+,.dac32axis(dac32axis.master)
+,.dac22axis(dac22axis.master)
 ,.adc20axis(adc20axis.slave)
 ,.cfgresetn(cfgresetn_r)
 ,.dspresetn(dspresetn_r)
@@ -231,7 +233,11 @@ pltop(.bram_read0(bram_read0)
 
 axi4stream #(.DATA_WIDTH(256))	dac30axis();
 axi4stream #(.DATA_WIDTH(256))	dac20axis();
+axi4stream #(.DATA_WIDTH(256))	dac32axis();
+axi4stream #(.DATA_WIDTH(256))	dac22axis();
 axi4stream #(.DATA_WIDTH(64))	adc20axis();
+axi4stream_clkrst dac32axisclkrst(.axi4(dac32axis.clkrst),.clk(DAC32_M_AXIS_ACLK),.resetn(DAC32_M_AXIS_ARESETN));
+axi4stream_clkrst dac22axisclkrst(.axi4(dac22axis.clkrst),.clk(DAC22_M_AXIS_ACLK),.resetn(DAC22_M_AXIS_ARESETN));
 axi4stream_clkrst dac30axisclkrst(.axi4(dac30axis.clkrst),.clk(DAC30_M_AXIS_ACLK),.resetn(DAC30_M_AXIS_ARESETN));
 axi4stream_clkrst dac20axisclkrst(.axi4(dac20axis.clkrst),.clk(DAC20_M_AXIS_ACLK),.resetn(DAC20_M_AXIS_ARESETN));
 axi4stream_clkrst adc20axisclkrst(.axi4(adc20axis.clkrst),.clk(ADC20_S_AXIS_ACLK),.resetn(ADC20_S_AXIS_ARESETN));
@@ -252,6 +258,24 @@ dac20axismap(.axis(dac20axis)
 ,.data(DAC20_M_AXIS_TDATA)
 ,.strb(DAC20_M_AXIS_TSTRB)
 ,.last(DAC20_M_AXIS_TLAST)
+);
+
+axi4stream_master_map #(.DATA_WIDTH(256))
+dac32axismap(.axis(dac32axis)
+,.ready(DAC32_M_AXIS_TREADY)
+,.valid(DAC32_M_AXIS_TVALID)
+,.data(DAC32_M_AXIS_TDATA)
+,.strb(DAC32_M_AXIS_TSTRB)
+,.last(DAC32_M_AXIS_TLAST)
+);
+
+axi4stream_master_map #(.DATA_WIDTH(256))
+dac22axismap(.axis(dac22axis)
+,.ready(DAC22_M_AXIS_TREADY)
+,.valid(DAC22_M_AXIS_TVALID)
+,.data(DAC22_M_AXIS_TDATA)
+,.strb(DAC22_M_AXIS_TSTRB)
+,.last(DAC22_M_AXIS_TLAST)
 );
 
 axi4stream_slave_map #(.DATA_WIDTH(64))

@@ -1,6 +1,5 @@
 create_bd_cell -type ip -vlnv xilinx.com:ip:usp_rf_data_converter:2.6 rf_data_converter
 set_property -dict {
-CONFIG.Axiclk_Freq {100}
 CONFIG.ADC2_Clock_Source {2} 
 CONFIG.ADC2_Enable {1} 
 CONFIG.ADC2_Fabric_Freq {600.000} 
@@ -10,12 +9,12 @@ CONFIG.ADC2_Refclk_Freq {600.000}
 CONFIG.ADC2_Sampling_Rate {2.4} 
 CONFIG.ADC_Coarse_Mixer_Freq20 {3} 
 CONFIG.ADC_Coarse_Mixer_Freq21 {3} 
-CONFIG.ADC_Dither20 {false}
-CONFIG.ADC_Dither21 {false}
 CONFIG.ADC_Data_Width20 {4} 
 CONFIG.ADC_Data_Width21 {4} 
 CONFIG.ADC_Decimation_Mode20 {1} 
 CONFIG.ADC_Decimation_Mode21 {1} 
+CONFIG.ADC_Dither20 {false}
+CONFIG.ADC_Dither21 {false}
 CONFIG.ADC_Mixer_Type20 {1} 
 CONFIG.ADC_Mixer_Type21 {1} 
 CONFIG.ADC_OBS01 {0} 
@@ -40,6 +39,7 @@ CONFIG.ADC_Slice30_Enable {false}
 CONFIG.ADC_Slice31_Enable {false} 
 CONFIG.ADC_Slice32_Enable {false} 
 CONFIG.ADC_Slice33_Enable {false} 
+CONFIG.Axiclk_Freq {100}
 CONFIG.DAC0_Fabric_Freq {0.0} 
 CONFIG.DAC2_Clock_Dist {1} 
 CONFIG.DAC2_Fabric_Freq {600.000} 
@@ -55,15 +55,27 @@ CONFIG.DAC3_PLL_Enable {true}
 CONFIG.DAC3_Refclk_Freq {600.000} 
 CONFIG.DAC3_Sampling_Rate {9.6} 
 CONFIG.DAC_Coarse_Mixer_Freq20 {3} 
+CONFIG.DAC_Coarse_Mixer_Freq22 {3} 
 CONFIG.DAC_Coarse_Mixer_Freq30 {3} 
+CONFIG.DAC_Coarse_Mixer_Freq32 {3} 
 CONFIG.DAC_Interpolation_Mode20 {1} 
+CONFIG.DAC_Interpolation_Mode22 {1} 
 CONFIG.DAC_Interpolation_Mode30 {1} 
+CONFIG.DAC_Interpolation_Mode32 {1} 
 CONFIG.DAC_Mixer_Type20 {1} 
+CONFIG.DAC_Mixer_Type22 {1} 
 CONFIG.DAC_Mixer_Type30 {1} 
+CONFIG.DAC_Mixer_Type32 {1} 
 CONFIG.DAC_Mode20 {3} 
+CONFIG.DAC_Mode22 {3} 
 CONFIG.DAC_Mode30 {3} 
+CONFIG.DAC_Mode32 {3} 
 CONFIG.DAC_Nyquist20 {0} 
 CONFIG.DAC_Nyquist30 {0}
+CONFIG.DAC_RESERVED_1_22 {0} 
+CONFIG.DAC_RESERVED_1_23 {0} 
+CONFIG.DAC_RESERVED_1_32 {0} 
+CONFIG.DAC_RESERVED_1_33 {0}
 CONFIG.DAC_Slice00_Enable {false} 
 CONFIG.DAC_Slice01_Enable {false} 
 CONFIG.DAC_Slice02_Enable {false} 
@@ -74,11 +86,11 @@ CONFIG.DAC_Slice12_Enable {false}
 CONFIG.DAC_Slice13_Enable {false} 
 CONFIG.DAC_Slice20_Enable {true} 
 CONFIG.DAC_Slice21_Enable {false} 
-CONFIG.DAC_Slice22_Enable {false} 
+CONFIG.DAC_Slice22_Enable {true} 
 CONFIG.DAC_Slice23_Enable {false} 
 CONFIG.DAC_Slice30_Enable {true} 
 CONFIG.DAC_Slice31_Enable {false} 
-CONFIG.DAC_Slice32_Enable {false} 
+CONFIG.DAC_Slice32_Enable {true} 
 CONFIG.DAC_Slice33_Enable {false} 
 } [get_bd_cells rf_data_converter]
 #connect_bd_intf_net -boundary_type upper [get_bd_intf_pins axi_interconnect_1/M02_AXI] [get_bd_intf_pins usp_rf_data_converter_0/s_axi]
@@ -138,4 +150,4 @@ CONFIG.DAC_Slice33_Enable {false}
 #CONFIG.DAC2_Enable {1} 
 #CONFIG.DAC2_Enable {1} 
 #CONFIG.DAC3_Enable {1} 
-
+#

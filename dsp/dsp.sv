@@ -9,6 +9,8 @@ wire [15:0] sin_w;
 reg [255:0] dacval=0;
 reg [255:0] dacval20=0;
 reg [255:0] dacval30=0;
+reg [255:0] dacval22=0;
+reg [255:0] dacval32=0;
 reg [17:0] tcnt=0;
 reg [32-1:0] phase_32=0;
 reg [31:0] freq=0;
@@ -105,6 +107,8 @@ always @(posedge dspif.clk) begin
 	endcase
 	dacval20<=dacval;
 	dacval30<=dacval;
+	dacval22<=dacval;
+	dacval32<=dacval;
 end
 
 
@@ -128,6 +132,8 @@ assign regs.test1=regs.test;
 
 assign dspif.dac20=dacval20;
 assign dspif.dac30=dacval30;
+assign dspif.dac22=dacval22;
+assign dspif.dac32=dacval32;
 endmodule
 
 interface ifdsp(
