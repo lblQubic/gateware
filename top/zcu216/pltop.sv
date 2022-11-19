@@ -65,7 +65,7 @@ end
 always @(posedge pl_clk0) begin
 	psresetn_r<={32{~psreset}};
 end
-always @(posedge hw.clk104_pl_clk) begin
+always @(posedge clkadc2_600) begin
 	adc2resetn_r<={32{~adc2reset}};
 end
 assign cfgresetn=cfgresetn_r;
