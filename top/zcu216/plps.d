@@ -28,3 +28,4 @@ plps.v
 plsv.sv
 pltop.sv
 ../../dsp/dsp.sv
+../../submodules/common-hdl/cmultiplier2.v

@@ -1,11 +1,11 @@
 module boardcfg(hwif.cfg hw
-,ifbram.write  bram_read0
-,ifbram.write  bram_read1
 ,ifregs.regs regs
-,ifbram.read  bram_write0
-,ifbram.read  bram_write1
-,ifbram.read  bram_write2
-,ifbram.read  bram_write3
+,ifbram bram_tohost0
+,ifbram bram_tohost1
+,ifbram bram_fromhost0
+,ifbram bram_fromhost1
+,ifbram bram_fromhost2
+,ifbram bram_fromhost3
 ,axi4stream.master dac30axis 
 ,axi4stream.master dac20axis 
 ,axi4stream.master dac32axis 
@@ -38,6 +38,12 @@ areset #(.WIDTH(1),.SRWIDTH(4))
 adc2areset(.clk(clkadc2_600),.areset(reset),.sreset(adc2reset),.sreset_val());
 
 
+bram_cfg bram_tohost0_cfg(.bram(bram_tohost0),.clk(dspclk),.rst(1'b0),.en(1'b1));
+bram_cfg bram_tohost1_cfg(.bram(bram_tohost1),.clk(dspclk),.rst(1'b0),.en(1'b1));
+bram_cfg bram_fromhost0_cfg(.bram(bram_fromhost0),.clk(dspclk),.rst(1'b0),.en(1'b1));
+bram_cfg bram_fromhost1_cfg(.bram(bram_fromhost1),.clk(dspclk),.rst(1'b0),.en(1'b1));
+bram_cfg bram_fromhost2_cfg(.bram(bram_fromhost2),.clk(dspclk),.rst(1'b0),.en(1'b1));
+bram_cfg bram_fromhost3_cfg(.bram(bram_fromhost3),.clk(dspclk),.rst(1'b0),.en(1'b1));
 
 
 reg [31:0] cnt100=0;
@@ -143,7 +149,7 @@ parameter READ_DATA_WIDTH=64;
 parameter READ_ADDR_WIDTH=14;
 localparam BYTEPERDATA=$clog2(READ_DATA_WIDTH)-3;
 bram_write#(.ADDR_WIDTH(READ_ADDR_WIDTH),.DATA_WIDTH(READ_DATA_WIDTH))
-bram_write(.bram(bram_read0)
+bram_write(.bram(bram_tohost0.write)
 ,.addr({dspif.bramaddr,{BYTEPERDATA{1'b0}}})
 //,.addr(bramaddr)
 ,.data(dspif.bramval)

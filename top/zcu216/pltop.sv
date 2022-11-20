@@ -3,17 +3,17 @@
 module pltop #(parameter DATA_WIDTH=32
 ,parameter ADDR_WIDTH=10
 ,parameter DEBUG="true"
-,parameter integer BRAMREAD_ADDRWIDTH=13
-,parameter integer BRAMREAD_DATAWIDTH=64
-,parameter integer BRAMWRITE_ADDRWIDTH=32
-,parameter integer BRAMWRITE_DATAWIDTH=256
+,parameter integer BRAMTOHOST_ADDRWIDTH=13
+,parameter integer BRAMTOHOST_DATAWIDTH=64
+,parameter integer BRAMFROMHOST_ADDRWIDTH=32
+,parameter integer BRAMFROMHOST_DATAWIDTH=256
 )(hwif hw
-,ifbram.write bram_read0
-,ifbram.write bram_read1
-,ifbram.read bram_write0
-,ifbram.read bram_write1
-,ifbram.read bram_write2
-,ifbram.read bram_write3
+,ifbram bram_tohost0
+,ifbram bram_tohost1
+,ifbram bram_fromhost0
+,ifbram bram_fromhost1
+,ifbram bram_fromhost2
+,ifbram bram_fromhost3
 ,iflocalbus lb1
 ,iflocalbus lb2
 ,axi4stream.master dac30axis
@@ -83,12 +83,12 @@ dspregs(.lb(lb2));
 ifdsp dspif();
 boardcfg #(.DEBUG(DEBUG))
 boardcfg(.hw(hw),.regs(ctrlregs.regs)
-,.bram_read0(bram_read0)
-,.bram_read1(bram_read1)
-	,.bram_write0(bram_write0)
-	,.bram_write1(bram_write1)
-	,.bram_write2(bram_write2)
-	,.bram_write3(bram_write3)
+,.bram_tohost0(bram_tohost0)
+,.bram_tohost1(bram_tohost1)
+,.bram_fromhost0(bram_fromhost0)
+,.bram_fromhost1(bram_fromhost1)
+,.bram_fromhost2(bram_fromhost2)
+,.bram_fromhost3(bram_fromhost3)
 ,.dac30axis(dac30axis)
 ,.dac20axis(dac20axis)
 ,.dac32axis(dac32axis)

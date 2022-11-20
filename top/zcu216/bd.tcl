@@ -41,58 +41,58 @@ set_property -dict [list CONFIG.ADDR_WIDTH {10}] [get_bd_cells dspregs]
 set_property -dict [list CONFIG.ADDR_WIDTH {10}] [get_bd_cells ctrlregs]
 set_property -dict [list CONFIG.ADDR_WIDTH {10}] [get_bd_cells plps_0]
 
-create_bd_cell -type ip -vlnv xilinx.com:ip:axi_bram_ctrl:4.1 bram_read0
-create_bd_cell -type ip -vlnv xilinx.com:ip:blk_mem_gen:8.4 blk_mem_bram_read0
-set_property -dict [list CONFIG.SINGLE_PORT_BRAM {1}] [get_bd_cells bram_read0]
-set_property -dict [list CONFIG.DATA_WIDTH {64}] [get_bd_cells bram_read0]
-set_property -dict [list CONFIG.use_bram_block {BRAM_Controller} CONFIG.Memory_Type {True_Dual_Port_RAM} CONFIG.Enable_32bit_Address {true} CONFIG.Read_Width_B {64}  CONFIG.Write_Width_B {64}] [get_bd_cells blk_mem_bram_read0]
+create_bd_cell -type ip -vlnv xilinx.com:ip:axi_bram_ctrl:4.1 bram_tohost0
+create_bd_cell -type ip -vlnv xilinx.com:ip:blk_mem_gen:8.4 blk_mem_bram_tohost0
+set_property -dict [list CONFIG.SINGLE_PORT_BRAM {1}] [get_bd_cells bram_tohost0]
+set_property -dict [list CONFIG.DATA_WIDTH {64}] [get_bd_cells bram_tohost0]
+set_property -dict [list CONFIG.use_bram_block {BRAM_Controller} CONFIG.Memory_Type {True_Dual_Port_RAM} CONFIG.Enable_32bit_Address {true} CONFIG.Read_Width_B {64}  CONFIG.Write_Width_B {64}] [get_bd_cells blk_mem_bram_tohost0]
 
-create_bd_cell -type ip -vlnv xilinx.com:ip:axi_bram_ctrl:4.1 bram_read1
-create_bd_cell -type ip -vlnv xilinx.com:ip:blk_mem_gen:8.4 blk_mem_bram_read1
-set_property -dict [list CONFIG.SINGLE_PORT_BRAM {1}] [get_bd_cells bram_read1]
-set_property -dict [list CONFIG.DATA_WIDTH {64}] [get_bd_cells bram_read1]
-set_property -dict [list CONFIG.use_bram_block {BRAM_Controller} CONFIG.Memory_Type {True_Dual_Port_RAM} CONFIG.Enable_32bit_Address {true} CONFIG.Read_Width_B {64}  CONFIG.Write_Width_B {64}] [get_bd_cells blk_mem_bram_read1]
-
-
-create_bd_cell -type ip -vlnv xilinx.com:ip:axi_bram_ctrl:4.1 bram_write0
-create_bd_cell -type ip -vlnv xilinx.com:ip:blk_mem_gen:8.4 blk_mem_bram_write0
-set_property -dict [list CONFIG.SINGLE_PORT_BRAM {1}] [get_bd_cells bram_write0]
-set_property -dict [list CONFIG.DATA_WIDTH {256}] [get_bd_cells bram_write0]
-set_property -dict [list CONFIG.use_bram_block {BRAM_Controller} CONFIG.Memory_Type {True_Dual_Port_RAM} CONFIG.Enable_32bit_Address {true} CONFIG.Read_Width_B {128}  CONFIG.Write_Width_B {128}] [get_bd_cells blk_mem_bram_write0]
-
-create_bd_cell -type ip -vlnv xilinx.com:ip:axi_bram_ctrl:4.1 bram_write1
-create_bd_cell -type ip -vlnv xilinx.com:ip:blk_mem_gen:8.4 blk_mem_bram_write1
-set_property -dict [list CONFIG.SINGLE_PORT_BRAM {1}] [get_bd_cells bram_write1]
-set_property -dict [list CONFIG.DATA_WIDTH {256}] [get_bd_cells bram_write1]
-set_property -dict [list CONFIG.use_bram_block {BRAM_Controller} CONFIG.Memory_Type {True_Dual_Port_RAM} CONFIG.Enable_32bit_Address {true} CONFIG.Read_Width_B {128}  CONFIG.Write_Width_B {128}] [get_bd_cells blk_mem_bram_write1]
-
-create_bd_cell -type ip -vlnv xilinx.com:ip:axi_bram_ctrl:4.1 bram_write2
-create_bd_cell -type ip -vlnv xilinx.com:ip:blk_mem_gen:8.4 blk_mem_bram_write2
-set_property -dict [list CONFIG.SINGLE_PORT_BRAM {1}] [get_bd_cells bram_write2]
-set_property -dict [list CONFIG.DATA_WIDTH {256}] [get_bd_cells bram_write2]
-set_property -dict [list CONFIG.use_bram_block {BRAM_Controller} CONFIG.Memory_Type {True_Dual_Port_RAM} CONFIG.Enable_32bit_Address {true} CONFIG.Read_Width_B {128}  CONFIG.Write_Width_B {128} ] [get_bd_cells blk_mem_bram_write2]
+create_bd_cell -type ip -vlnv xilinx.com:ip:axi_bram_ctrl:4.1 bram_tohost1
+create_bd_cell -type ip -vlnv xilinx.com:ip:blk_mem_gen:8.4 blk_mem_bram_tohost1
+set_property -dict [list CONFIG.SINGLE_PORT_BRAM {1}] [get_bd_cells bram_tohost1]
+set_property -dict [list CONFIG.DATA_WIDTH {64}] [get_bd_cells bram_tohost1]
+set_property -dict [list CONFIG.use_bram_block {BRAM_Controller} CONFIG.Memory_Type {True_Dual_Port_RAM} CONFIG.Enable_32bit_Address {true} CONFIG.Read_Width_B {64}  CONFIG.Write_Width_B {64}] [get_bd_cells blk_mem_bram_tohost1]
 
 
-create_bd_cell -type ip -vlnv xilinx.com:ip:axi_bram_ctrl:4.1 bram_write3
-create_bd_cell -type ip -vlnv xilinx.com:ip:blk_mem_gen:8.4 blk_mem_bram_write3
-set_property -dict [list CONFIG.SINGLE_PORT_BRAM {1}] [get_bd_cells bram_write3]
-set_property -dict [list CONFIG.DATA_WIDTH {256}] [get_bd_cells bram_write3]
-set_property -dict [list CONFIG.use_bram_block {BRAM_Controller} CONFIG.Memory_Type {True_Dual_Port_RAM} CONFIG.Enable_32bit_Address {true} CONFIG.Read_Width_B {128}  CONFIG.Write_Width_B {128} ] [get_bd_cells blk_mem_bram_write3]
+create_bd_cell -type ip -vlnv xilinx.com:ip:axi_bram_ctrl:4.1 bram_fromhost0
+create_bd_cell -type ip -vlnv xilinx.com:ip:blk_mem_gen:8.4 blk_mem_bram_fromhost0
+set_property -dict [list CONFIG.SINGLE_PORT_BRAM {1}] [get_bd_cells bram_fromhost0]
+set_property -dict [list CONFIG.DATA_WIDTH {256}] [get_bd_cells bram_fromhost0]
+set_property -dict [list CONFIG.use_bram_block {BRAM_Controller} CONFIG.Memory_Type {True_Dual_Port_RAM} CONFIG.Enable_32bit_Address {true} CONFIG.Read_Width_B {128}  CONFIG.Write_Width_B {128}] [get_bd_cells blk_mem_bram_fromhost0]
 
-connect_bd_intf_net [get_bd_intf_pins bram_read0/BRAM_PORTA] [get_bd_intf_pins blk_mem_bram_read0/BRAM_PORTA]
-connect_bd_intf_net [get_bd_intf_pins bram_read1/BRAM_PORTA] [get_bd_intf_pins blk_mem_bram_read1/BRAM_PORTA]
-connect_bd_intf_net [get_bd_intf_pins bram_write0/BRAM_PORTA] [get_bd_intf_pins blk_mem_bram_write0/BRAM_PORTA]
-connect_bd_intf_net [get_bd_intf_pins bram_write1/BRAM_PORTA] [get_bd_intf_pins blk_mem_bram_write1/BRAM_PORTA]
-connect_bd_intf_net [get_bd_intf_pins bram_write2/BRAM_PORTA] [get_bd_intf_pins blk_mem_bram_write2/BRAM_PORTA]
-connect_bd_intf_net [get_bd_intf_pins bram_write3/BRAM_PORTA] [get_bd_intf_pins blk_mem_bram_write3/BRAM_PORTA]
+create_bd_cell -type ip -vlnv xilinx.com:ip:axi_bram_ctrl:4.1 bram_fromhost1
+create_bd_cell -type ip -vlnv xilinx.com:ip:blk_mem_gen:8.4 blk_mem_bram_fromhost1
+set_property -dict [list CONFIG.SINGLE_PORT_BRAM {1}] [get_bd_cells bram_fromhost1]
+set_property -dict [list CONFIG.DATA_WIDTH {256}] [get_bd_cells bram_fromhost1]
+set_property -dict [list CONFIG.use_bram_block {BRAM_Controller} CONFIG.Memory_Type {True_Dual_Port_RAM} CONFIG.Enable_32bit_Address {true} CONFIG.Read_Width_B {128}  CONFIG.Write_Width_B {128}] [get_bd_cells blk_mem_bram_fromhost1]
+
+create_bd_cell -type ip -vlnv xilinx.com:ip:axi_bram_ctrl:4.1 bram_fromhost2
+create_bd_cell -type ip -vlnv xilinx.com:ip:blk_mem_gen:8.4 blk_mem_bram_fromhost2
+set_property -dict [list CONFIG.SINGLE_PORT_BRAM {1}] [get_bd_cells bram_fromhost2]
+set_property -dict [list CONFIG.DATA_WIDTH {256}] [get_bd_cells bram_fromhost2]
+set_property -dict [list CONFIG.use_bram_block {BRAM_Controller} CONFIG.Memory_Type {True_Dual_Port_RAM} CONFIG.Enable_32bit_Address {true} CONFIG.Read_Width_B {128}  CONFIG.Write_Width_B {128} ] [get_bd_cells blk_mem_bram_fromhost2]
+
+
+create_bd_cell -type ip -vlnv xilinx.com:ip:axi_bram_ctrl:4.1 bram_fromhost3
+create_bd_cell -type ip -vlnv xilinx.com:ip:blk_mem_gen:8.4 blk_mem_bram_fromhost3
+set_property -dict [list CONFIG.SINGLE_PORT_BRAM {1}] [get_bd_cells bram_fromhost3]
+set_property -dict [list CONFIG.DATA_WIDTH {256}] [get_bd_cells bram_fromhost3]
+set_property -dict [list CONFIG.use_bram_block {BRAM_Controller} CONFIG.Memory_Type {True_Dual_Port_RAM} CONFIG.Enable_32bit_Address {true} CONFIG.Read_Width_B {128}  CONFIG.Write_Width_B {128} ] [get_bd_cells blk_mem_bram_fromhost3]
+
+connect_bd_intf_net [get_bd_intf_pins bram_tohost0/BRAM_PORTA] [get_bd_intf_pins blk_mem_bram_tohost0/BRAM_PORTA]
+connect_bd_intf_net [get_bd_intf_pins bram_tohost1/BRAM_PORTA] [get_bd_intf_pins blk_mem_bram_tohost1/BRAM_PORTA]
+connect_bd_intf_net [get_bd_intf_pins bram_fromhost0/BRAM_PORTA] [get_bd_intf_pins blk_mem_bram_fromhost0/BRAM_PORTA]
+connect_bd_intf_net [get_bd_intf_pins bram_fromhost1/BRAM_PORTA] [get_bd_intf_pins blk_mem_bram_fromhost1/BRAM_PORTA]
+connect_bd_intf_net [get_bd_intf_pins bram_fromhost2/BRAM_PORTA] [get_bd_intf_pins blk_mem_bram_fromhost2/BRAM_PORTA]
+connect_bd_intf_net [get_bd_intf_pins bram_fromhost3/BRAM_PORTA] [get_bd_intf_pins blk_mem_bram_fromhost3/BRAM_PORTA]
 
 connect_bd_intf_net [get_bd_intf_pins axi_interconnect_1/M01_AXI] [get_bd_intf_pins axi_clock_converter_0/S_AXI]
-connect_bd_intf_net [get_bd_intf_pins axi_interconnect_1/M02_AXI] [get_bd_intf_pins bram_read0/S_AXI]
-connect_bd_intf_net [get_bd_intf_pins axi_interconnect_1/M03_AXI] [get_bd_intf_pins bram_read1/S_AXI]
-connect_bd_intf_net [get_bd_intf_pins axi_interconnect_1/M04_AXI] [get_bd_intf_pins bram_write0/S_AXI]
-connect_bd_intf_net [get_bd_intf_pins axi_interconnect_1/M05_AXI] [get_bd_intf_pins bram_write1/S_AXI]
-connect_bd_intf_net [get_bd_intf_pins axi_interconnect_1/M06_AXI] [get_bd_intf_pins bram_write2/S_AXI] 
-connect_bd_intf_net [get_bd_intf_pins axi_interconnect_1/M07_AXI] [get_bd_intf_pins bram_write3/S_AXI] 
+connect_bd_intf_net [get_bd_intf_pins axi_interconnect_1/M02_AXI] [get_bd_intf_pins bram_tohost0/S_AXI]
+connect_bd_intf_net [get_bd_intf_pins axi_interconnect_1/M03_AXI] [get_bd_intf_pins bram_tohost1/S_AXI]
+connect_bd_intf_net [get_bd_intf_pins axi_interconnect_1/M04_AXI] [get_bd_intf_pins bram_fromhost0/S_AXI]
+connect_bd_intf_net [get_bd_intf_pins axi_interconnect_1/M05_AXI] [get_bd_intf_pins bram_fromhost1/S_AXI]
+connect_bd_intf_net [get_bd_intf_pins axi_interconnect_1/M06_AXI] [get_bd_intf_pins bram_fromhost2/S_AXI] 
+connect_bd_intf_net [get_bd_intf_pins axi_interconnect_1/M07_AXI] [get_bd_intf_pins bram_fromhost3/S_AXI] 
 connect_bd_intf_net [get_bd_intf_pins axi_interconnect_1/M08_AXI] [get_bd_intf_pins rf_data_converter/s_axi]
 
 
@@ -112,12 +112,12 @@ connect_bd_intf_net [get_bd_intf_pins plps_0/DAC20_M_AXIS] [get_bd_intf_pins rf_
 connect_bd_intf_net [get_bd_intf_pins plps_0/DAC30_M_AXIS] [get_bd_intf_pins rf_data_converter/s30_axis]
 connect_bd_intf_net [get_bd_intf_pins plps_0/DAC22_M_AXIS] [get_bd_intf_pins rf_data_converter/s22_axis]
 connect_bd_intf_net [get_bd_intf_pins plps_0/DAC32_M_AXIS] [get_bd_intf_pins rf_data_converter/s32_axis]
-connect_bd_intf_net [get_bd_intf_pins plps_0/bram_read0] [get_bd_intf_pins blk_mem_bram_read0/BRAM_PORTB]
-connect_bd_intf_net [get_bd_intf_pins plps_0/bram_read1] [get_bd_intf_pins blk_mem_bram_read1/BRAM_PORTB]
-connect_bd_intf_net [get_bd_intf_pins plps_0/bram_write0] [get_bd_intf_pins blk_mem_bram_write0/BRAM_PORTB]
-connect_bd_intf_net [get_bd_intf_pins plps_0/bram_write1] [get_bd_intf_pins blk_mem_bram_write1/BRAM_PORTB]
-connect_bd_intf_net [get_bd_intf_pins plps_0/bram_write2] [get_bd_intf_pins blk_mem_bram_write2/BRAM_PORTB]
-connect_bd_intf_net [get_bd_intf_pins plps_0/bram_write3] [get_bd_intf_pins blk_mem_bram_write3/BRAM_PORTB]
+connect_bd_intf_net [get_bd_intf_pins plps_0/bram_tohost0] [get_bd_intf_pins blk_mem_bram_tohost0/BRAM_PORTB]
+connect_bd_intf_net [get_bd_intf_pins plps_0/bram_tohost1] [get_bd_intf_pins blk_mem_bram_tohost1/BRAM_PORTB]
+connect_bd_intf_net [get_bd_intf_pins plps_0/bram_fromhost0] [get_bd_intf_pins blk_mem_bram_fromhost0/BRAM_PORTB]
+connect_bd_intf_net [get_bd_intf_pins plps_0/bram_fromhost1] [get_bd_intf_pins blk_mem_bram_fromhost1/BRAM_PORTB]
+connect_bd_intf_net [get_bd_intf_pins plps_0/bram_fromhost2] [get_bd_intf_pins blk_mem_bram_fromhost2/BRAM_PORTB]
+connect_bd_intf_net [get_bd_intf_pins plps_0/bram_fromhost3] [get_bd_intf_pins blk_mem_bram_fromhost3/BRAM_PORTB]
 connect_bd_intf_net [get_bd_intf_pins plps_0/fpga] [get_bd_intf_ports fpga]
 connect_bd_intf_net [get_bd_intf_pins plps_0/lb1] [get_bd_intf_pins ctrlregs/lb]
 connect_bd_intf_net [get_bd_intf_pins plps_0/lb2] [get_bd_intf_pins dspregs/lb]
@@ -135,12 +135,12 @@ connect_bd_net [get_bd_pins plps_0/cfgclk] [get_bd_pins axi_interconnect_1/M05_A
 connect_bd_net [get_bd_pins plps_0/cfgclk] [get_bd_pins axi_interconnect_1/M06_ACLK]
 connect_bd_net [get_bd_pins plps_0/cfgclk] [get_bd_pins axi_interconnect_1/M07_ACLK]
 connect_bd_net [get_bd_pins plps_0/cfgclk] [get_bd_pins axi_interconnect_1/M08_ACLK]
-connect_bd_net [get_bd_pins plps_0/cfgclk] [get_bd_pins bram_read0/s_axi_aclk]
-connect_bd_net [get_bd_pins plps_0/cfgclk] [get_bd_pins bram_read1/s_axi_aclk] 
-connect_bd_net [get_bd_pins plps_0/cfgclk] [get_bd_pins bram_write0/s_axi_aclk]
-connect_bd_net [get_bd_pins plps_0/cfgclk] [get_bd_pins bram_write1/s_axi_aclk]
-connect_bd_net [get_bd_pins plps_0/cfgclk] [get_bd_pins bram_write2/s_axi_aclk]
-connect_bd_net [get_bd_pins plps_0/cfgclk] [get_bd_pins bram_write3/s_axi_aclk]
+connect_bd_net [get_bd_pins plps_0/cfgclk] [get_bd_pins bram_tohost0/s_axi_aclk]
+connect_bd_net [get_bd_pins plps_0/cfgclk] [get_bd_pins bram_tohost1/s_axi_aclk] 
+connect_bd_net [get_bd_pins plps_0/cfgclk] [get_bd_pins bram_fromhost0/s_axi_aclk]
+connect_bd_net [get_bd_pins plps_0/cfgclk] [get_bd_pins bram_fromhost1/s_axi_aclk]
+connect_bd_net [get_bd_pins plps_0/cfgclk] [get_bd_pins bram_fromhost2/s_axi_aclk]
+connect_bd_net [get_bd_pins plps_0/cfgclk] [get_bd_pins bram_fromhost3/s_axi_aclk]
 connect_bd_net [get_bd_pins plps_0/cfgclk] [get_bd_pins ctrlregs/axi_aclk]
 connect_bd_net [get_bd_pins plps_0/cfgclk] [get_bd_pins rf_data_converter/s_axi_aclk]
 connect_bd_net [get_bd_pins plps_0/cfgresetn00] [get_bd_pins axi_interconnect_1/M00_ARESETN] 
@@ -153,12 +153,12 @@ connect_bd_net [get_bd_pins plps_0/cfgresetn06] [get_bd_pins axi_interconnect_1/
 connect_bd_net [get_bd_pins plps_0/cfgresetn07] [get_bd_pins axi_interconnect_1/M07_ARESETN]
 connect_bd_net [get_bd_pins plps_0/cfgresetn08] [get_bd_pins axi_interconnect_1/M08_ARESETN]
 connect_bd_net [get_bd_pins plps_0/cfgresetn09] [get_bd_pins ctrlregs/axi_aresetn]
-connect_bd_net [get_bd_pins plps_0/cfgresetn10] [get_bd_pins bram_read0/s_axi_aresetn]
-connect_bd_net [get_bd_pins plps_0/cfgresetn11] [get_bd_pins bram_read1/s_axi_aresetn]
-connect_bd_net [get_bd_pins plps_0/cfgresetn12] [get_bd_pins bram_write0/s_axi_aresetn]
-connect_bd_net [get_bd_pins plps_0/cfgresetn13] [get_bd_pins bram_write1/s_axi_aresetn]
-connect_bd_net [get_bd_pins plps_0/cfgresetn14] [get_bd_pins bram_write2/s_axi_aresetn]
-connect_bd_net [get_bd_pins plps_0/cfgresetn15] [get_bd_pins bram_write3/s_axi_aresetn]
+connect_bd_net [get_bd_pins plps_0/cfgresetn10] [get_bd_pins bram_tohost0/s_axi_aresetn]
+connect_bd_net [get_bd_pins plps_0/cfgresetn11] [get_bd_pins bram_tohost1/s_axi_aresetn]
+connect_bd_net [get_bd_pins plps_0/cfgresetn12] [get_bd_pins bram_fromhost0/s_axi_aresetn]
+connect_bd_net [get_bd_pins plps_0/cfgresetn13] [get_bd_pins bram_fromhost1/s_axi_aresetn]
+connect_bd_net [get_bd_pins plps_0/cfgresetn14] [get_bd_pins bram_fromhost2/s_axi_aresetn]
+connect_bd_net [get_bd_pins plps_0/cfgresetn15] [get_bd_pins bram_fromhost3/s_axi_aresetn]
 connect_bd_net [get_bd_pins plps_0/cfgresetn16] [get_bd_pins axi_clock_converter_0/s_axi_aresetn]
 connect_bd_net [get_bd_pins plps_0/cfgresetn17] [get_bd_pins rf_data_converter/s_axi_aresetn]
 connect_bd_net [get_bd_pins plps_0/clk_adc2] [get_bd_pins rf_data_converter/clk_adc2]
@@ -190,49 +190,49 @@ connect_bd_net [get_bd_pins plps_0/psresetn01] [get_bd_pins axi_interconnect_1/S
 
 
 
-create_bd_cell -type ip -vlnv xilinx.com:ip:c_counter_binary:12.0 c_counter_binary_0
-connect_bd_net [get_bd_pins c_counter_binary_0/CLK] [get_bd_pins plps_0/dspclk]
-connect_bd_net -net Q [get_bd_pins c_counter_binary_0/Q]
-set_property HDL_ATTRIBUTE.DEBUG true [get_bd_intf_nets {axi_clock_converter_0_M_AXI dspregs_lb}]
-set_property HDL_ATTRIBUTE.DEBUG true [get_bd_nets {Q }]
-connect_bd_net -net dspawstate_dbg [get_bd_pins dspregs/awstate_dbg]
-connect_bd_net -net dsparstate_dbg [get_bd_pins dspregs/arstate_dbg]
-connect_bd_net -net dspwstate_dbg [get_bd_pins dspregs/wstate_dbg]
-connect_bd_net -net dsprstate_dbg [get_bd_pins dspregs/rstate_dbg]
-connect_bd_net -net dspbstate_dbg [get_bd_pins dspregs/bstate_dbg]
-set_property HDL_ATTRIBUTE.DEBUG true [get_bd_nets {dspawstate_dbg dsparstate_dbg dspwstate_dbg dsprstate_dbg dspbstate_dbg }]
-													 
-apply_bd_automation -rule xilinx.com:bd_rule:debug -dict [list \
-                                                          [get_bd_nets dsparstate_dbg] {PROBE_TYPE "Data and Trigger" CLK_SRC "/plps_0/dspclk" SYSTEM_ILA "Auto" } \
-                                                          [get_bd_nets dspawstate_dbg] {PROBE_TYPE "Data and Trigger" CLK_SRC "/plps_0/dspclk" SYSTEM_ILA "Auto" } \
-                                                          [get_bd_intf_nets axi_clock_converter_0_M_AXI] {AXI_R_ADDRESS "Data and Trigger" AXI_R_DATA "Data and Trigger" AXI_W_ADDRESS "Data and Trigger" AXI_W_DATA "Data and Trigger" AXI_W_RESPONSE "Data and Trigger" CLK_SRC "/plps_0/dspclk" SYSTEM_ILA "Auto" APC_EN "0" } \
-                                                          [get_bd_nets dspbstate_dbg] {PROBE_TYPE "Data and Trigger" CLK_SRC "/plps_0/dspclk" SYSTEM_ILA "Auto" } \
-                                                          [get_bd_intf_nets dspregs_lb] {NON_AXI_SIGNALS "Data and Trigger" CLK_SRC "/plps_0/dspclk" SYSTEM_ILA "Auto" } \
-                                                          [get_bd_nets dsprstate_dbg] {PROBE_TYPE "Data and Trigger" CLK_SRC "/plps_0/dspclk" SYSTEM_ILA "Auto" } \
-                                                          [get_bd_nets dspwstate_dbg] {PROBE_TYPE "Data and Trigger" CLK_SRC "/plps_0/dspclk" SYSTEM_ILA "Auto" } \
-                                                          [get_bd_nets Q] {PROBE_TYPE "Data and Trigger" CLK_SRC "/plps_0/dspclk" SYSTEM_ILA "Auto" } \
-                                                         ]
-connect_bd_net [get_bd_pins rst_psbd_600M/ext_reset_in] [get_bd_pins zynq_ultra_ps_e_0/pl_resetn0]
-
-
-
-connect_bd_net -net ctrlrstate_dbg [get_bd_pins ctrlregs/rstate_dbg]
-connect_bd_net -net ctrlbstate_dbg [get_bd_pins ctrlregs/bstate_dbg]
-connect_bd_net -net ctrlawstate_dbg [get_bd_pins ctrlregs/awstate_dbg]
-connect_bd_net -net ctrlarstate_dbg [get_bd_pins ctrlregs/arstate_dbg]
-connect_bd_net -net ctrlwstate_dbg [get_bd_pins ctrlregs/wstate_dbg]
-set_property HDL_ATTRIBUTE.DEBUG true [get_bd_nets {ctrlrstate_dbg ctrlbstate_dbg ctrlawstate_dbg ctrlarstate_dbg ctrlwstate_dbg }]
-set_property HDL_ATTRIBUTE.DEBUG true [get_bd_intf_nets {ctrlregs_lb axi_interconnect_1_M00_AXI}]
-apply_bd_automation -rule xilinx.com:bd_rule:debug -dict [list \
-                                                          [get_bd_nets ctrlarstate_dbg] {PROBE_TYPE "Data and Trigger" CLK_SRC "/plps_0/cfgclk" SYSTEM_ILA "Auto" } \
-                                                          [get_bd_nets ctrlawstate_dbg] {PROBE_TYPE "Data and Trigger" CLK_SRC "/plps_0/cfgclk" SYSTEM_ILA "Auto" } \
-                                                          [get_bd_intf_nets axi_interconnect_1_M00_AXI] {AXI_R_ADDRESS "Data and Trigger" AXI_R_DATA "Data and Trigger" AXI_W_ADDRESS "Data and Trigger" AXI_W_DATA "Data and Trigger" AXI_W_RESPONSE "Data and Trigger" CLK_SRC "/plps_0/cfgclk" SYSTEM_ILA "Auto" APC_EN "0" } \
-                                                          [get_bd_nets ctrlbstate_dbg] {PROBE_TYPE "Data and Trigger" CLK_SRC "/plps_0/cfgclk" SYSTEM_ILA "Auto" } \
-                                                          [get_bd_intf_nets ctrlregs_lb] {NON_AXI_SIGNALS "Data and Trigger" CLK_SRC "/plps_0/cfgclk" SYSTEM_ILA "Auto" } \
-                                                          [get_bd_nets ctrlrstate_dbg] {PROBE_TYPE "Data and Trigger" CLK_SRC "/plps_0/cfgclk" SYSTEM_ILA "Auto" } \
-                                                          [get_bd_nets ctrlwstate_dbg] {PROBE_TYPE "Data and Trigger" CLK_SRC "/plps_0/cfgclk" SYSTEM_ILA "Auto" } \
-                                                         ]
-connect_bd_net [get_bd_pins zynq_ultra_ps_e_0/pl_resetn0] [get_bd_pins rst_psbd_100M/ext_reset_in]
+#create_bd_cell -type ip -vlnv xilinx.com:ip:c_counter_binary:12.0 c_counter_binary_0
+#connect_bd_net [get_bd_pins c_counter_binary_0/CLK] [get_bd_pins plps_0/dspclk]
+#connect_bd_net -net Q [get_bd_pins c_counter_binary_0/Q]
+#set_property HDL_ATTRIBUTE.DEBUG true [get_bd_intf_nets {axi_clock_converter_0_M_AXI dspregs_lb}]
+#set_property HDL_ATTRIBUTE.DEBUG true [get_bd_nets {Q }]
+#connect_bd_net -net dspawstate_dbg [get_bd_pins dspregs/awstate_dbg]
+#connect_bd_net -net dsparstate_dbg [get_bd_pins dspregs/arstate_dbg]
+#connect_bd_net -net dspwstate_dbg [get_bd_pins dspregs/wstate_dbg]
+#connect_bd_net -net dsprstate_dbg [get_bd_pins dspregs/rstate_dbg]
+#connect_bd_net -net dspbstate_dbg [get_bd_pins dspregs/bstate_dbg]
+#set_property HDL_ATTRIBUTE.DEBUG true [get_bd_nets {dspawstate_dbg dsparstate_dbg dspwstate_dbg dsprstate_dbg dspbstate_dbg }]
+#													 
+#apply_bd_automation -rule xilinx.com:bd_rule:debug -dict [list \
+#                                                          [get_bd_nets dsparstate_dbg] {PROBE_TYPE "Data and Trigger" CLK_SRC "/plps_0/dspclk" SYSTEM_ILA "Auto" } \
+#                                                          [get_bd_nets dspawstate_dbg] {PROBE_TYPE "Data and Trigger" CLK_SRC "/plps_0/dspclk" SYSTEM_ILA "Auto" } \
+#                                                          [get_bd_intf_nets axi_clock_converter_0_M_AXI] {AXI_R_ADDRESS "Data and Trigger" AXI_R_DATA "Data and Trigger" AXI_W_ADDRESS "Data and Trigger" AXI_W_DATA "Data and Trigger" AXI_W_RESPONSE "Data and Trigger" CLK_SRC "/plps_0/dspclk" SYSTEM_ILA "Auto" APC_EN "0" } \
+#                                                          [get_bd_nets dspbstate_dbg] {PROBE_TYPE "Data and Trigger" CLK_SRC "/plps_0/dspclk" SYSTEM_ILA "Auto" } \
+#                                                          [get_bd_intf_nets dspregs_lb] {NON_AXI_SIGNALS "Data and Trigger" CLK_SRC "/plps_0/dspclk" SYSTEM_ILA "Auto" } \
+#                                                          [get_bd_nets dsprstate_dbg] {PROBE_TYPE "Data and Trigger" CLK_SRC "/plps_0/dspclk" SYSTEM_ILA "Auto" } \
+#                                                          [get_bd_nets dspwstate_dbg] {PROBE_TYPE "Data and Trigger" CLK_SRC "/plps_0/dspclk" SYSTEM_ILA "Auto" } \
+#                                                          [get_bd_nets Q] {PROBE_TYPE "Data and Trigger" CLK_SRC "/plps_0/dspclk" SYSTEM_ILA "Auto" } \
+#                                                         ]
+#connect_bd_net [get_bd_pins rst_psbd_600M/ext_reset_in] [get_bd_pins zynq_ultra_ps_e_0/pl_resetn0]
+#
+#
+#
+#connect_bd_net -net ctrlrstate_dbg [get_bd_pins ctrlregs/rstate_dbg]
+#connect_bd_net -net ctrlbstate_dbg [get_bd_pins ctrlregs/bstate_dbg]
+#connect_bd_net -net ctrlawstate_dbg [get_bd_pins ctrlregs/awstate_dbg]
+#connect_bd_net -net ctrlarstate_dbg [get_bd_pins ctrlregs/arstate_dbg]
+#connect_bd_net -net ctrlwstate_dbg [get_bd_pins ctrlregs/wstate_dbg]
+#set_property HDL_ATTRIBUTE.DEBUG true [get_bd_nets {ctrlrstate_dbg ctrlbstate_dbg ctrlawstate_dbg ctrlarstate_dbg ctrlwstate_dbg }]
+#set_property HDL_ATTRIBUTE.DEBUG true [get_bd_intf_nets {ctrlregs_lb axi_interconnect_1_M00_AXI}]
+#apply_bd_automation -rule xilinx.com:bd_rule:debug -dict [list \
+#                                                          [get_bd_nets ctrlarstate_dbg] {PROBE_TYPE "Data and Trigger" CLK_SRC "/plps_0/cfgclk" SYSTEM_ILA "Auto" } \
+#                                                          [get_bd_nets ctrlawstate_dbg] {PROBE_TYPE "Data and Trigger" CLK_SRC "/plps_0/cfgclk" SYSTEM_ILA "Auto" } \
+#                                                          [get_bd_intf_nets axi_interconnect_1_M00_AXI] {AXI_R_ADDRESS "Data and Trigger" AXI_R_DATA "Data and Trigger" AXI_W_ADDRESS "Data and Trigger" AXI_W_DATA "Data and Trigger" AXI_W_RESPONSE "Data and Trigger" CLK_SRC "/plps_0/cfgclk" SYSTEM_ILA "Auto" APC_EN "0" } \
+#                                                          [get_bd_nets ctrlbstate_dbg] {PROBE_TYPE "Data and Trigger" CLK_SRC "/plps_0/cfgclk" SYSTEM_ILA "Auto" } \
+#                                                          [get_bd_intf_nets ctrlregs_lb] {NON_AXI_SIGNALS "Data and Trigger" CLK_SRC "/plps_0/cfgclk" SYSTEM_ILA "Auto" } \
+#                                                          [get_bd_nets ctrlrstate_dbg] {PROBE_TYPE "Data and Trigger" CLK_SRC "/plps_0/cfgclk" SYSTEM_ILA "Auto" } \
+#                                                          [get_bd_nets ctrlwstate_dbg] {PROBE_TYPE "Data and Trigger" CLK_SRC "/plps_0/cfgclk" SYSTEM_ILA "Auto" } \
+#                                                         ]
+#connect_bd_net [get_bd_pins zynq_ultra_ps_e_0/pl_resetn0] [get_bd_pins rst_psbd_100M/ext_reset_in]
 
 
 assign_bd_address

@@ -43,6 +43,10 @@ always @(posedge dspif.clk) begin
 end
 
 wire locklast=&dspif.bramaddr;
+reg [16*16-1:0] cossteps_r=0;
+reg [16*16-1:0] sinsteps_r=0;
+wire [16*16-1:0] cossteps;
+wire [16*16-1:0] sinsteps;
 always @(posedge dspif.clk) begin
 	if (regs.reset_bram_read[0]) begin
 		dspif.bramaddr<=0;
@@ -66,6 +70,30 @@ always @(posedge dspif.clk) begin
 		end
 		3: begin
 			dspif.bramval<={4{sin}};
+		end
+		4: begin
+			dspif.bramval<=cossteps_r[63:0];
+		end
+		5: begin
+			dspif.bramval<=sinsteps_r[63:0];
+		end
+		6: begin
+			dspif.bramval<=cossteps_r[127:64];
+		end
+		7: begin
+			dspif.bramval<=sinsteps_r[127:64];
+		end
+		8: begin
+			dspif.bramval<=cossteps_r[191:128];
+		end
+		9: begin
+			dspif.bramval<=sinsteps_r[191:128];
+		end
+		10: begin
+			dspif.bramval<=cossteps_r[255:192];
+		end
+		11: begin
+			dspif.bramval<=sinsteps_r[255:192];
 		end
 	endcase
 end
@@ -101,6 +129,12 @@ always @(posedge dspif.clk) begin
 			,cnt3[11:0],4'd1
 			,cnt3[11:0],4'd0};
 		end
+		5: begin
+			dacval<=cossteps_r;
+		end
+		6: begin
+			dacval<=sinsteps_r;
+		end
 		default: begin
 			dacval<={256{1'b0}};
 		end
@@ -110,7 +144,6 @@ always @(posedge dspif.clk) begin
 	dacval22<=dacval;
 	dacval32<=dacval;
 end
-
 
 
 always@(posedge dspif.clk) begin
@@ -128,6 +161,41 @@ always @(posedge dspif.clk) begin
 	sin<=sin_w;
 end
 
+reg [16*16-1:0] cos16=0;
+reg [16*16-1:0] sin16=0;
+
+always @(posedge dspif.clk) begin
+
+	cos16<={regs.freq0[31:16],regs.freq1[31:16],regs.freq2[31:16],regs.freq3[31:16],regs.freq4[31:16],regs.freq5[31:16],regs.freq6[31:16],regs.freq7[31:16],regs.freq8[31:16],regs.freq9[31:16],regs.freqa[31:16],regs.freqb[31:16],regs.freqc[31:16],regs.freqd[31:16],regs.freqe[31:16],regs.freqf[31:16]};
+	sin16<={regs.freq0[15:0],regs.freq1[15:0],regs.freq2[15:0],regs.freq3[15:0],regs.freq4[15:0],regs.freq5[15:0],regs.freq6[15:0],regs.freq7[15:0],regs.freq8[15:0],regs.freq9[15:0],regs.freqa[15:0],regs.freqb[15:0],regs.freqc[15:0],regs.freqd[15:0],regs.freqe[15:0],regs.freqf[15:0]};
+	cossteps_r<=cossteps;
+	sinsteps_r<=sinsteps;
+
+end
+generate
+for (genvar i=0;i<16;i++) begin
+	wire [32:0] cos0,sin0;
+	wire [15:0] yr=cos16[(i+1)*16-1:i*16];
+	wire [15:0] yi=sin16[(i+1)*16-1:i*16];
+	cmultiplier #(.XWIDTH(16),.YWIDTH(16))//#(.FPGA("REGMULT"))
+	mult1(.clk(dspif.clk)
+	,.xr(cos),.xi(sin)
+	,.yr(yr),.yi(yi)
+
+	//	,.xr({cos,{10{cos[0]}}})
+	//	,.xi({sin,{10{sin[0]}}})
+	//	,.yr({yr,{2{yr[0]}}})
+	//	,.yi({yi,{2{yi[0]}}})
+	//	,.xr({{9{cos[15]}},cos[15:0]})
+	//	,.xi({{9{sin[15]}},sin[15:0]})
+	//	,.yr({{2{yr[15]}},yr})
+	//	,.yi({{2{yi[15]}},yi})
+	,.zr(cos0),.zi(sin0)
+	);
+	assign cossteps[(i+1)*16-1:i*16]=cos0[31:16];//[47:32];
+	assign sinsteps[(i+1)*16-1:i*16]=sin0[31:16];//[47:32];
+end
+endgenerate
 assign regs.test1=regs.test;
 
 assign dspif.dac20=dacval20;

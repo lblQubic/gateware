@@ -4,10 +4,10 @@ module plsv #(parameter integer DATA_WIDTH	= 32
 ,parameter DEBUG="true"
 ,parameter DAC_AXIS_DATAWIDTH=256
 ,parameter ADC_AXIS_DATAWIDTH=128
-,parameter integer BRAMREAD_ADDRWIDTH=13
-,parameter integer BRAMREAD_DATAWIDTH=64
-,parameter integer BRAMWRITE_ADDRWIDTH=32
-,parameter integer BRAMWRITE_DATAWIDTH=256
+,parameter integer BRAMTOHOST_ADDRWIDTH=13
+,parameter integer BRAMTOHOST_DATAWIDTH=64
+,parameter integer BRAMFROMHOST_ADDRWIDTH=32
+,parameter integer BRAMFROMHOST_DATAWIDTH=256
 )(	`include "plps_port.vh"
 ,hwif hw
 ,input clkadc2_300
@@ -66,81 +66,69 @@ dspregs(.lb(lb2));
 //wire [31:0] cfgresetn;
 //wire [31:0] dspresetn;
 
-//ifbram #(.ADDR_WIDTH(BRAMREAD_ADDRWIDTH),.DATA_WIDTH(BRAMREAD_DATAWIDTH)) bram_read0();
-//ifbram #(.ADDR_WIDTH(BRAMREAD_ADDRWIDTH),.DATA_WIDTH(BRAMREAD_DATAWIDTH)) bram_read1();
+//ifbram #(.ADDR_WIDTH(BRAMTOHOST_ADDRWIDTH),.DATA_WIDTH(BRAMTOHOST_DATAWIDTH)) bram_tohost0();
+//ifbram #(.ADDR_WIDTH(BRAMTOHOST_ADDRWIDTH),.DATA_WIDTH(BRAMTOHOST_DATAWIDTH)) bram_tohost1();
 //	ifbram #(.ADDR_WIDTH(32),.DATA_WIDTH(128)) bram();
 /*bram_map #(.ADDR_WIDTH(13),.DATA_WIDTH(64))
-bram_read0_map(.bram(bram_read0.map)
-,.clk(BRAM_READ0_clk)
-,.rst(BRAM_READ0_rst)
-,.addr(BRAM_READ0_addr)
-,.din(BRAM_READ0_din)
-,.dout(BRAM_READ0_dout)
-,.en(BRAM_READ0_en)
-,.we(BRAM_READ0_we)
+bram_tohost0_map(.bram(bram_tohost0.map)
+,.clk(BRAM_TOHOST0_clk)
+,.rst(BRAM_TOHOST0_rst)
+,.addr(BRAM_TOHOST0_addr)
+,.din(BRAM_TOHOST0_din)
+,.dout(BRAM_TOHOST0_dout)
+,.en(BRAM_TOHOST0_en)
+,.we(BRAM_TOHOST0_we)
 );
 bram_map #(.ADDR_WIDTH(13),.DATA_WIDTH(64))
-bram_read1_map(.bram(bram_read1.map)
-,.clk(BRAM_READ1_clk)
-,.rst(BRAM_READ1_rst)
-,.addr(BRAM_READ1_addr)
-,.din(BRAM_READ1_din)
-,.dout(BRAM_READ1_dout)
-,.en(BRAM_READ1_en)
-,.we(BRAM_READ1_we)
+bram_tohost1_map(.bram(bram_tohost1.map)
+,.clk(BRAM_TOHOST1_clk)
+,.rst(BRAM_TOHOST1_rst)
+,.addr(BRAM_TOHOST1_addr)
+,.din(BRAM_TOHOST1_din)
+,.dout(BRAM_TOHOST1_dout)
+,.en(BRAM_TOHOST1_en)
+,.we(BRAM_TOHOST1_we)
 );
-*/
 wire [1:0] bramclk;
-assign {BRAM_READ1_clk,BRAM_READ0_clk}=bramclk;
+assign {BRAM_TOHOST1_clk,BRAM_TOHOST0_clk}=bramclk;
 wire [1:0] bramrst;
-assign {BRAM_READ1_rst,BRAM_READ0_rst}=bramrst;
-wire [2*BRAMREAD_ADDRWIDTH-1:0] bramaddr;
-assign {BRAM_READ1_addr,BRAM_READ0_addr}=bramaddr;
-wire [2*BRAMREAD_DATAWIDTH-1:0] bramdin;
-assign {BRAM_READ1_din,BRAM_READ0_din}=bramdin;
-wire [2*BRAMREAD_DATAWIDTH-1:0] bramdout;
-assign bramdout={BRAM_READ1_dout,BRAM_READ0_dout};
+assign {BRAM_TOHOST1_rst,BRAM_TOHOST0_rst}=bramrst;
+wire [2*BRAMTOHOST_ADDRWIDTH-1:0] bramaddr;
+assign {BRAM_TOHOST1_addr,BRAM_TOHOST0_addr}=bramaddr;
+wire [2*BRAMTOHOST_DATAWIDTH-1:0] bramdin;
+assign {BRAM_TOHOST1_din,BRAM_TOHOST0_din}=bramdin;
+wire [2*BRAMTOHOST_DATAWIDTH-1:0] bramdout;
+assign bramdout={BRAM_TOHOST1_dout,BRAM_TOHOST0_dout};
 wire [1:0] bramen;
-assign {BRAM_READ1_en,BRAM_READ0_en}=bramen;
+assign {BRAM_TOHOST1_en,BRAM_TOHOST0_en}=bramen;
 wire [15:0] bramwe;
-assign {BRAM_READ1_we,BRAM_READ0_we}=bramwe;
+assign {BRAM_TOHOST1_we,BRAM_TOHOST0_we}=bramwe;
 
+*/
 /*begin
-bram_read0.mappin(
-.addrpin(BRAM_READ0_addr)
-,.clkpin(BRAM_READ0_clk)
-,.rstpin(BRAM_READ0_rst)
-,.addrpin(BRAM_READ0_addr)
-,.dinpin(BRAM_READ0_din)
-,.doutpin(BRAM_READ0_dout)
-,.enpin(BRAM_READ0_en)
-,.wepin(BRAM_READ0_we)
+bram_tohost0.mappin(
+.addrpin(BRAM_TOHOST0_addr)
+,.clkpin(BRAM_TOHOST0_clk)
+,.rstpin(BRAM_TOHOST0_rst)
+,.addrpin(BRAM_TOHOST0_addr)
+,.dinpin(BRAM_TOHOST0_din)
+,.doutpin(BRAM_TOHOST0_dout)
+,.enpin(BRAM_TOHOST0_en)
+,.wepin(BRAM_TOHOST0_we)
 );
 end
 */
-//bram_read1.mappin(.clkpin(BRAM_READ1_clk),.rstpin(BRAM_READ1_rst),.addrpin(BRAM_READ1_addr),.dinpin(BRAM_READ1_din),.doutpin(BRAM_READ1_dout),.enpin(BRAM_READ1_en),.wepin(BRAM_READ1_we));
-ifbram #(.ADDR_WIDTH(BRAMREAD_ADDRWIDTH),.DATA_WIDTH(BRAMREAD_DATAWIDTH)) bram_read0();
-ifbram #(.ADDR_WIDTH(BRAMREAD_ADDRWIDTH),.DATA_WIDTH(BRAMREAD_DATAWIDTH)) bram_read1();
-
-bram_map #(.ADDR_WIDTH(BRAMREAD_ADDRWIDTH),.DATA_WIDTH(BRAMREAD_DATAWIDTH))
-bram_read0_map(.bram(bram_read0)
-,.clk(BRAM_READ0_clk),.rst(BRAM_READ0_rst),.addr(BRAM_READ0_addr),.din(BRAM_READ0_din),.dout(BRAM_READ0_dout),.en(BRAM_READ0_en),.we(BRAM_READ0_we));
-bram_map #(.ADDR_WIDTH(BRAMREAD_ADDRWIDTH),.DATA_WIDTH(BRAMREAD_DATAWIDTH))
-bram_read1_map(.bram(bram_read1)
-,.clk(BRAM_READ1_clk),.rst(BRAM_READ1_rst),.addr(BRAM_READ1_addr),.din(BRAM_READ1_din),.dout(BRAM_READ1_dout),.en(BRAM_READ1_en),.we(BRAM_READ1_we));
-
-bram_cfg bram_read0_cfg(.bram(bram_read0.cfg),.clk(dspclk),.rst(1'b0),.en(1'b1));
-bram_cfg bram_read1_cfg(.bram(bram_read1.cfg),.clk(dspclk),.rst(1'b0),.en(1'b1));
+//bram_tohost1.mappin(.clkpin(BRAM_TOHOST1_clk),.rstpin(BRAM_TOHOST1_rst),.addrpin(BRAM_TOHOST1_addr),.dinpin(BRAM_TOHOST1_din),.doutpin(BRAM_TOHOST1_dout),.enpin(BRAM_TOHOST1_en),.wepin(BRAM_TOHOST1_we));
 /*generate
 for (genvar i=0;i<2;i++) begin
-	bram_map #(.ADDR_WIDTH(BRAMREAD_ADDRWIDTH),.DATA_WIDTH(BRAMREAD_DATAWIDTH))
-	bram_read_map(.bram(bram_read[i])
-	//bram_read[i].mappin(
+	bram_map #(.ADDR_WIDTH(BRAMTOHOST_ADDRWIDTH),.DATA_WIDTH(BRAMTOHOST_DATAWIDTH))
+	bram_tohost_map(.bram(bram_tohost[i])
+	//bram_tohost[i].mappin(
 	,.clk(bramclk[i])
 	,.rst(bramrst[i])
-	,.addr(bramaddr[(i+1)*BRAMREAD_ADDRWIDTH-1:i*BRAMREAD_ADDRWIDTH])
-	,.din(bramdin[(i+1)*BRAMREAD_DATAWIDTH-1:i*BRAMREAD_DATAWIDTH])
-	,.dout(bramdout[(i+1)*BRAMREAD_DATAWIDTH-1:i*BRAMREAD_DATAWIDTH])
+	,.addr(bramaddr[(i+1)*BRAMTOHOST_ADDRWIDTH-1:i*BRAMTOHOST_ADDRWIDTH])
+	,.din(bramdin[(i+1)*BRAMTOHOST_DATAWIDTH-1:i*BRAMTOHOST_DATAWIDTH])
+	,.dout(bramdout[(i+1)*BRAMTOHOST_DATAWIDTH-1:i*BRAMTOHOST_DATAWIDTH])
 	,.en(bramen[i])
 	,.we(bramwe[(i+1)*8-1:i*8])
 	);
@@ -148,66 +136,72 @@ end
 endgenerate
 */
 
-wire [3:0] bramwriteclk;
-assign {BRAM_WRITE3_clk,BRAM_WRITE2_clk,BRAM_WRITE1_clk,BRAM_WRITE0_clk}=bramwriteclk;
+/*wire [3:0] bramwriteclk;
+assign {BRAM_FROMHOST3_clk,BRAM_FROMHOST2_clk,BRAM_FROMHOST1_clk,BRAM_FROMHOST0_clk}=bramwriteclk;
 wire [3:0] bramwriterst;
-assign {BRAM_WRITE3_rst,BRAM_WRITE2_rst,BRAM_WRITE1_rst,BRAM_WRITE0_rst}=bramwriterst;
-wire [4*BRAMWRITE_ADDRWIDTH-1:0] bramwriteaddr;
-assign {BRAM_WRITE3_addr,BRAM_WRITE2_addr,BRAM_WRITE1_addr,BRAM_WRITE0_addr}=bramwriteaddr;
-wire [4*BRAMWRITE_DATAWIDTH-1:0] bramwritedin;
-assign {BRAM_WRITE3_din,BRAM_WRITE2_din,BRAM_WRITE1_din,BRAM_WRITE0_din}=bramwritedin;
-wire [4*BRAMWRITE_DATAWIDTH-1:0] bramwritedout;
-assign bramwritedout={BRAM_WRITE3_dout,BRAM_WRITE2_dout,BRAM_WRITE1_dout,BRAM_WRITE0_dout};
+assign {BRAM_FROMHOST3_rst,BRAM_FROMHOST2_rst,BRAM_FROMHOST1_rst,BRAM_FROMHOST0_rst}=bramwriterst;
+wire [4*BRAMFROMHOST_ADDRWIDTH-1:0] bramwriteaddr;
+assign {BRAM_FROMHOST3_addr,BRAM_FROMHOST2_addr,BRAM_FROMHOST1_addr,BRAM_FROMHOST0_addr}=bramwriteaddr;
+wire [4*BRAMFROMHOST_DATAWIDTH-1:0] bramwritedin;
+assign {BRAM_FROMHOST3_din,BRAM_FROMHOST2_din,BRAM_FROMHOST1_din,BRAM_FROMHOST0_din}=bramwritedin;
+wire [4*BRAMFROMHOST_DATAWIDTH-1:0] bramwritedout;
+assign bramwritedout={BRAM_FROMHOST3_dout,BRAM_FROMHOST2_dout,BRAM_FROMHOST1_dout,BRAM_FROMHOST0_dout};
 wire [3:0] bramwriteen;
-assign {BRAM_WRITE3_en,BRAM_WRITE2_en,BRAM_WRITE1_en,BRAM_WRITE0_en}=bramwriteen;
-wire [4*BRAMWRITE_DATAWIDTH/8-1:0] bramwritewe;
-assign {BRAM_WRITE3_we,BRAM_WRITE2_we,BRAM_WRITE1_we,BRAM_WRITE0_we}=bramwritewe;
+assign {BRAM_FROMHOST3_en,BRAM_FROMHOST2_en,BRAM_FROMHOST1_en,BRAM_FROMHOST0_en}=bramwriteen;
+wire [4*BRAMFROMHOST_DATAWIDTH/8-1:0] bramwritewe;
+assign {BRAM_FROMHOST3_we,BRAM_FROMHOST2_we,BRAM_FROMHOST1_we,BRAM_FROMHOST0_we}=bramwritewe;
+*/
+ifbram #(.ADDR_WIDTH(BRAMTOHOST_ADDRWIDTH),.DATA_WIDTH(BRAMTOHOST_DATAWIDTH)) bram_tohost0();
+ifbram #(.ADDR_WIDTH(BRAMTOHOST_ADDRWIDTH),.DATA_WIDTH(BRAMTOHOST_DATAWIDTH)) bram_tohost1();
 
-ifbram #(.ADDR_WIDTH(BRAMWRITE_ADDRWIDTH),.DATA_WIDTH(BRAMWRITE_DATAWIDTH)) bram_write0();
-ifbram #(.ADDR_WIDTH(BRAMWRITE_ADDRWIDTH),.DATA_WIDTH(BRAMWRITE_DATAWIDTH)) bram_write1();
-ifbram #(.ADDR_WIDTH(BRAMWRITE_ADDRWIDTH),.DATA_WIDTH(BRAMWRITE_DATAWIDTH)) bram_write2();
-ifbram #(.ADDR_WIDTH(BRAMWRITE_ADDRWIDTH),.DATA_WIDTH(BRAMWRITE_DATAWIDTH)) bram_write3();
+ifbram #(.ADDR_WIDTH(BRAMFROMHOST_ADDRWIDTH),.DATA_WIDTH(BRAMFROMHOST_DATAWIDTH)) bram_fromhost0();
+ifbram #(.ADDR_WIDTH(BRAMFROMHOST_ADDRWIDTH),.DATA_WIDTH(BRAMFROMHOST_DATAWIDTH)) bram_fromhost1();
+ifbram #(.ADDR_WIDTH(BRAMFROMHOST_ADDRWIDTH),.DATA_WIDTH(BRAMFROMHOST_DATAWIDTH)) bram_fromhost2();
+ifbram #(.ADDR_WIDTH(BRAMFROMHOST_ADDRWIDTH),.DATA_WIDTH(BRAMFROMHOST_DATAWIDTH)) bram_fromhost3();
 
-bram_map #(.ADDR_WIDTH(BRAMREAD_ADDRWIDTH),.DATA_WIDTH(BRAMREAD_DATAWIDTH))
-bram_write0_map(.bram(bram_write0)
-,.clk(BRAM_WRITE0_clk),.rst(BRAM_WRITE0_rst),.addr(BRAM_WRITE0_addr),.din(BRAM_WRITE0_din),.dout(BRAM_WRITE0_dout),.en(BRAM_WRITE0_en),.we(BRAM_WRITE0_we));
-bram_map #(.ADDR_WIDTH(BRAMREAD_ADDRWIDTH),.DATA_WIDTH(BRAMREAD_DATAWIDTH))
-bram_write1_map(.bram(bram_write1)
-,.clk(BRAM_WRITE1_clk),.rst(BRAM_WRITE1_rst),.addr(BRAM_WRITE1_addr),.din(BRAM_WRITE1_din),.dout(BRAM_WRITE1_dout),.en(BRAM_WRITE1_en),.we(BRAM_WRITE1_we));
-bram_map #(.ADDR_WIDTH(BRAMREAD_ADDRWIDTH),.DATA_WIDTH(BRAMREAD_DATAWIDTH))
-bram_write2_map(.bram(bram_write2)
-,.clk(BRAM_WRITE2_clk),.rst(BRAM_WRITE2_rst),.addr(BRAM_WRITE2_addr),.din(BRAM_WRITE2_din),.dout(BRAM_WRITE2_dout),.en(BRAM_WRITE2_en),.we(BRAM_WRITE2_we));
-bram_map #(.ADDR_WIDTH(BRAMREAD_ADDRWIDTH),.DATA_WIDTH(BRAMREAD_DATAWIDTH))
-bram_write3_map(.bram(bram_write3)
-,.clk(BRAM_WRITE3_clk),.rst(BRAM_WRITE3_rst),.addr(BRAM_WRITE3_addr),.din(BRAM_WRITE3_din),.dout(BRAM_WRITE3_dout),.en(BRAM_WRITE3_en),.we(BRAM_WRITE3_we));
+bram_map #(.ADDR_WIDTH(BRAMTOHOST_ADDRWIDTH),.DATA_WIDTH(BRAMTOHOST_DATAWIDTH))
+bram_tohost0_map(.bram(bram_tohost0)
+,.clk(BRAM_TOHOST0_clk),.rst(BRAM_TOHOST0_rst),.addr(BRAM_TOHOST0_addr),.din(BRAM_TOHOST0_din),.dout(BRAM_TOHOST0_dout),.en(BRAM_TOHOST0_en),.we(BRAM_TOHOST0_we));
+bram_map #(.ADDR_WIDTH(BRAMTOHOST_ADDRWIDTH),.DATA_WIDTH(BRAMTOHOST_DATAWIDTH))
+bram_tohost1_map(.bram(bram_tohost1)
+,.clk(BRAM_TOHOST1_clk),.rst(BRAM_TOHOST1_rst),.addr(BRAM_TOHOST1_addr),.din(BRAM_TOHOST1_din),.dout(BRAM_TOHOST1_dout),.en(BRAM_TOHOST1_en),.we(BRAM_TOHOST1_we));
 
-bram_cfg bram_write0_cfg(.bram(bram_write0.cfg),.clk(dspclk),.rst(1'b0),.en(1'b1));
-bram_cfg bram_write1_cfg(.bram(bram_write1.cfg),.clk(dspclk),.rst(1'b0),.en(1'b1));
-bram_cfg bram_write2_cfg(.bram(bram_write2.cfg),.clk(dspclk),.rst(1'b0),.en(1'b1));
-bram_cfg bram_write3_cfg(.bram(bram_write3.cfg),.clk(dspclk),.rst(1'b0),.en(1'b1));
+bram_map #(.ADDR_WIDTH(BRAMTOHOST_ADDRWIDTH),.DATA_WIDTH(BRAMTOHOST_DATAWIDTH))
+bram_fromhost0_map(.bram(bram_fromhost0)
+,.clk(BRAM_FROMHOST0_clk),.rst(BRAM_FROMHOST0_rst),.addr(BRAM_FROMHOST0_addr),.din(BRAM_FROMHOST0_din),.dout(BRAM_FROMHOST0_dout),.en(BRAM_FROMHOST0_en),.we(BRAM_FROMHOST0_we));
+bram_map #(.ADDR_WIDTH(BRAMTOHOST_ADDRWIDTH),.DATA_WIDTH(BRAMTOHOST_DATAWIDTH))
+bram_fromhost1_map(.bram(bram_fromhost1)
+,.clk(BRAM_FROMHOST1_clk),.rst(BRAM_FROMHOST1_rst),.addr(BRAM_FROMHOST1_addr),.din(BRAM_FROMHOST1_din),.dout(BRAM_FROMHOST1_dout),.en(BRAM_FROMHOST1_en),.we(BRAM_FROMHOST1_we));
+bram_map #(.ADDR_WIDTH(BRAMTOHOST_ADDRWIDTH),.DATA_WIDTH(BRAMTOHOST_DATAWIDTH))
+bram_fromhost2_map(.bram(bram_fromhost2)
+,.clk(BRAM_FROMHOST2_clk),.rst(BRAM_FROMHOST2_rst),.addr(BRAM_FROMHOST2_addr),.din(BRAM_FROMHOST2_din),.dout(BRAM_FROMHOST2_dout),.en(BRAM_FROMHOST2_en),.we(BRAM_FROMHOST2_we));
+bram_map #(.ADDR_WIDTH(BRAMTOHOST_ADDRWIDTH),.DATA_WIDTH(BRAMTOHOST_DATAWIDTH))
+bram_fromhost3_map(.bram(bram_fromhost3)
+,.clk(BRAM_FROMHOST3_clk),.rst(BRAM_FROMHOST3_rst),.addr(BRAM_FROMHOST3_addr),.din(BRAM_FROMHOST3_din),.dout(BRAM_FROMHOST3_dout),.en(BRAM_FROMHOST3_en),.we(BRAM_FROMHOST3_we));
+
 /*generate
 for (genvar i=0;i<4;i++) begin
-	bram_map #(.ADDR_WIDTH(BRAMWRITE_ADDRWIDTH),.DATA_WIDTH(BRAMWRITE_DATAWIDTH))
-	bram_write_map(.bram(bram_write[i].map)
+	bram_map #(.ADDR_WIDTH(BRAMFROMHOST_ADDRWIDTH),.DATA_WIDTH(BRAMFROMHOST_DATAWIDTH))
+	bram_fromhost_map(.bram(bram_fromhost[i].map)
 	,.clk(bramwriteclk[i])
 	,.rst(bramwriterst[i])
-	,.addr(bramwriteaddr[(i+1)*BRAMWRITE_ADDRWIDTH-1:i*BRAMWRITE_ADDRWIDTH])
-	,.din(bramwritedin[(i+1)*BRAMWRITE_DATAWIDTH-1:i*BRAMWRITE_DATAWIDTH])
-	,.dout(bramwritedout[(i+1)*BRAMWRITE_DATAWIDTH-1:i*BRAMWRITE_DATAWIDTH])
+	,.addr(bramwriteaddr[(i+1)*BRAMFROMHOST_ADDRWIDTH-1:i*BRAMFROMHOST_ADDRWIDTH])
+	,.din(bramwritedin[(i+1)*BRAMFROMHOST_DATAWIDTH-1:i*BRAMFROMHOST_DATAWIDTH])
+	,.dout(bramwritedout[(i+1)*BRAMFROMHOST_DATAWIDTH-1:i*BRAMFROMHOST_DATAWIDTH])
 	,.en(bramwriteen[i])
-	,.we(bramwritewe[(i+1)*BRAMWRITE_DATAWIDTH/8-1:i*BRAMWRITE_DATAWIDTH/8])
+	,.we(bramwritewe[(i+1)*BRAMFROMHOST_DATAWIDTH/8-1:i*BRAMFROMHOST_DATAWIDTH/8])
 	);
 	assign bramwriteclk[i]=dspclk;
 end
 endgenerate
 */
-pltop #(.DATA_WIDTH(DATA_WIDTH),.ADDR_WIDTH(ADDR_WIDTH),.DEBUG(DEBUG),.BRAMREAD_DATAWIDTH(BRAMREAD_DATAWIDTH),.BRAMREAD_ADDRWIDTH(BRAMREAD_ADDRWIDTH))
-pltop(.bram_read0(bram_read0)
-,.bram_read1(bram_read1)
-,.bram_write0(bram_write0)
-,.bram_write1(bram_write1)
-,.bram_write2(bram_write2)
-,.bram_write3(bram_write3)
+pltop #(.DATA_WIDTH(DATA_WIDTH),.ADDR_WIDTH(ADDR_WIDTH),.DEBUG(DEBUG),.BRAMTOHOST_DATAWIDTH(BRAMTOHOST_DATAWIDTH),.BRAMTOHOST_ADDRWIDTH(BRAMTOHOST_ADDRWIDTH))
+pltop(.bram_tohost0(bram_tohost0)
+,.bram_tohost1(bram_tohost1)
+,.bram_fromhost0(bram_fromhost0)
+,.bram_fromhost1(bram_fromhost1)
+,.bram_fromhost2(bram_fromhost2)
+,.bram_fromhost3(bram_fromhost3)
 ,.lb1(lb1)
 ,.lb2(lb2)
 ,.hw(hw)
@@ -333,20 +327,20 @@ BUFG clkout2_buf
 ,.O(clkadc2_600));
 */
 /*
-reg [13:0] bram_read_addr=0;
-reg [63:0] bram_read_din=0;
-reg [63:0] bram_read_dout=0;
-reg bram_read_en=0;
-reg bram_read_we=0;
+reg [13:0] bram_tohost_addr=0;
+reg [63:0] bram_tohost_din=0;
+reg [63:0] bram_tohost_dout=0;
+reg bram_tohost_en=0;
+reg bram_tohost_we=0;
 reg adc20axis_ready=0;
 reg adc20axis_valid=0;
 reg [31:0] adc20axis_cnt=0;
-always @(posedge BRAM_READ_clk) begin
-	bram_read_addr<=bram_read.addr;
-	bram_read_din<=bram_read.din;
-	bram_read_dout<=bram_read.dout;
-	bram_read_we<=bram_read.we;
-	bram_read_en<=bram_read.en;
+always @(posedge BRAM_TOHOST_clk) begin
+	bram_tohost_addr<=bram_tohost.addr;
+	bram_tohost_din<=bram_tohost.din;
+	bram_tohost_dout<=bram_tohost.dout;
+	bram_tohost_we<=bram_tohost.we;
+	bram_tohost_en<=bram_tohost.en;
 	adc20axis_ready<=adc20axis.ready;
 	adc20axis_valid<=adc20axis.valid;
 	adc20axis_cnt<=adc20axis.cnt;

@@ -83,48 +83,48 @@ ipx::unload_core ./vivado_project/plip/component.xml
 ipx::open_ipxact_file ./vivado_project/plip/component.xml
 #ipx::edit_ip_in_project -upgrade true -name plip -directory ./vivado_project/plip ./vivado_project/plip/component.xml
 
-brambus bram_read0
-brambus bram_read1
-brambus bram_write0
-brambus bram_write1
-brambus bram_write2
-brambus bram_write3
+brambus bram_tohost0
+brambus bram_tohost1
+brambus bram_fromhost0
+brambus bram_fromhost1
+brambus bram_fromhost2
+brambus bram_fromhost3
 
-#ipx::add_bus_interface bram_read0 [ipx::current_core]
-#set_property abstraction_type_vlnv xilinx.com:interface:bram_rtl:1.0 [ipx::get_bus_interfaces bram_read0 -of_objects [ipx::current_core]]
-#set_property bus_type_vlnv xilinx.com:interface:bram:1.0 [ipx::get_bus_interfaces bram_read0 -of_objects [ipx::current_core]]
-#set_property interface_mode master [ipx::get_bus_interfaces bram_read0 -of_objects [ipx::current_core]]
-#bram_map bram_read0 BRAM_READ0
+#ipx::add_bus_interface bram_tohost0 [ipx::current_core]
+#set_property abstraction_type_vlnv xilinx.com:interface:bram_rtl:1.0 [ipx::get_bus_interfaces bram_tohost0 -of_objects [ipx::current_core]]
+#set_property bus_type_vlnv xilinx.com:interface:bram:1.0 [ipx::get_bus_interfaces bram_tohost0 -of_objects [ipx::current_core]]
+#set_property interface_mode master [ipx::get_bus_interfaces bram_tohost0 -of_objects [ipx::current_core]]
+#bram_map bram_tohost0 BRAM_READ0
 #
-#ipx::add_bus_interface bram_read1 [ipx::current_core]
-#set_property abstraction_type_vlnv xilinx.com:interface:bram_rtl:1.0 [ipx::get_bus_interfaces bram_read1 -of_objects [ipx::current_core]]
-#set_property bus_type_vlnv xilinx.com:interface:bram:1.0 [ipx::get_bus_interfaces bram_read1 -of_objects [ipx::current_core]]
-#set_property interface_mode master [ipx::get_bus_interfaces bram_read1 -of_objects [ipx::current_core]]
-#bram_map bram_read1 BRAM_READ1
+#ipx::add_bus_interface bram_tohost1 [ipx::current_core]
+#set_property abstraction_type_vlnv xilinx.com:interface:bram_rtl:1.0 [ipx::get_bus_interfaces bram_tohost1 -of_objects [ipx::current_core]]
+#set_property bus_type_vlnv xilinx.com:interface:bram:1.0 [ipx::get_bus_interfaces bram_tohost1 -of_objects [ipx::current_core]]
+#set_property interface_mode master [ipx::get_bus_interfaces bram_tohost1 -of_objects [ipx::current_core]]
+#bram_map bram_tohost1 BRAM_READ1
 #
-#ipx::add_bus_interface bram_write0 [ipx::current_core]
-#set_property abstraction_type_vlnv xilinx.com:interface:bram_rtl:1.0 [ipx::get_bus_interfaces bram_write0 -of_objects [ipx::current_core]]
-#set_property bus_type_vlnv xilinx.com:interface:bram:1.0 [ipx::get_bus_interfaces bram_write0 -of_objects [ipx::current_core]]
-#set_property interface_mode master [ipx::get_bus_interfaces bram_write0 -of_objects [ipx::current_core]]
-#bram_map bram_write0 BRAM_WRITE0
+#ipx::add_bus_interface bram_fromhost0 [ipx::current_core]
+#set_property abstraction_type_vlnv xilinx.com:interface:bram_rtl:1.0 [ipx::get_bus_interfaces bram_fromhost0 -of_objects [ipx::current_core]]
+#set_property bus_type_vlnv xilinx.com:interface:bram:1.0 [ipx::get_bus_interfaces bram_fromhost0 -of_objects [ipx::current_core]]
+#set_property interface_mode master [ipx::get_bus_interfaces bram_fromhost0 -of_objects [ipx::current_core]]
+#bram_map bram_fromhost0 BRAM_WRITE0
 #
-#ipx::add_bus_interface bram_write1 [ipx::current_core]
-#set_property abstraction_type_vlnv xilinx.com:interface:bram_rtl:1.0 [ipx::get_bus_interfaces bram_write1 -of_objects [ipx::current_core]]
-#set_property bus_type_vlnv xilinx.com:interface:bram:1.0 [ipx::get_bus_interfaces bram_write1 -of_objects [ipx::current_core]]
-#set_property interface_mode master [ipx::get_bus_interfaces bram_write1 -of_objects [ipx::current_core]]
-#bram_map bram_write1 BRAM_WRITE1
+#ipx::add_bus_interface bram_fromhost1 [ipx::current_core]
+#set_property abstraction_type_vlnv xilinx.com:interface:bram_rtl:1.0 [ipx::get_bus_interfaces bram_fromhost1 -of_objects [ipx::current_core]]
+#set_property bus_type_vlnv xilinx.com:interface:bram:1.0 [ipx::get_bus_interfaces bram_fromhost1 -of_objects [ipx::current_core]]
+#set_property interface_mode master [ipx::get_bus_interfaces bram_fromhost1 -of_objects [ipx::current_core]]
+#bram_map bram_fromhost1 BRAM_WRITE1
 #
-#ipx::add_bus_interface bram_write2 [ipx::current_core]
-#set_property abstraction_type_vlnv xilinx.com:interface:bram_rtl:1.0 [ipx::get_bus_interfaces bram_write2 -of_objects [ipx::current_core]]
-#set_property bus_type_vlnv xilinx.com:interface:bram:1.0 [ipx::get_bus_interfaces bram_write2 -of_objects [ipx::current_core]]
-#set_property interface_mode master [ipx::get_bus_interfaces bram_write2 -of_objects [ipx::current_core]]
-#bram_map bram_write2 BRAM_WRITE2
+#ipx::add_bus_interface bram_fromhost2 [ipx::current_core]
+#set_property abstraction_type_vlnv xilinx.com:interface:bram_rtl:1.0 [ipx::get_bus_interfaces bram_fromhost2 -of_objects [ipx::current_core]]
+#set_property bus_type_vlnv xilinx.com:interface:bram:1.0 [ipx::get_bus_interfaces bram_fromhost2 -of_objects [ipx::current_core]]
+#set_property interface_mode master [ipx::get_bus_interfaces bram_fromhost2 -of_objects [ipx::current_core]]
+#bram_map bram_fromhost2 BRAM_WRITE2
 #
-#ipx::add_bus_interface bram_write3 [ipx::current_core]
-#set_property abstraction_type_vlnv xilinx.com:interface:bram_rtl:1.0 [ipx::get_bus_interfaces bram_write3 -of_objects [ipx::current_core]]
-#set_property bus_type_vlnv xilinx.com:interface:bram:1.0 [ipx::get_bus_interfaces bram_write3 -of_objects [ipx::current_core]]
-#set_property interface_mode master [ipx::get_bus_interfaces bram_write3 -of_objects [ipx::current_core]]
-#bram_map bram_write3 BRAM_WRITE3
+#ipx::add_bus_interface bram_fromhost3 [ipx::current_core]
+#set_property abstraction_type_vlnv xilinx.com:interface:bram_rtl:1.0 [ipx::get_bus_interfaces bram_fromhost3 -of_objects [ipx::current_core]]
+#set_property bus_type_vlnv xilinx.com:interface:bram:1.0 [ipx::get_bus_interfaces bram_fromhost3 -of_objects [ipx::current_core]]
+#set_property interface_mode master [ipx::get_bus_interfaces bram_fromhost3 -of_objects [ipx::current_core]]
+#bram_map bram_fromhost3 BRAM_WRITE3
 
 #source fpga.tcl
 #set fp [open "fpga_pins" r]
