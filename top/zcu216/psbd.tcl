@@ -6,12 +6,14 @@ source ../../submodules/tools/proj.tcl
 source ../../submodules/tools/depsrc.tcl
 source ../../submodules/tools/synimpbit.tcl
 proj ${target} ${part} ${outputdir} ${depd}
+if {1} {
 synimpbit $target 11
 set_property top psbd_wrapper [current_fileset]
 write_hw_platform -fixed -include_bit -force -file psbd.xsa
 open_run impl_1
 report_timing_summary -delay_type min_max -report_unconstrained -check_timing_verbose -max_paths 10 -input_pins -routable_nets -name timing_1
 close_project
+}
 
 #create_project psbd ./vivado_project/psbd -part xczu49dr-ffvf1760-2-e -force
 #create_bd_design "psbd"

@@ -1,4 +1,12 @@
-module boardcfg(hwif.cfg hw
+module boardcfg #(
+parameter DEBUG="true"
+,parameter DAC_AXIS_DATAWIDTH=256
+,parameter ADC_AXIS_DATAWIDTH=64
+,parameter integer BRAMTOHOST_ADDRWIDTH=13
+,parameter integer BRAMTOHOST_DATAWIDTH=64
+,parameter integer BRAMFROMHOST_ADDRWIDTH=32
+,parameter integer BRAMFROMHOST_DATAWIDTH=256
+)(hwif.cfg hw
 ,ifregs.regs regs
 ,ifbram bram_tohost0
 ,ifbram bram_tohost1
@@ -6,11 +14,11 @@ module boardcfg(hwif.cfg hw
 ,ifbram bram_fromhost1
 ,ifbram bram_fromhost2
 ,ifbram bram_fromhost3
-,axi4stream.master dac30axis 
-,axi4stream.master dac20axis 
-,axi4stream.master dac32axis 
-,axi4stream.master dac22axis 
-,axi4stream.slave adc20axis 
+,axi4stream.master dac30axis
+,axi4stream.master dac20axis
+,axi4stream.master dac32axis
+,axi4stream.master dac22axis
+,axi4stream.slave adc20axis
 ,ifdsp.cfg dspif
 ,output cfgclk
 ,output dspclk
@@ -26,7 +34,6 @@ module boardcfg(hwif.cfg hw
 ,output  psreset
 ,output adc2reset
 );
-parameter DEBUG="true";
 wire reset=(~aresetn)|hw.gpio_sw_c;
 areset #(.WIDTH(1),.SRWIDTH(4))
 cfgareset(.clk(cfgclk),.areset(reset),.sreset(cfgreset),.sreset_val());
@@ -142,40 +149,51 @@ generate for (jx=0; jx<NFCNT; jx=jx+1)	begin: gen_fcnt
 end
 endgenerate
 
-//wire bramclk=clk_adc2;
-//wire bramclk=clkadc2_600;
-wire bramclk=dspclk;
-parameter READ_DATA_WIDTH=64;
-parameter READ_ADDR_WIDTH=14;
-localparam BYTEPERDATA=$clog2(READ_DATA_WIDTH)-3;
-bram_write#(.ADDR_WIDTH(READ_ADDR_WIDTH),.DATA_WIDTH(READ_DATA_WIDTH))
-bram_write(.bram(bram_tohost0.write)
-,.addr({dspif.bramaddr,{BYTEPERDATA{1'b0}}})
-//,.addr(bramaddr)
-,.data(dspif.bramval)
-,.we(dspif.bramwe)
+localparam BRAMTOHOST_ADDRPERDATA=$clog2(BRAMTOHOST_DATAWIDTH)-3;
+localparam BRAMFROMHOST_ADDRPERDATA=$clog2(BRAMFROMHOST_DATAWIDTH)-3;
+bram_write#(.ADDR_WIDTH(BRAMTOHOST_ADDRWIDTH+BRAMTOHOST_ADDRPERDATA),.DATA_WIDTH(BRAMTOHOST_DATAWIDTH))
+bramtohost0_write(.bram(bram_tohost0)
+,.addr({dspif.bramtohost0_addr,{BRAMTOHOST_ADDRPERDATA{1'b1}}})
+,.data(dspif.bramtohost0_data)
+,.we(dspif.bramtohost0_we)
+);
+
+bram_write#(.ADDR_WIDTH(BRAMFROMHOST_ADDRWIDTH+BRAMFROMHOST_ADDRPERDATA),.DATA_WIDTH(BRAMFROMHOST_DATAWIDTH))
+bramfromhost0_write(.bram(bram_fromhost0)
+//,.addr({dspif.bramfromhost0_addr})//[BRAMFROMHOST_ADDRWIDTH-1:WRITEBYTEPERDATA],{WRITEBYTEPERDATA{1'b0}}})
+,.addr({dspif.bramfromhost0_addr,{BRAMFROMHOST_ADDRPERDATA{1'b1}}})
+,.data(dspif.bramfromhost0_data)
+,.we(dspif.bramfromhost0_we)
+);
+
+bram_write#(.ADDR_WIDTH(BRAMFROMHOST_ADDRWIDTH+BRAMFROMHOST_ADDRPERDATA),.DATA_WIDTH(BRAMFROMHOST_DATAWIDTH))
+bramfromhost1_write(.bram(bram_fromhost1)
+//,.addr({dspif.bramfromhost1_addr})//[BRAMFROMHOST_ADDRWIDTH-1:WRITEBYTEPERDATA],{WRITEBYTEPERDATA{1'b0}}})
+,.addr({dspif.bramfromhost1_addr,{BRAMFROMHOST_ADDRPERDATA{1'b1}}})
+,.data(dspif.bramfromhost1_data)
+,.we(dspif.bramfromhost1_we)
 );
 
 wire adc20datavalid;
-wire [READ_DATA_WIDTH-1:0] adc20data_x;
-wire [READ_DATA_WIDTH-1:0] adc20data;
-axi4stream_slave_handshake_data #(.DATA_WIDTH (64))
+wire [ADC_AXIS_DATAWIDTH-1:0] adc20data_x;
+wire [ADC_AXIS_DATAWIDTH-1:0] adc20data;
+axi4stream_slave_handshake_data #(.DATA_WIDTH (ADC_AXIS_DATAWIDTH))
 adc20hsda(.axis(adc20axis)
 ,.ready(1'b1)
 ,.datavalid(adc20datavalid)
 ,.data(adc20data_x)
 );
 
-samefreqxdomain #(.DW(64))
+samefreqxdomain #(.DW(ADC_AXIS_DATAWIDTH))
 adc20data_xdomain(.clkw(clkadc2_600),.clkr(dspclk),.dataw(adc20data_x),.datar(adc20data),.reset(1'b0));
 
-axi4stream_master_handshake_data #(.DATA_WIDTH (256))
+axi4stream_master_handshake_data #(.DATA_WIDTH (DAC_AXIS_DATAWIDTH))
 dac30hsda(.axis(dac30axis),.datavalid(1'b1),.data(dspif.dac30));
-axi4stream_master_handshake_data #(.DATA_WIDTH (256))
+axi4stream_master_handshake_data #(.DATA_WIDTH (DAC_AXIS_DATAWIDTH))
 dac20hsda(.axis(dac20axis),.datavalid(1'b1),.data(dspif.dac20));
-axi4stream_master_handshake_data #(.DATA_WIDTH (256))
+axi4stream_master_handshake_data #(.DATA_WIDTH (DAC_AXIS_DATAWIDTH))
 dac32hsda(.axis(dac32axis),.datavalid(1'b1),.data(dspif.dac32));
-axi4stream_master_handshake_data #(.DATA_WIDTH (256))
+axi4stream_master_handshake_data #(.DATA_WIDTH (DAC_AXIS_DATAWIDTH))
 dac22hsda(.axis(dac22axis),.datavalid(1'b1),.data(dspif.dac22));
 assign dspif.clk=dspclk;
 assign dspif.reset=1'b0;

@@ -36,10 +36,10 @@ input aresetn
 
 ,input [0:0] lb1_wren
 ,input [1:0] lb1_rden
-,input [ADDR_WIDTH-1:0] lb1_waddr
-,input [DATA_WIDTH-1:0] lb1_wdata
-,input [ADDR_WIDTH-1:0] lb1_raddr
-,output [DATA_WIDTH-1:0] lb1_rdata
+,input [LB_ADDRWIDTH-1:0] lb1_waddr
+,input [LB_DATAWIDTH-1:0] lb1_wdata
+,input [LB_ADDRWIDTH-1:0] lb1_raddr
+,output [LB_DATAWIDTH-1:0] lb1_rdata
 ,output [1:0] lb1_rvalid
 ,input lb1_clk
 ,input  lb1_aresetn
@@ -47,68 +47,68 @@ input aresetn
 
 ,input [0:0] lb2_wren
 ,input [1:0] lb2_rden
-,input [ADDR_WIDTH-1:0] lb2_waddr
-,input [DATA_WIDTH-1:0] lb2_wdata
-,input [ADDR_WIDTH-1:0] lb2_raddr
-,output [DATA_WIDTH-1:0] lb2_rdata
+,input [LB_ADDRWIDTH-1:0] lb2_waddr
+,input [LB_DATAWIDTH-1:0] lb2_wdata
+,input [LB_ADDRWIDTH-1:0] lb2_raddr
+,output [LB_DATAWIDTH-1:0] lb2_rdata
 ,output [1:0] lb2_rvalid
 ,input lb2_clk
 ,input  lb2_aresetn
 
 ,output BRAM_TOHOST0_clk
 ,output BRAM_TOHOST0_rst
-,output [BRAMTOHOST_ADDRWIDTH-1:0] BRAM_TOHOST0_addr
+,output [32-1:0] BRAM_TOHOST0_addr
 ,output [BRAMTOHOST_DATAWIDTH-1:0] BRAM_TOHOST0_din
 ,input [BRAMTOHOST_DATAWIDTH-1:0] BRAM_TOHOST0_dout
 ,output BRAM_TOHOST0_en
-,output [7:0] BRAM_TOHOST0_we
+,output [BRAMTOHOST_DATAWIDTH/8-1:0] BRAM_TOHOST0_we
 
 //,input bram_rsta_busy
 //,input bram_rstb_busy
 
 ,output BRAM_TOHOST1_clk
 ,output BRAM_TOHOST1_rst
-,output [BRAMTOHOST_ADDRWIDTH-1:0] BRAM_TOHOST1_addr
+,output [32-1:0] BRAM_TOHOST1_addr
 ,output [BRAMTOHOST_DATAWIDTH-1:0] BRAM_TOHOST1_din
 ,input [BRAMTOHOST_DATAWIDTH-1:0] BRAM_TOHOST1_dout
 ,output BRAM_TOHOST1_en
-,output [7:0] BRAM_TOHOST1_we
+,output [BRAMTOHOST_DATAWIDTH/8-1:0] BRAM_TOHOST1_we
 
 
 ,output BRAM_FROMHOST0_clk
 ,output BRAM_FROMHOST0_rst
-,output [BRAMFROMHOST_ADDRWIDTH-1:0] BRAM_FROMHOST0_addr
+,output [32-1:0] BRAM_FROMHOST0_addr
 ,output [BRAMFROMHOST_DATAWIDTH-1:0] BRAM_FROMHOST0_din
 ,input [BRAMFROMHOST_DATAWIDTH-1:0] BRAM_FROMHOST0_dout
 ,output BRAM_FROMHOST0_en
-,output [7:0] BRAM_FROMHOST0_we
+,output [BRAMFROMHOST_DATAWIDTH/8-1:0] BRAM_FROMHOST0_we
 
 
 ,output BRAM_FROMHOST1_clk
 ,output BRAM_FROMHOST1_rst
-,output [BRAMFROMHOST_ADDRWIDTH-1:0] BRAM_FROMHOST1_addr
+,output [32-1:0] BRAM_FROMHOST1_addr
 ,output [BRAMFROMHOST_DATAWIDTH-1:0] BRAM_FROMHOST1_din
 ,input [BRAMFROMHOST_DATAWIDTH-1:0] BRAM_FROMHOST1_dout
 ,output BRAM_FROMHOST1_en
-,output [7:0] BRAM_FROMHOST1_we
+,output [BRAMFROMHOST_DATAWIDTH/8-1:0] BRAM_FROMHOST1_we
 
 
 ,output BRAM_FROMHOST2_clk
 ,output BRAM_FROMHOST2_rst
-,output [BRAMFROMHOST_ADDRWIDTH-1:0] BRAM_FROMHOST2_addr
+,output [32-1:0] BRAM_FROMHOST2_addr
 ,output [BRAMFROMHOST_DATAWIDTH-1:0] BRAM_FROMHOST2_din
 ,input [BRAMFROMHOST_DATAWIDTH-1:0] BRAM_FROMHOST2_dout
 ,output BRAM_FROMHOST2_en
-,output [7:0] BRAM_FROMHOST2_we
+,output [BRAMFROMHOST_DATAWIDTH/8-1:0] BRAM_FROMHOST2_we
 
 
 ,output BRAM_FROMHOST3_clk
 ,output BRAM_FROMHOST3_rst
-,output [BRAMFROMHOST_ADDRWIDTH-1:0] BRAM_FROMHOST3_addr
+,output [32-1:0] BRAM_FROMHOST3_addr
 ,output [BRAMFROMHOST_DATAWIDTH-1:0] BRAM_FROMHOST3_din
 ,input [BRAMFROMHOST_DATAWIDTH-1:0] BRAM_FROMHOST3_dout
 ,output BRAM_FROMHOST3_en
-,output [7:0] BRAM_FROMHOST3_we
+,output [BRAMFROMHOST_DATAWIDTH/8-1:0] BRAM_FROMHOST3_we
 
 
 

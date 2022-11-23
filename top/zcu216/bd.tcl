@@ -36,48 +36,58 @@ set_property -dict [list CONFIG.FREQ_HZ {600000000}] [get_bd_pins plps_0/ADC20_S
 set_property -dict [list CONFIG.FREQ_HZ {600000000}] [get_bd_pins plps_0/ADC21_S_AXIS_ACLK]
 set_property -dict [list CONFIG.FREQ_HZ {600000000}] [get_bd_pins dspregs/axi_aclk]
 set_property -dict [list CONFIG.FREQ_HZ {100000000}] [get_bd_pins ctrlregs/axi_aclk]
+set_property -dict [list CONFIG.FREQ_HZ {300000000}] [get_bd_pins plps_0/clkadc2_300]
+set_property -dict [list CONFIG.FREQ_HZ {600000000}] [get_bd_pins plps_0/clkadc2_600]
 
-set_property -dict [list CONFIG.ADDR_WIDTH {10}] [get_bd_cells dspregs]
-set_property -dict [list CONFIG.ADDR_WIDTH {10}] [get_bd_cells ctrlregs]
-set_property -dict [list CONFIG.ADDR_WIDTH {10}] [get_bd_cells plps_0]
+
+set_property -dict [list CONFIG.ADDR_WIDTH {16}] [get_bd_cells dspregs]
+set_property -dict [list CONFIG.ADDR_WIDTH {16}] [get_bd_cells ctrlregs]
+set_property -dict [list CONFIG.LB_DATAWIDTH {32} CONFIG.LB_ADDRWIDTH {14} CONFIG.DAC_AXIS_DATAWIDTH {256} CONFIG.ADC_AXIS_DATAWIDTH {64} CONFIG.BRAMTOHOST_ADDRWIDTH {32} CONFIG.BRAMTOHOST_DATAWIDTH {64} CONFIG.BRAMFROMHOST_ADDRWIDTH {32} CONFIG.BRAMFROMHOST_DATAWIDTH {256}] [get_bd_cells plps_0]
 
 create_bd_cell -type ip -vlnv xilinx.com:ip:axi_bram_ctrl:4.1 bram_tohost0
 create_bd_cell -type ip -vlnv xilinx.com:ip:blk_mem_gen:8.4 blk_mem_bram_tohost0
-set_property -dict [list CONFIG.SINGLE_PORT_BRAM {1}] [get_bd_cells bram_tohost0]
+set_property -dict [list CONFIG.READ_LATENCY {2} CONFIG.SINGLE_PORT_BRAM {1}] [get_bd_cells bram_tohost0]
 set_property -dict [list CONFIG.DATA_WIDTH {64}] [get_bd_cells bram_tohost0]
-set_property -dict [list CONFIG.use_bram_block {BRAM_Controller} CONFIG.Memory_Type {True_Dual_Port_RAM} CONFIG.Enable_32bit_Address {true} CONFIG.Read_Width_B {64}  CONFIG.Write_Width_B {64}] [get_bd_cells blk_mem_bram_tohost0]
+#set_property -dict [list CONFIG.use_bram_block {BRAM_Controller} CONFIG.Memory_Type {True_Dual_Port_RAM} CONFIG.Enable_32bit_Address {true} CONFIG.Read_Width_B {64}  CONFIG.Write_Width_B {64}] [get_bd_cells blk_mem_bram_tohost0]
+set_property -dict [list CONFIG.use_bram_block {Stand_Alone} CONFIG.Memory_Type {True_Dual_Port_RAM} CONFIG.Write_Depth_A {32768} CONFIG.Write_Width_A {64} CONFIG.Read_Width_A {64} CONFIG.Write_Width_B {64} CONFIG.Read_Width_B {64} CONFIG.Enable_32bit_Address {true} CONFIG.Use_Byte_Write_Enable {true} CONFIG.Byte_Size {8} CONFIG.Use_RSTA_Pin {false} CONFIG.Use_RSTB_Pin {false} CONFIG.Enable_A {Always_Enabled} CONFIG.Enable_B {Always_Enabled} CONFIG.EN_SAFETY_CKT {false}] [get_bd_cells blk_mem_bram_tohost0]
+
 
 create_bd_cell -type ip -vlnv xilinx.com:ip:axi_bram_ctrl:4.1 bram_tohost1
 create_bd_cell -type ip -vlnv xilinx.com:ip:blk_mem_gen:8.4 blk_mem_bram_tohost1
-set_property -dict [list CONFIG.SINGLE_PORT_BRAM {1}] [get_bd_cells bram_tohost1]
+set_property -dict [list CONFIG.READ_LATENCY {2} CONFIG.SINGLE_PORT_BRAM {1}] [get_bd_cells bram_tohost1]
 set_property -dict [list CONFIG.DATA_WIDTH {64}] [get_bd_cells bram_tohost1]
-set_property -dict [list CONFIG.use_bram_block {BRAM_Controller} CONFIG.Memory_Type {True_Dual_Port_RAM} CONFIG.Enable_32bit_Address {true} CONFIG.Read_Width_B {64}  CONFIG.Write_Width_B {64}] [get_bd_cells blk_mem_bram_tohost1]
+#set_property -dict [list CONFIG.use_bram_block {BRAM_Controller} CONFIG.Memory_Type {True_Dual_Port_RAM} CONFIG.Enable_32bit_Address {true} CONFIG.Read_Width_B {64}  CONFIG.Write_Width_B {64}] [get_bd_cells blk_mem_bram_tohost1]
+set_property -dict [list CONFIG.use_bram_block {Stand_Alone} CONFIG.Memory_Type {True_Dual_Port_RAM} CONFIG.Write_Depth_A {32768} CONFIG.Write_Width_A {64} CONFIG.Read_Width_A {64} CONFIG.Write_Width_B {64} CONFIG.Read_Width_B {64} CONFIG.Enable_32bit_Address {true} CONFIG.Use_Byte_Write_Enable {true} CONFIG.Byte_Size {8} CONFIG.Use_RSTA_Pin {false} CONFIG.Use_RSTB_Pin {false} CONFIG.Enable_A {Always_Enabled} CONFIG.Enable_B {Always_Enabled} CONFIG.EN_SAFETY_CKT {false}] [get_bd_cells blk_mem_bram_tohost1]
 
 
 create_bd_cell -type ip -vlnv xilinx.com:ip:axi_bram_ctrl:4.1 bram_fromhost0
 create_bd_cell -type ip -vlnv xilinx.com:ip:blk_mem_gen:8.4 blk_mem_bram_fromhost0
-set_property -dict [list CONFIG.SINGLE_PORT_BRAM {1}] [get_bd_cells bram_fromhost0]
+set_property -dict [list CONFIG.READ_LATENCY {2} CONFIG.SINGLE_PORT_BRAM {1}] [get_bd_cells bram_fromhost0]
 set_property -dict [list CONFIG.DATA_WIDTH {256}] [get_bd_cells bram_fromhost0]
-set_property -dict [list CONFIG.use_bram_block {BRAM_Controller} CONFIG.Memory_Type {True_Dual_Port_RAM} CONFIG.Enable_32bit_Address {true} CONFIG.Read_Width_B {128}  CONFIG.Write_Width_B {128}] [get_bd_cells blk_mem_bram_fromhost0]
+#set_property -dict [list CONFIG.use_bram_block {BRAM_Controller} CONFIG.Memory_Type {True_Dual_Port_RAM} CONFIG.Enable_32bit_Address {true} CONFIG.Read_Width_B {128}  CONFIG.Write_Width_B {128}] [get_bd_cells blk_mem_bram_fromhost0]
+set_property -dict [list CONFIG.use_bram_block {Stand_Alone} CONFIG.Memory_Type {True_Dual_Port_RAM} CONFIG.Write_Depth_A {8192} CONFIG.Write_Width_A {256} CONFIG.Read_Width_A {256} CONFIG.Write_Width_B {256} CONFIG.Read_Width_B {256} CONFIG.Enable_32bit_Address {true} CONFIG.Use_Byte_Write_Enable {true} CONFIG.Byte_Size {8} CONFIG.Use_RSTA_Pin {false} CONFIG.Use_RSTB_Pin {false} CONFIG.Enable_A {Always_Enabled} CONFIG.Enable_B {Always_Enabled} CONFIG.EN_SAFETY_CKT {false}] [get_bd_cells blk_mem_bram_fromhost0]
 
 create_bd_cell -type ip -vlnv xilinx.com:ip:axi_bram_ctrl:4.1 bram_fromhost1
 create_bd_cell -type ip -vlnv xilinx.com:ip:blk_mem_gen:8.4 blk_mem_bram_fromhost1
-set_property -dict [list CONFIG.SINGLE_PORT_BRAM {1}] [get_bd_cells bram_fromhost1]
+set_property -dict [list CONFIG.READ_LATENCY {2} CONFIG.SINGLE_PORT_BRAM {1}] [get_bd_cells bram_fromhost1]
 set_property -dict [list CONFIG.DATA_WIDTH {256}] [get_bd_cells bram_fromhost1]
-set_property -dict [list CONFIG.use_bram_block {BRAM_Controller} CONFIG.Memory_Type {True_Dual_Port_RAM} CONFIG.Enable_32bit_Address {true} CONFIG.Read_Width_B {128}  CONFIG.Write_Width_B {128}] [get_bd_cells blk_mem_bram_fromhost1]
+#set_property -dict [list CONFIG.use_bram_block {BRAM_Controller} CONFIG.Memory_Type {True_Dual_Port_RAM} CONFIG.Enable_32bit_Address {true} CONFIG.Read_Width_B {128}  CONFIG.Write_Width_B {128}] [get_bd_cells blk_mem_bram_fromhost1]
+set_property -dict [list CONFIG.use_bram_block {Stand_Alone} CONFIG.Memory_Type {True_Dual_Port_RAM} CONFIG.Write_Depth_A {8192} CONFIG.Write_Width_A {256} CONFIG.Read_Width_A {256} CONFIG.Write_Width_B {256} CONFIG.Read_Width_B {256} CONFIG.Enable_32bit_Address {true} CONFIG.Use_Byte_Write_Enable {true} CONFIG.Byte_Size {8} CONFIG.Use_RSTA_Pin {false} CONFIG.Use_RSTB_Pin {false} CONFIG.Enable_A {Always_Enabled} CONFIG.Enable_B {Always_Enabled} CONFIG.EN_SAFETY_CKT {false}] [get_bd_cells blk_mem_bram_fromhost1]
 
 create_bd_cell -type ip -vlnv xilinx.com:ip:axi_bram_ctrl:4.1 bram_fromhost2
 create_bd_cell -type ip -vlnv xilinx.com:ip:blk_mem_gen:8.4 blk_mem_bram_fromhost2
-set_property -dict [list CONFIG.SINGLE_PORT_BRAM {1}] [get_bd_cells bram_fromhost2]
+set_property -dict [list CONFIG.READ_LATENCY {2} CONFIG.SINGLE_PORT_BRAM {1}] [get_bd_cells bram_fromhost2]
 set_property -dict [list CONFIG.DATA_WIDTH {256}] [get_bd_cells bram_fromhost2]
-set_property -dict [list CONFIG.use_bram_block {BRAM_Controller} CONFIG.Memory_Type {True_Dual_Port_RAM} CONFIG.Enable_32bit_Address {true} CONFIG.Read_Width_B {128}  CONFIG.Write_Width_B {128} ] [get_bd_cells blk_mem_bram_fromhost2]
+#set_property -dict [list CONFIG.use_bram_block {BRAM_Controller} CONFIG.Memory_Type {True_Dual_Port_RAM} CONFIG.Enable_32bit_Address {true} CONFIG.Read_Width_B {128}  CONFIG.Write_Width_B {128} ] [get_bd_cells blk_mem_bram_fromhost2]
+set_property -dict [list CONFIG.use_bram_block {Stand_Alone} CONFIG.Memory_Type {True_Dual_Port_RAM} CONFIG.Write_Depth_A {8192} CONFIG.Write_Width_A {256} CONFIG.Read_Width_A {256} CONFIG.Write_Width_B {256} CONFIG.Read_Width_B {256} CONFIG.Enable_32bit_Address {true} CONFIG.Use_Byte_Write_Enable {true} CONFIG.Byte_Size {8} CONFIG.Use_RSTA_Pin {false} CONFIG.Use_RSTB_Pin {false} CONFIG.Enable_A {Always_Enabled} CONFIG.Enable_B {Always_Enabled} CONFIG.EN_SAFETY_CKT {false}] [get_bd_cells blk_mem_bram_fromhost2]
 
 
 create_bd_cell -type ip -vlnv xilinx.com:ip:axi_bram_ctrl:4.1 bram_fromhost3
 create_bd_cell -type ip -vlnv xilinx.com:ip:blk_mem_gen:8.4 blk_mem_bram_fromhost3
-set_property -dict [list CONFIG.SINGLE_PORT_BRAM {1}] [get_bd_cells bram_fromhost3]
+set_property -dict [list CONFIG.READ_LATENCY {2} CONFIG.SINGLE_PORT_BRAM {1}] [get_bd_cells bram_fromhost3]
 set_property -dict [list CONFIG.DATA_WIDTH {256}] [get_bd_cells bram_fromhost3]
-set_property -dict [list CONFIG.use_bram_block {BRAM_Controller} CONFIG.Memory_Type {True_Dual_Port_RAM} CONFIG.Enable_32bit_Address {true} CONFIG.Read_Width_B {128}  CONFIG.Write_Width_B {128} ] [get_bd_cells blk_mem_bram_fromhost3]
+#set_property -dict [list CONFIG.use_bram_block {BRAM_Controller} CONFIG.Memory_Type {True_Dual_Port_RAM} CONFIG.Enable_32bit_Address {true} CONFIG.Read_Width_B {128}  CONFIG.Write_Width_B {128} ] [get_bd_cells blk_mem_bram_fromhost3]
+set_property -dict [list CONFIG.use_bram_block {Stand_Alone} CONFIG.Memory_Type {True_Dual_Port_RAM} CONFIG.Write_Depth_A {8192} CONFIG.Write_Width_A {256} CONFIG.Read_Width_A {256} CONFIG.Write_Width_B {256} CONFIG.Read_Width_B {256} CONFIG.Enable_32bit_Address {true} CONFIG.Use_Byte_Write_Enable {true} CONFIG.Byte_Size {8} CONFIG.Use_RSTA_Pin {false} CONFIG.Use_RSTB_Pin {false} CONFIG.Enable_A {Always_Enabled} CONFIG.Enable_B {Always_Enabled} CONFIG.EN_SAFETY_CKT {false}] [get_bd_cells blk_mem_bram_fromhost3]
 
 connect_bd_intf_net [get_bd_intf_pins bram_tohost0/BRAM_PORTA] [get_bd_intf_pins blk_mem_bram_tohost0/BRAM_PORTA]
 connect_bd_intf_net [get_bd_intf_pins bram_tohost1/BRAM_PORTA] [get_bd_intf_pins blk_mem_bram_tohost1/BRAM_PORTA]
@@ -189,56 +199,70 @@ connect_bd_net [get_bd_pins plps_0/psresetn01] [get_bd_pins axi_interconnect_1/S
 
 
 
+if {0} {
+create_bd_cell -type ip -vlnv xilinx.com:ip:c_counter_binary:12.0 c_counter_binary_0
+connect_bd_net [get_bd_pins c_counter_binary_0/CLK] [get_bd_pins plps_0/dspclk]
+connect_bd_net -net Q [get_bd_pins c_counter_binary_0/Q]
+set_property HDL_ATTRIBUTE.DEBUG true [get_bd_intf_nets {axi_clock_converter_0_M_AXI dspregs_lb}]
+set_property HDL_ATTRIBUTE.DEBUG true [get_bd_nets {Q }]
+connect_bd_net -net dspawstate_dbg [get_bd_pins dspregs/awstate_dbg]
+connect_bd_net -net dsparstate_dbg [get_bd_pins dspregs/arstate_dbg]
+connect_bd_net -net dspwstate_dbg [get_bd_pins dspregs/wstate_dbg]
+connect_bd_net -net dsprstate_dbg [get_bd_pins dspregs/rstate_dbg]
+connect_bd_net -net dspbstate_dbg [get_bd_pins dspregs/bstate_dbg]
+set_property HDL_ATTRIBUTE.DEBUG true [get_bd_nets {dspawstate_dbg dsparstate_dbg dspwstate_dbg dsprstate_dbg dspbstate_dbg }]
+													 
+apply_bd_automation -rule xilinx.com:bd_rule:debug -dict [list \
+                                                          [get_bd_nets dsparstate_dbg] {PROBE_TYPE "Data and Trigger" CLK_SRC "/plps_0/dspclk" SYSTEM_ILA "Auto" } \
+                                                          [get_bd_nets dspawstate_dbg] {PROBE_TYPE "Data and Trigger" CLK_SRC "/plps_0/dspclk" SYSTEM_ILA "Auto" } \
+                                                          [get_bd_intf_nets axi_clock_converter_0_M_AXI] {AXI_R_ADDRESS "Data and Trigger" AXI_R_DATA "Data and Trigger" AXI_W_ADDRESS "Data and Trigger" AXI_W_DATA "Data and Trigger" AXI_W_RESPONSE "Data and Trigger" CLK_SRC "/plps_0/dspclk" SYSTEM_ILA "Auto" APC_EN "0" } \
+                                                          [get_bd_nets dspbstate_dbg] {PROBE_TYPE "Data and Trigger" CLK_SRC "/plps_0/dspclk" SYSTEM_ILA "Auto" } \
+                                                          [get_bd_intf_nets dspregs_lb] {NON_AXI_SIGNALS "Data and Trigger" CLK_SRC "/plps_0/dspclk" SYSTEM_ILA "Auto" } \
+                                                          [get_bd_nets dsprstate_dbg] {PROBE_TYPE "Data and Trigger" CLK_SRC "/plps_0/dspclk" SYSTEM_ILA "Auto" } \
+                                                          [get_bd_nets dspwstate_dbg] {PROBE_TYPE "Data and Trigger" CLK_SRC "/plps_0/dspclk" SYSTEM_ILA "Auto" } \
+                                                          [get_bd_nets Q] {PROBE_TYPE "Data and Trigger" CLK_SRC "/plps_0/dspclk" SYSTEM_ILA "Auto" } \
+                                                         ]
+connect_bd_net [get_bd_pins rst_psbd_600M/ext_reset_in] [get_bd_pins zynq_ultra_ps_e_0/pl_resetn0]
+}
+if {0} {
 
-#create_bd_cell -type ip -vlnv xilinx.com:ip:c_counter_binary:12.0 c_counter_binary_0
-#connect_bd_net [get_bd_pins c_counter_binary_0/CLK] [get_bd_pins plps_0/dspclk]
-#connect_bd_net -net Q [get_bd_pins c_counter_binary_0/Q]
-#set_property HDL_ATTRIBUTE.DEBUG true [get_bd_intf_nets {axi_clock_converter_0_M_AXI dspregs_lb}]
-#set_property HDL_ATTRIBUTE.DEBUG true [get_bd_nets {Q }]
-#connect_bd_net -net dspawstate_dbg [get_bd_pins dspregs/awstate_dbg]
-#connect_bd_net -net dsparstate_dbg [get_bd_pins dspregs/arstate_dbg]
-#connect_bd_net -net dspwstate_dbg [get_bd_pins dspregs/wstate_dbg]
-#connect_bd_net -net dsprstate_dbg [get_bd_pins dspregs/rstate_dbg]
-#connect_bd_net -net dspbstate_dbg [get_bd_pins dspregs/bstate_dbg]
-#set_property HDL_ATTRIBUTE.DEBUG true [get_bd_nets {dspawstate_dbg dsparstate_dbg dspwstate_dbg dsprstate_dbg dspbstate_dbg }]
-#													 
-#apply_bd_automation -rule xilinx.com:bd_rule:debug -dict [list \
-#                                                          [get_bd_nets dsparstate_dbg] {PROBE_TYPE "Data and Trigger" CLK_SRC "/plps_0/dspclk" SYSTEM_ILA "Auto" } \
-#                                                          [get_bd_nets dspawstate_dbg] {PROBE_TYPE "Data and Trigger" CLK_SRC "/plps_0/dspclk" SYSTEM_ILA "Auto" } \
-#                                                          [get_bd_intf_nets axi_clock_converter_0_M_AXI] {AXI_R_ADDRESS "Data and Trigger" AXI_R_DATA "Data and Trigger" AXI_W_ADDRESS "Data and Trigger" AXI_W_DATA "Data and Trigger" AXI_W_RESPONSE "Data and Trigger" CLK_SRC "/plps_0/dspclk" SYSTEM_ILA "Auto" APC_EN "0" } \
-#                                                          [get_bd_nets dspbstate_dbg] {PROBE_TYPE "Data and Trigger" CLK_SRC "/plps_0/dspclk" SYSTEM_ILA "Auto" } \
-#                                                          [get_bd_intf_nets dspregs_lb] {NON_AXI_SIGNALS "Data and Trigger" CLK_SRC "/plps_0/dspclk" SYSTEM_ILA "Auto" } \
-#                                                          [get_bd_nets dsprstate_dbg] {PROBE_TYPE "Data and Trigger" CLK_SRC "/plps_0/dspclk" SYSTEM_ILA "Auto" } \
-#                                                          [get_bd_nets dspwstate_dbg] {PROBE_TYPE "Data and Trigger" CLK_SRC "/plps_0/dspclk" SYSTEM_ILA "Auto" } \
-#                                                          [get_bd_nets Q] {PROBE_TYPE "Data and Trigger" CLK_SRC "/plps_0/dspclk" SYSTEM_ILA "Auto" } \
-#                                                         ]
-#connect_bd_net [get_bd_pins rst_psbd_600M/ext_reset_in] [get_bd_pins zynq_ultra_ps_e_0/pl_resetn0]
-#
-#
-#
-#connect_bd_net -net ctrlrstate_dbg [get_bd_pins ctrlregs/rstate_dbg]
-#connect_bd_net -net ctrlbstate_dbg [get_bd_pins ctrlregs/bstate_dbg]
-#connect_bd_net -net ctrlawstate_dbg [get_bd_pins ctrlregs/awstate_dbg]
-#connect_bd_net -net ctrlarstate_dbg [get_bd_pins ctrlregs/arstate_dbg]
-#connect_bd_net -net ctrlwstate_dbg [get_bd_pins ctrlregs/wstate_dbg]
-#set_property HDL_ATTRIBUTE.DEBUG true [get_bd_nets {ctrlrstate_dbg ctrlbstate_dbg ctrlawstate_dbg ctrlarstate_dbg ctrlwstate_dbg }]
-#set_property HDL_ATTRIBUTE.DEBUG true [get_bd_intf_nets {ctrlregs_lb axi_interconnect_1_M00_AXI}]
-#apply_bd_automation -rule xilinx.com:bd_rule:debug -dict [list \
-#                                                          [get_bd_nets ctrlarstate_dbg] {PROBE_TYPE "Data and Trigger" CLK_SRC "/plps_0/cfgclk" SYSTEM_ILA "Auto" } \
-#                                                          [get_bd_nets ctrlawstate_dbg] {PROBE_TYPE "Data and Trigger" CLK_SRC "/plps_0/cfgclk" SYSTEM_ILA "Auto" } \
-#                                                          [get_bd_intf_nets axi_interconnect_1_M00_AXI] {AXI_R_ADDRESS "Data and Trigger" AXI_R_DATA "Data and Trigger" AXI_W_ADDRESS "Data and Trigger" AXI_W_DATA "Data and Trigger" AXI_W_RESPONSE "Data and Trigger" CLK_SRC "/plps_0/cfgclk" SYSTEM_ILA "Auto" APC_EN "0" } \
-#                                                          [get_bd_nets ctrlbstate_dbg] {PROBE_TYPE "Data and Trigger" CLK_SRC "/plps_0/cfgclk" SYSTEM_ILA "Auto" } \
-#                                                          [get_bd_intf_nets ctrlregs_lb] {NON_AXI_SIGNALS "Data and Trigger" CLK_SRC "/plps_0/cfgclk" SYSTEM_ILA "Auto" } \
-#                                                          [get_bd_nets ctrlrstate_dbg] {PROBE_TYPE "Data and Trigger" CLK_SRC "/plps_0/cfgclk" SYSTEM_ILA "Auto" } \
-#                                                          [get_bd_nets ctrlwstate_dbg] {PROBE_TYPE "Data and Trigger" CLK_SRC "/plps_0/cfgclk" SYSTEM_ILA "Auto" } \
-#                                                         ]
-#connect_bd_net [get_bd_pins zynq_ultra_ps_e_0/pl_resetn0] [get_bd_pins rst_psbd_100M/ext_reset_in]
 
+connect_bd_net -net ctrlrstate_dbg [get_bd_pins ctrlregs/rstate_dbg]
+connect_bd_net -net ctrlbstate_dbg [get_bd_pins ctrlregs/bstate_dbg]
+connect_bd_net -net ctrlawstate_dbg [get_bd_pins ctrlregs/awstate_dbg]
+connect_bd_net -net ctrlarstate_dbg [get_bd_pins ctrlregs/arstate_dbg]
+connect_bd_net -net ctrlwstate_dbg [get_bd_pins ctrlregs/wstate_dbg]
+set_property HDL_ATTRIBUTE.DEBUG true [get_bd_nets {ctrlrstate_dbg ctrlbstate_dbg ctrlawstate_dbg ctrlarstate_dbg ctrlwstate_dbg }]
+set_property HDL_ATTRIBUTE.DEBUG true [get_bd_intf_nets {ctrlregs_lb axi_interconnect_1_M00_AXI}]
+apply_bd_automation -rule xilinx.com:bd_rule:debug -dict [list \
+                                                          [get_bd_nets ctrlarstate_dbg] {PROBE_TYPE "Data and Trigger" CLK_SRC "/plps_0/cfgclk" SYSTEM_ILA "Auto" } \
+                                                          [get_bd_nets ctrlawstate_dbg] {PROBE_TYPE "Data and Trigger" CLK_SRC "/plps_0/cfgclk" SYSTEM_ILA "Auto" } \
+                                                          [get_bd_intf_nets axi_interconnect_1_M00_AXI] {AXI_R_ADDRESS "Data and Trigger" AXI_R_DATA "Data and Trigger" AXI_W_ADDRESS "Data and Trigger" AXI_W_DATA "Data and Trigger" AXI_W_RESPONSE "Data and Trigger" CLK_SRC "/plps_0/cfgclk" SYSTEM_ILA "Auto" APC_EN "0" } \
+                                                          [get_bd_nets ctrlbstate_dbg] {PROBE_TYPE "Data and Trigger" CLK_SRC "/plps_0/cfgclk" SYSTEM_ILA "Auto" } \
+                                                          [get_bd_intf_nets ctrlregs_lb] {NON_AXI_SIGNALS "Data and Trigger" CLK_SRC "/plps_0/cfgclk" SYSTEM_ILA "Auto" } \
+                                                          [get_bd_nets ctrlrstate_dbg] {PROBE_TYPE "Data and Trigger" CLK_SRC "/plps_0/cfgclk" SYSTEM_ILA "Auto" } \
+                                                          [get_bd_nets ctrlwstate_dbg] {PROBE_TYPE "Data and Trigger" CLK_SRC "/plps_0/cfgclk" SYSTEM_ILA "Auto" } \
+                                                         ]
+connect_bd_net [get_bd_pins zynq_ultra_ps_e_0/pl_resetn0] [get_bd_pins rst_psbd_100M/ext_reset_in]
+}
+if {1} {
+set_property HDL_ATTRIBUTE.DEBUG true [get_bd_intf_nets {axi_interconnect_1_M05_AXI bram_fromhost1_BRAM_PORTA}]
+apply_bd_automation -rule xilinx.com:bd_rule:debug -dict [list \
+                                                          [get_bd_intf_nets axi_interconnect_1_M05_AXI] {AXI_R_ADDRESS "Data and Trigger" AXI_R_DATA "Data and Trigger" AXI_W_ADDRESS "Data and Trigger" AXI_W_DATA "Data and Trigger" AXI_W_RESPONSE "Data and Trigger" CLK_SRC "/plps_0/cfgclk" SYSTEM_ILA "Auto" APC_EN "0" } \
+                                                          [get_bd_intf_nets bram_fromhost1_BRAM_PORTA] {NON_AXI_SIGNALS "Data and Trigger" CLK_SRC "/plps_0/cfgclk" SYSTEM_ILA "Auto" } \
+                                                         ]
+}
 
 assign_bd_address
+set_property range 1M [get_bd_addr_segs {zynq_ultra_ps_e_0/Data/SEG_bram_tohost0_Mem0}]
+set_property range 1M [get_bd_addr_segs {zynq_ultra_ps_e_0/Data/SEG_bram_tohost1_Mem0}]
+set_property range 1M [get_bd_addr_segs {zynq_ultra_ps_e_0/Data/SEG_bram_fromhost0_Mem0}]
+set_property range 1M [get_bd_addr_segs {zynq_ultra_ps_e_0/Data/SEG_bram_fromhost1_Mem0}]
+set_property range 1M [get_bd_addr_segs {zynq_ultra_ps_e_0/Data/SEG_bram_fromhost2_Mem0}]
+set_property range 1M [get_bd_addr_segs {zynq_ultra_ps_e_0/Data/SEG_bram_fromhost3_Mem0}]
 validate_bd_design
 save_bd_design
 make_wrapper -files [get_files ./vivado_project/psbd/psbd.srcs/sources_1/bd/psbd/psbd.bd] -top
 add_files -norecurse ./vivado_project/psbd/psbd.gen/sources_1/bd/psbd/hdl/psbd_wrapper.v
 
-
+ 
