@@ -42,7 +42,8 @@ set_property -dict [list CONFIG.FREQ_HZ {600000000}] [get_bd_pins plps_0/clkadc2
 
 set_property -dict [list CONFIG.ADDR_WIDTH {16}] [get_bd_cells dspregs]
 set_property -dict [list CONFIG.ADDR_WIDTH {16}] [get_bd_cells ctrlregs]
-set_property -dict [list CONFIG.LB_DATAWIDTH {32} CONFIG.LB_ADDRWIDTH {14} CONFIG.DAC_AXIS_DATAWIDTH {256} CONFIG.ADC_AXIS_DATAWIDTH {64} CONFIG.BRAMTOHOST_ADDRWIDTH {15} CONFIG.BRAMTOHOST_DATAWIDTH {64} CONFIG.BRAMFROMHOST_ADDRWIDTH {13} CONFIG.BRAMFROMHOST_DATAWIDTH {256}] [get_bd_cells plps_0]
+#set_property -dict [list CONFIG.LB_DATAWIDTH {32} CONFIG.LB_ADDRWIDTH {14} CONFIG.DAC_AXIS_DATAWIDTH {256} CONFIG.ADC_AXIS_DATAWIDTH {64} CONFIG.BRAMTOHOST_ADDRWIDTH {17} CONFIG.BRAMTOHOST_DATAWIDTH {64} CONFIG.BRAMFROMHOST_ADDRWIDTH {15} CONFIG.BRAMFROMHOST_DATAWIDTH {256}] [get_bd_cells plps_0]
+set_property -dict [list CONFIG.LB_DATAWIDTH {32} CONFIG.LB_ADDRWIDTH {14} CONFIG.DAC_AXIS_DATAWIDTH {256} CONFIG.ADC_AXIS_DATAWIDTH {64} CONFIG.BRAMTOHOST_ADDRWIDTH {32} CONFIG.BRAMTOHOST_DATAWIDTH {64} CONFIG.BRAMFROMHOST_ADDRWIDTH {32} CONFIG.BRAMFROMHOST_DATAWIDTH {256}] [get_bd_cells plps_0]
 
 create_bd_cell -type ip -vlnv xilinx.com:ip:axi_bram_ctrl:4.1 bram_tohost0
 create_bd_cell -type ip -vlnv xilinx.com:ip:blk_mem_gen:8.4 blk_mem_bram_tohost0
@@ -252,7 +253,7 @@ apply_bd_automation -rule xilinx.com:bd_rule:debug -dict [list \
                                                           [get_bd_intf_nets bram_fromhost1_BRAM_PORTA] {NON_AXI_SIGNALS "Data and Trigger" CLK_SRC "/plps_0/cfgclk" SYSTEM_ILA "Auto" } \
                                                          ]
 }
-if {1} {
+if {0} {
 set_property HDL_ATTRIBUTE.DEBUG true [get_bd_intf_nets {plps_0_bram_fromhost0}]
 apply_bd_automation -rule xilinx.com:bd_rule:debug -dict [list \
                                                           [get_bd_intf_nets plps_0_bram_fromhost0] {NON_AXI_SIGNALS "Data and Trigger" CLK_SRC "None (Connect manually)" SYSTEM_ILA "Auto" } \

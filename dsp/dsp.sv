@@ -60,6 +60,7 @@ reg [BRAMFROMHOST_ADDRWIDTH-1:0] bramfromhost2_addr=0;
 reg bramfromhost2locklast_d=0;
 reg [BRAMFROMHOST_ADDRWIDTH-1:0] bramfromhost1_addr=0;
 reg [BRAMFROMHOST_DATAWIDTH/8-1:0] bramfromhost1_we=0;
+reg [BRAMFROMHOST_ADDRWIDTH-1:0] bramfromhost3_addr=0;
 reg [16*16-1:0] cossteps_r=0;
 reg [16*16-1:0] sinsteps_r=0;
 wire bramtohost0locklast=&bramtohost0_addr;
@@ -97,10 +98,13 @@ always @(posedge dspif.clk) begin
 	bramfromhost2locklast_d<=bramfromhost2locklast;
 	bramfromhost1_addr<=reset_bram_read[2] ? 0 : bramfromhost1_addr+(bramfromhost1locklast ?{BRAMFROMHOST_ADDRWIDTH{1'b0}} : {{(BRAMFROMHOST_ADDRWIDTH-1){1'b0}},1'b1});
 	bramfromhost1_we<={(BRAMFROMHOST_DATAWIDTH/8){~bramfromhost1locklast}};
+	
+	bramfromhost3_addr<=reset_bram_read[3] ? 0 : bramfromhost3_addr+1;//(bramfromhost3locklast ?{BRAMFROMHOST_ADDRWIDTH{1'b0}} : {{(BRAMFROMHOST_ADDRWIDTH-1){1'b0}},1'b1});
 
 	dspif.bramtohost0_we<=bramtohost0_we;
 	dspif.bramtohost0_addr<=bramtohost0_addr;
 	dspif.bramfromhost0_addr<=bramfromhost0_addr;
+	dspif.bramfromhost3_addr<=bramfromhost3_addr;
 	dspif.bramfromhost2_addr<=bramfromhost2_addr;
 	dspif.bramfromhost1_addr<=bramfromhost1_addr;
 	dspif.bramfromhost1_we<=bramfromhost1_we;
@@ -205,6 +209,9 @@ always @(posedge dspif.clk) begin
 		6: begin
 			dacval<=sinsteps_r;
 		end
+		7: begin
+			dacval<=dspif.bramfromhost3_data;
+		end
 		default: begin
 			dacval<={256{1'b0}};
 		end
@@ -282,7 +289,7 @@ assign dspif.dac30=dacval30;
 assign dspif.dac22=dacval22;
 assign dspif.dac32=dacval32;
 
-`include "iladsp.vh"
+//`include "iladsp.vh"
 endmodule
 
 interface ifdsp #(

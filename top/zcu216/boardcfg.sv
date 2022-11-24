@@ -179,6 +179,12 @@ bramfromhost2_write(.bram(bram_fromhost2)
 ,.we(dspif.bramfromhost2_we)
 );
 
+bram_read#(.ADDR_WIDTH(BRAMFROMHOST_ADDRWIDTH+BRAMFROMHOST_ADDRPERDATA),.DATA_WIDTH(BRAMFROMHOST_DATAWIDTH))
+bramfromhost3_read(.bram(bram_fromhost3)
+,.addr({dspif.bramfromhost3_addr,{BRAMFROMHOST_ADDRPERDATA{1'b0}}})
+,.data(dspif.bramfromhost3_data)
+);
+
 wire adc20datavalid;
 wire [ADC_AXIS_DATAWIDTH-1:0] adc20data_x;
 wire [ADC_AXIS_DATAWIDTH-1:0] adc20data;
