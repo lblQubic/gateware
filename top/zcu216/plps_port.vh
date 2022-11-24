@@ -19,6 +19,17 @@ input aresetn
 ,output cfgresetn16
 ,output cfgresetn17
 ,output cfgresetn18
+,output cfgresetn19
+,output cfgresetn20
+,output cfgresetn21
+,output cfgresetn22
+,output cfgresetn23
+,output cfgresetn24
+,output cfgresetn25
+,output cfgresetn26
+,output cfgresetn27
+,output cfgresetn28
+,output cfgresetn29
 ,output dspresetn00
 ,output dspresetn01
 ,output dspresetn02
@@ -111,6 +122,53 @@ input aresetn
 ,output [BRAMFROMHOST_DATAWIDTH/8-1:0] BRAM_FROMHOST3_we
 
 
+,output BRAM_FROMHOST4_clk
+,output BRAM_FROMHOST4_rst
+,output [32-1:0] BRAM_FROMHOST4_addr
+,output [BRAMFROMHOST_DATAWIDTH-1:0] BRAM_FROMHOST4_din
+,input [BRAMFROMHOST_DATAWIDTH-1:0] BRAM_FROMHOST4_dout
+,output BRAM_FROMHOST4_en
+,output [BRAMFROMHOST_DATAWIDTH/8-1:0] BRAM_FROMHOST4_we
+
+,output BRAM_FROMHOST5_clk
+,output BRAM_FROMHOST5_rst
+,output [32-1:0] BRAM_FROMHOST5_addr
+,output [BRAMFROMHOST_DATAWIDTH-1:0] BRAM_FROMHOST5_din
+,input [BRAMFROMHOST_DATAWIDTH-1:0] BRAM_FROMHOST5_dout
+,output BRAM_FROMHOST5_en
+,output [BRAMFROMHOST_DATAWIDTH/8-1:0] BRAM_FROMHOST5_we
+
+,output BRAM_FROMHOST6_clk
+,output BRAM_FROMHOST6_rst
+,output [32-1:0] BRAM_FROMHOST6_addr
+,output [BRAMFROMHOST_DATAWIDTH-1:0] BRAM_FROMHOST6_din
+,input [BRAMFROMHOST_DATAWIDTH-1:0] BRAM_FROMHOST6_dout
+,output BRAM_FROMHOST6_en
+,output [BRAMFROMHOST_DATAWIDTH/8-1:0] BRAM_FROMHOST6_we
+
+,output BRAM_FROMHOST7_clk
+,output BRAM_FROMHOST7_rst
+,output [32-1:0] BRAM_FROMHOST7_addr
+,output [BRAMFROMHOST_DATAWIDTH-1:0] BRAM_FROMHOST7_din
+,input [BRAMFROMHOST_DATAWIDTH-1:0] BRAM_FROMHOST7_dout
+,output BRAM_FROMHOST7_en
+,output [BRAMFROMHOST_DATAWIDTH/8-1:0] BRAM_FROMHOST7_we
+
+,output BRAM_ACCBUF_clk
+,output BRAM_ACCBUF_rst
+,output [32-1:0] BRAM_ACCBUF_addr
+,output [BRAMFROMHOST_DATAWIDTH-1:0] BRAM_ACCBUF_din
+,input [BRAMFROMHOST_DATAWIDTH-1:0] BRAM_ACCBUF_dout
+,output BRAM_ACCBUF_en
+,output [BRAMFROMHOST_DATAWIDTH/8-1:0] BRAM_ACCBUF_we
+
+,output BRAM_COMMAND_clk
+,output BRAM_COMMAND_rst
+,output [32-1:0] BRAM_COMMAND_addr
+,output [BRAMFROMHOST_DATAWIDTH-1:0] BRAM_COMMAND_din
+,input [BRAMFROMHOST_DATAWIDTH-1:0] BRAM_COMMAND_dout
+,output BRAM_COMMAND_en
+,output [BRAMFROMHOST_DATAWIDTH/8-1:0] BRAM_COMMAND_we
 
 ,input  DAC20_M_AXIS_ACLK
 ,input  DAC20_M_AXIS_ARESETN

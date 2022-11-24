@@ -8,6 +8,10 @@ module plsv #(parameter integer LB_DATAWIDTH	= 32
 ,parameter integer BRAMTOHOST_DATAWIDTH=64
 ,parameter integer BRAMFROMHOST_ADDRWIDTH=32
 ,parameter integer BRAMFROMHOST_DATAWIDTH=256
+,parameter integer ACCBUF_ADDRWIDTH=64
+,parameter integer ACCBUF_DATAWIDTH=32
+,parameter integer COMMAND_ADDRWIDTH=128
+,parameter integer COMMAND_DATAWIDTH=32
 )(	`include "plps_port.vh"
 ,hwif hw
 ,input clkadc2_300
@@ -18,7 +22,7 @@ wire [31:0] cfgresetn_r;
 wire [31:0] dspresetn_r;
 wire [31:0] psresetn_r;
 wire [31:0] adc2resetn_r;
-wire cfgresetn31,cfgresetn30,cfgresetn29,cfgresetn28,cfgresetn27,cfgresetn26,cfgresetn25,cfgresetn24,cfgresetn23,cfgresetn22,cfgresetn21,cfgresetn20,cfgresetn19;//,cfgresetn18,cfgresetn17,cfgresetn16,cfgresetn15,cfgresetn14,cfgresetn13,cfgresetn12,cfgresetn11,cfgresetn10,cfgresetn09,cfgresetn08,cfgresetn07,cfgresetn06,cfgresetn05,cfgresetn04,cfgresetn03,cfgresetn02,cfgresetn01,cfgresetn00;
+wire cfgresetn31,cfgresetn30;//,cfgresetn29,cfgresetn28,cfgresetn27,cfgresetn26,cfgresetn25,cfgresetn24,cfgresetn23,cfgresetn22,cfgresetn21,cfgresetn20,cfgresetn19,cfgresetn18,cfgresetn17,cfgresetn16,cfgresetn15,cfgresetn14,cfgresetn13,cfgresetn12,cfgresetn11,cfgresetn10,cfgresetn09,cfgresetn08,cfgresetn07,cfgresetn06,cfgresetn05,cfgresetn04,cfgresetn03,cfgresetn02,cfgresetn01,cfgresetn00;
 assign {cfgresetn31,cfgresetn30,cfgresetn29,cfgresetn28,cfgresetn27,cfgresetn26,cfgresetn25,cfgresetn24,cfgresetn23,cfgresetn22,cfgresetn21,cfgresetn20,cfgresetn19,cfgresetn18,cfgresetn17,cfgresetn16,cfgresetn15,cfgresetn14,cfgresetn13,cfgresetn12,cfgresetn11,cfgresetn10,cfgresetn09,cfgresetn08,cfgresetn07,cfgresetn06,cfgresetn05,cfgresetn04,cfgresetn03,cfgresetn02,cfgresetn01,cfgresetn00}=cfgresetn_r;
 wire dspresetn31,dspresetn30,dspresetn29,dspresetn28,dspresetn27,dspresetn26,dspresetn25,dspresetn24,dspresetn23,dspresetn22,dspresetn21,dspresetn20,dspresetn19,dspresetn18,dspresetn17,dspresetn16,dspresetn15,dspresetn14,dspresetn13,dspresetn12,dspresetn11,dspresetn10,dspresetn09,dspresetn08;//,dspresetn07,dspresetn06,dspresetn05,dspresetn04,dspresetn03,dspresetn02,dspresetn01,dspresetn00;
 assign {dspresetn31,dspresetn30,dspresetn29,dspresetn28,dspresetn27,dspresetn26,dspresetn25,dspresetn24,dspresetn23,dspresetn22,dspresetn21,dspresetn20,dspresetn19,dspresetn18,dspresetn17,dspresetn16,dspresetn15,dspresetn14,dspresetn13,dspresetn12,dspresetn11,dspresetn10,dspresetn09,dspresetn08,dspresetn07,dspresetn06,dspresetn05,dspresetn04,dspresetn03,dspresetn02,dspresetn01,dspresetn00}=dspresetn_r;
@@ -153,6 +157,8 @@ assign {BRAM_FROMHOST3_we,BRAM_FROMHOST2_we,BRAM_FROMHOST1_we,BRAM_FROMHOST0_we}
 */
 localparam BRAMTOHOST_ADDRPERDATA=$clog2(BRAMTOHOST_DATAWIDTH)-3;
 localparam BRAMFROMHOST_ADDRPERDATA=$clog2(BRAMFROMHOST_DATAWIDTH)-3;
+localparam ACCBUF_ADDRPERDATA=$clog2(ACCBUF_DATAWIDTH)-3;
+localparam COMMAND_ADDRPERDATA=$clog2(COMMAND_DATAWIDTH)-3;
 ifbram #(.ADDR_WIDTH(BRAMTOHOST_ADDRWIDTH+BRAMTOHOST_ADDRPERDATA),.DATA_WIDTH(BRAMTOHOST_DATAWIDTH)) bram_tohost0();
 ifbram #(.ADDR_WIDTH(BRAMTOHOST_ADDRWIDTH+BRAMTOHOST_ADDRPERDATA),.DATA_WIDTH(BRAMTOHOST_DATAWIDTH)) bram_tohost1();
 
@@ -160,6 +166,12 @@ ifbram #(.ADDR_WIDTH(BRAMFROMHOST_ADDRWIDTH+BRAMFROMHOST_ADDRPERDATA),.DATA_WIDT
 ifbram #(.ADDR_WIDTH(BRAMFROMHOST_ADDRWIDTH+BRAMFROMHOST_ADDRPERDATA),.DATA_WIDTH(BRAMFROMHOST_DATAWIDTH)) bram_fromhost1();
 ifbram #(.ADDR_WIDTH(BRAMFROMHOST_ADDRWIDTH+BRAMFROMHOST_ADDRPERDATA),.DATA_WIDTH(BRAMFROMHOST_DATAWIDTH)) bram_fromhost2();
 ifbram #(.ADDR_WIDTH(BRAMFROMHOST_ADDRWIDTH+BRAMFROMHOST_ADDRPERDATA),.DATA_WIDTH(BRAMFROMHOST_DATAWIDTH)) bram_fromhost3();
+ifbram #(.ADDR_WIDTH(BRAMFROMHOST_ADDRWIDTH+BRAMFROMHOST_ADDRPERDATA),.DATA_WIDTH(BRAMFROMHOST_DATAWIDTH)) bram_fromhost4();
+ifbram #(.ADDR_WIDTH(BRAMFROMHOST_ADDRWIDTH+BRAMFROMHOST_ADDRPERDATA),.DATA_WIDTH(BRAMFROMHOST_DATAWIDTH)) bram_fromhost5();
+ifbram #(.ADDR_WIDTH(BRAMFROMHOST_ADDRWIDTH+BRAMFROMHOST_ADDRPERDATA),.DATA_WIDTH(BRAMFROMHOST_DATAWIDTH)) bram_fromhost6();
+ifbram #(.ADDR_WIDTH(BRAMFROMHOST_ADDRWIDTH+BRAMFROMHOST_ADDRPERDATA),.DATA_WIDTH(BRAMFROMHOST_DATAWIDTH)) bram_fromhost7();
+ifbram #(.ADDR_WIDTH(ACCBUF_ADDRWIDTH+ACCBUF_ADDRPERDATA),.DATA_WIDTH(ACCBUF_DATAWIDTH)) bram_accbuf();
+ifbram #(.ADDR_WIDTH(COMMAND_ADDRWIDTH+COMMAND_ADDRPERDATA),.DATA_WIDTH(COMMAND_DATAWIDTH)) bram_command();
 
 bram_map #(.ADDR_WIDTH(BRAMTOHOST_ADDRWIDTH+BRAMTOHOST_ADDRPERDATA),.DATA_WIDTH(BRAMTOHOST_DATAWIDTH))
 bram_tohost0_map(.bram(bram_tohost0)
@@ -180,6 +192,27 @@ bram_fromhost2_map(.bram(bram_fromhost2)
 bram_map #(.ADDR_WIDTH(BRAMFROMHOST_ADDRWIDTH+BRAMFROMHOST_ADDRPERDATA),.DATA_WIDTH(BRAMFROMHOST_DATAWIDTH))
 bram_fromhost3_map(.bram(bram_fromhost3)
 ,.clk(BRAM_FROMHOST3_clk),.rst(BRAM_FROMHOST3_rst),.addr(BRAM_FROMHOST3_addr),.din(BRAM_FROMHOST3_din),.dout(BRAM_FROMHOST3_dout),.en(BRAM_FROMHOST3_en),.we(BRAM_FROMHOST3_we));
+bram_map #(.ADDR_WIDTH(BRAMFROMHOST_ADDRWIDTH+BRAMFROMHOST_ADDRPERDATA),.DATA_WIDTH(BRAMFROMHOST_DATAWIDTH))
+bram_fromhost4_map(.bram(bram_fromhost4)
+,.clk(BRAM_FROMHOST4_clk),.rst(BRAM_FROMHOST4_rst),.addr(BRAM_FROMHOST4_addr),.din(BRAM_FROMHOST4_din),.dout(BRAM_FROMHOST4_dout),.en(BRAM_FROMHOST4_en),.we(BRAM_FROMHOST4_we));
+bram_map #(.ADDR_WIDTH(BRAMFROMHOST_ADDRWIDTH+BRAMFROMHOST_ADDRPERDATA),.DATA_WIDTH(BRAMFROMHOST_DATAWIDTH))
+bram_fromhost5_map(.bram(bram_fromhost5)
+,.clk(BRAM_FROMHOST5_clk),.rst(BRAM_FROMHOST5_rst),.addr(BRAM_FROMHOST5_addr),.din(BRAM_FROMHOST5_din),.dout(BRAM_FROMHOST5_dout),.en(BRAM_FROMHOST5_en),.we(BRAM_FROMHOST5_we));
+bram_map #(.ADDR_WIDTH(BRAMFROMHOST_ADDRWIDTH+BRAMFROMHOST_ADDRPERDATA),.DATA_WIDTH(BRAMFROMHOST_DATAWIDTH))
+bram_fromhost6_map(.bram(bram_fromhost6)
+,.clk(BRAM_FROMHOST6_clk),.rst(BRAM_FROMHOST6_rst),.addr(BRAM_FROMHOST6_addr),.din(BRAM_FROMHOST6_din),.dout(BRAM_FROMHOST6_dout),.en(BRAM_FROMHOST6_en),.we(BRAM_FROMHOST6_we));
+
+bram_map #(.ADDR_WIDTH(BRAMFROMHOST_ADDRWIDTH+BRAMFROMHOST_ADDRPERDATA),.DATA_WIDTH(BRAMFROMHOST_DATAWIDTH))
+bram_fromhost7_map(.bram(bram_fromhost7)
+,.clk(BRAM_FROMHOST7_clk),.rst(BRAM_FROMHOST7_rst),.addr(BRAM_FROMHOST7_addr),.din(BRAM_FROMHOST7_din),.dout(BRAM_FROMHOST7_dout),.en(BRAM_FROMHOST7_en),.we(BRAM_FROMHOST7_we));
+
+bram_map #(.ADDR_WIDTH(ACCBUF_ADDRWIDTH+ACCBUF_ADDRPERDATA),.DATA_WIDTH(ACCBUF_DATAWIDTH))
+bram_accbuf_map(.bram(bram_accbuf)
+,.clk(BRAM_ACCBUF_clk),.rst(BRAM_ACCBUF_rst),.addr(BRAM_ACCBUF_addr),.din(BRAM_ACCBUF_din),.dout(BRAM_ACCBUF_dout),.en(BRAM_ACCBUF_en),.we(BRAM_ACCBUF_we));
+
+bram_map #(.ADDR_WIDTH(COMMAND_ADDRWIDTH+COMMAND_ADDRPERDATA),.DATA_WIDTH(COMMAND_DATAWIDTH))
+bram_command_map(.bram(bram_command)
+,.clk(BRAM_COMMAND_clk),.rst(BRAM_COMMAND_rst),.addr(BRAM_COMMAND_addr),.din(BRAM_COMMAND_din),.dout(BRAM_COMMAND_dout),.en(BRAM_COMMAND_en),.we(BRAM_COMMAND_we));
 
 /*generate
 for (genvar i=0;i<4;i++) begin
@@ -198,6 +231,7 @@ end
 endgenerate
 */
 pltop #(.LB_DATAWIDTH(LB_DATAWIDTH),.LB_ADDRWIDTH(LB_ADDRWIDTH),.DEBUG(DEBUG),.BRAMTOHOST_DATAWIDTH(BRAMTOHOST_DATAWIDTH),.BRAMTOHOST_ADDRWIDTH(BRAMTOHOST_ADDRWIDTH),.BRAMFROMHOST_DATAWIDTH(BRAMFROMHOST_DATAWIDTH),.BRAMFROMHOST_ADDRWIDTH(BRAMFROMHOST_ADDRWIDTH),.DAC_AXIS_DATAWIDTH(DAC_AXIS_DATAWIDTH),.ADC_AXIS_DATAWIDTH(ADC_AXIS_DATAWIDTH)
+,.ACCBUF_DATAWIDTH(ACCBUF_DATAWIDTH),.ACCBUF_ADDRWIDTH(ACCBUF_ADDRWIDTH),.COMMAND_DATAWIDTH(COMMAND_DATAWIDTH),.COMMAND_ADDRWIDTH(COMMAND_ADDRWIDTH)
 )
 pltop(.bram_tohost0(bram_tohost0)
 ,.bram_tohost1(bram_tohost1)
@@ -205,6 +239,12 @@ pltop(.bram_tohost0(bram_tohost0)
 ,.bram_fromhost1(bram_fromhost1)
 ,.bram_fromhost2(bram_fromhost2)
 ,.bram_fromhost3(bram_fromhost3)
+,.bram_fromhost4(bram_fromhost4)
+,.bram_fromhost5(bram_fromhost5)
+,.bram_fromhost6(bram_fromhost6)
+,.bram_fromhost7(bram_fromhost7)
+,.bram_accbuf(bram_accbuf)
+,.bram_command(bram_command)
 ,.lb1(lb1)
 ,.lb2(lb2)
 ,.hw(hw)

@@ -89,6 +89,12 @@ brambus bram_fromhost0
 brambus bram_fromhost1
 brambus bram_fromhost2
 brambus bram_fromhost3
+brambus bram_fromhost4
+brambus bram_fromhost5
+brambus bram_fromhost6
+brambus bram_fromhost7
+brambus bram_accbuf
+brambus bram_command
 
 #ipx::add_bus_interface bram_tohost0 [ipx::current_core]
 #set_property abstraction_type_vlnv xilinx.com:interface:bram_rtl:1.0 [ipx::get_bus_interfaces bram_tohost0 -of_objects [ipx::current_core]]

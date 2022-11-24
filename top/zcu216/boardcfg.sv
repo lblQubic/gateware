@@ -6,6 +6,10 @@ parameter DEBUG="true"
 ,parameter integer BRAMTOHOST_DATAWIDTH=64
 ,parameter integer BRAMFROMHOST_ADDRWIDTH=32
 ,parameter integer BRAMFROMHOST_DATAWIDTH=256
+,parameter integer ACCBUF_ADDRWIDTH=64
+,parameter integer ACCBUF_DATAWIDTH=32
+,parameter integer COMMAND_ADDRWIDTH=128
+,parameter integer COMMAND_DATAWIDTH=32
 )(hwif.cfg hw
 ,ifregs.regs regs
 ,ifbram bram_tohost0
@@ -14,6 +18,12 @@ parameter DEBUG="true"
 ,ifbram bram_fromhost1
 ,ifbram bram_fromhost2
 ,ifbram bram_fromhost3
+,ifbram bram_fromhost4
+,ifbram bram_fromhost5
+,ifbram bram_fromhost6
+,ifbram bram_fromhost7
+,ifbram bram_accbuf
+,ifbram bram_command
 ,axi4stream.master dac30axis
 ,axi4stream.master dac20axis
 ,axi4stream.master dac32axis
@@ -51,6 +61,12 @@ bram_cfg bram_fromhost0_cfg(.bram(bram_fromhost0),.clk(dspclk),.rst(1'b0),.en(1'
 bram_cfg bram_fromhost1_cfg(.bram(bram_fromhost1),.clk(dspclk),.rst(1'b0),.en(1'b1));
 bram_cfg bram_fromhost2_cfg(.bram(bram_fromhost2),.clk(dspclk),.rst(1'b0),.en(1'b1));
 bram_cfg bram_fromhost3_cfg(.bram(bram_fromhost3),.clk(dspclk),.rst(1'b0),.en(1'b1));
+bram_cfg bram_fromhost4_cfg(.bram(bram_fromhost4),.clk(dspclk),.rst(1'b0),.en(1'b1));
+bram_cfg bram_fromhost5_cfg(.bram(bram_fromhost5),.clk(dspclk),.rst(1'b0),.en(1'b1));
+bram_cfg bram_fromhost6_cfg(.bram(bram_fromhost6),.clk(dspclk),.rst(1'b0),.en(1'b1));
+bram_cfg bram_fromhost7_cfg(.bram(bram_fromhost7),.clk(dspclk),.rst(1'b0),.en(1'b1));
+bram_cfg bram_accbuf_cfg(.bram(bram_accbuf),.clk(dspclk),.rst(1'b0),.en(1'b1));
+bram_cfg bram_command_cfg(.bram(bram_command),.clk(dspclk),.rst(1'b0),.en(1'b1));
 
 
 reg [31:0] cnt100=0;

@@ -5,6 +5,10 @@ module dsp #(parameter DEBUG="true"
 ,parameter integer BRAMTOHOST_DATAWIDTH=64
 ,parameter integer BRAMFROMHOST_ADDRWIDTH=32
 ,parameter integer BRAMFROMHOST_DATAWIDTH=256
+,parameter integer ACCBUF_ADDRWIDTH=64
+,parameter integer ACCBUF_DATAWIDTH=32
+,parameter integer COMMAND_ADDRWIDTH=128
+,parameter integer COMMAND_DATAWIDTH=32
 )(	ifdspregs.regs regs
 ,ifdsp.dsp dspif
 );
@@ -299,6 +303,10 @@ interface ifdsp #(
 	,parameter integer BRAMTOHOST_DATAWIDTH=64
 	,parameter integer BRAMFROMHOST_ADDRWIDTH=32
 	,parameter integer BRAMFROMHOST_DATAWIDTH=256
+	,parameter integer ACCBUF_ADDRWIDTH=64
+	,parameter integer ACCBUF_DATAWIDTH=32
+	,parameter integer COMMAND_ADDRWIDTH=128
+	,parameter integer COMMAND_DATAWIDTH=32
 	)(
 	);
 	wire clk;
