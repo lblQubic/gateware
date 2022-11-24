@@ -1,8 +1,15 @@
 ILAJSON=ilaauto.json
+ilaauto: ilaauto.tcl ilaauto.vh
 ilaauto.tcl: ../../submodules/tools/ila.py $(ILAJSON)
 	python ../../submodules/tools/ila.py -f $(ILAJSON) -t $@
 ilaauto.vh: ../../submodules/tools/ila.py $(ILAJSON)
 	python ../../submodules/tools/ila.py -f $(ILAJSON) -v $@
+ILADSP=iladsp.json
+iladsp: iladsp.tcl iladsp.vh
+iladsp.tcl: ../../submodules/tools/ila.py $(ILADSP)
+	python ../../submodules/tools/ila.py -f $(ILADSP) -t $@
+iladsp.vh: ../../submodules/tools/ila.py $(ILADSP)
+	python ../../submodules/tools/ila.py -f $(ILADSP) -v $@
 ifdspregs.sv: dspreg.json ../../submodules/tools/axilb.py ../../submodules/common-hdl/axilb.json
 	python ../../submodules/tools/axilb.py -m dspreg.json -b ../../submodules/common-hdl/axilb.json -o ifdspregs
 ifregs.sv:	cfgreg.json ../../submodules/tools/axilb.py ../../submodules/common-hdl/axilb.json

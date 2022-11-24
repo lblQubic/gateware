@@ -8,11 +8,14 @@ module dsp #(parameter DEBUG="true"
 )(	ifdspregs.regs regs
 ,ifdsp.dsp dspif
 );
-reg [7:0] reset_bram_read=0;
+reg [8:0] reset_bram_read=0;
 reg [15:0] cos=0;
 reg [15:0] sin=0;
 wire [15:0] cos_w;
 wire [15:0] sin_w;
+wire gcordic;
+wire gmulti;
+reg gmulti_r;
 reg [DAC_AXIS_DATAWIDTH-1:0] dacval=0;
 reg [DAC_AXIS_DATAWIDTH-1:0] dacval20=0;
 reg [DAC_AXIS_DATAWIDTH-1:0] dacval30=0;
@@ -49,17 +52,20 @@ always @(posedge dspif.clk) begin
 };
 end
 
-wire bramtohost0locklast=&bramtohost0_addr;
-wire bramfromhost0locklast=&bramfromhost0_addr;
-wire bramfromhost1locklast=&bramfromhost1_addr;
-reg [BRAMFROMHOST_ADDRWIDTH-1:0] bramfromhost1_addr=0;
-reg [BRAMFROMHOST_ADDRWIDTH-1:0] bramfromhost0_addr=0;
 reg [BRAMTOHOST_ADDRWIDTH-1:0] bramtohost0_addr=0;
 reg [BRAMTOHOST_DATAWIDTH/8-1:0] bramtohost0_we=0;
+reg bramfromhost0locklast_d=0;
+reg [BRAMFROMHOST_ADDRWIDTH-1:0] bramfromhost0_addr=0;
+reg [BRAMFROMHOST_ADDRWIDTH-1:0] bramfromhost2_addr=0;
+reg bramfromhost2locklast_d=0;
+reg [BRAMFROMHOST_ADDRWIDTH-1:0] bramfromhost1_addr=0;
 reg [BRAMFROMHOST_DATAWIDTH/8-1:0] bramfromhost1_we=0;
-reg [BRAMFROMHOST_DATAWIDTH/8-1:0] bramfromhost0_we=0;
 reg [16*16-1:0] cossteps_r=0;
 reg [16*16-1:0] sinsteps_r=0;
+wire bramtohost0locklast=&bramtohost0_addr;
+wire bramfromhost1locklast=&bramfromhost1_addr;
+wire bramfromhost0locklast=&bramfromhost0_addr;
+wire bramfromhost2locklast=&bramfromhost2_addr;
 wire [16*16-1:0] cossteps;
 wire [16*16-1:0] sinsteps;
 wire [15:0] addr0={bramfromhost1_addr[11:0],4'h0};
@@ -79,34 +85,25 @@ wire [15:0] addrd={bramfromhost1_addr[11:0],4'hd};
 wire [15:0] addre={bramfromhost1_addr[11:0],4'he};
 wire [15:0] addrf={bramfromhost1_addr[11:0],4'hf};
 always @(posedge dspif.clk) begin
-	reset_bram_read={8{regs.reset_bram_read[0]}};
-	if (reset_bram_read[0]) begin
-		bramtohost0_addr<=0;
-		bramtohost0_we<={(64/8){1'b0}};
-	end
-	else  begin
-		bramfromhost0_addr<=bramfromhost0_addr+(bramtohost0locklast ?{BRAMFROMHOST_ADDRWIDTH{1'b0}} : {{(BRAMFROMHOST_ADDRWIDTH-1){1'b0}},1'b1});
-		bramtohost0_we<={(64/8){~bramtohost0locklast}};
-	end
+	reset_bram_read={9{regs.stb_reset_bram_read}};
+
+	bramtohost0_addr<=reset_bram_read[1] ? 0 : bramtohost0_addr+(bramtohost0locklast ?{BRAMTOHOST_ADDRWIDTH{1'b0}} : {{(BRAMTOHOST_ADDRWIDTH-1){1'b0}},1'b1});
+	bramtohost0_we<={(BRAMTOHOST_DATAWIDTH/8){~bramtohost0locklast}};
+	bramfromhost0_addr<=gmulti_r ? bramfromhost0_addr+(bramfromhost0locklast ?{BRAMFROMHOST_ADDRWIDTH{1'b0}} : {{(BRAMFROMHOST_ADDRWIDTH-1){1'b0}},1'b1}) : 0;
+	dspif.bramfromhost0_we<={(BRAMFROMHOST_DATAWIDTH/8){~(bramfromhost0locklast & bramfromhost0locklast_d)}};
+	bramfromhost0locklast_d<=bramfromhost0locklast;
+	bramfromhost2_addr<=gmulti_r ? bramfromhost2_addr+(bramfromhost2locklast ?{BRAMFROMHOST_ADDRWIDTH{1'b0}} : {{(BRAMFROMHOST_ADDRWIDTH-1){1'b0}},1'b1}) : 0;
+	dspif.bramfromhost2_we<={(BRAMFROMHOST_DATAWIDTH/8){~(bramfromhost2locklast & bramfromhost2locklast_d)}};
+	bramfromhost2locklast_d<=bramfromhost2locklast;
+	bramfromhost1_addr<=reset_bram_read[2] ? 0 : bramfromhost1_addr+(bramfromhost1locklast ?{BRAMFROMHOST_ADDRWIDTH{1'b0}} : {{(BRAMFROMHOST_ADDRWIDTH-1){1'b0}},1'b1});
+	bramfromhost1_we<={(BRAMFROMHOST_DATAWIDTH/8){~bramfromhost1locklast}};
+
 	dspif.bramtohost0_we<=bramtohost0_we;
 	dspif.bramtohost0_addr<=bramtohost0_addr;
-
-	bramfromhost1_addr<=reset_bram_read[1] ? 0 : bramfromhost1_addr+(bramfromhost1locklast ?{BRAMFROMHOST_ADDRWIDTH{1'b0}} : {{(BRAMFROMHOST_ADDRWIDTH-1){1'b0}},1'b1});
-	bramfromhost1_we<={(BRAMFROMHOST_DATAWIDTH/8){reset_bram_read[1] ? 1'b0 : ~bramfromhost1locklast}};
-
+	dspif.bramfromhost0_addr<=bramfromhost0_addr;
+	dspif.bramfromhost2_addr<=bramfromhost2_addr;
 	dspif.bramfromhost1_addr<=bramfromhost1_addr;
 	dspif.bramfromhost1_we<=bramfromhost1_we;
-
-	if (reset_bram_read[2]) begin
-		bramfromhost0_addr<=0;
-		bramfromhost0_we<={(BRAMFROMHOST_DATAWIDTH/8){1'b0}};
-	end
-	else begin
-		bramfromhost0_addr<=bramfromhost0_addr+(bramfromhost0locklast ? {BRAMTOHOST_ADDRWIDTH{1'b0}} : {{(BRAMTOHOST_ADDRWIDTH-1){1'b0}},1'b1});
-		bramfromhost0_we<={(BRAMFROMHOST_DATAWIDTH/8){~bramfromhost0locklast}};
-	end
-	dspif.bramfromhost0_we<=bramfromhost0_we;
-	dspif.bramfromhost0_addr<=bramfromhost0_addr;
 
 	dspif.bramfromhost1_data<={
 		addrf
@@ -131,24 +128,22 @@ end
 always @(posedge dspif.clk) begin
 	case (regs.bramsel[4:0])
 		0: begin
-			dspif.bramtohost0_data<=dspif.adc20; 
+			dspif.bramtohost0_data<=dspif.adc20;
 		end
 		1: begin
-			dspif.bramtohost0_data<=cntval; 
+			dspif.bramtohost0_data<=cntval;
 		end
 		2: begin
-			dspif.bramtohost0_data<={4{cos}}; 
+			dspif.bramtohost0_data<={4{cos}};
 		end
 		3: begin
 			dspif.bramtohost0_data<={4{sin}};
 		end
 		4: begin
 			dspif.bramtohost0_data<=cossteps_r[63:0];
-			dspif.bramfromhost0_data<=cossteps_r;
 		end
 		5: begin
 			dspif.bramtohost0_data<=sinsteps_r[63:0];
-			dspif.bramfromhost0_data<=sinsteps_r;
 		end
 		6: begin
 			dspif.bramtohost0_data<=cossteps_r[127:64];
@@ -169,6 +164,8 @@ always @(posedge dspif.clk) begin
 			dspif.bramtohost0_data<=sinsteps_r[255:192];
 		end
 	endcase
+	dspif.bramfromhost0_data<=cossteps_r;
+	dspif.bramfromhost2_data<=sinsteps_r;
 end
 always @(posedge dspif.clk) begin
 	case (regs.dacsel[4:0])
@@ -223,34 +220,40 @@ always@(posedge dspif.clk) begin
 	tcnt<=tcnt+1;
 	freq<=regs.freq;
 	//	phase_40<=freq*tcnt;
-	phase_32<=regs.reset_bram_read[0] ? 0 : (phase_32+freq);
-	
+	//phase_32<=reset_bram_read[0] ? 0 : (phase_32+freq);
+	phase_32<=phase_32+freq;
+
 end
 assign phase=phase_32[31:15];
 cordicg1 #(.WIDTH(16),.NSTAGE(16),.NORMALIZE(1),.BUFIN(1),.GW(1),.NRIDER(0),.DRIVER(0))
-cordicgtest(.clk(dspif.clk), .opin(1'b0), .xin(regs.amp[15:0]), .yin(0), .phasein(phase), .xout(cos_w), .yout(sin_w), .phaseout(),.error(),.gin(1'b1),.gout());
+cordicgtest(.clk(dspif.clk), .opin(1'b0), .xin(regs.amp[15:0]), .yin(0), .phasein(phase), .xout(cos_w), .yout(sin_w), .phaseout(),.error(),.gin(~reset_bram_read[3]),.gout(gcordic));
 
 always @(posedge dspif.clk) begin
 	cos<=cos_w;
 	sin<=sin_w;
 end
-
 reg [16*16-1:0] cos16=0;
 reg [16*16-1:0] sin16=0;
+wire [15:0] cos0,cos1,cos2,cos3,cos4,cos5,cos6,cos7,cos8,cos9,cosa,cosb,cosc,cosd,cose,cosf;
+wire [15:0] sin0,sin1,sin2,sin3,sin4,sin5,sin6,sin7,sin8,sin9,sina,sinb,sinc,sind,sine,sinf;
+assign {cosf,cose,cosd,cosc,cosb,cosa,cos9,cos8,cos7,cos6,cos5,cos4,cos3,cos2,cos1,cos0}=cossteps;
+assign {sinf,sine,sind,sinc,sinb,sina,sin9,sin8,sin7,sin6,sin5,sin4,sin3,sin2,sin1,sin0}=sinsteps;
 
 always @(posedge dspif.clk) begin
 
-	cos16<={regs.freq0[31:16],regs.freq1[31:16],regs.freq2[31:16],regs.freq3[31:16],regs.freq4[31:16],regs.freq5[31:16],regs.freq6[31:16],regs.freq7[31:16],regs.freq8[31:16],regs.freq9[31:16],regs.freqa[31:16],regs.freqb[31:16],regs.freqc[31:16],regs.freqd[31:16],regs.freqe[31:16],regs.freqf[31:16]};
-	sin16<={regs.freq0[15:0],regs.freq1[15:0],regs.freq2[15:0],regs.freq3[15:0],regs.freq4[15:0],regs.freq5[15:0],regs.freq6[15:0],regs.freq7[15:0],regs.freq8[15:0],regs.freq9[15:0],regs.freqa[15:0],regs.freqb[15:0],regs.freqc[15:0],regs.freqd[15:0],regs.freqe[15:0],regs.freqf[15:0]};
+	cos16<={regs.freqf[31:16],regs.freqe[31:16],regs.freqd[31:16],regs.freqc[31:16],regs.freqb[31:16],regs.freqa[31:16],regs.freq9[31:16],regs.freq8[31:16],regs.freq7[31:16],regs.freq6[31:16],regs.freq5[31:16],regs.freq4[31:16],regs.freq3[31:16],regs.freq2[31:16],regs.freq1[31:16],regs.freq0[31:16]};
+	sin16<={regs.freqf[15:0],regs.freqe[15:0],regs.freqd[15:0],regs.freqc[15:0],regs.freqb[15:0],regs.freqa[15:0],regs.freq9[15:0],regs.freq8[15:0],regs.freq7[15:0],regs.freq6[15:0],regs.freq5[15:0],regs.freq4[15:0],regs.freq3[15:0],regs.freq2[15:0],regs.freq1[15:0],regs.freq0[15:0]};
 	cossteps_r<=cossteps;
 	sinsteps_r<=sinsteps;
+	gmulti_r<=gmulti;
 
 end
+reg_delay1 #(.DW(1), .LEN(7)) multidelay(.clk(dspif.clk), .gate(1'b1), .din(gcordic),   .dout(gmulti),.reset(1'b0));
 generate
 for (genvar i=0;i<16;i++) begin
-	wire [32:0] cos0,sin0;
-	wire [15:0] yr=cos16[(i+1)*16-1:i*16];
-	wire [15:0] yi=sin16[(i+1)*16-1:i*16];
+	wire [32:0] zr,zi;
+	wire [15:0] yr=cos16[((15-i)+1)*16-1:(15-i)*16];
+	wire [15:0] yi=sin16[((15-i)+1)*16-1:(15-i)*16];
 	cmultiplier #(.XWIDTH(16),.YWIDTH(16))//#(.FPGA("REGMULT"))
 	mult1(.clk(dspif.clk)
 	,.xr(cos),.xi(sin)
@@ -264,10 +267,12 @@ for (genvar i=0;i<16;i++) begin
 	//	,.xi({{9{sin[15]}},sin[15:0]})
 	//	,.yr({{2{yr[15]}},yr})
 	//	,.yi({{2{yi[15]}},yi})
-	,.zr(cos0),.zi(sin0)
+	,.zr(zr),.zi(zi)
 	);
-	assign cossteps[(i+1)*16-1:i*16]=cos0[30:15];//[47:32];
-	assign sinsteps[(i+1)*16-1:i*16]=sin0[30:15];//[47:32];
+	assign cossteps[((15-i)+1)*16-1:(15-i)*16]=zr[30:15];//[47:32];
+	assign sinsteps[((15-i)+1)*16-1:(15-i)*16]=zi[30:15];//[47:32];
+	wire [15:0] coswire=zr[30:15];//[47:32];
+	wire [15:0] sinwire=zi[30:15];//[47:32];
 end
 endgenerate
 assign regs.test1=regs.test;
@@ -276,6 +281,8 @@ assign dspif.dac20=dacval20;
 assign dspif.dac30=dacval30;
 assign dspif.dac22=dacval22;
 assign dspif.dac32=dacval32;
+
+`include "iladsp.vh"
 endmodule
 
 interface ifdsp #(
@@ -329,16 +336,20 @@ interface ifdsp #(
 
 
 	modport dsp(input adc20,adc21
-	,output dac00,dac01,dac02,dac03,dac10,dac11,dac12,dac13,dac20,dac21,dac22,dac23,dac30,dac31,dac32,dac33,bramtohost0_data,bramtohost0_addr,bramtohost0_we,bramtohost1_data,bramtohost1_addr,bramtohost1_we,bramfromhost0_data,bramfromhost0_addr,bramfromhost0_we,bramfromhost1_addr,bramfromhost2_addr,bramfromhost3_addr
-	,bramfromhost1_data,bramfromhost1_we
+	,output dac00,dac01,dac02,dac03,dac10,dac11,dac12,dac13,dac20,dac21,dac22,dac23,dac30,dac31,dac32,dac33,bramtohost0_data,bramtohost0_addr,bramtohost0_we,bramtohost1_data,bramtohost1_addr,bramtohost1_we
+	,bramfromhost0_data,bramfromhost0_addr,bramfromhost0_we
+	,bramfromhost1_data,bramfromhost1_addr,bramfromhost1_we
+	,bramfromhost2_data,bramfromhost2_addr,bramfromhost2_we
+	,bramfromhost3_addr
 	,input clk,reset
-	,bramfromhost2_data,bramfromhost2_we,bramfromhost3_data,bramfromhost3_we
+	,bramfromhost3_data,bramfromhost3_we
 	);
 	modport cfg(output adc20,adc21
 	,input dac00,dac01,dac02,dac03,dac10,dac11,dac12,dac13,dac20,dac21,dac22,dac23,dac30,dac31,dac32,dac33,bramtohost0_data,bramtohost0_addr,bramtohost0_we,bramfromhost0_data,bramfromhost0_addr,bramfromhost0_we,bramtohost1_data,bramtohost1_addr,bramtohost1_we,bramfromhost1_addr,bramfromhost2_addr,bramfromhost3_addr
 	,bramfromhost1_data,bramfromhost1_we
+	,bramfromhost2_data,bramfromhost2_we
 	,output clk,reset
-	,bramfromhost2_data,bramfromhost2_we,bramfromhost3_data,bramfromhost3_we
+	,bramfromhost3_data,bramfromhost3_we
 	);
 endinterface
 

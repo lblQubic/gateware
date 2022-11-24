@@ -42,7 +42,7 @@ set_property -dict [list CONFIG.FREQ_HZ {600000000}] [get_bd_pins plps_0/clkadc2
 
 set_property -dict [list CONFIG.ADDR_WIDTH {16}] [get_bd_cells dspregs]
 set_property -dict [list CONFIG.ADDR_WIDTH {16}] [get_bd_cells ctrlregs]
-set_property -dict [list CONFIG.LB_DATAWIDTH {32} CONFIG.LB_ADDRWIDTH {14} CONFIG.DAC_AXIS_DATAWIDTH {256} CONFIG.ADC_AXIS_DATAWIDTH {64} CONFIG.BRAMTOHOST_ADDRWIDTH {32} CONFIG.BRAMTOHOST_DATAWIDTH {64} CONFIG.BRAMFROMHOST_ADDRWIDTH {32} CONFIG.BRAMFROMHOST_DATAWIDTH {256}] [get_bd_cells plps_0]
+set_property -dict [list CONFIG.LB_DATAWIDTH {32} CONFIG.LB_ADDRWIDTH {14} CONFIG.DAC_AXIS_DATAWIDTH {256} CONFIG.ADC_AXIS_DATAWIDTH {64} CONFIG.BRAMTOHOST_ADDRWIDTH {15} CONFIG.BRAMTOHOST_DATAWIDTH {64} CONFIG.BRAMFROMHOST_ADDRWIDTH {13} CONFIG.BRAMFROMHOST_DATAWIDTH {256}] [get_bd_cells plps_0]
 
 create_bd_cell -type ip -vlnv xilinx.com:ip:axi_bram_ctrl:4.1 bram_tohost0
 create_bd_cell -type ip -vlnv xilinx.com:ip:blk_mem_gen:8.4 blk_mem_bram_tohost0
@@ -245,12 +245,20 @@ apply_bd_automation -rule xilinx.com:bd_rule:debug -dict [list \
                                                          ]
 connect_bd_net [get_bd_pins zynq_ultra_ps_e_0/pl_resetn0] [get_bd_pins rst_psbd_100M/ext_reset_in]
 }
-if {1} {
+if {0} {
 set_property HDL_ATTRIBUTE.DEBUG true [get_bd_intf_nets {axi_interconnect_1_M05_AXI bram_fromhost1_BRAM_PORTA}]
 apply_bd_automation -rule xilinx.com:bd_rule:debug -dict [list \
                                                           [get_bd_intf_nets axi_interconnect_1_M05_AXI] {AXI_R_ADDRESS "Data and Trigger" AXI_R_DATA "Data and Trigger" AXI_W_ADDRESS "Data and Trigger" AXI_W_DATA "Data and Trigger" AXI_W_RESPONSE "Data and Trigger" CLK_SRC "/plps_0/cfgclk" SYSTEM_ILA "Auto" APC_EN "0" } \
                                                           [get_bd_intf_nets bram_fromhost1_BRAM_PORTA] {NON_AXI_SIGNALS "Data and Trigger" CLK_SRC "/plps_0/cfgclk" SYSTEM_ILA "Auto" } \
                                                          ]
+}
+if {1} {
+set_property HDL_ATTRIBUTE.DEBUG true [get_bd_intf_nets {plps_0_bram_fromhost0}]
+apply_bd_automation -rule xilinx.com:bd_rule:debug -dict [list \
+                                                          [get_bd_intf_nets plps_0_bram_fromhost0] {NON_AXI_SIGNALS "Data and Trigger" CLK_SRC "None (Connect manually)" SYSTEM_ILA "Auto" } \
+                                                         ]
+connect_bd_net [get_bd_pins plps_0/dspclk] [get_bd_pins system_ila_0/clk]
+#apply_bd_automation -rule xilinx.com:bd_rule:board -config { Manual_Source {Auto}}  [get_bd_pins rst_psbd_100M/ext_reset_in]
 }
 
 assign_bd_address

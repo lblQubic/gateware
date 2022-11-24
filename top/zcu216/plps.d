@@ -3,6 +3,8 @@
 ./ifregs.sv
 ./ilaauto.tcl
 ./ilaauto.vh
+./iladsp.tcl
+./iladsp.vh
 ../../submodules/board-support/zcu216/board.sv
 ../../submodules/board-support/zcu216/fpga_if.sv
 ../../submodules/board-support/zcu216/fpga_inst.vh

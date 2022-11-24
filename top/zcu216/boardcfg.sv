@@ -153,25 +153,30 @@ localparam BRAMTOHOST_ADDRPERDATA=$clog2(BRAMTOHOST_DATAWIDTH)-3;
 localparam BRAMFROMHOST_ADDRPERDATA=$clog2(BRAMFROMHOST_DATAWIDTH)-3;
 bram_write#(.ADDR_WIDTH(BRAMTOHOST_ADDRWIDTH+BRAMTOHOST_ADDRPERDATA),.DATA_WIDTH(BRAMTOHOST_DATAWIDTH))
 bramtohost0_write(.bram(bram_tohost0)
-,.addr({dspif.bramtohost0_addr,{BRAMTOHOST_ADDRPERDATA{1'b1}}})
+,.addr({dspif.bramtohost0_addr,{BRAMTOHOST_ADDRPERDATA{1'b0}}})
 ,.data(dspif.bramtohost0_data)
 ,.we(dspif.bramtohost0_we)
 );
 
 bram_write#(.ADDR_WIDTH(BRAMFROMHOST_ADDRWIDTH+BRAMFROMHOST_ADDRPERDATA),.DATA_WIDTH(BRAMFROMHOST_DATAWIDTH))
 bramfromhost0_write(.bram(bram_fromhost0)
-//,.addr({dspif.bramfromhost0_addr})//[BRAMFROMHOST_ADDRWIDTH-1:WRITEBYTEPERDATA],{WRITEBYTEPERDATA{1'b0}}})
-,.addr({dspif.bramfromhost0_addr,{BRAMFROMHOST_ADDRPERDATA{1'b1}}})
+,.addr({dspif.bramfromhost0_addr,{BRAMFROMHOST_ADDRPERDATA{1'b0}}})
 ,.data(dspif.bramfromhost0_data)
 ,.we(dspif.bramfromhost0_we)
 );
 
 bram_write#(.ADDR_WIDTH(BRAMFROMHOST_ADDRWIDTH+BRAMFROMHOST_ADDRPERDATA),.DATA_WIDTH(BRAMFROMHOST_DATAWIDTH))
 bramfromhost1_write(.bram(bram_fromhost1)
-//,.addr({dspif.bramfromhost1_addr})//[BRAMFROMHOST_ADDRWIDTH-1:WRITEBYTEPERDATA],{WRITEBYTEPERDATA{1'b0}}})
-,.addr({dspif.bramfromhost1_addr,{BRAMFROMHOST_ADDRPERDATA{1'b1}}})
+,.addr({dspif.bramfromhost1_addr,{BRAMFROMHOST_ADDRPERDATA{1'b0}}})
 ,.data(dspif.bramfromhost1_data)
 ,.we(dspif.bramfromhost1_we)
+);
+
+bram_write#(.ADDR_WIDTH(BRAMFROMHOST_ADDRWIDTH+BRAMFROMHOST_ADDRPERDATA),.DATA_WIDTH(BRAMFROMHOST_DATAWIDTH))
+bramfromhost2_write(.bram(bram_fromhost2)
+,.addr({dspif.bramfromhost2_addr,{BRAMFROMHOST_ADDRPERDATA{1'b0}}})
+,.data(dspif.bramfromhost2_data)
+,.we(dspif.bramfromhost2_we)
 );
 
 wire adc20datavalid;
