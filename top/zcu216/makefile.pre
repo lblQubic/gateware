@@ -1,3 +1,4 @@
+all: ilaauto iladsp ifdspregs.sv ifregs.sv
 ILAJSON=ilaauto.json
 ilaauto: ilaauto.tcl ilaauto.vh
 ilaauto.tcl: ../../submodules/tools/ila.py $(ILAJSON)

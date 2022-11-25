@@ -1,26 +1,11 @@
 `timescale 1 ns / 1 ps
-module plpsboard #(parameter integer LB_DATAWIDTH	= 32
-,parameter integer LB_ADDRWIDTH	= 4
-,parameter DEBUG="true"
-,parameter DAC_AXIS_DATAWIDTH=256
-,parameter ADC_AXIS_DATAWIDTH=128
-,parameter integer BRAMTOHOST_ADDRWIDTH=13
-,parameter integer BRAMTOHOST_DATAWIDTH=64
-,parameter integer BRAMFROMHOST_ADDRWIDTH=32
-,parameter integer BRAMFROMHOST_DATAWIDTH=256
-,parameter integer ACCBUF_ADDRWIDTH=64
-,parameter integer ACCBUF_DATAWIDTH=32
-,parameter integer COMMAND_ADDRWIDTH=128
-,parameter integer COMMAND_DATAWIDTH=32
+module plpsboard #(
+`include "plps_para.vh"
 )(`include "plps_port.vh"
-,
-	`include "fpga_port.vh"
+,`include "fpga_port.vh"
 ,output clkadc2_300
 ,output clkadc2_600
 );
-
-
-
 
 fpga fpga();
 `include "fpga_via.vh"
@@ -28,9 +13,10 @@ fpga fpga();
 hwif hw();
 board board(.fpga(fpga),.hw(hw.hw));
 
-plsv #(.LB_DATAWIDTH(LB_DATAWIDTH),.LB_ADDRWIDTH(LB_ADDRWIDTH),.DAC_AXIS_DATAWIDTH(DAC_AXIS_DATAWIDTH),.ADC_AXIS_DATAWIDTH(ADC_AXIS_DATAWIDTH),.BRAMTOHOST_ADDRWIDTH(BRAMTOHOST_ADDRWIDTH),.BRAMTOHOST_DATAWIDTH(BRAMTOHOST_DATAWIDTH),.BRAMFROMHOST_ADDRWIDTH(BRAMFROMHOST_ADDRWIDTH),.BRAMFROMHOST_DATAWIDTH(BRAMFROMHOST_DATAWIDTH),.ACCBUF_DATAWIDTH(ACCBUF_DATAWIDTH),.ACCBUF_ADDRWIDTH(ACCBUF_ADDRWIDTH),.COMMAND_DATAWIDTH(COMMAND_DATAWIDTH),.COMMAND_ADDRWIDTH(COMMAND_ADDRWIDTH))
-plsv 
-(	`include "plps_inst.vh"
+plsv #(
+`include "plps_parainst.vh"
+)plsv 
+(`include "plps_portinst.vh"
 ,.hw(hw)
 );
 

@@ -23,7 +23,7 @@
 ../../submodules/common-hdl/viabus.v
 ../../submodules/common-hdl/via.v
 plpsboard.sv
-plps_inst.vh
+plps_portinst.vh
 plps_port.vh
 plps.v
 ../../submodules/common-hdl/iflocalbus.tcl
@@ -31,3 +31,14 @@ plsv.sv
 pltop.sv
 ../../dsp/dsp.sv
 ../../submodules/common-hdl/cmultiplier2.v
+bramif_portinst.vh
+bram_parainst.vh
+bram_para.vh
+bram_plsv.vh
+bram_portinst.vh
+bram_port.vh
+bramif_port.vh
+plps_parainst.vh
+plps_para.vh
+bram_read.vh
+bram_write.vh

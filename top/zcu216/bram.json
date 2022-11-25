@@ -1,0 +1,11 @@
+{"qdrvenv0":{"Awidth":32,"Adepth":16384,"Bwidth":512,"latency":2,"prefix":"QDRVENV","rw":"r"}
+,"qdrvenv1":{"Awidth":32,"Adepth":16384,"Bwidth":512,"latency":2,"prefix":"QDRVENV","rw":"r"}
+,"qdrvenv2":{"Awidth":32,"Adepth":16384,"Bwidth":512,"latency":2,"prefix":"QDRVENV","rw":"r"}
+,"acqbuf0":{"Awidth":64,"Adepth":8192,"Bwidth":32,"latency":2,"prefix":"ACQBUF","rw":"w"}
+,"acqbuf1":{"Awidth":64,"Adepth":8192,"Bwidth":32,"latency":2,"prefix":"ACQBUF","rw":"w"}
+,"rdrvenv0":{"Awidth":32,"Adepth":65536,"Bwidth":512,"latency":2,"prefix":"RDRVENV","rw":"r"}
+,"rdloenv0":{"Awidth":32,"Adepth":16384,"Bwidth":128,"latency":2,"prefix":"RDLOENV","rw":"r"}
+,"accbuf0":{"Awidth":64,"Adepth":2048,"Bwidth":32,"latency":2,"prefix":"ACCBUF","rw":"w"}
+,"command0":{"Awidth":32,"Adepth":4096,"Bwidth":128,"latency":2,"prefix":"COMMAND","rw":"r"}
+
+}

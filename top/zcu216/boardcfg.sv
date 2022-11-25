@@ -1,34 +1,14 @@
 module boardcfg #(
-parameter DEBUG="true"
-,parameter DAC_AXIS_DATAWIDTH=256
-,parameter ADC_AXIS_DATAWIDTH=64
-,parameter integer BRAMTOHOST_ADDRWIDTH=13
-,parameter integer BRAMTOHOST_DATAWIDTH=64
-,parameter integer BRAMFROMHOST_ADDRWIDTH=32
-,parameter integer BRAMFROMHOST_DATAWIDTH=256
-,parameter integer ACCBUF_ADDRWIDTH=64
-,parameter integer ACCBUF_DATAWIDTH=32
-,parameter integer COMMAND_ADDRWIDTH=128
-,parameter integer COMMAND_DATAWIDTH=32
+`include "plps_para.vh"	
 )(hwif.cfg hw
 ,ifregs.regs regs
-,ifbram bram_tohost0
-,ifbram bram_tohost1
-,ifbram bram_fromhost0
-,ifbram bram_fromhost1
-,ifbram bram_fromhost2
-,ifbram bram_fromhost3
-,ifbram bram_fromhost4
-,ifbram bram_fromhost5
-,ifbram bram_fromhost6
-,ifbram bram_fromhost7
-,ifbram bram_accbuf
-,ifbram bram_command
+,`include "bramif_port.vh"
 ,axi4stream.master dac30axis
 ,axi4stream.master dac20axis
 ,axi4stream.master dac32axis
 ,axi4stream.master dac22axis
 ,axi4stream.slave adc20axis
+,axi4stream.slave adc21axis
 ,ifdsp.cfg dspif
 ,output cfgclk
 ,output dspclk
@@ -55,7 +35,7 @@ areset #(.WIDTH(1),.SRWIDTH(4))
 adc2areset(.clk(clkadc2_600),.areset(reset),.sreset(adc2reset),.sreset_val());
 
 
-bram_cfg bram_tohost0_cfg(.bram(bram_tohost0),.clk(dspclk),.rst(1'b0),.en(1'b1));
+/*bram_cfg bram_tohost0_cfg(.bram(bram_tohost0),.clk(dspclk),.rst(1'b0),.en(1'b1));
 bram_cfg bram_tohost1_cfg(.bram(bram_tohost1),.clk(dspclk),.rst(1'b0),.en(1'b1));
 bram_cfg bram_fromhost0_cfg(.bram(bram_fromhost0),.clk(dspclk),.rst(1'b0),.en(1'b1));
 bram_cfg bram_fromhost1_cfg(.bram(bram_fromhost1),.clk(dspclk),.rst(1'b0),.en(1'b1));
@@ -67,7 +47,7 @@ bram_cfg bram_fromhost6_cfg(.bram(bram_fromhost6),.clk(dspclk),.rst(1'b0),.en(1'
 bram_cfg bram_fromhost7_cfg(.bram(bram_fromhost7),.clk(dspclk),.rst(1'b0),.en(1'b1));
 bram_cfg bram_accbuf_cfg(.bram(bram_accbuf),.clk(dspclk),.rst(1'b0),.en(1'b1));
 bram_cfg bram_command_cfg(.bram(bram_command),.clk(dspclk),.rst(1'b0),.en(1'b1));
-
+*/
 
 reg [31:0] cnt100=0;
 always @(posedge hw.clk100) begin
@@ -165,15 +145,19 @@ generate for (jx=0; jx<NFCNT; jx=jx+1)	begin: gen_fcnt
 end
 endgenerate
 
-localparam BRAMTOHOST_ADDRPERDATA=$clog2(BRAMTOHOST_DATAWIDTH)-3;
-localparam BRAMFROMHOST_ADDRPERDATA=$clog2(BRAMFROMHOST_DATAWIDTH)-3;
-bram_write#(.ADDR_WIDTH(BRAMTOHOST_ADDRWIDTH+BRAMTOHOST_ADDRPERDATA),.DATA_WIDTH(BRAMTOHOST_DATAWIDTH))
-bramtohost0_write(.bram(bram_tohost0)
-,.addr({dspif.bramtohost0_addr,{BRAMTOHOST_ADDRPERDATA{1'b0}}})
-,.data(dspif.bramtohost0_data)
-,.we(dspif.bramtohost0_we)
-);
 
+localparam ACQBUF_R_ADDRPERDATA=$clog2(ACQBUF_R_DATAWIDTH)-3;localparam ACQBUF_W_ADDRPERDATA=$clog2(ACQBUF_W_DATAWIDTH)-3;
+localparam COMMAND_R_ADDRPERDATA=$clog2(COMMAND_R_DATAWIDTH)-3;localparam COMMAND_W_ADDRPERDATA=$clog2(COMMAND_W_DATAWIDTH)-3;
+localparam RDLOENV_R_ADDRPERDATA=$clog2(RDLOENV_R_DATAWIDTH)-3;localparam RDLOENV_W_ADDRPERDATA=$clog2(RDLOENV_W_DATAWIDTH)-3;
+localparam QDRVENV_R_ADDRPERDATA=$clog2(QDRVENV_R_DATAWIDTH)-3;localparam QDRVENV_W_ADDRPERDATA=$clog2(QDRVENV_W_DATAWIDTH)-3;
+localparam RDRVENV_R_ADDRPERDATA=$clog2(RDRVENV_R_DATAWIDTH)-3;localparam RDRVENV_W_ADDRPERDATA=$clog2(RDRVENV_W_DATAWIDTH)-3;
+localparam ACCBUF_R_ADDRPERDATA=$clog2(ACCBUF_R_DATAWIDTH)-3;localparam ACCBUF_W_ADDRPERDATA=$clog2(ACCBUF_W_DATAWIDTH)-3;
+
+
+`include "bram_read.vh"
+`include "bram_write.vh"
+
+/*
 bram_write#(.ADDR_WIDTH(BRAMFROMHOST_ADDRWIDTH+BRAMFROMHOST_ADDRPERDATA),.DATA_WIDTH(BRAMFROMHOST_DATAWIDTH))
 bramfromhost0_write(.bram(bram_fromhost0)
 ,.addr({dspif.bramfromhost0_addr,{BRAMFROMHOST_ADDRPERDATA{1'b0}}})
@@ -200,19 +184,20 @@ bramfromhost3_read(.bram(bram_fromhost3)
 ,.addr({dspif.bramfromhost3_addr,{BRAMFROMHOST_ADDRPERDATA{1'b0}}})
 ,.data(dspif.bramfromhost3_data)
 );
-
+*/
 wire adc20datavalid;
 wire [ADC_AXIS_DATAWIDTH-1:0] adc20data_x;
-wire [ADC_AXIS_DATAWIDTH-1:0] adc20data;
 axi4stream_slave_handshake_data #(.DATA_WIDTH (ADC_AXIS_DATAWIDTH))
-adc20hsda(.axis(adc20axis)
-,.ready(1'b1)
-,.datavalid(adc20datavalid)
-,.data(adc20data_x)
-);
-
+adc20hsda(.axis(adc20axis),.ready(1'b1),.datavalid(adc20datavalid),.data(adc20data_x));
 samefreqxdomain #(.DW(ADC_AXIS_DATAWIDTH))
-adc20data_xdomain(.clkw(clkadc2_600),.clkr(dspclk),.dataw(adc20data_x),.datar(adc20data),.reset(1'b0));
+adc20data_xdomain(.clkw(clkadc2_600),.clkr(dspclk),.dataw(adc20data_x),.datar(dspif.adc20),.reset(1'b0));
+
+wire adc21datavalid;
+wire [ADC_AXIS_DATAWIDTH-1:0] adc21data_x;
+axi4stream_slave_handshake_data #(.DATA_WIDTH (ADC_AXIS_DATAWIDTH))
+adc21hsda(.axis(adc21axis),.ready(1'b1),.datavalid(adc21datavalid),.data(adc21data_x));
+samefreqxdomain #(.DW(ADC_AXIS_DATAWIDTH))
+adc21data_xdomain(.clkw(clkadc2_600),.clkr(dspclk),.dataw(adc21data_x),.datar(dspif.adc21),.reset(1'b0));
 
 axi4stream_master_handshake_data #(.DATA_WIDTH (DAC_AXIS_DATAWIDTH))
 dac30hsda(.axis(dac30axis),.datavalid(1'b1),.data(dspif.dac30));
@@ -224,7 +209,6 @@ axi4stream_master_handshake_data #(.DATA_WIDTH (DAC_AXIS_DATAWIDTH))
 dac22hsda(.axis(dac22axis),.datavalid(1'b1),.data(dspif.dac22));
 assign dspif.clk=dspclk;
 assign dspif.reset=1'b0;
-assign dspif.adc20=adc20data;
 
 //`include "ilaauto.vh"
 endmodule

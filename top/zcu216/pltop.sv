@@ -1,6 +1,7 @@
 //`timescale 1 ns / 1 ps
 
-module pltop #(parameter LB_DATAWIDTH=32
+module pltop #(
+	/*parameter LB_DATAWIDTH=32
 ,parameter LB_ADDRWIDTH=10
 ,parameter DEBUG="true"
 ,parameter DAC_AXIS_DATAWIDTH=256
@@ -12,9 +13,11 @@ module pltop #(parameter LB_DATAWIDTH=32
 ,parameter integer ACCBUF_ADDRWIDTH=64
 ,parameter integer ACCBUF_DATAWIDTH=32
 ,parameter integer COMMAND_ADDRWIDTH=128
-,parameter integer COMMAND_DATAWIDTH=32
+,parameter integer COMMAND_DATAWIDTH=32*/
+`include "plps_para.vh"
 )(hwif hw
-,ifbram bram_tohost0
+,`include "bramif_port.vh"
+/*,ifbram bram_tohost0
 ,ifbram bram_tohost1
 ,ifbram bram_fromhost0
 ,ifbram bram_fromhost1
@@ -26,6 +29,7 @@ module pltop #(parameter LB_DATAWIDTH=32
 ,ifbram bram_fromhost7
 ,ifbram bram_accbuf
 ,ifbram bram_command
+*/
 ,iflocalbus lb1
 ,iflocalbus lb2
 ,axi4stream.master dac30axis
@@ -33,11 +37,12 @@ module pltop #(parameter LB_DATAWIDTH=32
 ,axi4stream.master dac32axis
 ,axi4stream.master dac22axis
 ,axi4stream.slave adc20axis
+,axi4stream.slave adc21axis
 ,input pl_clk0
 ,output cfgclk
 ,output dspclk
 ,input aresetn
-,output [31:0] cfgresetn
+,output [127:0] cfgresetn
 ,output [31:0] dspresetn
 ,output [31:0] psresetn
 ,output [31:0] adc2resetn
@@ -64,12 +69,12 @@ areset #(.WIDTH(1),.SRWIDTH(4))
 adc2areset(.clk(pl_clk0),.areset(~aresetn),.sreset(adc2reset_w0),.sreset_val());
 */
 
-reg [31:0] cfgresetn_r=0;
+reg [127:0] cfgresetn_r=0;
 reg [31:0] dspresetn_r=0;
 reg [31:0] psresetn_r=0;
 reg [31:0] adc2resetn_r=0;
 always @(posedge cfgclk) begin
-	cfgresetn_r<={32{~cfgreset}};
+	cfgresetn_r<={128{~cfgreset}};
 end
 always @(posedge dspclk) begin
 	dspresetn_r<={32{~dspreset}};
@@ -92,15 +97,21 @@ ifdspregs #(.DATA_WIDTH(LB_DATAWIDTH),.ADDR_WIDTH(LB_ADDRWIDTH))
 dspregs(.lb(lb2));
 
 
-ifdsp #(.BRAMTOHOST_DATAWIDTH(BRAMTOHOST_DATAWIDTH),.BRAMTOHOST_ADDRWIDTH(BRAMTOHOST_ADDRWIDTH),.BRAMFROMHOST_DATAWIDTH(BRAMFROMHOST_DATAWIDTH),.BRAMFROMHOST_ADDRWIDTH(BRAMFROMHOST_ADDRWIDTH),.DAC_AXIS_DATAWIDTH(DAC_AXIS_DATAWIDTH),.ADC_AXIS_DATAWIDTH(ADC_AXIS_DATAWIDTH)
-,.ACCBUF_DATAWIDTH(ACCBUF_DATAWIDTH),.ACCBUF_ADDRWIDTH(ACCBUF_ADDRWIDTH),.COMMAND_DATAWIDTH(COMMAND_DATAWIDTH),.COMMAND_ADDRWIDTH(COMMAND_ADDRWIDTH)
+ifdsp #(
+	`include "plps_parainst.vh"
+//	.BRAMTOHOST_DATAWIDTH(BRAMTOHOST_DATAWIDTH),.BRAMTOHOST_ADDRWIDTH(BRAMTOHOST_ADDRWIDTH),.BRAMFROMHOST_DATAWIDTH(BRAMFROMHOST_DATAWIDTH),.BRAMFROMHOST_ADDRWIDTH(BRAMFROMHOST_ADDRWIDTH),.DAC_AXIS_DATAWIDTH(DAC_AXIS_DATAWIDTH),.ADC_AXIS_DATAWIDTH(ADC_AXIS_DATAWIDTH)
+//,.ACCBUF_DATAWIDTH(ACCBUF_DATAWIDTH),.ACCBUF_ADDRWIDTH(ACCBUF_ADDRWIDTH),.COMMAND_DATAWIDTH(COMMAND_DATAWIDTH),.COMMAND_ADDRWIDTH(COMMAND_ADDRWIDTH)
 )
 dspif();
-boardcfg #(.DEBUG(DEBUG),.BRAMTOHOST_DATAWIDTH(BRAMTOHOST_DATAWIDTH),.BRAMTOHOST_ADDRWIDTH(BRAMTOHOST_ADDRWIDTH),.BRAMFROMHOST_DATAWIDTH(BRAMFROMHOST_DATAWIDTH),.BRAMFROMHOST_ADDRWIDTH(BRAMFROMHOST_ADDRWIDTH),.DAC_AXIS_DATAWIDTH(DAC_AXIS_DATAWIDTH),.ADC_AXIS_DATAWIDTH(ADC_AXIS_DATAWIDTH)
-,.ACCBUF_DATAWIDTH(ACCBUF_DATAWIDTH),.ACCBUF_ADDRWIDTH(ACCBUF_ADDRWIDTH),.COMMAND_DATAWIDTH(COMMAND_DATAWIDTH),.COMMAND_ADDRWIDTH(COMMAND_ADDRWIDTH)
+boardcfg #(
+	`include "plps_parainst.vh"
+	//.DEBUG(DEBUG),.BRAMTOHOST_DATAWIDTH(BRAMTOHOST_DATAWIDTH),.BRAMTOHOST_ADDRWIDTH(BRAMTOHOST_ADDRWIDTH),.BRAMFROMHOST_DATAWIDTH(BRAMFROMHOST_DATAWIDTH),.BRAMFROMHOST_ADDRWIDTH(BRAMFROMHOST_ADDRWIDTH),.DAC_AXIS_DATAWIDTH(DAC_AXIS_DATAWIDTH),.ADC_AXIS_DATAWIDTH(ADC_AXIS_DATAWIDTH)
+
+	//,.ACCBUF_DATAWIDTH(ACCBUF_DATAWIDTH),.ACCBUF_ADDRWIDTH(ACCBUF_ADDRWIDTH),.COMMAND_DATAWIDTH(COMMAND_DATAWIDTH),.COMMAND_ADDRWIDTH(COMMAND_ADDRWIDTH)
 )
 boardcfg(.hw(hw),.regs(ctrlregs.regs)
-,.bram_tohost0(bram_tohost0)
+,`include "bramif_portinst.vh"
+/*,.bram_tohost0(bram_tohost0)
 ,.bram_tohost1(bram_tohost1)
 ,.bram_fromhost0(bram_fromhost0)
 ,.bram_fromhost1(bram_fromhost1)
@@ -112,11 +123,13 @@ boardcfg(.hw(hw),.regs(ctrlregs.regs)
 ,.bram_fromhost7(bram_fromhost7)
 ,.bram_accbuf(bram_accbuf)
 ,.bram_command(bram_command)
+*/
 ,.dac30axis(dac30axis)
 ,.dac20axis(dac20axis)
 ,.dac32axis(dac32axis)
 ,.dac22axis(dac22axis)
 ,.adc20axis(adc20axis)
+,.adc21axis(adc21axis)
 ,.dspif(dspif.cfg)
 ,.pl_clk0(pl_clk0)
 ,.cfgclk(cfgclk)
@@ -132,7 +145,10 @@ boardcfg(.hw(hw),.regs(ctrlregs.regs)
 ,.psreset(psreset)
 ,.adc2reset(adc2reset)
 );
-dsp #(.DEBUG(DEBUG),.BRAMTOHOST_DATAWIDTH(BRAMTOHOST_DATAWIDTH),.BRAMTOHOST_ADDRWIDTH(BRAMTOHOST_ADDRWIDTH),.BRAMFROMHOST_DATAWIDTH(BRAMFROMHOST_DATAWIDTH),.BRAMFROMHOST_ADDRWIDTH(BRAMFROMHOST_ADDRWIDTH),.ACCBUF_DATAWIDTH(ACCBUF_DATAWIDTH),.ACCBUF_ADDRWIDTH(ACCBUF_ADDRWIDTH),.COMMAND_DATAWIDTH(COMMAND_DATAWIDTH),.COMMAND_ADDRWIDTH(COMMAND_ADDRWIDTH))
+dsp #(
+	`include "plps_parainst.vh"
+//	i.DEBUG(DEBUG),.BRAMTOHOST_DATAWIDTH(BRAMTOHOST_DATAWIDTH),.BRAMTOHOST_ADDRWIDTH(BRAMTOHOST_ADDRWIDTH),.BRAMFROMHOST_DATAWIDTH(BRAMFROMHOST_DATAWIDTH),.BRAMFROMHOST_ADDRWIDTH(BRAMFROMHOST_ADDRWIDTH),.ACCBUF_DATAWIDTH(ACCBUF_DATAWIDTH),.ACCBUF_ADDRWIDTH(ACCBUF_ADDRWIDTH),.COMMAND_DATAWIDTH(COMMAND_DATAWIDTH),.COMMAND_ADDRWIDTH(COMMAND_ADDRWIDTH)
+)
 dsp(.regs(dspregs.regs)
 ,.dspif(dspif)
 );

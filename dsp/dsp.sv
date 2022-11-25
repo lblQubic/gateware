@@ -1,4 +1,6 @@
-module dsp #(parameter DEBUG="true"
+module dsp #(
+`include "plps_para.vh"	
+/*	parameter DEBUG="true"
 ,parameter DAC_AXIS_DATAWIDTH=256
 ,parameter ADC_AXIS_DATAWIDTH=64
 ,parameter integer BRAMTOHOST_ADDRWIDTH=13
@@ -9,6 +11,7 @@ module dsp #(parameter DEBUG="true"
 ,parameter integer ACCBUF_DATAWIDTH=32
 ,parameter integer COMMAND_ADDRWIDTH=128
 ,parameter integer COMMAND_DATAWIDTH=32
+*/
 )(	ifdspregs.regs regs
 ,ifdsp.dsp dspif
 );
@@ -55,8 +58,45 @@ always @(posedge dspif.clk) begin
 	,bramcnt,2'd0
 };
 end
+wire [16*16-1:0] cossteps;
+wire [16*16-1:0] sinsteps;
 
-reg [BRAMTOHOST_ADDRWIDTH-1:0] bramtohost0_addr=0;
+reg [ACQBUF_W_ADDRWIDTH-1:0] addr_acqbuf=0;
+reg we_acqbuf=0;
+wire locklast_acqbuf=&addr_acqbuf;
+always @(posedge dspif.clk) begin
+	reset_bram_read={9{regs.stb_reset_bram_read}};
+end
+always @(posedge dspif.clk) begin
+	addr_acqbuf<=reset_bram_read[0] ? 0 : (addr_acqbuf+ (locklast_acqbuf ? 0 : 1)); //(bramtohost0locklast ?{BRAMTOHOST_ADDRWIDTH{1'b0}} : {{(BRAMTOHOST_ADDRWIDTH-1){1'b0}},1'b1});
+	we_acqbuf<=~locklast_acqbuf;
+end
+assign dspif.data_acqbuf[0]=dspif.adc20;
+assign dspif.data_acqbuf[1]=dspif.adc21;
+assign dspif.addr_acqbuf[0]=addr_acqbuf;
+assign dspif.addr_acqbuf[1]=addr_acqbuf;
+assign dspif.we_acqbuf[0]=we_acqbuf;
+assign dspif.we_acqbuf[1]=we_acqbuf;
+
+reg [QDRVENV_R_ADDRWIDTH-1:0] addr_qdrvenv=0;
+always @(posedge dspif.clk) begin
+	addr_qdrvenv<=addr_qdrvenv+1; //(bramtohost0locklast ?{BRAMTOHOST_ADDRWIDTH{1'b0}} : {{(BRAMTOHOST_ADDRWIDTH-1){1'b0}},1'b1});
+end
+generate
+for (genvar i=0;i<16;i++) begin
+	assign dspif.dac20[(i+1)*16-1:i*16]=dspif.data_qdrvenv[0][i*32+31:i*32+16];
+	assign dspif.dac22[(i+1)*16-1:i*16]={cnt3[11:0],4'(i)};
+//	assign dspif.dac22[(i+1)*16-1:i*16]=dspif.data_qdrvenv[0][i*32+15:i*32+0];
+	assign dspif.dac30[(i+1)*16-1:i*16]=dspif.data_qdrvenv[1][i*32+31:i*32+16];
+	assign dspif.dac32[(i+1)*16-1:i*16]=dspif.data_qdrvenv[1][i*32+15:i*32+0];
+end
+endgenerate
+assign dspif.addr_qdrvenv[0]=addr_qdrvenv;
+assign dspif.addr_qdrvenv[1]=addr_qdrvenv;
+
+
+
+/*reg [BRAMTOHOST_ADDRWIDTH-1:0] bramtohost0_addr=0;
 reg [BRAMTOHOST_DATAWIDTH/8-1:0] bramtohost0_we=0;
 reg bramfromhost0locklast_d=0;
 reg [BRAMFROMHOST_ADDRWIDTH-1:0] bramfromhost0_addr=0;
@@ -286,18 +326,20 @@ for (genvar i=0;i<16;i++) begin
 	wire [15:0] sinwire=zi[30:15];//[47:32];
 end
 endgenerate
+*/
 assign regs.test1=regs.test;
 
-assign dspif.dac20=dacval20;
-assign dspif.dac30=dacval30;
-assign dspif.dac22=dacval22;
-assign dspif.dac32=dacval32;
+//assign dspif.dac20=dacval20;
+//assign dspif.dac30=dacval30;
+//assign dspif.dac22=dacval22;
+//assign dspif.dac32=dacval32;
 
 //`include "iladsp.vh"
 endmodule
 
 interface ifdsp #(
-	parameter DAC_AXIS_DATAWIDTH=256
+	`include "plps_para.vh"
+	/*parameter DAC_AXIS_DATAWIDTH=256
 	,parameter ADC_AXIS_DATAWIDTH=64
 	,parameter integer BRAMTOHOST_ADDRWIDTH=13
 	,parameter integer BRAMTOHOST_DATAWIDTH=64
@@ -307,6 +349,7 @@ interface ifdsp #(
 	,parameter integer ACCBUF_DATAWIDTH=32
 	,parameter integer COMMAND_ADDRWIDTH=128
 	,parameter integer COMMAND_DATAWIDTH=32
+	*/
 	)(
 	);
 	wire clk;
@@ -329,6 +372,35 @@ interface ifdsp #(
 	logic [DAC_AXIS_DATAWIDTH-1:0] dac31;
 	logic [DAC_AXIS_DATAWIDTH-1:0] dac32;
 	logic [DAC_AXIS_DATAWIDTH-1:0] dac33;
+
+
+logic [ACCBUF_W_DATAWIDTH-1:0] data_accbuf[0:7];
+reg [ACCBUF_W_ADDRWIDTH-1:0] addr_accbuf[0:7];
+reg we_accbuf[0:7];
+
+logic [ACQBUF_W_DATAWIDTH-1:0] data_acqbuf[0:1];
+reg [ACQBUF_W_ADDRWIDTH-1:0] addr_acqbuf[0:1];
+reg we_acqbuf[0:1];
+
+logic [COMMAND_R_DATAWIDTH-1:0] data_command[0:16];
+reg [COMMAND_R_ADDRWIDTH-1:0] addr_command[0:16];
+reg we_command[0:16];
+
+logic [QDRVENV_R_DATAWIDTH-1:0] data_qdrvenv[0:15];
+reg [QDRVENV_R_ADDRWIDTH-1:0] addr_qdrvenv[0:15];
+reg we_qdrvenv[0:15];
+
+logic [RDLOENV_R_DATAWIDTH-1:0] data_rdloenv[0:7];
+reg [RDLOENV_R_ADDRWIDTH-1:0] addr_rdloenv[0:7];
+reg we_rdloenv[0:7];
+
+logic [RDRVENV_R_DATAWIDTH-1:0] data_rdrvenv[0:7];
+reg [RDRVENV_R_ADDRWIDTH-1:0] addr_rdrvenv[0:7];
+reg we_rdrvenv[0:7];
+
+
+
+/*
 	logic [BRAMTOHOST_DATAWIDTH-1:0] bramtohost0_data;
 	reg [BRAMTOHOST_ADDRWIDTH-1:0] bramtohost0_addr=0;
 	reg [BRAMTOHOST_DATAWIDTH/8-1:0] bramtohost0_we=0;
@@ -348,23 +420,22 @@ interface ifdsp #(
 	logic [BRAMFROMHOST_DATAWIDTH-1:0] bramfromhost3_data;
 	reg [BRAMFROMHOST_ADDRWIDTH-1:0] bramfromhost3_addr=0;
 	reg [BRAMFROMHOST_DATAWIDTH/8-1:0] bramfromhost3_we=0;
-
+*/
 
 	modport dsp(input adc20,adc21
-	,output dac00,dac01,dac02,dac03,dac10,dac11,dac12,dac13,dac20,dac21,dac22,dac23,dac30,dac31,dac32,dac33,bramtohost0_data,bramtohost0_addr,bramtohost0_we,bramtohost1_data,bramtohost1_addr,bramtohost1_we
-	,bramfromhost0_data,bramfromhost0_addr,bramfromhost0_we
-	,bramfromhost1_data,bramfromhost1_addr,bramfromhost1_we
-	,bramfromhost2_data,bramfromhost2_addr,bramfromhost2_we
-	,bramfromhost3_addr
+	,output dac00,dac01,dac02,dac03,dac10,dac11,dac12,dac13,dac20,dac21,dac22,dac23,dac30,dac31,dac32,dac33
+,addr_accbuf,addr_acqbuf,addr_command,addr_qdrvenv,addr_rdrvenv,addr_rdloenv
+,data_accbuf,we_accbuf,data_acqbuf,we_acqbuf
 	,input clk,reset
-	,bramfromhost3_data,bramfromhost3_we
+,data_command,data_qdrvenv,data_rdrvenv,data_rdloenv
 	);
 	modport cfg(output adc20,adc21
-	,input dac00,dac01,dac02,dac03,dac10,dac11,dac12,dac13,dac20,dac21,dac22,dac23,dac30,dac31,dac32,dac33,bramtohost0_data,bramtohost0_addr,bramtohost0_we,bramfromhost0_data,bramfromhost0_addr,bramfromhost0_we,bramtohost1_data,bramtohost1_addr,bramtohost1_we,bramfromhost1_addr,bramfromhost2_addr,bramfromhost3_addr
-	,bramfromhost1_data,bramfromhost1_we
-	,bramfromhost2_data,bramfromhost2_we
+	,input dac00,dac01,dac02,dac03,dac10,dac11,dac12,dac13,dac20,dac21,dac22,dac23,dac30,dac31,dac32,dac33
+,addr_accbuf,addr_acqbuf,addr_command,addr_qdrvenv,addr_rdrvenv,addr_rdloenv
+,data_accbuf,we_accbuf,data_acqbuf,we_acqbuf
 	,output clk,reset
-	,bramfromhost3_data,bramfromhost3_we
+,data_command,data_qdrvenv,data_rdrvenv,data_rdloenv
+	
 	);
 endinterface
 

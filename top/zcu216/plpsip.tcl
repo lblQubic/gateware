@@ -83,62 +83,53 @@ ipx::unload_core ./vivado_project/plip/component.xml
 ipx::open_ipxact_file ./vivado_project/plip/component.xml
 #ipx::edit_ip_in_project -upgrade true -name plip -directory ./vivado_project/plip ./vivado_project/plip/component.xml
 
-brambus bram_tohost0
-brambus bram_tohost1
-brambus bram_fromhost0
-brambus bram_fromhost1
-brambus bram_fromhost2
-brambus bram_fromhost3
-brambus bram_fromhost4
-brambus bram_fromhost5
-brambus bram_fromhost6
-brambus bram_fromhost7
-brambus bram_accbuf
-brambus bram_command
+brambus qdrvenv0
+brambus qdrvenv1
+brambus qdrvenv2
+brambus qdrvenv3
+brambus qdrvenv4
+brambus qdrvenv5
+brambus qdrvenv6
+brambus qdrvenv7
+brambus qdrvenv8
+brambus qdrvenv9
+brambus qdrvenva
+brambus qdrvenvb
+brambus qdrvenvc
+brambus qdrvenvd
+brambus qdrvenve
+brambus qdrvenvf
+brambus rdrvenv0
+brambus rdrvenv1
+brambus rdrvenv2
+brambus rdrvenv3
+brambus rdrvenv4
+brambus rdrvenv5
+brambus rdrvenv6
+brambus rdrvenv7
+brambus rdloenv0
+brambus rdloenv1
+brambus rdloenv2
+brambus rdloenv3
+brambus rdloenv4
+brambus rdloenv5
+brambus rdloenv6
+brambus rdloenv7
+brambus command
+brambus accbuf0
+brambus accbuf1
+brambus accbuf2
+brambus accbuf3
+brambus accbuf4
+brambus accbuf5
+brambus accbuf6
+brambus accbuf7
+brambus acqbuf0
+brambus acqbuf1
 
-#ipx::add_bus_interface bram_tohost0 [ipx::current_core]
-#set_property abstraction_type_vlnv xilinx.com:interface:bram_rtl:1.0 [ipx::get_bus_interfaces bram_tohost0 -of_objects [ipx::current_core]]
-#set_property bus_type_vlnv xilinx.com:interface:bram:1.0 [ipx::get_bus_interfaces bram_tohost0 -of_objects [ipx::current_core]]
-#set_property interface_mode master [ipx::get_bus_interfaces bram_tohost0 -of_objects [ipx::current_core]]
-#bram_map bram_tohost0 BRAM_READ0
-#
-#ipx::add_bus_interface bram_tohost1 [ipx::current_core]
-#set_property abstraction_type_vlnv xilinx.com:interface:bram_rtl:1.0 [ipx::get_bus_interfaces bram_tohost1 -of_objects [ipx::current_core]]
-#set_property bus_type_vlnv xilinx.com:interface:bram:1.0 [ipx::get_bus_interfaces bram_tohost1 -of_objects [ipx::current_core]]
-#set_property interface_mode master [ipx::get_bus_interfaces bram_tohost1 -of_objects [ipx::current_core]]
-#bram_map bram_tohost1 BRAM_READ1
-#
-#ipx::add_bus_interface bram_fromhost0 [ipx::current_core]
-#set_property abstraction_type_vlnv xilinx.com:interface:bram_rtl:1.0 [ipx::get_bus_interfaces bram_fromhost0 -of_objects [ipx::current_core]]
-#set_property bus_type_vlnv xilinx.com:interface:bram:1.0 [ipx::get_bus_interfaces bram_fromhost0 -of_objects [ipx::current_core]]
-#set_property interface_mode master [ipx::get_bus_interfaces bram_fromhost0 -of_objects [ipx::current_core]]
-#bram_map bram_fromhost0 BRAM_WRITE0
-#
-#ipx::add_bus_interface bram_fromhost1 [ipx::current_core]
-#set_property abstraction_type_vlnv xilinx.com:interface:bram_rtl:1.0 [ipx::get_bus_interfaces bram_fromhost1 -of_objects [ipx::current_core]]
-#set_property bus_type_vlnv xilinx.com:interface:bram:1.0 [ipx::get_bus_interfaces bram_fromhost1 -of_objects [ipx::current_core]]
-#set_property interface_mode master [ipx::get_bus_interfaces bram_fromhost1 -of_objects [ipx::current_core]]
-#bram_map bram_fromhost1 BRAM_WRITE1
-#
-#ipx::add_bus_interface bram_fromhost2 [ipx::current_core]
-#set_property abstraction_type_vlnv xilinx.com:interface:bram_rtl:1.0 [ipx::get_bus_interfaces bram_fromhost2 -of_objects [ipx::current_core]]
-#set_property bus_type_vlnv xilinx.com:interface:bram:1.0 [ipx::get_bus_interfaces bram_fromhost2 -of_objects [ipx::current_core]]
-#set_property interface_mode master [ipx::get_bus_interfaces bram_fromhost2 -of_objects [ipx::current_core]]
-#bram_map bram_fromhost2 BRAM_WRITE2
-#
-#ipx::add_bus_interface bram_fromhost3 [ipx::current_core]
-#set_property abstraction_type_vlnv xilinx.com:interface:bram_rtl:1.0 [ipx::get_bus_interfaces bram_fromhost3 -of_objects [ipx::current_core]]
-#set_property bus_type_vlnv xilinx.com:interface:bram:1.0 [ipx::get_bus_interfaces bram_fromhost3 -of_objects [ipx::current_core]]
-#set_property interface_mode master [ipx::get_bus_interfaces bram_fromhost3 -of_objects [ipx::current_core]]
-#bram_map bram_fromhost3 BRAM_WRITE3
 
-#source fpga.tcl
-#set fp [open "fpga_pins" r]
-#set pins [read $fp]
-#close $fp
-#set pins {G12 G11 B26 E24 G26 J23 L24 P21 AV21 AR21 C13 D14 D12 D13 AW18 AV18 BA19 AP21 AN14 AP16 AP14 AU16 AW12 AY16 BB12 E25 J14 J13 H13 G13 H15 H14 G16 N16 M16 N15 M15 N14 M14 M17 L17}
+
 fpgaif "fpga_master_dir"
-#$pins
 set_property master_direction in [ipx::get_bus_abstraction_ports G12 -of_objects [ipx::current_busabs]]
 set_property master_direction in [ipx::get_bus_abstraction_ports G11 -of_objects [ipx::current_busabs]]
 set_property slave_direction in [ipx::get_bus_abstraction_ports G12 -of_objects [ipx::current_busabs]]
@@ -163,22 +154,7 @@ update_ip_catalog
 ipx::add_bus_interface lb1 [ipx::current_core]
 set_property abstraction_type_vlnv user:user:iflocalbus_rtl:1.0 [ipx::get_bus_interfaces lb1 -of_objects [ipx::current_core]]
 set_property bus_type_vlnv user:user:iflocalbus:1.0 [ipx::get_bus_interfaces lb1 -of_objects [ipx::current_core]]
-#ipx::add_port_map waddr [ipx::get_bus_interfaces lb1 -of_objects [ipx::current_core]]
-#set_property physical_name lb1_waddr [ipx::get_port_maps waddr -of_objects [ipx::get_bus_interfaces lb1 -of_objects [ipx::current_core]]]
-#ipx::add_port_map wren [ipx::get_bus_interfaces lb1 -of_objects [ipx::current_core]]
-#set_property physical_name lb1_wvalid [ipx::get_port_maps wren -of_objects [ipx::get_bus_interfaces lb1 -of_objects [ipx::current_core]]]
-#ipx::add_port_map clk [ipx::get_bus_interfaces lb1 -of_objects [ipx::current_core]]
-#set_property physical_name lb1_clk [ipx::get_port_maps clk -of_objects [ipx::get_bus_interfaces lb1 -of_objects [ipx::current_core]]]
-#ipx::add_port_map raddr [ipx::get_bus_interfaces lb1 -of_objects [ipx::current_core]]
-#set_property physical_name lb1_raddr [ipx::get_port_maps raddr -of_objects [ipx::get_bus_interfaces lb1 -of_objects [ipx::current_core]]]
-#ipx::add_port_map rdata [ipx::get_bus_interfaces lb1 -of_objects [ipx::current_core]]
-#set_property physical_name lb1_rdata [ipx::get_port_maps rdata -of_objects [ipx::get_bus_interfaces lb1 -of_objects [ipx::current_core]]]
-#ipx::add_port_map wstrb [ipx::get_bus_interfaces lb1 -of_objects [ipx::current_core]]
-#set_property physical_name lb1_wstrb [ipx::get_port_maps wstrb -of_objects [ipx::get_bus_interfaces lb1 -of_objects [ipx::current_core]]]
-#ipx::add_port_map wdata [ipx::get_bus_interfaces lb1 -of_objects [ipx::current_core]]
-#set_property physical_name lb1_wdata [ipx::get_port_maps wdata -of_objects [ipx::get_bus_interfaces lb1 -of_objects [ipx::current_core]]]
-#ipx::add_port_map aresetn [ipx::get_bus_interfaces lb1 -of_objects [ipx::current_core]]
-#set_property physical_name lb1_aresetn [ipx::get_port_maps aresetn -of_objects [ipx::get_bus_interfaces lb1 -of_objects [ipx::current_core]]]
+
 portpin lb1 rdata lb1_rdata
 portpin lb1 raddr lb1_raddr
 portpin lb1 rden lb1_rden
@@ -192,22 +168,7 @@ portpin lb1 aresetn lb1_aresetn
 ipx::add_bus_interface lb2 [ipx::current_core]
 set_property abstraction_type_vlnv user:user:iflocalbus_rtl:1.0 [ipx::get_bus_interfaces lb2 -of_objects [ipx::current_core]]
 set_property bus_type_vlnv user:user:iflocalbus:1.0 [ipx::get_bus_interfaces lb2 -of_objects [ipx::current_core]]
-#ipx::add_port_map waddr [ipx::get_bus_interfaces lb2 -of_objects [ipx::current_core]]
-#set_property physical_name lb2_waddr [ipx::get_port_maps waddr -of_objects [ipx::get_bus_interfaces lb2 -of_objects [ipx::current_core]]]
-#ipx::add_port_map wren [ipx::get_bus_interfaces lb2 -of_objects [ipx::current_core]]
-#set_property physical_name lb2_wvalid [ipx::get_port_maps wren -of_objects [ipx::get_bus_interfaces lb2 -of_objects [ipx::current_core]]]
-#ipx::add_port_map clk [ipx::get_bus_interfaces lb2 -of_objects [ipx::current_core]]
-#set_property physical_name lb2_clk [ipx::get_port_maps clk -of_objects [ipx::get_bus_interfaces lb2 -of_objects [ipx::current_core]]]
-#ipx::add_port_map raddr [ipx::get_bus_interfaces lb2 -of_objects [ipx::current_core]]
-#set_property physical_name lb2_raddr [ipx::get_port_maps raddr -of_objects [ipx::get_bus_interfaces lb2 -of_objects [ipx::current_core]]]
-#ipx::add_port_map rdata [ipx::get_bus_interfaces lb2 -of_objects [ipx::current_core]]
-#set_property physical_name lb2_rdata [ipx::get_port_maps rdata -of_objects [ipx::get_bus_interfaces lb2 -of_objects [ipx::current_core]]]
-#ipx::add_port_map wstrb [ipx::get_bus_interfaces lb2 -of_objects [ipx::current_core]]
-#set_property physical_name lb2_wstrb [ipx::get_port_maps wstrb -of_objects [ipx::get_bus_interfaces lb2 -of_objects [ipx::current_core]]]
-#ipx::add_port_map wdata [ipx::get_bus_interfaces lb2 -of_objects [ipx::current_core]]
-#set_property physical_name lb2_wdata [ipx::get_port_maps wdata -of_objects [ipx::get_bus_interfaces lb2 -of_objects [ipx::current_core]]]
-#ipx::add_port_map aresetn [ipx::get_bus_interfaces lb2 -of_objects [ipx::current_core]]
-#set_property physical_name lb2_aresetn [ipx::get_port_maps aresetn -of_objects [ipx::get_bus_interfaces lb2 -of_objects [ipx::current_core]]]
+
 portpin lb2 rdata lb2_rdata
 portpin lb2 raddr lb2_raddr
 portpin lb2 rden lb2_rden
@@ -218,7 +179,7 @@ portpin lb2 rvalid lb2_rvalid
 portpin lb2 clk lb2_clk
 portpin lb2 aresetn lb2_aresetn
 
-set_property core_revision 2 [ipx::current_core]
+set_property core_revision 1 [ipx::current_core]
 ipx::create_xgui_files [ipx::current_core]
 ipx::update_checksums [ipx::current_core]
 ipx::check_integrity [ipx::current_core]
@@ -227,49 +188,27 @@ update_ip_catalog
 
 clkbus cfgclk
 clkbus dspclk
+clkbus clkadc2_300
+clkbus clkadc2_600
 
-#ipx::remove_bus_interface BRAM_PORTA_rst [ipx::current_core]
-#ipx::remove_bus_interface BRAM_PORTA_clk [ipx::current_core]
-#ipx::remove_bus_interface DAC20_M_AXIS_ACLK [ipx::current_core]
-#ipx::remove_bus_interface DAC31_M_AXIS_ACLK [ipx::current_core]
-#ipx::remove_bus_interface s00_axi_aclk [ipx::current_core]
+#ipx::add_bus_interface clkadc2_300 [ipx::current_core]
+#set_property abstraction_type_vlnv xilinx.com:signal:clock_rtl:1.0 [ipx::get_bus_interfaces clkadc2_300 -of_objects [ipx::current_core]]
+#set_property bus_type_vlnv xilinx.com:signal:clock:1.0 [ipx::get_bus_interfaces clkadc2_300 -of_objects [ipx::current_core]]
+#set_property interface_mode master [ipx::get_bus_interfaces clkadc2_300 -of_objects [ipx::current_core]]
+#ipx::remove_bus_parameter FREQ_HZ [ipx::get_bus_interfaces clkadc2_300 -of_objects [ipx::current_core]]
+#ipx::add_port_map CLK [ipx::get_bus_interfaces clkadc2_300 -of_objects [ipx::current_core]]
+#set_property physical_name clkadc2_300 [ipx::get_port_maps CLK -of_objects [ipx::get_bus_interfaces clkadc2_300 -of_objects [ipx::current_core]]]
+#ipx::add_bus_interface clkadc2_600 [ipx::current_core]
+#set_property abstraction_type_vlnv xilinx.com:signal:clock_rtl:1.0 [ipx::get_bus_interfaces clkadc2_600 -of_objects [ipx::current_core]]
+#set_property bus_type_vlnv xilinx.com:signal:clock:1.0 [ipx::get_bus_interfaces clkadc2_600 -of_objects [ipx::current_core]]
+#set_property interface_mode master [ipx::get_bus_interfaces clkadc2_600 -of_objects [ipx::current_core]]
+#ipx::remove_bus_parameter FREQ_HZ [ipx::get_bus_interfaces clkadc2_600 -of_objects [ipx::current_core]]
+#ipx::add_port_map CLK [ipx::get_bus_interfaces clkadc2_600 -of_objects [ipx::current_core]]
+#set_property physical_name clkadc2_600 [ipx::get_port_maps CLK -of_objects [ipx::get_bus_interfaces clkadc2_600 -of_objects [ipx::current_core]]]
 
-
-ipx::add_bus_interface clkadc2_300 [ipx::current_core]
-set_property abstraction_type_vlnv xilinx.com:signal:clock_rtl:1.0 [ipx::get_bus_interfaces clkadc2_300 -of_objects [ipx::current_core]]
-set_property bus_type_vlnv xilinx.com:signal:clock:1.0 [ipx::get_bus_interfaces clkadc2_300 -of_objects [ipx::current_core]]
-set_property interface_mode master [ipx::get_bus_interfaces clkadc2_300 -of_objects [ipx::current_core]]
-#ipx::add_bus_parameter FREQ_HZ [ipx::get_bus_interfaces clkadc2_300 -of_objects [ipx::current_core]]
-ipx::remove_bus_parameter FREQ_HZ [ipx::get_bus_interfaces clkadc2_300 -of_objects [ipx::current_core]]
-ipx::add_port_map CLK [ipx::get_bus_interfaces clkadc2_300 -of_objects [ipx::current_core]]
-set_property physical_name clkadc2_300 [ipx::get_port_maps CLK -of_objects [ipx::get_bus_interfaces clkadc2_300 -of_objects [ipx::current_core]]]
-ipx::add_bus_interface clkadc2_600 [ipx::current_core]
-set_property abstraction_type_vlnv xilinx.com:signal:clock_rtl:1.0 [ipx::get_bus_interfaces clkadc2_600 -of_objects [ipx::current_core]]
-set_property bus_type_vlnv xilinx.com:signal:clock:1.0 [ipx::get_bus_interfaces clkadc2_600 -of_objects [ipx::current_core]]
-set_property interface_mode master [ipx::get_bus_interfaces clkadc2_600 -of_objects [ipx::current_core]]
-#ipx::add_bus_parameter FREQ_HZ [ipx::get_bus_interfaces clkadc2_600 -of_objects [ipx::current_core]]
-ipx::remove_bus_parameter FREQ_HZ [ipx::get_bus_interfaces clkadc2_600 -of_objects [ipx::current_core]]
-ipx::add_port_map CLK [ipx::get_bus_interfaces clkadc2_600 -of_objects [ipx::current_core]]
-set_property physical_name clkadc2_600 [ipx::get_port_maps CLK -of_objects [ipx::get_bus_interfaces clkadc2_600 -of_objects [ipx::current_core]]]
-
-#ipx::add_bus_parameter FREQ_HZ [ipx::get_bus_interfaces lb1_aclk -of_objects [ipx::current_core]]
-#ipx::add_bus_parameter FREQ_HZ [ipx::get_bus_interfaces lb2_aclk -of_objects [ipx::current_core]]
-
-#ipx::add_bus_parameter FREQ_HZ [ipx::get_bus_interfaces s00_axi_aclk -of_objects [ipx::current_core]]
-#ipx::remove_bus_interface s00_axi_aresetn [ipx::current_core]
-#ipx::remove_bus_interface s00_axi_aclk [ipx::current_core]
-##set_property core_revision 2 [ipx::current_core]
 ipx::merge_project_changes ports [ipx::current_core]
 ipx::update_source_project_archive -component [ipx::current_core]
-#ipx::create_xgui_files [ipx::current_core]
 ipx::update_checksums [ipx::current_core]
 ipx::check_integrity [ipx::current_core]
 ipx::save_core [ipx::current_core]
-#ipx::move_temp_component_back -component [ipx::current_core]
-#close_project
-
-
-#WARNING: [Common 17-576] 'generated_files' is deprecated. This option will be removed in an upcoming release.
-#WARNING: [IP_Flow 19-4656] Synthesis file group is packaged with a Dependency property value '/tmp/pynqtop/zcu216/rfsoctest/boards/zcu216' although it may not be recognized as a synthesis -include_dir property after IP delivery.
-#WARNING: [IP_Flow 19-3833] Unreferenced file from the top module is not packaged: '/tmp/pynqtop/zcu216/rfsoctest/axi4lite.sv'.:q
 
