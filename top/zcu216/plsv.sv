@@ -10,7 +10,7 @@ wire [127:0] cfgresetn_r;
 wire [31:0] dspresetn_r;
 wire [31:0] psresetn_r;
 wire [31:0] adc2resetn_r;
-wire cfgresetn127,cfgresetn126,cfgresetn125,cfgresetn124,cfgresetn123,cfgresetn122,cfgresetn121,cfgresetn120,cfgresetn119,cfgresetn118,cfgresetn117,cfgresetn116,cfgresetn115,cfgresetn114,cfgresetn113,cfgresetn112,cfgresetn111,cfgresetn110,cfgresetn109,cfgresetn108,cfgresetn107,cfgresetn106,cfgresetn105,cfgresetn104,cfgresetn103,cfgresetn102,cfgresetn101,cfgresetn100,cfgresetn99,cfgresetn98,cfgresetn97,cfgresetn96,cfgresetn95,cfgresetn94,cfgresetn93,cfgresetn92;//,cfgresetn91,cfgresetn90,cfgresetn89,cfgresetn88,cfgresetn87,cfgresetn86,cfgresetn85,cfgresetn84,cfgresetn83,cfgresetn82,cfgresetn81,cfgresetn80,cfgresetn79,cfgresetn78,cfgresetn77,cfgresetn76,cfgresetn75,cfgresetn74,cfgresetn73,cfgresetn72,cfgresetn71,cfgresetn70,cfgresetn69,cfgresetn68,cfgresetn67,cfgresetn66,cfgresetn65,cfgresetn64,cfgresetn63,cfgresetn62,cfgresetn61,cfgresetn60,cfgresetn59,cfgresetn58,cfgresetn57,cfgresetn56,cfgresetn55,cfgresetn54,cfgresetn53,cfgresetn52,cfgresetn51,cfgresetn50,cfgresetn49,cfgresetn48,cfgresetn47,cfgresetn46,cfgresetn45,cfgresetn44,cfgresetn43,cfgresetn42,cfgresetn41,cfgresetn40,cfgresetn39,cfgresetn38,cfgresetn37,cfgresetn36,cfgresetn35,cfgresetn34,cfgresetn33,cfgresetn32,cfgresetn31,cfgresetn30,cfgresetn29,cfgresetn28,cfgresetn27,cfgresetn26,cfgresetn25,cfgresetn24,cfgresetn23,cfgresetn22,cfgresetn21,cfgresetn20,cfgresetn19,cfgresetn18,cfgresetn17,cfgresetn16,cfgresetn15,cfgresetn14,cfgresetn13,cfgresetn12,cfgresetn11,cfgresetn10,cfgresetn09,cfgresetn08,cfgresetn07,cfgresetn06,cfgresetn05,cfgresetn04,cfgresetn03,cfgresetn02,cfgresetn01,cfgresetn00;
+wire cfgresetn127,cfgresetn126,cfgresetn125,cfgresetn124,cfgresetn123,cfgresetn122,cfgresetn121,cfgresetn120,cfgresetn119,cfgresetn118,cfgresetn117,cfgresetn116,cfgresetn115,cfgresetn114,cfgresetn113,cfgresetn112,cfgresetn111,cfgresetn110,cfgresetn109,cfgresetn108,cfgresetn107,cfgresetn106,cfgresetn105,cfgresetn104,cfgresetn103,cfgresetn102,cfgresetn101,cfgresetn100,cfgresetn99,cfgresetn98,cfgresetn97,cfgresetn96,cfgresetn95,cfgresetn94,cfgresetn93,cfgresetn92,cfgresetn91,cfgresetn90,cfgresetn89,cfgresetn88,cfgresetn87,cfgresetn86,cfgresetn85,cfgresetn84,cfgresetn83,cfgresetn82,cfgresetn81,cfgresetn80,cfgresetn79,cfgresetn78,cfgresetn77,cfgresetn76,cfgresetn75,cfgresetn74,cfgresetn73,cfgresetn72,cfgresetn71,cfgresetn70,cfgresetn69,cfgresetn68,cfgresetn67,cfgresetn66,cfgresetn65,cfgresetn64,cfgresetn63,cfgresetn62,cfgresetn61,cfgresetn60,cfgresetn59,cfgresetn58,cfgresetn57,cfgresetn56,cfgresetn55,cfgresetn54,cfgresetn53,cfgresetn52,cfgresetn51,cfgresetn50,cfgresetn49,cfgresetn48,cfgresetn47,cfgresetn46,cfgresetn45,cfgresetn44,cfgresetn43,cfgresetn42,cfgresetn41,cfgresetn40,cfgresetn39,cfgresetn38,cfgresetn37,cfgresetn36,cfgresetn35,cfgresetn34,cfgresetn33,cfgresetn32,cfgresetn31,cfgresetn30,cfgresetn29,cfgresetn28,cfgresetn27,cfgresetn26,cfgresetn25,cfgresetn24,cfgresetn23,cfgresetn22,cfgresetn21,cfgresetn20,cfgresetn19,cfgresetn18,cfgresetn17,cfgresetn16,cfgresetn15,cfgresetn14,cfgresetn13,cfgresetn12,cfgresetn11,cfgresetn10,cfgresetn09,cfgresetn08;//,cfgresetn07,cfgresetn06,cfgresetn05,cfgresetn04,cfgresetn03,cfgresetn02,cfgresetn01,cfgresetn00;
 assign {cfgresetn127,cfgresetn126,cfgresetn125,cfgresetn124,cfgresetn123,cfgresetn122,cfgresetn121,cfgresetn120,cfgresetn119,cfgresetn118,cfgresetn117,cfgresetn116,cfgresetn115,cfgresetn114,cfgresetn113,cfgresetn112,cfgresetn111,cfgresetn110,cfgresetn109,cfgresetn108,cfgresetn107,cfgresetn106,cfgresetn105,cfgresetn104,cfgresetn103,cfgresetn102,cfgresetn101,cfgresetn100,cfgresetn99,cfgresetn98,cfgresetn97,cfgresetn96,cfgresetn95,cfgresetn94,cfgresetn93,cfgresetn92,cfgresetn91,cfgresetn90,cfgresetn89,cfgresetn88,cfgresetn87,cfgresetn86,cfgresetn85,cfgresetn84,cfgresetn83,cfgresetn82,cfgresetn81,cfgresetn80,cfgresetn79,cfgresetn78,cfgresetn77,cfgresetn76,cfgresetn75,cfgresetn74,cfgresetn73,cfgresetn72,cfgresetn71,cfgresetn70,cfgresetn69,cfgresetn68,cfgresetn67,cfgresetn66,cfgresetn65,cfgresetn64,cfgresetn63,cfgresetn62,cfgresetn61,cfgresetn60,cfgresetn59,cfgresetn58,cfgresetn57,cfgresetn56,cfgresetn55,cfgresetn54,cfgresetn53,cfgresetn52,cfgresetn51,cfgresetn50,cfgresetn49,cfgresetn48,cfgresetn47,cfgresetn46,cfgresetn45,cfgresetn44,cfgresetn43,cfgresetn42,cfgresetn41,cfgresetn40,cfgresetn39,cfgresetn38,cfgresetn37,cfgresetn36,cfgresetn35,cfgresetn34,cfgresetn33,cfgresetn32,cfgresetn31,cfgresetn30,cfgresetn29,cfgresetn28,cfgresetn27,cfgresetn26,cfgresetn25,cfgresetn24,cfgresetn23,cfgresetn22,cfgresetn21,cfgresetn20,cfgresetn19,cfgresetn18,cfgresetn17,cfgresetn16,cfgresetn15,cfgresetn14,cfgresetn13,cfgresetn12,cfgresetn11,cfgresetn10,cfgresetn09,cfgresetn08,cfgresetn07,cfgresetn06,cfgresetn05,cfgresetn04,cfgresetn03,cfgresetn02,cfgresetn01,cfgresetn00}=cfgresetn_r;
 wire dspresetn31,dspresetn30,dspresetn29,dspresetn28,dspresetn27,dspresetn26,dspresetn25,dspresetn24,dspresetn23,dspresetn22,dspresetn21,dspresetn20,dspresetn19,dspresetn18,dspresetn17,dspresetn16,dspresetn15,dspresetn14,dspresetn13,dspresetn12,dspresetn11,dspresetn10,dspresetn09,dspresetn08;//,dspresetn07,dspresetn06,dspresetn05,dspresetn04,dspresetn03,dspresetn02,dspresetn01,dspresetn00;
 assign {dspresetn31,dspresetn30,dspresetn29,dspresetn28,dspresetn27,dspresetn26,dspresetn25,dspresetn24,dspresetn23,dspresetn22,dspresetn21,dspresetn20,dspresetn19,dspresetn18,dspresetn17,dspresetn16,dspresetn15,dspresetn14,dspresetn13,dspresetn12,dspresetn11,dspresetn10,dspresetn09,dspresetn08,dspresetn07,dspresetn06,dspresetn05,dspresetn04,dspresetn03,dspresetn02,dspresetn01,dspresetn00}=dspresetn_r;
@@ -19,31 +19,34 @@ assign {psresetn31,psresetn30,psresetn29,psresetn28,psresetn27,psresetn26,psrese
 wire adc2resetn31,adc2resetn30,adc2resetn29,adc2resetn28,adc2resetn27,adc2resetn26,adc2resetn25,adc2resetn24,adc2resetn23,adc2resetn22,adc2resetn21,adc2resetn20,adc2resetn19,adc2resetn18,adc2resetn17,adc2resetn16,adc2resetn15,adc2resetn14,adc2resetn13,adc2resetn12,adc2resetn11,adc2resetn10,adc2resetn09,adc2resetn08,adc2resetn07,adc2resetn06,adc2resetn05,adc2resetn04,adc2resetn03;//,adc2resetn02,adc2resetn01,adc2resetn00;
 assign {adc2resetn31,adc2resetn30,adc2resetn29,adc2resetn28,adc2resetn27,adc2resetn26,adc2resetn25,adc2resetn24,adc2resetn23,adc2resetn22,adc2resetn21,adc2resetn20,adc2resetn19,adc2resetn18,adc2resetn17,adc2resetn16,adc2resetn15,adc2resetn14,adc2resetn13,adc2resetn12,adc2resetn11,adc2resetn10,adc2resetn09,adc2resetn08,adc2resetn07,adc2resetn06,adc2resetn05,adc2resetn04,adc2resetn03,adc2resetn02,adc2resetn01,adc2resetn00}=adc2resetn_r;
 
-iflocalbus #(.DATA_WIDTH(LB_DATAWIDTH),.ADDR_WIDTH(LB_ADDRWIDTH))
+iflocalbus #(.DATA_WIDTH(LB1_DATAWIDTH),.ADDR_WIDTH(LB1_ADDRWIDTH))
 lb1();
-iflocalbus #(.DATA_WIDTH(LB_DATAWIDTH),.ADDR_WIDTH(LB_ADDRWIDTH))
+iflocalbus #(.DATA_WIDTH(LB2_DATAWIDTH),.ADDR_WIDTH(LB2_ADDRWIDTH))
 lb2();
 iflocalbus #(.DATA_WIDTH(LB3_DATAWIDTH),.ADDR_WIDTH(LB3_ADDRWIDTH))
 lb3();
-iflocalbus #(.DATA_WIDTH(LB_DATAWIDTH),.ADDR_WIDTH(LB_ADDRWIDTH))
+iflocalbus #(.DATA_WIDTH(LB4_DATAWIDTH),.ADDR_WIDTH(LB4_ADDRWIDTH))
 lb4();
 
-localbus_mappin #(.DATA_WIDTH(LB_DATAWIDTH),.ADDR_WIDTH(LB_ADDRWIDTH))
+localbus_mappin #(.DATA_WIDTH(LB1_DATAWIDTH),.ADDR_WIDTH(LB1_ADDRWIDTH))
 lb1map(.lb(lb1),.wren(lb1_wren),.rden(lb1_rden),.rdenlast(lb1_rdenlast),.waddr(lb1_waddr),.rvalid(lb1_rvalid),.rvalidlast(lb1_rvalidlast),.wdata(lb1_wdata),.raddr(lb1_raddr),.rdata(lb1_rdata),.clk(lb1_clk),.aresetn(lb1_aresetn));
 
-localbus_mappin #(.DATA_WIDTH(LB_DATAWIDTH),.ADDR_WIDTH(LB_ADDRWIDTH))
+localbus_mappin #(.DATA_WIDTH(LB2_DATAWIDTH),.ADDR_WIDTH(LB2_ADDRWIDTH))
 lb2map(.lb(lb2),.wren(lb2_wren),.rden(lb2_rden),.rdenlast(lb2_rdenlast),.waddr(lb2_waddr),.rvalid(lb2_rvalid),.rvalidlast(lb2_rvalidlast),.wdata(lb2_wdata),.raddr(lb2_raddr),.rdata(lb2_rdata),.clk(lb2_clk),.aresetn(lb2_aresetn));
 
 localbus_mappin #(.DATA_WIDTH(LB3_DATAWIDTH),.ADDR_WIDTH(LB3_ADDRWIDTH))
 lb3map(.lb(lb3),.wren(lb3_wren),.rden(lb3_rden),.rdenlast(lb3_rdenlast),.waddr(lb3_waddr),.rvalid(lb3_rvalid),.rvalidlast(lb3_rvalidlast),.wdata(lb3_wdata),.raddr(lb3_raddr),.rdata(lb3_rdata),.clk(lb3_clk),.aresetn(lb3_aresetn));
 
-localbus_mappin #(.DATA_WIDTH(LB_DATAWIDTH),.ADDR_WIDTH(LB_ADDRWIDTH))
+localbus_mappin #(.DATA_WIDTH(LB4_DATAWIDTH),.ADDR_WIDTH(LB4_ADDRWIDTH))
 lb4map(.lb(lb4),.wren(lb4_wren),.rden(lb4_rden),.rdenlast(lb4_rdenlast),.waddr(lb4_waddr),.rvalid(lb4_rvalid),.rvalidlast(lb4_rvalidlast),.wdata(lb4_wdata),.raddr(lb4_raddr),.rdata(lb4_rdata),.clk(lb4_clk),.aresetn(lb4_aresetn));
 
 `include "bram_plsv.vh"
 
-ifbramtohost #(.DATA_WIDTH(LB3_DATAWIDTH),.ADDR_WIDTH(LB3_ADDRWIDTH),.READDELAY(3),`include "bram_parainst.vh")
-ifbramhost(.lb(lb3),.qdrvenv0(qdrvenv0_W),.qdrvenv1(qdrvenv1_W),.qdrvenv2(qdrvenv2_W),.acqbuf0(acqbuf0_R),.acqbuf1(acqbuf1_R));
+ifbramctrl#(.DATA_WIDTH(LB3_DATAWIDTH),.ADDR_WIDTH(LB3_ADDRWIDTH),.READDELAY(3),`include "bram_parainst.vh")
+ifbramctrl(.lb(lb3)
+//,.qdrvenv0(qdrvenv0_W),.qdrvenv1(qdrvenv1_W),.qdrvenv2(qdrvenv2_W),.acqbuf0(acqbuf0_R),.acqbuf1(acqbuf1_R)
+,`include "bramif_lbportinst.vh"
+);
 
 bram_cfg acqbuf0_R_cfg(.bram(acqbuf0_R),.clk(lb3_clk),.rst(1'b0),.en(1'b1));
 bram_cfg acqbuf1_R_cfg(.bram(acqbuf1_R),.clk(lb3_clk),.rst(1'b0),.en(1'b1));

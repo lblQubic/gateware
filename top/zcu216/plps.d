@@ -42,3 +42,8 @@ plps_parainst.vh
 plps_para.vh
 bram_read.vh
 bram_write.vh
+asym_ram_sdp_read_wider.v
+asym_ram_sdp_write_wider.v
+ifbramctrl.sv
+bramif_lbportinst.vh
+bramif_lbport.vh

@@ -91,9 +91,9 @@ assign psresetn=psresetn_r;
 assign adc2resetn=adc2resetn_r;
 
 
-ifregs #(.DATA_WIDTH(LB_DATAWIDTH),.ADDR_WIDTH(LB_ADDRWIDTH))
+ifregs #(.DATA_WIDTH(LB1_DATAWIDTH),.ADDR_WIDTH(LB1_ADDRWIDTH))
 ctrlregs(.lb(lb1));
-ifdspregs #(.DATA_WIDTH(LB_DATAWIDTH),.ADDR_WIDTH(LB_ADDRWIDTH))
+ifdspregs #(.DATA_WIDTH(LB2_DATAWIDTH),.ADDR_WIDTH(LB2_ADDRWIDTH))
 dspregs(.lb(lb2));
 
 

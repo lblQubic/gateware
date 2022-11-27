@@ -2,6 +2,15 @@ proc portpin {busname portname physical_name} {
 ipx::add_port_map ${portname} [ipx::get_bus_interfaces ${busname}  -of_objects [ipx::current_core]]
 set_property physical_name ${physical_name} [ipx::get_port_maps ${portname} -of_objects [ipx::get_bus_interfaces ${busname} -of_objects [ipx::current_core]]]
 }
+proc lbbus {lbname} {
+ipx::add_bus_interface ${lbname} [ipx::current_core]
+set_property abstraction_type_vlnv user:user:iflocalbus_rtl:1.0 [ipx::get_bus_interfaces ${lbname} -of_objects [ipx::current_core]]
+set_property bus_type_vlnv user:user:iflocalbus:1.0 [ipx::get_bus_interfaces ${lbname} -of_objects [ipx::current_core]]
+set pin {rdata raddr rden rdenlast wdata waddr wren rvalid rvalidlast clk aresetn}
+foreach p $pin {
+	portpin ${lbname} $p ${lbname}_$p
+}
+}
 proc brambus {bramname} {
 	ipx::add_bus_interface ${bramname} [ipx::current_core]
 	set_property abstraction_type_vlnv xilinx.com:interface:bram_rtl:1.0 [ipx::get_bus_interfaces ${bramname} -of_objects [ipx::current_core]]
@@ -82,7 +91,7 @@ ipx::package_project -root_dir ./vivado_project/plip -vendor user.org -library u
 ipx::unload_core ./vivado_project/plip/component.xml
 ipx::open_ipxact_file ./vivado_project/plip/component.xml
 #ipx::edit_ip_in_project -upgrade true -name plip -directory ./vivado_project/plip ./vivado_project/plip/component.xml
-
+if {0} {
 brambus qdrvenv0
 brambus qdrvenv1
 brambus qdrvenv2
@@ -126,7 +135,7 @@ brambus accbuf6
 brambus accbuf7
 brambus acqbuf0
 brambus acqbuf1
-
+}
 
 
 fpgaif "fpga_master_dir"
@@ -151,6 +160,11 @@ fpgamap "fpga_master_dir"
 
 set_property ip_repo_paths {vivado_project/iflocalbus} [current_project]
 update_ip_catalog
+lbbus lb1
+lbbus lb2
+lbbus lb3
+lbbus lb4
+if {0} {
 ipx::add_bus_interface lb1 [ipx::current_core]
 set_property abstraction_type_vlnv user:user:iflocalbus_rtl:1.0 [ipx::get_bus_interfaces lb1 -of_objects [ipx::current_core]]
 set_property bus_type_vlnv user:user:iflocalbus:1.0 [ipx::get_bus_interfaces lb1 -of_objects [ipx::current_core]]
@@ -178,7 +192,7 @@ portpin lb2 wren lb2_wren
 portpin lb2 rvalid lb2_rvalid
 portpin lb2 clk lb2_clk
 portpin lb2 aresetn lb2_aresetn
-
+}
 set_property core_revision 1 [ipx::current_core]
 ipx::create_xgui_files [ipx::current_core]
 ipx::update_checksums [ipx::current_core]
