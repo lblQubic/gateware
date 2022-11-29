@@ -6,6 +6,7 @@ source ../../submodules/tools/proj.tcl
 source ../../submodules/tools/depsrc.tcl
 source ../../submodules/tools/synimpbit.tcl
 proj ${target} ${part} ${outputdir} ${depd}
+set_param general.maxThreads 2
 if {1} {
 synimpbit $target 11
 set_property top psbd_wrapper [current_fileset]

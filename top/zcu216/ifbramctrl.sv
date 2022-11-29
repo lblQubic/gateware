@@ -33,34 +33,34 @@ reg command1_W_we=0;reg [COMMAND_W_ADDRWIDTH-1:0]  command1_W_waddr=0;reg [COMMA
 reg command2_W_we=0;reg [COMMAND_W_ADDRWIDTH-1:0]  command2_W_waddr=0;reg [COMMAND_W_DATAWIDTH-1:0] command2_W_din=0;assign {command2_W.we,command2_W.addr,command2_W.din}={command2_W_we,command2_W_waddr,command2_W_din};
 reg command3_W_we=0;reg [COMMAND_W_ADDRWIDTH-1:0]  command3_W_waddr=0;reg [COMMAND_W_DATAWIDTH-1:0] command3_W_din=0;assign {command3_W.we,command3_W.addr,command3_W.din}={command3_W_we,command3_W_waddr,command3_W_din};
     always @(posedge lb.clk) begin
- rdrvenv0_W_we<=(lb.waddr[ADDR_WIDTH-1:RDRVENV_W_ADDRWIDTH]=='h0)&lb.wren; rdrvenv0_W_waddr<=lb.waddr[RDRVENV_W_ADDRWIDTH-1:0]; rdrvenv0_W_din<=lb.wdata;
-rdrvenv1_W_we<=(lb.waddr[ADDR_WIDTH-1:RDRVENV_W_ADDRWIDTH]=='h1)&lb.wren; rdrvenv1_W_waddr<=lb.waddr[RDRVENV_W_ADDRWIDTH-1:0]; rdrvenv1_W_din<=lb.wdata;
-rdrvenv2_W_we<=(lb.waddr[ADDR_WIDTH-1:RDRVENV_W_ADDRWIDTH]=='h2)&lb.wren; rdrvenv2_W_waddr<=lb.waddr[RDRVENV_W_ADDRWIDTH-1:0]; rdrvenv2_W_din<=lb.wdata;
-rdrvenv3_W_we<=(lb.waddr[ADDR_WIDTH-1:RDRVENV_W_ADDRWIDTH]=='h3)&lb.wren; rdrvenv3_W_waddr<=lb.waddr[RDRVENV_W_ADDRWIDTH-1:0]; rdrvenv3_W_din<=lb.wdata;
-qdrvenv0_W_we<=(lb.waddr[ADDR_WIDTH-1:QDRVENV_W_ADDRWIDTH]=='h12)&lb.wren; qdrvenv0_W_waddr<=lb.waddr[QDRVENV_W_ADDRWIDTH-1:0]; qdrvenv0_W_din<=lb.wdata;
-qdrvenv1_W_we<=(lb.waddr[ADDR_WIDTH-1:QDRVENV_W_ADDRWIDTH]=='h13)&lb.wren; qdrvenv1_W_waddr<=lb.waddr[QDRVENV_W_ADDRWIDTH-1:0]; qdrvenv1_W_din<=lb.wdata;
-qdrvenv2_W_we<=(lb.waddr[ADDR_WIDTH-1:QDRVENV_W_ADDRWIDTH]=='h14)&lb.wren; qdrvenv2_W_waddr<=lb.waddr[QDRVENV_W_ADDRWIDTH-1:0]; qdrvenv2_W_din<=lb.wdata;
-qdrvenv3_W_we<=(lb.waddr[ADDR_WIDTH-1:QDRVENV_W_ADDRWIDTH]=='h15)&lb.wren; qdrvenv3_W_waddr<=lb.waddr[QDRVENV_W_ADDRWIDTH-1:0]; qdrvenv3_W_din<=lb.wdata;
-rdloenv0_W_we<=(lb.waddr[ADDR_WIDTH-1:RDLOENV_W_ADDRWIDTH]=='h16)&lb.wren; rdloenv0_W_waddr<=lb.waddr[RDLOENV_W_ADDRWIDTH-1:0]; rdloenv0_W_din<=lb.wdata;
-rdloenv1_W_we<=(lb.waddr[ADDR_WIDTH-1:RDLOENV_W_ADDRWIDTH]=='h17)&lb.wren; rdloenv1_W_waddr<=lb.waddr[RDLOENV_W_ADDRWIDTH-1:0]; rdloenv1_W_din<=lb.wdata;
-rdloenv2_W_we<=(lb.waddr[ADDR_WIDTH-1:RDLOENV_W_ADDRWIDTH]=='h18)&lb.wren; rdloenv2_W_waddr<=lb.waddr[RDLOENV_W_ADDRWIDTH-1:0]; rdloenv2_W_din<=lb.wdata;
-rdloenv3_W_we<=(lb.waddr[ADDR_WIDTH-1:RDLOENV_W_ADDRWIDTH]=='h19)&lb.wren; rdloenv3_W_waddr<=lb.waddr[RDLOENV_W_ADDRWIDTH-1:0]; rdloenv3_W_din<=lb.wdata;
-qdrvfreq0_W_we<=(lb.waddr[ADDR_WIDTH-1:FREQ_W_ADDRWIDTH]=='h34)&lb.wren; qdrvfreq0_W_waddr<=lb.waddr[FREQ_W_ADDRWIDTH-1:0]; qdrvfreq0_W_din<=lb.wdata;
-qdrvfreq1_W_we<=(lb.waddr[ADDR_WIDTH-1:FREQ_W_ADDRWIDTH]=='h35)&lb.wren; qdrvfreq1_W_waddr<=lb.waddr[FREQ_W_ADDRWIDTH-1:0]; qdrvfreq1_W_din<=lb.wdata;
-qdrvfreq2_W_we<=(lb.waddr[ADDR_WIDTH-1:FREQ_W_ADDRWIDTH]=='h36)&lb.wren; qdrvfreq2_W_waddr<=lb.waddr[FREQ_W_ADDRWIDTH-1:0]; qdrvfreq2_W_din<=lb.wdata;
-qdrvfreq3_W_we<=(lb.waddr[ADDR_WIDTH-1:FREQ_W_ADDRWIDTH]=='h37)&lb.wren; qdrvfreq3_W_waddr<=lb.waddr[FREQ_W_ADDRWIDTH-1:0]; qdrvfreq3_W_din<=lb.wdata;
-rdlofreq0_W_we<=(lb.waddr[ADDR_WIDTH-1:FREQ_W_ADDRWIDTH]=='h38)&lb.wren; rdlofreq0_W_waddr<=lb.waddr[FREQ_W_ADDRWIDTH-1:0]; rdlofreq0_W_din<=lb.wdata;
-rdlofreq1_W_we<=(lb.waddr[ADDR_WIDTH-1:FREQ_W_ADDRWIDTH]=='h39)&lb.wren; rdlofreq1_W_waddr<=lb.waddr[FREQ_W_ADDRWIDTH-1:0]; rdlofreq1_W_din<=lb.wdata;
-rdlofreq2_W_we<=(lb.waddr[ADDR_WIDTH-1:FREQ_W_ADDRWIDTH]=='h3a)&lb.wren; rdlofreq2_W_waddr<=lb.waddr[FREQ_W_ADDRWIDTH-1:0]; rdlofreq2_W_din<=lb.wdata;
-rdlofreq3_W_we<=(lb.waddr[ADDR_WIDTH-1:FREQ_W_ADDRWIDTH]=='h3b)&lb.wren; rdlofreq3_W_waddr<=lb.waddr[FREQ_W_ADDRWIDTH-1:0]; rdlofreq3_W_din<=lb.wdata;
-rdrvfreq0_W_we<=(lb.waddr[ADDR_WIDTH-1:FREQ_W_ADDRWIDTH]=='h3c)&lb.wren; rdrvfreq0_W_waddr<=lb.waddr[FREQ_W_ADDRWIDTH-1:0]; rdrvfreq0_W_din<=lb.wdata;
-rdrvfreq1_W_we<=(lb.waddr[ADDR_WIDTH-1:FREQ_W_ADDRWIDTH]=='h3d)&lb.wren; rdrvfreq1_W_waddr<=lb.waddr[FREQ_W_ADDRWIDTH-1:0]; rdrvfreq1_W_din<=lb.wdata;
-rdrvfreq2_W_we<=(lb.waddr[ADDR_WIDTH-1:FREQ_W_ADDRWIDTH]=='h3e)&lb.wren; rdrvfreq2_W_waddr<=lb.waddr[FREQ_W_ADDRWIDTH-1:0]; rdrvfreq2_W_din<=lb.wdata;
-rdrvfreq3_W_we<=(lb.waddr[ADDR_WIDTH-1:FREQ_W_ADDRWIDTH]=='h3f)&lb.wren; rdrvfreq3_W_waddr<=lb.waddr[FREQ_W_ADDRWIDTH-1:0]; rdrvfreq3_W_din<=lb.wdata;
-command0_W_we<=(lb.waddr[ADDR_WIDTH-1:COMMAND_W_ADDRWIDTH]=='h84)&lb.wren; command0_W_waddr<=lb.waddr[COMMAND_W_ADDRWIDTH-1:0]; command0_W_din<=lb.wdata;
-command1_W_we<=(lb.waddr[ADDR_WIDTH-1:COMMAND_W_ADDRWIDTH]=='h85)&lb.wren; command1_W_waddr<=lb.waddr[COMMAND_W_ADDRWIDTH-1:0]; command1_W_din<=lb.wdata;
-command2_W_we<=(lb.waddr[ADDR_WIDTH-1:COMMAND_W_ADDRWIDTH]=='h86)&lb.wren; command2_W_waddr<=lb.waddr[COMMAND_W_ADDRWIDTH-1:0]; command2_W_din<=lb.wdata;
-command3_W_we<=(lb.waddr[ADDR_WIDTH-1:COMMAND_W_ADDRWIDTH]=='h87)&lb.wren; command3_W_waddr<=lb.waddr[COMMAND_W_ADDRWIDTH-1:0]; command3_W_din<=lb.wdata;
+ rdrvenv0_W_we<=(lb.waddr[ADDR_WIDTH-1:RDRVENV_W_ADDRWIDTH]=='h0)&lb.wren; rdrvenv0_W_waddr<=lb.waddr[RDRVENV_W_ADDRWIDTH-1:0]; rdrvenv0_W_din<=lb.wdata; // address: 0x00000000
+rdrvenv1_W_we<=(lb.waddr[ADDR_WIDTH-1:RDRVENV_W_ADDRWIDTH]=='h1)&lb.wren; rdrvenv1_W_waddr<=lb.waddr[RDRVENV_W_ADDRWIDTH-1:0]; rdrvenv1_W_din<=lb.wdata; // address: 0x00010000
+rdrvenv2_W_we<=(lb.waddr[ADDR_WIDTH-1:RDRVENV_W_ADDRWIDTH]=='h2)&lb.wren; rdrvenv2_W_waddr<=lb.waddr[RDRVENV_W_ADDRWIDTH-1:0]; rdrvenv2_W_din<=lb.wdata; // address: 0x00020000
+rdrvenv3_W_we<=(lb.waddr[ADDR_WIDTH-1:RDRVENV_W_ADDRWIDTH]=='h3)&lb.wren; rdrvenv3_W_waddr<=lb.waddr[RDRVENV_W_ADDRWIDTH-1:0]; rdrvenv3_W_din<=lb.wdata; // address: 0x00030000
+qdrvenv0_W_we<=(lb.waddr[ADDR_WIDTH-1:QDRVENV_W_ADDRWIDTH]=='h12)&lb.wren; qdrvenv0_W_waddr<=lb.waddr[QDRVENV_W_ADDRWIDTH-1:0]; qdrvenv0_W_din<=lb.wdata; // address: 0x00048000
+qdrvenv1_W_we<=(lb.waddr[ADDR_WIDTH-1:QDRVENV_W_ADDRWIDTH]=='h13)&lb.wren; qdrvenv1_W_waddr<=lb.waddr[QDRVENV_W_ADDRWIDTH-1:0]; qdrvenv1_W_din<=lb.wdata; // address: 0x0004c000
+qdrvenv2_W_we<=(lb.waddr[ADDR_WIDTH-1:QDRVENV_W_ADDRWIDTH]=='h14)&lb.wren; qdrvenv2_W_waddr<=lb.waddr[QDRVENV_W_ADDRWIDTH-1:0]; qdrvenv2_W_din<=lb.wdata; // address: 0x00050000
+qdrvenv3_W_we<=(lb.waddr[ADDR_WIDTH-1:QDRVENV_W_ADDRWIDTH]=='h15)&lb.wren; qdrvenv3_W_waddr<=lb.waddr[QDRVENV_W_ADDRWIDTH-1:0]; qdrvenv3_W_din<=lb.wdata; // address: 0x00054000
+rdloenv0_W_we<=(lb.waddr[ADDR_WIDTH-1:RDLOENV_W_ADDRWIDTH]=='h16)&lb.wren; rdloenv0_W_waddr<=lb.waddr[RDLOENV_W_ADDRWIDTH-1:0]; rdloenv0_W_din<=lb.wdata; // address: 0x00058000
+rdloenv1_W_we<=(lb.waddr[ADDR_WIDTH-1:RDLOENV_W_ADDRWIDTH]=='h17)&lb.wren; rdloenv1_W_waddr<=lb.waddr[RDLOENV_W_ADDRWIDTH-1:0]; rdloenv1_W_din<=lb.wdata; // address: 0x0005c000
+rdloenv2_W_we<=(lb.waddr[ADDR_WIDTH-1:RDLOENV_W_ADDRWIDTH]=='h18)&lb.wren; rdloenv2_W_waddr<=lb.waddr[RDLOENV_W_ADDRWIDTH-1:0]; rdloenv2_W_din<=lb.wdata; // address: 0x00060000
+rdloenv3_W_we<=(lb.waddr[ADDR_WIDTH-1:RDLOENV_W_ADDRWIDTH]=='h19)&lb.wren; rdloenv3_W_waddr<=lb.waddr[RDLOENV_W_ADDRWIDTH-1:0]; rdloenv3_W_din<=lb.wdata; // address: 0x00064000
+qdrvfreq0_W_we<=(lb.waddr[ADDR_WIDTH-1:FREQ_W_ADDRWIDTH]=='h34)&lb.wren; qdrvfreq0_W_waddr<=lb.waddr[FREQ_W_ADDRWIDTH-1:0]; qdrvfreq0_W_din<=lb.wdata; // address: 0x00068000
+qdrvfreq1_W_we<=(lb.waddr[ADDR_WIDTH-1:FREQ_W_ADDRWIDTH]=='h35)&lb.wren; qdrvfreq1_W_waddr<=lb.waddr[FREQ_W_ADDRWIDTH-1:0]; qdrvfreq1_W_din<=lb.wdata; // address: 0x0006a000
+qdrvfreq2_W_we<=(lb.waddr[ADDR_WIDTH-1:FREQ_W_ADDRWIDTH]=='h36)&lb.wren; qdrvfreq2_W_waddr<=lb.waddr[FREQ_W_ADDRWIDTH-1:0]; qdrvfreq2_W_din<=lb.wdata; // address: 0x0006c000
+qdrvfreq3_W_we<=(lb.waddr[ADDR_WIDTH-1:FREQ_W_ADDRWIDTH]=='h37)&lb.wren; qdrvfreq3_W_waddr<=lb.waddr[FREQ_W_ADDRWIDTH-1:0]; qdrvfreq3_W_din<=lb.wdata; // address: 0x0006e000
+rdlofreq0_W_we<=(lb.waddr[ADDR_WIDTH-1:FREQ_W_ADDRWIDTH]=='h38)&lb.wren; rdlofreq0_W_waddr<=lb.waddr[FREQ_W_ADDRWIDTH-1:0]; rdlofreq0_W_din<=lb.wdata; // address: 0x00070000
+rdlofreq1_W_we<=(lb.waddr[ADDR_WIDTH-1:FREQ_W_ADDRWIDTH]=='h39)&lb.wren; rdlofreq1_W_waddr<=lb.waddr[FREQ_W_ADDRWIDTH-1:0]; rdlofreq1_W_din<=lb.wdata; // address: 0x00072000
+rdlofreq2_W_we<=(lb.waddr[ADDR_WIDTH-1:FREQ_W_ADDRWIDTH]=='h3a)&lb.wren; rdlofreq2_W_waddr<=lb.waddr[FREQ_W_ADDRWIDTH-1:0]; rdlofreq2_W_din<=lb.wdata; // address: 0x00074000
+rdlofreq3_W_we<=(lb.waddr[ADDR_WIDTH-1:FREQ_W_ADDRWIDTH]=='h3b)&lb.wren; rdlofreq3_W_waddr<=lb.waddr[FREQ_W_ADDRWIDTH-1:0]; rdlofreq3_W_din<=lb.wdata; // address: 0x00076000
+rdrvfreq0_W_we<=(lb.waddr[ADDR_WIDTH-1:FREQ_W_ADDRWIDTH]=='h3c)&lb.wren; rdrvfreq0_W_waddr<=lb.waddr[FREQ_W_ADDRWIDTH-1:0]; rdrvfreq0_W_din<=lb.wdata; // address: 0x00078000
+rdrvfreq1_W_we<=(lb.waddr[ADDR_WIDTH-1:FREQ_W_ADDRWIDTH]=='h3d)&lb.wren; rdrvfreq1_W_waddr<=lb.waddr[FREQ_W_ADDRWIDTH-1:0]; rdrvfreq1_W_din<=lb.wdata; // address: 0x0007a000
+rdrvfreq2_W_we<=(lb.waddr[ADDR_WIDTH-1:FREQ_W_ADDRWIDTH]=='h3e)&lb.wren; rdrvfreq2_W_waddr<=lb.waddr[FREQ_W_ADDRWIDTH-1:0]; rdrvfreq2_W_din<=lb.wdata; // address: 0x0007c000
+rdrvfreq3_W_we<=(lb.waddr[ADDR_WIDTH-1:FREQ_W_ADDRWIDTH]=='h3f)&lb.wren; rdrvfreq3_W_waddr<=lb.waddr[FREQ_W_ADDRWIDTH-1:0]; rdrvfreq3_W_din<=lb.wdata; // address: 0x0007e000
+command0_W_we<=(lb.waddr[ADDR_WIDTH-1:COMMAND_W_ADDRWIDTH]=='h84)&lb.wren; command0_W_waddr<=lb.waddr[COMMAND_W_ADDRWIDTH-1:0]; command0_W_din<=lb.wdata; // address: 0x00084000
+command1_W_we<=(lb.waddr[ADDR_WIDTH-1:COMMAND_W_ADDRWIDTH]=='h85)&lb.wren; command1_W_waddr<=lb.waddr[COMMAND_W_ADDRWIDTH-1:0]; command1_W_din<=lb.wdata; // address: 0x00085000
+command2_W_we<=(lb.waddr[ADDR_WIDTH-1:COMMAND_W_ADDRWIDTH]=='h86)&lb.wren; command2_W_waddr<=lb.waddr[COMMAND_W_ADDRWIDTH-1:0]; command2_W_din<=lb.wdata; // address: 0x00086000
+command3_W_we<=(lb.waddr[ADDR_WIDTH-1:COMMAND_W_ADDRWIDTH]=='h87)&lb.wren; command3_W_waddr<=lb.waddr[COMMAND_W_ADDRWIDTH-1:0]; command3_W_din<=lb.wdata; // address: 0x00087000
  end
 reg [ACQBUF_R_ADDRWIDTH-1:0]  acqbuf0_R_raddr=0;reg [ACQBUF_R_DATAWIDTH-1:0] acqbuf0_R_dout=0;assign acqbuf0_R.addr=acqbuf0_R_raddr;
 reg [ACQBUF_R_ADDRWIDTH-1:0]  acqbuf1_R_raddr=0;reg [ACQBUF_R_DATAWIDTH-1:0] acqbuf1_R_dout=0;assign acqbuf1_R.addr=acqbuf1_R_raddr;
@@ -79,12 +79,12 @@ end
     always @(posedge lb.clk) begin
         if (lb.rden16[READDELAY]) begin
             casex (lb.raddr16[READDELAY*ADDR_WIDTH-1:(READDELAY-1)*ADDR_WIDTH])
-            {(ADDR_WIDTH-ACQBUF_R_ADDRWIDTH)'('h10),{ACQBUF_R_ADDRWIDTH{1'bx}}}: rdata <= acqbuf0_R_dout;
-{(ADDR_WIDTH-ACQBUF_R_ADDRWIDTH)'('h11),{ACQBUF_R_ADDRWIDTH{1'bx}}}: rdata <= acqbuf1_R_dout;
-{(ADDR_WIDTH-ACCBUF_R_ADDRWIDTH)'('h80),{ACCBUF_R_ADDRWIDTH{1'bx}}}: rdata <= accbuf0_R_dout;
-{(ADDR_WIDTH-ACCBUF_R_ADDRWIDTH)'('h81),{ACCBUF_R_ADDRWIDTH{1'bx}}}: rdata <= accbuf1_R_dout;
-{(ADDR_WIDTH-ACCBUF_R_ADDRWIDTH)'('h82),{ACCBUF_R_ADDRWIDTH{1'bx}}}: rdata <= accbuf2_R_dout;
-{(ADDR_WIDTH-ACCBUF_R_ADDRWIDTH)'('h83),{ACCBUF_R_ADDRWIDTH{1'bx}}}: rdata <= accbuf3_R_dout;
+            {(ADDR_WIDTH-ACQBUF_R_ADDRWIDTH)'('h10),{ACQBUF_R_ADDRWIDTH{1'bx}}}: rdata <= acqbuf0_R_dout;  // address: 0x00040000
+{(ADDR_WIDTH-ACQBUF_R_ADDRWIDTH)'('h11),{ACQBUF_R_ADDRWIDTH{1'bx}}}: rdata <= acqbuf1_R_dout;  // address: 0x00044000
+{(ADDR_WIDTH-ACCBUF_R_ADDRWIDTH)'('h80),{ACCBUF_R_ADDRWIDTH{1'bx}}}: rdata <= accbuf0_R_dout;  // address: 0x00080000
+{(ADDR_WIDTH-ACCBUF_R_ADDRWIDTH)'('h81),{ACCBUF_R_ADDRWIDTH{1'bx}}}: rdata <= accbuf1_R_dout;  // address: 0x00081000
+{(ADDR_WIDTH-ACCBUF_R_ADDRWIDTH)'('h82),{ACCBUF_R_ADDRWIDTH{1'bx}}}: rdata <= accbuf2_R_dout;  // address: 0x00082000
+{(ADDR_WIDTH-ACCBUF_R_ADDRWIDTH)'('h83),{ACCBUF_R_ADDRWIDTH{1'bx}}}: rdata <= accbuf3_R_dout;  // address: 0x00083000
                 default:rdata <= 32'hdeadbeef;
             endcase
         end

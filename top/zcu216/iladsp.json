@@ -1,19 +1,10 @@
 {
 	"clk":"dspif.clk"
 	,"probes":{
-		"tcnt":18
-		,"freq":32
-		,"phase":40
-		,"regs.amp":32
-		,"cos":16
-		,"sin":16
-		,"dspif.bramfromhost0_data":256
-		,"dspif.bramfromhost2_data":256
-		,"bramfromhost0_addr":32
-		,"dspif.bramfromhost0_we":32
-		,"reset_bram_read[7]":1
-		,"bramfromhost0locklast_d":1
-		,"bramfromhost2locklast_d":1
+		"data_acqbuf[0]":64
+		,"adc20":64
+		,"dspif.data_acqbuf[0]":64
+		,"dspif.adc20":64
 	}
 }
 

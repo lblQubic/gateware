@@ -66,8 +66,8 @@ reg [ACQBUF_W_DATAWIDTH-1:0] data_acqbuf[0:1];
 always @(posedge dspif.clk) begin
 	adc20<=dspif.adc20;
 	adc21<=dspif.adc21;
-	data_acqbuf[0]<=adc20;
-	data_acqbuf[1]<=dac20[63:0];
+	data_acqbuf[1]<=adc20;
+	data_acqbuf[0]<=dac20[63:0];
 //	adc21<={cnt3[13:0],2'd3,cnt3[13:0],2'd2,cnt3[13:0],2'd1,cnt3[13:0],2'd0};
 		//dspif.adc21;
 	dspif.data_acqbuf[0]<=data_acqbuf[0];
@@ -187,7 +187,7 @@ end
 
 assign regs.test1=regs.test;//dspif.data_qdrvfreq[0][31:0];//regs.test;
 
-//`include "iladsp.vh"
+`include "iladsp.vh"
 endmodule
 
 interface ifdsp #(
