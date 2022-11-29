@@ -44,20 +44,9 @@ lb4map(.lb(lb4),.wren(lb4_wren),.rden(lb4_rden),.rdenlast(lb4_rdenlast),.waddr(l
 
 ifbramctrl#(.DATA_WIDTH(LB3_DATAWIDTH),.ADDR_WIDTH(LB3_ADDRWIDTH),.READDELAY(3),`include "bram_parainst.vh")
 ifbramctrl(.lb(lb3)
-//,.qdrvenv0(qdrvenv0_W),.qdrvenv1(qdrvenv1_W),.qdrvenv2(qdrvenv2_W),.acqbuf0(acqbuf0_R),.acqbuf1(acqbuf1_R)
 ,`include "bramif_lbportinst.vh"
 );
 
-bram_cfg acqbuf0_R_cfg(.bram(acqbuf0_R),.clk(lb3_clk),.rst(1'b0),.en(1'b1));
-bram_cfg acqbuf1_R_cfg(.bram(acqbuf1_R),.clk(lb3_clk),.rst(1'b0),.en(1'b1));
-bram_cfg qdrvenv0_W_cfg(.bram(qdrvenv0_W),.clk(lb3_clk),.rst(1'b0),.en(1'b1));
-bram_cfg qdrvenv1_W_cfg(.bram(qdrvenv1_W),.clk(lb3_clk),.rst(1'b0),.en(1'b1));
-bram_cfg qdrvenv2_W_cfg(.bram(qdrvenv2_W),.clk(lb3_clk),.rst(1'b0),.en(1'b1));
-
-//ifbram #(.ADDR_WIDTH(RDRVENV_R_ADDRWIDTH),.DATA_WIDTH(RDRVENV_R_DATAWIDTH)) rdrvenv0();
-//ifbram #(.ADDR_WIDTH(RDLOENV_R_ADDRWIDTH),.DATA_WIDTH(RDLOENV_R_DATAWIDTH)) rdloenv0();
-//ifbram #(.ADDR_WIDTH(ACCBUF_W_ADDRWIDTH),.DATA_WIDTH(ACCBUF_W_DATAWIDTH)) accbuf0();
-//ifbram #(.ADDR_WIDTH(COMMAND_R_ADDRWIDTH),.DATA_WIDTH(COMMAND_R_DATAWIDTH)) command0();
 
 axi4stream #(.DATA_WIDTH(DAC_AXIS_DATAWIDTH))	dac30axis();
 axi4stream #(.DATA_WIDTH(DAC_AXIS_DATAWIDTH))	dac20axis();
@@ -92,23 +81,9 @@ adc21axismap(.axis(adc21axis),.ready(ADC21_S_AXIS_TREADY),.valid(ADC21_S_AXIS_TV
 
 pltop #(
 `include "plps_parainst.vh"
-//,.ACCBUF_DATAWIDTH(ACCBUF_DATAWIDTH),.ACCBUF_ADDRWIDTH(ACCBUF_ADDRWIDTH),.COMMAND_DATAWIDTH(COMMAND_DATAWIDTH),.COMMAND_ADDRWIDTH(COMMAND_ADDRWIDTH)
 )
 pltop(
 `include "bramif_portinst.vh"	
-/*	.bram_tohost0(bram_tohost0)
-,.bram_tohost1(bram_tohost1)
-,.bram_fromhost0(bram_fromhost0)
-,.bram_fromhost1(bram_fromhost1)
-,.bram_fromhost2(bram_fromhost2)
-,.bram_fromhost3(bram_fromhost3)
-,.bram_fromhost4(bram_fromhost4)
-,.bram_fromhost5(bram_fromhost5)
-,.bram_fromhost6(bram_fromhost6)
-,.bram_fromhost7(bram_fromhost7)
-,.bram_accbuf(bram_accbuf)
-,.bram_command(bram_command)
-*/
 ,.lb1(lb1)
 ,.lb2(lb2)
 ,.hw(hw)

@@ -10,6 +10,7 @@ parameter integer ADDRWIDTHA = 14;
 parameter integer DATAWIDTHB = 512;
 parameter integer SIZEB = 1024;
 parameter integer ADDRWIDTHB = 10;
+parameter RAM_STYLE= "block";
 input clkA;
 input clkB;
 input weA;
@@ -42,7 +43,7 @@ localparam maxWIDTH = `max(DATAWIDTHA, DATAWIDTHB);
 localparam minWIDTH = `min(DATAWIDTHA, DATAWIDTHB);
 localparam RATIO = maxWIDTH / minWIDTH;
 localparam log2RATIO = log2(RATIO);
-
+(* ram_style= RAM_STYLE *)
 reg [minWIDTH-1:0] RAM [0:maxSIZE-1];
 reg [DATAWIDTHB-1:0] readB;
 always @(posedge clkA)
@@ -64,4 +65,12 @@ begin : ramread
 	end
 end
 assign doB = readB;
+
+
+integer i;
+initial begin
+	for (i=0;i<=SIZEA;i=i+1)
+		RAM[i]=32'h7fff0000;
+end
+
 endmodule

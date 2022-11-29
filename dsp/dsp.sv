@@ -1,16 +1,5 @@
 module dsp #(`include "plps_para.vh"	
-/*	parameter DEBUG="true"
-,parameter DAC_AXIS_DATAWIDTH=256
-,parameter ADC_AXIS_DATAWIDTH=64
-,parameter integer BRAMTOHOST_ADDRWIDTH=13
-,parameter integer BRAMTOHOST_DATAWIDTH=64
-,parameter integer BRAMFROMHOST_ADDRWIDTH=32
-,parameter integer BRAMFROMHOST_DATAWIDTH=256
-,parameter integer ACCBUF_ADDRWIDTH=64
-,parameter integer ACCBUF_DATAWIDTH=32
-,parameter integer COMMAND_ADDRWIDTH=128
-,parameter integer COMMAND_DATAWIDTH=32
-*/   )(	ifdspregs.regs regs
+)(	ifdspregs.regs regs
 ,ifdsp.dsp dspif
 );
 reg [8:0] reset_bram_read=0;
@@ -60,6 +49,9 @@ wire [16*16-1:0] cossteps;
 wire [16*16-1:0] sinsteps;
 
 reg [ACQBUF_W_ADDRWIDTH-1:0] addr_acqbuf=0;
+reg [FREQ_R_ADDRWIDTH-1:0] addr_qdrvfreq=0;
+reg [FREQ_R_ADDRWIDTH-1:0] addr_rdrvfreq=0;
+reg [FREQ_R_ADDRWIDTH-1:0] addr_rdlofreq=0;
 wire we_acqbuf=~locklast_acqbuf;
 wire locklast_acqbuf=&addr_acqbuf;
 always @(posedge dspif.clk) begin
@@ -70,308 +62,136 @@ always @(posedge dspif.clk) begin
 end
 reg [ADC_AXIS_DATAWIDTH-1:0] adc20=0;
 reg [ADC_AXIS_DATAWIDTH-1:0] adc21=0;
+reg [ACQBUF_W_DATAWIDTH-1:0] data_acqbuf[0:1];
 always @(posedge dspif.clk) begin
 	adc20<=dspif.adc20;
-	adc21<={
-		cnt3[13:0],2'd3
-		,cnt3[13:0],2'd2
-		,cnt3[13:0],2'd1
-		,cnt3[13:0],2'd0
-	};
+	adc21<=dspif.adc21;
+	data_acqbuf[0]<=adc20;
+	data_acqbuf[1]<=dac20[63:0];
+//	adc21<={cnt3[13:0],2'd3,cnt3[13:0],2'd2,cnt3[13:0],2'd1,cnt3[13:0],2'd0};
 		//dspif.adc21;
-	dspif.data_acqbuf[0]<=adc20;
-	dspif.data_acqbuf[1]<=adc21;
+	dspif.data_acqbuf[0]<=data_acqbuf[0];
+	dspif.data_acqbuf[1]<=data_acqbuf[1];
 	dspif.addr_acqbuf[0]<=addr_acqbuf;
 	dspif.addr_acqbuf[1]<=addr_acqbuf;
 	dspif.we_acqbuf[0]<=we_acqbuf;
 	dspif.we_acqbuf[1]<=we_acqbuf;
+		
+	addr_qdrvfreq<=regs.qdrvfreqsel;
+	addr_rdrvfreq<=regs.rdrvfreqsel;
+	addr_rdlofreq<=regs.rdlofreqsel;
 end
 
 reg [QDRVENV_R_ADDRWIDTH-1:0] addr_qdrvenv=0;
+reg [RDRVENV_R_ADDRWIDTH-1:0] addr_rdrvenv=0;
+reg [RDLOENV_R_ADDRWIDTH-1:0] addr_rdloenv=0;
 always @(posedge dspif.clk) begin
-	addr_qdrvenv<=addr_qdrvenv+1; //(bramtohost0locklast ?{BRAMTOHOST_ADDRWIDTH{1'b0}} : {{(BRAMTOHOST_ADDRWIDTH-1){1'b0}},1'b1});
+	addr_qdrvenv<=addr_qdrvenv+1; 
+	addr_rdrvenv<=addr_rdrvenv+1; 
+	addr_rdloenv<=addr_rdloenv+1; 
 end
 reg [DAC_AXIS_DATAWIDTH-1:0] dac20=0;
 reg [DAC_AXIS_DATAWIDTH-1:0] dac22=0;
 reg [DAC_AXIS_DATAWIDTH-1:0] dac30=0;
 reg [DAC_AXIS_DATAWIDTH-1:0] dac32=0;
+wire [QDRVENV_R_DATAWIDTH-1:0] qdrvmultix_w[0:3];wire [QDRVENV_R_DATAWIDTH-1:0] qdrvmultiy_w[0:3];reg [QDRVENV_R_DATAWIDTH-1:0] qdrvmultix_r[0:3];reg [QDRVENV_R_DATAWIDTH-1:0] qdrvmultiy_r[0:3];
+wire [RDRVENV_R_DATAWIDTH-1:0] rdrvmultix_w[0:3];wire [RDRVENV_R_DATAWIDTH-1:0] rdrvmultiy_w[0:3];reg [RDRVENV_R_DATAWIDTH-1:0] rdrvmultix_r[0:3];reg [RDRVENV_R_DATAWIDTH-1:0] rdrvmultiy_r[0:3];
+wire [RDLOENV_R_DATAWIDTH-1:0] rdlomultix_w[0:3];wire [RDLOENV_R_DATAWIDTH-1:0] rdlomultiy_w[0:3];reg [RDLOENV_R_DATAWIDTH-1:0] rdlomultix_r[0:3];reg [RDLOENV_R_DATAWIDTH-1:0] rdlomultiy_r[0:3];
+
+reg [256-1:0] rdrvsum=0;
 generate
 for (genvar i=0;i<16;i++) begin
+	reg [15:0] rdrvsum0=0;
+	reg [15:0] rdrvsum1=0;
 	always @(posedge dspif.clk) begin
-		dac20[(i+1)*16-1:i*16]<=dspif.data_qdrvenv[0][i*32+31:i*32+16];
-		dac22[(i+1)*16-1:i*16]<={cnt3[11:0],4'(i)};
+		rdrvsum0<=rdrvmultix_r[0][i*16+15:i*16+0]+rdrvmultix_r[1][i*16+15:i*16+0]+rdrvmultix_r[2][i*16+15:i*16+0];  //  not checking overflow, depends on user
+		rdrvsum1<=rdrvmultix_r[3][i*16+15:i*16+0]+rdrvsum0;
+		dac20[(i+1)*16-1:i*16]<=qdrvmultix_r[0][i*16+15:i*16+0];
+		dac22[(i+1)*16-1:i*16]<=qdrvmultix_r[1][i*16+15:i*16+0];
+		dac30[(i+1)*16-1:i*16]<=qdrvmultix_r[2][i*16+15:i*16+0];
+		rdrvsum[(i+1)*16-1:i*16]<=rdrvsum1;
+		dac32[(i+1)*16-1:i*16]<=rdrvsum[i*16+15:i*16+0];
 		//	dac22[(i+1)*16-1:i*16]<=dspif.data_qdrvenv[0][i*32+15:i*32+0];
-		dac30[(i+1)*16-1:i*16]<=dspif.data_qdrvenv[1][i*32+31:i*32+16];
-		dac32[(i+1)*16-1:i*16]<=dspif.data_qdrvenv[1][i*32+15:i*32+0];
+		//dac32[(i+1)*16-1:i*16]<=dspif.data_qdrvenv[1][i*32+15:i*32+0];
 
 		dspif.dac20[(i+1)*16-1:i*16]<=dac20[(i+1)*16-1:i*16];
 		dspif.dac22[(i+1)*16-1:i*16]<=dac22[(i+1)*16-1:i*16];
-		//	dspif.dac22[(i+1)*16-1:i*16]<=dac22[(i+1)*16-1:i*16];
 		dspif.dac30[(i+1)*16-1:i*16]<=dac30[(i+1)*16-1:i*16];
 		dspif.dac32[(i+1)*16-1:i*16]<=dac32[(i+1)*16-1:i*16];
 	end
 end
 endgenerate
+reg [511:0] rdrvfreqcossinp[0:3];
+reg [511:0] rdrvenvxy[0:3];
+reg [15:0] rdrvampx[0:3];
+reg [15:0] rdrvampy[0:3];
+reg [16:0] rdrvpini[0:3];
+reg [511:0] rdlofreqcossinp[0:3];
+reg [511:0] rdloenvxy[0:3];
+reg [15:0] rdloampx[0:3];
+reg [15:0] rdloampy[0:3];
+reg [16:0] rdlopini[0:3];
+reg [511:0] qdrvfreqcossinp[0:3];
+reg [511:0] qdrvenvxy[0:3];
+reg [15:0] qdrvampx[0:3];
+reg [15:0] qdrvampy[0:3];
+reg [16:0] qdrvpini[0:3];
+
+generate
+for (genvar i=0;i<4;i++) begin
+	always @(posedge dspif.clk) begin
+		qdrvmultix_r[i]<=qdrvmultix_w[i];qdrvmultiy_r[i]<=qdrvmultiy_w[i];
+		qdrvfreqcossinp[i]<=dspif.data_qdrvfreq[i];
+		qdrvenvxy[i]<=dspif.data_qdrvenv[i];
+		qdrvampx[i]<=regs.amp;		qdrvampy[i]<=0;		qdrvpini[i]<=0;
+		
+		rdrvmultix_r[i]<=rdrvmultix_w[i];rdrvmultiy_r[i]<=rdrvmultiy_w[i];
+		rdrvfreqcossinp[i]<=dspif.data_rdrvfreq[i];
+		rdrvenvxy[i]<=dspif.data_rdrvenv[i];
+		rdrvampx[i]<=regs.amp;		rdrvampy[i]<=0;		rdrvpini[i]<=0;
+		
+		rdlomultix_r[i]<=rdlomultix_w[i];rdlomultiy_r[i]<=rdlomultiy_w[i];
+		rdlofreqcossinp[i]<=dspif.data_rdlofreq[i];
+		rdloenvxy[i]<=dspif.data_rdloenv[i];
+		rdloampx[i]<=regs.amp;		rdloampy[i]<=0;		rdlopini[i]<=0;
+	end
+	ifelement qdrvelem(.clk(dspif.clk),.reset(dspif.reset));
+	elemconnect qdrvelemconn(.elem(qdrvelem),.freqcossinp32x16(qdrvfreqcossinp[i]),.envxy32x16(qdrvenvxy[i]),.pini(qdrvpini[i]),.multix16x16(qdrvmultix_w[i]),.multiy16x16(qdrvmultiy_w[i]),.ampx(qdrvampx[i]),.ampy(qdrvampy[i]));
+	elementcalc qdrvelemcalc(.elem(qdrvelem));
+	ifelement rdrvelem(.clk(dspif.clk),.reset(dspif.reset));
+	elemconnect rdrvelemconn(.elem(rdrvelem),.freqcossinp32x16(rdrvfreqcossinp[i]),.envxy32x16(rdrvenvxy[i]),.pini(rdrvpini[i]),.multix16x16(rdrvmultix_w[i]),.multiy16x16(rdrvmultiy_w[i]),.ampx(rdrvampx[i]),.ampy(rdrvampy[i]));
+	elementcalc rdrvelemcalc(.elem(rdrvelem));
+	ifelement rdloelem(.clk(dspif.clk),.reset(dspif.reset));
+	elemconnect rdloelemconn(.elem(rdloelem),.freqcossinp32x16(rdlofreqcossinp[i]),.envxy32x16(rdloenvxy[i]),.pini(rdlopini[i]),.multix16x16(rdlomultix_w[i]),.multiy16x16(rdlomultiy_w[i]),.ampx(rdloampx[i]),.ampy(rdloampy[i]));
+	elementcalc rdloelemcalc(.elem(rdloelem));
+end
+endgenerate
 always @(posedge dspif.clk) begin
 	dspif.addr_qdrvenv[0]<=addr_qdrvenv;
 	dspif.addr_qdrvenv[1]<=addr_qdrvenv;
+	dspif.addr_qdrvenv[2]<=addr_qdrvenv;
+	dspif.addr_qdrvenv[3]<=addr_qdrvenv;
+	dspif.addr_qdrvfreq[0]<=addr_qdrvfreq;
+	dspif.addr_rdrvfreq[0]<=addr_rdrvfreq;
+	dspif.addr_rdlofreq[0]<=addr_rdlofreq;
+	dspif.addr_qdrvfreq[1]<=addr_qdrvfreq;
+	dspif.addr_rdrvfreq[1]<=addr_rdrvfreq;
+	dspif.addr_rdlofreq[1]<=addr_rdlofreq;
+	dspif.addr_qdrvfreq[2]<=addr_qdrvfreq;
+	dspif.addr_rdrvfreq[2]<=addr_rdrvfreq;
+	dspif.addr_rdlofreq[2]<=addr_rdlofreq;
+	dspif.addr_qdrvfreq[3]<=addr_qdrvfreq;
+	dspif.addr_rdrvfreq[3]<=addr_rdrvfreq;
+	dspif.addr_rdlofreq[3]<=addr_rdlofreq;
 end
 
-
-/*reg [BRAMTOHOST_ADDRWIDTH-1:0] bramtohost0_addr=0;
-reg [BRAMTOHOST_DATAWIDTH/8-1:0] bramtohost0_we=0;
-reg bramfromhost0locklast_d=0;
-reg [BRAMFROMHOST_ADDRWIDTH-1:0] bramfromhost0_addr=0;
-reg [BRAMFROMHOST_ADDRWIDTH-1:0] bramfromhost2_addr=0;
-reg bramfromhost2locklast_d=0;
-reg [BRAMFROMHOST_ADDRWIDTH-1:0] bramfromhost1_addr=0;
-reg [BRAMFROMHOST_DATAWIDTH/8-1:0] bramfromhost1_we=0;
-reg [BRAMFROMHOST_ADDRWIDTH-1:0] bramfromhost3_addr=0;
-reg [16*16-1:0] cossteps_r=0;
-reg [16*16-1:0] sinsteps_r=0;
-wire bramtohost0locklast=&bramtohost0_addr;
-wire bramfromhost1locklast=&bramfromhost1_addr;
-wire bramfromhost0locklast=&bramfromhost0_addr;
-wire bramfromhost2locklast=&bramfromhost2_addr;
-wire [16*16-1:0] cossteps;
-wire [16*16-1:0] sinsteps;
-wire [15:0] addr0={bramfromhost1_addr[11:0],4'h0};
-wire [15:0] addr1={bramfromhost1_addr[11:0],4'h1};
-wire [15:0] addr2={bramfromhost1_addr[11:0],4'h2};
-wire [15:0] addr3={bramfromhost1_addr[11:0],4'h3};
-wire [15:0] addr4={bramfromhost1_addr[11:0],4'h4};
-wire [15:0] addr5={bramfromhost1_addr[11:0],4'h5};
-wire [15:0] addr6={bramfromhost1_addr[11:0],4'h6};
-wire [15:0] addr7={bramfromhost1_addr[11:0],4'h7};
-wire [15:0] addr8={bramfromhost1_addr[11:0],4'h8};
-wire [15:0] addr9={bramfromhost1_addr[11:0],4'h9};
-wire [15:0] addra={bramfromhost1_addr[11:0],4'ha};
-wire [15:0] addrb={bramfromhost1_addr[11:0],4'hb};
-wire [15:0] addrc={bramfromhost1_addr[11:0],4'hc};
-wire [15:0] addrd={bramfromhost1_addr[11:0],4'hd};
-wire [15:0] addre={bramfromhost1_addr[11:0],4'he};
-wire [15:0] addrf={bramfromhost1_addr[11:0],4'hf};
-always @(posedge dspif.clk) begin
-	reset_bram_read={9{regs.stb_reset_bram_read}};
-
-	bramtohost0_addr<=reset_bram_read[1] ? 0 : bramtohost0_addr+(bramtohost0locklast ?{BRAMTOHOST_ADDRWIDTH{1'b0}} : {{(BRAMTOHOST_ADDRWIDTH-1){1'b0}},1'b1});
-	bramtohost0_we<={(BRAMTOHOST_DATAWIDTH/8){~bramtohost0locklast}};
-	bramfromhost0_addr<=gmulti_r ? bramfromhost0_addr+(bramfromhost0locklast ?{BRAMFROMHOST_ADDRWIDTH{1'b0}} : {{(BRAMFROMHOST_ADDRWIDTH-1){1'b0}},1'b1}) : 0;
-	dspif.bramfromhost0_we<={(BRAMFROMHOST_DATAWIDTH/8){~(bramfromhost0locklast & bramfromhost0locklast_d)}};
-	bramfromhost0locklast_d<=bramfromhost0locklast;
-	bramfromhost2_addr<=gmulti_r ? bramfromhost2_addr+(bramfromhost2locklast ?{BRAMFROMHOST_ADDRWIDTH{1'b0}} : {{(BRAMFROMHOST_ADDRWIDTH-1){1'b0}},1'b1}) : 0;
-	dspif.bramfromhost2_we<={(BRAMFROMHOST_DATAWIDTH/8){~(bramfromhost2locklast & bramfromhost2locklast_d)}};
-	bramfromhost2locklast_d<=bramfromhost2locklast;
-	bramfromhost1_addr<=reset_bram_read[2] ? 0 : bramfromhost1_addr+(bramfromhost1locklast ?{BRAMFROMHOST_ADDRWIDTH{1'b0}} : {{(BRAMFROMHOST_ADDRWIDTH-1){1'b0}},1'b1});
-	bramfromhost1_we<={(BRAMFROMHOST_DATAWIDTH/8){~bramfromhost1locklast}};
-
-	bramfromhost3_addr<=reset_bram_read[3] ? 0 : bramfromhost3_addr+1;//(bramfromhost3locklast ?{BRAMFROMHOST_ADDRWIDTH{1'b0}} : {{(BRAMFROMHOST_ADDRWIDTH-1){1'b0}},1'b1});
-
-	dspif.bramtohost0_we<=bramtohost0_we;
-	dspif.bramtohost0_addr<=bramtohost0_addr;
-	dspif.bramfromhost0_addr<=bramfromhost0_addr;
-	dspif.bramfromhost3_addr<=bramfromhost3_addr;
-	dspif.bramfromhost2_addr<=bramfromhost2_addr;
-	dspif.bramfromhost1_addr<=bramfromhost1_addr;
-	dspif.bramfromhost1_we<=bramfromhost1_we;
-
-	dspif.bramfromhost1_data<={
-		addrf
-		,addre
-		,addrd
-		,addrc
-		,addrb
-		,addra
-		,addr9
-		,addr8
-		,addr7
-		,addr6
-		,addr5
-		,addr4
-		,addr3
-		,addr2
-		,addr1
-		,addr0
-	};
-end
-
-always @(posedge dspif.clk) begin
-	case (regs.bramsel[4:0])
-		0: begin
-			dspif.bramtohost0_data<=dspif.adc20;
-		end
-		1: begin
-			dspif.bramtohost0_data<=cntval;
-		end
-		2: begin
-			dspif.bramtohost0_data<={4{cos}};
-		end
-		3: begin
-			dspif.bramtohost0_data<={4{sin}};
-		end
-		4: begin
-			dspif.bramtohost0_data<=cossteps_r[63:0];
-		end
-		5: begin
-			dspif.bramtohost0_data<=sinsteps_r[63:0];
-		end
-		6: begin
-			dspif.bramtohost0_data<=cossteps_r[127:64];
-		end
-		7: begin
-			dspif.bramtohost0_data<=sinsteps_r[127:64];
-		end
-		8: begin
-			dspif.bramtohost0_data<=cossteps_r[191:128];
-		end
-		9: begin
-			dspif.bramtohost0_data<=sinsteps_r[191:128];
-		end
-		10: begin
-			dspif.bramtohost0_data<=cossteps_r[255:192];
-		end
-		11: begin
-			dspif.bramtohost0_data<=sinsteps_r[255:192];
-		end
-	endcase
-	dspif.bramfromhost0_data<=cossteps_r;
-	dspif.bramfromhost2_data<=sinsteps_r;
-end
-always @(posedge dspif.clk) begin
-	case (regs.dacsel[4:0])
-		0: begin
-			dacval<={16{msb2[1],{15{msb2[0]}}}};
-		end
-		1: begin
-			dacval<={16{phase[16:1]}};
-		end
-		2: begin
-			dacval<={16{cos}}; 
-		end
-		3: begin
-			dacval<={16{sin}}; 
-		end
-		4: begin
-			dacval<={cnt3[11:0],4'd15
-			,cnt3[11:0],4'd14
-			,cnt3[11:0],4'd13
-			,cnt3[11:0],4'd12
-			,cnt3[11:0],4'd11
-			,cnt3[11:0],4'd10
-			,cnt3[11:0],4'd9
-			,cnt3[11:0],4'd8
-			,cnt3[11:0],4'd7
-			,cnt3[11:0],4'd6
-			,cnt3[11:0],4'd5
-			,cnt3[11:0],4'd4
-			,cnt3[11:0],4'd3
-			,cnt3[11:0],4'd2
-			,cnt3[11:0],4'd1
-			,cnt3[11:0],4'd0};
-		end
-		5: begin
-			dacval<=cossteps_r;
-		end
-		6: begin
-			dacval<=sinsteps_r;
-		end
-		7: begin
-			dacval<=dspif.bramfromhost3_data;
-		end
-		default: begin
-			dacval<={256{1'b0}};
-		end
-	endcase
-	dacval20<=dacval;
-	dacval30<=dacval;
-	dacval22<=dacval;
-	dacval32<=dacval;
-end
-
-
-always@(posedge dspif.clk) begin
-	tcnt<=tcnt+1;
-	freq<=regs.freq;
-	//	phase_40<=freq*tcnt;
-	//phase_32<=reset_bram_read[0] ? 0 : (phase_32+freq);
-	phase_32<=phase_32+freq;
-
-end
-assign phase=phase_32[31:15];
-cordicg1 #(.WIDTH(16),.NSTAGE(16),.NORMALIZE(1),.BUFIN(1),.GW(1),.NRIDER(0),.DRIVER(0))
-cordicgtest(.clk(dspif.clk), .opin(1'b0), .xin(regs.amp[15:0]), .yin(0), .phasein(phase), .xout(cos_w), .yout(sin_w), .phaseout(),.error(),.gin(~reset_bram_read[3]),.gout(gcordic));
-
-always @(posedge dspif.clk) begin
-	cos<=cos_w;
-	sin<=sin_w;
-end
-reg [16*16-1:0] cos16=0;
-reg [16*16-1:0] sin16=0;
-wire [15:0] cos0,cos1,cos2,cos3,cos4,cos5,cos6,cos7,cos8,cos9,cosa,cosb,cosc,cosd,cose,cosf;
-wire [15:0] sin0,sin1,sin2,sin3,sin4,sin5,sin6,sin7,sin8,sin9,sina,sinb,sinc,sind,sine,sinf;
-assign {cosf,cose,cosd,cosc,cosb,cosa,cos9,cos8,cos7,cos6,cos5,cos4,cos3,cos2,cos1,cos0}=cossteps;
-assign {sinf,sine,sind,sinc,sinb,sina,sin9,sin8,sin7,sin6,sin5,sin4,sin3,sin2,sin1,sin0}=sinsteps;
-
-always @(posedge dspif.clk) begin
-
-	cos16<={regs.freqf[31:16],regs.freqe[31:16],regs.freqd[31:16],regs.freqc[31:16],regs.freqb[31:16],regs.freqa[31:16],regs.freq9[31:16],regs.freq8[31:16],regs.freq7[31:16],regs.freq6[31:16],regs.freq5[31:16],regs.freq4[31:16],regs.freq3[31:16],regs.freq2[31:16],regs.freq1[31:16],regs.freq0[31:16]};
-	sin16<={regs.freqf[15:0],regs.freqe[15:0],regs.freqd[15:0],regs.freqc[15:0],regs.freqb[15:0],regs.freqa[15:0],regs.freq9[15:0],regs.freq8[15:0],regs.freq7[15:0],regs.freq6[15:0],regs.freq5[15:0],regs.freq4[15:0],regs.freq3[15:0],regs.freq2[15:0],regs.freq1[15:0],regs.freq0[15:0]};
-	cossteps_r<=cossteps;
-	sinsteps_r<=sinsteps;
-	gmulti_r<=gmulti;
-
-end
-reg_delay1 #(.DW(1), .LEN(7)) multidelay(.clk(dspif.clk), .gate(1'b1), .din(gcordic),   .dout(gmulti),.reset(1'b0));
-generate
-for (genvar i=0;i<16;i++) begin
-	wire [32:0] zr,zi;
-	wire [15:0] yr=cos16[((15-i)+1)*16-1:(15-i)*16];
-	wire [15:0] yi=sin16[((15-i)+1)*16-1:(15-i)*16];
-	cmultiplier #(.XWIDTH(16),.YWIDTH(16))//#(.FPGA("REGMULT"))
-	mult1(.clk(dspif.clk)
-	,.xr(cos),.xi(sin)
-	,.yr(yr),.yi(yi)
-
-	//	,.xr({cos,{10{cos[0]}}})
-	//	,.xi({sin,{10{sin[0]}}})
-	//	,.yr({yr,{2{yr[0]}}})
-	//	,.yi({yi,{2{yi[0]}}})
-	//	,.xr({{9{cos[15]}},cos[15:0]})
-	//	,.xi({{9{sin[15]}},sin[15:0]})
-	//	,.yr({{2{yr[15]}},yr})
-	//	,.yi({{2{yi[15]}},yi})
-	,.zr(zr),.zi(zi)
-	);
-	assign cossteps[((15-i)+1)*16-1:(15-i)*16]=zr[30:15];//[47:32];
-	assign sinsteps[((15-i)+1)*16-1:(15-i)*16]=zi[30:15];//[47:32];
-	wire [15:0] coswire=zr[30:15];//[47:32];
-	wire [15:0] sinwire=zi[30:15];//[47:32];
-end
-endgenerate
-*/
-assign regs.test1=regs.test;
-
-//assign dspif.dac20=dacval20;
-//assign dspif.dac30=dacval30;
-//assign dspif.dac22=dacval22;
-//assign dspif.dac32=dacval32;
+assign regs.test1=regs.test;//dspif.data_qdrvfreq[0][31:0];//regs.test;
 
 //`include "iladsp.vh"
 endmodule
 
 interface ifdsp #(
 	`include "plps_para.vh"
-	/*parameter DAC_AXIS_DATAWIDTH=256
-	,parameter ADC_AXIS_DATAWIDTH=64
-	,parameter integer BRAMTOHOST_ADDRWIDTH=13
-	,parameter integer BRAMTOHOST_DATAWIDTH=64
-	,parameter integer BRAMFROMHOST_ADDRWIDTH=32
-	,parameter integer BRAMFROMHOST_DATAWIDTH=256
-	,parameter integer ACCBUF_ADDRWIDTH=64
-	,parameter integer ACCBUF_DATAWIDTH=32
-	,parameter integer COMMAND_ADDRWIDTH=128
-	,parameter integer COMMAND_DATAWIDTH=32
-	*/
    )(
    );
    wire clk;
@@ -420,43 +240,31 @@ interface ifdsp #(
    reg [RDRVENV_R_ADDRWIDTH-1:0] addr_rdrvenv[0:7];
    reg we_rdrvenv[0:7];
 
+   logic [FREQ_R_DATAWIDTH-1:0] data_rdrvfreq[0:7];
+   reg [FREQ_R_ADDRWIDTH-1:0] addr_rdrvfreq[0:7];
+   reg we_rdrvfreq[0:7];
 
+   logic [FREQ_R_DATAWIDTH-1:0] data_rdlofreq[0:7];
+   reg [FREQ_R_ADDRWIDTH-1:0] addr_rdlofreq[0:7];
+   reg we_rdlofreq[0:7];
 
-   /*
-   logic [BRAMTOHOST_DATAWIDTH-1:0] bramtohost0_data;
-   reg [BRAMTOHOST_ADDRWIDTH-1:0] bramtohost0_addr=0;
-   reg [BRAMTOHOST_DATAWIDTH/8-1:0] bramtohost0_we=0;
-   logic [BRAMTOHOST_DATAWIDTH-1:0] bramtohost1_data;
-   reg [BRAMTOHOST_ADDRWIDTH-1:0] bramtohost1_addr=0;
-   reg [BRAMTOHOST_DATAWIDTH/8-1:0] bramtohost1_we=0;
-
-   logic [BRAMFROMHOST_DATAWIDTH-1:0] bramfromhost0_data;
-   reg [BRAMFROMHOST_ADDRWIDTH-1:0] bramfromhost0_addr=0;
-   reg [BRAMFROMHOST_DATAWIDTH/8-1:0] bramfromhost0_we=0;
-   logic [BRAMFROMHOST_DATAWIDTH-1:0] bramfromhost1_data;
-   reg [BRAMFROMHOST_ADDRWIDTH-1:0] bramfromhost1_addr=0;
-   reg [BRAMFROMHOST_DATAWIDTH/8-1:0] bramfromhost1_we=0;
-   logic [BRAMFROMHOST_DATAWIDTH-1:0] bramfromhost2_data;
-   reg [BRAMFROMHOST_ADDRWIDTH-1:0] bramfromhost2_addr=0;
-   reg [BRAMFROMHOST_DATAWIDTH/8-1:0] bramfromhost2_we=0;
-   logic [BRAMFROMHOST_DATAWIDTH-1:0] bramfromhost3_data;
-   reg [BRAMFROMHOST_ADDRWIDTH-1:0] bramfromhost3_addr=0;
-   reg [BRAMFROMHOST_DATAWIDTH/8-1:0] bramfromhost3_we=0;
-   */
+   logic [FREQ_R_DATAWIDTH-1:0] data_qdrvfreq[0:7];
+   reg [FREQ_R_ADDRWIDTH-1:0] addr_qdrvfreq[0:7];
+   reg we_qdrvfreq[0:7];
 
   modport dsp(input adc20,adc21
   ,output dac00,dac01,dac02,dac03,dac10,dac11,dac12,dac13,dac20,dac21,dac22,dac23,dac30,dac31,dac32,dac33
-  ,addr_accbuf,addr_acqbuf,addr_command,addr_qdrvenv,addr_rdrvenv,addr_rdloenv
+  ,addr_accbuf,addr_acqbuf,addr_command,addr_qdrvenv,addr_rdrvenv,addr_rdloenv,addr_qdrvfreq,addr_rdrvfreq,addr_rdlofreq
   ,data_accbuf,we_accbuf,data_acqbuf,we_acqbuf
   ,input clk,reset
-  ,data_command,data_qdrvenv,data_rdrvenv,data_rdloenv
+  ,data_command,data_qdrvenv,data_rdrvenv,data_rdloenv,data_qdrvfreq,data_rdrvfreq,data_rdlofreq
   );
   modport cfg(output adc20,adc21
   ,input dac00,dac01,dac02,dac03,dac10,dac11,dac12,dac13,dac20,dac21,dac22,dac23,dac30,dac31,dac32,dac33
-  ,addr_accbuf,addr_acqbuf,addr_command,addr_qdrvenv,addr_rdrvenv,addr_rdloenv
+  ,addr_accbuf,addr_acqbuf,addr_command,addr_qdrvenv,addr_rdrvenv,addr_rdloenv,addr_qdrvfreq,addr_rdrvfreq,addr_rdlofreq
   ,data_accbuf,we_accbuf,data_acqbuf,we_acqbuf
   ,output clk,reset
-  ,data_command,data_qdrvenv,data_rdrvenv,data_rdloenv
+  ,data_command,data_qdrvenv,data_rdrvenv,data_rdloenv,data_qdrvfreq,data_rdrvfreq,data_rdlofreq
 
   );
 endinterface

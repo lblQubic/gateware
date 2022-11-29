@@ -208,7 +208,11 @@ dac32hsda(.axis(dac32axis),.datavalid(1'b1),.data(dspif.dac32));
 axi4stream_master_handshake_data #(.DATA_WIDTH (DAC_AXIS_DATAWIDTH))
 dac22hsda(.axis(dac22axis),.datavalid(1'b1),.data(dspif.dac22));
 assign dspif.clk=dspclk;
-assign dspif.reset=1'b0;
+reg dspreset_r=0;
+always @(posedge dspclk) begin
+	dspreset_r<=dspreset;
+end
+assign dspif.reset=dspreset_r;
 
 //`include "ilaauto.vh"
 endmodule

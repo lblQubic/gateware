@@ -185,8 +185,9 @@ class brams:
 
 
 class bram:
-    def __init__(self,name,access,Awidth,Adepth,Bwidth,latency,address,template,prefix):
+    def __init__(self,name,access,Awidth,Adepth,Bwidth,latency,address,template,ram_style,prefix):
         self.name=name
+        self.ram_style=ram_style
         self.access=access
         self.Awidth=Awidth
         self.Adepth=Adepth
@@ -198,8 +199,9 @@ class bram:
         self._address=-1 if address is None else address
         self.Aaddrwidth=int(numpy.log2(self.membitsize/self.Awidth))
         self.bitaddrwidth=int(numpy.log2(self.membitsize))
-        self.byteaddrwidth=int(numpy.log2(self.membitsize/8))
-        self.Baddrwidth=int(numpy.log2(self.membitsize/self.Bwidth))
+        self.byteaddrwidth=int(numpy.ceil(round(numpy.log2(self.membitsize/8),10)))
+        self.Baddrwidth=int(numpy.ceil(round(numpy.log2(self.membitsize/self.Bwidth),10)))
+        print("*************",self.Baddrwidth)
         self.template=template
     @property
     def address(self):
@@ -212,7 +214,7 @@ class bram:
         nosubname=['command']
         subname=self.name
         if self.name not in nosubname:
-            m=re.match('(\S+)([0-9a-f])',self.name)
+            m=re.match('(\S+)([0-9a-f]+)',self.name)
             if m:
                 subname='%s[%d]'%(m.groups()[0],int(m.groups()[1],16))
         return subname
@@ -239,7 +241,7 @@ class bram:
     def namelbrw(self):
         return self.name+('_R' if self.w else '_W')
     def paradict(self):
-        return dict(name=self.name,NAME=self.name.upper(),Awidth=self.Awidth,Adepth=self.Adepth,Bwidth=self.Bwidth,latency=self.latency,prefix=self.prefix,membitsize=self.membitsize,Baddrwidth=self.Baddrwidth,memsizekM=self.sizekM,subname=self.subname,Aaddrwidth=self.Aaddrwidth,Bdepth=self.Bdepth,addrcheck=self.addrcheck,namerw=self.namerw,namelbrw=self.namelbrw)
+        return dict(name=self.name,NAME=self.name.upper(),Awidth=self.Awidth,Adepth=self.Adepth,Bwidth=self.Bwidth,latency=self.latency,prefix=self.prefix,membitsize=self.membitsize,Baddrwidth=self.Baddrwidth,memsizekM=self.sizekM,subname=self.subname,Aaddrwidth=self.Aaddrwidth,Bdepth=self.Bdepth,addrcheck=self.addrcheck,namerw=self.namerw,namelbrw=self.namelbrw,ram_style=self.ram_style)
     def brambus_tcl(self):
         return template['brambus.tcl']['perbus']%(self.paradict())
     def bramif_lbportinst_vh(self):
@@ -324,8 +326,8 @@ if __name__=="__main__":
     ,"bram_plsv.vh":{
         "all":"%(addrperdata)s\n\n%(perbus)s"
         ,"addrperdata":"localparam %(prefix)s_R_ADDRPERDATA=$clog2(%(prefix)s_R_DATAWIDTH)-3;localparam %(prefix)s_W_ADDRPERDATA=$clog2(%(prefix)s_W_DATAWIDTH)-3;"
-        ,"perbusr":"ifbram #(.ADDR_WIDTH(%(prefix)s_W_ADDRWIDTH),.DATA_WIDTH(%(prefix)s_W_DATAWIDTH)) %(name)s_W();\nifbram #(.ADDR_WIDTH(%(prefix)s_R_ADDRWIDTH),.DATA_WIDTH(%(prefix)s_R_DATAWIDTH)) %(name)s_R();\nasym_ram_sdp_read_wider #(.DATAWIDTHA(%(prefix)s_W_DATAWIDTH),.ADDRWIDTHA(%(prefix)s_W_ADDRWIDTH),.SIZEA(%(prefix)s_W_DEPTH),.DATAWIDTHB(%(prefix)s_R_DATAWIDTH),.ADDRWIDTHB(%(prefix)s_R_ADDRWIDTH),.SIZEB(%(prefix)s_R_DEPTH))\n%(name)s_mem(.clkA(%(name)s_W.clk),.enaA(%(name)s_W.en),.weA(%(name)s_W.we),.addrA(%(name)s_W.addr),.diA(%(name)s_W.din),.clkB(%(name)s_R.clk),.enaB(%(name)s_R.en),.addrB(%(name)s_R.addr),.doB(%(name)s_R.dout));\n"
-        ,"perbusw":"ifbram #(.ADDR_WIDTH(%(prefix)s_W_ADDRWIDTH),.DATA_WIDTH(%(prefix)s_W_DATAWIDTH)) %(name)s_W();\nifbram #(.ADDR_WIDTH(%(prefix)s_R_ADDRWIDTH),.DATA_WIDTH(%(prefix)s_R_DATAWIDTH)) %(name)s_R();\nasym_ram_sdp_write_wider #(.DATAWIDTHA(%(prefix)s_W_DATAWIDTH),.ADDRWIDTHA(%(prefix)s_W_ADDRWIDTH),.SIZEA(%(prefix)s_W_DEPTH),.DATAWIDTHB(%(prefix)s_R_DATAWIDTH),.ADDRWIDTHB(%(prefix)s_R_ADDRWIDTH),.SIZEB(%(prefix)s_R_DEPTH))\n%(name)s_mem(.clkA(%(name)s_W.clk),.enaA(%(name)s_W.en),.weA(%(name)s_W.we),.addrA(%(name)s_W.addr),.diA(%(name)s_W.din),.clkB(%(name)s_R.clk),.enaB(%(name)s_R.en),.addrB(%(name)s_R.addr),.doB(%(name)s_R.dout));\n"
+        ,"perbusr":"ifbram #(.ADDR_WIDTH(%(prefix)s_W_ADDRWIDTH),.DATA_WIDTH(%(prefix)s_W_DATAWIDTH)) %(name)s_W();\nifbram #(.ADDR_WIDTH(%(prefix)s_R_ADDRWIDTH),.DATA_WIDTH(%(prefix)s_R_DATAWIDTH)) %(name)s_R();\nbram_cfg %(name)s_W_cfg(.bram(%(name)s_W),.clk(lb3_clk),.rst(1'b0),.en(1'b1));\nasym_ram_sdp_read_wider #(.DATAWIDTHA(%(prefix)s_W_DATAWIDTH),.ADDRWIDTHA(%(prefix)s_W_ADDRWIDTH),.SIZEA(%(prefix)s_W_DEPTH),.DATAWIDTHB(%(prefix)s_R_DATAWIDTH),.ADDRWIDTHB(%(prefix)s_R_ADDRWIDTH),.SIZEB(%(prefix)s_R_DEPTH),.RAM_STYLE(\"%(ram_style)s\"))\n%(name)s_mem(.clkA(%(name)s_W.clk),.enaA(%(name)s_W.en),.weA(%(name)s_W.we),.addrA(%(name)s_W.addr),.diA(%(name)s_W.din),.clkB(%(name)s_R.clk),.enaB(%(name)s_R.en),.addrB(%(name)s_R.addr),.doB(%(name)s_R.dout));\n"
+        ,"perbusw":"ifbram #(.ADDR_WIDTH(%(prefix)s_W_ADDRWIDTH),.DATA_WIDTH(%(prefix)s_W_DATAWIDTH)) %(name)s_W();\nifbram #(.ADDR_WIDTH(%(prefix)s_R_ADDRWIDTH),.DATA_WIDTH(%(prefix)s_R_DATAWIDTH)) %(name)s_R();\nbram_cfg %(name)s_R_cfg(.bram(%(name)s_R),.clk(lb3_clk),.rst(1'b0),.en(1'b1));\nasym_ram_sdp_write_wider #(.DATAWIDTHA(%(prefix)s_W_DATAWIDTH),.ADDRWIDTHA(%(prefix)s_W_ADDRWIDTH),.SIZEA(%(prefix)s_W_DEPTH),.DATAWIDTHB(%(prefix)s_R_DATAWIDTH),.ADDRWIDTHB(%(prefix)s_R_ADDRWIDTH),.SIZEB(%(prefix)s_R_DEPTH))\n%(name)s_mem(.clkA(%(name)s_W.clk),.enaA(%(name)s_W.en),.weA(%(name)s_W.we),.addrA(%(name)s_W.addr),.diA(%(name)s_W.din),.clkB(%(name)s_R.clk),.enaB(%(name)s_R.en),.addrB(%(name)s_R.addr),.doB(%(name)s_R.dout));\n"
         }
     ,"bram_portinst.vh":{
         "all":"%(perbus)s"
@@ -384,4 +386,5 @@ if __name__=="__main__":
     bs.assign()
     for k,(v,c,w) in bs.addressmap().items():
         print(k,format(v,'08x'),format(c,'08x'),w)
+
 
