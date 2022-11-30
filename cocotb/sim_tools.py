@@ -18,6 +18,17 @@ def unravel_dac(dac_out):
 
     return np.asarray(dac_out_unravel)
 
+def ravel_adc(adc_samples):
+    adc_samples = np.pad(adc_samples, (0, len(adc_samples)%4))
+    adc_ravel = np.zeros(len(adc_samples)//4)
+    adc_samples *= 2**15 - 1
+    adc_samples = np.array(adc_samples, dtype=int)
+    for i in range(len(adc_ravel)):
+        for j in range(4):
+            adc_ravel[i] += adc_samples[4*i+j] << (16 * j)
+
+    return adc_ravel
+
 def twoscomp_to_signed(value, nbits=16):
     sval = value & (2**(nbits - 1) - 1)
     sval += -1*(value & (2**(nbits - 1)))

@@ -15,8 +15,8 @@ module meas_unit_sim#(
     input[12+$clog2(N_MEAS_UNIT):0] mem_write_addr,
     input[DATA_WIDTH-1:0] mem_write_data,
     input mem_write_en,
-    output[ADC_WORD_WIDTH-1:0] adc_i[N_MEAS_UNIT-1:0],
-    output[ADC_WORD_WIDTH-1:0] adc_q[N_MEAS_UNIT-1:0],
+    input[ADC_WORD_WIDTH-1:0] adc_i,
+    input[ADC_WORD_WIDTH-1:0] adc_q,
     input[0:0] fproc_ready[N_MEAS_UNIT-1:0], //[0:0] is there to force unpacked array (list) in cocotb
     input[DATA_WIDTH-1:0] fproc_data[N_MEAS_UNIT-1:0],
     output[0:0] fproc_enable[N_MEAS_UNIT-1:0],
@@ -44,7 +44,7 @@ module meas_unit_sim#(
                 .mem_write_addr(mem_write_addr[12:0]),
                 .mem_write_data(mem_write_data),
                 .mem_write_en(mem_write_en & (mem_write_addr[12+LOG_N_MEAS:13] == i)),
-                .adc_i(adc_i[i]), .adc_q(adc_q[i]), .xbase(xbase[i]), 
+                .adc_i(adc_i), .adc_q(adc_q), .xbase(xbase[i]), 
                 .ybase(ybase[i]), .resultx(resultx[i]), .resulty(resulty[i]));
         end
     endgenerate

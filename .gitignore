@@ -26,3 +26,4 @@ bits
 *.log
 *.ltx
 .Xil
+*.vcd

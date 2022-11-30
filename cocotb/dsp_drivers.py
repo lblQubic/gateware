@@ -6,7 +6,7 @@ import matplotlib.pyplot as plt
 from cocotb.triggers import Timer, RisingEdge
 import distproc.command_gen as cg
 from distproc.hwconfig import HardwareConfig
-from sim_tools import unravel_dac
+from sim_tools import unravel_dac, ravel_adc
 
 N_MAX_CMD = 10 #for flushing cmd buffer
 N_CLKS = 100000
@@ -161,6 +161,163 @@ class DSPDriver:
         """
         await self.reset()
         await self.monitor_outputs(ncycles)
+
+class MeasDriver:
+    """
+    Class for running a program on simulated
+    instances of a dsp_unit module in cocotb
+
+    Attributes
+    ----------
+        dut : SimHandleBase
+            top-level dsp_unit_sim module 
+            under test
+        self.mon_signals : dict -> [str : SimHandleBase]
+            Dictionary of signals to monitor
+                key: user assigned name
+                value: SimHandleBase object (e.g. dut.dpr.regs)
+        self.mon_data : dict -> [str : list]
+            Dictionary of data corresponding to mon_signals;
+            list indexed by clock cycle
+        self.dac_i : numpy array
+            shape: (n_measunit, nsamples). values are signed 16-bit dac_i out
+        self.dac_q : numpy array
+            shape: (n_measunit, nsamples). values are signed 16-bit dac_q out
+    """
+    def __init__(self, dut, mon_signals=None):
+        self._dut = dut
+        self._n_measunit = len(self._dut.adc_i)
+        self._adc_i_signal = self._dut.adc_i
+        self._adc_q_signal = self._dut.adc_q
+        self.mon_signals = {}
+        self.mon_data = {}
+        self.adc_timestream = np.empty(0, dtype=np.complex128)
+        if mon_signals is not None:
+            for name, sig in mon_signals.items():
+                self.add_mon(name, sig)
+
+    @property
+    def n_measunit(self):
+        """
+        want this to be readonly
+        """
+        return self._n_measunit
+
+    def add_mon(self, name, sig):
+        self.mon_signals.update({name: sig})
+        self.mon_data.update({name: []})
+
+    async def flush_cmd_mem(self, ncmd=N_MAX_CMD):
+        cmd_lists = []
+        for i in range(self._n_measunit):
+            cmd_lists.append(np.zeros(ncmd, dtype=int))
+        await self.load_program(cmd_lists)
+
+    async def load_program(self, cmd_lists):
+        """
+        cmd_lists : list of lists
+            Each element n is a list of commands for the nth
+            DSP unit
+        """
+        if not (isinstance(cmd_lists[0], list) or isinstance(cmd_lists[0], np.ndarray)):
+            raise Exception('cmd_lists must be list of lists')
+        self._dut.reset.value = 1
+        self._dut.mem_write_en.value = 1 
+        for i, cmd_list in enumerate(cmd_lists):
+            cmd_addr = 0
+            for cmd in cmd_list:
+                for j in range(4):
+                    mem_val = (cmd >> (32*j)) & (2**32-1)
+                    mem_addr = cmd_addr + (i << 13) + (j << 8)
+                    self._dut.mem_write_data.value = int(mem_val)
+                    self._dut.mem_write_addr.value = int(mem_addr)
+                    await RisingEdge(self._dut.clk)
+                cmd_addr += 1
+
+        self._dut.mem_write_en.value = 0
+
+    async def load_env(self, env_buffer_list):
+        """
+        Load full envelope for program
+        """
+        for i, env_buffer in enumerate(env_buffer_list):
+            await self.load_unit_env(env_buffer, i)
+        
+
+    async def load_unit_env(self, env_buffer, dspunit_ind, wave_start_addr=0):
+        """
+        Load envelope for a single DSP unit
+        env_i and env_q are raw 16-bit values
+        """
+        self._dut.mem_write_en.value = 1
+        wave_addr = wave_start_addr
+        for sample in env_buffer:
+            self._dut.mem_write_data.value = int(sample)
+            self._dut.mem_write_addr.value = (dspunit_ind << 13) + (1 << 12) + wave_addr
+            self._dut.mem_write_en.value = 1
+            await RisingEdge(self._dut.clk)
+            wave_addr += 1
+        
+        self._dut.mem_write_en.value = 0
+
+    async def reset(self):
+        """
+        Reset all of the proc cores and DSP elements
+        """
+        await RisingEdge(self._dut.clk)
+        await RisingEdge(self._dut.clk)
+        self._dut.reset.value = 1
+        await RisingEdge(self._dut.clk)
+        await RisingEdge(self._dut.clk)
+        self._dut.reset.value = 0
+
+    async def monitor_outputs(self, ncycles):
+        """
+        Monitor program output for ncycles clocks.
+        Sets class attributes dac_i and dac_q, each of
+        which is a (n_measunit, n_samples) numpy array of
+        DAC values. Also populates self.mon_data, if any
+        mon signals have been declared
+        """
+        for i in range(ncycles):
+            await RisingEdge(self._dut.clk)
+            for name, sig in self.mon_signals:
+                self.mon_data[name].append(sig.value)
+
+    async def run_program(self, ncycles):
+        """
+        For backwards compatibility with earlier tests; can be used 
+        to run simple programs without external (fproc) input.
+        """
+        await self.reset()
+        cocotb.start_soon(self._generate_adc_signal())
+        await self.monitor_outputs(ncycles)
+
+    async def _generate_adc_signal(self):
+        adc_i = ravel_adc(np.real(self.adc_timestream))
+        adc_q = ravel_adc(np.imag(self.adc_timestream))
+        for i in range(len(adc_i)):
+            self._adc_i_signal.value = int(adc_i[i])
+            self._adc_q_signal.value = int(adc_q[i])
+            await(RisingEdge(self._dut.clk))
+
+    def add_adc_signal(self, signal):
+        """
+        Add simulated ADC input -- stores signal, which is clocked in
+        during run_program. Multiple signals can be added; these are summed
+
+        Parameters
+        ----------
+            signal : np.ndarray
+                complex numpy array of adc samples (I is real and Q is imag)
+        """
+        self.adc_timestream = np.pad(self.adc_timestream, (0, max(0, len(signal) - len(self.adc_timestream))))
+        signal = np.pad(signal, (0, max(0, len(self.adc_timestream) - len(signal))))
+
+        self.adc_timestream += signal
+
+    def zero_adc_signal(self):
+        self.adc_timestream = np.zeros(len(self.adc_timestream), dtype=np.complex128)
 
 class DSPUnitHWConf(HardwareConfig):
     def __init__(self):
