@@ -47,5 +47,5 @@ asym_ram_sdp_write_wider.v
 ifbramctrl.sv
 bramif_lbportinst.vh
 bramif_lbport.vh
-element.sv
+ammod.v
 phtime.v

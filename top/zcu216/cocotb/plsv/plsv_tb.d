@@ -33,5 +33,5 @@ plsv_tb.sv
 ../../asym_ram_sdp_write_wider.v
 ../../bramif_lbportinst.vh
 ../../bramif_lbport.vh
-../../element.sv
+../../ammod.v
 ../../phtime.v

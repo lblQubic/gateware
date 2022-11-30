@@ -1,13 +1,14 @@
 module phtime(input clk
 ,input [26:0] freq
+,input [17:0] tcnt
 ,input reset
 ,output [26:0] phasetime
 ,output valid
 );
 localparam TCNTWIDTH=18; // < 18, buildin dsp is 27*18 bit
 //reg [18-1:0] tcnt=0;
-reg [TCNTWIDTH-1:0] tcnt=0;
-wire [27+TCNTWIDTH-1:0] phasetime_w=freq*tcnt;
+//reg [TCNTWIDTH-1:0] tcnt=0;
+wire [27+18-1:0] phasetime_w=freq*tcnt;
 reg [27-1:0] phasetime_r0=0;
 reg [27-1:0] phasetime_r1=0;
 reg [27-1:0] phasetime_r2=0;
@@ -31,7 +32,7 @@ reg [26:0] phadd3=0;
 reg [26:0] phadd4=0;
 
 always @(posedge clk) begin
-	tcnt<= reset ? 0 : tcnt+1;
+	//tcnt<= reset ? 0 : tcnt+1;
 	phasetime_r0<=phasetime_w[26:0];
 	phasetime_r1<=phasetime_r0;
 	phasetime_r2<=phasetime_r1;

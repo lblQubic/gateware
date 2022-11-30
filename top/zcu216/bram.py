@@ -178,6 +178,11 @@ class brams:
         strval= template['ifbramctrl.sv']['all']%(dict(wnames=wnames,rnames=rnames,walways=walways,ralways=ralways,ralwayscase=ralwayscase))
         self.writefile(filename,strval)
         return strval
+    def bram_json(self,filename="bram.json"):
+        perbus='\n,'.join([b.bram_json() for b in self.bramlist])
+        strval=template['bram.json']['all']%(dict(perbus=perbus))
+        self.writefile(filename,strval)
+        return strval
 
 
 
@@ -241,7 +246,7 @@ class bram:
     def namelbrw(self):
         return self.name+('_R' if self.w else '_W')
     def paradict(self):
-        return dict(name=self.name,NAME=self.name.upper(),Awidth=self.Awidth,Adepth=self.Adepth,Bwidth=self.Bwidth,latency=self.latency,prefix=self.prefix,membitsize=self.membitsize,Baddrwidth=self.Baddrwidth,memsizekM=self.sizekM,subname=self.subname,Aaddrwidth=self.Aaddrwidth,Bdepth=self.Bdepth,addrcheck=self.addrcheck,namerw=self.namerw,namelbrw=self.namelbrw,ram_style=self.ram_style,address=self.address)
+        return dict(name=self.name,NAME=self.name.upper(),Awidth=self.Awidth,Adepth=self.Adepth,Bwidth=self.Bwidth,latency=self.latency,prefix=self.prefix,membitsize=self.membitsize,Baddrwidth=self.Baddrwidth,memsizekM=self.sizekM,subname=self.subname,Aaddrwidth=self.Aaddrwidth,Bdepth=self.Bdepth,addrcheck=self.addrcheck,namerw=self.namerw,namelbrw=self.namelbrw,ram_style=self.ram_style,address=self.address,access=self.access)
     def brambus_tcl(self):
         return template['brambus.tcl']['perbus']%(self.paradict())
     def bramif_lbportinst_vh(self):
@@ -284,6 +289,8 @@ class bram:
         return template["ifbramctrl.sv"]['ralways']%(self.paradict()) if self.w else ''
     def ralwayscase(self):
         return template["ifbramctrl.sv"]['ralwayscase']%(self.paradict()) if self.w else ''
+    def bram_json(self):
+        return template['bram.json']['perbus']%(self.paradict())
 
 if __name__=="__main__":
     template={"brambus.tcl":{
@@ -355,14 +362,19 @@ if __name__=="__main__":
         ,"perbus":"bram_cfg %(name)s_R_cfg(.bram(%(name)s_R),.clk(dspclk),.rst(1'b0),.en(1'b1));\nbram_read#(.ADDR_WIDTH(%(prefix)s_R_ADDRWIDTH),.DATA_WIDTH(%(prefix)s_R_DATAWIDTH))\n%(name)s_R_read(.bram(%(name)s_R),.addr(dspif.addr_%(subname)s),.data(dspif.data_%(subname)s));\n"
         }
     ,"ifbramctrl.sv":{
-            "all":"interface ifbramctrl#(parameter integer DATA_WIDTH = 32,parameter integer ADDR_WIDTH=24,parameter READDELAY=3\n,`include \"bram_para.vh\"\n\t)(iflocalbus.lb lb\n,`include \"bramif_lbport.vh\")\n;\nreg [DATA_WIDTH-1:0] rdata=0;\n%(wnames)s\n    always @(posedge lb.clk) begin\n %(walways)s\n end\n%(rnames)s\nalways @(posedge lb.clk) begin\n            %(ralways)s\nend\n    always @(posedge lb.clk) begin\n        if (lb.rden16[READDELAY]) begin\n            casex (lb.raddr16[READDELAY*ADDR_WIDTH-1:(READDELAY-1)*ADDR_WIDTH])\n            %(ralwayscase)s\n                default:rdata <= 32'hdeadbeef;\n            endcase\n        end\n    end\nassign lb.rdata=rdata;\nassign lb.rvalid=lb.rden16[READDELAY+1];\nassign lb.rvalidlast=lb.rdenlast16[READDELAY+1];\nendinterface"
+            "all":"interface ifbramctrl#(parameter integer DATA_WIDTH = 32,parameter integer ADDR_WIDTH=24,parameter READDELAY=4\n,`include \"bram_para.vh\"\n\t)(iflocalbus.lb lb\n,`include \"bramif_lbport.vh\")\n;\nreg [DATA_WIDTH-1:0] rdata=0;\n%(wnames)s\n    always @(posedge lb.clk) begin\n %(walways)s\n end\n%(rnames)s\nalways @(posedge lb.clk) begin\n            %(ralways)s\nend\n    always @(posedge lb.clk) begin\n        if (lb.rden16[READDELAY]) begin\n            casex (lb.raddr16[READDELAY*ADDR_WIDTH-1:(READDELAY-1)*ADDR_WIDTH])\n            %(ralwayscase)s\n                default:rdata <= 32'hdeadbeef;\n            endcase\n        end\n    end\nassign lb.rdata=rdata;\nassign lb.rvalid=lb.rden16[READDELAY+1];\nassign lb.rvalidlast=lb.rdenlast16[READDELAY+1];\nendinterface"
             ,"wname":"reg %(namelbrw)s_we=0;reg [%(prefix)s_W_ADDRWIDTH-1:0]  %(namelbrw)s_waddr=0;reg [%(prefix)s_W_DATAWIDTH-1:0] %(namelbrw)s_din=0;assign {%(namelbrw)s.we,%(namelbrw)s.addr,%(namelbrw)s.din}={%(namelbrw)s_we,%(namelbrw)s_waddr,%(namelbrw)s_din};"
             ,"walways":"%(namelbrw)s_we<=(lb.waddr[ADDR_WIDTH-1:%(prefix)s_W_ADDRWIDTH]=='h%(addrcheck)x)&lb.wren; %(namelbrw)s_waddr<=lb.waddr[%(prefix)s_W_ADDRWIDTH-1:0]; %(namelbrw)s_din<=lb.wdata; // address: 0x%(address)08.0x"
             ,"rname":"reg [%(prefix)s_R_ADDRWIDTH-1:0]  %(namelbrw)s_raddr=0;reg [%(prefix)s_R_DATAWIDTH-1:0] %(namelbrw)s_dout=0;assign %(namelbrw)s.addr=%(namelbrw)s_raddr;"
             ,"ralways":"%(namelbrw)s_raddr<=lb.raddr[ACQBUF_R_ADDRWIDTH-1:0];%(namelbrw)s_dout<=%(namelbrw)s.dout;"
             ,"ralwayscase":"{(ADDR_WIDTH-%(prefix)s_R_ADDRWIDTH)'('h%(addrcheck)x),{%(prefix)s_R_ADDRWIDTH{1'bx}}}: rdata <= %(namelbrw)s_dout;  // address: 0x%(address)08.0x"
         }
+    ,"bram.json":{
+            "all":"{\n%(perbus)s\n}"
+            ,"perbus":"\"%(name)s\":{\"Awidth\":%(Awidth)d,\"Adepth\":%(Adepth)d,\"Bwidth\":%(Bwidth)d,\"latency\":%(latency)d,\"prefix\":\"%(prefix)s\",\"access\":\"%(access)s\",\"address\":\"0x%(address)08.0x\",\"ram_style\":\"%(ram_style)s\"}"
+            }
     }
+
 #    d1={"qdrvenv1":{"Awidth":512,"Adepth":1024,"Bwidth":512,"latency":2}}
     with open('bram.json') as jsonfile:
         bramparadict=json.load(jsonfile)
@@ -383,6 +395,7 @@ if __name__=="__main__":
     print(bs.write())
     print(bs.read())
     print(bs.ifbramctrl_sv())
+    print(bs.bram_json())
     bs.assign()
     for k,(v,c,w) in bs.addressmap().items():
         print(k,format(v,'08x'),format(c,'08x'),w)

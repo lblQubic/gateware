@@ -1,4 +1,4 @@
-interface ifbramctrl#(parameter integer DATA_WIDTH = 32,parameter integer ADDR_WIDTH=24,parameter READDELAY=3
+interface ifbramctrl#(parameter integer DATA_WIDTH = 32,parameter integer ADDR_WIDTH=24,parameter READDELAY=4
 ,`include "bram_para.vh"
 	)(iflocalbus.lb lb
 ,`include "bramif_lbport.vh")
@@ -68,6 +68,10 @@ reg [ACCBUF_R_ADDRWIDTH-1:0]  accbuf0_R_raddr=0;reg [ACCBUF_R_DATAWIDTH-1:0] acc
 reg [ACCBUF_R_ADDRWIDTH-1:0]  accbuf1_R_raddr=0;reg [ACCBUF_R_DATAWIDTH-1:0] accbuf1_R_dout=0;assign accbuf1_R.addr=accbuf1_R_raddr;
 reg [ACCBUF_R_ADDRWIDTH-1:0]  accbuf2_R_raddr=0;reg [ACCBUF_R_DATAWIDTH-1:0] accbuf2_R_dout=0;assign accbuf2_R.addr=accbuf2_R_raddr;
 reg [ACCBUF_R_ADDRWIDTH-1:0]  accbuf3_R_raddr=0;reg [ACCBUF_R_DATAWIDTH-1:0] accbuf3_R_dout=0;assign accbuf3_R.addr=accbuf3_R_raddr;
+reg [DACMON_R_ADDRWIDTH-1:0]  dacmon0_R_raddr=0;reg [DACMON_R_DATAWIDTH-1:0] dacmon0_R_dout=0;assign dacmon0_R.addr=dacmon0_R_raddr;
+reg [DACMON_R_ADDRWIDTH-1:0]  dacmon1_R_raddr=0;reg [DACMON_R_DATAWIDTH-1:0] dacmon1_R_dout=0;assign dacmon1_R.addr=dacmon1_R_raddr;
+reg [DACMON_R_ADDRWIDTH-1:0]  dacmon2_R_raddr=0;reg [DACMON_R_DATAWIDTH-1:0] dacmon2_R_dout=0;assign dacmon2_R.addr=dacmon2_R_raddr;
+reg [DACMON_R_ADDRWIDTH-1:0]  dacmon3_R_raddr=0;reg [DACMON_R_DATAWIDTH-1:0] dacmon3_R_dout=0;assign dacmon3_R.addr=dacmon3_R_raddr;
 always @(posedge lb.clk) begin
             acqbuf0_R_raddr<=lb.raddr[ACQBUF_R_ADDRWIDTH-1:0];acqbuf0_R_dout<=acqbuf0_R.dout;
 acqbuf1_R_raddr<=lb.raddr[ACQBUF_R_ADDRWIDTH-1:0];acqbuf1_R_dout<=acqbuf1_R.dout;
@@ -75,6 +79,10 @@ accbuf0_R_raddr<=lb.raddr[ACQBUF_R_ADDRWIDTH-1:0];accbuf0_R_dout<=accbuf0_R.dout
 accbuf1_R_raddr<=lb.raddr[ACQBUF_R_ADDRWIDTH-1:0];accbuf1_R_dout<=accbuf1_R.dout;
 accbuf2_R_raddr<=lb.raddr[ACQBUF_R_ADDRWIDTH-1:0];accbuf2_R_dout<=accbuf2_R.dout;
 accbuf3_R_raddr<=lb.raddr[ACQBUF_R_ADDRWIDTH-1:0];accbuf3_R_dout<=accbuf3_R.dout;
+dacmon0_R_raddr<=lb.raddr[ACQBUF_R_ADDRWIDTH-1:0];dacmon0_R_dout<=dacmon0_R.dout;
+dacmon1_R_raddr<=lb.raddr[ACQBUF_R_ADDRWIDTH-1:0];dacmon1_R_dout<=dacmon1_R.dout;
+dacmon2_R_raddr<=lb.raddr[ACQBUF_R_ADDRWIDTH-1:0];dacmon2_R_dout<=dacmon2_R.dout;
+dacmon3_R_raddr<=lb.raddr[ACQBUF_R_ADDRWIDTH-1:0];dacmon3_R_dout<=dacmon3_R.dout;
 end
     always @(posedge lb.clk) begin
         if (lb.rden16[READDELAY]) begin
@@ -85,6 +93,10 @@ end
 {(ADDR_WIDTH-ACCBUF_R_ADDRWIDTH)'('h81),{ACCBUF_R_ADDRWIDTH{1'bx}}}: rdata <= accbuf1_R_dout;  // address: 0x00081000
 {(ADDR_WIDTH-ACCBUF_R_ADDRWIDTH)'('h82),{ACCBUF_R_ADDRWIDTH{1'bx}}}: rdata <= accbuf2_R_dout;  // address: 0x00082000
 {(ADDR_WIDTH-ACCBUF_R_ADDRWIDTH)'('h83),{ACCBUF_R_ADDRWIDTH{1'bx}}}: rdata <= accbuf3_R_dout;  // address: 0x00083000
+{(ADDR_WIDTH-DACMON_R_ADDRWIDTH)'('h88),{DACMON_R_ADDRWIDTH{1'bx}}}: rdata <= dacmon0_R_dout;  // address: 0x00088000
+{(ADDR_WIDTH-DACMON_R_ADDRWIDTH)'('h89),{DACMON_R_ADDRWIDTH{1'bx}}}: rdata <= dacmon1_R_dout;  // address: 0x00089000
+{(ADDR_WIDTH-DACMON_R_ADDRWIDTH)'('h8a),{DACMON_R_ADDRWIDTH{1'bx}}}: rdata <= dacmon2_R_dout;  // address: 0x0008a000
+{(ADDR_WIDTH-DACMON_R_ADDRWIDTH)'('h8b),{DACMON_R_ADDRWIDTH{1'bx}}}: rdata <= dacmon3_R_dout;  // address: 0x0008b000
                 default:rdata <= 32'hdeadbeef;
             endcase
         end

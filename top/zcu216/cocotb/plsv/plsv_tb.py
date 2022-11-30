@@ -181,7 +181,7 @@ async def sinmult(dut):
 @cocotb.test()
 async def clkexist(dut):
     tstop=20e-6
-    tstop=500e-6
+    #tstop=500e-6
     tstop_ns=tstop*1e9
     startclk(dut=dut,tstop=tstop)
     await Timer(tstop_ns, units='ns')

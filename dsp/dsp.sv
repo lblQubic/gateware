@@ -15,7 +15,7 @@ reg [DAC_AXIS_DATAWIDTH-1:0] dacval20=0;
 reg [DAC_AXIS_DATAWIDTH-1:0] dacval30=0;
 reg [DAC_AXIS_DATAWIDTH-1:0] dacval22=0;
 reg [DAC_AXIS_DATAWIDTH-1:0] dacval32=0;
-reg [17:0] tcnt=0;
+reg [31:0] tcnt=0;
 reg [32-1:0] phase_32=0;
 reg [31:0] freq=0;
 wire [16:0] phase;
@@ -48,17 +48,25 @@ end
 wire [16*16-1:0] cossteps;
 wire [16*16-1:0] sinsteps;
 
-reg [ACQBUF_W_ADDRWIDTH-1:0] addr_acqbuf=0;
+reg [ACQBUF_W_ADDRWIDTH-1:0] addr_acqbuf0=0;
+reg [ACQBUF_W_ADDRWIDTH-1:0] addr_acqbuf1=0;
 reg [FREQ_R_ADDRWIDTH-1:0] addr_qdrvfreq=0;
 reg [FREQ_R_ADDRWIDTH-1:0] addr_rdrvfreq=0;
 reg [FREQ_R_ADDRWIDTH-1:0] addr_rdlofreq=0;
-wire we_acqbuf=~locklast_acqbuf;
-wire locklast_acqbuf=&addr_acqbuf;
+reg [DACMON_W_ADDRWIDTH-1:0] addr_dacmon=0;
+wire we_acqbuf0=~locklast_acqbuf0;
+wire locklast_acqbuf0=&addr_acqbuf0;
+wire we_acqbuf1=~locklast_acqbuf1;
+wire locklast_acqbuf1=&addr_acqbuf1;
+wire we_dacmon=~locklast_dacmon;
+wire locklast_dacmon=&addr_dacmon;
 always @(posedge dspif.clk) begin
 	reset_bram_read={9{regs.stb_reset_bram_read}};
 end
 always @(posedge dspif.clk) begin
-	addr_acqbuf<=reset_bram_read[0] ? 0 : (addr_acqbuf+ (locklast_acqbuf ? 0 : 1)); //(bramtohost0locklast ?{BRAMTOHOST_ADDRWIDTH{1'b0}} : {{(BRAMTOHOST_ADDRWIDTH-1){1'b0}},1'b1});
+	addr_acqbuf0<=reset_bram_read[0] ? 0 : (addr_acqbuf0+ (locklast_acqbuf0 ? 0 : 1));
+	addr_acqbuf1<=reset_bram_read[2] ? 0 : (addr_acqbuf1+ (locklast_acqbuf1 ? 0 : 1));
+	addr_dacmon<=reset_bram_read[1] ? 0 : (addr_dacmon+ (locklast_dacmon ? 0 : 1));
 end
 reg [ADC_AXIS_DATAWIDTH-1:0] adc20=0;
 reg [ADC_AXIS_DATAWIDTH-1:0] adc21=0;
@@ -67,15 +75,23 @@ always @(posedge dspif.clk) begin
 	adc20<=dspif.adc20;
 	adc21<=dspif.adc21;
 	data_acqbuf[1]<=adc20;
-	data_acqbuf[0]<=dac20[63:0];
+	data_acqbuf[0]<=adc21;
 //	adc21<={cnt3[13:0],2'd3,cnt3[13:0],2'd2,cnt3[13:0],2'd1,cnt3[13:0],2'd0};
 		//dspif.adc21;
 	dspif.data_acqbuf[0]<=data_acqbuf[0];
 	dspif.data_acqbuf[1]<=data_acqbuf[1];
-	dspif.addr_acqbuf[0]<=addr_acqbuf;
-	dspif.addr_acqbuf[1]<=addr_acqbuf;
-	dspif.we_acqbuf[0]<=we_acqbuf;
-	dspif.we_acqbuf[1]<=we_acqbuf;
+	dspif.addr_acqbuf[0]<=addr_acqbuf0;
+	dspif.addr_acqbuf[1]<=addr_acqbuf1;
+	dspif.we_acqbuf[0]<=we_acqbuf0;
+	dspif.we_acqbuf[1]<=we_acqbuf1;
+	dspif.we_dacmon[0]<=we_dacmon;
+	dspif.we_dacmon[1]<=we_dacmon;
+	dspif.we_dacmon[2]<=we_dacmon;
+	dspif.we_dacmon[3]<=we_dacmon;
+	dspif.addr_dacmon[0]<=addr_dacmon;
+	dspif.addr_dacmon[1]<=addr_dacmon;
+	dspif.addr_dacmon[2]<=addr_dacmon;
+	dspif.addr_dacmon[3]<=addr_dacmon;
 		
 	addr_qdrvfreq<=regs.qdrvfreqsel;
 	addr_rdrvfreq<=regs.rdrvfreqsel;
@@ -100,7 +116,7 @@ wire [RDLOENV_R_DATAWIDTH-1:0] rdlomultix_w[0:3];wire [RDLOENV_R_DATAWIDTH-1:0] 
 
 reg [256-1:0] rdrvsum=0;
 generate
-for (genvar i=0;i<16;i++) begin
+for (genvar i=0;i<16;i++) begin : step16
 	reg [15:0] rdrvsum0=0;
 	reg [15:0] rdrvsum1=0;
 	always @(posedge dspif.clk) begin
@@ -118,6 +134,12 @@ for (genvar i=0;i<16;i++) begin
 		dspif.dac22[(i+1)*16-1:i*16]<=dac22[(i+1)*16-1:i*16];
 		dspif.dac30[(i+1)*16-1:i*16]<=dac30[(i+1)*16-1:i*16];
 		dspif.dac32[(i+1)*16-1:i*16]<=dac32[(i+1)*16-1:i*16];
+		
+
+		dspif.data_dacmon[0][(i+1)*16-1:i*16]<=dac20[(i+1)*16-1:i*16];
+		dspif.data_dacmon[1][(i+1)*16-1:i*16]<=dac22[(i+1)*16-1:i*16];
+		dspif.data_dacmon[2][(i+1)*16-1:i*16]<=dac30[(i+1)*16-1:i*16];
+		dspif.data_dacmon[3][(i+1)*16-1:i*16]<=dac32[(i+1)*16-1:i*16];
 	end
 end
 endgenerate
@@ -137,8 +159,12 @@ reg [15:0] qdrvampx[0:3];
 reg [15:0] qdrvampy[0:3];
 reg [16:0] qdrvpini[0:3];
 
+always @(posedge dspif.clk) begin
+	tcnt<=dspif.reset ? 0 : tcnt+1;
+end
+
 generate
-for (genvar i=0;i<4;i++) begin
+for (genvar i=0;i<4;i++) begin : forqchan
 	always @(posedge dspif.clk) begin
 		qdrvmultix_r[i]<=qdrvmultix_w[i];qdrvmultiy_r[i]<=qdrvmultiy_w[i];
 		qdrvfreqcossinp[i]<=dspif.data_qdrvfreq[i];
@@ -155,15 +181,9 @@ for (genvar i=0;i<4;i++) begin
 		rdloenvxy[i]<=dspif.data_rdloenv[i];
 		rdloampx[i]<=regs.amp;		rdloampy[i]<=0;		rdlopini[i]<=0;
 	end
-	ifelement qdrvelem(.clk(dspif.clk),.reset(dspif.reset));
-	elemconnect qdrvelemconn(.elem(qdrvelem),.freqcossinp32x16(qdrvfreqcossinp[i]),.envxy32x16(qdrvenvxy[i]),.pini(qdrvpini[i]),.multix16x16(qdrvmultix_w[i]),.multiy16x16(qdrvmultiy_w[i]),.ampx(qdrvampx[i]),.ampy(qdrvampy[i]));
-	elementcalc qdrvelemcalc(.elem(qdrvelem));
-	ifelement rdrvelem(.clk(dspif.clk),.reset(dspif.reset));
-	elemconnect rdrvelemconn(.elem(rdrvelem),.freqcossinp32x16(rdrvfreqcossinp[i]),.envxy32x16(rdrvenvxy[i]),.pini(rdrvpini[i]),.multix16x16(rdrvmultix_w[i]),.multiy16x16(rdrvmultiy_w[i]),.ampx(rdrvampx[i]),.ampy(rdrvampy[i]));
-	elementcalc rdrvelemcalc(.elem(rdrvelem));
-	ifelement rdloelem(.clk(dspif.clk),.reset(dspif.reset));
-	elemconnect rdloelemconn(.elem(rdloelem),.freqcossinp32x16(rdlofreqcossinp[i]),.envxy32x16(rdloenvxy[i]),.pini(rdlopini[i]),.multix16x16(rdlomultix_w[i]),.multiy16x16(rdlomultiy_w[i]),.ampx(rdloampx[i]),.ampy(rdloampy[i]));
-	elementcalc rdloelemcalc(.elem(rdloelem));
+	ammod qdrvammod(.clk(dspif.clk),.reset(dspif.reset),.tcnt(tcnt[17:0]),.freqcossinp32x16(qdrvfreqcossinp[i]),.envxy32x16(qdrvenvxy[i]),.pini(qdrvpini[i]),.multix16x16(qdrvmultix_w[i]),.multiy16x16(qdrvmultiy_w[i]),.ampx(qdrvampx[i]),.ampy(qdrvampy[i]));
+	ammod rdrvammod(.clk(dspif.clk),.reset(dspif.reset),.tcnt(tcnt[17:0]),.freqcossinp32x16(rdrvfreqcossinp[i]),.envxy32x16(rdrvenvxy[i]),.pini(rdrvpini[i]),.multix16x16(rdrvmultix_w[i]),.multiy16x16(rdrvmultiy_w[i]),.ampx(rdrvampx[i]),.ampy(rdrvampy[i]));
+	ammod rdloammod(.clk(dspif.clk),.reset(dspif.reset),.tcnt(tcnt[17:0]),.freqcossinp32x16(rdlofreqcossinp[i]),.envxy32x16(rdloenvxy[i]),.pini(rdlopini[i]),.multix16x16(rdlomultix_w[i]),.multiy16x16(rdlomultiy_w[i]),.ampx(rdloampx[i]),.ampy(rdloampy[i]));
 end
 endgenerate
 always @(posedge dspif.clk) begin
@@ -216,6 +236,10 @@ interface ifdsp #(
    logic [DAC_AXIS_DATAWIDTH-1:0] dac33;
 
 
+   logic [DACMON_W_DATAWIDTH-1:0] data_dacmon[0:7];
+   reg [DACMON_W_ADDRWIDTH-1:0] addr_dacmon[0:7];
+   reg we_dacmon[0:7];
+   
    logic [ACCBUF_W_DATAWIDTH-1:0] data_accbuf[0:7];
    reg [ACCBUF_W_ADDRWIDTH-1:0] addr_accbuf[0:7];
    reg we_accbuf[0:7];
@@ -254,15 +278,15 @@ interface ifdsp #(
 
   modport dsp(input adc20,adc21
   ,output dac00,dac01,dac02,dac03,dac10,dac11,dac12,dac13,dac20,dac21,dac22,dac23,dac30,dac31,dac32,dac33
-  ,addr_accbuf,addr_acqbuf,addr_command,addr_qdrvenv,addr_rdrvenv,addr_rdloenv,addr_qdrvfreq,addr_rdrvfreq,addr_rdlofreq
-  ,data_accbuf,we_accbuf,data_acqbuf,we_acqbuf
+  ,addr_accbuf,addr_acqbuf,addr_command,addr_qdrvenv,addr_rdrvenv,addr_rdloenv,addr_qdrvfreq,addr_rdrvfreq,addr_rdlofreq,addr_dacmon
+  ,data_accbuf,we_accbuf,data_acqbuf,we_acqbuf,data_dacmon,we_dacmon
   ,input clk,reset
   ,data_command,data_qdrvenv,data_rdrvenv,data_rdloenv,data_qdrvfreq,data_rdrvfreq,data_rdlofreq
   );
   modport cfg(output adc20,adc21
   ,input dac00,dac01,dac02,dac03,dac10,dac11,dac12,dac13,dac20,dac21,dac22,dac23,dac30,dac31,dac32,dac33
-  ,addr_accbuf,addr_acqbuf,addr_command,addr_qdrvenv,addr_rdrvenv,addr_rdloenv,addr_qdrvfreq,addr_rdrvfreq,addr_rdlofreq
-  ,data_accbuf,we_accbuf,data_acqbuf,we_acqbuf
+  ,addr_accbuf,addr_acqbuf,addr_command,addr_qdrvenv,addr_rdrvenv,addr_rdloenv,addr_qdrvfreq,addr_rdrvfreq,addr_rdlofreq,addr_dacmon
+  ,data_accbuf,we_accbuf,data_acqbuf,we_acqbuf,data_dacmon,we_dacmon
   ,output clk,reset
   ,data_command,data_qdrvenv,data_rdrvenv,data_rdloenv,data_qdrvfreq,data_rdrvfreq,data_rdlofreq
 
