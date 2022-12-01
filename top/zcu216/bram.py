@@ -366,7 +366,7 @@ if __name__=="__main__":
             ,"wname":"reg %(namelbrw)s_we=0;reg [%(prefix)s_W_ADDRWIDTH-1:0]  %(namelbrw)s_waddr=0;reg [%(prefix)s_W_DATAWIDTH-1:0] %(namelbrw)s_din=0;assign {%(namelbrw)s.we,%(namelbrw)s.addr,%(namelbrw)s.din}={%(namelbrw)s_we,%(namelbrw)s_waddr,%(namelbrw)s_din};"
             ,"walways":"%(namelbrw)s_we<=(lb.waddr[ADDR_WIDTH-1:%(prefix)s_W_ADDRWIDTH]=='h%(addrcheck)x)&lb.wren; %(namelbrw)s_waddr<=lb.waddr[%(prefix)s_W_ADDRWIDTH-1:0]; %(namelbrw)s_din<=lb.wdata; // address: 0x%(address)08.0x"
             ,"rname":"reg [%(prefix)s_R_ADDRWIDTH-1:0]  %(namelbrw)s_raddr=0;reg [%(prefix)s_R_DATAWIDTH-1:0] %(namelbrw)s_dout=0;assign %(namelbrw)s.addr=%(namelbrw)s_raddr;"
-            ,"ralways":"%(namelbrw)s_raddr<=lb.raddr[ACQBUF_R_ADDRWIDTH-1:0];%(namelbrw)s_dout<=%(namelbrw)s.dout;"
+            ,"ralways":"%(namelbrw)s_raddr<=lb.raddr[%(prefix)s_R_ADDRWIDTH-1:0];%(namelbrw)s_dout<=%(namelbrw)s.dout;"
             ,"ralwayscase":"{(ADDR_WIDTH-%(prefix)s_R_ADDRWIDTH)'('h%(addrcheck)x),{%(prefix)s_R_ADDRWIDTH{1'bx}}}: rdata <= %(namelbrw)s_dout;  // address: 0x%(address)08.0x"
         }
     ,"bram.json":{

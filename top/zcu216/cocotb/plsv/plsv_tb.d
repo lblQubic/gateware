@@ -35,3 +35,4 @@ plsv_tb.sv
 ../../bramif_lbport.vh
 ../../ammod.v
 ../../phtime.v
+../../element.sv

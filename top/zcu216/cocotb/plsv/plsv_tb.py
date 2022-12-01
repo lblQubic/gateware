@@ -54,7 +54,7 @@ async def axi4readwrite(dut):
     cfgclk=cfgregsaxi.aclk;
     dspclk=dspregsaxi.aclk;
     startclk(dut=dut,tstop=10e-4)
-    testaddr=0*4
+    testaddr=32*4
     for t in range(10):
         #await RisingEdge(dut.cfgregsaxi_aclk)
         await RisingEdge(dspclk)
@@ -139,8 +139,12 @@ async def sinmult(dut):
     #freqph16.extend([1,0])
 
     addrph16=range(0x68000,0x68000+16);#[0x70000,0x70001,0x70002,0x70003,0x70004,0x70005,0x70006,0x70007,0x70008,0x70009,0x7000a,0x7000b,0x7000c,0x7000d,0x7000e,0x7000f]#,25,25]
+    addrrdloph16=range(0x84000,0x84000+16);#[0x70000,0x70001,0x70002,0x70003,0x70004,0x70005,0x70006,0x70007,0x70008,0x70009,0x7000a,0x7000b,0x7000c,0x7000d,0x7000e,0x7000f]#,25,25]
+    addrrdrvph16=range(0x70000,0x70000+16);#[0x70000,0x70001,0x70002,0x70003,0x70004,0x70005,0x70006,0x70007,0x70008,0x70009,0x7000a,0x7000b,0x7000c,0x7000d,0x7000e,0x7000f]#,25,25]
     for a,v in enumerate(freqph16):
         await bramaxi.write(addrph16[a]*4,v)
+        await bramaxi.write(addrrdloph16[a]*4,v)
+        await bramaxi.write(addrrdrvph16[a]*4,v)
         await RisingEdge(dspclk)
     for a in range(0x48000,0x48400):        
         await bramaxi.write(a*4,0x7fff0000)
@@ -155,11 +159,11 @@ async def sinmult(dut):
 
     for t in range(20):
         await RisingEdge(dspclk)
-        v16=eval(dut.plsv.pltop.dsp.cossteps.value.hex())
-        for j in range(16):
-            val.append(sign16((v16>>((15-j)*16))&0xffff))
-    print([hex(int(i)) for i in val[0:10]])
-    numpy.savetxt('val.dat',val)
+#        v16=eval(dut.plsv.pltop.dsp.cossteps.value.hex())
+#        for j in range(16):
+#            val.append(sign16((v16>>((15-j)*16))&0xffff))
+#    print([hex(int(i)) for i in val[0:10]])
+#    numpy.savetxt('val.dat',val)
     await bramaxi.read(0x40004*4)
     await Timer(16e-6, units='sec')
     await dspregsaxi.write(25*4,1)
