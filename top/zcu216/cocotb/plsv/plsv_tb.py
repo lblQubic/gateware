@@ -31,12 +31,12 @@ def startclk(dut,tstop):
 @cocotb.test()
 async def testclk(dut):
     dut.DAC20_M_AXIS_TREADY.value=1
-    dut.aresetn= 1;
+    dut.aresetn.value= 1;
     startclk(dut=dut,tstop=10e-4)
     await Timer(257,units='ns')
-    dut.aresetn= 0;
+    dut.aresetn.value= 0;
     await Timer(379,units='ns')
-    dut.aresetn= 1;
+    dut.aresetn.value= 1;
     dut.DAC20_M_AXIS_TREADY.value=1
     dut.DAC22_M_AXIS_TREADY.value=1
     dut.DAC30_M_AXIS_TREADY.value=1

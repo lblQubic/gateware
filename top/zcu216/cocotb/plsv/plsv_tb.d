@@ -5,7 +5,7 @@ plsv_tb.sv
 ../../pltop.sv
 ../../../../submodules/common-hdl/areset.v
 ../../ifdspregs.sv
-../../ifregs.sv
+../../ifcfgregs.sv
 ../../boardcfg.sv
 ../../../../submodules/common-hdl/cordicg2.sv
 ../../../../submodules/common-hdl/freq_count3.v
@@ -36,3 +36,4 @@ plsv_tb.sv
 ../../ammod.v
 ../../phtime.v
 ../../element.sv
+../../gitrevision.v

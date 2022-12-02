@@ -12,6 +12,7 @@ reg [FREQ_ADDRWIDTH-1:0] freqaddr_r=0;
 reg [FREQ_DATAWIDTH-1:0] freqdata_r=0;
 reg [ENV_ADDRWIDTH-1:0] envaddr_r=0;
 reg [ENV_ADDRWIDTH-1:0] envaddr_r2=0;
+reg [ENV_ADDRWIDTH-1:0] envaddr_r3=0;
 reg [ENV_DATAWIDTH-1:0] envdata_r=0;
 always @(posedge elem.clk) begin
 	if (elem.cmdstb[0]) begin
@@ -33,8 +34,9 @@ always @(posedge elem.clk) begin
 	envdata_r<=envdata;
 	envaddr_r<=envaddr_cnt;
 	envaddr_r2<=envaddr_r;
+	envaddr_r3<=envaddr_r2;
 end
-assign envaddr=envaddr_r2;
+assign envaddr=envaddr_r3;
 assign freqaddr=freqaddr_r;
 
 

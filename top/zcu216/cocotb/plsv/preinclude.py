@@ -2,7 +2,7 @@ import os
 import re
 import pathlib
 
-def svinclude(sorig,vhlist):
+def svinclude(sorig,vhlist,oneline=False):
     cnt=0
     for vh in vhlist:
         basename=os.path.basename(vh)
@@ -10,8 +10,10 @@ def svinclude(sorig,vhlist):
         if re.findall(sre,sorig):
             with open(vh) as fvh:
                 svh=fvh.read()
+            if oneline:
+                svh=re.sub("\n"," ",svh)
             sorig=re.sub(sre,svh,sorig)
-            [cntnew,sorig]=svinclude(sorig,vhlist)
+            [cntnew,sorig]=svinclude(sorig,vhlist,oneline=oneline)
             cnt=cnt+cntnew+1
     return [cnt,sorig]
 #def vhreplace(orig,vhlist):
@@ -26,6 +28,7 @@ if __name__=="__main__":
     import argparse
     parser = argparse.ArgumentParser()
     parser.add_argument(type=str, help='dependent', dest="dep")
+    parser.add_argument( "-oneline","--oneline", dest='oneline',action='store_true', default=False,help="remove all \\n in vh")
     clargs = parser.parse_args()
     with open(clargs.dep,'r') as fd:
         sd=fd.read().split('\n')
@@ -42,7 +45,7 @@ if __name__=="__main__":
     for index,f in enumerate(vsv):
         with open(f) as fread:
             orig=fread.read()
-        cnt,srep=svinclude(orig,files['vh'])
+        cnt,srep=svinclude(orig,files['vh'],oneline=clargs.oneline)
         if cnt>0:
             fnew='./gensrc/'+os.path.basename(f)
             vsv[index]=fnew

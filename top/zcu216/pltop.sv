@@ -91,8 +91,8 @@ assign psresetn=psresetn_r;
 assign adc2resetn=adc2resetn_r;
 
 
-ifregs #(.DATA_WIDTH(LB1_DATAWIDTH),.ADDR_WIDTH(LB1_ADDRWIDTH))
-ctrlregs(.lb(lb1));
+ifcfgregs #(.DATA_WIDTH(LB1_DATAWIDTH),.ADDR_WIDTH(LB1_ADDRWIDTH))
+cfgregs(.lb(lb1));
 ifdspregs #(.DATA_WIDTH(LB2_DATAWIDTH),.ADDR_WIDTH(LB2_ADDRWIDTH))
 dspregs(.lb(lb2));
 
@@ -109,7 +109,7 @@ boardcfg #(
 
 	//,.ACCBUF_DATAWIDTH(ACCBUF_DATAWIDTH),.ACCBUF_ADDRWIDTH(ACCBUF_ADDRWIDTH),.COMMAND_DATAWIDTH(COMMAND_DATAWIDTH),.COMMAND_ADDRWIDTH(COMMAND_ADDRWIDTH)
 )
-boardcfg(.hw(hw),.regs(ctrlregs.regs)
+boardcfg(.hw(hw),.cfgregs(cfgregs.regs)
 ,`include "bramif_portinst.vh"
 /*,.bram_tohost0(bram_tohost0)
 ,.bram_tohost1(bram_tohost1)

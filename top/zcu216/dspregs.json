@@ -1,0 +1,15 @@
+{
+"resetacc":{"access": "rw", "addr_width": 0, "data_width": 32, "sign": "unsigned", "init": 0, "base_addr": 1}
+,"test1":{"access": "r", "addr_width": 0, "data_width": 32, "sign": "unsigned", "init": "100", "base_addr": 2}
+,"qdrvfreqsel":{"access": "rw", "addr_width": 0, "data_width": 32, "sign": "unsigned", "init": "3", "base_addr": 3}
+,"rdrvfreqsel":{"access": "rw", "addr_width": 0, "data_width": 32, "sign": "unsigned", "init": "3", "base_addr": 4}
+,"rdlofreqsel":{"access": "rw", "addr_width": 0, "data_width": 32, "sign": "unsigned", "init": "3", "base_addr": 5}
+,"start":{"access": "rw", "addr_width": 0, "data_width": 1, "sign": "unsigned", "init": "0", "base_addr": 6}
+,"nshot":{"access": "rw", "addr_width": 0, "data_width": 32, "sign": "unsigned", "init": "0", "base_addr": 7}
+,"busy":{"access": "r", "addr_width": 0, "data_width": 1, "sign": "unsigned", "init": "0", "base_addr": 8}
+,"test":{"access": "rw", "addr_width": 0, "data_width": 32, "sign": "unsigned", "init": "0", "base_addr": 24}
+,"reset_bram_read":{"access": "rw", "addr_width": 0, "data_width": 32, "sign": "unsigned", "init": 0, "base_addr": 25}
+,"bramsel":{"access": "rw", "addr_width": 0, "data_width": 32, "sign": "unsigned", "init": "0", "base_addr": 26}
+,"amp":{"access": "rw", "addr_width": 0, "data_width": 32, "sign": "unsigned", "init": "32000", "base_addr": 27}
+,"dacsel":{"access": "rw", "addr_width": 0, "data_width": 32, "sign": "unsigned", "init": "3", "base_addr": 29}
+}
