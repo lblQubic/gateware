@@ -7,7 +7,7 @@ plsv_tb.sv
 ../../ifdspregs.sv
 ../../ifregs.sv
 ../../boardcfg.sv
-../../../../submodules/common-hdl/cordicg1.v
+../../../../submodules/common-hdl/cordicg2.sv
 ../../../../submodules/common-hdl/freq_count3.v
 ../../../../submodules/common-hdl/reg_delay1.v
 ../../../../submodules/board-support/zcu216/hwif.sv

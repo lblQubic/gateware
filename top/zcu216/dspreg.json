@@ -9,4 +9,7 @@
 ,"qdrvfreqsel":{"access": "rw", "addr_width": 0, "data_width": 32, "sign": "unsigned", "init": "3", "base_addr": null}
 ,"rdrvfreqsel":{"access": "rw", "addr_width": 0, "data_width": 32, "sign": "unsigned", "init": "3", "base_addr": null}
 ,"rdlofreqsel":{"access": "rw", "addr_width": 0, "data_width": 32, "sign": "unsigned", "init": "3", "base_addr": null}
+,"start":{"access": "rw", "addr_width": 0, "data_width": 1, "sign": "unsigned", "init": "0", "base_addr": null}
+,"nshot":{"access": "rw", "addr_width": 0, "data_width": 32, "sign": "unsigned", "init": "0", "base_addr": null}
+,"busy":{"access": "r", "addr_width": 0, "data_width": 1, "sign": "unsigned", "init": "0", "base_addr": null}
 }

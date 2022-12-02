@@ -111,13 +111,15 @@ class brams:
     def bram_parainst_vh(self,filename="bram_parainst.vh"):
         perbuslist=sorted(list(set([b.bram_parainst_vh() for b in self.bramlist])))
         perbus='\n,'.join(perbuslist)
-        strval= template['bram_parainst.vh']['all']%(dict(perbus=perbus))
+        initfile=','.join(sorted(list(set([b.braminitfile_parainst_vh() for b in self.bramlist]))))
+        strval= template['bram_parainst.vh']['all']%(dict(perbus=perbus,initfile=initfile))
         self.writefile(filename,strval)
         return strval
     def bram_para_vh(self,filename="bram_para.vh"):
         perbuslist=sorted(list(set([b.bram_para_vh() for b in self.bramlist])))
         perbus='\n,'.join(perbuslist)
-        strval= template['bram_para.vh']['all']%(dict(perbus=perbus))
+        initfile=','.join(sorted(list(set([b.braminitfile_para_vh() for b in self.bramlist]))))
+        strval= template['bram_para.vh']['all']%(dict(perbus=perbus,initfile=initfile))
         self.writefile(filename,strval)
         return strval
     def bram_plsv_vh(self,filename="bram_plsv.vh"):
@@ -257,8 +259,12 @@ class bram:
         return template['bramif_portinst.vh']['perbus'+('r' if self.r else 'w')]%(self.paradict())
     def bramif_port_vh(self):
         return template['bramif_port.vh']['perbus'+('r' if self.r else 'w')]%(self.paradict())
+    def braminitfile_parainst_vh(self):
+        return template['bram_parainst.vh']['initfile']%(self.paradict())
     def bram_parainst_vh(self):
         return template['bram_parainst.vh']['perbus']%(self.paradict())
+    def braminitfile_para_vh(self):
+        return template['bram_para.vh']['initfile']%(self.paradict())
     def bram_para_vh(self):
         return template['bram_para.vh']['perbus']%(self.paradict())
     def addrperdata(self):
@@ -323,18 +329,22 @@ if __name__=="__main__":
         ,"perbusw":"ifbram %(name)s_W"
         }
     ,"bram_parainst.vh":{
-        "all":"%(perbus)s"
+        "all":"%(perbus)s\n,%(initfile)s"
         ,"perbus":".%(prefix)s_R_ADDRWIDTH(%(prefix)s_R_ADDRWIDTH),.%(prefix)s_R_DATAWIDTH(%(prefix)s_R_DATAWIDTH),.%(prefix)s_W_ADDRWIDTH(%(prefix)s_W_ADDRWIDTH),.%(prefix)s_W_DATAWIDTH(%(prefix)s_W_DATAWIDTH)"
+        ,"initfile":".INIT_%(name)s(INIT_%(name)s)"
         }
     ,"bram_para.vh":{
-        "all":"%(perbus)s"
+        "all":"%(perbus)s\n,%(initfile)s"
         ,"perbus":"parameter integer %(prefix)s_R_ADDRWIDTH=%(Baddrwidth)d,parameter integer %(prefix)s_R_DATAWIDTH=%(Bwidth)d,parameter integer %(prefix)s_R_DEPTH=%(Bdepth)d,parameter integer %(prefix)s_W_ADDRWIDTH=%(Aaddrwidth)d,parameter integer %(prefix)s_W_DATAWIDTH=%(Awidth)d,parameter integer %(prefix)s_W_DEPTH=%(Adepth)d"
+        ,"initfile":"parameter INIT_%(name)s=\"\""
         }
     ,"bram_plsv.vh":{
         "all":"%(addrperdata)s\n\n%(perbus)s"
         ,"addrperdata":"localparam %(prefix)s_R_ADDRPERDATA=$clog2(%(prefix)s_R_DATAWIDTH)-3;localparam %(prefix)s_W_ADDRPERDATA=$clog2(%(prefix)s_W_DATAWIDTH)-3;"
-        ,"perbusr":"ifbram #(.ADDR_WIDTH(%(prefix)s_W_ADDRWIDTH),.DATA_WIDTH(%(prefix)s_W_DATAWIDTH)) %(name)s_W();\nifbram #(.ADDR_WIDTH(%(prefix)s_R_ADDRWIDTH),.DATA_WIDTH(%(prefix)s_R_DATAWIDTH)) %(name)s_R();\nbram_cfg %(name)s_W_cfg(.bram(%(name)s_W),.clk(lb3_clk),.rst(1'b0),.en(1'b1));\nasym_ram_sdp_read_wider #(.DATAWIDTHA(%(prefix)s_W_DATAWIDTH),.ADDRWIDTHA(%(prefix)s_W_ADDRWIDTH),.SIZEA(%(prefix)s_W_DEPTH),.DATAWIDTHB(%(prefix)s_R_DATAWIDTH),.ADDRWIDTHB(%(prefix)s_R_ADDRWIDTH),.SIZEB(%(prefix)s_R_DEPTH),.RAM_STYLE(\"%(ram_style)s\"))\n%(name)s_mem(.clkA(%(name)s_W.clk),.enaA(%(name)s_W.en),.weA(%(name)s_W.we),.addrA(%(name)s_W.addr),.diA(%(name)s_W.din),.clkB(%(name)s_R.clk),.enaB(%(name)s_R.en),.addrB(%(name)s_R.addr),.doB(%(name)s_R.dout));\n"
-        ,"perbusw":"ifbram #(.ADDR_WIDTH(%(prefix)s_W_ADDRWIDTH),.DATA_WIDTH(%(prefix)s_W_DATAWIDTH)) %(name)s_W();\nifbram #(.ADDR_WIDTH(%(prefix)s_R_ADDRWIDTH),.DATA_WIDTH(%(prefix)s_R_DATAWIDTH)) %(name)s_R();\nbram_cfg %(name)s_R_cfg(.bram(%(name)s_R),.clk(lb3_clk),.rst(1'b0),.en(1'b1));\nasym_ram_sdp_write_wider #(.DATAWIDTHA(%(prefix)s_W_DATAWIDTH),.ADDRWIDTHA(%(prefix)s_W_ADDRWIDTH),.SIZEA(%(prefix)s_W_DEPTH),.DATAWIDTHB(%(prefix)s_R_DATAWIDTH),.ADDRWIDTHB(%(prefix)s_R_ADDRWIDTH),.SIZEB(%(prefix)s_R_DEPTH))\n%(name)s_mem(.clkA(%(name)s_W.clk),.enaA(%(name)s_W.en),.weA(%(name)s_W.we),.addrA(%(name)s_W.addr),.diA(%(name)s_W.din),.clkB(%(name)s_R.clk),.enaB(%(name)s_R.en),.addrB(%(name)s_R.addr),.doB(%(name)s_R.dout));\n"
+        ,"perbusrwith_en":"ifbram #(.ADDR_WIDTH(%(prefix)s_W_ADDRWIDTH),.DATA_WIDTH(%(prefix)s_W_DATAWIDTH)) %(name)s_W();\nifbram #(.ADDR_WIDTH(%(prefix)s_R_ADDRWIDTH),.DATA_WIDTH(%(prefix)s_R_DATAWIDTH)) %(name)s_R();\nbram_cfg %(name)s_W_cfg(.bram(%(name)s_W),.clk(lb3_clk),.rst(1'b0),.en(1'b1));\nasym_ram_sdp_read_wider #(.DATAWIDTHA(%(prefix)s_W_DATAWIDTH),.ADDRWIDTHA(%(prefix)s_W_ADDRWIDTH),.SIZEA(%(prefix)s_W_DEPTH),.DATAWIDTHB(%(prefix)s_R_DATAWIDTH),.ADDRWIDTHB(%(prefix)s_R_ADDRWIDTH),.SIZEB(%(prefix)s_R_DEPTH),.RAM_STYLE(\"%(ram_style)s\"))\n%(name)s_mem(.clkA(%(name)s_W.clk),.enaA(%(name)s_W.en),.weA(%(name)s_W.we),.addrA(%(name)s_W.addr),.diA(%(name)s_W.din),.clkB(%(name)s_R.clk),.enaB(%(name)s_R.en),.addrB(%(name)s_R.addr),.doB(%(name)s_R.dout));\n"
+        ,"perbusr":"ifbram #(.ADDR_WIDTH(%(prefix)s_W_ADDRWIDTH),.DATA_WIDTH(%(prefix)s_W_DATAWIDTH)) %(name)s_W();\nifbram #(.ADDR_WIDTH(%(prefix)s_R_ADDRWIDTH),.DATA_WIDTH(%(prefix)s_R_DATAWIDTH)) %(name)s_R();\nbram_cfg %(name)s_W_cfg(.bram(%(name)s_W),.clk(lb3_clk),.rst(1'b0),.en(1'b1));\nasym_ram_sdp_read_wider #(.DATAWIDTHA(%(prefix)s_W_DATAWIDTH),.ADDRWIDTHA(%(prefix)s_W_ADDRWIDTH),.SIZEA(%(prefix)s_W_DEPTH),.DATAWIDTHB(%(prefix)s_R_DATAWIDTH),.ADDRWIDTHB(%(prefix)s_R_ADDRWIDTH),.SIZEB(%(prefix)s_R_DEPTH),.RAM_STYLE(\"%(ram_style)s\"))\n%(name)s_mem(.clkA(%(name)s_W.clk),.weA(%(name)s_W.we),.addrA(%(name)s_W.addr),.diA(%(name)s_W.din),.clkB(%(name)s_R.clk),.addrB(%(name)s_R.addr),.doB(%(name)s_R.dout));\n"
+        ,"perbuswwith_en":"ifbram #(.ADDR_WIDTH(%(prefix)s_W_ADDRWIDTH),.DATA_WIDTH(%(prefix)s_W_DATAWIDTH)) %(name)s_W();\nifbram #(.ADDR_WIDTH(%(prefix)s_R_ADDRWIDTH),.DATA_WIDTH(%(prefix)s_R_DATAWIDTH)) %(name)s_R();\nbram_cfg %(name)s_R_cfg(.bram(%(name)s_R),.clk(lb3_clk),.rst(1'b0),.en(1'b1));\nasym_ram_sdp_write_wider #(.DATAWIDTHA(%(prefix)s_W_DATAWIDTH),.ADDRWIDTHA(%(prefix)s_W_ADDRWIDTH),.SIZEA(%(prefix)s_W_DEPTH),.DATAWIDTHB(%(prefix)s_R_DATAWIDTH),.ADDRWIDTHB(%(prefix)s_R_ADDRWIDTH),.SIZEB(%(prefix)s_R_DEPTH))\n%(name)s_mem(.clkA(%(name)s_W.clk),.enaA(%(name)s_W.en),.weA(%(name)s_W.we),.addrA(%(name)s_W.addr),.diA(%(name)s_W.din),.clkB(%(name)s_R.clk),.enaB(%(name)s_R.en),.addrB(%(name)s_R.addr),.doB(%(name)s_R.dout));\n"
+        ,"perbusw":"ifbram #(.ADDR_WIDTH(%(prefix)s_W_ADDRWIDTH),.DATA_WIDTH(%(prefix)s_W_DATAWIDTH)) %(name)s_W();\nifbram #(.ADDR_WIDTH(%(prefix)s_R_ADDRWIDTH),.DATA_WIDTH(%(prefix)s_R_DATAWIDTH)) %(name)s_R();\nbram_cfg %(name)s_R_cfg(.bram(%(name)s_R),.clk(lb3_clk),.rst(1'b0),.en(1'b1));\nasym_ram_sdp_write_wider #(.DATAWIDTHA(%(prefix)s_W_DATAWIDTH),.ADDRWIDTHA(%(prefix)s_W_ADDRWIDTH),.SIZEA(%(prefix)s_W_DEPTH),.DATAWIDTHB(%(prefix)s_R_DATAWIDTH),.ADDRWIDTHB(%(prefix)s_R_ADDRWIDTH),.SIZEB(%(prefix)s_R_DEPTH))\n%(name)s_mem(.clkA(%(name)s_W.clk),.weA(%(name)s_W.we),.addrA(%(name)s_W.addr),.diA(%(name)s_W.din),.clkB(%(name)s_R.clk),.addrB(%(name)s_R.addr),.doB(%(name)s_R.dout));\n"
         }
     ,"bram_portinst.vh":{
         "all":"%(perbus)s"

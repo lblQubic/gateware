@@ -1,14 +1,16 @@
 module phtime(input clk
 ,input [26:0] freq
 ,input [26:0] tcnt
-//,input reset
+,input gatein 
 ,output [26:0] phasetime
-//,output valid
+,output gateout
 );
 //localparam TCNTWIDTH=18; // < 18, buildin dsp is 27*18 bit
 //reg [18-1:0] tcnt=0;
 //reg [TCNTWIDTH-1:0] tcnt=0;
-wire [27+27-1:0] phasetime_w=freq*tcnt;
+reg [26:0] freq_r=0;
+reg [26:0] tcnt_r=0;
+wire [27+27-1:0] phasetime_w=freq_r*tcnt_r;
 /*reg [27-1:0] phasetime_r0=0;
 reg [27-1:0] phasetime_r1=0;
 reg [27-1:0] phasetime_r2=0;
@@ -60,9 +62,20 @@ wire [26:0] err=phadd4-phasetime_r4;
 assign phasetime=phasetime_r4;
 assign valid=valid3;
 */
-reg [26:0] phasetime_r=0;
+reg [26:0] phasetime_r0=0;
+reg [26:0] phasetime_r1=0;
+reg [26:0] phasetime_r2=0;
+reg [26:0] phasetime_r3=0;
+reg [7:0] gatesr=0;
 always @(posedge clk) begin
-	phasetime_r<=phasetime_w[26:0];
+	freq_r=freq;
+	tcnt_r=tcnt;
+	phasetime_r0<=phasetime_w[26:0];
+	phasetime_r1<=phasetime_r0;
+	phasetime_r2<=phasetime_r1;
+	phasetime_r3<=phasetime_r2;
+	gatesr<={gatesr[6:0],gatein};
 end
-assign phasetime=phasetime_r;
+assign phasetime=phasetime_r3;
+assign gateout=gatesr[6];
 endmodule

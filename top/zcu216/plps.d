@@ -15,7 +15,7 @@
 ../../submodules/common-hdl/axi4stream.sv
 ../../submodules/common-hdl/axi4_lb.v
 ../../submodules/common-hdl/bram_if.sv
-../../submodules/common-hdl/cordicg1.v
+../../submodules/common-hdl/cordicg2.sv
 ../../submodules/common-hdl/freq_count3.v
 ../../submodules/common-hdl/iflocalbus.sv
 ../../submodules/common-hdl/reg_delay1.v

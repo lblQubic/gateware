@@ -8,48 +8,40 @@ module elementconn#(parameter ENV_ADDRWIDTH=32,parameter ENV_DATAWIDTH=32,parame
 localparam NSLICE=FREQ_DATAWIDTH/32;
 reg [ENV_ADDRWIDTH-1:0] envaddr_cnt=0;
 reg busy=0;
+reg [FREQ_ADDRWIDTH-1:0] freqaddr_r=0;
+reg [FREQ_DATAWIDTH-1:0] freqdata_r=0;
+reg [ENV_ADDRWIDTH-1:0] envaddr_r=0;
+reg [ENV_ADDRWIDTH-1:0] envaddr_r2=0;
+reg [ENV_DATAWIDTH-1:0] envdata_r=0;
 always @(posedge elem.clk) begin
-	envaddr_cnt<=elem.cmdstb ? elem.envstart : (envaddr_cnt==elem.envstart+elem.envlength) ? envaddr_cnt : envaddr_cnt+1;
-	if (elem.cmdstb)
+	if (elem.cmdstb[0]) begin
+		envaddr_cnt<=elem.envstart;
+	end
+	else if (envaddr_cnt==elem.envstart+elem.envlength) begin
+		envaddr_cnt<=envaddr_cnt;
+	end
+	else begin
+		envaddr_cnt<=envaddr_cnt+1;
+	end
+//	envaddr_cnt<=elem.cmdstb[0] ? elem.envstart : (envaddr_cnt==elem.envstart+elem.envlength) ? envaddr_cnt : envaddr_cnt+1;
+	if (elem.cmdstb[0])
 		busy<=1'b1;
 	else if (envaddr_cnt==elem.envstart+elem.envlength)
 		busy<=1'b0;
+	freqdata_r<=freqdata;
+	freqaddr_r<=elem.freqaddr;
+	envdata_r<=envdata;
+	envaddr_r<=envaddr_cnt;
+	envaddr_r2<=envaddr_r;
 end
-assign envaddr=envaddr_cnt;
-assign freqaddr=elem.freqaddr;
-assign elem.valid=busy; // need adjust for delay
+assign envaddr=envaddr_r2;
+assign freqaddr=freqaddr_r;
+
+
 ammod #(.NSLICE(NSLICE)) 
-qdrvammod(.clk(elem.clk),.reset(~busy),.tcnt(elem.tcnt),.freqcossinp32x16(freqdata),.envxy32x16(envdata),.pini(elem.pini),.multix16x16(elem.multix),.multiy16x16(elem.multiy),.ampx(elem.ampx),.ampy(elem.ampy));
+ammod(.clk(elem.clk),.gatein(busy),.tcnt(elem.tcnt),.freqcossinp32x16(freqdata_r),.envxy32x16(envdata_r),.pini(elem.pini),.multix16x16(elem.multix),.multiy16x16(elem.multiy),.ampx(elem.ampx),.ampy(elem.ampy),.gateout(elem.valid));
 
 endmodule
-
-interface ifelement#(parameter ENV_ADDRWIDTH=32,parameter ENV_DATAWIDTH=32,parameter TCNTWIDTH=32,parameter FREQ_ADDRWIDTH=32,parameter FREQ_DATAWIDTH=32)(
-	input clk
-	,input reset
-	,input [TCNTWIDTH-1:0] tcnt
-	);
-	localparam NSLICE=FREQ_DATAWIDTH/32;
-	logic cmdstb;
-	logic [ENV_ADDRWIDTH-1:0] envstart;
-	logic [ENV_ADDRWIDTH-1:0] envlength;
-	logic [15:0] ampx;
-	logic [15:0] ampy;
-	logic [16:0] pini;
-	logic [1:0] mode;
-	logic valid;
-	logic [NSLICE*16-1:0] multix;
-	logic [NSLICE*16-1:0] multiy;
-	logic [FREQ_ADDRWIDTH-1:0] freqaddr;
-	modport proc(output cmdstb,envstart,envlength,ampx,ampy,freqaddr,pini,mode
-	);
-	modport elem(input clk,reset,cmdstb,envstart,envlength,ampx,ampy,pini,mode,tcnt,freqaddr
-	,output multix,multiy,valid
-	);
-	modport out(input clk,multix,multiy,valid
-	);
-	modport mix(input clk,multix,multiy,valid,cmdstb
-	);
-endinterface
 
 module elementout#(parameter ENV_ADDRWIDTH=32,parameter ENV_DATAWIDTH=32,parameter TCNTWIDTH=32,parameter FREQ_ADDRWIDTH=32,parameter FREQ_DATAWIDTH=32)(ifelement.out elem
 ,output valid
@@ -82,12 +74,12 @@ for (genvar i=0;i<NSLICE;i++) begin : stepslice
 	reg [15:0] sumy0=0;
 	reg [15:0] sumy1=0;
 	always @(posedge elem0.clk) begin
-		sumx0<=elem0.multix[i*16+15:i*16+0]+elem1.multix[i*16+15:i*16+0]+elem2.multix[i*16+15:i*16+0];  //  not checking overflow, depends on user
-		sumx1<=elem3.multix[i*16+15:i*16+0]+sumx0;
-		sumx[i*16+15:i*16]<=sumx1;
-		sumy0<=elem0.multiy[i*16+15:i*16+0]+elem1.multiy[i*16+15:i*16+0]+elem2.multiy[i*16+15:i*16+0];  //  not checking overflow, depends on user
-		sumy1<=elem3.multiy[i*16+15:i*16+0]+sumy0;
-		sumy[i*16+15:i*16]<=sumy1;
+		sumx0<=elem0.multix[i*16+15:i*16+0]+elem1.multix[i*16+15:i*16+0];
+		sumx1<=elem3.multix[i*16+15:i*16+0]+elem2.multix[i*16+15:i*16+0];  //  not checking overflow, depends on usersumx0;
+		sumx[i*16+15:i*16]<=sumx0+sumx1;
+		sumy0<=elem0.multiy[i*16+15:i*16+0]+elem1.multiy[i*16+15:i*16+0];
+		sumy1<=elem3.multiy[i*16+15:i*16+0]+elem2.multiy[i*16+15:i*16+0];  //  not checking overflow, depends on user
+		sumy[i*16+15:i*16]<=sumy1+sumy0;;
 	end
 end
 endgenerate
@@ -109,7 +101,8 @@ module elementmixacc#(parameter ENV_ADDRWIDTH=32,parameter ENV_DATAWIDTH=32,para
 ,input [NSLICE*16-1:0] adcx
 ,input [NSLICE*16-1:0] adcy
 ,input [4:0] shift
-,output valid
+,output gateout
+,output stbout 
 ,output [31:0] accx
 ,output [31:0] accy
 );
@@ -175,15 +168,103 @@ generate for (genvar i =0; i<NSLICE; i=i+1) begin
 	end
 end
 endgenerate
+reg [13:0] gatesr=0;
+always @(posedge elem.clk) begin
+	gatesr<={gatesr[12:0],elem.valid};
+end
 wire [ACCADDWIDTH+32+NSLICEWIDTH-1:0] sumxslicelast= (ACCADDWIDTH+32+NSLICEWIDTH)'(signed'(sumxslice[NSLICE-1]));
 wire [ACCADDWIDTH+32+NSLICEWIDTH-1:0] sumyslicelast= (ACCADDWIDTH+32+NSLICEWIDTH)'(signed'(sumyslice[NSLICE-1]));
 reg [ACCADDWIDTH+32+NSLICEWIDTH-1:0] accsumx=0;
 reg [ACCADDWIDTH+32+NSLICEWIDTH-1:0] accsumy=0;
+reg newacc=0;
 always @(posedge elem.clk) begin
-	accsumx<= elem.cmdstb ? 0 : (accsumx+sumxslicelast);
-	accsumy<= elem.cmdstb ? 0 : (accsumy+sumyslicelast);
+	newacc<=gatesr[10:9]==2'b01;
+	accsumx<= newacc ? 0 : (accsumx+sumxslicelast);
+	accsumy<= newacc ? 0 : (accsumy+sumyslicelast);
 end
+
 assign accx=accsumx>>>shift;
 assign accy=accsumy>>>shift;
-assign valid=elem.valid; // should be a delayed version 
+//assign valid=elem.valid; // should be a delayed version 
+assign gateout=gatesr[12];
+assign stbout=gatesr[13:12]==2'b10;
 endmodule
+
+module elementproc #(parameter MODE=0)(ifelement.proc elem
+,input [127:0] command
+);
+wire [26:0] trigt;
+wire [11:0] envstart;
+wire [11:0] envlength;
+wire [15:0] ampx;
+wire [8:0] freqaddr;
+wire [16:0] pini;
+wire [1:0] mode;
+
+reg [127:0] command_d=0;
+reg [127:0] command_d2=0;
+reg cmdstb=0;//(elem.tcnt==trigt) && (elem.mode==MODE);
+assign {mode,trigt,envstart,envlength,ampx,freqaddr,pini}=command_d;
+always @(posedge elem.clk) begin
+	cmdstb<=(elem.tcnt==trigt) && (elem.mode==MODE);
+	elem.cmdstb={15{cmdstb}};
+	command_d<=command;
+	command_d2<=command_d;
+	if (elem.cmdstb[0]) begin
+		{elem.envstart,elem.envlength,elem.ampx,elem.freqaddr,elem.pini,elem.mode}<=command_d;
+	end
+	/*	if (mode==MODE) begin
+		elem.mode<=mode;
+		elem.cmdstb<={16{elem.tcnt==trigt}};
+		elem.envstart<=envstart;
+		elem.envlength<=envlength;
+		elem.ampx<=ampx;
+		elem.ampy<=16'd0;//0
+		elem.freqaddr<=freqaddr;
+		elem.pini<=pini;
+	end
+	*/
+end
+//assign endcommand=endcommand_r;
+endmodule
+
+interface ifelement#(parameter ENV_ADDRWIDTH=32,parameter ENV_DATAWIDTH=32,parameter TCNTWIDTH=32,parameter FREQ_ADDRWIDTH=32,parameter FREQ_DATAWIDTH=32)(
+	input clk
+	,input reset
+	);
+	localparam NSLICE=FREQ_DATAWIDTH/32;
+	reg [15:0] cmdstb=0;
+	logic [ENV_ADDRWIDTH-1:0] envstart;
+	logic [ENV_ADDRWIDTH-1:0] envlength;
+	logic [15:0] ampx;
+	logic [15:0] ampy;
+	logic [16:0] pini;
+	logic [1:0] mode;
+	logic valid;
+	logic [NSLICE*16-1:0] multix;
+	logic [NSLICE*16-1:0] multiy;
+	logic [15:0] multix_check [0:NSLICE-1];
+	logic [15:0] multiy_check [0:NSLICE-1];
+	reg [TCNTWIDTH-1:0] tcnt=0;
+	generate
+	for (genvar i=0;i<NSLICE;i=i+1) begin
+		assign multix_check[i]=multix[i*16+15:i*16];
+		assign multiy_check[i]=multiy[i*16+15:i*16];
+	end
+	endgenerate
+	always @(posedge clk) begin
+		tcnt<= reset ? 0 : tcnt+1;
+	end
+	logic [FREQ_ADDRWIDTH-1:0] freqaddr;
+	modport proc(output cmdstb,envstart,envlength,ampx,ampy,freqaddr,pini,mode
+	,input tcnt,clk
+	);
+	modport elem(input clk,reset,cmdstb,envstart,envlength,ampx,ampy,pini,mode,tcnt,freqaddr
+	,output multix,multiy,valid
+	);
+	modport out(input clk,multix,multiy,valid
+	);
+	modport mix(input clk,multix,multiy,valid,cmdstb
+	);
+endinterface
+

@@ -109,6 +109,19 @@ async def axi4readwrite(dut):
 
 def sign16(v):
     return int(v-65536) if (v>>15)&1 else v
+def widthshift(val,width,shift):
+    mask1=(1<<width)-1;
+    return (val&mask1)<<shift
+
+def cmdad(mode,trigt,envstart,envlength,ampx,freqaddr,pini):
+    cmd128=widthshift(mode,2,0)+widthshift(pini,17,2)+widthshift(freqaddr,9,19)+widthshift(ampx,16,28)+widthshift(envlength,12,44)+widthshift(envstart,12,56)+widthshift(trigt,27,68)
+    cmd32=[]
+    for i in range(4):
+        cmd32.insert(0,(cmd128>>((3-i)*32))&0xffffffff)
+    return cmd32
+
+import bram
+brams=bram.brams("../../bram.json")#,write=bramaxi.write,read=bramaxi.read)
 @cocotb.test()
 async def sinmult(dut):
     startclk(dut=dut,tstop=10e-4)
@@ -140,12 +153,20 @@ async def sinmult(dut):
 
     addrph16=range(0x68000,0x68000+16);#[0x70000,0x70001,0x70002,0x70003,0x70004,0x70005,0x70006,0x70007,0x70008,0x70009,0x7000a,0x7000b,0x7000c,0x7000d,0x7000e,0x7000f]#,25,25]
     addrrdloph16=range(0x84000,0x84000+16);#[0x70000,0x70001,0x70002,0x70003,0x70004,0x70005,0x70006,0x70007,0x70008,0x70009,0x7000a,0x7000b,0x7000c,0x7000d,0x7000e,0x7000f]#,25,25]
-    addrrdrvph16=range(0x70000,0x70000+16);#[0x70000,0x70001,0x70002,0x70003,0x70004,0x70005,0x70006,0x70007,0x70008,0x70009,0x7000a,0x7000b,0x7000c,0x7000d,0x7000e,0x7000f]#,25,25]
+    addrrdrvph16=range(0x70000+16,0x70000+32);#[0x70000,0x70001,0x70002,0x70003,0x70004,0x70005,0x70006,0x70007,0x70008,0x70009,0x7000a,0x7000b,0x7000c,0x7000d,0x7000e,0x7000f]#,25,25]
     for a,v in enumerate(freqph16):
         await bramaxi.write(addrph16[a]*4,v)
         await bramaxi.write(addrrdloph16[a]*4,v)
         await bramaxi.write(addrrdrvph16[a]*4,v)
         await RisingEdge(dspclk)
+    cmd0addr=int(brams['command0'].paradict['address'],0)
+    for a,d in enumerate(cmdad(mode=0,trigt=10,envstart=32,envlength=10,ampx=10000,freqaddr=0,pini=0)):
+        await bramaxi.write((cmd0addr+a)*4,d)
+    for a,d in enumerate(cmdad(mode=0,trigt=30,envstart=32,envlength=10,ampx=20000,freqaddr=0,pini=0)):
+        await bramaxi.write((cmd0addr+4+a)*4,d)
+    for a,d in enumerate(cmdad(mode=0,trigt=0,envstart=0,envlength=0,ampx=0,freqaddr=0,pini=0)):
+        await bramaxi.write((cmd0addr+8+a)*4,d)
+
     for a in range(0x48000,0x48400):        
         await bramaxi.write(a*4,0x7fff0000)
         await RisingEdge(dspclk)
@@ -172,6 +193,7 @@ async def sinmult(dut):
 #        await bramaxi.write((0x70000+i)*4,0x7fff0000+i*0x101)
 #    await bramaxi.write((0x70000+0)*4,0x2aaaaaaa)
     await dspregsaxi.write(25*4,1)
+    await dspregsaxi.write(6*4,1)
     await RisingEdge(dspclk)
     dut.aresetn.value= 0;
     await RisingEdge(dspclk)
