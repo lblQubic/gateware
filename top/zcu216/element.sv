@@ -122,11 +122,15 @@ generate for (genvar i =0; i<NSLICE; i=i+1) begin
 	reg signed [15:0] dloyi=0;
 	wire signed [31:0] multixi_w;
 	wire signed [31:0] multiyi_w;
+	reg signed [31:0] multixi_r=0;
+	reg signed [31:0] multiyi_r=0;
 	always @(posedge elem.clk) begin
 		adcxi<=$signed(adcx[i*16+15:i*16]);
 		adcyi<=$signed(adcy[i*16+15:i*16]);
 		dloxi<=$signed(elem.multix[i*16+15:i*16]);
 		dloyi<=$signed(elem.multiy[i*16+15:i*16]);
+		multixi_r<=multixi_w;
+		multiyi_r<=multiyi_w;
 	end
 	cmultiplier #(.XWIDTH(16),.YWIDTH(16))
 	mult1(.clk(elem.clk),.xr(adcxi),.xi(adcyi),.yr(dloxi),.yi(dloyi),.zr(multixi_w),.zi(multiyi_w));
@@ -139,8 +143,8 @@ generate for (genvar i =0; i<NSLICE; i=i+1) begin
 		end
 		if (j==0) begin
 			always @(posedge elem.clk) begin
-				multixi[i][j]<=multixi_w;
-				multiyi[i][j]<=multiyi_w;
+				multixi[i][j]<=multixi_r;
+				multiyi[i][j]<=multiyi_r;
 			end
 		end
 		else begin
@@ -170,9 +174,9 @@ generate for (genvar i =0; i<NSLICE; i=i+1) begin
 	end
 end
 endgenerate
-reg [13:0] gatesr=0;
+reg [14:0] gatesr=0;
 always @(posedge elem.clk) begin
-	gatesr<={gatesr[12:0],elem.valid};
+	gatesr<={gatesr[13:0],elem.valid};
 end
 wire [ACCADDWIDTH+32+NSLICEWIDTH-1:0] sumxslicelast= (ACCADDWIDTH+32+NSLICEWIDTH)'(signed'(sumxslice[NSLICE-1]));
 wire [ACCADDWIDTH+32+NSLICEWIDTH-1:0] sumyslicelast= (ACCADDWIDTH+32+NSLICEWIDTH)'(signed'(sumyslice[NSLICE-1]));
@@ -180,7 +184,7 @@ reg [ACCADDWIDTH+32+NSLICEWIDTH-1:0] accsumx=0;
 reg [ACCADDWIDTH+32+NSLICEWIDTH-1:0] accsumy=0;
 reg newacc=0;
 always @(posedge elem.clk) begin
-	newacc<=gatesr[10:9]==2'b01;
+	newacc<=gatesr[11:10]==2'b01;
 	accsumx<= newacc ? 0 : (accsumx+sumxslicelast);
 	accsumy<= newacc ? 0 : (accsumy+sumyslicelast);
 end
@@ -188,8 +192,8 @@ end
 assign accx=accsumx>>>shift;
 assign accy=accsumy>>>shift;
 //assign valid=elem.valid; // should be a delayed version 
-assign gateout=gatesr[12];
-assign stbout=gatesr[13:12]==2'b10;
+assign gateout=gatesr[13];
+assign stbout=gatesr[14:13]==2'b10;
 endmodule
 
 module elementproc #(parameter MODE=0)(ifelement.proc elem

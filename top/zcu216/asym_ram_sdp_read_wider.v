@@ -43,7 +43,7 @@ localparam maxWIDTH = `max(DATAWIDTHA, DATAWIDTHB);
 localparam minWIDTH = `min(DATAWIDTHA, DATAWIDTHB);
 localparam RATIO = maxWIDTH / minWIDTH;
 localparam log2RATIO = log2(RATIO);
-(* ram_style= RAM_STYLE ,cascade_height=1 *)
+(* ram_style= RAM_STYLE ,cascade_height=2 *)
 reg [minWIDTH-1:0] RAM [0:maxSIZE-1];
 reg [ADDRWIDTHB-1:0] addrB_d=0;
 reg [DATAWIDTHB-1:0] readB=0;
