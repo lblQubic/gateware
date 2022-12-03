@@ -1,5 +1,6 @@
 interface ifbramctrl#(parameter integer DATA_WIDTH = 32,parameter integer ADDR_WIDTH=24,parameter READDELAY=4
 ,`include "bram_para.vh"
+,`include "braminit_para.vh"
 	)(iflocalbus.lb lb
 ,`include "bramif_lbport.vh")
 ;

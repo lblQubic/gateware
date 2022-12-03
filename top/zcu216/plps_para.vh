@@ -10,4 +10,3 @@ parameter DEBUG="true"
 ,parameter integer DAC_AXIS_DATAWIDTH=256
 ,parameter integer ADC_AXIS_DATAWIDTH=64
 ,parameter integer BRAMADDRWIDTH=32
-,`include "bram_para.vh"

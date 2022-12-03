@@ -2,6 +2,19 @@ import os
 import re
 import pathlib
 
+def comment_remover(text): # https://stackoverflow.com/questions/241327/remove-c-and-c-comments-using-python
+    def replacer(match):
+        s = match.group(0)
+        if s.startswith('/'):
+            return " " # note: a space and not an empty string
+        else:
+            return s
+    pattern = re.compile(
+            r'//.*?$|/\*.*?\*/|\'(?:\\.|[^\\\'])*\'|"(?:\\.|[^\\"])*"',
+            re.DOTALL | re.MULTILINE
+            )
+    return re.sub(pattern, replacer, text)
+
 def svinclude(sorig,vhlist,oneline=False):
     cnt=0
     for vh in vhlist:
@@ -11,6 +24,7 @@ def svinclude(sorig,vhlist,oneline=False):
             with open(vh) as fvh:
                 svh=fvh.read()
             if oneline:
+                svh=comment_remover(svh)
                 svh=re.sub("\n"," ",svh)
             sorig=re.sub(sre,svh,sorig)
             [cntnew,sorig]=svinclude(sorig,vhlist,oneline=oneline)

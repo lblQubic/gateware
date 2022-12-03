@@ -197,31 +197,35 @@ class axi4:
         #await RisingEdge(self.bvalid)
         print('finish a ar channel')
     async def rchannel(self,delay=2):
-        self.rdataval=[]
+        rdataval=[]
         print('start a r channel')
         self.rready.value=1
         for t in range(delay):
             await RisingEdge(self.aclk)
         self.rready.value=1
         await RisingEdge(self.aclk)
-        print(type(self.rdata.value))
-        print(int(self.rdata.value))
-        self.rdataval.append(int(self.rdata.value))
+#        print(type(self.rdata.value))
+#        print(int(self.rdata.value))
+        if (self.rready.value.integer==1 and self.rvalid.value.integer==1):
+            rdataval.append(int(self.rdata.value))
+            print(self.rready,self.rvalid)
         while (self.rlast != 1):
             await RisingEdge(self.aclk)
-            self.rdataval.append(int(self.rdata.value))
+            if (self.rready.value.integer==1 and self.rvalid.value.integer==1):
+                rdataval.append(int(self.rdata.value))
         await RisingEdge(self.aclk)
         self.rready.value=0
         await RisingEdge(self.aclk)
         await RisingEdge(self.aclk)
         print('finish a r channel')
+        return rdataval
     async def read(self,addr,arburst=0,arlen=0):
         print("start a read")
         arth=cocotb.start_soon(self.archannel(addr=addr,arburst=arburst,arlen=arlen))
         rth=cocotb.start_soon(self.rchannel())
         await arth
-        await rth
-        print(self.rdataval)
+        rdataval=await rth
+        return rdataval
 
 
     async def read1(self,addr,arburst=0,arlen=0):

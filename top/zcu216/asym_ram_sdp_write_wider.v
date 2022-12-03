@@ -22,7 +22,7 @@ output [DATAWIDTHB-1:0] doB;
 `define min(a,b) (a) < (b) ? (a) : (b)
 function integer log2;
 	input integer value;
-	reg [31:0] shifted;
+	reg [31:0] shifted=0;
 	integer res;
 	begin
 		if (value < 2)
@@ -43,13 +43,13 @@ localparam RATIO = maxWIDTH / minWIDTH;
 localparam log2RATIO = log2(RATIO);
 (* ram_style= RAM_STYLE ,cascade_height=2 *)
 reg [minWIDTH-1:0] RAM [0:maxSIZE-1];
-reg [DATAWIDTHB-1:0] readB;
-reg [DATAWIDTHB-1:0] readB_d;
-reg [DATAWIDTHB-1:0] readB_d2;
+reg [DATAWIDTHB-1:0] readB=0;
+reg [DATAWIDTHB-1:0] readB_d=0;
+reg [DATAWIDTHB-1:0] readB_d2=0;
 always @(posedge clkB) begin
-		readB <= RAM[addrB];
-		readB_d<=readB;
-		readB_d2<=readB_d;
+	readB <= RAM[addrB];
+	readB_d<=readB;
+	readB_d2<=readB_d;
 end
 assign doB = readB_d2;
 reg [ADDRWIDTHA-1:0] addrA_d=0;
@@ -63,16 +63,16 @@ end
 always @(posedge clkA)
 begin : ramwrite
 	integer i;
-	reg [log2RATIO-1:0] lsbaddr;
+	reg [log2RATIO-1:0] lsbaddr=0;
 	for (i=0; i< RATIO; i= i+ 1) begin : write1
 		lsbaddr = i;
-			if (weA_d)
-				RAM[{addrA_d, lsbaddr}] <= diA_d[(i+1)*minWIDTH-1 -: minWIDTH];
+		if (weA_d)
+			RAM[{addrA_d, lsbaddr}] <= diA_d[(i+1)*minWIDTH-1 -: minWIDTH];
 	end
 end
 
 generate
-	if (INIT_FILE!="") begin
+	if (INIT_FILE!=0) begin
 		initial
 			$readmemh(INIT_FILE,RAM);//,0,SIZEA-1);
 	end

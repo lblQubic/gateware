@@ -1,5 +1,7 @@
 module boardcfg #(
 `include "plps_para.vh"	
+,`include "bram_para.vh"
+,`include "braminit_para.vh"
 )(hwif.cfg hw
 ,ifcfgregs.regs cfgregs
 ,`include "bramif_port.vh"

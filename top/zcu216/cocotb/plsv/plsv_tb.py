@@ -1,59 +1,173 @@
 import cocotb
 from cocotb.triggers import Timer, RisingEdge
 import axi4
+import bram
+import regs
 import numpy
+import random
 from matplotlib import pyplot
-async def generate_clock(freq,pin,tstop):
-    clk_cycle_ns=round(1/freq*1e9/2.0,3)
-    for i in range(int(tstop/(clk_cycle_ns*1e-9))):
-        pin.value = 0
-        await Timer(clk_cycle_ns, units='ns')
-        pin.value = 1
-        await Timer(clk_cycle_ns, units='ns')
-    #dut._log.debug("clk cycle {}".format(i))
 
-def startclk(dut,tstop):
-    cocotb.start_soon(generate_clock(freq=100e6,pin=dut.clk100,tstop=tstop))
-    cocotb.start_soon(generate_clock(freq=300e6,pin=dut.usersi570c0,tstop=tstop))
-    cocotb.start_soon(generate_clock(freq=300e6,pin=dut.usersi570c1,tstop=tstop))
-    cocotb.start_soon(generate_clock(freq=600e6,pin=dut.clk104_pl_clk,tstop=tstop))
-    cocotb.start_soon(generate_clock(freq=9.8e6,pin=dut.clk104_pl_sysref,tstop=tstop))
-    cocotb.start_soon(generate_clock(freq=600e6,pin=dut.lb1_clk,tstop=tstop))
-    cocotb.start_soon(generate_clock(freq=600e6,pin=dut.lb2_clk,tstop=tstop))
-    cocotb.start_soon(generate_clock(freq=33.3e6,pin=dut.pl_clk0,tstop=tstop))
-    cocotb.start_soon(generate_clock(freq=600e6,pin=dut.clk_dac2,tstop=tstop))
-    cocotb.start_soon(generate_clock(freq=600e6,pin=dut.clk_dac3,tstop=tstop))
-    cocotb.start_soon(generate_clock(freq=300e6,pin=dut.clk_adc2,tstop=tstop))
-    cocotb.start_soon(generate_clock(freq=300e6,pin=dut.clkadc2_300,tstop=tstop))
-    cocotb.start_soon(generate_clock(freq=600e6,pin=dut.clkadc2_600,tstop=tstop))
-    cocotb.start_soon(generate_clock(freq=125e6,pin=dut.clk125,tstop=tstop))
+
+class plsv():
+    def __init__(self):
+        self.acqbuf0=numpy.zeros(20)
+        for i,v in enumerate(self.acqbuf0):
+            self.acqbuf0[i]=random.randint(0,2**32)
+        f=open("INIT_acqbuf0.mem",'w')
+        s='\n'.join([format(int(i),'08x') for i in self.acqbuf0])
+        f.write(s)
+        f.close()
+        pass
+    def conndut(self,dut):
+        self.dut=dut
+        self.cfgregsaxi=axi4.axi4(aclk=dut.cfgregsaxi_aclk,aresetn=dut.cfgregsaxi_aresetn,araddr=dut.cfgregsaxi_araddr,arburst=dut.cfgregsaxi_arburst,arcache=dut.cfgregsaxi_arcache,arid=dut.cfgregsaxi_arid,arlen=dut.cfgregsaxi_arlen,arlock=dut.cfgregsaxi_arlock,arprot=dut.cfgregsaxi_arprot,arqos=dut.cfgregsaxi_arqos,arready=dut.cfgregsaxi_arready,arregion=dut.cfgregsaxi_arregion,arsize=dut.cfgregsaxi_arsize,aruser=dut.cfgregsaxi_aruser,arvalid=dut.cfgregsaxi_arvalid,awaddr=dut.cfgregsaxi_awaddr,awburst=dut.cfgregsaxi_awburst,awcache=dut.cfgregsaxi_awcache,awid=dut.cfgregsaxi_awid,awlen=dut.cfgregsaxi_awlen,awlock=dut.cfgregsaxi_awlock,awprot=dut.cfgregsaxi_awprot,awqos=dut.cfgregsaxi_awqos,awready=dut.cfgregsaxi_awready,awregion=dut.cfgregsaxi_awregion,awsize=dut.cfgregsaxi_awsize,awuser=dut.cfgregsaxi_awuser,awvalid=dut.cfgregsaxi_awvalid,bid=dut.cfgregsaxi_bid,bready=dut.cfgregsaxi_bready,bresp=dut.cfgregsaxi_bresp,buser=dut.cfgregsaxi_buser,bvalid=dut.cfgregsaxi_bvalid,rdata=dut.cfgregsaxi_rdata,rid=dut.cfgregsaxi_rid,rlast=dut.cfgregsaxi_rlast,rready=dut.cfgregsaxi_rready,rresp=dut.cfgregsaxi_rresp,ruser=dut.cfgregsaxi_ruser,rvalid=dut.cfgregsaxi_rvalid,wdata=dut.cfgregsaxi_wdata,wlast=dut.cfgregsaxi_wlast,wready=dut.cfgregsaxi_wready,wstrb=dut.cfgregsaxi_wstrb,wuser=dut.cfgregsaxi_wuser,wvalid=dut.cfgregsaxi_wvalid)
+        self.dspregsaxi=axi4.axi4(aclk=dut.dspregsaxi_aclk,aresetn=dut.dspregsaxi_aresetn,araddr=dut.dspregsaxi_araddr,arburst=dut.dspregsaxi_arburst,arcache=dut.dspregsaxi_arcache,arid=dut.dspregsaxi_arid,arlen=dut.dspregsaxi_arlen,arlock=dut.dspregsaxi_arlock,arprot=dut.dspregsaxi_arprot,arqos=dut.dspregsaxi_arqos,arready=dut.dspregsaxi_arready,arregion=dut.dspregsaxi_arregion,arsize=dut.dspregsaxi_arsize,aruser=dut.dspregsaxi_aruser,arvalid=dut.dspregsaxi_arvalid,awaddr=dut.dspregsaxi_awaddr,awburst=dut.dspregsaxi_awburst,awcache=dut.dspregsaxi_awcache,awid=dut.dspregsaxi_awid,awlen=dut.dspregsaxi_awlen,awlock=dut.dspregsaxi_awlock,awprot=dut.dspregsaxi_awprot,awqos=dut.dspregsaxi_awqos,awready=dut.dspregsaxi_awready,awregion=dut.dspregsaxi_awregion,awsize=dut.dspregsaxi_awsize,awuser=dut.dspregsaxi_awuser,awvalid=dut.dspregsaxi_awvalid,bid=dut.dspregsaxi_bid,bready=dut.dspregsaxi_bready,bresp=dut.dspregsaxi_bresp,buser=dut.dspregsaxi_buser,bvalid=dut.dspregsaxi_bvalid,rdata=dut.dspregsaxi_rdata,rid=dut.dspregsaxi_rid,rlast=dut.dspregsaxi_rlast,rready=dut.dspregsaxi_rready,rresp=dut.dspregsaxi_rresp,ruser=dut.dspregsaxi_ruser,rvalid=dut.dspregsaxi_rvalid,wdata=dut.dspregsaxi_wdata,wlast=dut.dspregsaxi_wlast,wready=dut.dspregsaxi_wready,wstrb=dut.dspregsaxi_wstrb,wuser=dut.dspregsaxi_wuser,wvalid=dut.dspregsaxi_wvalid)
+        self.bramsaxi=axi4.axi4(aclk=dut.bramaxi_aclk,aresetn=dut.bramaxi_aresetn,araddr=dut.bramaxi_araddr,arburst=dut.bramaxi_arburst,arcache=dut.bramaxi_arcache,arid=dut.bramaxi_arid,arlen=dut.bramaxi_arlen,arlock=dut.bramaxi_arlock,arprot=dut.bramaxi_arprot,arqos=dut.bramaxi_arqos,arready=dut.bramaxi_arready,arregion=dut.bramaxi_arregion,arsize=dut.bramaxi_arsize,aruser=dut.bramaxi_aruser,arvalid=dut.bramaxi_arvalid,awaddr=dut.bramaxi_awaddr,awburst=dut.bramaxi_awburst,awcache=dut.bramaxi_awcache,awid=dut.bramaxi_awid,awlen=dut.bramaxi_awlen,awlock=dut.bramaxi_awlock,awprot=dut.bramaxi_awprot,awqos=dut.bramaxi_awqos,awready=dut.bramaxi_awready,awregion=dut.bramaxi_awregion,awsize=dut.bramaxi_awsize,awuser=dut.bramaxi_awuser,awvalid=dut.bramaxi_awvalid,bid=dut.bramaxi_bid,bready=dut.bramaxi_bready,bresp=dut.bramaxi_bresp,buser=dut.bramaxi_buser,bvalid=dut.bramaxi_bvalid,rdata=dut.bramaxi_rdata,rid=dut.bramaxi_rid,rlast=dut.bramaxi_rlast,rready=dut.bramaxi_rready,rresp=dut.bramaxi_rresp,ruser=dut.bramaxi_ruser,rvalid=dut.bramaxi_rvalid,wdata=dut.bramaxi_wdata,wlast=dut.bramaxi_wlast,wready=dut.bramaxi_wready,wstrb=dut.bramaxi_wstrb,wuser=dut.bramaxi_wuser,wvalid=dut.bramaxi_wvalid)
+        self.brams=bram.brams("../../bram.json")
+        self.dspregs=regs.regs("../../dspregs.json")
+        self.cfgregs=regs.regs("../../cfgregs.json")
+        self.dutinit()
+    def dutinit(self):
+        self.dut.DAC20_M_AXIS_TREADY.value=1
+        self.dut.DAC22_M_AXIS_TREADY.value=1
+        self.dut.DAC30_M_AXIS_TREADY.value=1
+        self.dut.DAC32_M_AXIS_TREADY.value=1
+        self.dut.aresetn.value= 1;
+        pass
+    async def asyncreset(self,length=23):
+        self.dut.aresetn.value= 0;
+        await Timer(length,units='ns')
+        self.dut.aresetn.value= 1;
+    async def dspregswrite(self,name,val):
+        await self.dspregsaxi.write(addr=self.dspregs[name].address*4,data=val)
+    async def dspregsread(self,name):
+        value=await self.dspregsaxi.read(addr=self.dspregs[name].address*4)
+        self.dspregs[name].value=value
+        return value
+    async def cfgregswrite(self,name,val):
+        await self.cfgregsaxi.write(addr=self.cfgregs[name].address*4,data=val)
+    async def cfgregsread(self,name):
+        value= await self.cfgregsaxi.read(addr=self.cfgregs[name].address*4)
+        self.cfgregs[name].value=value
+        return value
+    async def bramswrite(self,name,offset,val):
+        await self.bramsaxi.write(addr=self.brams[name].address(offset)*4,data=val)
+    async def bramsread(self,name,offset):
+        value= await self.bramsaxi.read(addr=self.brams[name].address(offset)*4)
+        self.brams[name].value=value
+        return value
+    async def generate_clock(slef,freq,pin,tstop):
+        clk_cycle_ns=round(1/freq*1e9/2.0,3)
+        for i in range(int(tstop/(clk_cycle_ns*1e-9))):
+            pin.value = 0
+            await Timer(clk_cycle_ns, units='ns')
+            pin.value = 1
+            await Timer(clk_cycle_ns, units='ns')
+        #dut._log.debug("clk cycle {}".format(i))
+
+    def startclk(self,dut,tstop):
+        cocotb.start_soon(self.generate_clock(freq=100e6,pin=dut.clk100,tstop=tstop))
+        cocotb.start_soon(self.generate_clock(freq=300e6,pin=dut.usersi570c0,tstop=tstop))
+        cocotb.start_soon(self.generate_clock(freq=300e6,pin=dut.usersi570c1,tstop=tstop))
+        cocotb.start_soon(self.generate_clock(freq=600e6,pin=dut.clk104_pl_clk,tstop=tstop))
+        cocotb.start_soon(self.generate_clock(freq=9.8e6,pin=dut.clk104_pl_sysref,tstop=tstop))
+        cocotb.start_soon(self.generate_clock(freq=600e6,pin=dut.lb1_clk,tstop=tstop))
+        cocotb.start_soon(self.generate_clock(freq=600e6,pin=dut.lb2_clk,tstop=tstop))
+        cocotb.start_soon(self.generate_clock(freq=33.3e6,pin=dut.pl_clk0,tstop=tstop))
+        cocotb.start_soon(self.generate_clock(freq=600e6,pin=dut.clk_dac2,tstop=tstop))
+        cocotb.start_soon(self.generate_clock(freq=600e6,pin=dut.clk_dac3,tstop=tstop))
+        cocotb.start_soon(self.generate_clock(freq=300e6,pin=dut.clk_adc2,tstop=tstop))
+        cocotb.start_soon(self.generate_clock(freq=300e6,pin=dut.clkadc2_300,tstop=tstop))
+        cocotb.start_soon(self.generate_clock(freq=600e6,pin=dut.clkadc2_600,tstop=tstop))
+        cocotb.start_soon(self.generate_clock(freq=125e6,pin=dut.clk125,tstop=tstop))
+    async def clk(self,tstop,resettime=257,resetpulselen=23):
+        self.dutinit()
+        self.startclk(dut=self.dut,tstop=tstop)
+        await Timer(resettime,units='ns')
+        await self.asyncreset(resetpulselen);
+    async def dspregsrw(self): 
+        await self.clk(1e-3)
+        await self.delayclk(20,"clk_dac2")
+        randval=random.randint(0,2**32)
+        await self.dspregswrite("resetacc",randval)
+        await self.delayclk(20,"clk_dac2")
+        value=await self.dspregsread("resetacc")
+        await self.delayclk(20,"clk_dac2")
+        assert self.dut.plsv.pltop.dspregs.resetacc.value.integer==randval
+        assert value[0]==randval
+    async def cfgregsrw(self): 
+        await self.clk(1e-3)
+        await self.delayclk(20,"hw.clk100")
+        randval=random.randint(0,2**32)
+        await self.cfgregswrite("test",randval)
+        await self.delayclk(20,"hw.clk100")
+        value=await self.cfgregsread("test")
+        await self.delayclk(20,"hw.clk100")
+        assert self.dut.plsv.pltop.cfgregs.test.value.integer==randval
+        assert value[0]==randval
+
+    async def bramsw(self): 
+        await self.clk(1e-3)
+        await self.delayclk(20,"hw.clk100")
+        addroffset=0
+        randval=random.randint(0,2**32)
+        await self.bramswrite("command0",addroffset,randval)
+        assert self.dut.plsv.command0_mem.addrA_d.value.integer==addroffset
+        assert self.dut.plsv.command0_mem.weA_d.value.integer==1
+        assert self.dut.plsv.command0_mem.diA_d.value.integer==randval
+        await self.delayclk(20,"hw.clk100")
+
+    async def bramsr(self):
+
+
+        await self.clk(1e-3)
+        await self.delayclk(20,"hw.clk100")
+        value=await self.bramsread("acqbuf0",10)
+        print(value,[hex(i) for i in value],self.acqbuf0[10])
+#        assert self.dut.plsv.command0_mem.addrA_d.value.integer==10
+#        assert self.dut.plsv.command0_mem.weA_d.value.integer==1
+#        assert self.dut.plsv.command0_mem.diA_d.value.integer==randval
+        await self.delayclk(20,"hw.clk100")
+
+
+    async def delayclk(self,n,clkname):
+        for i in range(n):
+            await RisingEdge(getattr(self.dut,clkname))
+
+a=plsv()
+@cocotb.test()
+async def init(dut):
+    a.conndut(dut)
 
 @cocotb.test()
-async def testclk(dut):
-    dut.DAC20_M_AXIS_TREADY.value=1
-    dut.aresetn.value= 1;
-    startclk(dut=dut,tstop=10e-4)
-    await Timer(257,units='ns')
-    dut.aresetn.value= 0;
-    await Timer(379,units='ns')
-    dut.aresetn.value= 1;
-    dut.DAC20_M_AXIS_TREADY.value=1
-    dut.DAC22_M_AXIS_TREADY.value=1
-    dut.DAC30_M_AXIS_TREADY.value=1
-    dut.DAC32_M_AXIS_TREADY.value=1
-    for t in range(200):
-        await RisingEdge(dut.hw.clk100)
-
-
+async def clk(dut):
+    await a.clk(2e-6)
+    await a.delayclk(20,"hw.clk100")
 
 @cocotb.test()
+async def dspregsrw(dut):
+    await a.dspregsrw()
+
+@cocotb.test()
+async def cfgregsrw(dut):
+    await a.cfgregsrw()
+
+@cocotb.test()
+async def bramsw(dut):
+    await a.bramsw()
+
+@cocotb.test()
+async def bramsr(dut):
+    await a.bramsr()
+
+#@cocotb.test()
 async def axi4readwrite(dut):
     cfgregsaxi=axi4.axi4(aclk=dut.cfgregsaxi_aclk,aresetn=dut.cfgregsaxi_aresetn,araddr=dut.cfgregsaxi_araddr,arburst=dut.cfgregsaxi_arburst,arcache=dut.cfgregsaxi_arcache,arid=dut.cfgregsaxi_arid,arlen=dut.cfgregsaxi_arlen,arlock=dut.cfgregsaxi_arlock,arprot=dut.cfgregsaxi_arprot,arqos=dut.cfgregsaxi_arqos,arready=dut.cfgregsaxi_arready,arregion=dut.cfgregsaxi_arregion,arsize=dut.cfgregsaxi_arsize,aruser=dut.cfgregsaxi_aruser,arvalid=dut.cfgregsaxi_arvalid,awaddr=dut.cfgregsaxi_awaddr,awburst=dut.cfgregsaxi_awburst,awcache=dut.cfgregsaxi_awcache,awid=dut.cfgregsaxi_awid,awlen=dut.cfgregsaxi_awlen,awlock=dut.cfgregsaxi_awlock,awprot=dut.cfgregsaxi_awprot,awqos=dut.cfgregsaxi_awqos,awready=dut.cfgregsaxi_awready,awregion=dut.cfgregsaxi_awregion,awsize=dut.cfgregsaxi_awsize,awuser=dut.cfgregsaxi_awuser,awvalid=dut.cfgregsaxi_awvalid,bid=dut.cfgregsaxi_bid,bready=dut.cfgregsaxi_bready,bresp=dut.cfgregsaxi_bresp,buser=dut.cfgregsaxi_buser,bvalid=dut.cfgregsaxi_bvalid,rdata=dut.cfgregsaxi_rdata,rid=dut.cfgregsaxi_rid,rlast=dut.cfgregsaxi_rlast,rready=dut.cfgregsaxi_rready,rresp=dut.cfgregsaxi_rresp,ruser=dut.cfgregsaxi_ruser,rvalid=dut.cfgregsaxi_rvalid,wdata=dut.cfgregsaxi_wdata,wlast=dut.cfgregsaxi_wlast,wready=dut.cfgregsaxi_wready,wstrb=dut.cfgregsaxi_wstrb,wuser=dut.cfgregsaxi_wuser,wvalid=dut.cfgregsaxi_wvalid)
     dspregsaxi=axi4.axi4(aclk=dut.dspregsaxi_aclk,aresetn=dut.dspregsaxi_aresetn,araddr=dut.dspregsaxi_araddr,arburst=dut.dspregsaxi_arburst,arcache=dut.dspregsaxi_arcache,arid=dut.dspregsaxi_arid,arlen=dut.dspregsaxi_arlen,arlock=dut.dspregsaxi_arlock,arprot=dut.dspregsaxi_arprot,arqos=dut.dspregsaxi_arqos,arready=dut.dspregsaxi_arready,arregion=dut.dspregsaxi_arregion,arsize=dut.dspregsaxi_arsize,aruser=dut.dspregsaxi_aruser,arvalid=dut.dspregsaxi_arvalid,awaddr=dut.dspregsaxi_awaddr,awburst=dut.dspregsaxi_awburst,awcache=dut.dspregsaxi_awcache,awid=dut.dspregsaxi_awid,awlen=dut.dspregsaxi_awlen,awlock=dut.dspregsaxi_awlock,awprot=dut.dspregsaxi_awprot,awqos=dut.dspregsaxi_awqos,awready=dut.dspregsaxi_awready,awregion=dut.dspregsaxi_awregion,awsize=dut.dspregsaxi_awsize,awuser=dut.dspregsaxi_awuser,awvalid=dut.dspregsaxi_awvalid,bid=dut.dspregsaxi_bid,bready=dut.dspregsaxi_bready,bresp=dut.dspregsaxi_bresp,buser=dut.dspregsaxi_buser,bvalid=dut.dspregsaxi_bvalid,rdata=dut.dspregsaxi_rdata,rid=dut.dspregsaxi_rid,rlast=dut.dspregsaxi_rlast,rready=dut.dspregsaxi_rready,rresp=dut.dspregsaxi_rresp,ruser=dut.dspregsaxi_ruser,rvalid=dut.dspregsaxi_rvalid,wdata=dut.dspregsaxi_wdata,wlast=dut.dspregsaxi_wlast,wready=dut.dspregsaxi_wready,wstrb=dut.dspregsaxi_wstrb,wuser=dut.dspregsaxi_wuser,wvalid=dut.dspregsaxi_wvalid)
 #    dut.cfgregsaxi_rready.value=1
     cfgclk=cfgregsaxi.aclk;
     dspclk=dspregsaxi.aclk;
-    startclk(dut=dut,tstop=10e-4)
+    a.startclk(dut=dut,tstop=10e-4)
     testaddr=32*4
     for t in range(10):
         #await RisingEdge(dut.cfgregsaxi_aclk)
@@ -122,9 +236,9 @@ def cmdad(mode,trigt,envstart,envlength,ampx,freqaddr,pini):
 
 import bram
 brams=bram.brams("../../bram.json")#,write=bramaxi.write,read=bramaxi.read)
-@cocotb.test()
+#@cocotb.test()
 async def sinmult(dut):
-    startclk(dut=dut,tstop=10e-4)
+    a.startclk(dut=dut,tstop=10e-4)
     dspregsaxi=axi4.axi4(aclk=dut.dspregsaxi_aclk,aresetn=dut.dspregsaxi_aresetn,araddr=dut.dspregsaxi_araddr,arburst=dut.dspregsaxi_arburst,arcache=dut.dspregsaxi_arcache,arid=dut.dspregsaxi_arid,arlen=dut.dspregsaxi_arlen,arlock=dut.dspregsaxi_arlock,arprot=dut.dspregsaxi_arprot,arqos=dut.dspregsaxi_arqos,arready=dut.dspregsaxi_arready,arregion=dut.dspregsaxi_arregion,arsize=dut.dspregsaxi_arsize,aruser=dut.dspregsaxi_aruser,arvalid=dut.dspregsaxi_arvalid,awaddr=dut.dspregsaxi_awaddr,awburst=dut.dspregsaxi_awburst,awcache=dut.dspregsaxi_awcache,awid=dut.dspregsaxi_awid,awlen=dut.dspregsaxi_awlen,awlock=dut.dspregsaxi_awlock,awprot=dut.dspregsaxi_awprot,awqos=dut.dspregsaxi_awqos,awready=dut.dspregsaxi_awready,awregion=dut.dspregsaxi_awregion,awsize=dut.dspregsaxi_awsize,awuser=dut.dspregsaxi_awuser,awvalid=dut.dspregsaxi_awvalid,bid=dut.dspregsaxi_bid,bready=dut.dspregsaxi_bready,bresp=dut.dspregsaxi_bresp,buser=dut.dspregsaxi_buser,bvalid=dut.dspregsaxi_bvalid,rdata=dut.dspregsaxi_rdata,rid=dut.dspregsaxi_rid,rlast=dut.dspregsaxi_rlast,rready=dut.dspregsaxi_rready,rresp=dut.dspregsaxi_rresp,ruser=dut.dspregsaxi_ruser,rvalid=dut.dspregsaxi_rvalid,wdata=dut.dspregsaxi_wdata,wlast=dut.dspregsaxi_wlast,wready=dut.dspregsaxi_wready,wstrb=dut.dspregsaxi_wstrb,wuser=dut.dspregsaxi_wuser,wvalid=dut.dspregsaxi_wvalid)
     bramaxi=axi4.axi4(aclk=dut.bramaxi_aclk,aresetn=dut.bramaxi_aresetn,araddr=dut.bramaxi_araddr,arburst=dut.bramaxi_arburst,arcache=dut.bramaxi_arcache,arid=dut.bramaxi_arid,arlen=dut.bramaxi_arlen,arlock=dut.bramaxi_arlock,arprot=dut.bramaxi_arprot,arqos=dut.bramaxi_arqos,arready=dut.bramaxi_arready,arregion=dut.bramaxi_arregion,arsize=dut.bramaxi_arsize,aruser=dut.bramaxi_aruser,arvalid=dut.bramaxi_arvalid,awaddr=dut.bramaxi_awaddr,awburst=dut.bramaxi_awburst,awcache=dut.bramaxi_awcache,awid=dut.bramaxi_awid,awlen=dut.bramaxi_awlen,awlock=dut.bramaxi_awlock,awprot=dut.bramaxi_awprot,awqos=dut.bramaxi_awqos,awready=dut.bramaxi_awready,awregion=dut.bramaxi_awregion,awsize=dut.bramaxi_awsize,awuser=dut.bramaxi_awuser,awvalid=dut.bramaxi_awvalid,bid=dut.bramaxi_bid,bready=dut.bramaxi_bready,bresp=dut.bramaxi_bresp,buser=dut.bramaxi_buser,bvalid=dut.bramaxi_bvalid,rdata=dut.bramaxi_rdata,rid=dut.bramaxi_rid,rlast=dut.bramaxi_rlast,rready=dut.bramaxi_rready,rresp=dut.bramaxi_rresp,ruser=dut.bramaxi_ruser,rvalid=dut.bramaxi_rvalid,wdata=dut.bramaxi_wdata,wlast=dut.bramaxi_wlast,wready=dut.bramaxi_wready,wstrb=dut.bramaxi_wstrb,wuser=dut.bramaxi_wuser,wvalid=dut.bramaxi_wvalid)
     dspclk=dspregsaxi.aclk;
@@ -204,7 +318,7 @@ async def sinmult(dut):
     await Timer(20e-6, units='sec')
 
 
-@cocotb.test()
+#@cocotb.test()
 async def clkexist(dut):
     tstop=20e-6
     #tstop=500e-6

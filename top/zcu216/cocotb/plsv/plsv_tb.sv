@@ -1,18 +1,19 @@
 `timescale 1 ns / 1 ps
 module plsv_tb#(
-	`include "plps_para.vh"
 /*
 //,parameter integer LB_DATAWIDTH	= 32
 //,parameter integer LB_ADDRWIDTH	= 8
 */
-,parameter integer ID_WIDTH	= 1
-,parameter integer AXI_DATAWIDTH	= 32
-,parameter integer AXI_ADDRWIDTH	= 32
-,parameter integer AWUSER_WIDTH	= 1
-,parameter integer ARUSER_WIDTH	= 1
-,parameter integer WUSER_WIDTH	= 1
-,parameter integer RUSER_WIDTH	= 1
-,parameter integer BUSER_WIDTH	= 1
+`include "plps_para.vh"
+,`include "bram_para.vh"
+,parameter integer ID_WIDTH    = 1
+,parameter integer AXI_DATAWIDTH       = 32
+,parameter integer AXI_ADDRWIDTH       = 32
+,parameter integer AWUSER_WIDTH        = 1
+,parameter integer ARUSER_WIDTH        = 1
+,parameter integer WUSER_WIDTH = 1
+,parameter integer RUSER_WIDTH = 1
+,parameter integer BUSER_WIDTH = 1
 
 )(
 input aresetn
@@ -311,6 +312,44 @@ input aresetn
 ,input clk104_pl_clk
 );
 
+localparam INIT_accbuf0="INIT_accbuf0.mem";
+localparam INIT_accbuf1="INIT_accbuf1.mem";
+localparam INIT_accbuf2="INIT_accbuf2.mem";
+localparam INIT_accbuf3="INIT_accbuf3.mem";
+localparam INIT_acqbuf0="INIT_acqbuf0.mem";
+localparam INIT_acqbuf1="INIT_acqbuf1.mem";
+localparam INIT_command0="INIT_command0.mem";
+localparam INIT_command1="INIT_command1.mem";
+localparam INIT_command2="INIT_command2.mem";
+localparam INIT_command3="INIT_command3.mem";
+localparam INIT_dacmon0="INIT_dacmon0.mem";
+localparam INIT_dacmon1="INIT_dacmon1.mem";
+localparam INIT_dacmon2="INIT_dacmon2.mem";
+localparam INIT_dacmon3="INIT_dacmon3.mem";
+localparam INIT_qdrvenv0="INIT_qdrvenv0.mem";
+localparam INIT_qdrvenv1="INIT_qdrvenv1.mem";
+localparam INIT_qdrvenv2="INIT_qdrvenv2.mem";
+localparam INIT_qdrvenv3="INIT_qdrvenv3.mem";
+localparam INIT_qdrvfreq0="INIT_qdrvfreq0.mem";
+localparam INIT_qdrvfreq1="INIT_qdrvfreq1.mem";
+localparam INIT_qdrvfreq2="INIT_qdrvfreq2.mem";
+localparam INIT_qdrvfreq3="INIT_qdrvfreq3.mem";
+localparam INIT_rdloenv0="INIT_rdloenv0.mem";
+localparam INIT_rdloenv1="INIT_rdloenv1.mem";
+localparam INIT_rdloenv2="INIT_rdloenv2.mem";
+localparam INIT_rdloenv3="INIT_rdloenv3.mem";
+localparam INIT_rdlofreq0="INIT_rdlofreq0.mem";
+localparam INIT_rdlofreq1="INIT_rdlofreq1.mem";
+localparam INIT_rdlofreq2="INIT_rdlofreq2.mem";
+localparam INIT_rdlofreq3="INIT_rdlofreq3.mem";
+localparam INIT_rdrvenv0="INIT_rdrvenv0.mem";
+localparam INIT_rdrvenv1="INIT_rdrvenv1.mem";
+localparam INIT_rdrvenv2="INIT_rdrvenv2.mem";
+localparam INIT_rdrvenv3="INIT_rdrvenv3.mem";
+localparam INIT_rdrvfreq0="INIT_rdrvfreq0.mem";
+localparam INIT_rdrvfreq1="INIT_rdrvfreq1.mem";
+localparam INIT_rdrvfreq2="INIT_rdrvfreq2.mem";
+localparam INIT_rdrvfreq3="INIT_rdrvfreq3.mem";
 //localparam integer ADDR_LSB = (AXI_DATAWIDTH/32)+ 1;
 //localparam integer LB_ADDRWIDTH	 =AXI_ADDRWIDTH-ADDR_LSB;
 //localparam integer LB_DATAWIDTH	 = AXI_DATAWIDTH;
@@ -662,6 +701,9 @@ hwif hw();
 //localparam integer BRAMFROMHOST_ADDRWIDTH=13;
 //localparam integer BRAMFROMHOST_DATAWIDTH=512;
 plsv #(`include "plps_parainst.vh"
+,`include "bram_parainst.vh"
+,`include "braminit_parainst.vh"
+
 	//.LB_DATAWIDTH(LB_DATAWIDTH),.LB_ADDRWIDTH(LB_ADDRWIDTH),.DAC_AXIS_DATAWIDTH(DAC_AXIS_DATAWIDTH),.ADC_AXIS_DATAWIDTH(ADC_AXIS_DATAWIDTH),.BRAMTOHOST_ADDRWIDTH(BRAMTOHOST_ADDRWIDTH),.BRAMTOHOST_DATAWIDTH(BRAMTOHOST_DATAWIDTH),.BRAMFROMHOST_ADDRWIDTH(BRAMFROMHOST_ADDRWIDTH),.BRAMFROMHOST_DATAWIDTH(BRAMFROMHOST_DATAWIDTH)
 )
 plsv

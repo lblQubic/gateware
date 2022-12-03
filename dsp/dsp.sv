@@ -1,4 +1,7 @@
-module fakeprocs #(`include "plps_para.vh")
+module fakeprocs #(`include "plps_para.vh"
+,`include "bram_para.vh"
+,`include "braminit_para.vh"
+)
 (input clk
 ,input stbstart 
 ,input [31:0] nshot
@@ -50,6 +53,8 @@ endmodule
 
 
 module dsp #(`include "plps_para.vh"	
+,`include "bram_para.vh"
+,`include "braminit_para.vh"
 )(	ifdspregs.regs regs
 ,ifdsp.dsp dspif
 );
@@ -194,6 +199,8 @@ endmodule
 
 interface ifdsp #(
 	`include "plps_para.vh"
+,`include "bram_para.vh"
+,`include "braminit_para.vh"
 )(
 );
 wire clk;

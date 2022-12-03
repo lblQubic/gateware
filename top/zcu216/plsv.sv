@@ -1,5 +1,7 @@
 `timescale 1 ns / 1 ps
 module plsv #(`include "plps_para.vh"
+,`include "bram_para.vh"
+,`include "braminit_para.vh"
 )(	`include "plps_port.vh"
 ,hwif hw
 ,input clkadc2_300
@@ -42,7 +44,10 @@ lb4map(.lb(lb4),.wren(lb4_wren),.rden(lb4_rden),.rdenlast(lb4_rdenlast),.waddr(l
 
 `include "bram_plsv.vh"
 
-ifbramctrl#(.DATA_WIDTH(LB3_DATAWIDTH),.ADDR_WIDTH(LB3_ADDRWIDTH),.READDELAY(3),`include "bram_parainst.vh")
+ifbramctrl#(.DATA_WIDTH(LB3_DATAWIDTH),.ADDR_WIDTH(LB3_ADDRWIDTH),.READDELAY(3)
+,`include "bram_parainst.vh"
+,`include "braminit_parainst.vh"
+)
 ifbramctrl(.lb(lb3)
 ,`include "bramif_lbportinst.vh"
 );
@@ -81,6 +86,8 @@ adc21axismap(.axis(adc21axis),.ready(ADC21_S_AXIS_TREADY),.valid(ADC21_S_AXIS_TV
 
 pltop #(
 `include "plps_parainst.vh"
+,`include "bram_parainst.vh"
+,`include "braminit_parainst.vh"
 )
 pltop(
 `include "bramif_portinst.vh"	

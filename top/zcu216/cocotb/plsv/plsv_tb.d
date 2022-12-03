@@ -37,3 +37,5 @@ plsv_tb.sv
 ../../phtime.v
 ../../element.sv
 ../../gitrevision.v
+../../braminit_parainst.vh
+../../braminit_para.vh
