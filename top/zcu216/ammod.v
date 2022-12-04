@@ -1,11 +1,10 @@
 module ammod#(parameter NSLICE=16) (input clk
 ,input gatein
-,input [17:0] tcnt
+,input [26:0] tcnt
 ,input [NSLICE*32-1:0] freqcossinp32x16
 ,input [NSLICE*32-1:0] envxy32x16
 ,input [16:0] pini
 ,input [15:0] ampx
-,input [15:0] ampy
 ,output [NSLICE*16-1:0] multix16x16
 ,output [NSLICE*16-1:0] multiy16x16
 ,output gateout
@@ -23,6 +22,8 @@ wire [15:0] multiy[0:NSLICE-1];
 reg [NSLICE*16-1:0] multix16x16_r=0;
 reg [NSLICE*16-1:0] multiy16x16_r=0;
 
+wire [NSLICE*32-1:0] freqcossinp32x16_d;
+reg_delay1 #(.DW(512),.LEN(25)) freqcossinpdelay(.clk(clk),.gate(1'b1),.din(freqcossinp32x16),.dout(freqcossinp32x16_d),.reset(1'b0));
 generate
 	for (genvar i=0;i<NSLICE;i=i+1) begin
 		if (i==0) begin
@@ -30,7 +31,7 @@ generate
 			assign freq32=freqcossinp32x16[32*i+31:32*i+0];
 		end
 		else begin
-			assign {cosp[i],sinp[i]}=freqcossinp32x16[32*i+31:32*i+0];
+			assign {cosp[i],sinp[i]}=freqcossinp32x16_d[32*i+31:32*i+0];
 		end
 		assign {envx[i],envy[i]}=envxy32x16[32*i+31:32*i+0];
 
@@ -54,6 +55,15 @@ assign freq=freq32[31:5];
 wire [26:0] phasetime;
 wire gphtime;
 phtime phtime(.clk(clk),.freq(freq),.tcnt(tcnt),.phasetime(phasetime),.gatein(gatein),.gateout(gphtime));
+wire [15:0] ampx_d;
+reg [15:0] ampx_d2=0;
+wire [16:0] pini_d;
+reg_delay1 #(.DW(16),.LEN(11)) ampxdelay(.clk(clk),.gate(1'b1),.din(ampx),.dout(ampx_d),.reset(1'b0));
+reg_delay1 #(.DW(17),.LEN(11)) pinidelay(.clk(clk),.gate(1'b1),.din(pini),.dout(pini_d),.reset(1'b0));
+
+// LEN clocks of delay.  Xilinx should turn this into
+
+
 reg [16:0] phaseinit=0;
 reg gphaseinit=0;
 wire [15:0] cos_w;
@@ -61,15 +71,16 @@ wire [15:0] sin_w;
 reg [15:0] cos=0;
 reg [15:0] sin=0;
 always @(posedge clk) begin
-	phaseinit<=phasetime[26:10]+pini;
+	phaseinit<=phasetime[26:10]+pini_d;
 	gphaseinit<=gphtime;
+	ampx_d2<=gphtime ? ampx_d : 0; 
 	cos<=cos_w;
 	sin<=sin_w;
 end
 
 wire gcordic;
-cordicg #(.WIDTH(16),.NSTAGE(16),.NORMALIZE(1),.BUFIN(1),.GW(1))
-cordicg(.clk(clk), .opin(1'b0), .xin(ampx), .yin(ampy), .phasein(phaseinit), .xout(cos_w), .yout(sin_w), .phaseout(),.error(),.gin(gphaseinit),.gout(gcordic));
+cordicg #(.WIDTH(16),.NSTAGE(16),.NORMALIZE(1),.BUFIN(1),.GW(1),.OPIN(1'b0))
+cordicg(.clk(clk),.xin(ampx_d2),.yin(16'd0),.phasein(phaseinit),.xout(cos_w),.yout(sin_w),.phaseout(),.error(),.gin(gphaseinit),.gout(gcordic));
 
 
 wire gmulti;

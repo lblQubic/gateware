@@ -13,5 +13,7 @@ MODULE = $(TGT)
 all: fst
 fst: sim
 	mv dump.fst $(TGT).fst
+	printf "\a\a\a"
+
 include $(shell cocotb-config --makefiles)/Makefile.sim
 

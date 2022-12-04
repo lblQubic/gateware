@@ -67,14 +67,17 @@ always @(posedge clkB) begin : ramread
 	reg [log2RATIO-1:0] lsbaddr;
 	for (i = 0; i < RATIO; i = i+1) begin
 		lsbaddr = i;
-		readB[(i+1)*minWIDTH-1 -: minWIDTH] <= RAM[{addrB_d, lsbaddr}];
+		//readB[(i+1)*minWIDTH-1 -: minWIDTH] <= RAM[{addrB_d, lsbaddr}];
+		readB[(i+1)*minWIDTH-1 -: minWIDTH] <= RAM[{addrB, lsbaddr}];
 	end
 end
 always @(posedge clkB) begin 
 	readB_d<=readB;
 	readB_d2<=readB_d;
 end
-assign doB = readB_d2;
+//assign doB = readB_d2;
+//assign doB = readB;
+assign doB = readB_d;
 
 generate
 	if (INIT_FILE!="") begin

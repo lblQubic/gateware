@@ -10,7 +10,7 @@
 ../../submodules/common-hdl/axi4stream.sv
 ../../submodules/common-hdl/bram_if.sv
 ../../submodules/common-hdl/cmultiplier2.v
-../../submodules/common-hdl/cordicg2.sv
+../../submodules/common-hdl/cordicg3.sv
 ../../submodules/common-hdl/freq_count3.v
 ../../submodules/common-hdl/iflocalbus.sv
 ../../submodules/common-hdl/iflocalbus.tcl

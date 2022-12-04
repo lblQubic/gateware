@@ -10,22 +10,89 @@ from matplotlib import pyplot
 
 class plsv():
     def __init__(self):
-        self.acqbuf0=numpy.zeros(20)
-        for i,v in enumerate(self.acqbuf0):
-            self.acqbuf0[i]=random.randint(0,2**32)
-        f=open("INIT_acqbuf0.mem",'w')
-        s='\n'.join([format(int(i),'08x') for i in self.acqbuf0])
-        f.write(s)
-        f.close()
+        self.acqbuf0=numpy.zeros(16384)
+        self.brams=bram.brams("../../bram.json")
+        self.dspregs=regs.regs("../../dspregs.json")
+        self.cfgregs=regs.regs("../../cfgregs.json")
+        self.freqbuf('qdrvfreq0',[10e6,20e6,30e6,4.6e9])
+        self.freqbuf('rdrvfreq0',[10e6,20e6,30e6,4.6e9])
+        self.freqbuf('rdlofreq0',[10e6,20e6,30e6,4.6e9],ratio=4)
+        self.freqbuf('qdrvfreq1',[10e6,20e6,30e6,4.6e9])
+        self.freqbuf('rdrvfreq1',[10e6,20e6,30e6,4.6e9])
+        self.freqbuf('rdlofreq1',[10e6,20e6,30e6,4.6e9],ratio=4)
+        self.envbuf('qdrvenv0',[numpy.zeros(16*10),numpy.ones(16*20)*0x7eff0000,numpy.zeros(16*20),self.complex32(numpy.arange(1,16*16+1)*100+1j*numpy.zeros(16*16))])
+        self.envbuf('rdrvenv0',[numpy.zeros(16*10),numpy.ones(16*20)*0x7eff0000,numpy.zeros(16*20),self.complex32(numpy.arange(1,16*16+1)*100+1j*numpy.zeros(16*16))])
+        self.envbuf('rdloenv0',[numpy.zeros(16*10),numpy.ones(16*20)*0x7eff0000,numpy.zeros(16*20),self.complex32(numpy.arange(1,16*16+1)*100+1j*numpy.zeros(16*16))])
+        self.cmdbuf('command0',[self.fakecmd(trigt=10,envstart=10,envlength=20,amp=12345,freqaddr=1,pini=65535,mode=0)])
+        self.cmdbuf('command0',[self.fakecmd(trigt=140,envstart=50,envlength=16,amp=34567,freqaddr=2,pini=0x2340,mode=0)])
+        self.cmdbuf('command0',[self.fakecmd(trigt=160,envstart=50,envlength=16,amp=34567,freqaddr=2,pini=0x2341,mode=1)])
+        self.cmdbuf('command0',[self.fakecmd(trigt=169,envstart=50,envlength=16,amp=34567,freqaddr=2,pini=0x2342,mode=2)])
+        self.cmdbuf('command0',[self.fakecmd(trigt=270,envstart=0,envlength=0,amp=32005,freqaddr=3,pini=0xabc,mode=0)])
+        self.cmdbuf('command0',[self.fakecmd(trigt=292,envstart=50,envlength=16,amp=34567,freqaddr=2,pini=0x2341,mode=1)])
+        self.cmdbuf('command0',[self.fakecmd(trigt=301,envstart=50,envlength=16,amp=34567,freqaddr=2,pini=0x2342,mode=2)])
+        self.cmdbuf('command0',[self.fakecmd(trigt=1500,envstart=10,envlength=20,amp=12345,freqaddr=1,pini=65535,mode=0)])
+        self.cmdbuf('command1',[self.fakecmd(trigt=0,envstart=10,envlength=0,amp=12345,freqaddr=1,pini=65535,mode=0)])
+        self.cmdbuf('command1',[self.fakecmd(trigt=6,envstart=20,envlength=0,amp=12345,freqaddr=2,pini=65535,mode=2)])
         pass
+    def widthshift(self,val,width,shift):
+        mask1=(1<<width)-1;
+        return (val&mask1)<<shift
+    def cmdbuf(self,bufname,cmdlist):
+        for i,cmd in enumerate(cmdlist):
+            startaddr=self.brams[bufname].next
+            for j in range(4):
+                self.brams[bufname].set_value(startaddr+j,(cmd>>(j*32))&0xffffffff)
+                print('cmdbuf',startaddr+j,hex((cmd>>(j*32))&0xffffffff))
+        self.brams[bufname].siminit()
+    def fakecmd(self,trigt,amp,freqaddr,envstart,envlength,mode,pini):
+        cmd=self.widthshift(mode,2,0)\
+        +self.widthshift(pini,17,2)\
+        +self.widthshift(freqaddr,9,19)\
+        +self.widthshift(amp,16,28)\
+        +self.widthshift(envlength,12,44)\
+        +self.widthshift(envstart,12,56)\
+        +self.widthshift(trigt,27,68);
+        print('fakecmd',cmd)
+        return cmd
+    def envbuf(self,bufname,envlist):
+        for i,env in enumerate(envlist):
+            startaddr=self.brams[bufname].next
+            self.brams[bufname].set_value(startaddr,env)
+        self.brams[bufname].siminit()
+    def complex32(self,c):
+        ffff=(numpy.ones(len(c))*0xffff).astype(int)
+        real=c.real.astype(int)
+        imag=c.imag.astype(int)
+        c32=(real<<16)+imag
+        return c32
+
+
+    def freqbuf(self,bufname,freqlist,ratio=16):
+        for i,freq in enumerate(freqlist):
+            freqphase16=self.freqcalc(freq)
+            self.brams[bufname].set_value(i*ratio,freqphase16)
+        self.brams[bufname].siminit()            
+
+
+
+    def freqcalc(self,freq,ffpga=600e6,ratio=16,scale=32767):
+        fsample=ratio*ffpga
+        Ts=1/fsample
+        r=[]
+        for i in range(ratio):
+            c=int(round(numpy.cos(2*numpy.pi*freq*i*Ts)*scale))%0x10000
+            s=int(round(numpy.sin(2*numpy.pi*freq*i*Ts)*scale))%0x10000
+            if (i==0):
+                r.append(int(freq*2**32/ffpga)&0xffffffff)
+            else:
+                r.append(((c<<16)+s))
+            print([hex(i) for i in r])
+        return r
     def conndut(self,dut):
         self.dut=dut
         self.cfgregsaxi=axi4.axi4(aclk=dut.cfgregsaxi_aclk,aresetn=dut.cfgregsaxi_aresetn,araddr=dut.cfgregsaxi_araddr,arburst=dut.cfgregsaxi_arburst,arcache=dut.cfgregsaxi_arcache,arid=dut.cfgregsaxi_arid,arlen=dut.cfgregsaxi_arlen,arlock=dut.cfgregsaxi_arlock,arprot=dut.cfgregsaxi_arprot,arqos=dut.cfgregsaxi_arqos,arready=dut.cfgregsaxi_arready,arregion=dut.cfgregsaxi_arregion,arsize=dut.cfgregsaxi_arsize,aruser=dut.cfgregsaxi_aruser,arvalid=dut.cfgregsaxi_arvalid,awaddr=dut.cfgregsaxi_awaddr,awburst=dut.cfgregsaxi_awburst,awcache=dut.cfgregsaxi_awcache,awid=dut.cfgregsaxi_awid,awlen=dut.cfgregsaxi_awlen,awlock=dut.cfgregsaxi_awlock,awprot=dut.cfgregsaxi_awprot,awqos=dut.cfgregsaxi_awqos,awready=dut.cfgregsaxi_awready,awregion=dut.cfgregsaxi_awregion,awsize=dut.cfgregsaxi_awsize,awuser=dut.cfgregsaxi_awuser,awvalid=dut.cfgregsaxi_awvalid,bid=dut.cfgregsaxi_bid,bready=dut.cfgregsaxi_bready,bresp=dut.cfgregsaxi_bresp,buser=dut.cfgregsaxi_buser,bvalid=dut.cfgregsaxi_bvalid,rdata=dut.cfgregsaxi_rdata,rid=dut.cfgregsaxi_rid,rlast=dut.cfgregsaxi_rlast,rready=dut.cfgregsaxi_rready,rresp=dut.cfgregsaxi_rresp,ruser=dut.cfgregsaxi_ruser,rvalid=dut.cfgregsaxi_rvalid,wdata=dut.cfgregsaxi_wdata,wlast=dut.cfgregsaxi_wlast,wready=dut.cfgregsaxi_wready,wstrb=dut.cfgregsaxi_wstrb,wuser=dut.cfgregsaxi_wuser,wvalid=dut.cfgregsaxi_wvalid)
         self.dspregsaxi=axi4.axi4(aclk=dut.dspregsaxi_aclk,aresetn=dut.dspregsaxi_aresetn,araddr=dut.dspregsaxi_araddr,arburst=dut.dspregsaxi_arburst,arcache=dut.dspregsaxi_arcache,arid=dut.dspregsaxi_arid,arlen=dut.dspregsaxi_arlen,arlock=dut.dspregsaxi_arlock,arprot=dut.dspregsaxi_arprot,arqos=dut.dspregsaxi_arqos,arready=dut.dspregsaxi_arready,arregion=dut.dspregsaxi_arregion,arsize=dut.dspregsaxi_arsize,aruser=dut.dspregsaxi_aruser,arvalid=dut.dspregsaxi_arvalid,awaddr=dut.dspregsaxi_awaddr,awburst=dut.dspregsaxi_awburst,awcache=dut.dspregsaxi_awcache,awid=dut.dspregsaxi_awid,awlen=dut.dspregsaxi_awlen,awlock=dut.dspregsaxi_awlock,awprot=dut.dspregsaxi_awprot,awqos=dut.dspregsaxi_awqos,awready=dut.dspregsaxi_awready,awregion=dut.dspregsaxi_awregion,awsize=dut.dspregsaxi_awsize,awuser=dut.dspregsaxi_awuser,awvalid=dut.dspregsaxi_awvalid,bid=dut.dspregsaxi_bid,bready=dut.dspregsaxi_bready,bresp=dut.dspregsaxi_bresp,buser=dut.dspregsaxi_buser,bvalid=dut.dspregsaxi_bvalid,rdata=dut.dspregsaxi_rdata,rid=dut.dspregsaxi_rid,rlast=dut.dspregsaxi_rlast,rready=dut.dspregsaxi_rready,rresp=dut.dspregsaxi_rresp,ruser=dut.dspregsaxi_ruser,rvalid=dut.dspregsaxi_rvalid,wdata=dut.dspregsaxi_wdata,wlast=dut.dspregsaxi_wlast,wready=dut.dspregsaxi_wready,wstrb=dut.dspregsaxi_wstrb,wuser=dut.dspregsaxi_wuser,wvalid=dut.dspregsaxi_wvalid)
         self.bramsaxi=axi4.axi4(aclk=dut.bramaxi_aclk,aresetn=dut.bramaxi_aresetn,araddr=dut.bramaxi_araddr,arburst=dut.bramaxi_arburst,arcache=dut.bramaxi_arcache,arid=dut.bramaxi_arid,arlen=dut.bramaxi_arlen,arlock=dut.bramaxi_arlock,arprot=dut.bramaxi_arprot,arqos=dut.bramaxi_arqos,arready=dut.bramaxi_arready,arregion=dut.bramaxi_arregion,arsize=dut.bramaxi_arsize,aruser=dut.bramaxi_aruser,arvalid=dut.bramaxi_arvalid,awaddr=dut.bramaxi_awaddr,awburst=dut.bramaxi_awburst,awcache=dut.bramaxi_awcache,awid=dut.bramaxi_awid,awlen=dut.bramaxi_awlen,awlock=dut.bramaxi_awlock,awprot=dut.bramaxi_awprot,awqos=dut.bramaxi_awqos,awready=dut.bramaxi_awready,awregion=dut.bramaxi_awregion,awsize=dut.bramaxi_awsize,awuser=dut.bramaxi_awuser,awvalid=dut.bramaxi_awvalid,bid=dut.bramaxi_bid,bready=dut.bramaxi_bready,bresp=dut.bramaxi_bresp,buser=dut.bramaxi_buser,bvalid=dut.bramaxi_bvalid,rdata=dut.bramaxi_rdata,rid=dut.bramaxi_rid,rlast=dut.bramaxi_rlast,rready=dut.bramaxi_rready,rresp=dut.bramaxi_rresp,ruser=dut.bramaxi_ruser,rvalid=dut.bramaxi_rvalid,wdata=dut.bramaxi_wdata,wlast=dut.bramaxi_wlast,wready=dut.bramaxi_wready,wstrb=dut.bramaxi_wstrb,wuser=dut.bramaxi_wuser,wvalid=dut.bramaxi_wvalid)
-        self.brams=bram.brams("../../bram.json")
-        self.dspregs=regs.regs("../../dspregs.json")
-        self.cfgregs=regs.regs("../../cfgregs.json")
         self.dutinit()
     def dutinit(self):
         self.dut.DAC20_M_AXIS_TREADY.value=1
@@ -54,7 +121,7 @@ class plsv():
         await self.bramsaxi.write(addr=self.brams[name].address(offset)*4,data=val)
     async def bramsread(self,name,offset):
         value= await self.bramsaxi.read(addr=self.brams[name].address(offset)*4)
-        self.brams[name].value=value
+        self.brams[name].set_value(offset=offset,value=value)
         return value
     async def generate_clock(slef,freq,pin,tstop):
         clk_cycle_ns=round(1/freq*1e9/2.0,3)
@@ -109,7 +176,7 @@ class plsv():
     async def bramsw(self): 
         await self.clk(1e-3)
         await self.delayclk(20,"hw.clk100")
-        addroffset=0
+        addroffset=28
         randval=random.randint(0,2**32)
         await self.bramswrite("command0",addroffset,randval)
         assert self.dut.plsv.command0_mem.addrA_d.value.integer==addroffset
@@ -134,31 +201,43 @@ class plsv():
         for i in range(n):
             await RisingEdge(getattr(self.dut,clkname))
 
+    async def start(self):
+        await self.clk(4e-6)
+        await self.delayclk(20,"clk_dac2")
+        await self.dspregswrite("nshot",10)
+        await self.dspregswrite("start",0)
+        await self.delayclk(2000,"clk_dac2")
+
+
 a=plsv()
 @cocotb.test()
 async def init(dut):
     a.conndut(dut)
 
-@cocotb.test()
+#@cocotb.test()
 async def clk(dut):
     await a.clk(2e-6)
     await a.delayclk(20,"hw.clk100")
 
-@cocotb.test()
+#@cocotb.test()
 async def dspregsrw(dut):
     await a.dspregsrw()
 
-@cocotb.test()
+#@cocotb.test()
 async def cfgregsrw(dut):
     await a.cfgregsrw()
 
-@cocotb.test()
+#@cocotb.test()
 async def bramsw(dut):
     await a.bramsw()
 
-@cocotb.test()
+#@cocotb.test()
 async def bramsr(dut):
     await a.bramsr()
+
+@cocotb.test()
+async def start(dut):
+    await a.start()
 
 #@cocotb.test()
 async def axi4readwrite(dut):
@@ -223,9 +302,6 @@ async def axi4readwrite(dut):
 
 def sign16(v):
     return int(v-65536) if (v>>15)&1 else v
-def widthshift(val,width,shift):
-    mask1=(1<<width)-1;
-    return (val&mask1)<<shift
 
 def cmdad(mode,trigt,envstart,envlength,ampx,freqaddr,pini):
     cmd128=widthshift(mode,2,0)+widthshift(pini,17,2)+widthshift(freqaddr,9,19)+widthshift(ampx,16,28)+widthshift(envlength,12,44)+widthshift(envstart,12,56)+widthshift(trigt,27,68)

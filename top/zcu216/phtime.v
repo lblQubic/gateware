@@ -77,5 +77,5 @@ always @(posedge clk) begin
 	gatesr<={gatesr[6:0],gatein};
 end
 assign phasetime=phasetime_r3;
-assign gateout=gatesr[6];
+assign gateout=gatesr[4];
 endmodule

@@ -8,40 +8,54 @@ module elementconn#(parameter ENV_ADDRWIDTH=32,parameter ENV_DATAWIDTH=32,parame
 localparam NSLICE=FREQ_DATAWIDTH/32;
 reg [ENV_ADDRWIDTH-1:0] envaddr_cnt=0;
 reg busy=0;
+reg [15:0] busy_sr=0;
+reg dummybusy=0;
 reg [FREQ_ADDRWIDTH-1:0] freqaddr_r=0;
+reg [FREQ_ADDRWIDTH-1:0] freqaddr_r2=0;
+reg [FREQ_ADDRWIDTH-1:0] freqaddr_r3=0;
+reg [FREQ_ADDRWIDTH-1:0] freqaddr_r4=0;
 reg [FREQ_DATAWIDTH-1:0] freqdata_r=0;
+reg [FREQ_DATAWIDTH-1:0] freqdata_r2=0;
+reg [FREQ_DATAWIDTH-1:0] freqdata_r3=0;
 reg [ENV_ADDRWIDTH-1:0] envaddr_r=0;
 reg [ENV_ADDRWIDTH-1:0] envaddr_r2=0;
 reg [ENV_ADDRWIDTH-1:0] envaddr_r3=0;
 reg [ENV_DATAWIDTH-1:0] envdata_r=0;
+reg [ENV_DATAWIDTH-1:0] envdata_r2=0;
+wire lastenv=envaddr_cnt==elem.envstart+elem.envlength-1;
 always @(posedge elem.clk) begin
-	if (elem.cmdstb[0]) begin
+	if (elem.cmdstb_sr[0]) begin
 		envaddr_cnt<=elem.envstart;
 	end
-	else if (envaddr_cnt==elem.envstart+elem.envlength) begin
-		envaddr_cnt<=envaddr_cnt;
-	end
-	else begin
+//	else if (lastenv) begin
+//		envaddr_cnt<=envaddr_cnt;
+//	end
+	else if (busy) begin
 		envaddr_cnt<=envaddr_cnt+1;
 	end
 //	envaddr_cnt<=elem.cmdstb[0] ? elem.envstart : (envaddr_cnt==elem.envstart+elem.envlength) ? envaddr_cnt : envaddr_cnt+1;
-	if (elem.cmdstb[0])
+	if (elem.cmdstb_sr[0])
 		busy<=1'b1;
-	else if (envaddr_cnt==elem.envstart+elem.envlength)
+	else if (lastenv)
 		busy<=1'b0;
+	{dummybusy,busy_sr}<={busy_sr,busy};
 	freqdata_r<=freqdata;
+	freqdata_r2<=freqdata_r;
 	freqaddr_r<=elem.freqaddr;
+	freqaddr_r2<=freqaddr_r;
+	freqaddr_r3<=freqaddr_r2;
+	freqaddr_r4<=freqaddr_r3;
 	envdata_r<=envdata;
+	envdata_r2<= elem.cw ? {16{32'h7fff0000}} :envdata_r ;
 	envaddr_r<=envaddr_cnt;
-	envaddr_r2<=envaddr_r;
 	envaddr_r3<=envaddr_r2;
 end
-assign envaddr=envaddr_r3;
 assign freqaddr=freqaddr_r;
 
+reg_delay1 #(.DW(ENV_ADDRWIDTH),.LEN(31)) envaddrdelay(.clk(elem.clk),.gate(1'b1),.din(envaddr_cnt),.dout(envaddr),.reset(1'b0));
 
 ammod #(.NSLICE(NSLICE)) 
-ammod(.clk(elem.clk),.gatein(busy),.tcnt(elem.tcnt),.freqcossinp32x16(freqdata_r),.envxy32x16(envdata_r),.pini(elem.pini),.multix16x16(elem.multix),.multiy16x16(elem.multiy),.ampx(elem.ampx),.ampy(elem.ampy),.gateout(elem.valid));
+ammod(.clk(elem.clk),.gatein(busy_sr[4]),.tcnt(elem.tcnt),.freqcossinp32x16(freqdata_r),.envxy32x16(envdata_r2),.pini(elem.pini),.multix16x16(elem.multix),.multiy16x16(elem.multiy),.ampx(elem.ampx),.gateout(elem.valid));
 
 endmodule
 
@@ -174,9 +188,10 @@ generate for (genvar i =0; i<NSLICE; i=i+1) begin
 	end
 end
 endgenerate
-reg [14:0] gatesr=0;
+reg [15:0] gatesr=0;
+reg gatesrdummy=0;
 always @(posedge elem.clk) begin
-	gatesr<={gatesr[13:0],elem.valid};
+	{gatesrdummy,gatesr}<={gatesr,elem.valid};
 end
 wire [ACCADDWIDTH+32+NSLICEWIDTH-1:0] sumxslicelast= (ACCADDWIDTH+32+NSLICEWIDTH)'(signed'(sumxslice[NSLICE-1]));
 wire [ACCADDWIDTH+32+NSLICEWIDTH-1:0] sumyslicelast= (ACCADDWIDTH+32+NSLICEWIDTH)'(signed'(sumyslice[NSLICE-1]));
@@ -192,66 +207,41 @@ end
 assign accx=accsumx>>>shift;
 assign accy=accsumy>>>shift;
 //assign valid=elem.valid; // should be a delayed version 
-assign gateout=gatesr[13];
-assign stbout=gatesr[14:13]==2'b10;
+assign gateout=gatesr[14];
+assign stbout=gatesr[15:14]==2'b10;
 endmodule
 
-module elementproc #(parameter MODE=0)(ifelement.proc elem
-,input [127:0] command
-);
-wire [26:0] trigt;
-wire [11:0] envstart;
-wire [11:0] envlength;
-wire [15:0] ampx;
-wire [8:0] freqaddr;
-wire [16:0] pini;
-wire [1:0] mode;
-
-reg [127:0] command_d=0;
-reg [127:0] command_d2=0;
-reg cmdstb=0;//(elem.tcnt==trigt) && (elem.mode==MODE);
-assign {mode,trigt,envstart,envlength,ampx,freqaddr,pini}=command_d;
-always @(posedge elem.clk) begin
-	cmdstb<=(elem.tcnt==trigt) && (elem.mode==MODE);
-	elem.cmdstb={15{cmdstb}};
-	command_d<=command;
-	command_d2<=command_d;
-	if (elem.cmdstb[0]) begin
-		{elem.envstart,elem.envlength,elem.ampx,elem.freqaddr,elem.pini,elem.mode}<=command_d;
-	end
-	/*	if (mode==MODE) begin
-		elem.mode<=mode;
-		elem.cmdstb<={16{elem.tcnt==trigt}};
-		elem.envstart<=envstart;
-		elem.envlength<=envlength;
-		elem.ampx<=ampx;
-		elem.ampy<=16'd0;//0
-		elem.freqaddr<=freqaddr;
-		elem.pini<=pini;
-	end
-	*/
-end
-//assign endcommand=endcommand_r;
-endmodule
 
 interface ifelement#(parameter ENV_ADDRWIDTH=32,parameter ENV_DATAWIDTH=32,parameter TCNTWIDTH=32,parameter FREQ_ADDRWIDTH=32,parameter FREQ_DATAWIDTH=32)(
 	input clk
-	,input reset
 	);
+	logic reset;
 	localparam NSLICE=FREQ_DATAWIDTH/32;
-	reg [15:0] cmdstb=0;
-	logic [ENV_ADDRWIDTH-1:0] envstart;
-	logic [ENV_ADDRWIDTH-1:0] envlength;
-	logic [15:0] ampx;
-	logic [15:0] ampy;
-	logic [16:0] pini;
-	logic [1:0] mode;
+	logic cmdstb;
+	reg [15:0] cmdstb_sr=0;
+	reg [15:0] reset_sr=0;
+	reg [12-1:0] envstart=0;  // force 12 bit, for the longer element
+	reg [12-1:0] envlength=0;
+	reg [12-1:0] envlength_d=0;
+	reg [15:0] ampx=0;
+	reg [16:0] pini=0;
+	reg [1:0] mode=0;
 	logic valid;
 	logic [NSLICE*16-1:0] multix;
 	logic [NSLICE*16-1:0] multiy;
 	logic [15:0] multix_check [0:NSLICE-1];
 	logic [15:0] multiy_check [0:NSLICE-1];
 	reg [TCNTWIDTH-1:0] tcnt=0;
+	reg [127:0] command=0;
+	reg [127:0] command_d=0;
+	reg [127:0] command_d2=0;
+	reg cw0=0;
+	
+	wire cw=cw_sr[33];
+	reg [42:0] cw_sr=0;
+	reg dummycw=0;
+	reg [26:0] trigt=0;
+	reg [FREQ_ADDRWIDTH-1:0] freqaddr;
 	generate
 	for (genvar i=0;i<NSLICE;i=i+1) begin
 		assign multix_check[i]=multix[i*16+15:i*16];
@@ -259,13 +249,22 @@ interface ifelement#(parameter ENV_ADDRWIDTH=32,parameter ENV_DATAWIDTH=32,param
 	end
 	endgenerate
 	always @(posedge clk) begin
-		tcnt<= reset ? 0 : tcnt+1;
+		cw0<=((|command_d2) && (~|envlength_d));
+		cw_sr<={cw_sr[41:0],cw0};
+		cmdstb_sr<={cmdstb_sr[14:0],cmdstb};
+		reset_sr<={reset_sr[14:0],reset};
+		tcnt<= reset_sr[6] ? 0 : tcnt+1;
+		if (cmdstb) begin
+			{trigt,envstart,envlength,ampx,freqaddr,pini,mode}<=command;
+			command_d<=command;
+			command_d2<=command_d;
+			envlength_d<=envlength;
+		end
 	end
-	logic [FREQ_ADDRWIDTH-1:0] freqaddr;
-	modport proc(output cmdstb,envstart,envlength,ampx,ampy,freqaddr,pini,mode
+	modport proc(output cmdstb,command,reset
 	,input tcnt,clk
 	);
-	modport elem(input clk,reset,cmdstb,envstart,envlength,ampx,ampy,pini,mode,tcnt,freqaddr
+	modport elem(input clk,reset,cmdstb,cmdstb_sr,cw,envstart,envlength,ampx,pini,mode,tcnt,freqaddr
 	,output multix,multiy,valid
 	);
 	modport out(input clk,multix,multiy,valid
