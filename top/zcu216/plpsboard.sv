@@ -4,7 +4,8 @@ module plpsboard #(
 ,`include "bram_para.vh"
 ,`include "braminit_para.vh"
 )(`include "plps_port.vh"
-,`include "fpga_port.vh"
+,
+`include "fpga_port.vh"
 ,output clkadc2_300
 ,output clkadc2_600
 );

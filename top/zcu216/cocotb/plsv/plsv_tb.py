@@ -7,6 +7,10 @@ import numpy
 import random
 from matplotlib import pyplot
 
+import sys
+sys.path.append("../../../../submodules/distributed_processor/python")  # install doesn't work, why?
+import distproc.command_gen as cg  
+
 
 class plsv():
     def __init__(self):
@@ -14,6 +18,49 @@ class plsv():
         self.brams=bram.brams("../../bram.json")
         self.dspregs=regs.regs("../../dspregs.json")
         self.cfgregs=regs.regs("../../cfgregs.json")
+    def pulse_i_test_cmd(self):
+        n_cmd = 11
+        cmd_list = []
+        freq_word_list = []
+        phase_word_list = []
+        env_word_list = []
+        pulse_time_list = [2, 3, 4, 7, 8, 9, 15, 16, 18, 19, 22]
+
+#        for i in range(n_cmd):
+#            freq_word = random.randint(0, 2**9-1)
+#            phase_word = random.randint(0, 2**17-1)
+#            env_word = random.randint(0, 2**24-1)
+#            amp_word = random.randint(0, 2**16-1)
+#            cfg_word = random.randint(0, 2**4-1)
+#            freq_word_list.append(freq_word)
+#            phase_word_list.append(phase_word)
+#            env_word_list.append(env_word)
+#            cmd_list.append(cg.pulse_i(freq_word, phase_word, amp_word, env_word, cfg_word, pulse_time_list[i]))
+
+        cmd_list.append(cg.pulse_i(freq_word=0, phase_word=200, amp_word=30000, env_word=(0x123<<12)+0x20, cfg_word=1, cmd_time=10))
+        cmd_list.append(cg.pulse_i(freq_word=0, phase_word=200, amp_word=30000, env_word=(0x123<<12)+0x20, cfg_word=2, cmd_time=20))
+        cmd_list.append(cg.pulse_i(freq_word=1, phase_word=200, amp_word=30000, env_word=(0x123<<12)+0x20, cfg_word=1, cmd_time=30))
+        cmd_list.append(cg.pulse_i(freq_word=1, phase_word=200, amp_word=30000, env_word=(0x123<<12)+0x20, cfg_word=2, cmd_time=40))
+
+#def pulse_i(freq_word, phase_word, amp_word, env_word, cfg_word, cmd_time):
+
+        print('\n'.join([format(i,'016x') for i in cmd_list]))
+        return cmd_list            
+        self.cmdbuf('command1',[self.fakecmd(trigt=0,envstart=20,envlength=100,amp=12345,freqaddr=0,pini=65535,mode=2)])
+        self.cmdbuf('command1',[self.fakecmd(trigt=200,envstart=20,envlength=100,amp=12345,freqaddr=1,pini=65535,mode=2)])
+        self.cmdbuf('command1',[self.fakecmd(trigt=400,envstart=20,envlength=100,amp=12345,freqaddr=2,pini=65535,mode=2)])
+        self.cmdbuf('command1',[self.fakecmd(trigt=600,envstart=20,envlength=100,amp=12345,freqaddr=3,pini=65535,mode=2)])
+        self.cmdbuf('command1',[self.fakecmd(trigt=800,envstart=20,envlength=100,amp=12345,freqaddr=4,pini=65535,mode=2)])
+        self.cmdbuf('command1',[self.fakecmd(trigt=1000,envstart=20,envlength=100,amp=12345,freqaddr=5,pini=65535,mode=2)])
+        self.cmdbuf('command2',[self.fakecmd(trigt=0,envstart=20,envlength=100,amp=12345,freqaddr=0,pini=65535,mode=2)])
+        self.cmdbuf('command2',[self.fakecmd(trigt=100,envstart=20,envlength=100,amp=12345,freqaddr=1,pini=65535,mode=2)])
+        self.cmdbuf('command2',[self.fakecmd(trigt=300,envstart=20,envlength=100,amp=12345,freqaddr=2,pini=65535,mode=2)])
+        self.cmdbuf('command2',[self.fakecmd(trigt=500,envstart=20,envlength=100,amp=12345,freqaddr=3,pini=65535,mode=2)])
+        self.cmdbuf('command2',[self.fakecmd(trigt=700,envstart=20,envlength=100,amp=12345,freqaddr=4,pini=65535,mode=2)])
+        self.cmdbuf('command2',[self.fakecmd(trigt=900,envstart=20,envlength=100,amp=12345,freqaddr=5,pini=65535,mode=2)])
+        # cmd, env, freq
+
+    def fakeprocmem(self):        
         self.freqbuf('qdrvfreq0',[10e6,20e6,30e6,4.6e9])
         self.freqbuf('rdrvfreq0',[10e6,20e6,30e6,4.6e9])
         self.freqbuf('rdlofreq0',[10e6,20e6,30e6,4.6e9],ratio=4)
@@ -42,16 +89,16 @@ class plsv():
             startaddr=self.brams[bufname].next
             for j in range(4):
                 self.brams[bufname].set_value(startaddr+j,(cmd>>(j*32))&0xffffffff)
-                print('cmdbuf',startaddr+j,hex((cmd>>(j*32))&0xffffffff))
+                print('cmdbuf',startaddr+j,format((cmd>>(j*32))&0xffffffff,'08x'))
         self.brams[bufname].siminit()
     def fakecmd(self,trigt,amp,freqaddr,envstart,envlength,mode,pini):
         cmd=self.widthshift(mode,2,0)\
-        +self.widthshift(pini,17,2)\
-        +self.widthshift(freqaddr,9,19)\
-        +self.widthshift(amp,16,28)\
-        +self.widthshift(envlength,12,44)\
-        +self.widthshift(envstart,12,56)\
-        +self.widthshift(trigt,27,68);
+                +self.widthshift(pini,17,2)\
+                +self.widthshift(freqaddr,9,19)\
+                +self.widthshift(amp,16,28)\
+                +self.widthshift(envlength,12,44)\
+                +self.widthshift(envstart,12,56)\
+                +self.widthshift(trigt,27,68);
         print('fakecmd',cmd)
         return cmd
     def envbuf(self,bufname,envlist):
@@ -235,9 +282,20 @@ async def bramsw(dut):
 async def bramsr(dut):
     await a.bramsr()
 
-@cocotb.test()
+#@cocotb.test()
 async def start(dut):
     await a.start()
+
+@cocotb.test()
+async def pulse_i_test(dut):
+    cmd_list=a.pulse_i_test_cmd()
+    a.cmdbuf('command0',cmd_list)
+    await a.clk(4e-6)
+    await a.delayclk(20,"clk_dac2")
+    await a.dspregswrite("nshot",10)
+    await a.dspregswrite("start",0)
+    await a.delayclk(2000,"clk_dac2")
+
 
 #@cocotb.test()
 async def axi4readwrite(dut):
