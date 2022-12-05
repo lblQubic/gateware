@@ -224,6 +224,7 @@ interface ifelement#(parameter ENV_ADDRWIDTH=32,parameter ENV_DATAWIDTH=32,param
 	reg [12-1:0] envlength=0;
 	reg [12-1:0] envlength_d=0;
 	reg [15:0] ampx=0;
+	reg [15:0] ampy=0;
 	reg [16:0] pini=0;
 	reg [1:0] mode=0;
 	logic valid;
@@ -248,7 +249,7 @@ interface ifelement#(parameter ENV_ADDRWIDTH=32,parameter ENV_DATAWIDTH=32,param
 		assign multiy_check[i]=multiy[i*16+15:i*16];
 	end
 	endgenerate
-	always @(posedge clk) begin
+/*	always @(posedge clk) begin
 		cw0<=((|command_d2) && (~|envlength_d));
 		cw_sr<={cw_sr[41:0],cw0};
 		cmdstb_sr<={cmdstb_sr[14:0],cmdstb};
@@ -264,6 +265,10 @@ interface ifelement#(parameter ENV_ADDRWIDTH=32,parameter ENV_DATAWIDTH=32,param
 	modport proc(output cmdstb,command,reset
 	,input tcnt,clk
 	);
+	*/
+	modport proc(output envstart,envlength,ampx,ampy,freqaddr,pini,mode,cmdstb
+,input clk,reset
+	);
 	modport elem(input clk,reset,cmdstb,cmdstb_sr,cw,envstart,envlength,ampx,pini,mode,tcnt,freqaddr
 	,output multix,multiy,valid
 	);
@@ -272,4 +277,3 @@ interface ifelement#(parameter ENV_ADDRWIDTH=32,parameter ENV_DATAWIDTH=32,param
 	modport mix(input clk,multix,multiy,valid,cmdstb
 	);
 endinterface
-
