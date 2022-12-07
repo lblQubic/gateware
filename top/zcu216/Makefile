@@ -9,7 +9,7 @@ AUTOCOMMITMSG=Makefileautomatedcommit
 TOOLS="../../submodules/tools/"
 psbd: plps bramwithctrl.tcl
 	time vivado -mode batch -source psbd.tcl
-plps: clean brambus.tcl pre gitrevision.v
+plps: clean pre gitrevision.v
 	time vivado -mode batch -source plps.tcl
 pre: makefile.pre	
 	make -f makefile.pre

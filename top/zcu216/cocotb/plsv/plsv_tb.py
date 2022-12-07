@@ -29,12 +29,12 @@ class plsv():
         self.freqbuf('qdrvfreq1',[10e6,20e6,30e6,4.6e9])
         self.freqbuf('rdrvfreq1',[10e6,20e6,30e6,4.6e9])
         self.freqbuf('rdlofreq1',[10e6,20e6,30e6,4.6e9],ratio=4)
-        self.envbuf('qdrvenv0',[numpy.zeros(16*32),numpy.ones(16*100)*0x7eff0000,numpy.zeros(16*20),self.complex32(numpy.arange(1,16*171+1)*100+1j*numpy.zeros(16*171))])
-        self.envbuf('rdrvenv0',[numpy.zeros(16*32),numpy.ones(16*100)*0x7eff0000,numpy.zeros(16*20),self.complex32(numpy.arange(1,16*171+1)*100+1j*numpy.zeros(16*171))])
-        self.envbuf('rdloenv0',[numpy.zeros(16*32),numpy.ones(16*100)*0x7eff0000,numpy.zeros(16*20),self.complex32(numpy.arange(1,16*171+1)*100+1j*numpy.zeros(16*171))])
-        self.envbuf('qdrvenv1',[numpy.zeros(16*32),numpy.ones(16*100)*0x7eff0000,numpy.zeros(16*20),self.complex32(numpy.arange(1,16*171+1)*100+1j*numpy.zeros(16*171))])
-        self.envbuf('rdrvenv1',[numpy.zeros(16*32),numpy.ones(16*100)*0x7eff0000,numpy.zeros(16*20),self.complex32(numpy.arange(1,16*171+1)*100+1j*numpy.zeros(16*171))])
-        self.envbuf('rdloenv1',[numpy.zeros(16*32),numpy.ones(16*100)*0x7eff0000,numpy.zeros(16*20),self.complex32(numpy.arange(1,16*171+1)*100+1j*numpy.zeros(16*171))])
+        self.envbuf('qdrvenv0',[numpy.zeros(16*32),numpy.ones(16*100)*0x7eff0000,numpy.zeros(16*20),self.complex32(numpy.arange(1,16*171+1)*32+1j*numpy.zeros(16*171))])
+        self.envbuf('rdrvenv0',[numpy.zeros(16*32),numpy.ones(16*100)*0x7eff0000,numpy.zeros(16*20),self.complex32(numpy.arange(1,16*171+1)*32+1j*numpy.zeros(16*171))])
+        self.envbuf('rdloenv0',[numpy.zeros(16*32),numpy.ones(16*100)*0x7eff0000,numpy.zeros(16*20),self.complex32(numpy.arange(1,16*171+1)*32+1j*numpy.zeros(16*171))])
+        self.envbuf('qdrvenv1',[numpy.zeros(16*32),numpy.ones(16*100)*0x7eff0000,numpy.zeros(16*20),self.complex32(numpy.arange(1,16*171+1)*32+1j*numpy.zeros(16*171))])
+        self.envbuf('rdrvenv1',[numpy.zeros(16*32),numpy.ones(16*100)*0x7eff0000,numpy.zeros(16*20),self.complex32(numpy.arange(1,16*171+1)*32+1j*numpy.zeros(16*171))])
+        self.envbuf('rdloenv1',[numpy.zeros(16*32),numpy.ones(16*100)*0x7eff0000,numpy.zeros(16*20),self.complex32(numpy.arange(1,16*171+1)*32+1j*numpy.zeros(16*171))])
 #        n_cmd = 11
 #        command0= []
 #        command1= []
