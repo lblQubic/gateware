@@ -22,7 +22,7 @@ fproc_iface #(.FPROC_ID_WIDTH(8), .FPROC_RESULT_WIDTH(32)) fproc();
 sync_iface #(.SYNC_BARRIER_WIDTH(8)) sync();
 pulse_iface #(.PHASE_WIDTH(PHASE_WIDTH), .FREQ_WIDTH(FREQ_WIDTH),.ENV_WORD_WIDTH(ENV_WIDTH), .AMP_WIDTH(AMP_WIDTH), .CFG_WIDTH(CFG_WIDTH)) 
 pulseout();
-    
+
 wire [PHASE_WIDTH-1:0] phase;
 wire [FREQ_WIDTH-1:0] freq;
 wire [AMP_WIDTH-1:0] amp;
@@ -31,45 +31,62 @@ wire [ENV_WIDTH-1:0] env_word;
 wire cstrobe;
 
 /*proc #(.CMD_WIDTH(128), .CMD_ADDR_WIDTH(16), .ENV_WIDTH(24), .PHASE_WIDTH(17),
-	.FREQ_WIDTH(9), .AMP_WIDTH(16), .CFG_WIDTH(4)) core(.clk(clk), .reset(reset),
-	.cmd_iface(memif), .sync(sync), .fproc(fproc.proc), .freq_out(freq), .phase_out(phase),
-	.env_word_out(env_word), .amp_out(amp), .cfg_out(cfg), .cstrobe_out(cstrobe)
+.FREQ_WIDTH(9), .AMP_WIDTH(16), .CFG_WIDTH(4)) core(.clk(clk), .reset(reset),
+.cmd_iface(memif), .sync(sync), .fproc(fproc.proc), .freq_out(freq), .phase_out(phase),
+.env_word_out(env_word), .amp_out(amp), .cfg_out(cfg), .cstrobe_out(cstrobe)
 ,.pulseout(pulseout)
 );
- */   
+*/   
 proc #(.DATA_WIDTH(DATA_WIDTH), .CMD_WIDTH(CMD_WIDTH),.CMD_ADDR_WIDTH(CMD_ADDR_WIDTH), .REG_ADDR_WIDTH(REG_ADDR_WIDTH),.SYNC_BARRIER_WIDTH(SYNC_BARRIER_WIDTH),.CMD_MEM_READ_LATENCY(2)) 
-dpr(.clk(clk), .reset(reset),.cmd_iface(memif), .fproc(fproc), .sync(sync), .pulseout(pulseout));
+dproc(.clk(clk), .reset(reset),.cmd_iface(memif), .fproc(fproc), .sync(sync), .pulseout(pulseout));
 assign memif.mem_bus[0]=command;
 assign cmd_read_addr=memif.instr_ptr;
 
+assign env_word = pulseout.env_word;
+assign amp = pulseout.amp;
+assign phase = pulseout.phase;
+assign freq = pulseout.freq;
+assign cfg = pulseout.cfg;
+assign cstrobe_out = pulseout.cstrobe;
+
+
 
 always @(posedge clk) begin
-	qdrvelem.envstart<=env_word[9:0];
-	qdrvelem.envlength<=env_word[21:12];
-	qdrvelem.ampx<=amp;
-	qdrvelem.ampy=16'd0;
-	qdrvelem.freqaddr<=freq;
-	qdrvelem.pini<=phase;
-	qdrvelem.mode<=cfg[3:2];
-	qdrvelem.cmdstb <= cstrobe & (cfg[1:0] == 2'b00);
+	qdrvelem.reset <= reset; // tobe changed to dproc start of circuit 
+	rdrvelem.reset <= reset; // tobe changed to dproc start of circuit 
+	rdloelem.reset <= reset; // tobe changed to dproc start of circuit 
+	qdrvelem.cmdstb <= pulseout.cstrobe & (pulseout.cfg[1:0] == 2'b00);
+	if (pulseout.cstrobe & (pulseout.cfg[1:0] == 2'b00))begin
+		qdrvelem.envstart<=pulseout.env_word[9:0];
+		qdrvelem.envlength<=pulseout.env_word[21:12];
+		qdrvelem.ampx<=pulseout.amp;
+		qdrvelem.ampy=16'd0;
+		qdrvelem.freqaddr<=pulseout.freq;
+		qdrvelem.pini<=pulseout.phase;
+		qdrvelem.mode<=pulseout.cfg[3:2];
+	end
 
-	rdrvelem.envstart<=env_word[11:0];
-	rdrvelem.envlength<=env_word[23:12];
-	rdrvelem.ampx<=amp;
-	rdrvelem.ampy=16'd0;
-	rdrvelem.freqaddr<=freq;
-	rdrvelem.pini<=phase;
-	rdrvelem.mode<=cfg[3:2];
-	rdrvelem.cmdstb <= cstrobe & (cfg[1:0] == 2'b01);
+	rdrvelem.cmdstb <= pulseout.cstrobe & (pulseout.cfg[1:0] == 2'b01);
+	if (pulseout.cstrobe & (pulseout.cfg[1:0] == 2'b01)) begin
+		rdrvelem.envstart<=pulseout.env_word[11:0];
+		rdrvelem.envlength<=pulseout.env_word[23:12];
+		rdrvelem.ampx<=pulseout.amp;
+		rdrvelem.ampy=16'd0;
+		rdrvelem.freqaddr<=pulseout.freq;
+		rdrvelem.pini<=pulseout.phase;
+		rdrvelem.mode<=pulseout.cfg[3:2];
+	end
 
-	rdloelem.envstart<=env_word[11:0];
-	rdloelem.envlength<=env_word[23:12];
-	rdloelem.ampx<=amp;
-	rdloelem.ampy=16'd0;
-	rdloelem.freqaddr<=freq;
-	rdloelem.pini<=phase;
-	rdloelem.mode<=cfg[3:2];
-	rdloelem.cmdstb <= cstrobe & (cfg[1:0] == 2'b10);
+	rdloelem.cmdstb <= pulseout.cstrobe & (pulseout.cfg[1:0] == 2'b10);
+	if (pulseout.cstrobe & (pulseout.cfg[1:0] == 2'b10)) begin
+		rdloelem.envstart<=pulseout.env_word[11:0];
+		rdloelem.envlength<=pulseout.env_word[23:12];
+		rdloelem.ampx<=pulseout.amp;
+		rdloelem.ampy=16'd0;
+		rdloelem.freqaddr<=pulseout.freq;
+		rdloelem.pini<=pulseout.phase;
+		rdloelem.mode<=pulseout.cfg[3:2];
+	end
 
 end
 endmodule
@@ -211,85 +228,85 @@ endmodule
 
 interface ifdsp #(
 	`include "plps_para.vh"
-,`include "bram_para.vh"
-,`include "braminit_para.vh"
-)();
-wire clk;
-wire reset;
-logic [ADC_AXIS_DATAWIDTH-1:0] adc20;
-logic [ADC_AXIS_DATAWIDTH-1:0] adc21;
-logic [DAC_AXIS_DATAWIDTH-1:0] dac00;
-logic [DAC_AXIS_DATAWIDTH-1:0] dac01;
-logic [DAC_AXIS_DATAWIDTH-1:0] dac02;
-logic [DAC_AXIS_DATAWIDTH-1:0] dac03;
-logic [DAC_AXIS_DATAWIDTH-1:0] dac10;
-logic [DAC_AXIS_DATAWIDTH-1:0] dac11;
-logic [DAC_AXIS_DATAWIDTH-1:0] dac12;
-logic [DAC_AXIS_DATAWIDTH-1:0] dac13;
-logic [DAC_AXIS_DATAWIDTH-1:0] dac20;
-logic [DAC_AXIS_DATAWIDTH-1:0] dac21;
-logic [DAC_AXIS_DATAWIDTH-1:0] dac22;
-logic [DAC_AXIS_DATAWIDTH-1:0] dac23;
-logic [DAC_AXIS_DATAWIDTH-1:0] dac30;
-logic [DAC_AXIS_DATAWIDTH-1:0] dac31;
-logic [DAC_AXIS_DATAWIDTH-1:0] dac32;
-logic [DAC_AXIS_DATAWIDTH-1:0] dac33;
+	,`include "bram_para.vh"
+	,`include "braminit_para.vh"
+	)();
+	wire clk;
+	wire reset;
+	logic [ADC_AXIS_DATAWIDTH-1:0] adc20;
+	logic [ADC_AXIS_DATAWIDTH-1:0] adc21;
+	logic [DAC_AXIS_DATAWIDTH-1:0] dac00;
+	logic [DAC_AXIS_DATAWIDTH-1:0] dac01;
+	logic [DAC_AXIS_DATAWIDTH-1:0] dac02;
+	logic [DAC_AXIS_DATAWIDTH-1:0] dac03;
+	logic [DAC_AXIS_DATAWIDTH-1:0] dac10;
+	logic [DAC_AXIS_DATAWIDTH-1:0] dac11;
+	logic [DAC_AXIS_DATAWIDTH-1:0] dac12;
+	logic [DAC_AXIS_DATAWIDTH-1:0] dac13;
+	logic [DAC_AXIS_DATAWIDTH-1:0] dac20;
+	logic [DAC_AXIS_DATAWIDTH-1:0] dac21;
+	logic [DAC_AXIS_DATAWIDTH-1:0] dac22;
+	logic [DAC_AXIS_DATAWIDTH-1:0] dac23;
+	logic [DAC_AXIS_DATAWIDTH-1:0] dac30;
+	logic [DAC_AXIS_DATAWIDTH-1:0] dac31;
+	logic [DAC_AXIS_DATAWIDTH-1:0] dac32;
+	logic [DAC_AXIS_DATAWIDTH-1:0] dac33;
 
 
-logic [DACMON_W_DATAWIDTH-1:0] data_dacmon[0:7];
-reg [DACMON_W_ADDRWIDTH-1:0] addr_dacmon[0:7];
-reg we_dacmon[0:7];
+	logic [DACMON_W_DATAWIDTH-1:0] data_dacmon[0:7];
+	reg [DACMON_W_ADDRWIDTH-1:0] addr_dacmon[0:7];
+	reg we_dacmon[0:7];
 
-logic [ACCBUF_W_DATAWIDTH-1:0] data_accbuf[0:7];
-reg [ACCBUF_W_ADDRWIDTH-1:0] addr_accbuf[0:7];
-reg we_accbuf[0:7];
+	logic [ACCBUF_W_DATAWIDTH-1:0] data_accbuf[0:7];
+	reg [ACCBUF_W_ADDRWIDTH-1:0] addr_accbuf[0:7];
+	reg we_accbuf[0:7];
 
-logic [ACQBUF_W_DATAWIDTH-1:0] data_acqbuf[0:1];
-reg [ACQBUF_W_ADDRWIDTH-1:0] addr_acqbuf[0:1];
-reg we_acqbuf[0:1];
+	logic [ACQBUF_W_DATAWIDTH-1:0] data_acqbuf[0:1];
+	reg [ACQBUF_W_ADDRWIDTH-1:0] addr_acqbuf[0:1];
+	reg we_acqbuf[0:1];
 
-logic [COMMAND_R_DATAWIDTH-1:0] data_command[0:16];
-reg [COMMAND_R_ADDRWIDTH-1:0] addr_command[0:16];
-reg we_command[0:16];
+	logic [COMMAND_R_DATAWIDTH-1:0] data_command[0:16];
+	reg [COMMAND_R_ADDRWIDTH-1:0] addr_command[0:16];
+	reg we_command[0:16];
 
-logic [QDRVENV_R_DATAWIDTH-1:0] data_qdrvenv[0:15];
-reg [QDRVENV_R_ADDRWIDTH-1:0] addr_qdrvenv[0:15];
-reg we_qdrvenv[0:15];
+	logic [QDRVENV_R_DATAWIDTH-1:0] data_qdrvenv[0:15];
+	reg [QDRVENV_R_ADDRWIDTH-1:0] addr_qdrvenv[0:15];
+	reg we_qdrvenv[0:15];
 
-logic [RDLOENV_R_DATAWIDTH-1:0] data_rdloenv[0:7];
-reg [RDLOENV_R_ADDRWIDTH-1:0] addr_rdloenv[0:7];
-reg we_rdloenv[0:7];
+	logic [RDLOENV_R_DATAWIDTH-1:0] data_rdloenv[0:7];
+	reg [RDLOENV_R_ADDRWIDTH-1:0] addr_rdloenv[0:7];
+	reg we_rdloenv[0:7];
 
-logic [RDRVENV_R_DATAWIDTH-1:0] data_rdrvenv[0:7];
-reg [RDRVENV_R_ADDRWIDTH-1:0] addr_rdrvenv[0:7];
-reg we_rdrvenv[0:7];
+	logic [RDRVENV_R_DATAWIDTH-1:0] data_rdrvenv[0:7];
+	reg [RDRVENV_R_ADDRWIDTH-1:0] addr_rdrvenv[0:7];
+	reg we_rdrvenv[0:7];
 
-logic [RDRVFREQ_R_DATAWIDTH-1:0] data_rdrvfreq[0:7];
-reg [RDRVFREQ_R_ADDRWIDTH-1:0] addr_rdrvfreq[0:7];
-reg we_rdrvfreq[0:7];
+	logic [RDRVFREQ_R_DATAWIDTH-1:0] data_rdrvfreq[0:7];
+	reg [RDRVFREQ_R_ADDRWIDTH-1:0] addr_rdrvfreq[0:7];
+	reg we_rdrvfreq[0:7];
 
-logic [RDLOFREQ_R_DATAWIDTH-1:0] data_rdlofreq[0:7];
-reg [RDLOFREQ_R_ADDRWIDTH-1:0] addr_rdlofreq[0:7];
-reg we_rdlofreq[0:7];
+	logic [RDLOFREQ_R_DATAWIDTH-1:0] data_rdlofreq[0:7];
+	reg [RDLOFREQ_R_ADDRWIDTH-1:0] addr_rdlofreq[0:7];
+	reg we_rdlofreq[0:7];
 
-logic [QDRVFREQ_R_DATAWIDTH-1:0] data_qdrvfreq[0:7];
-reg [QDRVFREQ_R_ADDRWIDTH-1:0] addr_qdrvfreq[0:7];
-reg we_qdrvfreq[0:7];
+	logic [QDRVFREQ_R_DATAWIDTH-1:0] data_qdrvfreq[0:7];
+	reg [QDRVFREQ_R_ADDRWIDTH-1:0] addr_qdrvfreq[0:7];
+	reg we_qdrvfreq[0:7];
 
-modport dsp(input adc20,adc21
-,output dac00,dac01,dac02,dac03,dac10,dac11,dac12,dac13,dac20,dac21,dac22,dac23,dac30,dac31,dac32,dac33
-,addr_accbuf,addr_acqbuf,addr_command,addr_qdrvenv,addr_rdrvenv,addr_rdloenv,addr_qdrvfreq,addr_rdrvfreq,addr_rdlofreq,addr_dacmon
-,data_accbuf,we_accbuf,data_acqbuf,we_acqbuf,data_dacmon,we_dacmon
-,input clk,reset
-,data_command,data_qdrvenv,data_rdrvenv,data_rdloenv,data_qdrvfreq,data_rdrvfreq,data_rdlofreq
-);
-modport cfg(output adc20,adc21
-,input dac00,dac01,dac02,dac03,dac10,dac11,dac12,dac13,dac20,dac21,dac22,dac23,dac30,dac31,dac32,dac33
-,addr_accbuf,addr_acqbuf,addr_command,addr_qdrvenv,addr_rdrvenv,addr_rdloenv,addr_qdrvfreq,addr_rdrvfreq,addr_rdlofreq,addr_dacmon
-,data_accbuf,we_accbuf,data_acqbuf,we_acqbuf,data_dacmon,we_dacmon
-,output clk,reset
-,data_command,data_qdrvenv,data_rdrvenv,data_rdloenv,data_qdrvfreq,data_rdrvfreq,data_rdlofreq
+	modport dsp(input adc20,adc21
+	,output dac00,dac01,dac02,dac03,dac10,dac11,dac12,dac13,dac20,dac21,dac22,dac23,dac30,dac31,dac32,dac33
+	,addr_accbuf,addr_acqbuf,addr_command,addr_qdrvenv,addr_rdrvenv,addr_rdloenv,addr_qdrvfreq,addr_rdrvfreq,addr_rdlofreq,addr_dacmon
+	,data_accbuf,we_accbuf,data_acqbuf,we_acqbuf,data_dacmon,we_dacmon
+	,input clk,reset
+	,data_command,data_qdrvenv,data_rdrvenv,data_rdloenv,data_qdrvfreq,data_rdrvfreq,data_rdlofreq
+	);
+	modport cfg(output adc20,adc21
+	,input dac00,dac01,dac02,dac03,dac10,dac11,dac12,dac13,dac20,dac21,dac22,dac23,dac30,dac31,dac32,dac33
+	,addr_accbuf,addr_acqbuf,addr_command,addr_qdrvenv,addr_rdrvenv,addr_rdloenv,addr_qdrvfreq,addr_rdrvfreq,addr_rdlofreq,addr_dacmon
+	,data_accbuf,we_accbuf,data_acqbuf,we_acqbuf,data_dacmon,we_dacmon
+	,output clk,reset
+	,data_command,data_qdrvenv,data_rdrvenv,data_rdloenv,data_qdrvfreq,data_rdrvfreq,data_rdlofreq
 
-);
+	);
 endinterface
 

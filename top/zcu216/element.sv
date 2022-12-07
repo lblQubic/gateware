@@ -219,6 +219,7 @@ interface ifelement#(parameter ENV_ADDRWIDTH=32,parameter ENV_DATAWIDTH=32,param
 	localparam NSLICE=FREQ_DATAWIDTH/32;
 	logic cmdstb;
 	reg [15:0] cmdstb_sr=0;
+	reg [15:0] dummy_cmdstb_sr=0;
 	reg [15:0] reset_sr=0;
 	reg [12-1:0] envstart=0;  // force 12 bit, for the longer element
 	reg [12-1:0] envlength=0;
@@ -249,12 +250,13 @@ interface ifelement#(parameter ENV_ADDRWIDTH=32,parameter ENV_DATAWIDTH=32,param
 		assign multiy_check[i]=multiy[i*16+15:i*16];
 	end
 	endgenerate
-/*	always @(posedge clk) begin
-		cw0<=((|command_d2) && (~|envlength_d));
-		cw_sr<={cw_sr[41:0],cw0};
-		cmdstb_sr<={cmdstb_sr[14:0],cmdstb};
+	always @(posedge clk) begin
 		reset_sr<={reset_sr[14:0],reset};
-		tcnt<= reset_sr[6] ? 0 : tcnt+1;
+		tcnt<= reset_sr[5] ? 0 : tcnt+1;
+		{dummy_cmdstb_sr,cmdstb_sr}<={cmdstb_sr,cmdstb};
+	end
+/*		cw0<=((|command_d2) && (~|envlength_d));
+		cw_sr<={cw_sr[41:0],cw0};
 		if (cmdstb) begin
 			{trigt,envstart,envlength,ampx,freqaddr,pini,mode}<=command;
 			command_d<=command;
@@ -266,8 +268,8 @@ interface ifelement#(parameter ENV_ADDRWIDTH=32,parameter ENV_DATAWIDTH=32,param
 	,input tcnt,clk
 	);
 	*/
-	modport proc(output envstart,envlength,ampx,ampy,freqaddr,pini,mode,cmdstb
-,input clk,reset
+	modport proc(output envstart,envlength,ampx,ampy,freqaddr,pini,mode,cmdstb,reset
+,input clk
 	);
 	modport elem(input clk,reset,cmdstb,cmdstb_sr,cw,envstart,envlength,ampx,pini,mode,tcnt,freqaddr
 	,output multix,multiy,valid

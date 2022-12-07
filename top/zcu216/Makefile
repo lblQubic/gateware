@@ -26,6 +26,9 @@ gitrevision.v: gitcommit
 	echo $(COMMITNUM)
 	python $(TOOLS)/gitauto.py -action revisionverilog
 	cat gitrevision.v
+gitpush:
+	python submodules/tools/gitauto.py -action push
+
 
 $(TGT).bit: $(TGT).tcl psbd
 	$(eval FNAME:=$(TGT)_$(DATETIME)_$(COMMITNUM))
