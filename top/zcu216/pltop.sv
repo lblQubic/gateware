@@ -15,6 +15,8 @@ module pltop #(
 ,parameter integer COMMAND_ADDRWIDTH=128
 ,parameter integer COMMAND_DATAWIDTH=32*/
 `include "plps_para.vh"
+,`include "bram_para.vh"
+,`include "braminit_para.vh"
 )(hwif hw
 ,`include "bramif_port.vh"
 /*,ifbram bram_tohost0
@@ -91,25 +93,29 @@ assign psresetn=psresetn_r;
 assign adc2resetn=adc2resetn_r;
 
 
-ifregs #(.DATA_WIDTH(LB1_DATAWIDTH),.ADDR_WIDTH(LB1_ADDRWIDTH))
-ctrlregs(.lb(lb1));
+ifcfgregs #(.DATA_WIDTH(LB1_DATAWIDTH),.ADDR_WIDTH(LB1_ADDRWIDTH))
+cfgregs(.lb(lb1));
 ifdspregs #(.DATA_WIDTH(LB2_DATAWIDTH),.ADDR_WIDTH(LB2_ADDRWIDTH))
 dspregs(.lb(lb2));
 
 
 ifdsp #(
 	`include "plps_parainst.vh"
+,`include "bram_parainst.vh"
+,`include "braminit_parainst.vh"
 //	.BRAMTOHOST_DATAWIDTH(BRAMTOHOST_DATAWIDTH),.BRAMTOHOST_ADDRWIDTH(BRAMTOHOST_ADDRWIDTH),.BRAMFROMHOST_DATAWIDTH(BRAMFROMHOST_DATAWIDTH),.BRAMFROMHOST_ADDRWIDTH(BRAMFROMHOST_ADDRWIDTH),.DAC_AXIS_DATAWIDTH(DAC_AXIS_DATAWIDTH),.ADC_AXIS_DATAWIDTH(ADC_AXIS_DATAWIDTH)
 //,.ACCBUF_DATAWIDTH(ACCBUF_DATAWIDTH),.ACCBUF_ADDRWIDTH(ACCBUF_ADDRWIDTH),.COMMAND_DATAWIDTH(COMMAND_DATAWIDTH),.COMMAND_ADDRWIDTH(COMMAND_ADDRWIDTH)
 )
 dspif();
 boardcfg #(
 	`include "plps_parainst.vh"
+,`include "bram_parainst.vh"
+,`include "braminit_parainst.vh"
 	//.DEBUG(DEBUG),.BRAMTOHOST_DATAWIDTH(BRAMTOHOST_DATAWIDTH),.BRAMTOHOST_ADDRWIDTH(BRAMTOHOST_ADDRWIDTH),.BRAMFROMHOST_DATAWIDTH(BRAMFROMHOST_DATAWIDTH),.BRAMFROMHOST_ADDRWIDTH(BRAMFROMHOST_ADDRWIDTH),.DAC_AXIS_DATAWIDTH(DAC_AXIS_DATAWIDTH),.ADC_AXIS_DATAWIDTH(ADC_AXIS_DATAWIDTH)
 
 	//,.ACCBUF_DATAWIDTH(ACCBUF_DATAWIDTH),.ACCBUF_ADDRWIDTH(ACCBUF_ADDRWIDTH),.COMMAND_DATAWIDTH(COMMAND_DATAWIDTH),.COMMAND_ADDRWIDTH(COMMAND_ADDRWIDTH)
 )
-boardcfg(.hw(hw),.regs(ctrlregs.regs)
+boardcfg(.hw(hw),.cfgregs(cfgregs.regs)
 ,`include "bramif_portinst.vh"
 /*,.bram_tohost0(bram_tohost0)
 ,.bram_tohost1(bram_tohost1)
@@ -147,6 +153,8 @@ boardcfg(.hw(hw),.regs(ctrlregs.regs)
 );
 dsp #(
 	`include "plps_parainst.vh"
+,`include "bram_parainst.vh"
+,`include "braminit_parainst.vh"
 //	i.DEBUG(DEBUG),.BRAMTOHOST_DATAWIDTH(BRAMTOHOST_DATAWIDTH),.BRAMTOHOST_ADDRWIDTH(BRAMTOHOST_ADDRWIDTH),.BRAMFROMHOST_DATAWIDTH(BRAMFROMHOST_DATAWIDTH),.BRAMFROMHOST_ADDRWIDTH(BRAMFROMHOST_ADDRWIDTH),.ACCBUF_DATAWIDTH(ACCBUF_DATAWIDTH),.ACCBUF_ADDRWIDTH(ACCBUF_ADDRWIDTH),.COMMAND_DATAWIDTH(COMMAND_DATAWIDTH),.COMMAND_ADDRWIDTH(COMMAND_ADDRWIDTH)
 )
 dsp(.regs(dspregs.regs)

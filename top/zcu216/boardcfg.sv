@@ -1,7 +1,9 @@
 module boardcfg #(
 `include "plps_para.vh"	
+,`include "bram_para.vh"
+,`include "braminit_para.vh"
 )(hwif.cfg hw
-,ifregs.regs regs
+,ifcfgregs.regs cfgregs
 ,`include "bramif_port.vh"
 ,axi4stream.master dac30axis
 ,axi4stream.master dac20axis
@@ -34,6 +36,7 @@ psareset(.clk(pl_clk0),.areset(reset),.sreset(psreset),.sreset_val());
 areset #(.WIDTH(1),.SRWIDTH(4))
 adc2areset(.clk(clkadc2_600),.areset(reset),.sreset(adc2reset),.sreset_val());
 
+gitrevision gitrevision(cfgregs.gitrevision);
 
 /*bram_cfg bram_tohost0_cfg(.bram(bram_tohost0),.clk(dspclk),.rst(1'b0),.en(1'b1));
 bram_cfg bram_tohost1_cfg(.bram(bram_tohost1),.clk(dspclk),.rst(1'b0),.en(1'b1));
@@ -72,28 +75,28 @@ assign hw.ledrgb[6][1]=cnt125[25];
 assign hw.ledrgb[7][1]=cnt125[24];
 
 //assign regs.test1=regs.r0+regs.r1+regs.r2+regs.r3;
-assign hw.ledrgb[0][0]=regs.test1[0];
-assign hw.ledrgb[1][0]=regs.test1[1];
-assign hw.ledrgb[2][0]=regs.test1[2];
-assign hw.ledrgb[3][0]=regs.test1[3];
-assign hw.ledrgb[4][0]=regs.test1[4];
-assign hw.ledrgb[5][0]=regs.test1[5];
-assign hw.ledrgb[6][0]=regs.test1[6];
-assign hw.ledrgb[7][0]=regs.test1[7];
+assign hw.ledrgb[0][0]=cfgregs.test1[0];
+assign hw.ledrgb[1][0]=cfgregs.test1[1];
+assign hw.ledrgb[2][0]=cfgregs.test1[2];
+assign hw.ledrgb[3][0]=cfgregs.test1[3];
+assign hw.ledrgb[4][0]=cfgregs.test1[4];
+assign hw.ledrgb[5][0]=cfgregs.test1[5];
+assign hw.ledrgb[6][0]=cfgregs.test1[6];
+assign hw.ledrgb[7][0]=cfgregs.test1[7];
 assign hw.pmod0[6]=cnt100[1];
 assign hw.pmod0[5]=cnt125[1];
 assign hw.pmod0[4]=hw.usersi570c0;
 assign hw.pmod0[3]=hw.usersi570c1;
 assign hw.pmod0[2]=hw.clk104_pl_sysref;
 assign hw.pmod0[1]=hw.clk104_pl_clk;
-assign hw.ledrgb[0][2]=regs.test[0];
-assign hw.ledrgb[1][2]=regs.test[1];
-assign hw.ledrgb[2][2]=regs.test[2];
-assign hw.ledrgb[3][2]=regs.test[3];
-assign hw.ledrgb[4][2]=regs.test[4];
-assign hw.ledrgb[5][2]=regs.test[5];
-assign hw.ledrgb[6][2]=regs.test[6];
-assign hw.ledrgb[7][2]=regs.test[7];
+assign hw.ledrgb[0][2]=cfgregs.test[0];
+assign hw.ledrgb[1][2]=cfgregs.test[1];
+assign hw.ledrgb[2][2]=cfgregs.test[2];
+assign hw.ledrgb[3][2]=cfgregs.test[3];
+assign hw.ledrgb[4][2]=cfgregs.test[4];
+assign hw.ledrgb[5][2]=cfgregs.test[5];
+assign hw.ledrgb[6][2]=cfgregs.test[6];
+assign hw.ledrgb[7][2]=cfgregs.test[7];
 
 enum {CLK100
 ,CLK125
@@ -110,17 +113,17 @@ enum {CLK100
 } fcnt;
 
 wire [32*NFCNT-1:0] freq_cnt;
-assign freq_cnt={regs.fclk100
-,regs.fclk125
-,regs.fusersi570c0
-,regs.fusersi570c1
-,regs.fclk104plsysref
-,regs.fclk104plclk
-,regs.fclk_dac2
-,regs.fclk_dac3
-,regs.fclk_adc2
-,regs.fclkadc2_300
-,regs.fclkadc2_600
+assign freq_cnt={cfgregs.fclk100
+,cfgregs.fclk125
+,cfgregs.fusersi570c0
+,cfgregs.fusersi570c1
+,cfgregs.fclk104plsysref
+,cfgregs.fclk104plclk
+,cfgregs.fclk_dac2
+,cfgregs.fclk_dac3
+,cfgregs.fclk_adc2
+,cfgregs.fclkadc2_300
+,cfgregs.fclkadc2_600
 };
 
 wire [NFCNT-1:0] freqcnt_clks = {
