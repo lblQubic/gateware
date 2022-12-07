@@ -19,12 +19,26 @@ class plsv():
         self.dspregs=regs.regs("../../dspregs.json")
         self.cfgregs=regs.regs("../../cfgregs.json")
     def pulse_i_test_cmd(self):
-        n_cmd = 11
-        cmd_list = []
-        freq_word_list = []
-        phase_word_list = []
-        env_word_list = []
-        pulse_time_list = [2, 3, 4, 7, 8, 9, 15, 16, 18, 19, 22]
+        self.cmdbuf('command0',[cg.pulse_i(freq_word=0, phase_word=200, amp_word=30000, env_word=(0x123<<12)+0x20, cfg_word=1, cmd_time=10)])
+        self.cmdbuf('command0',[cg.pulse_i(freq_word=0, phase_word=200, amp_word=30000, env_word=(0x123<<12)+0x20, cfg_word=2, cmd_time=20)])
+        self.cmdbuf('command0',[cg.pulse_i(freq_word=1, phase_word=200, amp_word=30000, env_word=(0x123<<12)+0x20, cfg_word=1, cmd_time=30)])
+        self.cmdbuf('command0',[cg.pulse_i(freq_word=1, phase_word=200, amp_word=30000, env_word=(0x123<<12)+0x20, cfg_word=2, cmd_time=40)])
+        self.freqbuf('qdrvfreq0',[10e6,20e6,30e6,4.6e9])
+        self.freqbuf('rdrvfreq0',[10e6,20e6,30e6,4.6e9])
+        self.freqbuf('rdlofreq0',[10e6,20e6,30e6,4.6e9],ratio=4)
+        self.freqbuf('qdrvfreq1',[10e6,20e6,30e6,4.6e9])
+        self.freqbuf('rdrvfreq1',[10e6,20e6,30e6,4.6e9])
+        self.freqbuf('rdlofreq1',[10e6,20e6,30e6,4.6e9],ratio=4)
+        self.envbuf('qdrvenv0',[numpy.zeros(16*10),numpy.ones(16*20)*0x7eff0000,numpy.zeros(16*20),self.complex32(numpy.arange(1,16*16+1)*100+1j*numpy.zeros(16*16))])
+        self.envbuf('rdrvenv0',[numpy.zeros(16*10),numpy.ones(16*20)*0x7eff0000,numpy.zeros(16*20),self.complex32(numpy.arange(1,16*16+1)*100+1j*numpy.zeros(16*16))])
+        self.envbuf('rdloenv0',[numpy.zeros(16*10),numpy.ones(16*20)*0x7eff0000,numpy.zeros(16*20),self.complex32(numpy.arange(1,16*16+1)*100+1j*numpy.zeros(16*16))])
+#        n_cmd = 11
+#        command0= []
+#        command1= []
+#        freq_word_list = []
+#        phase_word_list = []
+#        env_word_list = []
+#        pulse_time_list = [2, 3, 4, 7, 8, 9, 15, 16, 18, 19, 22]
 
 #        for i in range(n_cmd):
 #            freq_word = random.randint(0, 2**9-1)
@@ -37,27 +51,21 @@ class plsv():
 #            env_word_list.append(env_word)
 #            cmd_list.append(cg.pulse_i(freq_word, phase_word, amp_word, env_word, cfg_word, pulse_time_list[i]))
 
-        cmd_list.append(cg.pulse_i(freq_word=0, phase_word=200, amp_word=30000, env_word=(0x123<<12)+0x20, cfg_word=1, cmd_time=10))
-        cmd_list.append(cg.pulse_i(freq_word=0, phase_word=200, amp_word=30000, env_word=(0x123<<12)+0x20, cfg_word=2, cmd_time=20))
-        cmd_list.append(cg.pulse_i(freq_word=1, phase_word=200, amp_word=30000, env_word=(0x123<<12)+0x20, cfg_word=1, cmd_time=30))
-        cmd_list.append(cg.pulse_i(freq_word=1, phase_word=200, amp_word=30000, env_word=(0x123<<12)+0x20, cfg_word=2, cmd_time=40))
-
 #def pulse_i(freq_word, phase_word, amp_word, env_word, cfg_word, cmd_time):
 
-        print('\n'.join([format(i,'016x') for i in cmd_list]))
-        return cmd_list            
-        self.cmdbuf('command1',[self.fakecmd(trigt=0,envstart=20,envlength=100,amp=12345,freqaddr=0,pini=65535,mode=2)])
-        self.cmdbuf('command1',[self.fakecmd(trigt=200,envstart=20,envlength=100,amp=12345,freqaddr=1,pini=65535,mode=2)])
-        self.cmdbuf('command1',[self.fakecmd(trigt=400,envstart=20,envlength=100,amp=12345,freqaddr=2,pini=65535,mode=2)])
-        self.cmdbuf('command1',[self.fakecmd(trigt=600,envstart=20,envlength=100,amp=12345,freqaddr=3,pini=65535,mode=2)])
-        self.cmdbuf('command1',[self.fakecmd(trigt=800,envstart=20,envlength=100,amp=12345,freqaddr=4,pini=65535,mode=2)])
-        self.cmdbuf('command1',[self.fakecmd(trigt=1000,envstart=20,envlength=100,amp=12345,freqaddr=5,pini=65535,mode=2)])
-        self.cmdbuf('command2',[self.fakecmd(trigt=0,envstart=20,envlength=100,amp=12345,freqaddr=0,pini=65535,mode=2)])
-        self.cmdbuf('command2',[self.fakecmd(trigt=100,envstart=20,envlength=100,amp=12345,freqaddr=1,pini=65535,mode=2)])
-        self.cmdbuf('command2',[self.fakecmd(trigt=300,envstart=20,envlength=100,amp=12345,freqaddr=2,pini=65535,mode=2)])
-        self.cmdbuf('command2',[self.fakecmd(trigt=500,envstart=20,envlength=100,amp=12345,freqaddr=3,pini=65535,mode=2)])
-        self.cmdbuf('command2',[self.fakecmd(trigt=700,envstart=20,envlength=100,amp=12345,freqaddr=4,pini=65535,mode=2)])
-        self.cmdbuf('command2',[self.fakecmd(trigt=900,envstart=20,envlength=100,amp=12345,freqaddr=5,pini=65535,mode=2)])
+#        print('\n'.join([format(i,'016x') for i in cmd_list]))
+ #       self.cmdbuf('command1',[self.fakecmd(trigt=0,envstart=20,envlength=100,amp=12345,freqaddr=0,pini=65535,mode=2)])
+ #       self.cmdbuf('command1',[self.fakecmd(trigt=200,envstart=20,envlength=100,amp=12345,freqaddr=1,pini=65535,mode=2)])
+ #       self.cmdbuf('command1',[self.fakecmd(trigt=400,envstart=20,envlength=100,amp=12345,freqaddr=2,pini=65535,mode=2)])
+ #       self.cmdbuf('command1',[self.fakecmd(trigt=600,envstart=20,envlength=100,amp=12345,freqaddr=3,pini=65535,mode=2)])
+ #       self.cmdbuf('command1',[self.fakecmd(trigt=800,envstart=20,envlength=100,amp=12345,freqaddr=4,pini=65535,mode=2)])
+ #       self.cmdbuf('command1',[self.fakecmd(trigt=1000,envstart=20,envlength=100,amp=12345,freqaddr=5,pini=65535,mode=2)])
+ #       self.cmdbuf('command2',[self.fakecmd(trigt=0,envstart=20,envlength=100,amp=12345,freqaddr=0,pini=65535,mode=2)])
+ #       self.cmdbuf('command2',[self.fakecmd(trigt=100,envstart=20,envlength=100,amp=12345,freqaddr=1,pini=65535,mode=2)])
+ #       self.cmdbuf('command2',[self.fakecmd(trigt=300,envstart=20,envlength=100,amp=12345,freqaddr=2,pini=65535,mode=2)])
+ #       self.cmdbuf('command2',[self.fakecmd(trigt=500,envstart=20,envlength=100,amp=12345,freqaddr=3,pini=65535,mode=2)])
+ #       self.cmdbuf('command2',[self.fakecmd(trigt=700,envstart=20,envlength=100,amp=12345,freqaddr=4,pini=65535,mode=2)])
+ #       self.cmdbuf('command2',[self.fakecmd(trigt=900,envstart=20,envlength=100,amp=12345,freqaddr=5,pini=65535,mode=2)])
         # cmd, env, freq
 
     def fakeprocmem(self):        
@@ -288,8 +296,7 @@ async def start(dut):
 
 @cocotb.test()
 async def pulse_i_test(dut):
-    cmd_list=a.pulse_i_test_cmd()
-    a.cmdbuf('command0',cmd_list)
+    a.pulse_i_test_cmd()
     await a.clk(4e-6)
     await a.delayclk(20,"clk_dac2")
     await a.dspregswrite("nshot",10)
