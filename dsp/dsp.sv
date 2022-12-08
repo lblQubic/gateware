@@ -32,7 +32,7 @@ wire [ENV_WIDTH-1:0] env_word;
 wire cstrobe;
 */
 proc #(.DATA_WIDTH(DATA_WIDTH), .CMD_WIDTH(CMD_WIDTH),.CMD_ADDR_WIDTH(CMD_ADDR_WIDTH), .REG_ADDR_WIDTH(REG_ADDR_WIDTH),.SYNC_BARRIER_WIDTH(SYNC_BARRIER_WIDTH),.CMD_MEM_READ_LATENCY(2)) 
-dproc(.clk(clk), .reset(reset),.cmd_iface(memif), .fproc(fproc), .sync(sync), .pulseout(pulseout));
+dproc(.clk(clk), .reset(reset),.cmd_iface(memif), .fproc(fproc), .sync(sync), .pulseout(pulseout),.done_stb(stbend));
 assign memif.mem_bus[0]=command;
 assign cmd_read_addr=memif.instr_ptr;
 /*
@@ -85,7 +85,7 @@ always @(posedge clk) begin
 	noop<=~|command;
 	nobusy<=~|{qdrvelem.busy,rdrvelem.busy,rdloelem.busy};
 end
-assign stbend=noop&nobusy;
+//assign stbend=noop&nobusy;
 endmodule
 
 module dsp #(`include "plps_para.vh"	
@@ -133,8 +133,8 @@ always @(posedge dspif.clk) begin
 	lastshotdone<=lastshot&allprocend;	
 end
 assign regs.lastshotdone=lastshotdone;
-//wire proccorereset=stbstart|stbstart_d|moreshot|moreshot_d;
-wire proccorereset=~shotbusy|moreshot|moreshot_d;
+wire proccorereset=stbstart|stbstart_d|moreshot|moreshot_d;
+//wire proccorereset=~shotbusy|moreshot|moreshot_d;
 ifelement #(.ENV_ADDRWIDTH(QDRVENV_R_ADDRWIDTH),.ENV_DATAWIDTH(QDRVENV_R_DATAWIDTH),.FREQ_ADDRWIDTH(QDRVFREQ_R_ADDRWIDTH),.FREQ_DATAWIDTH(QDRVFREQ_R_DATAWIDTH),.TCNTWIDTH(18))
 qdrvelem[0:3](.clk(dspif.clk));
 ifelement #(.ENV_ADDRWIDTH(RDRVENV_R_ADDRWIDTH),.ENV_DATAWIDTH(RDRVENV_R_DATAWIDTH),.FREQ_ADDRWIDTH(RDRVFREQ_R_ADDRWIDTH),.FREQ_DATAWIDTH(RDRVFREQ_R_DATAWIDTH),.TCNTWIDTH(18))
