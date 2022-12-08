@@ -23,7 +23,7 @@ reg [NSLICE*16-1:0] multix16x16_r=0;
 reg [NSLICE*16-1:0] multiy16x16_r=0;
 
 wire [NSLICE*32-1:0] freqcossinp32x16_d;
-reg_delay1 #(.DW(512),.LEN(25)) freqcossinpdelay(.clk(clk),.gate(1'b1),.din(freqcossinp32x16),.dout(freqcossinp32x16_d),.reset(1'b0));
+reg_delay1 #(.DW(NSLICE*32),.LEN(25)) freqcossinpdelay(.clk(clk),.gate(1'b1),.din(freqcossinp32x16),.dout(freqcossinp32x16_d),.reset(1'b0));
 generate
 	for (genvar i=0;i<NSLICE;i=i+1) begin
 		if (i==0) begin

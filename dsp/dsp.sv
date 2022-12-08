@@ -31,8 +31,9 @@ wire [CFG_WIDTH-1:0] cfg;
 wire [ENV_WIDTH-1:0] env_word;
 wire cstrobe;
 */
+wire procdone;
 proc #(.DATA_WIDTH(DATA_WIDTH), .CMD_WIDTH(CMD_WIDTH),.CMD_ADDR_WIDTH(CMD_ADDR_WIDTH), .REG_ADDR_WIDTH(REG_ADDR_WIDTH),.SYNC_BARRIER_WIDTH(SYNC_BARRIER_WIDTH),.CMD_MEM_READ_LATENCY(2)) 
-dproc(.clk(clk), .reset(reset),.cmd_iface(memif), .fproc(fproc), .sync(sync), .pulseout(pulseout),.done_stb(stbend));
+dproc(.clk(clk), .reset(reset),.cmd_iface(memif), .fproc(fproc), .sync(sync), .pulseout(pulseout),.done_gate(procdone));
 assign memif.mem_bus[0]=command;
 assign cmd_read_addr=memif.instr_ptr;
 /*
@@ -47,9 +48,9 @@ assign cstrobe_out = pulseout.cstrobe;
 reg noop=0;
 reg nobusy=0;
 always @(posedge clk) begin
-	qdrvelem.reset <= reset; // tobe changed to dproc start of circuit 
-	rdrvelem.reset <= reset; // tobe changed to dproc start of circuit 
-	rdloelem.reset <= reset; // tobe changed to dproc start of circuit 
+	qdrvelem.reset <= pulseout.reset; // tobe changed to dproc start of circuit 
+	rdrvelem.reset <= pulseout.reset; // tobe changed to dproc start of circuit 
+	rdloelem.reset <= pulseout.reset; // tobe changed to dproc start of circuit 
 	qdrvelem.cmdstb <= pulseout.cstrobe & (pulseout.cfg[1:0] == 2'b00);
 	if (pulseout.cstrobe & (pulseout.cfg[1:0] == 2'b00))begin
 		qdrvelem.envstart<=pulseout.env_word[9:0];
@@ -85,7 +86,7 @@ always @(posedge clk) begin
 	noop<=~|command;
 	nobusy<=~|{qdrvelem.busy,rdrvelem.busy,rdloelem.busy};
 end
-//assign stbend=noop&nobusy;
+assign stbend=procdone&nobusy;
 endmodule
 
 module dsp #(`include "plps_para.vh"	
@@ -95,7 +96,7 @@ module dsp #(`include "plps_para.vh"
 )(	ifdspregs.regs regs
 ,ifdsp.dsp dspif
 );
-parameter TCNTWIDTH=32;
+localparam TCNTWIDTH=27;
 reg [TCNTWIDTH-1:0] tcnt=0;
 always @(posedge dspif.clk) begin
 	tcnt<=dspif.reset ? 0 : tcnt+1;
@@ -104,6 +105,8 @@ reg stbstart=0;
 reg stbstart_d=0;
 reg moreshot=0;
 reg moreshot_d=0;
+reg moreshot_d2=0;
+reg moreshot_d3=0;
 reg [31:0] nshot=0;
 localparam NPROC=4;
 wire [NPROC-1:0] stbprocend;
@@ -116,6 +119,7 @@ reg lastshotdone=0;
 wire stballprocend=allprocend&~allprocend_d;
 reg shotbusy=0;
 reg shotbusy_d=0;
+reg [NPROC-1:0]proccorereset;
 always @(posedge dspif.clk) begin
 	stbstart<=regs.stb_start;
 	stbstart_d<=stbstart;
@@ -130,21 +134,24 @@ always @(posedge dspif.clk) begin
 	shotcnt<=stbstart ? 0 : shotcnt+ stballprocend&(~lastshot);
 	moreshot<=shotbusy & stballprocend&~lastshot;
 	moreshot_d<=moreshot;
+	moreshot_d2<=moreshot_d;
+	moreshot_d3<=moreshot_d2;
 	lastshotdone<=lastshot&allprocend;	
+	proccorereset<={NPROC{stbstart|stbstart_d|moreshot_d2|moreshot_d3}};
 end
 assign regs.lastshotdone=lastshotdone;
-wire proccorereset=stbstart|stbstart_d|moreshot|moreshot_d;
+assign regs.shotcnt=shotcnt;
 //wire proccorereset=~shotbusy|moreshot|moreshot_d;
-ifelement #(.ENV_ADDRWIDTH(QDRVENV_R_ADDRWIDTH),.ENV_DATAWIDTH(QDRVENV_R_DATAWIDTH),.FREQ_ADDRWIDTH(QDRVFREQ_R_ADDRWIDTH),.FREQ_DATAWIDTH(QDRVFREQ_R_DATAWIDTH),.TCNTWIDTH(18))
+ifelement #(.ENV_ADDRWIDTH(QDRVENV_R_ADDRWIDTH),.ENV_DATAWIDTH(QDRVENV_R_DATAWIDTH),.FREQ_ADDRWIDTH(QDRVFREQ_R_ADDRWIDTH),.FREQ_DATAWIDTH(QDRVFREQ_R_DATAWIDTH),.TCNTWIDTH(27))
 qdrvelem[0:3](.clk(dspif.clk));
-ifelement #(.ENV_ADDRWIDTH(RDRVENV_R_ADDRWIDTH),.ENV_DATAWIDTH(RDRVENV_R_DATAWIDTH),.FREQ_ADDRWIDTH(RDRVFREQ_R_ADDRWIDTH),.FREQ_DATAWIDTH(RDRVFREQ_R_DATAWIDTH),.TCNTWIDTH(18))
+ifelement #(.ENV_ADDRWIDTH(RDRVENV_R_ADDRWIDTH),.ENV_DATAWIDTH(RDRVENV_R_DATAWIDTH),.FREQ_ADDRWIDTH(RDRVFREQ_R_ADDRWIDTH),.FREQ_DATAWIDTH(RDRVFREQ_R_DATAWIDTH),.TCNTWIDTH(27))
 rdrvelem[0:3](.clk(dspif.clk));
-ifelement #(.ENV_ADDRWIDTH(RDLOENV_R_ADDRWIDTH),.ENV_DATAWIDTH(RDLOENV_R_DATAWIDTH),.FREQ_ADDRWIDTH(RDLOFREQ_R_ADDRWIDTH),.FREQ_DATAWIDTH(RDLOFREQ_R_DATAWIDTH),.TCNTWIDTH(18))
+ifelement #(.ENV_ADDRWIDTH(RDLOENV_R_ADDRWIDTH),.ENV_DATAWIDTH(RDLOENV_R_DATAWIDTH),.FREQ_ADDRWIDTH(RDLOFREQ_R_ADDRWIDTH),.FREQ_DATAWIDTH(RDLOFREQ_R_DATAWIDTH),.TCNTWIDTH(27))
 rdloelem[0:3](.clk(dspif.clk));
 
 generate for (genvar i =0; i<NPROC; i=i+1) begin
 	proc_core 
-	proc_core(.clk(dspif.clk),.reset(proccorereset),.command(dspif.data_command[i]), .cmd_read_addr(dspif.addr_command[i]),.qdrvelem(qdrvelem[i]),.rdrvelem(rdrvelem[i]),.rdloelem(rdloelem[i]),.stbend(stbprocend[i]));
+	proc_core(.clk(dspif.clk),.reset(proccorereset[i]),.command(dspif.data_command[i]), .cmd_read_addr(dspif.addr_command[i]),.qdrvelem(qdrvelem[i]),.rdrvelem(rdrvelem[i]),.rdloelem(rdloelem[i]),.stbend(stbprocend[i]));
 	elementconn #(.ENV_ADDRWIDTH(QDRVENV_R_ADDRWIDTH),.ENV_DATAWIDTH(QDRVENV_R_DATAWIDTH),.FREQ_ADDRWIDTH(QDRVFREQ_R_ADDRWIDTH),.FREQ_DATAWIDTH(QDRVFREQ_R_DATAWIDTH),.TCNTWIDTH(TCNTWIDTH))
 	qdrvelemconn(.elem(qdrvelem[i]),.envaddr(dspif.addr_qdrvenv[i]),.envdata(dspif.data_qdrvenv[i]),.freqaddr(dspif.addr_qdrvfreq[i]),.freqdata(dspif.data_qdrvfreq[i]));
 	elementconn #(.ENV_ADDRWIDTH(RDRVENV_R_ADDRWIDTH),.ENV_DATAWIDTH(RDRVENV_R_DATAWIDTH),.FREQ_ADDRWIDTH(RDRVFREQ_R_ADDRWIDTH),.FREQ_DATAWIDTH(RDRVFREQ_R_DATAWIDTH),.TCNTWIDTH(TCNTWIDTH))
@@ -152,7 +159,7 @@ generate for (genvar i =0; i<NPROC; i=i+1) begin
 	elementconn #(.ENV_ADDRWIDTH(RDLOENV_R_ADDRWIDTH),.ENV_DATAWIDTH(RDLOENV_R_DATAWIDTH),.FREQ_ADDRWIDTH(RDLOFREQ_R_ADDRWIDTH),.FREQ_DATAWIDTH(RDLOFREQ_R_DATAWIDTH),.TCNTWIDTH(TCNTWIDTH))
 	rdloelemconn(.elem(rdloelem[i]),.envaddr(dspif.addr_rdloenv[i]),.envdata(dspif.data_rdloenv[i]),.freqaddr(dspif.addr_rdlofreq[i]),.freqdata(dspif.data_rdlofreq[i]));
 	always @(posedge dspif.clk) begin
-		if (proccorereset)
+		if (proccorereset[i])
 			shotstatus[i]<=1'b0;
 		else if (stbprocend[i])
 			shotstatus[i]<=1'b1;
@@ -173,9 +180,12 @@ rdrvout (.elem0(rdrvelem[0]),.elem1(rdrvelem[1]),.elem2(rdrvelem[2]),.elem3(rdrv
 
 reg [ADC_AXIS_DATAWIDTH-1:0] adc20=0;
 reg [ADC_AXIS_DATAWIDTH-1:0] adc21=0;
+
+reg [3:0] resetacc=0;
 always @(posedge dspif.clk) begin
 	adc20<=dspif.adc20;
 	adc21<=dspif.adc21;
+	resetacc<={4{regs.resetacc[0]}};
 end
 reg [ACCBUF_W_DATAWIDTH-1:0] data_accbuf[0:7];
 reg [ACCBUF_W_ADDRWIDTH-1:0] addr_accbuf[0:7];
@@ -189,7 +199,7 @@ for (genvar i=0;i<4;i=i+1) begin: rdlomixacc
 	assign locklast_accbuf[i]=&addr_accbuf[i];
 	always @(posedge dspif.clk) begin
 		we_accbuf[i]<=accvalid;
-		addr_accbuf[i]<=regs.resetacc ? 0 : addr_accbuf[i]+ (~locklast_accbuf[i] & accvalid);
+		addr_accbuf[i]<=resetacc[i] ? 0 : addr_accbuf[i]+ (~locklast_accbuf[i] & accvalid);
 	end
 
 end
@@ -197,6 +207,11 @@ endgenerate
 assign dspif.data_accbuf=data_accbuf;
 assign dspif.addr_accbuf=addr_accbuf;
 assign dspif.we_accbuf=we_accbuf;
+assign regs.addr_accbuf0=addr_accbuf[0];
+assign regs.addr_accbuf1=addr_accbuf[1];
+assign regs.addr_accbuf2=addr_accbuf[2];
+assign regs.addr_accbuf3=addr_accbuf[3];
+
 
 reg [DAC_AXIS_DATAWIDTH-1:0] dac20=0;
 reg [DAC_AXIS_DATAWIDTH-1:0] dac22=0;
@@ -211,6 +226,10 @@ always @(posedge dspif.clk) begin
 end
 reg [ACQBUF_W_ADDRWIDTH-1:0] addr_acqbuf0=0;
 reg [ACQBUF_W_ADDRWIDTH-1:0] addr_acqbuf1=0;
+reg [ACQBUF_W_ADDRWIDTH-1:0] addr_acqbuf0_d=0;
+reg [ACQBUF_W_ADDRWIDTH-1:0] addr_acqbuf1_d=0;
+reg we_acqbuf0_d=0;
+reg we_acqbuf1_d=0;
 wire we_acqbuf0=~locklast_acqbuf0;
 wire locklast_acqbuf0=&addr_acqbuf0;
 wire we_acqbuf1=~locklast_acqbuf1;
@@ -218,18 +237,25 @@ wire locklast_acqbuf1=&addr_acqbuf1;
 always @(posedge dspif.clk) begin
 	addr_acqbuf0<=reset_bram_read[0] ? 0 : (addr_acqbuf0+ (locklast_acqbuf0 ? 0 : 1));
 	addr_acqbuf1<=reset_bram_read[2] ? 0 : (addr_acqbuf1+ (locklast_acqbuf1 ? 0 : 1));
+	addr_acqbuf0_d<=addr_acqbuf0;
+	addr_acqbuf1_d<=addr_acqbuf1;
 	addr_dacmon<=reset_bram_read[1] ? 0 : (addr_dacmon+ (locklast_dacmon ? 0 : 1));
+	we_acqbuf0_d<=we_acqbuf0;
+	we_acqbuf1_d<=we_acqbuf1;
 end
 reg [ACQBUF_W_DATAWIDTH-1:0] data_acqbuf[0:1];
+reg [ACQBUF_W_DATAWIDTH-1:0] data_acqbuf_d[0:1];
 always @(posedge dspif.clk) begin
 	data_acqbuf[0]<=adc20;
 	data_acqbuf[1]<=adc21;
-	dspif.data_acqbuf[0]<=data_acqbuf[0];
-	dspif.data_acqbuf[1]<=data_acqbuf[1];
-	dspif.addr_acqbuf[0]<=addr_acqbuf0;
-	dspif.addr_acqbuf[1]<=addr_acqbuf1;
-	dspif.we_acqbuf[0]<=we_acqbuf0;
-	dspif.we_acqbuf[1]<=we_acqbuf1;
+	data_acqbuf_d[0]<=data_acqbuf[0];
+	data_acqbuf_d[1]<=data_acqbuf[1];
+	dspif.data_acqbuf[0]<=data_acqbuf_d[0];
+	dspif.data_acqbuf[1]<=data_acqbuf_d[1];
+	dspif.addr_acqbuf[0]<=addr_acqbuf0_d;
+	dspif.addr_acqbuf[1]<=addr_acqbuf1_d;
+	dspif.we_acqbuf[0]<=we_acqbuf0_d;
+	dspif.we_acqbuf[1]<=we_acqbuf1_d;
 	dspif.we_dacmon[0]<=we_dacmon;
 	dspif.we_dacmon[1]<=we_dacmon;
 	dspif.we_dacmon[2]<=we_dacmon;
