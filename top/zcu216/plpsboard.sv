@@ -8,6 +8,8 @@ module plpsboard #(
 `include "fpga_port.vh"
 ,output clkadc2_300
 ,output clkadc2_600
+,output dspclk
+,output cfgclk
 );
 
 fpga fpga();
@@ -68,4 +70,15 @@ BUFG clkout1_buf
 BUFG clkout2_buf
 (.I(clkadc2_mmcm_out1)
 ,.O(clkadc2_600));
+
+BUFG clk_dac2_buf
+(.I(clk_dac2)
+,.O(dspclk)
+);
+
+BUFG cfgclk_buf
+(.I(hw.clk100)
+,.O(cfgclk)
+);
+//cfgclk=hw.clk100;
 endmodule

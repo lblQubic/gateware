@@ -34,12 +34,14 @@ module pltop #(
 */
 ,iflocalbus lb1
 ,iflocalbus lb2
-,axi4stream.master dac30axis
+/*,axi4stream.master dac30axis
 ,axi4stream.master dac20axis
 ,axi4stream.master dac32axis
 ,axi4stream.master dac22axis
 ,axi4stream.slave adc20axis
 ,axi4stream.slave adc21axis
+*/
+,`include "rfdcif_port.vh"
 ,input pl_clk0
 ,output cfgclk
 ,output dspclk
@@ -61,15 +63,6 @@ wire cfgreset;
 wire dspreset;
 wire psreset;
 wire adc2reset;
-/*areset #(.WIDTH(1),.SRWIDTH(4))
-cfgareset(.clk(cfgclk),.areset(~aresetn),.sreset(cfgreset_w0),.sreset_val());
-areset #(.WIDTH(1),.SRWIDTH(4))
-dspareset(.clk(dspclk),.areset(~aresetn),.sreset(dspreset_w0),.sreset_val());
-areset #(.WIDTH(1),.SRWIDTH(4))
-psareset(.clk(pl_clk0),.areset(~aresetn),.sreset(psreset_w0),.sreset_val());
-areset #(.WIDTH(1),.SRWIDTH(4))
-adc2areset(.clk(pl_clk0),.areset(~aresetn),.sreset(adc2reset_w0),.sreset_val());
-*/
 
 reg [127:0] cfgresetn_r=0;
 reg [31:0] dspresetn_r=0;
@@ -103,39 +96,16 @@ ifdsp #(
 	`include "plps_parainst.vh"
 ,`include "bram_parainst.vh"
 ,`include "braminit_parainst.vh"
-//	.BRAMTOHOST_DATAWIDTH(BRAMTOHOST_DATAWIDTH),.BRAMTOHOST_ADDRWIDTH(BRAMTOHOST_ADDRWIDTH),.BRAMFROMHOST_DATAWIDTH(BRAMFROMHOST_DATAWIDTH),.BRAMFROMHOST_ADDRWIDTH(BRAMFROMHOST_ADDRWIDTH),.DAC_AXIS_DATAWIDTH(DAC_AXIS_DATAWIDTH),.ADC_AXIS_DATAWIDTH(ADC_AXIS_DATAWIDTH)
-//,.ACCBUF_DATAWIDTH(ACCBUF_DATAWIDTH),.ACCBUF_ADDRWIDTH(ACCBUF_ADDRWIDTH),.COMMAND_DATAWIDTH(COMMAND_DATAWIDTH),.COMMAND_ADDRWIDTH(COMMAND_ADDRWIDTH)
 )
 dspif();
 boardcfg #(
 	`include "plps_parainst.vh"
 ,`include "bram_parainst.vh"
 ,`include "braminit_parainst.vh"
-	//.DEBUG(DEBUG),.BRAMTOHOST_DATAWIDTH(BRAMTOHOST_DATAWIDTH),.BRAMTOHOST_ADDRWIDTH(BRAMTOHOST_ADDRWIDTH),.BRAMFROMHOST_DATAWIDTH(BRAMFROMHOST_DATAWIDTH),.BRAMFROMHOST_ADDRWIDTH(BRAMFROMHOST_ADDRWIDTH),.DAC_AXIS_DATAWIDTH(DAC_AXIS_DATAWIDTH),.ADC_AXIS_DATAWIDTH(ADC_AXIS_DATAWIDTH)
-
-	//,.ACCBUF_DATAWIDTH(ACCBUF_DATAWIDTH),.ACCBUF_ADDRWIDTH(ACCBUF_ADDRWIDTH),.COMMAND_DATAWIDTH(COMMAND_DATAWIDTH),.COMMAND_ADDRWIDTH(COMMAND_ADDRWIDTH)
 )
 boardcfg(.hw(hw),.cfgregs(cfgregs.regs)
 ,`include "bramif_portinst.vh"
-/*,.bram_tohost0(bram_tohost0)
-,.bram_tohost1(bram_tohost1)
-,.bram_fromhost0(bram_fromhost0)
-,.bram_fromhost1(bram_fromhost1)
-,.bram_fromhost2(bram_fromhost2)
-,.bram_fromhost3(bram_fromhost3)
-,.bram_fromhost4(bram_fromhost4)
-,.bram_fromhost5(bram_fromhost5)
-,.bram_fromhost6(bram_fromhost6)
-,.bram_fromhost7(bram_fromhost7)
-,.bram_accbuf(bram_accbuf)
-,.bram_command(bram_command)
-*/
-,.dac30axis(dac30axis)
-,.dac20axis(dac20axis)
-,.dac32axis(dac32axis)
-,.dac22axis(dac22axis)
-,.adc20axis(adc20axis)
-,.adc21axis(adc21axis)
+,`include "rfdcif_portinst.vh"
 ,.dspif(dspif.cfg)
 ,.pl_clk0(pl_clk0)
 ,.cfgclk(cfgclk)
@@ -155,7 +125,6 @@ dsp #(
 	`include "plps_parainst.vh"
 ,`include "bram_parainst.vh"
 ,`include "braminit_parainst.vh"
-//	i.DEBUG(DEBUG),.BRAMTOHOST_DATAWIDTH(BRAMTOHOST_DATAWIDTH),.BRAMTOHOST_ADDRWIDTH(BRAMTOHOST_ADDRWIDTH),.BRAMFROMHOST_DATAWIDTH(BRAMFROMHOST_DATAWIDTH),.BRAMFROMHOST_ADDRWIDTH(BRAMFROMHOST_ADDRWIDTH),.ACCBUF_DATAWIDTH(ACCBUF_DATAWIDTH),.ACCBUF_ADDRWIDTH(ACCBUF_ADDRWIDTH),.COMMAND_DATAWIDTH(COMMAND_DATAWIDTH),.COMMAND_ADDRWIDTH(COMMAND_ADDRWIDTH)
 )
 dsp(.regs(dspregs.regs)
 ,.dspif(dspif)

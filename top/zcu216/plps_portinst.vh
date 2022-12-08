@@ -19,6 +19,20 @@
 ,.dspresetn05(dspresetn05)
 ,.dspresetn06(dspresetn06)
 ,.dspresetn07(dspresetn07)
+,.dspresetn08(dspresetn08)
+,.dspresetn09(dspresetn09)
+,.dspresetn10(dspresetn10)
+,.dspresetn11(dspresetn11)
+,.dspresetn12(dspresetn12)
+,.dspresetn13(dspresetn13)
+,.dspresetn14(dspresetn14)
+,.dspresetn15(dspresetn15)
+,.dspresetn16(dspresetn16)
+,.dspresetn17(dspresetn17)
+,.dspresetn18(dspresetn18)
+,.dspresetn19(dspresetn19)
+,.dspresetn20(dspresetn20)
+,.dspresetn21(dspresetn21)
 
 
 ,.psresetn00(psresetn00)
@@ -81,7 +95,9 @@
 
 ,.clkadc2_300(clkadc2_300)
 ,.clkadc2_600(clkadc2_600)
-,.DAC20_M_AXIS_ACLK(DAC20_M_AXIS_ACLK)
+
+,`include "rfdc_portinst.vh"
+/*,.DAC20_M_AXIS_ACLK(DAC20_M_AXIS_ACLK)
 ,.DAC20_M_AXIS_ARESETN(DAC20_M_AXIS_ARESETN)
 ,.DAC20_M_AXIS_TREADY(DAC20_M_AXIS_TREADY)
 ,.DAC20_M_AXIS_TVALID(DAC20_M_AXIS_TVALID)
@@ -127,6 +143,6 @@
 ,.ADC21_S_AXIS_TDATA(ADC21_S_AXIS_TDATA)
 ,.ADC21_S_AXIS_TSTRB(ADC21_S_AXIS_TSTRB)
 ,.ADC21_S_AXIS_TLAST(ADC21_S_AXIS_TLAST)
-
+*/
 ,.cfgclk(cfgclk)
 ,.dspclk(dspclk)
