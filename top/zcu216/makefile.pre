@@ -1,16 +1,8 @@
 all: ilaauto iladsp ifdspregs.sv ifcfgregs.sv bramvh
-ILAJSON=ilaauto.json
-ilaauto: ilaauto.tcl ilaauto.vh
-ilaauto.tcl: ../../submodules/tools/ila.py $(ILAJSON)
-	python ../../submodules/tools/ila.py -f $(ILAJSON) -t $@
-ilaauto.vh: ../../submodules/tools/ila.py $(ILAJSON)
-	python ../../submodules/tools/ila.py -f $(ILAJSON) -v $@
-ILADSP=iladsp.json
-iladsp: iladsp.tcl iladsp.vh
-iladsp.tcl: ../../submodules/tools/ila.py $(ILADSP)
-	python ../../submodules/tools/ila.py -f $(ILADSP) -t $@
-iladsp.vh: ../../submodules/tools/ila.py $(ILADSP)
-	python ../../submodules/tools/ila.py -f $(ILADSP) -v $@
+ilaauto: ilaauto.json ../../submodules/tools/ila.py 
+	python ../../submodules/tools/ila.py $<
+iladsp: iladsp.json ../../submodules/tools/ila.py $(ILADSP)
+	python ../../submodules/tools/ila.py $<
 ifdspregs.sv: dspregs.json ../../submodules/tools/axilb.py ../../submodules/common-hdl/axilb.json makefile.pre
 	python ../../submodules/tools/axilb.py -m dspregs.json -b ../../submodules/common-hdl/axilb.json -o ifdspregs -u
 ifcfgregs.sv:	cfgregs.json ../../submodules/tools/axilb.py ../../submodules/common-hdl/axilb.json makefile.pre
