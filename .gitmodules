@@ -12,4 +12,4 @@
 	url = git@gitlab.com:lbl-bids/tools.git
 [submodule "submodules/distributed_processor"]
 	path = submodules/distributed_processor
-	url = git@gitlab.com:lblwork/distributed-processor-ghuang.git
+	url = git@gitlab.com:LBL-QubiC/distributed_processor.git
