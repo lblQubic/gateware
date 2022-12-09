@@ -54,3 +54,5 @@ plsv_tb.sv
 ../../../../submodules/distributed_processor/hdl/proc.sv
 ../../../../submodules/distributed_processor/hdl/pulse_iface.sv
 ../../../../submodules/distributed_processor/hdl/sync_iface.sv
+../../iladsp.vh
+../../iladsp.v

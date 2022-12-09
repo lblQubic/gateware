@@ -58,8 +58,8 @@ phtime phtime(.clk(clk),.freq(freq),.tcnt(tcnt),.phasetime(phasetime),.gatein(ga
 wire [15:0] ampx_d;
 reg [15:0] ampx_d2=0;
 wire [16:0] pini_d;
-reg_delay1 #(.DW(16),.LEN(11)) ampxdelay(.clk(clk),.gate(1'b1),.din(ampx),.dout(ampx_d),.reset(1'b0));
-reg_delay1 #(.DW(17),.LEN(11)) pinidelay(.clk(clk),.gate(1'b1),.din(pini),.dout(pini_d),.reset(1'b0));
+reg_delay1 #(.DW(16),.LEN(9)) ampxdelay(.clk(clk),.gate(1'b1),.din(ampx),.dout(ampx_d),.reset(1'b0));
+reg_delay1 #(.DW(17),.LEN(9)) pinidelay(.clk(clk),.gate(1'b1),.din(pini),.dout(pini_d),.reset(1'b0));
 
 // LEN clocks of delay.  Xilinx should turn this into
 
@@ -84,7 +84,11 @@ cordicg(.clk(clk),.xin(ampx_d2),.yin(16'd0),.phasein(phaseinit),.xout(cos_w),.yo
 
 
 wire gmulti;
-reg_delay1 #(.DW(1), .LEN(14))
+reg gateout_r=0;
+always @(posedge clk) begin
+	gateout_r<=gmulti;
+end
+reg_delay1 #(.DW(1), .LEN(13))
 multidelay(.clk(clk),.gate(1'b1),.din(gcordic),.dout(gmulti),.reset(1'b0));
 generate
 	for (genvar i=0;i<NSLICE;i=i+1) begin
@@ -111,7 +115,7 @@ generate
 	end
 endgenerate
 
-assign gateout=gmulti;
+assign gateout=gateout_r;
 assign multix16x16=multix16x16_r;
 assign multiy16x16=multiy16x16_r;
 endmodule

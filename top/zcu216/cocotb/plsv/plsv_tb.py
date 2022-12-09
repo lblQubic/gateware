@@ -15,26 +15,51 @@ import distproc.command_gen as cg
 class plsv():
     def __init__(self):
         self.acqbuf0=numpy.zeros(16384)
-        self.brams=bram.brams("../../bram.json")
+        self.brams=bram.brams("../../bram.json",siminit=True)
         self.dspregs=regs.regs("../../dspregs.json")
         self.cfgregs=regs.regs("../../cfgregs.json")
+
+        self.pulse_i_test_cmd()
     def pulse_i_test_cmd(self):
-        self.cmdbuf('command0',[cg.pulse_i(freq_word=2, phase_word=110, amp_word=30000, env_word=(0x123<<12)+0x20, cfg_word=1, cmd_time=0)])
-        self.cmdbuf('command0',[cg.pulse_i(freq_word=2, phase_word=220, amp_word=30000, env_word=(0x123<<12)+0x20, cfg_word=2, cmd_time=20)])
-        self.cmdbuf('command0',[cg.pulse_i(freq_word=1, phase_word=330, amp_word=30000, env_word=(0x123<<12)+0x20, cfg_word=1, cmd_time=330)])
-        self.cmdbuf('command0',[cg.pulse_i(freq_word=1, phase_word=440, amp_word=30000, env_word=(0x123<<12)+0x20, cfg_word=2, cmd_time=350)])
+        self.cmdbuf('command0',[cg.pulse_i(freq_word=1, phase_word=110, amp_word=30000, env_word=(0<<12)+0x20, cfg_word=0, cmd_time=0)])
+        self.cmdbuf('command0',[cg.pulse_i(freq_word=1, phase_word=110, amp_word=30000, env_word=(10<<12)+0x20, cfg_word=1, cmd_time=10)])
+        self.cmdbuf('command0',[cg.pulse_i(freq_word=1, phase_word=110, amp_word=30000, env_word=(0<<12)+0x20, cfg_word=1, cmd_time=20)])
+        self.cmdbuf('command0',[cg.pulse_i(freq_word=1, phase_word=110, amp_word=30000, env_word=(10<<12)+0x20, cfg_word=2, cmd_time=147)])
+        self.cmdbuf('command0',[cg.pulse_i(freq_word=1, phase_word=110, amp_word=30000, env_word=(0<<12)+0x20, cfg_word=2, cmd_time=157)])
+        self.cmdbuf('command0',[cg.pulse_i(freq_word=1, phase_word=110, amp_word=30000, env_word=(10<<12)+0x20, cfg_word=1, cmd_time=200)])
+        self.cmdbuf('command0',[cg.pulse_i(freq_word=1, phase_word=110, amp_word=30000, env_word=(10<<12)+0x20, cfg_word=2, cmd_time=337)])
+        self.cmdbuf('command0',[cg.pulse_i(freq_word=1, phase_word=110, amp_word=30000, env_word=(1<<12)+0x20, cfg_word=0, cmd_time=400)])
+
+        self.cmdbuf('command1',[cg.pulse_i(freq_word=1, phase_word=110, amp_word=30000, env_word=(10<<12)+0x20, cfg_word=2, cmd_time=147)])
+        self.cmdbuf('command1',[cg.pulse_i(freq_word=1, phase_word=110, amp_word=30000, env_word=(0<<12)+0x20, cfg_word=2, cmd_time=157)])
+        self.cmdbuf('command1',[cg.pulse_i(freq_word=1, phase_word=110, amp_word=30000, env_word=(10<<12)+0x20, cfg_word=2, cmd_time=337)])
+
+        self.cmdbuf('command2',[cg.pulse_i(freq_word=1, phase_word=110, amp_word=30000, env_word=(10<<12)+0x20, cfg_word=2, cmd_time=147)])
+        self.cmdbuf('command2',[cg.pulse_i(freq_word=1, phase_word=110, amp_word=30000, env_word=(0<<12)+0x20, cfg_word=2, cmd_time=157)])
+        self.cmdbuf('command2',[cg.pulse_i(freq_word=1, phase_word=110, amp_word=30000, env_word=(10<<12)+0x20, cfg_word=2, cmd_time=337)])
+
+        self.cmdbuf('command3',[cg.pulse_i(freq_word=1, phase_word=110, amp_word=30000, env_word=(0<<12)+0x20, cfg_word=0, cmd_time=10)])
+        self.cmdbuf('command3',[cg.pulse_i(freq_word=1, phase_word=110, amp_word=30000, env_word=(10<<12)+0x20, cfg_word=2, cmd_time=147)])
+        self.cmdbuf('command3',[cg.pulse_i(freq_word=1, phase_word=110, amp_word=30000, env_word=(0<<12)+0x20, cfg_word=2, cmd_time=157)])
+        self.cmdbuf('command3',[cg.pulse_i(freq_word=1, phase_word=110, amp_word=30000, env_word=(10<<12)+0x20, cfg_word=2, cmd_time=337)])
+        self.cmdbuf('command3',[cg.pulse_i(freq_word=1, phase_word=110, amp_word=30000, env_word=(1<<12)+0x20, cfg_word=0, cmd_time=400)])
+#        self.cmdbuf('command0',[cg.pulse_i(freq_word=1, phase_word=2, amp_word=3, env_word=(0x04<<12)+0x5, cfg_word=6, cmd_time=7)])
+#        self.cmdbuf('command0',[cg.pulse_i(freq_word=2, phase_word=110, amp_word=30000, env_word=(0x123<<12)+0x20, cfg_word=1, cmd_time=10)])
+#        self.cmdbuf('command0',[cg.pulse_i(freq_word=2, phase_word=220, amp_word=30000, env_word=(0x123<<12)+0x20, cfg_word=2, cmd_time=147)])
+#        self.cmdbuf('command0',[cg.pulse_i(freq_word=1, phase_word=330, amp_word=30000, env_word=(0x123<<12)+0x20, cfg_word=1, cmd_time=330)])
+#        self.cmdbuf('command0',[cg.pulse_i(freq_word=1, phase_word=440, amp_word=30000, env_word=(0x123<<12)+0x20, cfg_word=2, cmd_time=467)])
         self.freqbuf('qdrvfreq0',[10e6,20e6,30e6,4.6e9])
         self.freqbuf('rdrvfreq0',[10e6,20e6,30e6,4.6e9])
         self.freqbuf('rdlofreq0',[10e6,20e6,30e6,4.6e9],ratio=4)
         self.freqbuf('qdrvfreq1',[10e6,20e6,30e6,4.6e9])
         self.freqbuf('rdrvfreq1',[10e6,20e6,30e6,4.6e9])
         self.freqbuf('rdlofreq1',[10e6,20e6,30e6,4.6e9],ratio=4)
-        self.envbuf('qdrvenv0',[numpy.zeros(16*32),numpy.ones(16*100)*0x7eff0000,numpy.zeros(16*20),self.complex32(numpy.arange(1,16*171+1)*32+1j*numpy.zeros(16*171))])
-        self.envbuf('rdrvenv0',[numpy.zeros(16*32),numpy.ones(16*100)*0x7eff0000,numpy.zeros(16*20),self.complex32(numpy.arange(1,16*171+1)*32+1j*numpy.zeros(16*171))])
-        self.envbuf('rdloenv0',[numpy.zeros(16*32),numpy.ones(16*100)*0x7eff0000,numpy.zeros(16*20),self.complex32(numpy.arange(1,16*171+1)*32+1j*numpy.zeros(16*171))])
-        self.envbuf('qdrvenv1',[numpy.zeros(16*32),numpy.ones(16*100)*0x7eff0000,numpy.zeros(16*20),self.complex32(numpy.arange(1,16*171+1)*32+1j*numpy.zeros(16*171))])
-        self.envbuf('rdrvenv1',[numpy.zeros(16*32),numpy.ones(16*100)*0x7eff0000,numpy.zeros(16*20),self.complex32(numpy.arange(1,16*171+1)*32+1j*numpy.zeros(16*171))])
-        self.envbuf('rdloenv1',[numpy.zeros(16*32),numpy.ones(16*100)*0x7eff0000,numpy.zeros(16*20),self.complex32(numpy.arange(1,16*171+1)*32+1j*numpy.zeros(16*171))])
+        self.envbuf('qdrvenv0',[numpy.ones(16*1024)*0x7fff0000])
+        self.envbuf('rdrvenv0',[numpy.zeros(16*32),numpy.ones(16*100)*0x7eff0000,numpy.zeros(16*20),self.complex32(numpy.arange(1,16*171+1)*10+1j*numpy.zeros(16*171))])
+        self.envbuf('rdloenv0',[numpy.zeros(4*32),numpy.ones(4*100)*0x7eff0000,numpy.zeros(4*20),self.complex32(numpy.arange(1,4*171+1)*10+1j*numpy.zeros(4*171))])
+#        self.envbuf('qdrvenv1',[numpy.zeros(16*32),numpy.ones(16*100)*0x7eff0000,numpy.zeros(16*20),self.complex32(numpy.arange(1,16*171+1)*10+1j*numpy.zeros(16*171))])
+#        self.envbuf('rdrvenv1',[numpy.zeros(16*32),numpy.ones(16*100)*0x7eff0000,numpy.zeros(16*20),self.complex32(numpy.arange(1,16*171+1)*10+1j*numpy.zeros(16*171))])
+#        self.envbuf('rdloenv1',[numpy.zeros(4*32),numpy.ones(4*100)*0x7eff0000,numpy.zeros(4*20),self.complex32(numpy.arange(1,4*171+1)*10+1j*numpy.zeros(4*171))])
 #        n_cmd = 11
 #        command0= []
 #        command1= []
@@ -100,7 +125,7 @@ class plsv():
             startaddr=self.brams[bufname].next
             for j in range(4):
                 self.brams[bufname].set_value(startaddr+j,(cmd>>(j*32))&0xffffffff)
-                print('cmdbuf',startaddr+j,format((cmd>>(j*32))&0xffffffff,'08x'))
+                print('cmdbuf',startaddr+j,format((cmd>>(j*32))&0xffffffff,'#010x'))
         self.brams[bufname].siminit()
     def fakecmd(self,trigt,amp,freqaddr,envstart,envlength,mode,pini):
         cmd=self.widthshift(mode,2,0)\
@@ -144,7 +169,7 @@ class plsv():
                 r.append(int(freq*2**32/ffpga)&0xffffffff)
             else:
                 r.append(((c<<16)+s))
-            print([hex(i) for i in r])
+            #print([hex(i) for i in r])
         return r
     def conndut(self,dut):
         self.dut=dut
@@ -299,12 +324,14 @@ async def start(dut):
 
 @cocotb.test()
 async def pulse_i_test(dut):
-    a.pulse_i_test_cmd()
-    await a.clk(4e-6)
+    await a.clk(10e-6)
     await a.delayclk(20,"clk_dac2")
     await a.dspregswrite("nshot",10)
     await a.dspregswrite("start",0)
-    await a.delayclk(2000,"clk_dac2")
+    await Timer(8,units='us')
+    await a.dspregswrite("start",0)
+    await Timer(8,units='us')
+#    await a.delayclk(4000,"clk_dac2")
 
 
 #@cocotb.test()

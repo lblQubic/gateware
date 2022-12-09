@@ -5,6 +5,20 @@
 		,"adc20":64
 		,"dspif.data_acqbuf[0]":64
 		,"dspif.adc20":64
+		,"proccorereset":1
+		,"regs.stb_start":1
+		,"dspif.data_command[0]":128
+		,"dspif.addr_command[0]":10
+		,"qdrvelem[0].cmdstb":1
+		,"qdrvelem[0].reset":1
+		,"qdrvelem[0].envstart":12
+		,"qdrvelem[0].envlength":12
+		,"qdrvelem[0].ampx":16
+		,"qdrvelem[0].ampy":16
+		,"qdrvelem[0].ampy":16
+		,"qdrvelem[0].freqaddr":9
+		,"qdrvelem[0].pini":17
+		,"qdrvelem[0].mode":2
 	}
 }
 
