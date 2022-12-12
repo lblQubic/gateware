@@ -4,7 +4,6 @@ dsp_tb.sv
 ../../submodules/common-hdl/areset.v
 ../../top/zcu216/ifdspregs.sv
 ../../top/zcu216/ifcfgregs.sv
-../../top/zcu216/boardcfg.sv
 ../../submodules/common-hdl/cordicg3.sv
 ../../submodules/common-hdl/freq_count3.v
 ../../submodules/common-hdl/reg_delay1.v
@@ -16,6 +15,7 @@ dsp_tb.sv
 ../../submodules/common-hdl/axi4_lb.v
 ../../submodules/common-hdl/cmultiplier2.v
 ../dsp.sv
+../aligned_ram.v
 ../../top/zcu216/plps_parainst.vh
 ../../top/zcu216/plps_para.vh
 ../../top/zcu216/bram_parainst.vh
@@ -27,10 +27,11 @@ dsp_tb.sv
 ../../top/zcu216/bram_write.vh
 ../../top/zcu216/bramif_lbportinst.vh
 ../../top/zcu216/bramif_lbport.vh
+../../top/zcu216/iladsp.vh
+../../top/zcu216/iladsp.v
 ../../top/zcu216/ammod.v
 ../../top/zcu216/phtime.v
 ../../top/zcu216/element.sv
-../../top/zcu216/gitrevision.v
 ../../top/zcu216/braminit_parainst.vh
 ../../top/zcu216/braminit_para.vh
 ../../submodules/distributed_processor/hdl/alu.v

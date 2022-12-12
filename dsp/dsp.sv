@@ -32,7 +32,7 @@ wire [ENV_WIDTH-1:0] env_word;
 wire cstrobe;
 */
 proc #(.DATA_WIDTH(DATA_WIDTH), .CMD_WIDTH(CMD_WIDTH),.CMD_ADDR_WIDTH(CMD_ADDR_WIDTH), .REG_ADDR_WIDTH(REG_ADDR_WIDTH),.SYNC_BARRIER_WIDTH(SYNC_BARRIER_WIDTH),.CMD_MEM_READ_LATENCY(2)) 
-dproc(.clk(clk), .reset(reset),.cmd_iface(memif), .fproc(fproc), .sync(sync), .pulseout(pulseout),.done_stb(stbend));
+dproc(.clk(clk), .reset(reset),.cmd_iface(memif), .fproc(fproc), .sync(sync), .pulseout(pulseout), .done_gate(stbend));
 assign memif.mem_bus[0]=command;
 assign cmd_read_addr=memif.instr_ptr;
 /*
