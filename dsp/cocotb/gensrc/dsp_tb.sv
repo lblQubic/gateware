@@ -33,7 +33,7 @@ module dsp_tb#(
         assign freq_wen = (proc_write_sel == i) & (mem_write_sel == 2) & mem_write_en;
         aligned_ram #(.DIN_WIDTH(32), .N_DIN_TO_DOUT(QDRVFREQ_R_DATAWIDTH/32), .DOUT_ADDR_WIDTH(QDRVFREQ_R_ADDRWIDTH), .READ_LATENCY(2))
             freq_mem(.clk(clk), .write_data(mem_write_data), .write_addr(mem_write_addr[QDRVFREQ_W_ADDRWIDTH-1:0]),
-                .write_enable(env_wen), .read_addr(dspif.addr_qdrvenv[i]), .read_data(dspif.data_qdrvenv[i]));
+                .write_enable(freq_wen), .read_addr(dspif.addr_qdrvfreq[i]), .read_data(dspif.data_qdrvfreq[i]));
 
     end
     endgenerate
@@ -42,6 +42,9 @@ module dsp_tb#(
     assign dac20 = dspif.dac20;
     assign dac22 = dspif.dac22;
     assign dac30 = dspif.dac30;
+    assign dspif.clk = clk;
+    assign dspif.reset = reset;
+    assign regs.stb_start = reset;
 
     dsp dspmod(.regs(regs), .dspif(dspif));
 
