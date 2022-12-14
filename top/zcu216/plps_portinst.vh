@@ -1,6 +1,7 @@
 	.aresetn(aresetn)
 	,.pl_clk0(pl_clk0)
-,.cfgresetn00(cfgresetn00),.cfgresetn01(cfgresetn01),.cfgresetn02(cfgresetn02),.cfgresetn03(cfgresetn03),.cfgresetn04(cfgresetn04),.cfgresetn05(cfgresetn05),.cfgresetn06(cfgresetn06),.cfgresetn07(cfgresetn07)//,.cfgresetn08(cfgresetn08),.cfgresetn09(cfgresetn09)
+,`include "reset_portinst.vh"
+//,.cfgresetn00(cfgresetn00),.cfgresetn01(cfgresetn01),.cfgresetn02(cfgresetn02),.cfgresetn03(cfgresetn03),.cfgresetn04(cfgresetn04),.cfgresetn05(cfgresetn05),.cfgresetn06(cfgresetn06),.cfgresetn07(cfgresetn07)//,.cfgresetn08(cfgresetn08),.cfgresetn09(cfgresetn09)
 //,.cfgresetn10(cfgresetn10),.cfgresetn11(cfgresetn11),.cfgresetn12(cfgresetn12),.cfgresetn13(cfgresetn13),.cfgresetn14(cfgresetn14),.cfgresetn15(cfgresetn15),.cfgresetn16(cfgresetn16),.cfgresetn17(cfgresetn17),.cfgresetn18(cfgresetn18),.cfgresetn19(cfgresetn19)
 //,.cfgresetn20(cfgresetn20),.cfgresetn21(cfgresetn21),.cfgresetn22(cfgresetn22),.cfgresetn23(cfgresetn23),.cfgresetn24(cfgresetn24),.cfgresetn25(cfgresetn25),.cfgresetn26(cfgresetn26),.cfgresetn27(cfgresetn27),.cfgresetn28(cfgresetn28),.cfgresetn29(cfgresetn29)
 //,.cfgresetn30(cfgresetn30),.cfgresetn31(cfgresetn31),.cfgresetn32(cfgresetn32),.cfgresetn33(cfgresetn33),.cfgresetn34(cfgresetn34),.cfgresetn35(cfgresetn35),.cfgresetn36(cfgresetn36),.cfgresetn37(cfgresetn37),.cfgresetn38(cfgresetn38),.cfgresetn39(cfgresetn39)
@@ -11,37 +12,23 @@
 //,.cfgresetn80(cfgresetn80),.cfgresetn81(cfgresetn81),.cfgresetn82(cfgresetn82),.cfgresetn83(cfgresetn83),.cfgresetn84(cfgresetn84),.cfgresetn85(cfgresetn85),.cfgresetn86(cfgresetn86),.cfgresetn87(cfgresetn87),.cfgresetn88(cfgresetn88),.cfgresetn89(cfgresetn89)
 //,.cfgresetn90(cfgresetn90),.cfgresetn91(cfgresetn91)
 
-,.dspresetn00(dspresetn00)
-,.dspresetn01(dspresetn01)
-,.dspresetn02(dspresetn02)
-,.dspresetn03(dspresetn03)
-,.dspresetn04(dspresetn04)
-,.dspresetn05(dspresetn05)
-,.dspresetn06(dspresetn06)
-,.dspresetn07(dspresetn07)
-,.dspresetn08(dspresetn08)
-,.dspresetn09(dspresetn09)
-,.dspresetn10(dspresetn10)
-,.dspresetn11(dspresetn11)
-,.dspresetn12(dspresetn12)
-,.dspresetn13(dspresetn13)
-,.dspresetn14(dspresetn14)
-,.dspresetn15(dspresetn15)
-,.dspresetn16(dspresetn16)
-,.dspresetn17(dspresetn17)
-,.dspresetn18(dspresetn18)
-,.dspresetn19(dspresetn19)
-,.dspresetn20(dspresetn20)
-,.dspresetn21(dspresetn21)
-
-
-,.psresetn00(psresetn00)
-,.psresetn01(psresetn01)
-,.psresetn02(psresetn02)
-,.adc2resetn00(adc2resetn00)
-,.adc2resetn01(adc2resetn01)
-,.adc2resetn02(adc2resetn02)
-
+//,.dspresetn00(dspresetn00)
+//,.dspresetn01(dspresetn01)
+//,.dspresetn02(dspresetn02)
+//,.dspresetn03(dspresetn03)
+//,.dspresetn04(dspresetn04)
+//,.dspresetn05(dspresetn05)
+//,.dspresetn06(dspresetn06)
+//,.dspresetn07(dspresetn07)
+//
+//
+//,.psresetn00(psresetn00)
+//,.psresetn01(psresetn01)
+//,.psresetn02(psresetn02)
+//,.adc2resetn00(adc2resetn00)
+//,.adc2resetn01(adc2resetn01)
+//,.adc2resetn02(adc2resetn02)
+//
 
 ,.lb1_wren(lb1_wren)
 ,.lb1_rden(lb1_rden)
@@ -96,7 +83,6 @@
 ,.clkadc2_300(clkadc2_300)
 ,.clkadc2_600(clkadc2_600)
 
-,`include "rfdc_portinst.vh"
 /*,.DAC20_M_AXIS_ACLK(DAC20_M_AXIS_ACLK)
 ,.DAC20_M_AXIS_ARESETN(DAC20_M_AXIS_ARESETN)
 ,.DAC20_M_AXIS_TREADY(DAC20_M_AXIS_TREADY)
@@ -144,5 +130,6 @@
 ,.ADC21_S_AXIS_TSTRB(ADC21_S_AXIS_TSTRB)
 ,.ADC21_S_AXIS_TLAST(ADC21_S_AXIS_TLAST)
 */
+,`include "rfdc_portinst.vh"
 ,.cfgclk(cfgclk)
 ,.dspclk(dspclk)

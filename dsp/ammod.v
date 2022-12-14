@@ -21,8 +21,6 @@ wire [15:0] multiy[0:NSLICE-1];
 
 reg [NSLICE*16-1:0] multix16x16_r=0;
 reg [NSLICE*16-1:0] multiy16x16_r=0;
-reg [NSLICE*16-1:0] multix16x16_r2=0;
-reg [NSLICE*16-1:0] multiy16x16_r2=0;
 
 wire [NSLICE*32-1:0] freqcossinp32x16_d;
 reg_delay1 #(.DW(NSLICE*32),.LEN(25)) freqcossinpdelay(.clk(clk),.gate(1'b1),.din(freqcossinp32x16),.dout(freqcossinp32x16_d),.reset(1'b0));
@@ -87,7 +85,6 @@ cordicg(.clk(clk),.xin(ampx_d2),.yin(16'd0),.phasein(phaseinit),.xout(cos_w),.yo
 
 wire gmulti;
 reg gateout_r=0;
-reg gateout_r2=0;
 always @(posedge clk) begin
 	gateout_r<=gmulti;
 end
@@ -96,16 +93,12 @@ multidelay(.clk(clk),.gate(1'b1),.din(gcordic),.dout(gmulti),.reset(1'b0));
 generate
 	for (genvar i=0;i<NSLICE;i=i+1) begin
 		wire [32:0] zr1,zi1;
-		reg [15:0] zr1_r=0;
-		reg [15:0] zi1_r=0;
 		wire [32:0] zr,zi;
 		reg [15:0] envxi=0;
 		reg [15:0] envyi=0;
 		reg [15:0] sinpi=0;
 		reg [15:0] cospi=0;
 		always @(posedge clk) begin
-			zr1_r<=zr1[30:15];
-			zi1_r<=zi1[30:15];
 			envxi<=envx[i];
 			envyi<=envy[i];
 			cospi<=cosp[i];
@@ -114,19 +107,15 @@ generate
 		cmultiplier #(.XWIDTH(16),.YWIDTH(16))
 		mult1(.clk(clk),.xr(cos),.xi(sin),.yr(cospi),.yi(sinpi),.zr(zr1),.zi(zi1));
 		cmultiplier #(.XWIDTH(16),.YWIDTH(16))
-		mult2(.clk(clk),.xr(zr1_r),.xi(zi1_r),.yr(envxi),.yi(envyi),.zr(zr),.zi(zi));
+		mult2(.clk(clk),.xr(zr1[30:15]),.xi(zi1[30:15]),.yr(envxi),.yi(envyi),.zr(zr),.zi(zi));
 		assign multix[i]=zr[30:15];
 		assign multiy[i]=zi[30:15];
 		//assign multix[i]=zr1[30:15];
 		//assign multiy[i]=zi1[30:15];
 	end
 endgenerate
-always @(posedge clk) begin
-	multix16x16_r2<=multix16x16_r;
-	multiy16x16_r2<=multiy16x16_r;
-	gateout_r2<=gateout_r;
-end
-assign gateout=gateout_r2;
-assign multix16x16=multix16x16_r2;
-assign multiy16x16=multiy16x16_r2;
+
+assign gateout=gateout_r;
+assign multix16x16=multix16x16_r;
+assign multiy16x16=multiy16x16_r;
 endmodule
