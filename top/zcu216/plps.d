@@ -65,4 +65,5 @@ plps_port.vh
 plps_portinst.vh
 plpsboard.sv
 plsv.sv
-pltop.sv
+rfdc_portinst.vh
+rfdc_port.vh

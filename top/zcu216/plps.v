@@ -8,6 +8,8 @@ module plps #(
 ,`include "fpga_port.vh"
 ,output clkadc2_300  // in the plps_inst, but not in the plps_port, because change direction
 ,output clkadc2_600
+,output dspclk
+,output cfgclk
 );
 plpsboard#(
 `include "plps_parainst.vh"

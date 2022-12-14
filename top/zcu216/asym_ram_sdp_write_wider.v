@@ -52,6 +52,9 @@ always @(posedge clkB) begin
 	readB_d2<=readB_d;
 end
 assign doB = readB_d2;
+reg [ADDRWIDTHA-1:0] addrA_d2=0;
+reg [DATAWIDTHA-1:0] diA_d2=0;
+reg weA_d2=0;
 reg [ADDRWIDTHA-1:0] addrA_d=0;
 reg [DATAWIDTHA-1:0] diA_d=0;
 reg weA_d=0;
@@ -59,6 +62,9 @@ always @(posedge clkA) begin
 	addrA_d<=addrA;
 	diA_d<=diA;
 	weA_d<=weA;
+	addrA_d2<=addrA_d;
+	diA_d2<=diA_d;
+	weA_d2<=weA_d;
 end
 always @(posedge clkA)
 begin : ramwrite
@@ -66,8 +72,8 @@ begin : ramwrite
 	reg [log2RATIO-1:0] lsbaddr=0;
 	for (i=0; i< RATIO; i= i+ 1) begin : write1
 		lsbaddr = i;
-		if (weA_d)
-			RAM[{addrA_d, lsbaddr}] <= diA_d[(i+1)*minWIDTH-1 -: minWIDTH];
+		if (weA_d2)
+			RAM[{addrA_d2, lsbaddr}] <= diA_d2[(i+1)*minWIDTH-1 -: minWIDTH];
 	end
 end
 
