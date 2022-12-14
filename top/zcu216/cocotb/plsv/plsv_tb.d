@@ -65,3 +65,4 @@ plsv_tb.sv
 ../../reset_plsv.vh
 ../../reset_portinst.vh
 ../../reset_port.vh
+../../../../dsp/proc_core.sv

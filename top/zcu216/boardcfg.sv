@@ -7,13 +7,6 @@ module boardcfg #(
 ,ifdspregs.regs dspregs
 ,`include "bramif_port.vh"
 ,`include "rfdcif_port.vh"
-/*,axi4stream.master dac30axis
-,axi4stream.master dac20axis
-,axi4stream.master dac32axis
-,axi4stream.master dac22axis
-,axi4stream.slave adc20axis
-,axi4stream.slave adc21axis
-*/
 ,ifdsp.cfg dspif
 ,output cfgclk
 ,output dspclk
@@ -41,19 +34,6 @@ adc2areset(.clk(clkadc2_600),.areset(reset),.sreset(adc2reset),.sreset_val());
 
 gitrevision gitrevision(cfgregs.gitrevision);
 
-/*bram_cfg bram_tohost0_cfg(.bram(bram_tohost0),.clk(dspclk),.rst(1'b0),.en(1'b1));
-bram_cfg bram_tohost1_cfg(.bram(bram_tohost1),.clk(dspclk),.rst(1'b0),.en(1'b1));
-bram_cfg bram_fromhost0_cfg(.bram(bram_fromhost0),.clk(dspclk),.rst(1'b0),.en(1'b1));
-bram_cfg bram_fromhost1_cfg(.bram(bram_fromhost1),.clk(dspclk),.rst(1'b0),.en(1'b1));
-bram_cfg bram_fromhost2_cfg(.bram(bram_fromhost2),.clk(dspclk),.rst(1'b0),.en(1'b1));
-bram_cfg bram_fromhost3_cfg(.bram(bram_fromhost3),.clk(dspclk),.rst(1'b0),.en(1'b1));
-bram_cfg bram_fromhost4_cfg(.bram(bram_fromhost4),.clk(dspclk),.rst(1'b0),.en(1'b1));
-bram_cfg bram_fromhost5_cfg(.bram(bram_fromhost5),.clk(dspclk),.rst(1'b0),.en(1'b1));
-bram_cfg bram_fromhost6_cfg(.bram(bram_fromhost6),.clk(dspclk),.rst(1'b0),.en(1'b1));
-bram_cfg bram_fromhost7_cfg(.bram(bram_fromhost7),.clk(dspclk),.rst(1'b0),.en(1'b1));
-bram_cfg bram_accbuf_cfg(.bram(bram_accbuf),.clk(dspclk),.rst(1'b0),.en(1'b1));
-bram_cfg bram_command_cfg(.bram(bram_command),.clk(dspclk),.rst(1'b0),.en(1'b1));
-*/
 
 reg [31:0] cnt100=0;
 always @(posedge hw.clk100) begin
@@ -156,34 +136,6 @@ endgenerate
 `include "bram_read.vh"
 `include "bram_write.vh"
 
-/*
-bram_write#(.ADDR_WIDTH(BRAMFROMHOST_ADDRWIDTH+BRAMFROMHOST_ADDRPERDATA),.DATA_WIDTH(BRAMFROMHOST_DATAWIDTH))
-bramfromhost0_write(.bram(bram_fromhost0)
-,.addr({dspif.bramfromhost0_addr,{BRAMFROMHOST_ADDRPERDATA{1'b0}}})
-,.data(dspif.bramfromhost0_data)
-,.we(dspif.bramfromhost0_we)
-);
-
-bram_write#(.ADDR_WIDTH(BRAMFROMHOST_ADDRWIDTH+BRAMFROMHOST_ADDRPERDATA),.DATA_WIDTH(BRAMFROMHOST_DATAWIDTH))
-bramfromhost1_write(.bram(bram_fromhost1)
-,.addr({dspif.bramfromhost1_addr,{BRAMFROMHOST_ADDRPERDATA{1'b0}}})
-,.data(dspif.bramfromhost1_data)
-,.we(dspif.bramfromhost1_we)
-);
-
-bram_write#(.ADDR_WIDTH(BRAMFROMHOST_ADDRWIDTH+BRAMFROMHOST_ADDRPERDATA),.DATA_WIDTH(BRAMFROMHOST_DATAWIDTH))
-bramfromhost2_write(.bram(bram_fromhost2)
-,.addr({dspif.bramfromhost2_addr,{BRAMFROMHOST_ADDRPERDATA{1'b0}}})
-,.data(dspif.bramfromhost2_data)
-,.we(dspif.bramfromhost2_we)
-);
-
-bram_read#(.ADDR_WIDTH(BRAMFROMHOST_ADDRWIDTH+BRAMFROMHOST_ADDRPERDATA),.DATA_WIDTH(BRAMFROMHOST_DATAWIDTH))
-bramfromhost3_read(.bram(bram_fromhost3)
-,.addr({dspif.bramfromhost3_addr,{BRAMFROMHOST_ADDRPERDATA{1'b0}}})
-,.data(dspif.bramfromhost3_data)
-);
-*/
 wire adc20datavalid;
 wire [ADC_AXIS_DATAWIDTH-1:0] adc20data_x;
 axi4stream_slave_handshake_data #(.DATA_WIDTH (ADC_AXIS_DATAWIDTH))adc20hsda(.axis(adc20axis),.ready(1'b1),.datavalid(adc20datavalid),.data(adc20data_x));
