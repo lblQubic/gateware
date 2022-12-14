@@ -3,6 +3,8 @@ module proc_core(input clk
 ,input [127:0] command
 ,output [15:0] cmd_read_addr
 ,output stbend
+,output procdone_mon
+,output nobusy_mon
 ,ifelement.proc qdrvelem
 ,ifelement.proc rdrvelem
 ,ifelement.proc rdloelem
@@ -72,4 +74,6 @@ always @(posedge clk) begin
 	nobusy<=~|{qdrvelem.busy,rdrvelem.busy,rdloelem.busy};
 end
 assign stbend=procdone&nobusy;
+assign procdone_mon=procdone;
+assign nobusy_mon=nobusy;
 endmodule

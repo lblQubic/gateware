@@ -53,14 +53,12 @@ dspregs(.lb(lb2));
 
 `include "rfdc_plsv.vh"
 
-ifdsp #(
-`include "plps_parainst.vh"
+ifdsp #(`include "plps_parainst.vh"
 ,`include "bram_parainst.vh"
 ,`include "braminit_parainst.vh"
 )
 dspif();
-boardcfg #(
-	`include "plps_parainst.vh"
+boardcfg #(`include "plps_parainst.vh"
 ,`include "bram_parainst.vh"
 ,`include "braminit_parainst.vh"
 )
@@ -83,8 +81,7 @@ boardcfg(.hw(hw),.cfgregs(cfgregs.regs)
 ,.psreset(psreset)
 ,.adc2reset(adc2reset)
 );
-dsp #(
-`include "plps_parainst.vh"
+dsp #(`include "plps_parainst.vh"
 ,`include "bram_parainst.vh"
 ,`include "braminit_parainst.vh"
 )

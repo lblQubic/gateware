@@ -13,12 +13,21 @@
 		,"stbprocend":4
 		,"dspif.stb_start":1
 		,"dspif.data_command[0]":128
+		,"dspif.data_command[1]":128
+		,"dspif.data_command[2]":128
+		,"dspif.data_command[3]":128
 		,"dspif.addr_command[0]":10
+		,"dspif.addr_command[1]":10
+		,"dspif.addr_command[2]":10
+		,"dspif.addr_command[3]":10
 		,"dspif.data_qdrvenv[0]":512
 		,"dspif.addr_qdrvenv[0]":10
 		,"dspif.data_qdrvfreq[0]":512
 		,"dspif.addr_qdrvfreq[0]":9
 		,"qdrvelem[0].cmdstb":1
+		,"qdrvelem[1].cmdstb":1
+		,"qdrvelem[2].cmdstb":1
+		,"qdrvelem[3].cmdstb":1
 		,"qdrvelem[0].reset":1
 		,"qdrvelem[0].envstart":12
 		,"qdrvelem[0].envlength":12
@@ -28,6 +37,14 @@
 		,"qdrvelem[0].freqaddr":9
 		,"qdrvelem[0].pini":17
 		,"qdrvelem[0].mode":2
+		,"nshot":32
+		,"shotcnt":32
+		,"shotbusy":1
+		,"stbprocend":4
+		,"allprocend":1
+		,"procdone":4
+		,"nobusy":4
+
 	}
 }
 

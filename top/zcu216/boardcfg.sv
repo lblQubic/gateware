@@ -167,5 +167,23 @@ assign dspregs.addr_accbuf_mon0=dspif.addr_accbuf_mon0;
 assign dspregs.addr_accbuf_mon1=dspif.addr_accbuf_mon1;
 assign dspregs.addr_accbuf_mon2=dspif.addr_accbuf_mon2;
 assign dspregs.addr_accbuf_mon3=dspif.addr_accbuf_mon3;
+
+
+assign dspif.coef[0][0]=dspregs.coef00;
+assign dspif.coef[0][1]=dspregs.coef01;
+assign dspif.coef[0][2]=dspregs.coef02;
+assign dspif.coef[0][3]=dspregs.coef03;
+assign dspif.coef[1][0]=dspregs.coef10;
+assign dspif.coef[1][1]=dspregs.coef11;
+assign dspif.coef[1][2]=dspregs.coef12;
+assign dspif.coef[1][3]=dspregs.coef13;
+assign dspif.coef[2][0]=dspregs.coef20;
+assign dspif.coef[2][1]=dspregs.coef21;
+assign dspif.coef[2][2]=dspregs.coef22;
+assign dspif.coef[2][3]=dspregs.coef23;
+assign dspif.coef[3][0]=dspregs.coef30;
+assign dspif.coef[3][1]=dspregs.coef31;
+assign dspif.coef[3][2]=dspregs.coef32;
+assign dspif.coef[3][3]=dspregs.coef33;
 //`include "ilaauto.vh"
 endmodule

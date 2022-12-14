@@ -312,7 +312,10 @@ input aresetn
 ,input clk104_pl_sysref
 ,input clk104_pl_clk
 );
-
+/*initial begin
+$dumpvars(0,plsv_tb);
+end
+*/
 localparam INIT_accbuf0="INIT_accbuf0.mem";
 localparam INIT_accbuf1="INIT_accbuf1.mem";
 localparam INIT_accbuf2="INIT_accbuf2.mem";

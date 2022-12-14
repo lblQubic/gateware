@@ -1,5 +1,5 @@
 //qdrvelem qdrvelem (.elem(qdrvelem),.envaddr(addr_qdrvenv),.envdata(data_qdrvenv),.freqaddr(addr_qdrvfreq),.freqdata(data_qdrvfreq));
-module elementconn#(parameter ENV_ADDRWIDTH=32,parameter ENV_DATAWIDTH=32,parameter TCNTWIDTH=27,parameter FREQ_ADDRWIDTH=32,parameter FREQ_DATAWIDTH=32)(ifelement.elem elem
+module elementconn#(parameter ENV_ADDRWIDTH=32,parameter ENV_DATAWIDTH=32,parameter FREQ_ADDRWIDTH=32,parameter FREQ_DATAWIDTH=32)(ifelement.elem elem
 ,output [ENV_ADDRWIDTH-1:0] envaddr
 ,input [ENV_DATAWIDTH-1:0] envdata
 ,output [FREQ_ADDRWIDTH-1:0] freqaddr
@@ -58,7 +58,7 @@ assign elem.prepbusy=|busy_sr;
 assign elem.pulsebusy=elem.valid;
 endmodule
 
-module elementout#(parameter ENV_ADDRWIDTH=32,parameter ENV_DATAWIDTH=32,parameter TCNTWIDTH=27,parameter FREQ_ADDRWIDTH=32,parameter FREQ_DATAWIDTH=32)(ifelement.out elem
+module elementout#(parameter ENV_ADDRWIDTH=32,parameter ENV_DATAWIDTH=32,parameter FREQ_ADDRWIDTH=32,parameter FREQ_DATAWIDTH=32)(ifelement.out elem
 ,output valid
 ,output [NSLICE*16-1:0] multix
 ,output [NSLICE*16-1:0] multiy
@@ -70,7 +70,7 @@ assign multiy=elem.multiy_r;
 assign elem.postprobusy=elem.valid_r;
 endmodule
 
-module elementsum4#(parameter ENV_ADDRWIDTH=32,parameter ENV_DATAWIDTH=32,parameter TCNTWIDTH=27,parameter FREQ_ADDRWIDTH=32,parameter FREQ_DATAWIDTH=32)(ifelement.out elem0
+module elementsum4#(parameter ENV_ADDRWIDTH=32,parameter ENV_DATAWIDTH=32,parameter FREQ_ADDRWIDTH=32,parameter FREQ_DATAWIDTH=32)(ifelement.out elem0
 ,ifelement.out elem1
 ,ifelement.out elem2
 ,ifelement.out elem3
@@ -82,6 +82,7 @@ module elementsum4#(parameter ENV_ADDRWIDTH=32,parameter ENV_DATAWIDTH=32,parame
 localparam NSLICE=FREQ_DATAWIDTH/32;
 reg [NSLICE*16-1:0] sumx=0;
 reg [NSLICE*16-1:0] sumy=0;
+wire [NSLICE*16*2-1:0] sumxy;
 
 generate
 for (genvar i=0;i<NSLICE;i++) begin : stepslice
@@ -101,6 +102,7 @@ for (genvar i=0;i<NSLICE;i++) begin : stepslice
 		sumy2<=sumy1+sumy0;
 		sumy[i*16+15:i*16]<=sumy2;
 	end
+	assign sumxy[i*32+31:i*32]={sumx[i*16+15:i*16],sumy[i*16+15:i*16]};
 end
 endgenerate
 reg valid0=0;
@@ -122,7 +124,7 @@ assign elem2.postprobusy=elem2.valid_r;
 assign elem3.postprobusy=elem3.valid_r;
 endmodule
 
-module elementsum8#(parameter ENV_ADDRWIDTH=32,parameter ENV_DATAWIDTH=32,parameter TCNTWIDTH=27,parameter FREQ_ADDRWIDTH=32,parameter FREQ_DATAWIDTH=32)(ifelement.out elem0
+module elementsum8#(parameter ENV_ADDRWIDTH=32,parameter ENV_DATAWIDTH=32,parameter FREQ_ADDRWIDTH=32,parameter FREQ_DATAWIDTH=32)(ifelement.out elem0
 ,ifelement.out elem1
 ,ifelement.out elem2
 ,ifelement.out elem3
@@ -138,6 +140,7 @@ module elementsum8#(parameter ENV_ADDRWIDTH=32,parameter ENV_DATAWIDTH=32,parame
 localparam NSLICE=FREQ_DATAWIDTH/32;
 reg [NSLICE*16-1:0] sumx=0;
 reg [NSLICE*16-1:0] sumy=0;
+wire [NSLICE*16*2-1:0] sumxy;
 
 generate
 for (genvar i=0;i<NSLICE;i++) begin : stepslice
@@ -173,6 +176,7 @@ for (genvar i=0;i<NSLICE;i++) begin : stepslice
                sumy6<=sumy4+sumy5;
                sumy[i*16+15:i*16]<=sumy6;
        end
+		assign sumxy[i*32+31:i*32]={sumx[i*16+15:i*16],sumy[i*16+15:i*16]};
 end
 endgenerate
 reg valid0=0;
@@ -195,7 +199,7 @@ assign elem3.postprobusy=valid;
 endmodule
 
 
-module elementmixacc#(parameter ENV_ADDRWIDTH=32,parameter ENV_DATAWIDTH=32,parameter TCNTWIDTH=27,parameter FREQ_ADDRWIDTH=32,parameter FREQ_DATAWIDTH=32,parameter ACCADDWIDTH=16)(ifelement.mix elem
+module elementmixacc#(parameter ENV_ADDRWIDTH=32,parameter ENV_DATAWIDTH=32,parameter FREQ_ADDRWIDTH=32,parameter FREQ_DATAWIDTH=32,parameter ACCADDWIDTH=16)(ifelement.mix elem
 ,input [NSLICE*16-1:0] adcx
 ,input [NSLICE*16-1:0] adcy
 ,input [4:0] shift
