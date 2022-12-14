@@ -18,7 +18,7 @@ module plsv_tb#(
 )(
 input aresetn
 ,input pl_clk0
-,output cfgresetn00,output cfgresetn01,output cfgresetn02,output cfgresetn03,output cfgresetn04,output cfgresetn05,output cfgresetn06,output cfgresetn07,output cfgresetn08,output cfgresetn09
+/*,output cfgresetn00,output cfgresetn01,output cfgresetn02,output cfgresetn03,output cfgresetn04,output cfgresetn05,output cfgresetn06,output cfgresetn07,output cfgresetn08,output cfgresetn09
 ,output cfgresetn10,output cfgresetn11,output cfgresetn12,output cfgresetn13,output cfgresetn14,output cfgresetn15,output cfgresetn16,output cfgresetn17,output cfgresetn18,output cfgresetn19
 ,output cfgresetn20,output cfgresetn21,output cfgresetn22,output cfgresetn23,output cfgresetn24,output cfgresetn25,output cfgresetn26,output cfgresetn27,output cfgresetn28,output cfgresetn29
 ,output cfgresetn30,output cfgresetn31,output cfgresetn32,output cfgresetn33,output cfgresetn34,output cfgresetn35,output cfgresetn36,output cfgresetn37,output cfgresetn38,output cfgresetn39
@@ -37,27 +37,14 @@ input aresetn
 ,output dspresetn05
 ,output dspresetn06
 ,output dspresetn07
-,output dspresetn08
-,output dspresetn09
-,output dspresetn10
-,output dspresetn11
-,output dspresetn12
-,output dspresetn13
-,output dspresetn14
-,output dspresetn15
-,output dspresetn16
-,output dspresetn17
-,output dspresetn18
-,output dspresetn19
-,output dspresetn20
-,output dspresetn21
 ,output psresetn00
 ,output psresetn01
 ,output psresetn02
 ,output adc2resetn00
 ,output adc2resetn01
 ,output adc2resetn02
-
+*/
+,`include "reset_port.vh"
 //,input wire  cfgregsaxi_aclk
 //,input wire  cfgregsaxi_aresetn
 ,input wire  cfgregsaxi_arlock
@@ -261,29 +248,29 @@ input aresetn
 
 //,input  DAC20_M_AXIS_ACLK
 //,input  DAC20_M_AXIS_ARESETN
-//,input  DAC20_M_AXIS_TREADY
-//,output  DAC20_M_AXIS_TVALID
-//,output  [DAC_AXIS_DATAWIDTH-1 : 0] DAC20_M_AXIS_TDATA
-//,output  [(DAC_AXIS_DATAWIDTH/8)-1 : 0] DAC20_M_AXIS_TSTRB
-//,output  DAC20_M_AXIS_TLAST
-//,input clk_dac2
+,input  DAC20_M_AXIS_TREADY
+,output  DAC20_M_AXIS_TVALID
+,output  [DAC_AXIS_DATAWIDTH-1 : 0] DAC20_M_AXIS_TDATA
+,output  [(DAC_AXIS_DATAWIDTH/8)-1 : 0] DAC20_M_AXIS_TSTRB
+,output  DAC20_M_AXIS_TLAST
+,input clk_dac2
 
 //,input  DAC30_M_AXIS_ACLK
 //,input  DAC30_M_AXIS_ARESETN
-//,input  DAC30_M_AXIS_TREADY
-//,output  DAC30_M_AXIS_TVALID
-//,output  [DAC_AXIS_DATAWIDTH-1 : 0] DAC30_M_AXIS_TDATA
-//,output  [(DAC_AXIS_DATAWIDTH/8)-1 : 0] DAC30_M_AXIS_TSTRB
-//,output  DAC30_M_AXIS_TLAST
-//,input clk_dac3
+,input  DAC30_M_AXIS_TREADY
+,output  DAC30_M_AXIS_TVALID
+,output  [DAC_AXIS_DATAWIDTH-1 : 0] DAC30_M_AXIS_TDATA
+,output  [(DAC_AXIS_DATAWIDTH/8)-1 : 0] DAC30_M_AXIS_TSTRB
+,output  DAC30_M_AXIS_TLAST
+,input clk_dac3
 
 //,input  DAC22_M_AXIS_ACLK
 //,input  DAC22_M_AXIS_ARESETN
-//,input  DAC22_M_AXIS_TREADY
-//,output  DAC22_M_AXIS_TVALID
-//,output  [DAC_AXIS_DATAWIDTH-1 : 0] DAC22_M_AXIS_TDATA
-//,output  [(DAC_AXIS_DATAWIDTH/8)-1 : 0] DAC22_M_AXIS_TSTRB
-//,output  DAC22_M_AXIS_TLAST
+,input  DAC22_M_AXIS_TREADY
+,output  DAC22_M_AXIS_TVALID
+,output  [DAC_AXIS_DATAWIDTH-1 : 0] DAC22_M_AXIS_TDATA
+,output  [(DAC_AXIS_DATAWIDTH/8)-1 : 0] DAC22_M_AXIS_TSTRB
+,output  DAC22_M_AXIS_TLAST
 
 //,input  DAC32_M_AXIS_ACLK
 //,input  DAC32_M_AXIS_ARESETN
@@ -301,17 +288,17 @@ input aresetn
 ,input  [(ADC_AXIS_DATAWIDTH/8)-1 : 0] ADC20_S_AXIS_TSTRB
 ,input  ADC20_S_AXIS_TLAST
 */
-//,input clk_adc2
+,input clk_adc2
 
 //,input  ADC21_S_AXIS_ACLK
 //,input  ADC21_S_AXIS_ARESETN
-//,output  ADC21_S_AXIS_TREADY
-//,input  ADC21_S_AXIS_TVALID
-//,input  [ADC_AXIS_DATAWIDTH-1 : 0] ADC21_S_AXIS_TDATA
-//,input  [(ADC_AXIS_DATAWIDTH/8)-1 : 0] ADC21_S_AXIS_TSTRB
-//,input  ADC21_S_AXIS_TLAST
+,output  ADC21_S_AXIS_TREADY
+,input  ADC21_S_AXIS_TVALID
+,input  [ADC_AXIS_DATAWIDTH-1 : 0] ADC21_S_AXIS_TDATA
+,input  [(ADC_AXIS_DATAWIDTH/8)-1 : 0] ADC21_S_AXIS_TSTRB
+,input  ADC21_S_AXIS_TLAST
 
-,`include "rfdc_simclk.vh"
+
 
 ,output cfgclk
 ,output dspclk
@@ -326,81 +313,44 @@ input aresetn
 ,input clk104_pl_clk
 );
 
-
 localparam INIT_accbuf0="INIT_accbuf0.mem";
 localparam INIT_accbuf1="INIT_accbuf1.mem";
 localparam INIT_accbuf2="INIT_accbuf2.mem";
 localparam INIT_accbuf3="INIT_accbuf3.mem";
-localparam INIT_accbuf4="INIT_accbuf4.mem";
-localparam INIT_accbuf5="INIT_accbuf5.mem";
-localparam INIT_accbuf6="INIT_accbuf6.mem";
-localparam INIT_accbuf7="INIT_accbuf7.mem";
 localparam INIT_acqbuf0="INIT_acqbuf0.mem";
 localparam INIT_acqbuf1="INIT_acqbuf1.mem";
 localparam INIT_command0="INIT_command0.mem";
 localparam INIT_command1="INIT_command1.mem";
 localparam INIT_command2="INIT_command2.mem";
 localparam INIT_command3="INIT_command3.mem";
-localparam INIT_command4="INIT_command4.mem";
-localparam INIT_command5="INIT_command5.mem";
-localparam INIT_command6="INIT_command6.mem";
-localparam INIT_command7="INIT_command7.mem";
 localparam INIT_dacmon0="INIT_dacmon0.mem";
 localparam INIT_dacmon1="INIT_dacmon1.mem";
 localparam INIT_dacmon2="INIT_dacmon2.mem";
 localparam INIT_dacmon3="INIT_dacmon3.mem";
-localparam INIT_dacmon4="INIT_dacmon4.mem";
-localparam INIT_dacmon5="INIT_dacmon5.mem";
-localparam INIT_dacmon6="INIT_dacmon6.mem";
-localparam INIT_dacmon7="INIT_dacmon7.mem";
 localparam INIT_qdrvenv0="INIT_qdrvenv0.mem";
 localparam INIT_qdrvenv1="INIT_qdrvenv1.mem";
 localparam INIT_qdrvenv2="INIT_qdrvenv2.mem";
 localparam INIT_qdrvenv3="INIT_qdrvenv3.mem";
-localparam INIT_qdrvenv4="INIT_qdrvenv4.mem";
-localparam INIT_qdrvenv5="INIT_qdrvenv5.mem";
-localparam INIT_qdrvenv6="INIT_qdrvenv6.mem";
-localparam INIT_qdrvenv7="INIT_qdrvenv7.mem";
 localparam INIT_qdrvfreq0="INIT_qdrvfreq0.mem";
 localparam INIT_qdrvfreq1="INIT_qdrvfreq1.mem";
 localparam INIT_qdrvfreq2="INIT_qdrvfreq2.mem";
 localparam INIT_qdrvfreq3="INIT_qdrvfreq3.mem";
-localparam INIT_qdrvfreq4="INIT_qdrvfreq4.mem";
-localparam INIT_qdrvfreq5="INIT_qdrvfreq5.mem";
-localparam INIT_qdrvfreq6="INIT_qdrvfreq6.mem";
-localparam INIT_qdrvfreq7="INIT_qdrvfreq7.mem";
 localparam INIT_rdloenv0="INIT_rdloenv0.mem";
 localparam INIT_rdloenv1="INIT_rdloenv1.mem";
 localparam INIT_rdloenv2="INIT_rdloenv2.mem";
 localparam INIT_rdloenv3="INIT_rdloenv3.mem";
-localparam INIT_rdloenv4="INIT_rdloenv4.mem";
-localparam INIT_rdloenv5="INIT_rdloenv5.mem";
-localparam INIT_rdloenv6="INIT_rdloenv6.mem";
-localparam INIT_rdloenv7="INIT_rdloenv7.mem";
 localparam INIT_rdlofreq0="INIT_rdlofreq0.mem";
 localparam INIT_rdlofreq1="INIT_rdlofreq1.mem";
 localparam INIT_rdlofreq2="INIT_rdlofreq2.mem";
 localparam INIT_rdlofreq3="INIT_rdlofreq3.mem";
-localparam INIT_rdlofreq4="INIT_rdlofreq4.mem";
-localparam INIT_rdlofreq5="INIT_rdlofreq5.mem";
-localparam INIT_rdlofreq6="INIT_rdlofreq6.mem";
-localparam INIT_rdlofreq7="INIT_rdlofreq7.mem";
 localparam INIT_rdrvenv0="INIT_rdrvenv0.mem";
 localparam INIT_rdrvenv1="INIT_rdrvenv1.mem";
 localparam INIT_rdrvenv2="INIT_rdrvenv2.mem";
 localparam INIT_rdrvenv3="INIT_rdrvenv3.mem";
-localparam INIT_rdrvenv4="INIT_rdrvenv4.mem";
-localparam INIT_rdrvenv5="INIT_rdrvenv5.mem";
-localparam INIT_rdrvenv6="INIT_rdrvenv6.mem";
-localparam INIT_rdrvenv7="INIT_rdrvenv7.mem";
 localparam INIT_rdrvfreq0="INIT_rdrvfreq0.mem";
 localparam INIT_rdrvfreq1="INIT_rdrvfreq1.mem";
 localparam INIT_rdrvfreq2="INIT_rdrvfreq2.mem";
 localparam INIT_rdrvfreq3="INIT_rdrvfreq3.mem";
-localparam INIT_rdrvfreq4="INIT_rdrvfreq4.mem";
-localparam INIT_rdrvfreq5="INIT_rdrvfreq5.mem";
-localparam INIT_rdrvfreq6="INIT_rdrvfreq6.mem";
-localparam INIT_rdrvfreq7="INIT_rdrvfreq7.mem";
 //localparam integer ADDR_LSB = (AXI_DATAWIDTH/32)+ 1;
 //localparam integer LB_ADDRWIDTH	 =AXI_ADDRWIDTH-ADDR_LSB;
 //localparam integer LB_DATAWIDTH	 = AXI_DATAWIDTH;
@@ -467,10 +417,7 @@ wire DAC32_M_AXIS_ARESETN=aresetn;
 wire ADC20_S_AXIS_ARESETN=aresetn;
 wire ADC21_S_AXIS_ARESETN=aresetn;
 
-
-`include "rfdc_wire.vh"
-
-/*wire DAC32_M_AXIS_TREADY;
+wire DAC32_M_AXIS_TREADY;
 wire DAC32_M_AXIS_TVALID;
 wire [DAC_AXIS_DATAWIDTH-1 : 0] DAC32_M_AXIS_TDATA;
 wire [(DAC_AXIS_DATAWIDTH/8)-1 : 0] DAC32_M_AXIS_TSTRB;
@@ -480,14 +427,13 @@ wire ADC20_S_AXIS_TREADY;
 wire ADC20_S_AXIS_TVALID=DAC32_M_AXIS_TVALID;
 wire DAC32_M_AXIS_TREADY=ADC20_S_AXIS_TREADY;
 wire [ADC_AXIS_DATAWIDTH-1 : 0] ADC20_S_AXIS_TDATA;
-*/
 wire [ADC_AXIS_DATAWIDTH-1 : 0] dacatadc={DAC32_M_AXIS_TDATA[3*64+15:3*64],DAC32_M_AXIS_TDATA[2*64+15:2*64],DAC32_M_AXIS_TDATA[1*64+15:1*64],DAC32_M_AXIS_TDATA[0*64+15:0*64]};
 
 reg_delay1 #(.DW(ADC_AXIS_DATAWIDTH),.LEN(131)) envaddrdelay(.clk(clk_dac2),.gate(1'b1),.din(dacatadc),.dout(ADC20_S_AXIS_TDATA),.reset(1'b0));
 
 
 
-assign ADC20_S_AXIS_TSTRB={
+wire [(ADC_AXIS_DATAWIDTH/8)-1 : 0] ADC20_S_AXIS_TSTRB={
 DAC32_M_AXIS_TSTRB[28]
 ,DAC32_M_AXIS_TSTRB[24]
 ,DAC32_M_AXIS_TSTRB[20]
@@ -496,7 +442,7 @@ DAC32_M_AXIS_TSTRB[28]
 ,DAC32_M_AXIS_TSTRB[8]
 ,DAC32_M_AXIS_TSTRB[4]
 ,DAC32_M_AXIS_TSTRB[0]};
-assign ADC20_S_AXIS_TLAST=DAC32_M_AXIS_TLAST;
+wire ADC20_S_AXIS_TLAST=DAC32_M_AXIS_TLAST;
 
 
 //assign BRAM_TOHOST0_clk=dspclk;
@@ -512,9 +458,9 @@ wire DAC32_M_AXIS_ACLK=dspclk;
 wire cfgregsaxi_aclk=cfgclk;
 wire bramaxi_aclk=cfgclk;
 wire dspregsaxi_aclk=dspclk;
-wire cfgregsaxi_aresetn=cfgresetn00;
-wire dspregsaxi_aresetn=dspresetn00;
-wire bramaxi_aresetn=cfgresetn00;
+wire cfgregsaxi_aresetn=cfgresetn0;
+wire dspregsaxi_aresetn=dspresetn0;
+wire bramaxi_aresetn=cfgresetn0;
 
 axi4_lb #(.DATA_WIDTH(LB1_DATAWIDTH),.ADDR_WIDTH(LB1_ADDRWIDTH+$clog2(LB1_DATAWIDTH/8))
 ,.ID_WIDTH(ID_WIDTH),.AWUSER_WIDTH(AWUSER_WIDTH),.ARUSER_WIDTH(ARUSER_WIDTH),.WUSER_WIDTH(WUSER_WIDTH),.RUSER_WIDTH(RUSER_WIDTH),.BUSER_WIDTH(BUSER_WIDTH)

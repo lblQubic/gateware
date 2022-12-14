@@ -2,16 +2,16 @@
 	"clk":"dspif.clk"
 	,"probes":{
 		"data_acqbuf[0]":64
-		,"adc20":64
+		,"adc[0]":64
 		,"dspif.data_acqbuf[0]":64
-		,"dspif.adc20":64
-		,"dspif.dac20":64
-		,"dspif.dac22":64
-		,"dspif.dac30":64
-		,"dspif.dac32":64
+		,"dspif.adc[0]":64
+		,"dspif.dac[0]":64
+		,"dspif.dac[1]":64
+		,"dspif.dac[2]":64
+		,"dspif.dac[3]":64
 		,"proccorereset":1
 		,"stbprocend":4
-		,"regs.stb_start":1
+		,"dspif.stb_start":1
 		,"dspif.data_command[0]":128
 		,"dspif.addr_command[0]":10
 		,"dspif.data_qdrvenv[0]":512

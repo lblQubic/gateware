@@ -18,17 +18,11 @@ reg [FREQ_ADDRWIDTH-1:0] freqaddr_r4=0;
 reg [FREQ_DATAWIDTH-1:0] freqdata_r=0;
 reg [FREQ_DATAWIDTH-1:0] freqdata_r2=0;
 reg [FREQ_DATAWIDTH-1:0] freqdata_r3=0;
-wire [ENV_ADDRWIDTH-1:0] envaddr_w;
 reg [ENV_ADDRWIDTH-1:0] envaddr_r=0;
 reg [ENV_ADDRWIDTH-1:0] envaddr_r2=0;
 reg [ENV_ADDRWIDTH-1:0] envaddr_r3=0;
-reg [ENV_ADDRWIDTH-1:0] envaddr_r4=0;
-reg [ENV_ADDRWIDTH-1:0] envaddr_r5=0;
 reg [ENV_DATAWIDTH-1:0] envdata_r=0;
 reg [ENV_DATAWIDTH-1:0] envdata_r2=0;
-reg [ENV_DATAWIDTH-1:0] envdata_r3=0;
-reg [ENV_DATAWIDTH-1:0] envdata_r4=0;
-reg [ENV_DATAWIDTH-1:0] envdata_r5=0;
 wire lastenv=envaddr_cnt==elem.envstart+elem.envlength-1;
 always @(posedge elem.clk) begin
 	if (elem.cmdstb_sr[0]) begin
@@ -45,7 +39,6 @@ always @(posedge elem.clk) begin
 	{dummybusy,busy_sr}<={busy_sr,busy};
 	freqdata_r<=freqdata;
 	freqdata_r2<=freqdata_r;
-	freqdata_r3<=freqdata_r2;
 	freqaddr_r<=elem.freqaddr;
 	freqaddr_r2<=freqaddr_r;
 	freqaddr_r3<=freqaddr_r2;
@@ -54,13 +47,10 @@ always @(posedge elem.clk) begin
 	envdata_r2<= elem.cw ? {NSLICE{32'h7fff0000}} :envdata_r ;
 	envaddr_r<=envaddr_cnt;
 	envaddr_r3<=envaddr_r2;
-	envaddr_r4<=envaddr_r3;
-	envaddr_r5<=envaddr_r4;
 end
-assign envaddr=envaddr_r5;
-assign freqaddr=freqaddr_r3;
+assign freqaddr=freqaddr_r;
 
-reg_delay1 #(.DW(ENV_ADDRWIDTH),.LEN(27)) envaddrdelay(.clk(elem.clk),.gate(1'b1),.din(envaddr_cnt),.dout(envaddr_w),.reset(1'b0));
+reg_delay1 #(.DW(ENV_ADDRWIDTH),.LEN(30)) envaddrdelay(.clk(elem.clk),.gate(1'b1),.din(envaddr_cnt),.dout(envaddr),.reset(1'b0));
 
 ammod #(.NSLICE(NSLICE)) 
 ammod(.clk(elem.clk),.gatein(busy_sr[1]|elem.cw_sr[2]),.tcnt(elem.tcnt),.freqcossinp32x16(freqdata_r2),.envxy32x16(envdata_r2),.pini(elem.pini),.multix16x16(elem.multix),.multiy16x16(elem.multiy),.ampx(elem.ampx),.gateout(elem.valid));
@@ -151,38 +141,38 @@ reg [NSLICE*16-1:0] sumy=0;
 
 generate
 for (genvar i=0;i<NSLICE;i++) begin : stepslice
-	reg [15:0] sumx0=0;
-	reg [15:0] sumx1=0;
-	reg [15:0] sumx2=0;
-	reg [15:0] sumx3=0;
-	reg [15:0] sumx4=0;
-	reg [15:0] sumx5=0;
-	reg [15:0] sumx6=0;
-	reg [15:0] sumy0=0;
-	reg [15:0] sumy1=0;
-	reg [15:0] sumy2=0;
-	reg [15:0] sumy3=0;
-	reg [15:0] sumy4=0;
-	reg [15:0] sumy5=0;
-	reg [15:0] sumy6=0;
-	always @(posedge elem0.clk) begin
-		sumx0<=elem0.multix_r[i*16+15:i*16+0]+elem1.multix_r[i*16+15:i*16+0];
-		sumx1<=elem2.multix_r[i*16+15:i*16+0]+elem3.multix_r[i*16+15:i*16+0];  //  not checking overflow, depends on usersumx0;
-		sumx2<=elem4.multix_r[i*16+15:i*16+0]+elem5.multix_r[i*16+15:i*16+0];
-		sumx3<=elem6.multix_r[i*16+15:i*16+0]+elem7.multix_r[i*16+15:i*16+0];  //  not checking overflow, depends on usersumx0;
-		sumx4<=sumx0+sumx1;
-		sumx5<=sumx2+sumx3;
-		sumx6<=sumx4+sumx5;
-		sumx[i*16+15:i*16]<=sumx6;
-		sumy0<=elem0.multiy_r[i*16+15:i*16+0]+elem1.multiy_r[i*16+15:i*16+0];
-		sumy1<=elem2.multiy_r[i*16+15:i*16+0]+elem3.multiy_r[i*16+15:i*16+0];  //  not checking overflow, depends on user
-		sumy2<=elem4.multiy_r[i*16+15:i*16+0]+elem5.multiy_r[i*16+15:i*16+0];
-		sumy3<=elem6.multiy_r[i*16+15:i*16+0]+elem7.multiy_r[i*16+15:i*16+0];  //  not checking overflow, depends on user
-		sumy4<=sumy1+sumy0;
-		sumy5<=sumy2+sumy3;
-		sumy6<=sumy4+sumy5;
-		sumy[i*16+15:i*16]<=sumy6;
-	end
+       reg [15:0] sumx0=0;
+       reg [15:0] sumx1=0;
+       reg [15:0] sumx2=0;
+       reg [15:0] sumx3=0;
+       reg [15:0] sumx4=0;
+       reg [15:0] sumx5=0;
+       reg [15:0] sumx6=0;
+       reg [15:0] sumy0=0;
+       reg [15:0] sumy1=0;
+       reg [15:0] sumy2=0;
+       reg [15:0] sumy3=0;
+       reg [15:0] sumy4=0;
+       reg [15:0] sumy5=0;
+       reg [15:0] sumy6=0;
+       always @(posedge elem0.clk) begin
+               sumx0<=elem0.multix_r[i*16+15:i*16+0]+elem1.multix_r[i*16+15:i*16+0];
+               sumx1<=elem2.multix_r[i*16+15:i*16+0]+elem3.multix_r[i*16+15:i*16+0];  //  not checking overflow, depends on usersumx0;
+               sumx2<=elem4.multix_r[i*16+15:i*16+0]+elem5.multix_r[i*16+15:i*16+0];
+               sumx3<=elem6.multix_r[i*16+15:i*16+0]+elem7.multix_r[i*16+15:i*16+0];  //  not checking overflow, depends on usersumx0;
+               sumx4<=sumx0+sumx1;
+               sumx5<=sumx2+sumx3;
+               sumx6<=sumx4+sumx5;
+               sumx[i*16+15:i*16]<=sumx6;
+               sumy0<=elem0.multiy_r[i*16+15:i*16+0]+elem1.multiy_r[i*16+15:i*16+0];
+               sumy1<=elem2.multiy_r[i*16+15:i*16+0]+elem3.multiy_r[i*16+15:i*16+0];  //  not checking overflow, depends on user
+               sumy2<=elem4.multiy_r[i*16+15:i*16+0]+elem5.multiy_r[i*16+15:i*16+0];
+               sumy3<=elem6.multiy_r[i*16+15:i*16+0]+elem7.multiy_r[i*16+15:i*16+0];  //  not checking overflow, depends on user
+               sumy4<=sumy1+sumy0;
+               sumy5<=sumy2+sumy3;
+               sumy6<=sumy4+sumy5;
+               sumy[i*16+15:i*16]<=sumy6;
+       end
 end
 endgenerate
 reg valid0=0;
@@ -190,10 +180,10 @@ reg valid1=0;
 reg valid2=0;
 reg valid3=0;
 always @(posedge elem0.clk) begin
-	valid0<=|{elem0.valid_r,elem1.valid_r,elem2.valid_r,elem3.valid_r};
-	valid1<=valid0;
-	valid2<=valid1;
-	valid3<=valid2;
+       valid0<=|{elem0.valid_r,elem1.valid_r,elem2.valid_r,elem3.valid_r};
+       valid1<=valid0;
+       valid2<=valid1;
+       valid3<=valid2;
 end
 assign multix=sumx;
 assign multiy=sumy;
@@ -203,6 +193,7 @@ assign elem1.postprobusy=valid;
 assign elem2.postprobusy=valid;
 assign elem3.postprobusy=valid;
 endmodule
+
 
 module elementmixacc#(parameter ENV_ADDRWIDTH=32,parameter ENV_DATAWIDTH=32,parameter TCNTWIDTH=27,parameter FREQ_ADDRWIDTH=32,parameter FREQ_DATAWIDTH=32,parameter ACCADDWIDTH=16)(ifelement.mix elem
 ,input [NSLICE*16-1:0] adcx
@@ -352,8 +343,7 @@ reg busy_r=0;
 wire busy;
 assign busy=busy_r|cmdstb;
 
-//wire cw=cw0;//_sr[2];
-wire cw=cw_sr[2];
+wire cw=cw0;//_sr[2];
 reg [42:0] cw_sr=0;
 reg dummycw=0;
 reg [26:0] trigt=0;

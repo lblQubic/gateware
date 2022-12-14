@@ -22,7 +22,6 @@ class plsv():
         self.pulse_i_test_cmd()
     def pulse_i_test_cmd(self):
         self.cmdbuf('command0',[cg.pulse_reset()])
-        self.cmdbuf('command0',[cg.pulse_i(freq_word=1, phase_word=110, amp_word=30000, env_word=(0x00<<12)+0x20, cfg_word=0, cmd_time=0)])
         self.cmdbuf('command0',[cg.pulse_i(freq_word=1, phase_word=110, amp_word=30000, env_word=(0x20<<12)+0x20, cfg_word=0, cmd_time=10)])
         self.cmdbuf('command0',[cg.pulse_i(freq_word=1, phase_word=110, amp_word=30000, env_word=(0x20<<12)+0x20, cfg_word=1, cmd_time=20)])
         self.cmdbuf('command0',[cg.pulse_i(freq_word=2, phase_word=110, amp_word=30000, env_word=(0x20<<12)+0x20, cfg_word=1, cmd_time=70)])
@@ -242,12 +241,8 @@ class plsv():
         cocotb.start_soon(self.generate_clock(freq=600e6,pin=dut.lb1_clk,tstop=tstop))
         cocotb.start_soon(self.generate_clock(freq=600e6,pin=dut.lb2_clk,tstop=tstop))
         cocotb.start_soon(self.generate_clock(freq=33.3e6,pin=dut.pl_clk0,tstop=tstop))
-        cocotb.start_soon(self.generate_clock(freq=600e6,pin=dut.clk_dac0,tstop=tstop))
-        cocotb.start_soon(self.generate_clock(freq=600e6,pin=dut.clk_dac1,tstop=tstop))
         cocotb.start_soon(self.generate_clock(freq=600e6,pin=dut.clk_dac2,tstop=tstop))
         cocotb.start_soon(self.generate_clock(freq=600e6,pin=dut.clk_dac3,tstop=tstop))
-        cocotb.start_soon(self.generate_clock(freq=600e6,pin=dut.dspclk,tstop=tstop))
-        cocotb.start_soon(self.generate_clock(freq=100e6,pin=dut.cfgclk,tstop=tstop))
         cocotb.start_soon(self.generate_clock(freq=300e6,pin=dut.clk_adc2,tstop=tstop))
         cocotb.start_soon(self.generate_clock(freq=300e6,pin=dut.clkadc2_300,tstop=tstop))
         cocotb.start_soon(self.generate_clock(freq=600e6,pin=dut.clkadc2_600,tstop=tstop))
@@ -319,12 +314,12 @@ a=plsv()
 async def init(dut):
     a.conndut(dut)
 
-@cocotb.test()
+#@cocotb.test()
 async def clk(dut):
     await a.clk(2e-6)
     await a.delayclk(20,"hw.clk100")
 
-@cocotb.test()
+#@cocotb.test()
 async def dspregsrw(dut):
     await a.dspregsrw()
 
@@ -344,7 +339,7 @@ async def bramsr(dut):
 async def start(dut):
     await a.start()
 
-#@cocotb.test()
+@cocotb.test()
 async def pulse_i_test(dut):
     await a.clk(10e-6)
     await a.delayclk(20,"clk_dac2")

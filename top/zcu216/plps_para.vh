@@ -10,3 +10,9 @@ parameter DEBUG="true"
 ,parameter integer DAC_AXIS_DATAWIDTH=256
 ,parameter integer ADC_AXIS_DATAWIDTH=64
 ,parameter integer BRAMADDRWIDTH=32
+,parameter integer NPROC=4
+,parameter integer NADC=2
+,parameter integer NDAC=4
+,parameter integer NDACMON=4
+,parameter integer NACQ=2
+,`include "reset_para.vh"

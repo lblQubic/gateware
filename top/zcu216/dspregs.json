@@ -9,10 +9,10 @@
 ,"busy":{"access": "r", "addr_width": 0, "data_width": 4, "sign": "unsigned", "init": "0", "base_addr": 8}
 ,"lastshotdone":{"access": "r", "addr_width": 0, "data_width": 1, "sign": "unsigned", "init": "0", "base_addr": 9}
 ,"shotcnt":{"access": "r", "addr_width": 0, "data_width": 32, "sign": "unsigned", "init": "0", "base_addr": 10}
-,"addr_accbuf0":{"access": "r", "addr_width": 0, "data_width": 32, "sign": "unsigned", "init": "0", "base_addr": 11}
-,"addr_accbuf1":{"access": "r", "addr_width": 0, "data_width": 32, "sign": "unsigned", "init": "0", "base_addr": 12}
-,"addr_accbuf2":{"access": "r", "addr_width": 0, "data_width": 32, "sign": "unsigned", "init": "0", "base_addr": 13}
-,"addr_accbuf3":{"access": "r", "addr_width": 0, "data_width": 32, "sign": "unsigned", "init": "0", "base_addr": 14}
+,"addr_accbuf_mon0":{"access": "r", "addr_width": 0, "data_width": 32, "sign": "unsigned", "init": "0", "base_addr": 11}
+,"addr_accbuf_mon1":{"access": "r", "addr_width": 0, "data_width": 32, "sign": "unsigned", "init": "0", "base_addr": 12}
+,"addr_accbuf_mon2":{"access": "r", "addr_width": 0, "data_width": 32, "sign": "unsigned", "init": "0", "base_addr": 13}
+,"addr_accbuf_mon3":{"access": "r", "addr_width": 0, "data_width": 32, "sign": "unsigned", "init": "0", "base_addr": 14}
 ,"test":{"access": "rw", "addr_width": 0, "data_width": 32, "sign": "unsigned", "init": "0", "base_addr": 24}
 ,"reset_bram_read":{"access": "rw", "addr_width": 0, "data_width": 32, "sign": "unsigned", "init": 0, "base_addr": 25}
 ,"bramsel":{"access": "rw", "addr_width": 0, "data_width": 32, "sign": "unsigned", "init": "0", "base_addr": 26}

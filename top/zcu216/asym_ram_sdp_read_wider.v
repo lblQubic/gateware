@@ -46,12 +46,9 @@ localparam log2RATIO = log2(RATIO);
 (* ram_style= RAM_STYLE ,cascade_height=2 *)
 reg [minWIDTH-1:0] RAM [0:maxSIZE-1];
 reg [ADDRWIDTHB-1:0] addrB_d=0;
-reg [ADDRWIDTHB-1:0] addrB_d2=0;
 reg [DATAWIDTHB-1:0] readB=0;
 reg [DATAWIDTHB-1:0] readB_d=0;
 reg [DATAWIDTHB-1:0] readB_d2=0;
-reg [DATAWIDTHB-1:0] readB_d3=0;
-reg [DATAWIDTHB-1:0] readB_d4=0;
 reg weA_d=0;
 reg [ADDRWIDTHA-1:0] addrA_d=0;
 reg [DATAWIDTHA-1:0] diA_d=0;
@@ -64,26 +61,23 @@ always @(posedge clkA) begin
 end
 always @(posedge clkB) begin 
 	addrB_d<=addrB;
-	addrB_d2<=addrB_d;
 end
 always @(posedge clkB) begin : ramread
 	integer i;
 	reg [log2RATIO-1:0] lsbaddr;
 	for (i = 0; i < RATIO; i = i+1) begin
 		lsbaddr = i;
-		readB[(i+1)*minWIDTH-1 -: minWIDTH] <= RAM[{addrB_d, lsbaddr}];
-		//readB[(i+1)*minWIDTH-1 -: minWIDTH] <= RAM[{addrB, lsbaddr}];
+		//readB[(i+1)*minWIDTH-1 -: minWIDTH] <= RAM[{addrB_d, lsbaddr}];
+		readB[(i+1)*minWIDTH-1 -: minWIDTH] <= RAM[{addrB, lsbaddr}];
 	end
 end
 always @(posedge clkB) begin 
 	readB_d<=readB;
 	readB_d2<=readB_d;
-	readB_d3<=readB_d2;
-	readB_d4<=readB_d3;
 end
 //assign doB = readB_d2;
 //assign doB = readB;
-assign doB = readB_d4;
+assign doB = readB_d;
 
 generate
 	if (INIT_FILE!="") begin
