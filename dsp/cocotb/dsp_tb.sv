@@ -10,9 +10,9 @@ module dsp_tb#(
     input mem_write_en,
     input[ADC_AXIS_DATAWIDTH-1:0] adc20,
     input[ADC_AXIS_DATAWIDTH-1:0] adc21,
-    output[DAC_AXIS_DATAWIDTH-1:0] dac20,
-    output[DAC_AXIS_DATAWIDTH-1:0] dac22,
-    output[DAC_AXIS_DATAWIDTH-1:0] dac30);
+    output[DAC_AXIS_DATAWIDTH-1:0] dac01,
+    output[DAC_AXIS_DATAWIDTH-1:0] dac02,
+    output[DAC_AXIS_DATAWIDTH-1:0] dac03);
 
     iflocalbus lb();
     ifdspregs regs(.lb(lb));
@@ -39,9 +39,9 @@ module dsp_tb#(
     endgenerate
 
 
-    assign dac20 = dspif.dac20;
-    assign dac22 = dspif.dac22;
-    assign dac30 = dspif.dac30;
+    assign dac01 = dspif.dac01;
+    assign dac02 = dspif.dac02;
+    assign dac03 = dspif.dac03;
     assign dspif.clk = clk;
     assign dspif.reset = reset;
     assign regs.stb_start = reset;

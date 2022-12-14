@@ -1,3 +1,20 @@
+/**
+* reset/strobe signals:
+*  - stb_start: 1 clock cycle, pos edge
+*       assert this to start nshot experiment (reset procs)
+*  - nshot: reg, number of shots to take
+*       proc will run command buffer nshot times, with resets in between
+*  - resetacc: level signal reset high
+*       assert this to reset write pointer to acc_buf (where shots are stored; all channels)
+*
+*  - reset: reset all modules
+*
+*  to run experiment: 
+*   - set nshot
+*   - assert resetacc + stb_start when ready
+*
+*/
+
 module proc_core(input clk
 ,input reset
 ,input [127:0] command
@@ -24,13 +41,6 @@ sync_iface #(.SYNC_BARRIER_WIDTH(8)) sync();
 pulse_iface #(.PHASE_WIDTH(PHASE_WIDTH), .FREQ_WIDTH(FREQ_WIDTH),.ENV_WORD_WIDTH(ENV_WIDTH), .AMP_WIDTH(AMP_WIDTH), .CFG_WIDTH(CFG_WIDTH)) 
 pulseout();
 
-/*wire [PHASE_WIDTH-1:0] phase;
-wire [FREQ_WIDTH-1:0] freq;
-wire [AMP_WIDTH-1:0] amp;
-wire [CFG_WIDTH-1:0] cfg;
-wire [ENV_WIDTH-1:0] env_word;
-wire cstrobe;
-*/
 wire procdone;
 proc #(.DATA_WIDTH(DATA_WIDTH), .CMD_WIDTH(CMD_WIDTH),.CMD_ADDR_WIDTH(CMD_ADDR_WIDTH), .REG_ADDR_WIDTH(REG_ADDR_WIDTH),.SYNC_BARRIER_WIDTH(SYNC_BARRIER_WIDTH),.CMD_MEM_READ_LATENCY(2)) 
 dproc(.clk(clk), .reset(reset),.cmd_iface(memif), .fproc(fproc), .sync(sync), .pulseout(pulseout),.done_gate(procdone));
@@ -137,7 +147,7 @@ always @(posedge dspif.clk) begin
 	moreshot_d2<=moreshot_d;
 	moreshot_d3<=moreshot_d2;
 	lastshotdone<=lastshot&allprocend;	
-	proccorereset<={NPROC{stbstart|stbstart_d|moreshot_d2|moreshot_d3}};
+	proccorereset<={NPROC{stbstart|stbstart_d|moreshot_d2|moreshot_d3|dspif.reset}};
 end
 assign regs.lastshotdone=lastshotdone;
 assign regs.shotcnt=shotcnt;
@@ -233,7 +243,7 @@ reg [DACMON_W_ADDRWIDTH-1:0] addr_dacmon=0;
 wire we_dacmon=~locklast_dacmon;
 wire locklast_dacmon=&addr_dacmon;
 always @(posedge dspif.clk) begin
-	reset_bram_read<={9{regs.stb_reset_bram_read}};
+	reset_bram_read<={9{regs.stb_reset_bram_read}}; //
 end
 reg [ACQBUF_W_ADDRWIDTH-1:0] addr_acqbuf0=0;
 reg [ACQBUF_W_ADDRWIDTH-1:0] addr_acqbuf1=0;
