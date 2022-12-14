@@ -1,4 +1,4 @@
-all: ilaauto iladsp ifdspregs.sv ifcfgregs.sv bramvh rfdcvh
+all: ilaauto iladsp ifdspregs.sv ifcfgregs.sv bramvh rfdcvh resetvh
 ilaauto: ilaauto.json ../../submodules/tools/ila.py 
 	python ../../submodules/tools/ila.py $<
 iladsp: iladsp.json ../../submodules/tools/ila.py $(ILADSP)
@@ -11,3 +11,5 @@ bramvh: bram.json bramvhgen.py
 	python bramvhgen.py
 rfdcvh: rfdc.py	
 	python rfdc.py
+resetvh: reset.py
+	python reset.py
