@@ -22,5 +22,5 @@ stages:          # List of stages for jobs, and their order of execution
 makepre:
   stage: test
   script:
-    cd top/zcu216
-    make pre 
+    - cd top/zcu216
+    - make pre
