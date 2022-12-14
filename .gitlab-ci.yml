@@ -28,4 +28,4 @@ makepre:
   script:
     - export PATH=$PATH:/usr/bin
     - cd top/zcu216
- #   - make pre
+    - make pre
