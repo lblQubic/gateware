@@ -260,7 +260,7 @@ class plsv():
         await self.delayclk(20,"clk_dac2")
         value=await self.dspregsread("resetacc")
         await self.delayclk(20,"clk_dac2")
-        assert self.dut.plsv.pltop.dspregs.resetacc.value.integer==randval
+        assert self.dut.plsv.dspregs.resetacc.value.integer==randval
         assert value[0]==randval
     async def cfgregsrw(self): 
         await self.clk(1e-3)
@@ -270,7 +270,7 @@ class plsv():
         await self.delayclk(20,"hw.clk100")
         value=await self.cfgregsread("test")
         await self.delayclk(20,"hw.clk100")
-        assert self.dut.plsv.pltop.cfgregs.test.value.integer==randval
+        assert self.dut.plsv.cfgregs.test.value.integer==randval
         assert value[0]==randval
 
     async def bramsw(self): 
@@ -314,28 +314,28 @@ a=plsv()
 async def init(dut):
     a.conndut(dut)
 
-#@cocotb.test()
+@cocotb.test()
 async def clk(dut):
     await a.clk(2e-6)
     await a.delayclk(20,"hw.clk100")
 
-#@cocotb.test()
+@cocotb.test()
 async def dspregsrw(dut):
     await a.dspregsrw()
 
-#@cocotb.test()
+@cocotb.test()
 async def cfgregsrw(dut):
     await a.cfgregsrw()
 
-#@cocotb.test()
+@cocotb.test()
 async def bramsw(dut):
     await a.bramsw()
 
-#@cocotb.test()
+@cocotb.test()
 async def bramsr(dut):
     await a.bramsr()
 
-#@cocotb.test()
+@cocotb.test()
 async def start(dut):
     await a.start()
 
@@ -486,7 +486,7 @@ async def sinmult(dut):
 
     for t in range(20):
         await RisingEdge(dspclk)
-#        v16=eval(dut.plsv.pltop.dsp.cossteps.value.hex())
+#        v16=eval(dut.plsv.dsp.cossteps.value.hex())
 #        for j in range(16):
 #            val.append(sign16((v16>>((15-j)*16))&0xffff))
 #    print([hex(int(i)) for i in val[0:10]])
