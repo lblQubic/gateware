@@ -33,9 +33,7 @@ plsv_tb.sv
 ../../asym_ram_sdp_write_wider.v
 ../../bramif_lbportinst.vh
 ../../bramif_lbport.vh
-../../ammod.v
 ../../phtime.v
-../../element.sv
 ../../gitrevision.v
 ../../braminit_parainst.vh
 ../../braminit_para.vh
@@ -56,3 +54,14 @@ plsv_tb.sv
 ../../../../submodules/distributed_processor/hdl/sync_iface.sv
 ../../iladsp.vh
 ../../iladsp.v
+../../../../dsp/ammod.v
+../../../../dsp/element.sv
+../../rfdcif_portinst.vh
+../../rfdcif_port.vh
+../../rfdc_plsv.vh
+../../rfdc_portinst.vh
+../../rfdc_port.vh
+../../reset_para.vh
+../../reset_plsv.vh
+../../reset_portinst.vh
+../../reset_port.vh

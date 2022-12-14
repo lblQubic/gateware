@@ -8,10 +8,16 @@ module plsv #(`include "plps_para.vh"
 ,input clkadc2_600
 );
 
-wire [127:0] cfgresetn_r;
-wire [31:0] dspresetn_r;
-wire [31:0] psresetn_r;
-wire [31:0] adc2resetn_r;
+wire cfgreset;
+wire dspreset;
+wire psreset;
+wire adc2reset;
+wire psclk=pl_clk0;
+wire adc2clk=clkadc2_600;
+/*reg [127:0] cfgresetn_r=0;
+reg [31:0] dspresetn_r=0;
+reg [31:0] psresetn_r=0;
+reg [31:0] adc2resetn_r=0;
 wire cfgresetn127,cfgresetn126,cfgresetn125,cfgresetn124,cfgresetn123,cfgresetn122,cfgresetn121,cfgresetn120,cfgresetn119,cfgresetn118,cfgresetn117,cfgresetn116,cfgresetn115,cfgresetn114,cfgresetn113,cfgresetn112,cfgresetn111,cfgresetn110,cfgresetn109,cfgresetn108,cfgresetn107,cfgresetn106,cfgresetn105,cfgresetn104,cfgresetn103,cfgresetn102,cfgresetn101,cfgresetn100,cfgresetn99,cfgresetn98,cfgresetn97,cfgresetn96,cfgresetn95,cfgresetn94,cfgresetn93,cfgresetn92,cfgresetn91,cfgresetn90,cfgresetn89,cfgresetn88,cfgresetn87,cfgresetn86,cfgresetn85,cfgresetn84,cfgresetn83,cfgresetn82,cfgresetn81,cfgresetn80,cfgresetn79,cfgresetn78,cfgresetn77,cfgresetn76,cfgresetn75,cfgresetn74,cfgresetn73,cfgresetn72,cfgresetn71,cfgresetn70,cfgresetn69,cfgresetn68,cfgresetn67,cfgresetn66,cfgresetn65,cfgresetn64,cfgresetn63,cfgresetn62,cfgresetn61,cfgresetn60,cfgresetn59,cfgresetn58,cfgresetn57,cfgresetn56,cfgresetn55,cfgresetn54,cfgresetn53,cfgresetn52,cfgresetn51,cfgresetn50,cfgresetn49,cfgresetn48,cfgresetn47,cfgresetn46,cfgresetn45,cfgresetn44,cfgresetn43,cfgresetn42,cfgresetn41,cfgresetn40,cfgresetn39,cfgresetn38,cfgresetn37,cfgresetn36,cfgresetn35,cfgresetn34,cfgresetn33,cfgresetn32,cfgresetn31,cfgresetn30,cfgresetn29,cfgresetn28,cfgresetn27,cfgresetn26,cfgresetn25,cfgresetn24,cfgresetn23,cfgresetn22,cfgresetn21,cfgresetn20,cfgresetn19,cfgresetn18,cfgresetn17,cfgresetn16,cfgresetn15,cfgresetn14,cfgresetn13,cfgresetn12,cfgresetn11,cfgresetn10,cfgresetn09,cfgresetn08;//,cfgresetn07,cfgresetn06,cfgresetn05,cfgresetn04,cfgresetn03,cfgresetn02,cfgresetn01,cfgresetn00;
 assign {cfgresetn127,cfgresetn126,cfgresetn125,cfgresetn124,cfgresetn123,cfgresetn122,cfgresetn121,cfgresetn120,cfgresetn119,cfgresetn118,cfgresetn117,cfgresetn116,cfgresetn115,cfgresetn114,cfgresetn113,cfgresetn112,cfgresetn111,cfgresetn110,cfgresetn109,cfgresetn108,cfgresetn107,cfgresetn106,cfgresetn105,cfgresetn104,cfgresetn103,cfgresetn102,cfgresetn101,cfgresetn100,cfgresetn99,cfgresetn98,cfgresetn97,cfgresetn96,cfgresetn95,cfgresetn94,cfgresetn93,cfgresetn92,cfgresetn91,cfgresetn90,cfgresetn89,cfgresetn88,cfgresetn87,cfgresetn86,cfgresetn85,cfgresetn84,cfgresetn83,cfgresetn82,cfgresetn81,cfgresetn80,cfgresetn79,cfgresetn78,cfgresetn77,cfgresetn76,cfgresetn75,cfgresetn74,cfgresetn73,cfgresetn72,cfgresetn71,cfgresetn70,cfgresetn69,cfgresetn68,cfgresetn67,cfgresetn66,cfgresetn65,cfgresetn64,cfgresetn63,cfgresetn62,cfgresetn61,cfgresetn60,cfgresetn59,cfgresetn58,cfgresetn57,cfgresetn56,cfgresetn55,cfgresetn54,cfgresetn53,cfgresetn52,cfgresetn51,cfgresetn50,cfgresetn49,cfgresetn48,cfgresetn47,cfgresetn46,cfgresetn45,cfgresetn44,cfgresetn43,cfgresetn42,cfgresetn41,cfgresetn40,cfgresetn39,cfgresetn38,cfgresetn37,cfgresetn36,cfgresetn35,cfgresetn34,cfgresetn33,cfgresetn32,cfgresetn31,cfgresetn30,cfgresetn29,cfgresetn28,cfgresetn27,cfgresetn26,cfgresetn25,cfgresetn24,cfgresetn23,cfgresetn22,cfgresetn21,cfgresetn20,cfgresetn19,cfgresetn18,cfgresetn17,cfgresetn16,cfgresetn15,cfgresetn14,cfgresetn13,cfgresetn12,cfgresetn11,cfgresetn10,cfgresetn09,cfgresetn08,cfgresetn07,cfgresetn06,cfgresetn05,cfgresetn04,cfgresetn03,cfgresetn02,cfgresetn01,cfgresetn00}=cfgresetn_r;
 wire dspresetn31,dspresetn30,dspresetn29,dspresetn28,dspresetn27,dspresetn26,dspresetn25,dspresetn24,dspresetn23,dspresetn22,dspresetn21,dspresetn20,dspresetn19,dspresetn18,dspresetn17,dspresetn16,dspresetn15,dspresetn14,dspresetn13,dspresetn12,dspresetn11,dspresetn10,dspresetn09,dspresetn08;//,dspresetn07,dspresetn06,dspresetn05,dspresetn04,dspresetn03,dspresetn02,dspresetn01,dspresetn00;
@@ -21,6 +27,20 @@ assign {psresetn31,psresetn30,psresetn29,psresetn28,psresetn27,psresetn26,psrese
 wire adc2resetn31,adc2resetn30,adc2resetn29,adc2resetn28,adc2resetn27,adc2resetn26,adc2resetn25,adc2resetn24,adc2resetn23,adc2resetn22,adc2resetn21,adc2resetn20,adc2resetn19,adc2resetn18,adc2resetn17,adc2resetn16,adc2resetn15,adc2resetn14,adc2resetn13,adc2resetn12,adc2resetn11,adc2resetn10,adc2resetn09,adc2resetn08,adc2resetn07,adc2resetn06,adc2resetn05,adc2resetn04,adc2resetn03;//,adc2resetn02,adc2resetn01,adc2resetn00;
 assign {adc2resetn31,adc2resetn30,adc2resetn29,adc2resetn28,adc2resetn27,adc2resetn26,adc2resetn25,adc2resetn24,adc2resetn23,adc2resetn22,adc2resetn21,adc2resetn20,adc2resetn19,adc2resetn18,adc2resetn17,adc2resetn16,adc2resetn15,adc2resetn14,adc2resetn13,adc2resetn12,adc2resetn11,adc2resetn10,adc2resetn09,adc2resetn08,adc2resetn07,adc2resetn06,adc2resetn05,adc2resetn04,adc2resetn03,adc2resetn02,adc2resetn01,adc2resetn00}=adc2resetn_r;
 
+always @(posedge cfgclk) begin
+	cfgresetn_r<={128{~cfgreset}};
+end
+always @(posedge dspclk) begin
+	dspresetn_r<={32{~dspreset}};
+end
+always @(posedge pl_clk0) begin
+	psresetn_r<={32{~psreset}};
+end
+always @(posedge clkadc2_600) begin
+	adc2resetn_r<={32{~adc2reset}};
+end
+*/
+`include "reset_plsv.vh"
 iflocalbus #(.DATA_WIDTH(LB1_DATAWIDTH),.ADDR_WIDTH(LB1_ADDRWIDTH))
 lb1();
 iflocalbus #(.DATA_WIDTH(LB2_DATAWIDTH),.ADDR_WIDTH(LB2_ADDRWIDTH))
@@ -52,8 +72,14 @@ ifbramctrl(.lb(lb3)
 ,`include "bramif_lbportinst.vh"
 );
 
+ifcfgregs #(.DATA_WIDTH(LB1_DATAWIDTH),.ADDR_WIDTH(LB1_ADDRWIDTH))
+cfgregs(.lb(lb1));
+ifdspregs #(.DATA_WIDTH(LB2_DATAWIDTH),.ADDR_WIDTH(LB2_ADDRWIDTH))
+dspregs(.lb(lb2));
 
-axi4stream #(.DATA_WIDTH(DAC_AXIS_DATAWIDTH))	dac30axis();
+`include "rfdc_plsv.vh"
+
+/*axi4stream #(.DATA_WIDTH(DAC_AXIS_DATAWIDTH))	dac30axis();
 axi4stream #(.DATA_WIDTH(DAC_AXIS_DATAWIDTH))	dac20axis();
 axi4stream #(.DATA_WIDTH(DAC_AXIS_DATAWIDTH))	dac32axis();
 axi4stream #(.DATA_WIDTH(DAC_AXIS_DATAWIDTH))	dac22axis();
@@ -83,28 +109,34 @@ adc20axismap(.axis(adc20axis),.ready(ADC20_S_AXIS_TREADY),.valid(ADC20_S_AXIS_TV
 
 axi4stream_slave_map #(.DATA_WIDTH(ADC_AXIS_DATAWIDTH))
 adc21axismap(.axis(adc21axis),.ready(ADC21_S_AXIS_TREADY),.valid(ADC21_S_AXIS_TVALID),.data(ADC21_S_AXIS_TDATA),.strb(ADC21_S_AXIS_TSTRB),.last(ADC21_S_AXIS_TLAST));
+*/
 
-pltop #(
+
+
+
+ifdsp #(
 `include "plps_parainst.vh"
 ,`include "bram_parainst.vh"
 ,`include "braminit_parainst.vh"
 )
-pltop(
-`include "bramif_portinst.vh"	
-,.lb1(lb1)
-,.lb2(lb2)
-,.hw(hw)
-,.dac30axis(dac30axis.master)
-,.dac20axis(dac20axis.master)
-,.dac32axis(dac32axis.master)
-,.dac22axis(dac22axis.master)
-,.adc20axis(adc20axis.slave)
-,.adc21axis(adc21axis.slave)
-,.cfgresetn(cfgresetn_r)
-,.dspresetn(dspresetn_r)
-,.psresetn(psresetn_r)
-,.adc2resetn(adc2resetn_r)
-,.aresetn(aresetn)
+dspif();
+boardcfg #(
+	`include "plps_parainst.vh"
+,`include "bram_parainst.vh"
+,`include "braminit_parainst.vh"
+)
+boardcfg(.hw(hw),.cfgregs(cfgregs.regs)
+,.dspregs(dspregs.regs)
+,`include "bramif_portinst.vh"
+,`include "rfdcif_portinst.vh"
+/*,.dac30axis(dac30axis)
+,.dac20axis(dac20axis)
+,.dac32axis(dac32axis)
+,.dac22axis(dac22axis)
+,.adc20axis(adc20axis)
+,.adc21axis(adc21axis)
+*/
+,.dspif(dspif.cfg)
 ,.pl_clk0(pl_clk0)
 ,.cfgclk(cfgclk)
 ,.dspclk(dspclk)
@@ -113,6 +145,18 @@ pltop(
 ,.clk_adc2(clk_adc2)
 ,.clkadc2_300(clkadc2_300)
 ,.clkadc2_600(clkadc2_600)
+,.aresetn(aresetn)
+,.cfgreset(cfgreset)
+,.dspreset(dspreset)
+,.psreset(psreset)
+,.adc2reset(adc2reset)
+);
+dsp #(
+`include "plps_parainst.vh"
+,`include "bram_parainst.vh"
+,`include "braminit_parainst.vh"
+)
+dsp(.dspif(dspif)
 );
 
 endmodule

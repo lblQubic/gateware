@@ -1,4 +1,6 @@
+../../dsp/ammod.v
 ../../dsp/dsp.sv
+../../dsp/element.sv
 ../../submodules/board-support/zcu216/board.sv
 ../../submodules/board-support/zcu216/fpga_if.sv
 ../../submodules/board-support/zcu216/fpga_inst.vh
@@ -33,7 +35,6 @@
 ../../submodules/distributed_processor/hdl/qclk.v
 ../../submodules/distributed_processor/hdl/reg_file.v
 ../../submodules/distributed_processor/hdl/sync_iface.sv
-ammod.v
 asym_ram_sdp_read_wider.v
 asym_ram_sdp_write_wider.v
 boardcfg.sv
@@ -48,7 +49,6 @@ bramif_lbport.vh
 bramif_lbportinst.vh
 bramif_port.vh
 bramif_portinst.vh
-element.sv
 gitrevision.v
 ifbramctrl.sv
 ifcfgregs.sv
@@ -66,3 +66,10 @@ plps_portinst.vh
 plpsboard.sv
 plsv.sv
 pltop.sv
+rfdc_plsv.vh
+rfdc_port.vh
+rfdc_portinst.vh
+reset_para.vh
+reset_plsv.vh
+reset_portinst.vh
+reset_port.vh

@@ -18,7 +18,7 @@ module plsv_tb#(
 )(
 input aresetn
 ,input pl_clk0
-,output cfgresetn00,output cfgresetn01,output cfgresetn02,output cfgresetn03,output cfgresetn04,output cfgresetn05,output cfgresetn06,output cfgresetn07,output cfgresetn08,output cfgresetn09
+/*,output cfgresetn00,output cfgresetn01,output cfgresetn02,output cfgresetn03,output cfgresetn04,output cfgresetn05,output cfgresetn06,output cfgresetn07,output cfgresetn08,output cfgresetn09
 ,output cfgresetn10,output cfgresetn11,output cfgresetn12,output cfgresetn13,output cfgresetn14,output cfgresetn15,output cfgresetn16,output cfgresetn17,output cfgresetn18,output cfgresetn19
 ,output cfgresetn20,output cfgresetn21,output cfgresetn22,output cfgresetn23,output cfgresetn24,output cfgresetn25,output cfgresetn26,output cfgresetn27,output cfgresetn28,output cfgresetn29
 ,output cfgresetn30,output cfgresetn31,output cfgresetn32,output cfgresetn33,output cfgresetn34,output cfgresetn35,output cfgresetn36,output cfgresetn37,output cfgresetn38,output cfgresetn39
@@ -43,7 +43,8 @@ input aresetn
 ,output adc2resetn00
 ,output adc2resetn01
 ,output adc2resetn02
-
+*/
+,`include "reset_port.vh"
 //,input wire  cfgregsaxi_aclk
 //,input wire  cfgregsaxi_aresetn
 ,input wire  cfgregsaxi_arlock
@@ -457,9 +458,9 @@ wire DAC32_M_AXIS_ACLK=dspclk;
 wire cfgregsaxi_aclk=cfgclk;
 wire bramaxi_aclk=cfgclk;
 wire dspregsaxi_aclk=dspclk;
-wire cfgregsaxi_aresetn=cfgresetn00;
-wire dspregsaxi_aresetn=dspresetn00;
-wire bramaxi_aresetn=cfgresetn00;
+wire cfgregsaxi_aresetn=cfgresetn0;
+wire dspregsaxi_aresetn=dspresetn0;
+wire bramaxi_aresetn=cfgresetn0;
 
 axi4_lb #(.DATA_WIDTH(LB1_DATAWIDTH),.ADDR_WIDTH(LB1_ADDRWIDTH+$clog2(LB1_DATAWIDTH/8))
 ,.ID_WIDTH(ID_WIDTH),.AWUSER_WIDTH(AWUSER_WIDTH),.ARUSER_WIDTH(ARUSER_WIDTH),.WUSER_WIDTH(WUSER_WIDTH),.RUSER_WIDTH(RUSER_WIDTH),.BUSER_WIDTH(BUSER_WIDTH)

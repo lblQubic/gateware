@@ -1,4 +1,4 @@
-all: ilaauto iladsp ifdspregs.sv ifcfgregs.sv bramvh
+all: ilaauto iladsp ifdspregs.sv ifcfgregs.sv bramvh rfdcvh
 ilaauto: ilaauto.json ../../submodules/tools/ila.py 
 	python ../../submodules/tools/ila.py $<
 iladsp: iladsp.json ../../submodules/tools/ila.py $(ILADSP)
@@ -9,3 +9,5 @@ ifcfgregs.sv:	cfgregs.json ../../submodules/tools/axilb.py ../../submodules/comm
 	python ../../submodules/tools/axilb.py -m cfgregs.json -b ../../submodules/common-hdl/axilb.json -o ifcfgregs -u
 bramvh: bram.json bramvhgen.py
 	python bramvhgen.py
+rfdcvh: rfdc.py	
+	python rfdc.py
