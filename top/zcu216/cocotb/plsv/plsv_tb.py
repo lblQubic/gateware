@@ -23,6 +23,12 @@ class plsv():
     def pulse_i_test_cmd(self):
         self.cmdbuf('command0',[cg.pulse_reset()])
         self.cmdbuf('command0',[cg.pulse_i(freq_word=1, phase_word=110, amp_word=30000, env_word=(0x00<<12)+0x20, cfg_word=0, cmd_time=0)])
+        self.cmdbuf('command0',[cg.pulse_i(freq_word=1, phase_word=110, amp_word=30000, env_word=(0x20<<12)+0x20, cfg_word=0, cmd_time=10)])
+        self.cmdbuf('command0',[cg.pulse_i(freq_word=1, phase_word=110, amp_word=30000, env_word=(0x20<<12)+0x20, cfg_word=1, cmd_time=20)])
+        self.cmdbuf('command0',[cg.pulse_i(freq_word=2, phase_word=110, amp_word=30000, env_word=(0x20<<12)+0x20, cfg_word=1, cmd_time=70)])
+        self.cmdbuf('command0',[cg.pulse_i(freq_word=1, phase_word=110, amp_word=30000, env_word=(0x20<<12)+0x20, cfg_word=0, cmd_time=100)])
+        self.cmdbuf('command0',[cg.pulse_i(freq_word=2, phase_word=110, amp_word=30000, env_word=(0x20<<12)+0x20, cfg_word=2, cmd_time=146)])
+        self.cmdbuf('command0',[cg.pulse_i(freq_word=1, phase_word=110, amp_word=30000, env_word=(0x20<<12)+0x20, cfg_word=2, cmd_time=196)])
         self.cmdbuf('command0',[cg.done_cmd()])
         self.cmdbuf('command1',[cg.pulse_reset()])
         self.cmdbuf('command2',[cg.pulse_reset()])
@@ -344,9 +350,13 @@ async def pulse_i_test(dut):
     await a.delayclk(20,"clk_dac2")
     await a.dspregswrite("nshot",10)
     await a.dspregswrite("start",0)
-    await Timer(8,units='us')
+    await Timer(1,units='us')
+    value=await a.bramsread("accbuf0",4)
+    print(value,[hex(i) for i in value],a.acqbuf0[10])
+    await Timer(6,units='us')
     await a.dspregswrite("start",0)
     await Timer(8,units='us')
+
 #    await a.delayclk(4000,"clk_dac2")
 
 

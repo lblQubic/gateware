@@ -10,6 +10,7 @@
 		,"dspif.dac30":64
 		,"dspif.dac32":64
 		,"proccorereset":1
+		,"stbprocend":4
 		,"regs.stb_start":1
 		,"dspif.data_command[0]":128
 		,"dspif.addr_command[0]":10

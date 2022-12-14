@@ -51,12 +51,8 @@ always @(posedge elem.clk) begin
 	freqaddr_r3<=freqaddr_r2;
 	freqaddr_r4<=freqaddr_r3;
 	envdata_r<=envdata;
-	envdata_r2<= envdata_r;
-	envdata_r3<= envdata_r2;
-	envdata_r4<= envdata_r3;
-	envdata_r5<=elem.cw ? {NSLICE{32'h7fff0000}} :envdata_r4 ;
-	envaddr_r<=envaddr_w;
-	envaddr_r2<=envaddr_r;
+	envdata_r2<= elem.cw ? {NSLICE{32'h7fff0000}} :envdata_r ;
+	envaddr_r<=envaddr_cnt;
 	envaddr_r3<=envaddr_r2;
 	envaddr_r4<=envaddr_r3;
 	envaddr_r5<=envaddr_r4;
@@ -67,7 +63,7 @@ assign freqaddr=freqaddr_r3;
 reg_delay1 #(.DW(ENV_ADDRWIDTH),.LEN(27)) envaddrdelay(.clk(elem.clk),.gate(1'b1),.din(envaddr_cnt),.dout(envaddr_w),.reset(1'b0));
 
 ammod #(.NSLICE(NSLICE)) 
-ammod(.clk(elem.clk),.gatein(busy_sr[1]|elem.cw_sr[2]),.tcnt(elem.tcnt),.freqcossinp32x16(freqdata_r3),.envxy32x16(envdata_r5),.pini(elem.pini),.multix16x16(elem.multix),.multiy16x16(elem.multiy),.ampx(elem.ampx),.gateout(elem.valid));
+ammod(.clk(elem.clk),.gatein(busy_sr[1]|elem.cw_sr[2]),.tcnt(elem.tcnt),.freqcossinp32x16(freqdata_r2),.envxy32x16(envdata_r2),.pini(elem.pini),.multix16x16(elem.multix),.multiy16x16(elem.multiy),.ampx(elem.ampx),.gateout(elem.valid));
 assign elem.prepbusy=|busy_sr;
 assign elem.pulsebusy=elem.valid;
 endmodule
@@ -120,18 +116,20 @@ endgenerate
 reg valid0=0;
 reg valid1=0;
 reg valid2=0;
+reg valid3=0;
 always @(posedge elem0.clk) begin
 	valid0<=|{elem0.valid_r,elem1.valid_r,elem2.valid_r,elem3.valid_r};
 	valid1<=valid0;
 	valid2<=valid1;
+	valid3<=valid2;
 end
 assign multix=sumx;
 assign multiy=sumy;
-assign valid=valid2;
-assign elem0.postprobusy=valid;
-assign elem1.postprobusy=valid;
-assign elem2.postprobusy=valid;
-assign elem3.postprobusy=valid;
+assign valid=valid3;
+assign elem0.postprobusy=elem0.valid_r;
+assign elem1.postprobusy=elem1.valid_r;
+assign elem2.postprobusy=elem2.valid_r;
+assign elem3.postprobusy=elem3.valid_r;
 endmodule
 
 module elementsum8#(parameter ENV_ADDRWIDTH=32,parameter ENV_DATAWIDTH=32,parameter TCNTWIDTH=27,parameter FREQ_ADDRWIDTH=32,parameter FREQ_DATAWIDTH=32)(ifelement.out elem0
