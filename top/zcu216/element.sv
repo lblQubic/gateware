@@ -116,10 +116,10 @@ end
 assign multix=sumx;
 assign multiy=sumy;
 assign valid=valid3;
-assign elem0.postprobusy=valid;
-assign elem1.postprobusy=valid;
-assign elem2.postprobusy=valid;
-assign elem3.postprobusy=valid;
+assign elem0.postprobusy=elem0.valid_r;
+assign elem1.postprobusy=elem1.valid_r;
+assign elem2.postprobusy=elem2.valid_r;
+assign elem3.postprobusy=elem3.valid_r;
 endmodule
 
 
