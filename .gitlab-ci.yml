@@ -26,5 +26,6 @@ stages:          # List of stages for jobs, and their order of execution
 makepre:
   stage: test
   script:
+    - export PATH=$PATH:/usr/bin
     - cd top/zcu216
     - make pre
