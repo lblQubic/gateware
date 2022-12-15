@@ -8,14 +8,9 @@ module dsp_tb#(
     input[2:0] proc_write_sel, //index proc cores
     input[2:0] mem_write_sel, //0 for cmd, 1 for env, 2 for freq, etc
     input mem_write_en,
-    input[ADC_AXIS_DATAWIDTH-1:0] adc20,
-    input[ADC_AXIS_DATAWIDTH-1:0] adc21,
-    output[DAC_AXIS_DATAWIDTH-1:0] dac01,
-    output[DAC_AXIS_DATAWIDTH-1:0] dac02,
-    output[DAC_AXIS_DATAWIDTH-1:0] dac03);
+    input[ADC_AXIS_DATAWIDTH-1:0] adc[NADC-1:0],
+    output[DAC_AXIS_DATAWIDTH-1:0] dac[NDAC-1:0]);
 
-    iflocalbus lb();
-    ifdspregs regs(.lb(lb));
     ifdsp dspif();
 
     //instantiate 3x qdrv elem mems
@@ -39,14 +34,13 @@ module dsp_tb#(
     endgenerate
 
 
-    assign dac01 = dspif.dac01;
-    assign dac02 = dspif.dac02;
-    assign dac03 = dspif.dac03;
+    assign dac = dspif.dac;
+    assign dspif.adc = adc;
     assign dspif.clk = clk;
     assign dspif.reset = reset;
-    assign regs.stb_start = reset;
+    assign dspif.stb_start = reset;
 
-    dsp dspmod(.regs(regs), .dspif(dspif));
+    dsp dspmod(.dspif(dspif));
 
 endmodule
 
