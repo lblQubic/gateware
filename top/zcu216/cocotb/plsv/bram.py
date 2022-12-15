@@ -2,35 +2,55 @@ import numpy
 import json
 def sign16(v):
     return int(v-65536) if (v>>15)&1 else v
+vsign16=numpy.vectorize(sign16)
 class brams(dict):
-    def __init__(self,jsonfilename,overlaymmio=None,siminit=False):
+    def __init__(self,jsonfilename,siminit=False):
         with open(jsonfilename) as jfile:
             bramjson=json.load(jfile)
         for name,paradict in bramjson.items():
-            super().__setitem__(name,bram(name,paradict,overlaymmio=overlaymmio,siminit=siminit))
+            super().__setitem__(name,bram(name,paradict,siminit=siminit))
 
 
         pass
 class bram:
-    def __init__(self,name,paradict,overlaymmio=None,siminit=False):
+    def __init__(self,name,paradict,siminit=False):
         self.name=name
         self.paradict=paradict
         length=int(self.paradict['Adepth'] if self.paradict['access']=='r' else self.paradict['Awidth']*self.paradict['Adepth']/self.paradict['Bwidth'])
         self.paradict['length']=length
-        self.overlaymmio=overlaymmio
         self._value=numpy.zeros(length,dtype=int)
-        self.next=0
+        self._next=0
         if siminit:
             self.siminit()
         pass
+    @property
+    def next(self):
+        return self._next
+    @next.setter
+    def next(self,nextaddr):
+        self._next=nextaddr
+    @property        
+    def length(self):
+        return self.paradict['length']
     def address(self,offset):
         return int(str(self.paradict['address']),0)+offset
-    def get_value(self,offset):
-        return self._value[offset]
+    def get_value(self,offset=None):
+        return self._value if offset is None else self._value[offset]
+    def get_value16(self):
+        value16_2=numpy.zeros((self.length,2),dtype=int)
+        value16_2[:,0]=(self._value>>16)&0xffff
+        value16_2[:,1]=self._value&0xffff
+        value16=value16_2.reshape((-1))
+        return vsign16(value16)
+
+
+
+
+
     def _set_value(self,offset,value):
         if offset<=self.paradict['length']:
             self._value[offset]=value
-            if offset+1>self.next:
+            if offset+1>self._next:
                 self.next=offset+1
         else:
             exit('error set bram offset %08x index %d  exceed length'%(offset,i))

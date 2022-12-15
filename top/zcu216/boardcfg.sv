@@ -153,7 +153,7 @@ axi4stream_master_handshake_data #(.DATA_WIDTH (DAC_AXIS_DATAWIDTH))dac32hsda(.a
 assign dspif.clk=dspclk;
 reg dspreset_r=0;
 always @(posedge dspclk) begin
-	dspreset_r<=dspreset;
+	dspreset_r<=dspreset|dspregs.stb_dspreset;
 end
 assign dspif.reset=dspreset_r;
 

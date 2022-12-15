@@ -1,14 +1,14 @@
 {
 	"clk":"dspif.clk"
 	,"probes":{
-		"data_acqbuf[0]":64
-		,"adc[0]":64
-		,"dspif.data_acqbuf[0]":64
-		,"dspif.adc[0]":64
-		,"dspif.dac[0]":64
-		,"dspif.dac[1]":64
-		,"dspif.dac[2]":64
-		,"dspif.dac[3]":64
+		"data_acqbuf[0]":16
+		,"adc[0]":16
+		,"dspif.data_acqbuf[0]":16
+		,"dspif.adc[0]":16
+		,"dspif.dac[0]":16
+		,"dspif.dac[1]":16
+		,"dspif.dac[2]":16
+		,"dspif.dac[3]":16
 		,"proccorereset":1
 		,"stbprocend":4
 		,"dspif.stb_start":1
@@ -20,9 +20,11 @@
 		,"dspif.addr_command[1]":10
 		,"dspif.addr_command[2]":10
 		,"dspif.addr_command[3]":10
-		,"dspif.data_qdrvenv[0]":512
+		,"dspif.data_qdrvenv[0]":32
 		,"dspif.addr_qdrvenv[0]":10
-		,"dspif.data_qdrvfreq[0]":512
+		,"dspif.data_qdrvenv[1]":32
+		,"dspif.addr_qdrvenv[1]":10
+		,"dspif.data_qdrvfreq[0]":32
 		,"dspif.addr_qdrvfreq[0]":9
 		,"qdrvelem[0].cmdstb":1
 		,"qdrvelem[1].cmdstb":1
@@ -44,6 +46,9 @@
 		,"allprocend":1
 		,"procdone":4
 		,"nobusy":4
+		,"state":4
+		,"nextstate":4
+		,"procreset":1
 
 	}
 }

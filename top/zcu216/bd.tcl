@@ -18,7 +18,7 @@ set_property  ip_repo_paths  {./vivado_project/plip ./vivado_project/iflocalbus}
 update_ip_catalog -rebuild
 create_bd_cell -type ip -vlnv user.org:user:plps:1.0 plps_0
 create_bd_intf_port -mode Master -vlnv fpga:user:fpga_rtl:1.0 fpga
-create_bd_cell -type ip -vlnv user.org:user:axi4_lb:1.0 ctrlregs
+create_bd_cell -type ip -vlnv user.org:user:axi4_lb:1.0 cfgregs
 create_bd_cell -type ip -vlnv user.org:user:axi4_lb:1.0 bramctrl
 create_bd_cell -type ip -vlnv user.org:user:axi4_lb:1.0 dspregs
 create_bd_cell -type ip -vlnv xilinx.com:ip:axi_interconnect:2.1 axi_interconnect_1
@@ -38,7 +38,7 @@ connect_bd_intf_net [get_bd_intf_pins zynq_ultra_ps_e_0/M_AXI_HPM0_LPD] [get_bd_
 set_property -dict [list CONFIG.FREQ_HZ {100000000}] [get_bd_pins plps_0/cfgclk]
 set_property -dict [list CONFIG.FREQ_HZ {600000000}] [get_bd_pins plps_0/dspclk]
 set_property -dict [list CONFIG.FREQ_HZ {600000000}] [get_bd_pins plps_0/clkadc2_600]
-set_property -dict [list CONFIG.CLK_FREQ_HZ {100000000}] [get_bd_cells ctrlregs]
+set_property -dict [list CONFIG.CLK_FREQ_HZ {100000000}] [get_bd_cells cfgregs]
 set_property -dict [list CONFIG.CLK_FREQ_HZ {100000000}] [get_bd_cells bramctrl]
 set_property -dict [list CONFIG.CLK_FREQ_HZ {600000000}] [get_bd_cells dspregs]
 set_property -dict [list CONFIG.FREQ_HZ {600000000}] [get_bd_pins plps_0/DAC20_M_AXIS_ACLK]
@@ -48,7 +48,7 @@ set_property -dict [list CONFIG.FREQ_HZ {600000000}] [get_bd_pins plps_0/DAC32_M
 set_property -dict [list CONFIG.FREQ_HZ {600000000}] [get_bd_pins plps_0/ADC20_S_AXIS_ACLK]
 set_property -dict [list CONFIG.FREQ_HZ {600000000}] [get_bd_pins plps_0/ADC21_S_AXIS_ACLK]
 set_property -dict [list CONFIG.FREQ_HZ {600000000}] [get_bd_pins dspregs/axi_aclk]
-set_property -dict [list CONFIG.FREQ_HZ {100000000}] [get_bd_pins ctrlregs/axi_aclk]
+set_property -dict [list CONFIG.FREQ_HZ {100000000}] [get_bd_pins cfgregs/axi_aclk]
 set_property -dict [list CONFIG.FREQ_HZ {100000000}] [get_bd_pins bramctrl/axi_aclk]
 set_property -dict [list CONFIG.FREQ_HZ {300000000}] [get_bd_pins plps_0/clkadc2_300]
 set_property -dict [list CONFIG.FREQ_HZ {600000000}] [get_bd_pins plps_0/clkadc2_600]
@@ -56,7 +56,7 @@ set_property -dict [list CONFIG.FREQ_HZ {600000000}] [get_bd_pins plps_0/clkadc2
 
 
 set_property -dict [list CONFIG.ADDR_WIDTH {16} CONFIG.ID_WIDTH {16}] [get_bd_cells dspregs]
-set_property -dict [list CONFIG.ADDR_WIDTH {16} CONFIG.ID_WIDTH {16}] [get_bd_cells ctrlregs]
+set_property -dict [list CONFIG.ADDR_WIDTH {16} CONFIG.ID_WIDTH {16}] [get_bd_cells cfgregs]
 set_property -dict [list CONFIG.ADDR_WIDTH {26} CONFIG.ID_WIDTH {16}] [get_bd_cells bramctrl]
 #set_property -dict [list CONFIG.LB_DATAWIDTH {32} CONFIG.LB_ADDRWIDTH {14} CONFIG.DAC_AXIS_DATAWIDTH {256} CONFIG.ADC_AXIS_DATAWIDTH {64} CONFIG.BRAMTOHOST_ADDRWIDTH {17} CONFIG.BRAMTOHOST_DATAWIDTH {64} CONFIG.BRAMFROMHOST_ADDRWIDTH {15} CONFIG.BRAMFROMHOST_DATAWIDTH {256}] [get_bd_cells plps_0]
 set_property -dict [list CONFIG.LB1_DATAWIDTH {32} CONFIG.LB1_ADDRWIDTH {14} CONFIG.LB2_DATAWIDTH {32} CONFIG.LB2_ADDRWIDTH {14} CONFIG.LB3_DATAWIDTH {32} CONFIG.LB3_ADDRWIDTH {26} CONFIG.LB4_DATAWIDTH {32} CONFIG.LB4_ADDRWIDTH {20} CONFIG.DAC_AXIS_DATAWIDTH {256} CONFIG.ADC_AXIS_DATAWIDTH {64}] [get_bd_cells plps_0]
@@ -154,7 +154,7 @@ set_property -dict [list CONFIG.LB1_DATAWIDTH {32} CONFIG.LB1_ADDRWIDTH {14} CON
 #set_property -dict [list CONFIG.use_bram_block {Stand_Alone} CONFIG.Memory_Type {True_Dual_Port_RAM} CONFIG.Write_Depth_A {8192} CONFIG.Write_Width_A {256} CONFIG.Read_Width_A {256} CONFIG.Write_Width_B {256} CONFIG.Read_Width_B {256} CONFIG.Enable_32bit_Address {true} CONFIG.Use_Byte_Write_Enable {true} CONFIG.Byte_Size {8} CONFIG.Use_RSTA_Pin {false} CONFIG.Use_RSTB_Pin {false} CONFIG.Enable_A {Always_Enabled} CONFIG.Enable_B {Always_Enabled} CONFIG.EN_SAFETY_CKT {false}] [get_bd_cells blk_mem_rdrvenv3]
 
 
-connect_bd_intf_net [get_bd_intf_pins axi_interconnect_1/M00_AXI] [get_bd_intf_pins ctrlregs/axi]
+connect_bd_intf_net [get_bd_intf_pins axi_interconnect_1/M00_AXI] [get_bd_intf_pins cfgregs/axi]
 connect_bd_intf_net [get_bd_intf_pins axi_interconnect_1/M01_AXI] [get_bd_intf_pins axi_clock_converter_0/S_AXI]
 connect_bd_intf_net [get_bd_intf_pins axi_interconnect_1/M02_AXI] [get_bd_intf_pins rf_data_converter/s_axi]
 connect_bd_intf_net [get_bd_intf_pins axi_interconnect_1/M03_AXI] [get_bd_intf_pins bramctrl/axi]
@@ -177,7 +177,7 @@ connect_bd_intf_net [get_bd_intf_pins plps_0/DAC30_M_AXIS] [get_bd_intf_pins rf_
 connect_bd_intf_net [get_bd_intf_pins plps_0/DAC22_M_AXIS] [get_bd_intf_pins rf_data_converter/s22_axis]
 connect_bd_intf_net [get_bd_intf_pins plps_0/DAC32_M_AXIS] [get_bd_intf_pins rf_data_converter/s32_axis]
 connect_bd_intf_net [get_bd_intf_pins plps_0/fpga] [get_bd_intf_ports fpga]
-connect_bd_intf_net [get_bd_intf_pins plps_0/lb1] [get_bd_intf_pins ctrlregs/lb]
+connect_bd_intf_net [get_bd_intf_pins plps_0/lb1] [get_bd_intf_pins cfgregs/lb]
 connect_bd_intf_net [get_bd_intf_pins plps_0/lb2] [get_bd_intf_pins dspregs/lb]
 connect_bd_intf_net [get_bd_intf_pins plps_0/lb3] [get_bd_intf_pins bramctrl/lb]
 connect_bd_net [get_bd_pins plps_0/adc2resetn0] [get_bd_pins plps_0/ADC20_S_AXIS_ARESETN]
@@ -189,14 +189,14 @@ connect_bd_net [get_bd_pins plps_0/cfgclk] [get_bd_pins axi_interconnect_1/M00_A
 connect_bd_net [get_bd_pins plps_0/cfgclk] [get_bd_pins axi_interconnect_1/M01_ACLK]
 connect_bd_net [get_bd_pins plps_0/cfgclk] [get_bd_pins axi_interconnect_1/M02_ACLK]
 connect_bd_net [get_bd_pins plps_0/cfgclk] [get_bd_pins axi_interconnect_1/M03_ACLK] 
-connect_bd_net [get_bd_pins plps_0/cfgclk] [get_bd_pins ctrlregs/axi_aclk]
+connect_bd_net [get_bd_pins plps_0/cfgclk] [get_bd_pins cfgregs/axi_aclk]
 connect_bd_net [get_bd_pins plps_0/cfgclk] [get_bd_pins bramctrl/axi_aclk]
 connect_bd_net [get_bd_pins plps_0/cfgclk] [get_bd_pins rf_data_converter/s_axi_aclk]
 connect_bd_net [get_bd_pins plps_0/cfgresetn0] [get_bd_pins axi_interconnect_1/M00_ARESETN] 
 connect_bd_net [get_bd_pins plps_0/cfgresetn1] [get_bd_pins axi_interconnect_1/M01_ARESETN]
 connect_bd_net [get_bd_pins plps_0/cfgresetn2] [get_bd_pins axi_interconnect_1/M02_ARESETN]
 connect_bd_net [get_bd_pins plps_0/cfgresetn3] [get_bd_pins axi_interconnect_1/M03_ARESETN]
-connect_bd_net [get_bd_pins plps_0/cfgresetn4] [get_bd_pins ctrlregs/axi_aresetn]
+connect_bd_net [get_bd_pins plps_0/cfgresetn4] [get_bd_pins cfgregs/axi_aresetn]
 connect_bd_net [get_bd_pins plps_0/cfgresetn5] [get_bd_pins bramctrl/axi_aresetn]
 connect_bd_net [get_bd_pins plps_0/cfgresetn6] [get_bd_pins axi_clock_converter_0/s_axi_aresetn]
 connect_bd_net [get_bd_pins plps_0/cfgresetn7] [get_bd_pins rf_data_converter/s_axi_aresetn]
@@ -256,19 +256,19 @@ connect_bd_net [get_bd_pins plps_0/psresetn1] [get_bd_pins axi_interconnect_1/S0
 #if {0} {
 #
 #
-#connect_bd_net -net ctrlrstate_dbg [get_bd_pins ctrlregs/rstate_dbg]
-#connect_bd_net -net ctrlbstate_dbg [get_bd_pins ctrlregs/bstate_dbg]
-#connect_bd_net -net ctrlawstate_dbg [get_bd_pins ctrlregs/awstate_dbg]
-#connect_bd_net -net ctrlarstate_dbg [get_bd_pins ctrlregs/arstate_dbg]
-#connect_bd_net -net ctrlwstate_dbg [get_bd_pins ctrlregs/wstate_dbg]
+#connect_bd_net -net ctrlrstate_dbg [get_bd_pins cfgregs/rstate_dbg]
+#connect_bd_net -net ctrlbstate_dbg [get_bd_pins cfgregs/bstate_dbg]
+#connect_bd_net -net ctrlawstate_dbg [get_bd_pins cfgregs/awstate_dbg]
+#connect_bd_net -net ctrlarstate_dbg [get_bd_pins cfgregs/arstate_dbg]
+#connect_bd_net -net ctrlwstate_dbg [get_bd_pins cfgregs/wstate_dbg]
 #set_property HDL_ATTRIBUTE.DEBUG true [get_bd_nets {ctrlrstate_dbg ctrlbstate_dbg ctrlawstate_dbg ctrlarstate_dbg ctrlwstate_dbg }]
-#set_property HDL_ATTRIBUTE.DEBUG true [get_bd_intf_nets {ctrlregs_lb axi_interconnect_1_M00_AXI}]
+#set_property HDL_ATTRIBUTE.DEBUG true [get_bd_intf_nets {cfgregs_lb axi_interconnect_1_M00_AXI}]
 #apply_bd_automation -rule xilinx.com:bd_rule:debug -dict [list \
 #                                                          [get_bd_nets ctrlarstate_dbg] {PROBE_TYPE "Data and Trigger" CLK_SRC "/plps_0/cfgclk" SYSTEM_ILA "Auto" } \
 #                                                          [get_bd_nets ctrlawstate_dbg] {PROBE_TYPE "Data and Trigger" CLK_SRC "/plps_0/cfgclk" SYSTEM_ILA "Auto" } \
 #                                                          [get_bd_intf_nets axi_interconnect_1_M00_AXI] {AXI_R_ADDRESS "Data and Trigger" AXI_R_DATA "Data and Trigger" AXI_W_ADDRESS "Data and Trigger" AXI_W_DATA "Data and Trigger" AXI_W_RESPONSE "Data and Trigger" CLK_SRC "/plps_0/cfgclk" SYSTEM_ILA "Auto" APC_EN "0" } \
 #                                                          [get_bd_nets ctrlbstate_dbg] {PROBE_TYPE "Data and Trigger" CLK_SRC "/plps_0/cfgclk" SYSTEM_ILA "Auto" } \
-#                                                          [get_bd_intf_nets ctrlregs_lb] {NON_AXI_SIGNALS "Data and Trigger" CLK_SRC "/plps_0/cfgclk" SYSTEM_ILA "Auto" } \
+#                                                          [get_bd_intf_nets cfgregs_lb] {NON_AXI_SIGNALS "Data and Trigger" CLK_SRC "/plps_0/cfgclk" SYSTEM_ILA "Auto" } \
 #                                                          [get_bd_nets ctrlrstate_dbg] {PROBE_TYPE "Data and Trigger" CLK_SRC "/plps_0/cfgclk" SYSTEM_ILA "Auto" } \
 #                                                          [get_bd_nets ctrlwstate_dbg] {PROBE_TYPE "Data and Trigger" CLK_SRC "/plps_0/cfgclk" SYSTEM_ILA "Auto" } \
 #                                                         ]

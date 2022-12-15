@@ -66,3 +66,4 @@ plsv_tb.sv
 ../../reset_portinst.vh
 ../../reset_port.vh
 ../../../../dsp/proc_core.sv
+../../../../dsp/xmultadd.sv

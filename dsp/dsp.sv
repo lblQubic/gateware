@@ -1,7 +1,6 @@
 module dsp #(`include "plps_para.vh"	
 ,`include "bram_para.vh"
 ,`include "braminit_para.vh"
-
 )(	
 	ifdsp.dsp dspif
 );
@@ -21,43 +20,6 @@ always @(posedge dspif.clk) begin
 	proccorereset<={NPROC{procreset}};
 end
 
-/*
-reg stbstart=0;
-reg stbstart_d=0;
-reg moreshot=0;
-reg moreshot_d=0;
-reg moreshot_d2=0;
-reg moreshot_d3=0;
-//localparam NPROC=4;
-reg allprocend_d=0;
-wire lastshot=shotcnt==nshot-1;
-reg lastshotdone=0;
-wire allprocend=&stbprocend;
-wire stballprocend=allprocend&~allprocend_d;
-reg shotbusy=0;
-reg shotbusy_d=0;
-always @(posedge dspif.clk) begin
-	stbstart<=dspif.stb_start;
-	stbstart_d<=stbstart;
-	if (stbstart)
-		nshot<=dspif.nshot;
-	allprocend_d<=allprocend;
-	if (stbstart)
-		shotbusy<=1'b1;
-	else if (lastshot)
-		shotbusy<=1'b0;
-	shotbusy_d<=shotbusy;
-	shotcnt<=stbstart ? 0 : shotcnt+ stballprocend&(~lastshot);
-	moreshot<=shotbusy & stballprocend&~lastshot;
-	moreshot_d<=moreshot;
-	moreshot_d2<=moreshot_d;
-	moreshot_d3<=moreshot_d2;
-	lastshotdone<=lastshot&allprocend;	
-	proccorereset<={NPROC{stbstart|stbstart_d|moreshot_d2|moreshot_d3}};
-end
-
-assign dspif.lastshotdone=lastshotdone;
-*/
 assign dspif.shotcnt=shotcnt;
 assign dspif.lastshotdone=done;
 //wire proccorereset=~shotbusy|moreshot|moreshot_d;
@@ -69,7 +31,7 @@ ifelement #(.ENV_ADDRWIDTH(RDLOENV_R_ADDRWIDTH),.ENV_DATAWIDTH(RDLOENV_R_DATAWID
 rdloelem[0:3](.clk(dspif.clk));
 
 
-generate for (genvar i =0; i<NPROC; i=i+1) begin
+generate for (genvar i =0; i<NPROC; i=i+1) begin: procelem
 	proc_core 
 	proc_core(.clk(dspif.clk),.reset(proccorereset[i]),.command(dspif.data_command[i]), .cmd_read_addr(dspif.addr_command[i]),.qdrvelem(qdrvelem[i]),.rdrvelem(rdrvelem[i]),.rdloelem(rdloelem[i]),.stbend(stbprocend[i]),.procdone_mon(procdone[i]),.nobusy_mon(nobusy[i]));
 	elementconn #(.ENV_ADDRWIDTH(QDRVENV_R_ADDRWIDTH),.ENV_DATAWIDTH(QDRVENV_R_DATAWIDTH),.FREQ_ADDRWIDTH(QDRVFREQ_R_ADDRWIDTH),.FREQ_DATAWIDTH(QDRVFREQ_R_DATAWIDTH))
@@ -81,22 +43,25 @@ generate for (genvar i =0; i<NPROC; i=i+1) begin
 end
 endgenerate
 
+ifxma #(.NDAC(NDAC),.DAC_AXIS_DATAWIDTH(DAC_AXIS_DATAWIDTH)) xmaif(.clk(dspif.clk));
 
 elementout #(.ENV_ADDRWIDTH(QDRVENV_R_ADDRWIDTH),.ENV_DATAWIDTH(QDRVENV_R_DATAWIDTH),.FREQ_ADDRWIDTH(QDRVFREQ_R_ADDRWIDTH),.FREQ_DATAWIDTH(QDRVFREQ_R_DATAWIDTH))
-qdrv0out (.elem(qdrvelem[0]),.valid(),.multix(dspif.daccplxx[1]),.multiy(dspif.daccplxy[1]));
+qdrv0out (.elem(qdrvelem[0]),.valid(),.multix(xmaif.daccplxx[1]),.multiy(xmaif.daccplxy[1]));
 elementout #(.ENV_ADDRWIDTH(QDRVENV_R_ADDRWIDTH),.ENV_DATAWIDTH(QDRVENV_R_DATAWIDTH),.FREQ_ADDRWIDTH(QDRVFREQ_R_ADDRWIDTH),.FREQ_DATAWIDTH(QDRVFREQ_R_DATAWIDTH))
-qdrv1out (.elem(qdrvelem[1]),.valid(),.multix(dspif.daccplxx[2]),.multiy(dspif.daccplxy[2]));
+qdrv1out (.elem(qdrvelem[1]),.valid(),.multix(xmaif.daccplxx[2]),.multiy(xmaif.daccplxy[2]));
 elementout #(.ENV_ADDRWIDTH(QDRVENV_R_ADDRWIDTH),.ENV_DATAWIDTH(QDRVENV_R_DATAWIDTH),.FREQ_ADDRWIDTH(QDRVFREQ_R_ADDRWIDTH),.FREQ_DATAWIDTH(QDRVFREQ_R_DATAWIDTH))
-qdrv2out (.elem(qdrvelem[2]),.valid(),.multix(dspif.daccplxx[3]),.multiy(dspif.daccplxy[3]));
+qdrv2out (.elem(qdrvelem[2]),.valid(),.multix(xmaif.daccplxx[3]),.multiy(xmaif.daccplxy[3]));
 
-elementsum4 #(.ENV_ADDRWIDTH(QDRVENV_R_ADDRWIDTH),.ENV_DATAWIDTH(QDRVENV_R_DATAWIDTH),.FREQ_ADDRWIDTH(QDRVFREQ_R_ADDRWIDTH),.FREQ_DATAWIDTH(QDRVFREQ_R_DATAWIDTH))rdrvout (.elem0(rdrvelem[0]),.elem1(rdrvelem[1]),.elem2(rdrvelem[2]),.elem3(rdrvelem[3]),.valid(),.multix(dspif.daccplxx[0]),.multiy(dspif.daccplxy[0]));
+elementsum4 #(.ENV_ADDRWIDTH(QDRVENV_R_ADDRWIDTH),.ENV_DATAWIDTH(QDRVENV_R_DATAWIDTH),.FREQ_ADDRWIDTH(QDRVFREQ_R_ADDRWIDTH),.FREQ_DATAWIDTH(QDRVFREQ_R_DATAWIDTH))rdrvout (.elem0(rdrvelem[0]),.elem1(rdrvelem[1]),.elem2(rdrvelem[2]),.elem3(rdrvelem[3]),.valid(),.multix(xmaif.daccplxx[0]),.multiy(xmaif.daccplxy[0]));
 //elementsum8 #(.ENV_ADDRWIDTH(QDRVENV_R_ADDRWIDTH),.ENV_DATAWIDTH(QDRVENV_R_DATAWIDTH),.FREQ_ADDRWIDTH(QDRVFREQ_R_ADDRWIDTH),.FREQ_DATAWIDTH(QDRVFREQ_R_DATAWIDTH))rdrvout (.elem0(rdrvelem[0]),.elem1(rdrvelem[1]),.elem2(rdrvelem[2]),.elem3(rdrvelem[3]),.elem4(rdrvelem[4]),.elem5(rdrvelem[5]),.elem6(rdrvelem[6]),.elem7(rdrvelem[7]),.valid(),.multix(dspif.dac[0]),.multiy());
 
-
-assign dspif.dac[0]=dspif.sumcplxx[0];
-assign dspif.dac[1]=dspif.sumcplxx[1];
-assign dspif.dac[2]=dspif.sumcplxx[2];
-assign dspif.dac[3]=dspif.sumcplxx[3];
+assign dspif.dac[0]=xmaif.sumcplxx[0];
+assign dspif.dac[1]=xmaif.sumcplxx[1];
+assign dspif.dac[2]=xmaif.sumcplxx[2];
+assign dspif.dac[3]=xmaif.sumcplxx[3];
+always @(posedge dspif.clk) begin
+	xmaif.coef<=dspif.coef;
+end
 
 reg [ADC_AXIS_DATAWIDTH-1:0] adc[0:NADC-1];
 reg [NPROC-1:0] resetacc=0;
@@ -142,8 +107,9 @@ panzoomtrig(.clk(dspif.clk),.adc(adc),.dac(dac),.dlo(dlo),.acqbuf(acqbuf),.dacmo
 );
 
 */
-xmultadd #(.NDAC(NDAC))
-xmultadd(.dspif(dspif));
+
+
+xmultadd #(.NDAC(NDAC)) xmultadd(.xmaif(xmaif));
 
 reg [DAC_AXIS_DATAWIDTH-1:0] dac[0:3];
 reg [8:0] reset_bram_read=0;
@@ -246,7 +212,7 @@ always @(*) begin
 				nextstate= &nobusy ? MORESHOT : ELEMBUSY;
 			end
 			MORESHOT: begin
-				nextstate=shotcnt==nshot-1 ? DONE : START;
+				nextstate=(~|nshot) |(shotcnt==nshot-1) ? DONE : START;
 			end
 			DONE: begin
 				nextstate=IDLE;
@@ -256,39 +222,50 @@ always @(*) begin
 end
 always @(posedge dspif.clk) begin
 	if (dspif.reset) begin
+		shotcnt<=0;
+		done<=1'b0;
+		procreset<=1'b1;
 	end
 	else begin
 		case (nextstate)
 			IDLE: begin
 				done<=1'b0;
 				procreset<=1'b1;
+				shotcnt<=0;
+				nshot<=dspif.nshot;
 			end
 			START: begin
 				done<=1'b0;
 				procreset<=1'b0;
+				nshot<=dspif.nshot;
+				shotcnt<=shotcnt;
 			end
 			PROCRUN: begin
 				done<=1'b0;
 				procreset<=1'b0;
+				shotcnt<=shotcnt;
 			end
 			ELEMBUSY: begin
 				done<=1'b0;
 				procreset<=1'b1;
+				shotcnt<=shotcnt;
 			end
 			MORESHOT: begin
 				done<=1'b0;
-				shotcnt<=shotcnt+1;
+				shotcnt<=shotcnt+32'h1;
 				procreset<=1'b1;
 			end
 			DONE: begin
 				done<=1'b1;
+				shotcnt<=0;
+				procreset<=1'b1;
 			end
 		endcase
 	end
 end
 
 
-//`include "iladsp.vh"
+`include "iladsp.vh"
 endmodule
 
 interface ifdsp #(
@@ -301,12 +278,6 @@ interface ifdsp #(
 	logic [ADC_AXIS_DATAWIDTH-1:0] adc[0:NADC-1];
 	logic [DAC_AXIS_DATAWIDTH-1:0] dac[0:NDAC-1];
 	logic [ADC_AXIS_DATAWIDTH-1:0] dlo[0:NDLO-1];
-
-	logic [DAC_AXIS_DATAWIDTH-1:0] daccplxx[0:NDAC-1];
-	logic [DAC_AXIS_DATAWIDTH-1:0] daccplxy[0:NDAC-1];
-	logic [DAC_AXIS_DATAWIDTH-1:0] sumcplxx[0:NDAC-1];
-	logic [DAC_AXIS_DATAWIDTH-1:0] sumcplxy[0:NDAC-1];
-	logic [1-1:0] errsum[0:NDAC-1];
 
 	logic [DACMON_W_DATAWIDTH-1:0] data_dacmon[0:7];
 	reg [DACMON_W_ADDRWIDTH-1:0] addr_dacmon[0:7];
@@ -367,7 +338,7 @@ interface ifdsp #(
 	,data_command,data_qdrvenv,data_rdrvenv,data_rdloenv,data_qdrvfreq,data_rdrvfreq,data_rdlofreq
 	,input stb_start,nshot,resetacc,stb_reset_bram_read
 	,output lastshotdone,shotcnt,addr_accbuf_mon0,addr_accbuf_mon1,addr_accbuf_mon2,addr_accbuf_mon3
-	,inout dlo,daccplxx,daccplxy,sumcplxx,sumcplxy,coef,errsum
+	,input coef
 	);
 	modport cfg(output adc
 	,input dac
@@ -378,72 +349,6 @@ interface ifdsp #(
 	,output stb_start,nshot,resetacc,stb_reset_bram_read
 	,input lastshotdone,shotcnt,addr_accbuf_mon0,addr_accbuf_mon1,addr_accbuf_mon2,addr_accbuf_mon3
 	,output coef
-	,input errsum
 
 	);
 endinterface
-
-module xmultadd #(parameter NDAC=4)
-(ifdsp.dsp dspif)
-;
-localparam NRATIO=16;
-localparam ZADDWIDTH=$clog2(NRATIO);
-generate
-for (genvar r=0;r<NRATIO;r=r+1) begin: ratio
-	reg signed [15:0] zr[0:NDAC-1][0:NDAC-1];
-	reg signed [15:0] zi[0:NDAC-1][0:NDAC-1];
-	for (genvar i=0;i<NDAC;i=i+1) begin: multirow
-		for (genvar j=0;j<NDAC;j=j+1) begin: multicol
-			wire signed [15:0] yr=signed'(dspif.coef[i][j][31:16]);
-			wire signed [15:0] yi=signed'(dspif.coef[i][j][15:0]);
-			wire signed [15:0] xr=signed'(dspif.daccplxx[i][r*16+15:r*16]);
-			wire signed [15:0] xi=signed'(dspif.daccplxy[i][r*16+15:r*16]);
-			wire signed [32:0] zr_w;
-			wire signed [32:0] zi_w;
-			cmultiplier #(.XWIDTH(16),.YWIDTH(16))
-			mult1(.clk(dspif.clk),.xr(xr),.xi(xi),.yr(yr),.yi(yi),.zr(zr_w),.zi(zi_w));
-			always @(posedge dspif.clk) begin
-				zr[i][j]<=zr_w[30:15];
-				zi[i][j]<=zi_w[30:15];
-			end
-		end
-	end
-	for (genvar m=0;m<NDAC;m=m+1) begin: sumrow
-		wire [15:0] sumzrall;
-		wire [15:0] sumziall;
-		reg signed [16+ZADDWIDTH-1:0] sumzr[0:NDAC];
-		reg signed [16+ZADDWIDTH-1:0] sumzi[0:NDAC];
-		for (genvar n=0;n<NDAC;n=n+1) begin:sumcol
-			reg signed [15:0] zr_d[0:n];
-			reg signed [15:0] zi_d[0:n];
-			for (genvar k=0;k<=n+1;k=k+1) begin: sumdelay
-				always @(posedge dspif.clk) begin
-					if (k==0) begin
-						zr_d[0]<=zr[m][n];
-						zi_d[0]<=zi[m][n];
-						sumzr[0]<=0;
-						sumzi[0]<=0;
-					end
-					else if (k==n+1) begin
-						sumzr[k]<=sumzr[k-1]+(16+ZADDWIDTH)'(zr_d[k-1]);
-						sumzi[k]<=sumzi[k-1]+(16+ZADDWIDTH)'(zi_d[k-1]);
-					end
-					else begin
-						zr_d[k]<=zr_d[k-1];
-						zi_d[k]<=zi_d[k-1];
-					end
-				end
-//				if (k==n) begin
-//					assign sumzrall=sumzr[NDAC-1][15:0];
-//					assign sumziall=sumzi[NDAC-1][15:0];
-//				end
-			end
-		end
-		assign dspif.sumcplxx[m][r*16+15:r*16]=sumzr[NDAC-1][15:0];
-		assign dspif.sumcplxy[m][r*16+15:r*16]=sumzi[NDAC-1][15:0];
-	end
-end
-
-endgenerate
-endmodule
-
