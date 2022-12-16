@@ -66,3 +66,6 @@ plsv_tb.sv
 ../../reset_portinst.vh
 ../../reset_port.vh
 ../../../../dsp/proc_core.sv
+../../../../dsp/xmultadd.sv
+../../rfdc_simclk.vh
+../../rfdc_wire.vh

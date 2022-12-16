@@ -18,92 +18,67 @@
 module dsp #(`include "plps_para.vh"	
 ,`include "bram_para.vh"
 ,`include "braminit_para.vh"
-
 )(	
 	ifdsp.dsp dspif
 );
 localparam TCNTWIDTH=27;
-reg [TCNTWIDTH-1:0] tcnt=0;
-always @(posedge dspif.clk) begin
-	tcnt<=dspif.reset ? 0 : tcnt+1;
-end
-reg stbstart=0;
-reg stbstart_d=0;
-reg moreshot=0;
-reg moreshot_d=0;
-reg moreshot_d2=0;
-reg moreshot_d3=0;
+reg procreset=0;
+reg procreset_d=0;
+reg done=0;
 reg [31:0] nshot=0;
-//localparam NPROC=4;
 wire [NPROC-1:0] stbprocend;
-reg [NPROC-1:0] shotstatus=0;
-wire allprocend=&stbprocend;
-reg allprocend_d=0;
+wire [NPROC-1:0] procdone;
+wire [NPROC-1:0] nobusy;
 reg [31:0] shotcnt=0;
-wire lastshot=shotcnt==nshot-1;
-reg lastshotdone=0;
-wire stballprocend=allprocend&~allprocend_d;
-reg shotbusy=0;
-reg shotbusy_d=0;
 reg [NPROC-1:0]proccorereset;
 always @(posedge dspif.clk) begin
-	stbstart<=dspif.stb_start;
-	stbstart_d<=stbstart;
-	if (stbstart)
-		nshot<=dspif.nshot;
-	allprocend_d<=allprocend;
-	if (stbstart)
-		shotbusy<=1'b1;
-	else if (lastshot)
-		shotbusy<=1'b0;
-	shotbusy_d<=shotbusy;
-	shotcnt<=stbstart ? 0 : shotcnt+ stballprocend&(~lastshot);
-	moreshot<=shotbusy & stballprocend&~lastshot;
-	moreshot_d<=moreshot;
-	moreshot_d2<=moreshot_d;
-	moreshot_d3<=moreshot_d2;
-	lastshotdone<=lastshot&allprocend;	
-	proccorereset<={NPROC{stbstart|stbstart_d|moreshot_d2|moreshot_d3|dspif.reset}};
+	procreset_d<=procreset;
+	//	proccorereset<={NPROC{procreset|procreset_d}};
+	proccorereset<={NPROC{procreset}};
 end
-assign dspif.lastshotdone=lastshotdone;
+
 assign dspif.shotcnt=shotcnt;
+assign dspif.lastshotdone=done;
 //wire proccorereset=~shotbusy|moreshot|moreshot_d;
-ifelement #(.ENV_ADDRWIDTH(QDRVENV_R_ADDRWIDTH),.ENV_DATAWIDTH(QDRVENV_R_DATAWIDTH),.FREQ_ADDRWIDTH(QDRVFREQ_R_ADDRWIDTH),.FREQ_DATAWIDTH(QDRVFREQ_R_DATAWIDTH),.TCNTWIDTH(27))
+ifelement #(.ENV_ADDRWIDTH(QDRVENV_R_ADDRWIDTH),.ENV_DATAWIDTH(QDRVENV_R_DATAWIDTH),.FREQ_ADDRWIDTH(QDRVFREQ_R_ADDRWIDTH),.FREQ_DATAWIDTH(QDRVFREQ_R_DATAWIDTH),.TCNTWIDTH(TCNTWIDTH))
 qdrvelem[0:3](.clk(dspif.clk));
-ifelement #(.ENV_ADDRWIDTH(RDRVENV_R_ADDRWIDTH),.ENV_DATAWIDTH(RDRVENV_R_DATAWIDTH),.FREQ_ADDRWIDTH(RDRVFREQ_R_ADDRWIDTH),.FREQ_DATAWIDTH(RDRVFREQ_R_DATAWIDTH),.TCNTWIDTH(27))
+ifelement #(.ENV_ADDRWIDTH(RDRVENV_R_ADDRWIDTH),.ENV_DATAWIDTH(RDRVENV_R_DATAWIDTH),.FREQ_ADDRWIDTH(RDRVFREQ_R_ADDRWIDTH),.FREQ_DATAWIDTH(RDRVFREQ_R_DATAWIDTH),.TCNTWIDTH(TCNTWIDTH))
 rdrvelem[0:3](.clk(dspif.clk));
-ifelement #(.ENV_ADDRWIDTH(RDLOENV_R_ADDRWIDTH),.ENV_DATAWIDTH(RDLOENV_R_DATAWIDTH),.FREQ_ADDRWIDTH(RDLOFREQ_R_ADDRWIDTH),.FREQ_DATAWIDTH(RDLOFREQ_R_DATAWIDTH),.TCNTWIDTH(27))
+ifelement #(.ENV_ADDRWIDTH(RDLOENV_R_ADDRWIDTH),.ENV_DATAWIDTH(RDLOENV_R_DATAWIDTH),.FREQ_ADDRWIDTH(RDLOFREQ_R_ADDRWIDTH),.FREQ_DATAWIDTH(RDLOFREQ_R_DATAWIDTH),.TCNTWIDTH(TCNTWIDTH))
 rdloelem[0:3](.clk(dspif.clk));
 
-generate for (genvar i =0; i<NPROC; i=i+1) begin
-	proc_core 
-	proc_core(.clk(dspif.clk),.reset(proccorereset[i]),.command(dspif.data_command[i]), .cmd_read_addr(dspif.addr_command[i]),.qdrvelem(qdrvelem[i]),.rdrvelem(rdrvelem[i]),.rdloelem(rdloelem[i]),.stbend(stbprocend[i]));
-	elementconn #(.ENV_ADDRWIDTH(QDRVENV_R_ADDRWIDTH),.ENV_DATAWIDTH(QDRVENV_R_DATAWIDTH),.FREQ_ADDRWIDTH(QDRVFREQ_R_ADDRWIDTH),.FREQ_DATAWIDTH(QDRVFREQ_R_DATAWIDTH),.TCNTWIDTH(TCNTWIDTH))
-	qdrvelemconn(.elem(qdrvelem[i]),.envaddr(dspif.addr_qdrvenv[i]),.envdata(dspif.data_qdrvenv[i]),.freqaddr(dspif.addr_qdrvfreq[i]),.freqdata(dspif.data_qdrvfreq[i]));
-	elementconn #(.ENV_ADDRWIDTH(RDRVENV_R_ADDRWIDTH),.ENV_DATAWIDTH(RDRVENV_R_DATAWIDTH),.FREQ_ADDRWIDTH(RDRVFREQ_R_ADDRWIDTH),.FREQ_DATAWIDTH(RDRVFREQ_R_DATAWIDTH),.TCNTWIDTH(TCNTWIDTH))
-	rdrvelemconn(.elem(rdrvelem[i]),.envaddr(dspif.addr_rdrvenv[i]),.envdata(dspif.data_rdrvenv[i]),.freqaddr(dspif.addr_rdrvfreq[i]),.freqdata(dspif.data_rdrvfreq[i]));
-	elementconn #(.ENV_ADDRWIDTH(RDLOENV_R_ADDRWIDTH),.ENV_DATAWIDTH(RDLOENV_R_DATAWIDTH),.FREQ_ADDRWIDTH(RDLOFREQ_R_ADDRWIDTH),.FREQ_DATAWIDTH(RDLOFREQ_R_DATAWIDTH),.TCNTWIDTH(TCNTWIDTH))
-	rdloelemconn(.elem(rdloelem[i]),.envaddr(dspif.addr_rdloenv[i]),.envdata(dspif.data_rdloenv[i]),.freqaddr(dspif.addr_rdlofreq[i]),.freqdata(dspif.data_rdlofreq[i]));
-	always @(posedge dspif.clk) begin
-		if (proccorereset[i])
-			shotstatus[i]<=1'b0;
-		else if (stbprocend[i])
-			shotstatus[i]<=1'b1;
-	end
 
+generate for (genvar i =0; i<NPROC; i=i+1) begin: procelem
+	proc_core 
+	proc_core(.clk(dspif.clk),.reset(proccorereset[i]),.command(dspif.data_command[i]), .cmd_read_addr(dspif.addr_command[i]),.qdrvelem(qdrvelem[i]),.rdrvelem(rdrvelem[i]),.rdloelem(rdloelem[i]),.stbend(stbprocend[i]),.procdone_mon(procdone[i]),.nobusy_mon(nobusy[i]));
+	elementconn #(.ENV_ADDRWIDTH(QDRVENV_R_ADDRWIDTH),.ENV_DATAWIDTH(QDRVENV_R_DATAWIDTH),.FREQ_ADDRWIDTH(QDRVFREQ_R_ADDRWIDTH),.FREQ_DATAWIDTH(QDRVFREQ_R_DATAWIDTH))
+	qdrvelemconn(.elem(qdrvelem[i]),.envaddr(dspif.addr_qdrvenv[i]),.envdata(dspif.data_qdrvenv[i]),.freqaddr(dspif.addr_qdrvfreq[i]),.freqdata(dspif.data_qdrvfreq[i]));
+	elementconn #(.ENV_ADDRWIDTH(RDRVENV_R_ADDRWIDTH),.ENV_DATAWIDTH(RDRVENV_R_DATAWIDTH),.FREQ_ADDRWIDTH(RDRVFREQ_R_ADDRWIDTH),.FREQ_DATAWIDTH(RDRVFREQ_R_DATAWIDTH))
+	rdrvelemconn(.elem(rdrvelem[i]),.envaddr(dspif.addr_rdrvenv[i]),.envdata(dspif.data_rdrvenv[i]),.freqaddr(dspif.addr_rdrvfreq[i]),.freqdata(dspif.data_rdrvfreq[i]));
+	elementconn #(.ENV_ADDRWIDTH(RDLOENV_R_ADDRWIDTH),.ENV_DATAWIDTH(RDLOENV_R_DATAWIDTH),.FREQ_ADDRWIDTH(RDLOFREQ_R_ADDRWIDTH),.FREQ_DATAWIDTH(RDLOFREQ_R_DATAWIDTH))
+	rdloelemconn(.elem(rdloelem[i]),.envaddr(dspif.addr_rdloenv[i]),.envdata(dspif.data_rdloenv[i]),.freqaddr(dspif.addr_rdlofreq[i]),.freqdata(dspif.data_rdlofreq[i]));
 end
 endgenerate
 
+ifxma #(.NDAC(NDAC),.DAC_AXIS_DATAWIDTH(DAC_AXIS_DATAWIDTH)) xmaif(.clk(dspif.clk));
 
-elementout #(.ENV_ADDRWIDTH(QDRVENV_R_ADDRWIDTH),.ENV_DATAWIDTH(QDRVENV_R_DATAWIDTH),.FREQ_ADDRWIDTH(QDRVFREQ_R_ADDRWIDTH),.FREQ_DATAWIDTH(QDRVFREQ_R_DATAWIDTH),.TCNTWIDTH(TCNTWIDTH))
-qdrv0out (.elem(qdrvelem[0]),.valid(),.multix(dspif.dac[1]),.multiy());
-elementout #(.ENV_ADDRWIDTH(QDRVENV_R_ADDRWIDTH),.ENV_DATAWIDTH(QDRVENV_R_DATAWIDTH),.FREQ_ADDRWIDTH(QDRVFREQ_R_ADDRWIDTH),.FREQ_DATAWIDTH(QDRVFREQ_R_DATAWIDTH),.TCNTWIDTH(TCNTWIDTH))
-qdrv1out (.elem(qdrvelem[1]),.valid(),.multix(dspif.dac[2]),.multiy());
-elementout #(.ENV_ADDRWIDTH(QDRVENV_R_ADDRWIDTH),.ENV_DATAWIDTH(QDRVENV_R_DATAWIDTH),.FREQ_ADDRWIDTH(QDRVFREQ_R_ADDRWIDTH),.FREQ_DATAWIDTH(QDRVFREQ_R_DATAWIDTH),.TCNTWIDTH(TCNTWIDTH))
-qdrv2out (.elem(qdrvelem[2]),.valid(),.multix(dspif.dac[3]),.multiy());
+elementout #(.ENV_ADDRWIDTH(QDRVENV_R_ADDRWIDTH),.ENV_DATAWIDTH(QDRVENV_R_DATAWIDTH),.FREQ_ADDRWIDTH(QDRVFREQ_R_ADDRWIDTH),.FREQ_DATAWIDTH(QDRVFREQ_R_DATAWIDTH))
+qdrv0out (.elem(qdrvelem[0]),.valid(),.multix(xmaif.daccplxx[1]),.multiy(xmaif.daccplxy[1]));
+elementout #(.ENV_ADDRWIDTH(QDRVENV_R_ADDRWIDTH),.ENV_DATAWIDTH(QDRVENV_R_DATAWIDTH),.FREQ_ADDRWIDTH(QDRVFREQ_R_ADDRWIDTH),.FREQ_DATAWIDTH(QDRVFREQ_R_DATAWIDTH))
+qdrv1out (.elem(qdrvelem[1]),.valid(),.multix(xmaif.daccplxx[2]),.multiy(xmaif.daccplxy[2]));
+elementout #(.ENV_ADDRWIDTH(QDRVENV_R_ADDRWIDTH),.ENV_DATAWIDTH(QDRVENV_R_DATAWIDTH),.FREQ_ADDRWIDTH(QDRVFREQ_R_ADDRWIDTH),.FREQ_DATAWIDTH(QDRVFREQ_R_DATAWIDTH))
+qdrv2out (.elem(qdrvelem[2]),.valid(),.multix(xmaif.daccplxx[3]),.multiy(xmaif.daccplxy[3]));
 
-elementsum4 #(.ENV_ADDRWIDTH(QDRVENV_R_ADDRWIDTH),.ENV_DATAWIDTH(QDRVENV_R_DATAWIDTH),.FREQ_ADDRWIDTH(QDRVFREQ_R_ADDRWIDTH),.FREQ_DATAWIDTH(QDRVFREQ_R_DATAWIDTH),.TCNTWIDTH(TCNTWIDTH))rdrvout (.elem0(rdrvelem[0]),.elem1(rdrvelem[1]),.elem2(rdrvelem[2]),.elem3(rdrvelem[3]),.valid(),.multix(dspif.dac[0]),.multiy());
-//elementsum8 #(.ENV_ADDRWIDTH(QDRVENV_R_ADDRWIDTH),.ENV_DATAWIDTH(QDRVENV_R_DATAWIDTH),.FREQ_ADDRWIDTH(QDRVFREQ_R_ADDRWIDTH),.FREQ_DATAWIDTH(QDRVFREQ_R_DATAWIDTH),.TCNTWIDTH(TCNTWIDTH))rdrvout (.elem0(rdrvelem[0]),.elem1(rdrvelem[1]),.elem2(rdrvelem[2]),.elem3(rdrvelem[3]),.elem4(rdrvelem[4]),.elem5(rdrvelem[5]),.elem6(rdrvelem[6]),.elem7(rdrvelem[7]),.valid(),.multix(dspif.dac[0]),.multiy());
+elementsum4 #(.ENV_ADDRWIDTH(QDRVENV_R_ADDRWIDTH),.ENV_DATAWIDTH(QDRVENV_R_DATAWIDTH),.FREQ_ADDRWIDTH(QDRVFREQ_R_ADDRWIDTH),.FREQ_DATAWIDTH(QDRVFREQ_R_DATAWIDTH))rdrvout (.elem0(rdrvelem[0]),.elem1(rdrvelem[1]),.elem2(rdrvelem[2]),.elem3(rdrvelem[3]),.valid(),.multix(xmaif.daccplxx[0]),.multiy(xmaif.daccplxy[0]));
+//elementsum8 #(.ENV_ADDRWIDTH(QDRVENV_R_ADDRWIDTH),.ENV_DATAWIDTH(QDRVENV_R_DATAWIDTH),.FREQ_ADDRWIDTH(QDRVFREQ_R_ADDRWIDTH),.FREQ_DATAWIDTH(QDRVFREQ_R_DATAWIDTH))rdrvout (.elem0(rdrvelem[0]),.elem1(rdrvelem[1]),.elem2(rdrvelem[2]),.elem3(rdrvelem[3]),.elem4(rdrvelem[4]),.elem5(rdrvelem[5]),.elem6(rdrvelem[6]),.elem7(rdrvelem[7]),.valid(),.multix(dspif.dac[0]),.multiy());
+
+assign dspif.dac[0]=xmaif.sumcplxx[0];
+assign dspif.dac[1]=xmaif.sumcplxx[1];
+assign dspif.dac[2]=xmaif.sumcplxx[2];
+assign dspif.dac[3]=xmaif.sumcplxx[3];
+always @(posedge dspif.clk) begin
+	xmaif.coef<=dspif.coef;
+end
 
 reg [ADC_AXIS_DATAWIDTH-1:0] adc[0:NADC-1];
 reg [NPROC-1:0] resetacc=0;
@@ -124,7 +99,7 @@ reg we_accbuf[0:7];
 generate 
 for (genvar i=0;i<NPROC;i=i+1) begin: rdlomixacc
 	wire accvalid;
-	elementmixacc #(.ENV_ADDRWIDTH(RDLOENV_R_ADDRWIDTH),.ENV_DATAWIDTH(RDLOENV_R_DATAWIDTH),.FREQ_ADDRWIDTH(RDLOFREQ_R_ADDRWIDTH),.FREQ_DATAWIDTH(RDLOFREQ_R_DATAWIDTH),.TCNTWIDTH(TCNTWIDTH),.ACCADDWIDTH(16))
+	elementmixacc #(.ENV_ADDRWIDTH(RDLOENV_R_ADDRWIDTH),.ENV_DATAWIDTH(RDLOENV_R_DATAWIDTH),.FREQ_ADDRWIDTH(RDLOFREQ_R_ADDRWIDTH),.FREQ_DATAWIDTH(RDLOFREQ_R_DATAWIDTH),.ACCADDWIDTH(16))
 	rdlo0mixacc(.adcx(adc[0]),.adcy(adc[1]),.shift(15),.elem(rdloelem[i].mix),.gateout(),.accx(data_accbuf[i][63:32]),.accy(data_accbuf[i][31:0]),.stbout(accvalid));
 	assign locklast_accbuf[i]=&addr_accbuf[i];
 	always @(posedge dspif.clk) begin
@@ -142,6 +117,16 @@ assign dspif.addr_accbuf_mon1=addr_accbuf[1];
 assign dspif.addr_accbuf_mon2=addr_accbuf[2];
 assign dspif.addr_accbuf_mon3=addr_accbuf[3];
 
+
+/*panzoomtrig #(.NADC(NADC),.NDAC(NDAC),.NDLO(NDLO),.NACQBUF(NACQBUF),.NDACMON(NDACMON))
+panzoomtrig(.clk(dspif.clk),.adc(adc),.dac(dac),.dlo(dlo),.acqbuf(acqbuf),.dacmon(dacmon)
+,.trigout(trigout),.acqsel(acqsel),.dacmonsel(dacmonsel),.zoomratio(zoomratio),.panshift(panshift),.triglevel(triglevel),.trigchan(trigchan)
+);
+
+*/
+
+
+xmultadd #(.NDAC(NDAC)) xmultadd(.xmaif(xmaif));
 
 reg [DAC_AXIS_DATAWIDTH-1:0] dac[0:3];
 reg [8:0] reset_bram_read=0;
@@ -207,9 +192,97 @@ for (genvar i=0;i<16;i=i+1) begin : step16
 	end
 end
 endgenerate
+//
+
+enum {IDLE
+,START
+,PROCRUN
+,ELEMBUSY
+,MORESHOT
+,DONE
+,NSTATE
+} state,nextstate;
+always @(posedge dspif.clk) begin
+	if (dspif.reset) begin
+		state <= IDLE;
+	end
+	else begin
+		state <= nextstate;
+	end
+end
+always @(*) begin
+	if (dspif.reset) begin
+		nextstate = IDLE;
+	end
+	else begin
+		case (state)
+			IDLE: begin
+				nextstate= dspif.stb_start ? START : IDLE;
+			end
+			START: begin
+				nextstate=PROCRUN;
+			end
+			PROCRUN: begin
+				nextstate= &procdone ? ELEMBUSY : PROCRUN;
+			end
+			ELEMBUSY: begin
+				nextstate= &nobusy ? MORESHOT : ELEMBUSY;
+			end
+			MORESHOT: begin
+				nextstate=(~|nshot) |(shotcnt==nshot-1) ? DONE : START;
+			end
+			DONE: begin
+				nextstate=IDLE;
+			end
+		endcase
+	end
+end
+always @(posedge dspif.clk) begin
+	if (dspif.reset) begin
+		shotcnt<=0;
+		done<=1'b0;
+		procreset<=1'b1;
+	end
+	else begin
+		case (nextstate)
+			IDLE: begin
+				done<=1'b0;
+				procreset<=1'b1;
+				shotcnt<=0;
+				nshot<=dspif.nshot;
+			end
+			START: begin
+				done<=1'b0;
+				procreset<=1'b0;
+				nshot<=dspif.nshot;
+				shotcnt<=shotcnt;
+			end
+			PROCRUN: begin
+				done<=1'b0;
+				procreset<=1'b0;
+				shotcnt<=shotcnt;
+			end
+			ELEMBUSY: begin
+				done<=1'b0;
+				procreset<=1'b1;
+				shotcnt<=shotcnt;
+			end
+			MORESHOT: begin
+				done<=1'b0;
+				shotcnt<=shotcnt+32'h1;
+				procreset<=1'b1;
+			end
+			DONE: begin
+				done<=1'b1;
+				shotcnt<=0;
+				procreset<=1'b1;
+			end
+		endcase
+	end
+end
 
 
-//`include "iladsp.vh"
+`include "iladsp.vh"
 endmodule
 
 interface ifdsp #(
@@ -221,7 +294,7 @@ interface ifdsp #(
 	wire reset;
 	logic [ADC_AXIS_DATAWIDTH-1:0] adc[0:NADC-1];
 	logic [DAC_AXIS_DATAWIDTH-1:0] dac[0:NDAC-1];
-
+	logic [ADC_AXIS_DATAWIDTH-1:0] dlo[0:NDLO-1];
 
 	logic [DACMON_W_DATAWIDTH-1:0] data_dacmon[0:7];
 	reg [DACMON_W_ADDRWIDTH-1:0] addr_dacmon[0:7];
@@ -273,6 +346,7 @@ interface ifdsp #(
 	logic [ACCBUF_W_ADDRWIDTH-1:0] addr_accbuf_mon1;
 	logic [ACCBUF_W_ADDRWIDTH-1:0] addr_accbuf_mon2;
 	logic [ACCBUF_W_ADDRWIDTH-1:0] addr_accbuf_mon3;
+	logic [31:0] coef [0:NDAC-1][0:NDAC-1];
 	modport dsp(input adc
 	,output dac
 	,addr_accbuf,addr_acqbuf,addr_command,addr_qdrvenv,addr_rdrvenv,addr_rdloenv,addr_qdrvfreq,addr_rdrvfreq,addr_rdlofreq,addr_dacmon
@@ -281,6 +355,7 @@ interface ifdsp #(
 	,data_command,data_qdrvenv,data_rdrvenv,data_rdloenv,data_qdrvfreq,data_rdrvfreq,data_rdlofreq
 	,input stb_start,nshot,resetacc,stb_reset_bram_read
 	,output lastshotdone,shotcnt,addr_accbuf_mon0,addr_accbuf_mon1,addr_accbuf_mon2,addr_accbuf_mon3
+	,input coef
 	);
 	modport cfg(output adc
 	,input dac
@@ -290,7 +365,7 @@ interface ifdsp #(
 	,data_command,data_qdrvenv,data_rdrvenv,data_rdloenv,data_qdrvfreq,data_rdrvfreq,data_rdlofreq
 	,output stb_start,nshot,resetacc,stb_reset_bram_read
 	,input lastshotdone,shotcnt,addr_accbuf_mon0,addr_accbuf_mon1,addr_accbuf_mon2,addr_accbuf_mon3
+	,output coef
 
 	);
 endinterface
-

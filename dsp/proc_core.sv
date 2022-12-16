@@ -3,6 +3,8 @@ module proc_core(input clk
 ,input [127:0] command
 ,output [15:0] cmd_read_addr
 ,output stbend
+,output procdone_mon
+,output nobusy_mon
 ,ifelement.proc qdrvelem
 ,ifelement.proc rdrvelem
 ,ifelement.proc rdloelem
@@ -25,10 +27,19 @@ pulse_iface #(.PHASE_WIDTH(PHASE_WIDTH), .FREQ_WIDTH(FREQ_WIDTH),.ENV_WORD_WIDTH
 pulseout();
 
 wire procdone;
-proc #(.DATA_WIDTH(DATA_WIDTH), .CMD_WIDTH(CMD_WIDTH),.CMD_ADDR_WIDTH(CMD_ADDR_WIDTH), .REG_ADDR_WIDTH(REG_ADDR_WIDTH),.SYNC_BARRIER_WIDTH(SYNC_BARRIER_WIDTH),.CMD_MEM_READ_LATENCY(2)) 
+proc #(.DATA_WIDTH(DATA_WIDTH), .CMD_WIDTH(CMD_WIDTH),.CMD_ADDR_WIDTH(CMD_ADDR_WIDTH), .REG_ADDR_WIDTH(REG_ADDR_WIDTH),.SYNC_BARRIER_WIDTH(SYNC_BARRIER_WIDTH),.CMD_MEM_READ_LATENCY(5)) 
 dproc(.clk(clk), .reset(reset),.cmd_iface(memif), .fproc(fproc), .sync(sync), .pulseout(pulseout),.done_gate(procdone));
-assign memif.mem_bus[0]=command;
-assign cmd_read_addr=memif.instr_ptr;
+reg [127:0] command_d=0;
+reg [127:0] command_d2=0;
+reg [15:0] addr_command=0;
+always @(posedge clk) begin
+	command_d<=command;
+	command_d2<=command_d;
+	addr_command<=memif.instr_ptr;
+end
+assign memif.mem_bus[0]=command_d2;
+
+assign cmd_read_addr=addr_command;
 
 reg noop=0;
 reg nobusy=0;
@@ -72,4 +83,6 @@ always @(posedge clk) begin
 	nobusy<=~|{qdrvelem.busy,rdrvelem.busy,rdloelem.busy};
 end
 assign stbend=procdone&nobusy;
+assign procdone_mon=procdone;
+assign nobusy_mon=nobusy;
 endmodule

@@ -43,55 +43,6 @@ input aresetn
 ,input [0:0] lb4_wren,input lb4_rden,input lb4_rdenlast,input [LB4_ADDRWIDTH-1:0] lb4_waddr,input [LB4_DATAWIDTH-1:0] lb4_wdata,input [LB4_ADDRWIDTH-1:0] lb4_raddr,output [LB4_DATAWIDTH-1:0] lb4_rdata,output lb4_rvalid,output lb4_rvalidlast,input lb4_clk,input  lb4_aresetn
 //,include "bram_port.vh"
 
-/*,input  DAC20_M_AXIS_ACLK
-,input  DAC20_M_AXIS_ARESETN
-,input  DAC20_M_AXIS_TREADY
-,output  DAC20_M_AXIS_TVALID
-,output  [DAC_AXIS_DATAWIDTH-1 : 0] DAC20_M_AXIS_TDATA
-,output  [(DAC_AXIS_DATAWIDTH/8)-1 : 0] DAC20_M_AXIS_TSTRB
-,output  DAC20_M_AXIS_TLAST
-,input  DAC22_M_AXIS_ACLK
-,input  DAC22_M_AXIS_ARESETN
-,input  DAC22_M_AXIS_TREADY
-,output  DAC22_M_AXIS_TVALID
-,output  [DAC_AXIS_DATAWIDTH-1 : 0] DAC22_M_AXIS_TDATA
-,output  [(DAC_AXIS_DATAWIDTH/8)-1 : 0] DAC22_M_AXIS_TSTRB
-,output  DAC22_M_AXIS_TLAST
-,input clk_dac2
-
-,input  DAC30_M_AXIS_ACLK
-,input  DAC30_M_AXIS_ARESETN
-,input  DAC30_M_AXIS_TREADY
-,output  DAC30_M_AXIS_TVALID
-,output  [DAC_AXIS_DATAWIDTH-1 : 0] DAC30_M_AXIS_TDATA
-,output  [(DAC_AXIS_DATAWIDTH/8)-1 : 0] DAC30_M_AXIS_TSTRB
-,output  DAC30_M_AXIS_TLAST
-,input  DAC32_M_AXIS_ACLK
-,input  DAC32_M_AXIS_ARESETN
-,input  DAC32_M_AXIS_TREADY
-,output  DAC32_M_AXIS_TVALID
-,output  [DAC_AXIS_DATAWIDTH-1 : 0] DAC32_M_AXIS_TDATA
-,output  [(DAC_AXIS_DATAWIDTH/8)-1 : 0] DAC32_M_AXIS_TSTRB
-,output  DAC32_M_AXIS_TLAST
-,input clk_dac3
-
-,input  ADC20_S_AXIS_ACLK
-,input  ADC20_S_AXIS_ARESETN
-,output  ADC20_S_AXIS_TREADY
-,input  ADC20_S_AXIS_TVALID
-,input  [ADC_AXIS_DATAWIDTH-1 : 0] ADC20_S_AXIS_TDATA
-,input  [(ADC_AXIS_DATAWIDTH/8)-1 : 0] ADC20_S_AXIS_TSTRB
-,input  ADC20_S_AXIS_TLAST
-,input clk_adc2
-
-,input  ADC21_S_AXIS_ACLK
-,input  ADC21_S_AXIS_ARESETN
-,output  ADC21_S_AXIS_TREADY
-,input  ADC21_S_AXIS_TVALID
-,input  [ADC_AXIS_DATAWIDTH-1 : 0] ADC21_S_AXIS_TDATA
-,input  [(ADC_AXIS_DATAWIDTH/8)-1 : 0] ADC21_S_AXIS_TSTRB
-,input  ADC21_S_AXIS_TLAST
-*/
 ,`include "rfdc_port.vh"
 
 ,output cfgclk

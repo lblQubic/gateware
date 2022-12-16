@@ -12,6 +12,7 @@ parameter DEBUG="true"
 ,parameter integer BRAMADDRWIDTH=32
 ,parameter integer NPROC=4
 ,parameter integer NADC=2
+,parameter integer NDLO=4
 ,parameter integer NDAC=4
 ,parameter integer NDACMON=4
 ,parameter integer NACQ=2

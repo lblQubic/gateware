@@ -8,6 +8,7 @@ source ../../submodules/tools/synimpbit.tcl
 proj ${target} ${part} ${outputdir} ${depd}
 set_param general.maxThreads 11
 if {1} {
+set_property STEPS.SYNTH_DESIGN.ARGS.RETIMING true [get_runs synth_1]
 synimpbit $target 11
 set_property top psbd_wrapper [current_fileset]
 write_hw_platform -fixed -include_bit -force -file ${outputdir}/psbd.xsa

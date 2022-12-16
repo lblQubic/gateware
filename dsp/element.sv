@@ -1,5 +1,5 @@
 //qdrvelem qdrvelem (.elem(qdrvelem),.envaddr(addr_qdrvenv),.envdata(data_qdrvenv),.freqaddr(addr_qdrvfreq),.freqdata(data_qdrvfreq));
-module elementconn#(parameter ENV_ADDRWIDTH=32,parameter ENV_DATAWIDTH=32,parameter TCNTWIDTH=27,parameter FREQ_ADDRWIDTH=32,parameter FREQ_DATAWIDTH=32)(ifelement.elem elem
+module elementconn#(parameter ENV_ADDRWIDTH=32,parameter ENV_DATAWIDTH=32,parameter FREQ_ADDRWIDTH=32,parameter FREQ_DATAWIDTH=32)(ifelement.elem elem
 ,output [ENV_ADDRWIDTH-1:0] envaddr
 ,input [ENV_DATAWIDTH-1:0] envdata
 ,output [FREQ_ADDRWIDTH-1:0] freqaddr
@@ -53,12 +53,12 @@ assign freqaddr=freqaddr_r;
 reg_delay1 #(.DW(ENV_ADDRWIDTH),.LEN(30)) envaddrdelay(.clk(elem.clk),.gate(1'b1),.din(envaddr_cnt),.dout(envaddr),.reset(1'b0));
 
 ammod #(.NSLICE(NSLICE)) 
-ammod(.clk(elem.clk),.gatein(busy_sr[1]|elem.cw_sr[2]),.tcnt(elem.tcnt),.freqcossinp32x16(freqdata_r2),.envxy32x16(envdata_r2),.pini(elem.pini),.multix16x16(elem.multix),.multiy16x16(elem.multiy),.ampx(elem.ampx),.gateout(elem.valid));
+ammod(.clk(elem.clk),.gatein(busy_sr[1]|elem.cw2),.tcnt(elem.tcnt),.freqcossinp32x16(freqdata_r2),.envxy32x16(envdata_r2),.pini(elem.pini),.multix16x16(elem.multix),.multiy16x16(elem.multiy),.ampx(elem.ampx),.gateout(elem.valid));
 assign elem.prepbusy=|busy_sr;
 assign elem.pulsebusy=elem.valid;
 endmodule
 
-module elementout#(parameter ENV_ADDRWIDTH=32,parameter ENV_DATAWIDTH=32,parameter TCNTWIDTH=27,parameter FREQ_ADDRWIDTH=32,parameter FREQ_DATAWIDTH=32)(ifelement.out elem
+module elementout#(parameter ENV_ADDRWIDTH=32,parameter ENV_DATAWIDTH=32,parameter FREQ_ADDRWIDTH=32,parameter FREQ_DATAWIDTH=32)(ifelement.out elem
 ,output valid
 ,output [NSLICE*16-1:0] multix
 ,output [NSLICE*16-1:0] multiy
@@ -70,7 +70,7 @@ assign multiy=elem.multiy_r;
 assign elem.postprobusy=elem.valid_r;
 endmodule
 
-module elementsum4#(parameter ENV_ADDRWIDTH=32,parameter ENV_DATAWIDTH=32,parameter TCNTWIDTH=27,parameter FREQ_ADDRWIDTH=32,parameter FREQ_DATAWIDTH=32)(ifelement.out elem0
+module elementsum4#(parameter ENV_ADDRWIDTH=32,parameter ENV_DATAWIDTH=32,parameter FREQ_ADDRWIDTH=32,parameter FREQ_DATAWIDTH=32)(ifelement.out elem0
 ,ifelement.out elem1
 ,ifelement.out elem2
 ,ifelement.out elem3
@@ -122,7 +122,7 @@ assign elem2.postprobusy=elem2.valid_r;
 assign elem3.postprobusy=elem3.valid_r;
 endmodule
 
-module elementsum8#(parameter ENV_ADDRWIDTH=32,parameter ENV_DATAWIDTH=32,parameter TCNTWIDTH=27,parameter FREQ_ADDRWIDTH=32,parameter FREQ_DATAWIDTH=32)(ifelement.out elem0
+module elementsum8#(parameter ENV_ADDRWIDTH=32,parameter ENV_DATAWIDTH=32,parameter FREQ_ADDRWIDTH=32,parameter FREQ_DATAWIDTH=32)(ifelement.out elem0
 ,ifelement.out elem1
 ,ifelement.out elem2
 ,ifelement.out elem3
@@ -195,7 +195,7 @@ assign elem3.postprobusy=valid;
 endmodule
 
 
-module elementmixacc#(parameter ENV_ADDRWIDTH=32,parameter ENV_DATAWIDTH=32,parameter TCNTWIDTH=27,parameter FREQ_ADDRWIDTH=32,parameter FREQ_DATAWIDTH=32,parameter ACCADDWIDTH=16)(ifelement.mix elem
+module elementmixacc#(parameter ENV_ADDRWIDTH=32,parameter ENV_DATAWIDTH=32,parameter FREQ_ADDRWIDTH=32,parameter FREQ_DATAWIDTH=32,parameter ACCADDWIDTH=16)(ifelement.mix elem
 ,input [NSLICE*16-1:0] adcx
 ,input [NSLICE*16-1:0] adcy
 ,input [4:0] shift
@@ -335,7 +335,11 @@ reg [TCNTWIDTH-1:0] tcnt=0;
 reg [127:0] command=0;
 reg [127:0] command_d=0;
 reg [127:0] command_d2=0;
-reg cw0=0;
+reg cw_d0=0;
+reg cw_d1=0;
+reg cw_d2=0;
+reg cw_d3=0;
+reg cw_d4=0;
 logic prepbusy;
 logic pulsebusy;
 logic postprobusy;
@@ -343,9 +347,10 @@ reg busy_r=0;
 wire busy;
 assign busy=busy_r|cmdstb;
 
-wire cw=cw0;//_sr[2];
-reg [42:0] cw_sr=0;
-reg dummycw=0;
+wire cw=cw_d2;//_sr[2];
+wire cw2=cw_d4;//_sr[2];
+reg [4:0] cw_sr=0;
+reg dummycw_sr=0;
 reg [26:0] trigt=0;
 reg [FREQ_ADDRWIDTH-1:0] freqaddr;
 generate
@@ -362,14 +367,18 @@ always @(posedge clk) begin
 	//tcnt<= reset_sr[6] ? 0 : tcnt+1;
 	tcnt<= reset_sr[7] ? 0 : tcnt+1;
 	{dummy_cmdstb_sr,cmdstb_sr}<={cmdstb_sr,cmdstb};
-	cw0<=((|{envstart,ampx,freqaddr,pini}) & (~|envlength));
-	cw_sr<={cw_sr[41:0],cw0};
+	cw_d0<=((|{envstart,ampx,freqaddr,pini}) & (~|envlength));
+	cw_d1<=cw_d0;
+	cw_d2<=cw_d1;
+	cw_d3<=cw_d2;
+	cw_d4<=cw_d3;
+//	{dummycw_sr,cw_sr}<={cw_sr,cw0};
 	busy_r<=|{cmdstb,cmdstb_sr,prepbusy,pulsebusy,postprobusy} ;
 end
 modport proc(output envstart,envlength,ampx,ampy,freqaddr,pini,mode,cmdstb,reset
 ,input clk,busy
 );
-modport elem(input clk,reset,cmdstb,cmdstb_sr,cw,cw_sr,envstart,envlength,ampx,pini,mode,tcnt,freqaddr
+modport elem(input clk,reset,cmdstb,cmdstb_sr,cw,cw2,envstart,envlength,ampx,pini,mode,tcnt,freqaddr
 ,output multix,multiy,valid,prepbusy,pulsebusy
 );
 modport out(input clk,multix_r,multiy_r,valid_r

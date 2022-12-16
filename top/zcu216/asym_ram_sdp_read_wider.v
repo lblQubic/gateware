@@ -88,7 +88,7 @@ generate
 		integer i;
 		initial begin
 			for (i=0;i<=SIZEA;i=i+1)
-				RAM[i]=32'h7fff0000;
+				RAM[i]=32'h0;
 
 		end
 	end
