@@ -44,13 +44,28 @@ class DSPDriver:
         self.dac_q : numpy array
             shape: (n_dspunit, nsamples). values are signed 16-bit dac_q out
     """
-    def __init__(self, dut, mon_signals=None):
+    def __init__(self, dut, dac_samples_per_clk, dac_nbits, adc_samples_per_clk, \
+            adc_nbits, mon_signals=None):
+        """
+        TODO: make dac_samples_per_clk, etc optionally arrays to support different 
+        sample rates
+        """
         self._dut = dut
         self.mon_signals = {}
         self.mon_data = {}
+        self._n_dac = len(self._dut.dac)
+        self._dac_out_signal = self._dut.dac
+        self.dac_samples_per_clk = dac_samples_per_clk
+        self.adc_samples_per_clk = adc_samples_per_clk
+        self.dac_nbits = dac_nbits
+        self.adc_nbits = adc_nbits
         if mon_signals is not None:
             for name, sig in mon_signals.items():
                 self.add_mon(name, sig)
+
+    @property
+    def n_dac(self):
+        return self._n_dac
 
     def add_mon(self, name, sig):
         self.mon_signals.update({name: sig})
@@ -139,39 +154,33 @@ class DSPDriver:
         await RisingEdge(self._dut.clk)
         self._dut.reset.value = 0
 
-    #async def monitor_outputs(self, ncycles):
-    #    """
-    #    Monitor program output for ncycles clocks.
-    #    Sets class attributes dac_i and dac_q, each of
-    #    which is a (n_dspunit, n_samples) numpy array of
-    #    DAC values. Also populates self.mon_data, if any
-    #    mon signals have been declared
-    #    """
-    #    dac_i = []
-    #    dac_q = []
+    async def monitor_outputs(self, ncycles):
+        """
+        Monitor program output for ncycles clocks.
+        Sets class attributes dac_i and dac_q, each of
+        which is a (n_dac, n_samples) numpy array of
+        DAC values. Also populates self.mon_data, if any
+        mon signals have been declared
+        """
+        dac_out = []
+        for i in range(ncycles):
+            await RisingEdge(self._dut.clk)
+            for name, sig in self.mon_signals:
+                self.mon_data[name].append(sig.value)
+            dac_out.append([int(val) for val in self._dac_out_signal.value[::-1]])
 
-    #    for i in range(ncycles):
-    #        await RisingEdge(self._dut.clk)
-    #        for name, sig in self.mon_signals:
-    #            self.mon_data[name].append(sig.value)
-    #        dac_i.append([int(val) for val in self._dac_i_signal.value[::-1]])
-    #        dac_q.append([int(val) for val in self._dac_q_signal.value[::-1]])
+        dac_out = np.transpose(np.asarray(dac_out))
+        self.dac_out = np.empty((self.n_dac, ncycles*self.dac_samples_per_clk))
+        for i in range(self.n_dac):
+            self.dac_out[i] = unravel_dac(dac_out[i], self.dac_samples_per_clk, self.dac_nbits)
 
-    #    dac_i = np.transpose(np.asarray(dac_i, dtype=np.uint64))
-    #    dac_q = np.transpose(np.asarray(dac_q, dtype=np.uint64))
-    #    self.dac_i = np.empty((self._n_dspunit, ncycles*4))
-    #    self.dac_q = np.empty((self._n_dspunit, ncycles*4))
-    #    for i in range(self._n_dspunit):
-    #        self.dac_i[i] = unravel_dac(dac_i[i])
-    #        self.dac_q[i] = unravel_dac(dac_q[i])
-
-    #async def run_program(self, ncycles):
-    #    """
-    #    For backwards compatibility with earlier tests; can be used 
-    #    to run simple programs without external (fproc) input.
-    #    """
-    #    await self.reset()
-    #    await self.monitor_outputs(ncycles)
+    async def run_program(self, ncycles):
+        """
+        For backwards compatibility with earlier tests; can be used 
+        to run simple programs without external (fproc) input.
+        """
+        await self.reset()
+        await self.monitor_outputs(ncycles)
 
 class MeasDriver:
     """
@@ -363,7 +372,7 @@ class DSPSimHWConf(HardwareConfig):
             if freq is not None:
                 cur_freq_buffer[0] = int(freq*2**self.freq_n_bits/self.fpga_clk_freq) & (2**self.freq_n_bits - 1)
                 for i in range(1, self.dac_samples_per_clk):
-                    i_mult = int(round(np.cos(2*np.pi*freq*i*self.dac_sample_period)*scale) % (3**(self.freq_n_bits/2)))
+                    i_mult = int(round(np.cos(2*np.pi*freq*i*self.dac_sample_period)*scale) % (2**(self.freq_n_bits/2)))
                     q_mult = int(round(np.sin(2*np.pi*freq*i*self.dac_sample_period)*scale) % (2**(self.freq_n_bits/2)))
                     cur_freq_buffer[i] = (i_mult << (self.freq_n_bits//2)) + q_mult
 
@@ -375,13 +384,13 @@ class DSPSimHWConf(HardwareConfig):
         return int((phase/(2*np.pi) * 2**14))
 
     def get_env_word(self, env_ind, length):
-        return (env_ind//self.dac_samples_per_clk << 12) + int(np.ceil(length/self.dac_samples_per_clk))
+        return env_ind//self.dac_samples_per_clk + (int(np.ceil(length/self.dac_samples_per_clk)) << 12)
 
     def get_env_buffer(self, env_samples):
         env_samples = np.pad(env_samples, (0, (self.dac_samples_per_clk - len(env_samples) \
                 % self.dac_samples_per_clk) % self.dac_samples_per_clk))
-        return cg.twos_complement(np.real(env_samples*(2**(self.env_n_bits-1)-1)).astype(int), nbits=self.env_n_bits) \
-                    + (cg.twos_complement(np.imag(env_samples*(2**(self.env_n_bits-1)-1)).astype(int), nbits=self.env_n_bits) << self.env_n_bits)
+        return (cg.twos_complement(np.real(env_samples*(2**(self.env_n_bits-1)-1)).astype(int), nbits=self.env_n_bits) << self.env_n_bits) \
+                    + cg.twos_complement(np.imag(env_samples*(2**(self.env_n_bits-1)-1)).astype(int), nbits=self.env_n_bits)
 
     def length_nclks(self, tlength):
         return int(np.ceil(tlength/self.fpga_clk_period))

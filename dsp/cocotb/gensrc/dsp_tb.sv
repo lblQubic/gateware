@@ -8,8 +8,8 @@ module dsp_tb#(
     input[2:0] proc_write_sel, //index proc cores
     input[2:0] mem_write_sel, //0 for cmd, 1 for env, 2 for freq, etc
     input mem_write_en,
-    input[ADC_AXIS_DATAWIDTH-1:0] adc[NADC-1:0],
-    output[DAC_AXIS_DATAWIDTH-1:0] dac[NDAC-1:0]);
+    input[ADC_AXIS_DATAWIDTH-1:0] adc[0:NADC-1],
+    output[DAC_AXIS_DATAWIDTH-1:0] dac[0:NDAC-1]);
 
     ifdsp dspif();
 

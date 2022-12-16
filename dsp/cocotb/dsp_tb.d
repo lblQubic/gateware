@@ -4,7 +4,6 @@ dsp_tb.sv
 ../../submodules/common-hdl/cordicg3.sv
 ../../submodules/common-hdl/freq_count3.v
 ../../submodules/common-hdl/reg_delay1.v
-../../submodules/board-support/zcu216/hwif.sv
 ../../top/zcu216/plps_portinst.vh
 ../../top/zcu216/plps_port.vh
 ../../submodules/common-hdl/cmultiplier2.v
