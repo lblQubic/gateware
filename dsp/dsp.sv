@@ -13,6 +13,8 @@ wire [NPROC-1:0] stbprocend;
 wire [NPROC-1:0] procdone;
 wire [NPROC-1:0] nobusy;
 reg [31:0] shotcnt=0;
+wire [31:0] nextshotcnt=shotcnt+1;
+reg [31:0] currentshotcnt=0;
 reg [NPROC-1:0]proccorereset;
 always @(posedge dspif.clk) begin
 	procreset_d<=procreset;
@@ -20,7 +22,7 @@ always @(posedge dspif.clk) begin
 	proccorereset<={NPROC{procreset}};
 end
 
-assign dspif.shotcnt=shotcnt;
+assign dspif.shotcnt=currentshotcnt;
 assign dspif.lastshotdone=done;
 //wire proccorereset=~shotbusy|moreshot|moreshot_d;
 ifelement #(.ENV_ADDRWIDTH(QDRVENV_R_ADDRWIDTH),.ENV_DATAWIDTH(QDRVENV_R_DATAWIDTH),.FREQ_ADDRWIDTH(QDRVFREQ_R_ADDRWIDTH),.FREQ_DATAWIDTH(QDRVFREQ_R_DATAWIDTH),.TCNTWIDTH(TCNTWIDTH))
@@ -59,9 +61,7 @@ assign dspif.dac[0]=xmaif.sumcplxx[0];
 assign dspif.dac[1]=xmaif.sumcplxx[1];
 assign dspif.dac[2]=xmaif.sumcplxx[2];
 assign dspif.dac[3]=xmaif.sumcplxx[3];
-always @(posedge dspif.clk) begin
-	xmaif.coef<=dspif.coef;
-end
+assign xmaif.coef=dspif.coef;
 
 reg [ADC_AXIS_DATAWIDTH-1:0] adc[0:NADC-1];
 reg [NPROC-1:0] resetacc=0;
@@ -109,82 +109,88 @@ panzoomtrig(.clk(dspif.clk),.adc(adc),.dac(dac),.dlo(dlo),.acqbuf(acqbuf),.dacmo
 */
 
 
-xmultadd #(.NDAC(NDAC)) xmultadd(.xmaif(xmaif));
+   xmultadd #(`include "plps_parainst.vh"
+   ,`include "bram_parainst.vh"
+   ,`include "braminit_parainst.vh"
+   ) xmultadd(.xmaif(xmaif));
 
-reg [DAC_AXIS_DATAWIDTH-1:0] dac[0:3];
-reg [8:0] reset_bram_read=0;
-reg [DACMON_W_ADDRWIDTH-1:0] addr_dacmon=0;
-wire we_dacmon=~locklast_dacmon;
-wire locklast_dacmon=&addr_dacmon;
-always @(posedge dspif.clk) begin
-	reset_bram_read<={9{dspif.stb_reset_bram_read}};
-end
-reg [ACQBUF_W_ADDRWIDTH-1:0] addr_acqbuf0=0;
-reg [ACQBUF_W_ADDRWIDTH-1:0] addr_acqbuf1=0;
-reg [ACQBUF_W_ADDRWIDTH-1:0] addr_acqbuf0_d=0;
-reg [ACQBUF_W_ADDRWIDTH-1:0] addr_acqbuf1_d=0;
-reg we_acqbuf0_d=0;
-reg we_acqbuf1_d=0;
-wire we_acqbuf0=~locklast_acqbuf0;
-wire locklast_acqbuf0=&addr_acqbuf0;
-wire we_acqbuf1=~locklast_acqbuf1;
-wire locklast_acqbuf1=&addr_acqbuf1;
-always @(posedge dspif.clk) begin
-	addr_acqbuf0<=reset_bram_read[0] ? 0 : (addr_acqbuf0+ (locklast_acqbuf0 ? 0 : 1));
-	addr_acqbuf1<=reset_bram_read[2] ? 0 : (addr_acqbuf1+ (locklast_acqbuf1 ? 0 : 1));
-	addr_acqbuf0_d<=addr_acqbuf0;
-	addr_acqbuf1_d<=addr_acqbuf1;
-	addr_dacmon<=reset_bram_read[1] ? 0 : (addr_dacmon+ (locklast_dacmon ? 0 : 1));
-	we_acqbuf0_d<=we_acqbuf0;
-	we_acqbuf1_d<=we_acqbuf1;
-end
-reg [ACQBUF_W_DATAWIDTH-1:0] data_acqbuf[0:1];
-reg [ACQBUF_W_DATAWIDTH-1:0] data_acqbuf_d[0:1];
-always @(posedge dspif.clk) begin
-	data_acqbuf[0]<=adc[0];
-	data_acqbuf[1]<=adc[1];
-	data_acqbuf_d[0]<=data_acqbuf[0];
-	data_acqbuf_d[1]<=data_acqbuf[1];
-	dspif.data_acqbuf[0]<=data_acqbuf_d[0];
-	dspif.data_acqbuf[1]<=data_acqbuf_d[1];
-	dspif.addr_acqbuf[0]<=addr_acqbuf0_d;
-	dspif.addr_acqbuf[1]<=addr_acqbuf1_d;
-	dspif.we_acqbuf[0]<=we_acqbuf0_d;
-	dspif.we_acqbuf[1]<=we_acqbuf1_d;
-	dspif.we_dacmon[0]<=we_dacmon;
-	dspif.we_dacmon[1]<=we_dacmon;
-	dspif.we_dacmon[2]<=we_dacmon;
-	dspif.we_dacmon[3]<=we_dacmon;
-	dspif.addr_dacmon[0]<=addr_dacmon;
-	dspif.addr_dacmon[1]<=addr_dacmon;
-	dspif.addr_dacmon[2]<=addr_dacmon;
-	dspif.addr_dacmon[3]<=addr_dacmon;
-end
+   reg [DAC_AXIS_DATAWIDTH-1:0] dac[0:3];
+   reg [8:0] reset_bram_read=0;
+   reg [DACMON_W_ADDRWIDTH-1:0] addr_dacmon=0;
+   wire we_dacmon=~locklast_dacmon;
+   wire locklast_dacmon=&addr_dacmon;
+   reg stb_reset_bram_read=0;
+   always @(posedge dspif.clk) begin
+	   stb_reset_bram_read<=dspif.stb_reset_bram_read;
+	   reset_bram_read<={9{stb_reset_bram_read}};
+   end
+   reg [ACQBUF_W_ADDRWIDTH-1:0] addr_acqbuf0=0;
+   reg [ACQBUF_W_ADDRWIDTH-1:0] addr_acqbuf1=0;
+   reg [ACQBUF_W_ADDRWIDTH-1:0] addr_acqbuf0_d=0;
+   reg [ACQBUF_W_ADDRWIDTH-1:0] addr_acqbuf1_d=0;
+   reg we_acqbuf0_d=0;
+   reg we_acqbuf1_d=0;
+   wire we_acqbuf0=~locklast_acqbuf0;
+   wire locklast_acqbuf0=&addr_acqbuf0;
+   wire we_acqbuf1=~locklast_acqbuf1;
+   wire locklast_acqbuf1=&addr_acqbuf1;
+   always @(posedge dspif.clk) begin
+	   addr_acqbuf0<=reset_bram_read[0] ? 0 : (addr_acqbuf0+ (locklast_acqbuf0 ? 0 : 1));
+	   addr_acqbuf1<=reset_bram_read[2] ? 0 : (addr_acqbuf1+ (locklast_acqbuf1 ? 0 : 1));
+	   addr_acqbuf0_d<=addr_acqbuf0;
+	   addr_acqbuf1_d<=addr_acqbuf1;
+	   addr_dacmon<=reset_bram_read[1] ? 0 : (addr_dacmon+ (locklast_dacmon ? 0 : 1));
+	   we_acqbuf0_d<=we_acqbuf0;
+	   we_acqbuf1_d<=we_acqbuf1;
+   end
+   reg [ACQBUF_W_DATAWIDTH-1:0] data_acqbuf[0:1];
+   reg [ACQBUF_W_DATAWIDTH-1:0] data_acqbuf_d[0:1];
+   always @(posedge dspif.clk) begin
+	   data_acqbuf[0]<=adc[0];
+	   data_acqbuf[1]<=adc[1];
+	   data_acqbuf_d[0]<=data_acqbuf[0];// one more?
+	   data_acqbuf_d[1]<=data_acqbuf[1];
+	   dspif.data_acqbuf[0]<=data_acqbuf_d[0];
+	   dspif.data_acqbuf[1]<=data_acqbuf_d[1];
+	   dspif.addr_acqbuf[0]<=addr_acqbuf0_d;
+	   dspif.addr_acqbuf[1]<=addr_acqbuf1_d;
+	   dspif.we_acqbuf[0]<=we_acqbuf0_d;
+	   dspif.we_acqbuf[1]<=we_acqbuf1_d;
+	   dspif.we_dacmon[0]<=we_dacmon;
+	   dspif.we_dacmon[1]<=we_dacmon;
+	   dspif.we_dacmon[2]<=we_dacmon;
+	   dspif.we_dacmon[3]<=we_dacmon;
+	   dspif.addr_dacmon[0]<=addr_dacmon;
+	   dspif.addr_dacmon[1]<=addr_dacmon;
+	   dspif.addr_dacmon[2]<=addr_dacmon;
+	   dspif.addr_dacmon[3]<=addr_dacmon;
+   end
 
-generate
-for (genvar i=0;i<16;i=i+1) begin : step16
-	for (genvar j=0;j<NDAC;j=j+1) begin
-		always @(posedge dspif.clk) begin
-			dac[j][(i+1)*16-1:i*16]<=dspif.dac[j][(i+1)*16-1:i*16];
-		end
-	end
-	for (genvar k=0;k<NDACMON;k=k+1) begin
-		always @(posedge dspif.clk) begin
-			dspif.data_dacmon[k][(i+1)*16-1:i*16]<=dac[k][(i+1)*16-1:i*16];
-		end
-	end
-end
-endgenerate
-//
+   generate
+   for (genvar i=0;i<16;i=i+1) begin : step16
+	   for (genvar j=0;j<NDAC;j=j+1) begin
+		   always @(posedge dspif.clk) begin
+			   dac[j][(i+1)*16-1:i*16]<=dspif.dac[j][(i+1)*16-1:i*16];
+		   end
+	   end
+	   for (genvar k=0;k<NDACMON;k=k+1) begin
+		   always @(posedge dspif.clk) begin
+			   dspif.data_dacmon[k][(i+1)*16-1:i*16]<=dac[k][(i+1)*16-1:i*16];
+		   end
+	   end
+   end
+   endgenerate
+   //
 
-enum {IDLE
-,START
-,PROCRUN
-,ELEMBUSY
-,MORESHOT
-,DONE
-,NSTATE
-} state,nextstate;
+   enum {IDLE
+   ,START
+   ,PROCRUN
+   ,ELEMBUSY
+   ,MORESHOT
+   ,SHOTADD
+   ,DONE
+   ,NSTATE
+} state=IDLE,nextstate=IDLE;
 always @(posedge dspif.clk) begin
 	if (dspif.reset) begin
 		state <= IDLE;
@@ -206,13 +212,16 @@ always @(*) begin
 				nextstate=PROCRUN;
 			end
 			PROCRUN: begin
-				nextstate= &procdone ? ELEMBUSY : PROCRUN;
+				nextstate= &procdone ? MORESHOT : PROCRUN;
 			end
 			ELEMBUSY: begin
 				nextstate= &nobusy ? MORESHOT : ELEMBUSY;
 			end
 			MORESHOT: begin
-				nextstate=(~|nshot) |(shotcnt==nshot-1) ? DONE : START;
+				nextstate=(~|nshot) |(nextshotcnt==nshot) ? DONE : SHOTADD;
+			end
+			SHOTADD: begin
+				nextstate=START;
 			end
 			DONE: begin
 				nextstate=IDLE;
@@ -231,7 +240,7 @@ always @(posedge dspif.clk) begin
 			IDLE: begin
 				done<=1'b0;
 				procreset<=1'b1;
-				shotcnt<=0;
+				//shotcnt<=0;
 				nshot<=dspif.nshot;
 			end
 			START: begin
@@ -252,7 +261,13 @@ always @(posedge dspif.clk) begin
 			end
 			MORESHOT: begin
 				done<=1'b0;
-				shotcnt<=shotcnt+32'h1;
+				shotcnt<=shotcnt;
+				procreset<=1'b1;
+			end
+			SHOTADD: begin
+				done<=1'b0;
+				shotcnt<=nextshotcnt;//+32'h1;
+				currentshotcnt<=shotcnt;
 				procreset<=1'b1;
 			end
 			DONE: begin
@@ -265,7 +280,7 @@ always @(posedge dspif.clk) begin
 end
 
 
-`include "iladsp.vh"
+//`include "iladsp.vh"
 endmodule
 
 interface ifdsp #(
