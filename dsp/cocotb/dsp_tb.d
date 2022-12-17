@@ -12,6 +12,8 @@ dsp_tb.sv
 ../aligned_ram.v
 ../ammod.v
 ../proc_core.sv
+../xmultadd.sv
+../../top/zcu216/iladsp.vh
 ../../top/zcu216/plps_parainst.vh
 ../../top/zcu216/plps_para.vh
 ../../top/zcu216/reset_para.vh
@@ -42,3 +44,4 @@ dsp_tb.sv
 ../../submodules/distributed_processor/hdl/proc.sv
 ../../submodules/distributed_processor/hdl/pulse_iface.sv
 ../../submodules/distributed_processor/hdl/sync_iface.sv
+../../top/zcu216/iladsp.v

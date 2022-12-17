@@ -1,10 +1,11 @@
 import numpy as np
+import ipdb
 import matplotlib.pyplot as plt
 
-CORDIC_DELAY = 50 #in clks
+CORDIC_DELAY = 64 #in clks
 QCLK_DELAY = 2
 CSTROBE_DELAY = 1 #in clks
-PHASE_RST_DELAY = 1
+PHASE_RST_DELAY = 8
 CLK_CYCLE = 2 # in ns
 N_CLKS = 5000
 ENV_BITS = 16

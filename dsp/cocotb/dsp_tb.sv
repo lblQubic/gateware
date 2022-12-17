@@ -3,6 +3,7 @@ module dsp_tb#(
 	,`include "bram_para.vh")(
     input clk,
     input reset,
+    input stb_start,
     input[32:0] mem_write_data,
     input[15:0] mem_write_addr,
     input[2:0] proc_write_sel, //index proc cores
@@ -38,7 +39,12 @@ module dsp_tb#(
     assign dspif.adc = adc;
     assign dspif.clk = clk;
     assign dspif.reset = reset;
-    assign dspif.stb_start = reset;
+    assign dspif.stb_start = stb_start;
+
+    generate for(i=0; i<3; i=i+1) begin
+        assign dspif.coef[i][i] = 32'h7fff0000;
+    end
+    endgenerate
 
     dsp dspmod(.dspif(dspif));
 

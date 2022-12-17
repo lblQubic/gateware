@@ -180,6 +180,9 @@ class DSPDriver:
         to run simple programs without external (fproc) input.
         """
         await self.reset()
+        self._dut.stb_start.value = 1
+        await RisingEdge(self._dut.clk)
+        self._dut.stb_start.value = 0
         await self.monitor_outputs(ncycles)
 
 class MeasDriver:
@@ -349,6 +352,7 @@ class DSPSimHWConf(HardwareConfig):
     def __init__(self):
         self.env_n_bits = 16
         self.freq_n_bits = 32
+        self.n_phase_bits = 17
         super().__init__(2.e-9, 16, 4)
 
     def get_freq_addr(self, freq_ind):
@@ -381,7 +385,7 @@ class DSPSimHWConf(HardwareConfig):
         return freq_buffer
 
     def get_phase_word(self, phase):
-        return int((phase/(2*np.pi) * 2**14))
+        return int((phase/(2*np.pi) * 2**17))
 
     def get_env_word(self, env_ind, length):
         return env_ind//self.dac_samples_per_clk + (int(np.ceil(length/self.dac_samples_per_clk)) << 12)
