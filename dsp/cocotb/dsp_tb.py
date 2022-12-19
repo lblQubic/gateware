@@ -93,7 +93,7 @@ async def test_consecutive_id_ramp_pulse(dut):
     pulse_length = 92
     env_i = np.arange(pulse_length)**2/pulse_length**2
     env_q = 0.3*np.arange(pulse_length)/pulse_length
-    prog.add_pulse(freq=1.5e9, phase=0, amp=0.9, start_time=100, env=env_i + 1j*env_q, elem_ind=0)
+    prog.add_pulse(freq=0.85e9, phase=0, amp=0.9, start_time=100, env=env_i + 1j*env_q, elem_ind=0)
     #prog.add_pulse(freq=1.5e9, phase=np.pi/4, amp=0.8, start_time=110, env=env_i + 1j*env_q, elem_ind=0)
 
     prog.add_done_stb()
