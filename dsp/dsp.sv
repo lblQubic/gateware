@@ -57,10 +57,14 @@ qdrv2out (.elem(qdrvelem[2]),.valid(),.multix(xmaif.daccplxx[3]),.multiy(xmaif.d
 elementsum4 #(.ENV_ADDRWIDTH(QDRVENV_R_ADDRWIDTH),.ENV_DATAWIDTH(QDRVENV_R_DATAWIDTH),.FREQ_ADDRWIDTH(QDRVFREQ_R_ADDRWIDTH),.FREQ_DATAWIDTH(QDRVFREQ_R_DATAWIDTH))rdrvout (.elem0(rdrvelem[0]),.elem1(rdrvelem[1]),.elem2(rdrvelem[2]),.elem3(rdrvelem[3]),.valid(),.multix(xmaif.daccplxx[0]),.multiy(xmaif.daccplxy[0]));
 //elementsum8 #(.ENV_ADDRWIDTH(QDRVENV_R_ADDRWIDTH),.ENV_DATAWIDTH(QDRVENV_R_DATAWIDTH),.FREQ_ADDRWIDTH(QDRVFREQ_R_ADDRWIDTH),.FREQ_DATAWIDTH(QDRVFREQ_R_DATAWIDTH))rdrvout (.elem0(rdrvelem[0]),.elem1(rdrvelem[1]),.elem2(rdrvelem[2]),.elem3(rdrvelem[3]),.elem4(rdrvelem[4]),.elem5(rdrvelem[5]),.elem6(rdrvelem[6]),.elem7(rdrvelem[7]),.valid(),.multix(dspif.dac[0]),.multiy());
 
-assign dspif.dac[0]=xmaif.sumcplxx[0];
-assign dspif.dac[1]=xmaif.sumcplxx[1];
-assign dspif.dac[2]=xmaif.sumcplxx[2];
-assign dspif.dac[3]=xmaif.sumcplxx[3];
+assign dspif.dac[0]=xmaif.daccplxx[0];
+assign dspif.dac[1]=xmaif.daccplxx[1];
+assign dspif.dac[2]=xmaif.daccplxx[2];
+assign dspif.dac[3]=xmaif.daccplxx[3];
+//assign dspif.dac[0]=xmaif.sumcplxx[0];
+//assign dspif.dac[1]=xmaif.sumcplxx[1];
+//assign dspif.dac[2]=xmaif.sumcplxx[2];
+//assign dspif.dac[3]=xmaif.sumcplxx[3];
 assign xmaif.coef=dspif.coef;
 
 reg [ADC_AXIS_DATAWIDTH-1:0] adc[0:NADC-1];
@@ -280,7 +284,7 @@ always @(posedge dspif.clk) begin
 end
 
 
-//`include "iladsp.vh"
+`include "iladsp.vh"
 endmodule
 
 interface ifdsp #(
