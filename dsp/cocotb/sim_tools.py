@@ -67,7 +67,7 @@ def dac_debug_plots(program, dac_out):
     plt.xlabel('Time (ns)')
     plt.show()
 
-def generate_sim_dacout(pulse_sequence, samples_per_clk, ncycles=N_CLKS):
+def generate_sim_dacout(pulse_sequence, samples_per_clk, extra_delay=0, ncycles=N_CLKS):
     dac_out_sim = np.zeros(ncycles)
     scale_factor = 2**(ENV_BITS - 1)
     for pulse in pulse_sequence:
@@ -80,7 +80,8 @@ def generate_sim_dacout(pulse_sequence, samples_per_clk, ncycles=N_CLKS):
         pulse_i = env_i*np.cos(phases) - env_q*np.sin(phases)
         pulse_q = env_q*np.cos(phases) + env_i*np.sin(phases)
 
-        dac_out_sim[CORDIC_DELAY*samples_per_clk + start_time : CORDIC_DELAY*samples_per_clk + start_time + pulse['length']] = pulse_i
+        dac_out_sim[(CORDIC_DELAY + extra_delay)*samples_per_clk + start_time : \
+                (CORDIC_DELAY + extra_delay)*samples_per_clk + start_time + pulse['length']] = pulse_i
         #dac_q_sim[CORDIC_DELAY + start_time : CORDIC_DELAY + start_time + pulse['length']] = pulse_q
 
     return dac_out_sim.astype(int)

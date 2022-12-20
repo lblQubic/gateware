@@ -342,14 +342,14 @@ class MeasDriver:
     def zero_adc_signal(self):
         self.adc_timestream = np.zeros(len(self.adc_timestream), dtype=np.complex128)
 
-class DACElementCfg(ElementConfig):
+class RFSoCElementCfg(ElementConfig):
     """
     TODO: figure out how to incorporate ADC chan here. some possibilities:
         - have a channel keyword to freq buffer and env buffer
         - remove DAC/ADC distinctions, just have sample period. each element
           can then have its own hwconfig object
     """
-    def __init__(self):
+    def __init__(self, samples_per_clk=16):
         self.env_n_bits = 16
         self.freq_n_bits = 32
         self.n_phase_bits = 17
