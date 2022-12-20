@@ -1,6 +1,7 @@
 import numpy as np
 import ipdb
 import matplotlib.pyplot as plt
+from distproc.command_gen import twos_complement
 
 CORDIC_DELAY = 64 #in clks
 QCLK_DELAY = 2
@@ -22,12 +23,13 @@ def unravel_dac(dac_out, samples_per_clk, nbits):
 
 def ravel_adc(adc_samples, samples_per_clk, nbits):
     adc_samples = np.pad(adc_samples, (0, len(adc_samples)%samples_per_clk))
-    adc_ravel = np.zeros(len(adc_samples)//samples_per_clk)
-    adc_samples *= 2**(nbits-1) - 1
+    adc_ravel = np.zeros(len(adc_samples)//samples_per_clk, dtype=np.uint64)
+    #adc_samples *= 2**(nbits-1) - 1
     adc_samples = np.array(adc_samples, dtype=int)
     for i in range(len(adc_ravel)):
         for j in range(samples_per_clk):
-            adc_ravel[i] += adc_samples[samples_per_clk*i+j] << (nbits * j)
+            # need to convert output to python int here to avoid overflow...
+            adc_ravel[i] += int(twos_complement(adc_samples[samples_per_clk*i+j], nbits)) << (nbits * j)
 
     return adc_ravel
 

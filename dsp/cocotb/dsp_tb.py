@@ -183,3 +183,48 @@ async def test_rdrv_pulse(dut):
     #plt.plot(dacout_sim)
     #plt.show()
     assert st.check_dacout_equal(dacout_sim, dspunit.dac_out[0])
+
+@cocotb.test()
+async def test_adc_lb(dut):
+    freq = 347.e6
+    phase = np.pi/8
+    tstart = 10
+    pulse_length = 100
+    amp = 0.9
+    env_i = 0.2*np.ones(pulse_length)
+    env_q = np.zeros(pulse_length)
+
+    dacelemcfg = dsp.RFSoCElementCfg(16)
+    adcelemcfg = dsp.RFSoCElementCfg(4)
+
+    adc_fullscale = 2**15-1
+
+    dspunit = dsp.DSPDriver(dut, 16, 16, 4, 16)
+    adc_signal = adc_fullscale*np.cos(2*np.pi*freq*(1.e-9*dsp.CLK_CYCLE/dspunit.adc_samples_per_clk)*np.arange(pulse_length) + phase)
+    adc_signal[-1] = 0
+
+    prog = asm.SingleCoreAssembler([dacelemcfg, dacelemcfg, adcelemcfg])
+    prog.add_phase_reset()
+    prog.add_pulse(freq, phase, amp, tstart, env_i + 1j*env_q, 2)
+    prog.add_done_stb()
+    cmd_list, env_buffers, freq_buffers = prog.get_compiled_program()
+    sim_prog = prog.get_sim_program()
+    pulse_seq = [sim_prog[1]]
+
+    cocotb.start_soon(dsp.generate_clock(dut))
+    await dspunit.load_program([cmd_list])
+    await dspunit.load_env_buffer(env_buffers[0], 0, 0)
+    await dspunit.load_freq_buffer(freq_buffers[0], 0, 0)
+    await dspunit.load_env_buffer(env_buffers[1], 1, 0)
+    await dspunit.load_freq_buffer(freq_buffers[1], 1, 0)
+    await dspunit.load_env_buffer(env_buffers[2], 2, 0)
+    await dspunit.load_freq_buffer(freq_buffers[2], 2, 0)
+
+    cocotb.start_soon(dspunit.generate_adc_signal(adc_signal, 0))
+    await dspunit.run_program(1000)
+
+    acq_buf = await dspunit.read_acq_buf(pulse_length+tstart+1000, 0)
+    
+    plt.plot(acq_buf)
+    plt.plot(adc_signal)
+    plt.show()

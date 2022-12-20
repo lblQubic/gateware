@@ -9,8 +9,11 @@ module dsp_tb#(
     input[2:0] proc_write_sel, //index proc cores
     input[2:0] mem_write_sel, //0 for cmd, 1 for env, 2 for freq, etc
     input mem_write_en,
+    input[12:0] buf_read_addr,
     input[ADC_AXIS_DATAWIDTH-1:0] adc[0:NADC-1],
-    output[DAC_AXIS_DATAWIDTH-1:0] dac[0:NDAC-1]);
+    output[DAC_AXIS_DATAWIDTH-1:0] dac[0:NDAC-1],
+    output[ACCBUF_W_DATAWIDTH-1:0] acc_read_data[0:NPROC-1],
+    output[ACQBUF_W_DATAWIDTH-1:0] acq_read_data[0:NADC-1]);
 
     ifdsp dspif();
 
@@ -50,8 +53,19 @@ module dsp_tb#(
             freq_mem_rdlo(.clk(clk), .write_data(mem_write_data), .write_addr(mem_write_addr[RDLOFREQ_W_ADDRWIDTH-1:0]),
                 .write_enable(freq_rdlo_wen), .read_addr(dspif.addr_rdlofreq[i]), .read_data(dspif.data_rdlofreq[i]));
 
+        aligned_ram #(.DIN_WIDTH(ACCBUF_W_DATAWIDTH), .N_DIN_TO_DOUT(1), .DOUT_ADDR_WIDTH(ACCBUF_W_ADDRWIDTH), .READ_LATENCY(1))
+            acc_buf(.clk(clk), .write_data(dspif.data_accbuf[i]), .write_addr(dspif.addr_accbuf[i]),
+                .write_enable(dspif.we_accbuf[i]), .read_addr(buf_read_addr), .read_data(acc_read_data[i]));
+
     end
     endgenerate
+
+    generate for(i=0; i<NADC; i=i+1)
+        aligned_ram #(.DIN_WIDTH(ACQBUF_W_DATAWIDTH), .N_DIN_TO_DOUT(1), .DOUT_ADDR_WIDTH(ACQBUF_W_ADDRWIDTH), .READ_LATENCY(1))
+            acq_buf(.clk(clk), .write_data(dspif.data_acqbuf[i]), .write_addr(dspif.addr_acqbuf[i]),
+                .write_enable(dspif.we_acqbuf[i]), .read_addr(buf_read_addr), .read_data(acq_read_data[i]));
+    endgenerate
+
 
 
     assign dac = dspif.dac;
