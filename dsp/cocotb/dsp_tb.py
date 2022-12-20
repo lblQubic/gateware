@@ -16,11 +16,11 @@ async def test_const_pulse(dut):
     amp = 0.9
     env_i = 0.2*np.ones(pulse_length)
     env_q = 0.1*np.ones(pulse_length)
-    hwconf = dsp.DSPSimHWConf()
+    elemcfg = dsp.DACElementCfg()
 
     dspunit = dsp.DSPDriver(dut, 16, 16, 16, 16)
 
-    prog = asm.SingleCoreAssembler(hwconf, 3)
+    prog = asm.SingleCoreAssembler([elemcfg, elemcfg, elemcfg])
     prog.add_phase_reset()
     prog.add_pulse(freq, phase, amp, tstart, env_i + 1j*env_q, 0)
     prog.add_done_stb()
@@ -52,11 +52,11 @@ async def test_ramp_pulse(dut):
     amp = 0.9
     env_i = np.arange(pulse_length)/pulse_length
     env_q = np.zeros(pulse_length)/pulse_length
-    hwconf = dsp.DSPSimHWConf()
+    elemcfg = dsp.DACElementCfg()
 
     dspunit = dsp.DSPDriver(dut, 16, 16, 16, 16)
 
-    prog = asm.SingleCoreAssembler(hwconf, 3)
+    prog = asm.SingleCoreAssembler([elemcfg, elemcfg, elemcfg])
     prog.add_phase_reset()
     prog.add_pulse(freq, phase, amp, tstart, env_i + 1j*env_q, 0)
     prog.add_done_stb()
@@ -78,11 +78,11 @@ async def test_ramp_pulse(dut):
 
 @cocotb.test()
 async def test_consecutive_id_ramp_pulse(dut):
-    hwconf = dsp.DSPSimHWConf()
+    elemcfg = dsp.DACElementCfg()
 
     dspunit = dsp.DSPDriver(dut, 16, 16, 16, 16)
 
-    prog = asm.SingleCoreAssembler(hwconf, 3)
+    prog = asm.SingleCoreAssembler([elemcfg, elemcfg, elemcfg])
     prog.add_phase_reset()
 
     pulse_length = 92
@@ -116,11 +116,11 @@ async def test_consecutive_id_ramp_pulse(dut):
 
 @cocotb.test()
 async def test_consecutive_ramp_pulse(dut):
-    hwconf = dsp.DSPSimHWConf()
+    elemcfg = dsp.DACElementCfg()
 
     dspunit = dsp.DSPDriver(dut, 16, 16, 16, 16)
 
-    prog = asm.SingleCoreAssembler(hwconf, 3)
+    prog = asm.SingleCoreAssembler([elemcfg, elemcfg, elemcfg])
     prog.add_phase_reset()
 
     pulse_length = 100

@@ -5,7 +5,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 from cocotb.triggers import Timer, RisingEdge
 import distproc.command_gen as cg
-from distproc.hwconfig import HardwareConfig
+from distproc.hwconfig import ElementConfig
 from sim_tools import unravel_dac, ravel_adc
 
 N_MAX_CMD = 30 #for flushing cmd buffer
@@ -87,10 +87,10 @@ class DSPDriver:
             raise Exception('cmd_lists must be list of lists')
         self._dut.reset.value = 1
         self._dut.mem_write_en.value = 1 
-        self._dut.mem_write_sel = 0
+        self._dut.mem_write_sel.value = 0
         for i, cmd_list in enumerate(cmd_lists):
             cmd_addr = 0
-            self._dut.proc_write_sel = i
+            self._dut.proc_write_sel.value = i
             for cmd in cmd_list:
                 for j in range(CMD_WRITE_WORDS):
                     mem_val = (cmd >> (32*j)) & (2**32-1)
@@ -119,8 +119,8 @@ class DSPDriver:
             currently 0 is qdrv, 1 is rdrv, and 2 is rdlo
         """
         self._dut.mem_write_en.value = 1
-        self._dut.mem_write_sel = 1 + elem_ind*2 
-        self._dut.proc_write_sel = core_ind
+        self._dut.mem_write_sel.value = 1 + elem_ind*2 
+        self._dut.proc_write_sel.value = core_ind
         wave_addr = wave_start_addr
         for sample in env_buffer:
             self._dut.mem_write_data.value = int(sample)
@@ -132,8 +132,8 @@ class DSPDriver:
 
     async def load_freq_buffer(self, freq_buffer, elem_ind, core_ind):
         self._dut.mem_write_en.value = 1
-        self._dut.mem_write_sel = 2 + elem_ind*2 
-        self._dut.proc_write_sel = core_ind
+        self._dut.mem_write_sel.value = 2 + elem_ind*2 
+        self._dut.proc_write_sel.value = core_ind
         addr = 0
         for sample in freq_buffer:
             self._dut.mem_write_data.value = int(sample)
@@ -342,7 +342,7 @@ class MeasDriver:
     def zero_adc_signal(self):
         self.adc_timestream = np.zeros(len(self.adc_timestream), dtype=np.complex128)
 
-class DSPSimHWConf(HardwareConfig):
+class DACElementCfg(ElementConfig):
     """
     TODO: figure out how to incorporate ADC chan here. some possibilities:
         - have a channel keyword to freq buffer and env buffer
@@ -353,7 +353,7 @@ class DSPSimHWConf(HardwareConfig):
         self.env_n_bits = 16
         self.freq_n_bits = 32
         self.n_phase_bits = 17
-        super().__init__(2.e-9, 16, 4)
+        super().__init__(2.e-9, 16)
 
     def get_freq_addr(self, freq_ind):
         return freq_ind
@@ -372,12 +372,12 @@ class DSPSimHWConf(HardwareConfig):
         freq_buffer = np.empty(0)
         scale = 2**(self.freq_n_bits/2 - 1) - 1
         for freq in freqs:
-            cur_freq_buffer = np.zeros(self.dac_samples_per_clk)
+            cur_freq_buffer = np.zeros(self.samples_per_clk)
             if freq is not None:
                 cur_freq_buffer[0] = int(freq*2**self.freq_n_bits/self.fpga_clk_freq) & (2**self.freq_n_bits - 1)
-                for i in range(1, self.dac_samples_per_clk):
-                    i_mult = int(round(np.cos(2*np.pi*freq*i*self.dac_sample_period)*scale) % (2**(self.freq_n_bits/2)))
-                    q_mult = int(round(np.sin(2*np.pi*freq*i*self.dac_sample_period)*scale) % (2**(self.freq_n_bits/2)))
+                for i in range(1, self.samples_per_clk):
+                    i_mult = int(round(np.cos(2*np.pi*freq*i*self.sample_period)*scale) % (2**(self.freq_n_bits/2)))
+                    q_mult = int(round(np.sin(2*np.pi*freq*i*self.sample_period)*scale) % (2**(self.freq_n_bits/2)))
                     cur_freq_buffer[i] = (i_mult << (self.freq_n_bits//2)) + q_mult
 
             freq_buffer = np.append(freq_buffer, cur_freq_buffer)
@@ -388,11 +388,11 @@ class DSPSimHWConf(HardwareConfig):
         return int((phase/(2*np.pi) * 2**17))
 
     def get_env_word(self, env_ind, length):
-        return env_ind//self.dac_samples_per_clk + (int(np.ceil(length/self.dac_samples_per_clk)) << 12)
+        return env_ind//self.samples_per_clk + (int(np.ceil(length/self.samples_per_clk)) << 12)
 
     def get_env_buffer(self, env_samples):
-        env_samples = np.pad(env_samples, (0, (self.dac_samples_per_clk - len(env_samples) \
-                % self.dac_samples_per_clk) % self.dac_samples_per_clk))
+        env_samples = np.pad(env_samples, (0, (self.samples_per_clk - len(env_samples) \
+                % self.samples_per_clk) % self.samples_per_clk))
         return (cg.twos_complement(np.real(env_samples*(2**(self.env_n_bits-1)-1)).astype(int), nbits=self.env_n_bits) << self.env_n_bits) \
                     + cg.twos_complement(np.imag(env_samples*(2**(self.env_n_bits-1)-1)).astype(int), nbits=self.env_n_bits)
 
