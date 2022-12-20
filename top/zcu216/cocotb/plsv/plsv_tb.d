@@ -70,3 +70,4 @@ plsv_tb.sv
 ../../rfdc_simclk.vh
 ../../rfdc_wire.vh
 ../../../../dsp/fakecore.sv
+../../../../dsp/panzoomtrig.sv

@@ -44,7 +44,6 @@ always @(posedge hw.clk125) begin
 	cnt125<=cnt125+1;
 end
 assign cfgclk=hw.clk100;
-wire t1=hw.clk100;
 //assign dspclk=hw.clk104_pl_clk;// clk_dac2;
 assign dspclk=clk_dac2;
 assign hw.ledrgb[0][1]=cnt100[27];
@@ -66,12 +65,13 @@ assign hw.ledrgb[4][0]=cfgregs.test1[4];
 assign hw.ledrgb[5][0]=cfgregs.test1[5];
 assign hw.ledrgb[6][0]=cfgregs.test1[6];
 assign hw.ledrgb[7][0]=cfgregs.test1[7];
-assign hw.pmod0[6]=cnt100[1];
+/*assign hw.pmod0[6]=cnt100[1];
 assign hw.pmod0[5]=cnt125[1];
 assign hw.pmod0[4]=hw.usersi570c0;
 assign hw.pmod0[3]=hw.usersi570c1;
 assign hw.pmod0[2]=hw.clk104_pl_sysref;
 assign hw.pmod0[1]=hw.clk104_pl_clk;
+*/
 assign hw.ledrgb[0][2]=cfgregs.test[0];
 assign hw.ledrgb[1][2]=cfgregs.test[1];
 assign hw.ledrgb[2][2]=cfgregs.test[2];
@@ -167,6 +167,21 @@ assign dspregs.addr_accbuf_mon0=dspif.addr_accbuf_mon0;
 assign dspregs.addr_accbuf_mon1=dspif.addr_accbuf_mon1;
 assign dspregs.addr_accbuf_mon2=dspif.addr_accbuf_mon2;
 assign dspregs.addr_accbuf_mon3=dspif.addr_accbuf_mon3;
+
+assign dspif.acqbufreset=dspregs.acqbufreset;
+assign dspif.dacmonreset=dspregs.dacmonreset;
+assign dspif.delayaftertrig=dspregs.delayaftertrig;
+assign dspif.decimator=dspregs.decimator;
+assign dspif.acqchansel[0]=dspregs.acqchansel0;
+assign dspif.acqchansel[1]=dspregs.acqchansel1;
+assign dspif.dacmonchansel[0]=dspregs.dacmonchansel0;
+assign dspif.dacmonchansel[1]=dspregs.dacmonchansel1;
+assign dspif.dacmonchansel[2]=dspregs.dacmonchansel2;
+assign dspif.dacmonchansel[3]=dspregs.dacmonchansel3;
+
+assign dspif.mixbbxsel=dspregs.mixbbxsel;
+assign dspif.mixbbysel=dspregs.mixbbysel;
+assign dspif.shift=dspregs.shift;
 
 
 assign dspif.coef[0][0]=dspregs.coef00;

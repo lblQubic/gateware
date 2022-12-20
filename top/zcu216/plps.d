@@ -76,3 +76,4 @@ reset_port.vh
 ../../dsp/proc_core.sv
 ../../dsp/xmultadd.sv
 ../../dsp/fakecore.sv
+../../dsp/panzoomtrig.sv
