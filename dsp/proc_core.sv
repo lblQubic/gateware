@@ -82,7 +82,7 @@ always @(posedge clk) begin
 	noop<=~|command;
 	nobusy<=~|{qdrvelem.busy,rdrvelem.busy,rdloelem.busy};
 end
-assign stbend=procdone&nobusy;
+assign stbend=procdone;//&nobusy;
 assign procdone_mon=procdone;
 assign nobusy_mon=nobusy;
 endmodule

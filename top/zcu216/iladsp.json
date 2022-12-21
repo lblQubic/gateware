@@ -9,7 +9,7 @@
 		,"dspif.dac[1]":16
 		,"dspif.dac[2]":16
 		,"dspif.dac[3]":16
-		,"proccorereset":1
+		,"proccorereset":4
 		,"stbprocend":4
 		,"dspif.stb_start":1
 		,"dspif.data_command[0]":128

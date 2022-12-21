@@ -27,24 +27,27 @@ class plsv():
 #            self.cmdbuf(buf,[command_gen.pulse_i(freq_word=0, phase_word=110, amp_word=32000, env_word=(pulselength<<12)+0x20, cfg_word=0, cmd_time=70)])
 #            self.cmdbuf(buf,[command_gen.done_cmd()])
         a=self            
+
+
         for i in [0,1,2,3]:
             buf='command%d'%i
-            pulselengthqdrv=10
-            pulselengthrdrv=30
+            pulselengthqdrv=40*0
+            pulselengthrdrv=3000*0
             ampqdrv=6000*i+6000
             amprdrv=2000*i+2000
             freqqdrv=i*10+30
-            freqrdrv=i*10+10
+            freqrdrv=i*10*0+0
+#            a.brams[buf].zero()
             a.cmdbuf(buf,[command_gen.pulse_reset()],0)
             a.cmdbuf(buf,[command_gen.pulse_i(freq_word=freqqdrv, phase_word=110, amp_word=ampqdrv,
-                                              env_word=(pulselengthqdrv<<12)+0x20, cfg_word=0, cmd_time=10)])
-            a.cmdbuf(buf,[command_gen.pulse_i(freq_word=freqrdrv, phase_word=110, amp_word=amprdrv,
-                                              env_word=(pulselengthrdrv<<12)+0x20, cfg_word=1, cmd_time=14)])
-            a.cmdbuf(buf,[command_gen.pulse_i(freq_word=freqrdrv, phase_word=110, amp_word=amprdrv,
-                                              env_word=(pulselengthrdrv<<12)+0x20, cfg_word=2, cmd_time=40)])
+                                              env_word=(pulselengthqdrv<<12)+0x20, cfg_word=0, cmd_time=100)])            
+            #            a.cmdbuf(buf,[command_gen.pulse_i(freq_word=freqrdrv, phase_word=110, amp_word=amprdrv,
+            #                                    env_word=(pulselengthrdrv<<12)+0x20, cfg_word=1, cmd_time=38)])
+#    a.cmdbuf(buf,[command_gen.pulse_i(freq_word=freqrdrv, phase_word=110, amp_word=amprdrv,
+#                                       env_word=(pulselengthrdrv<<12)+0x20, cfg_word=2, cmd_time=184)])
             
             a.cmdbuf(buf,[command_gen.done_cmd()])
-
+            
 
         for env in ['qdrvenv%d'%i for i in range(4)]+['rdrvenv%d'%i for i in range(4)]+['rdloenv%d'%i for i in range(4)]: 
             self.envbuf(env,[numpy.ones(self.brams[env].length)*0x6fff0000],0)
