@@ -15,9 +15,9 @@
 *
 */
 
-module dsp #(parameter DEBUG="true" ,parameter integer LB1_DATAWIDTH=32 ,parameter integer LB1_ADDRWIDTH=10 ,parameter integer LB2_DATAWIDTH=32 ,parameter integer LB2_ADDRWIDTH=10 ,parameter integer LB3_DATAWIDTH=32 ,parameter integer LB3_ADDRWIDTH=20 ,parameter integer LB4_DATAWIDTH=32 ,parameter integer LB4_ADDRWIDTH=20 ,parameter integer DAC_AXIS_DATAWIDTH=256 ,parameter integer ADC_AXIS_DATAWIDTH=64 ,parameter integer BRAMADDRWIDTH=32 ,parameter integer NPROC=4 ,parameter integer NADC=2 ,parameter integer NDLO=4 ,parameter integer NDAC=4 ,parameter integer NDACMON=4 ,parameter integer NACQ=2 ,parameter NCFGRESETN=8 ,parameter NDSPRESETN=8 ,parameter NPSRESETN=3 ,parameter NADC2RESETN=3 	
-,parameter integer ACCBUF_R_ADDRWIDTH=12,parameter integer ACCBUF_R_DATAWIDTH=32,parameter integer ACCBUF_R_DEPTH=4096,parameter integer ACCBUF_W_ADDRWIDTH=11,parameter integer ACCBUF_W_DATAWIDTH=64,parameter integer ACCBUF_W_DEPTH=2048 ,parameter integer ACQBUF_R_ADDRWIDTH=14,parameter integer ACQBUF_R_DATAWIDTH=32,parameter integer ACQBUF_R_DEPTH=16384,parameter integer ACQBUF_W_ADDRWIDTH=13,parameter integer ACQBUF_W_DATAWIDTH=64,parameter integer ACQBUF_W_DEPTH=8192 ,parameter integer COMMAND_R_ADDRWIDTH=10,parameter integer COMMAND_R_DATAWIDTH=128,parameter integer COMMAND_R_DEPTH=1024,parameter integer COMMAND_W_ADDRWIDTH=12,parameter integer COMMAND_W_DATAWIDTH=32,parameter integer COMMAND_W_DEPTH=4096 ,parameter integer DACMON_R_ADDRWIDTH=12,parameter integer DACMON_R_DATAWIDTH=32,parameter integer DACMON_R_DEPTH=4096,parameter integer DACMON_W_ADDRWIDTH=9,parameter integer DACMON_W_DATAWIDTH=256,parameter integer DACMON_W_DEPTH=512 ,parameter integer QDRVENV_R_ADDRWIDTH=10,parameter integer QDRVENV_R_DATAWIDTH=512,parameter integer QDRVENV_R_DEPTH=1024,parameter integer QDRVENV_W_ADDRWIDTH=14,parameter integer QDRVENV_W_DATAWIDTH=32,parameter integer QDRVENV_W_DEPTH=16384 ,parameter integer QDRVFREQ_R_ADDRWIDTH=9,parameter integer QDRVFREQ_R_DATAWIDTH=512,parameter integer QDRVFREQ_R_DEPTH=512,parameter integer QDRVFREQ_W_ADDRWIDTH=13,parameter integer QDRVFREQ_W_DATAWIDTH=32,parameter integer QDRVFREQ_W_DEPTH=8192 ,parameter integer RDLOENV_R_ADDRWIDTH=12,parameter integer RDLOENV_R_DATAWIDTH=128,parameter integer RDLOENV_R_DEPTH=4096,parameter integer RDLOENV_W_ADDRWIDTH=14,parameter integer RDLOENV_W_DATAWIDTH=32,parameter integer RDLOENV_W_DEPTH=16384 ,parameter integer RDLOFREQ_R_ADDRWIDTH=9,parameter integer RDLOFREQ_R_DATAWIDTH=128,parameter integer RDLOFREQ_R_DEPTH=512,parameter integer RDLOFREQ_W_ADDRWIDTH=11,parameter integer RDLOFREQ_W_DATAWIDTH=32,parameter integer RDLOFREQ_W_DEPTH=2048 ,parameter integer RDRVENV_R_ADDRWIDTH=12,parameter integer RDRVENV_R_DATAWIDTH=512,parameter integer RDRVENV_R_DEPTH=4096,parameter integer RDRVENV_W_ADDRWIDTH=16,parameter integer RDRVENV_W_DATAWIDTH=32,parameter integer RDRVENV_W_DEPTH=65536 ,parameter integer RDRVFREQ_R_ADDRWIDTH=9,parameter integer RDRVFREQ_R_DATAWIDTH=512,parameter integer RDRVFREQ_R_DEPTH=512,parameter integer RDRVFREQ_W_ADDRWIDTH=13,parameter integer RDRVFREQ_W_DATAWIDTH=32,parameter integer RDRVFREQ_W_DEPTH=8192
-,parameter INIT_rdrvenv0="" ,parameter INIT_rdrvenv1="" ,parameter INIT_rdrvenv2="" ,parameter INIT_rdrvenv3="" ,parameter INIT_acqbuf0="" ,parameter INIT_acqbuf1="" ,parameter INIT_qdrvenv0="" ,parameter INIT_qdrvenv1="" ,parameter INIT_qdrvenv2="" ,parameter INIT_qdrvenv3="" ,parameter INIT_rdloenv0="" ,parameter INIT_rdloenv1="" ,parameter INIT_rdloenv2="" ,parameter INIT_rdloenv3="" ,parameter INIT_qdrvfreq0="" ,parameter INIT_qdrvfreq1="" ,parameter INIT_qdrvfreq2="" ,parameter INIT_qdrvfreq3="" ,parameter INIT_rdrvfreq0="" ,parameter INIT_rdrvfreq1="" ,parameter INIT_rdrvfreq2="" ,parameter INIT_rdrvfreq3="" ,parameter INIT_accbuf0="" ,parameter INIT_accbuf1="" ,parameter INIT_accbuf2="" ,parameter INIT_accbuf3="" ,parameter INIT_command0="" ,parameter INIT_command1="" ,parameter INIT_command2="" ,parameter INIT_command3="" ,parameter INIT_dacmon0="" ,parameter INIT_dacmon1="" ,parameter INIT_dacmon2="" ,parameter INIT_dacmon3="" ,parameter INIT_rdlofreq0="" ,parameter INIT_rdlofreq1="" ,parameter INIT_rdlofreq2="" ,parameter INIT_rdlofreq3=""
+module dsp #(parameter DEBUG="true" ,parameter integer LB1_DATAWIDTH=32 ,parameter integer LB1_ADDRWIDTH=10 ,parameter integer LB2_DATAWIDTH=32 ,parameter integer LB2_ADDRWIDTH=10 ,parameter integer LB3_DATAWIDTH=32 ,parameter integer LB3_ADDRWIDTH=20 ,parameter integer LB4_DATAWIDTH=32 ,parameter integer LB4_ADDRWIDTH=20 ,parameter integer DAC_AXIS_DATAWIDTH=256 ,parameter integer ADC_AXIS_DATAWIDTH=64 ,parameter integer BRAMADDRWIDTH=32 ,parameter integer NPROC=4 ,parameter integer NADC=2 ,parameter integer NDLO=4 ,parameter integer NDAC=4 ,parameter integer NDACMON=4 ,parameter integer NACQ=2 ,`include "reset_para.vh" 	
+,`include "bram_para.vh"
+,`include "braminit_para.vh"
 )(	
 	ifdsp.dsp dspif
 );
@@ -30,6 +30,8 @@ wire [NPROC-1:0] stbprocend;
 wire [NPROC-1:0] procdone;
 wire [NPROC-1:0] nobusy;
 reg [31:0] shotcnt=0;
+wire [31:0] nextshotcnt=shotcnt+1;
+reg [31:0] currentshotcnt=0;
 reg [NPROC-1:0]proccorereset;
 always @(posedge dspif.clk) begin
 	procreset_d<=procreset;
@@ -37,7 +39,7 @@ always @(posedge dspif.clk) begin
 	proccorereset<={NPROC{procreset}};
 end
 
-assign dspif.shotcnt=shotcnt;
+assign dspif.shotcnt=currentshotcnt;
 assign dspif.lastshotdone=done;
 //wire proccorereset=~shotbusy|moreshot|moreshot_d;
 ifelement #(.ENV_ADDRWIDTH(QDRVENV_R_ADDRWIDTH),.ENV_DATAWIDTH(QDRVENV_R_DATAWIDTH),.FREQ_ADDRWIDTH(QDRVFREQ_R_ADDRWIDTH),.FREQ_DATAWIDTH(QDRVFREQ_R_DATAWIDTH),.TCNTWIDTH(TCNTWIDTH))
@@ -72,13 +74,15 @@ qdrv2out (.elem(qdrvelem[2]),.valid(),.multix(xmaif.daccplxx[3]),.multiy(xmaif.d
 elementsum4 #(.ENV_ADDRWIDTH(QDRVENV_R_ADDRWIDTH),.ENV_DATAWIDTH(QDRVENV_R_DATAWIDTH),.FREQ_ADDRWIDTH(QDRVFREQ_R_ADDRWIDTH),.FREQ_DATAWIDTH(QDRVFREQ_R_DATAWIDTH))rdrvout (.elem0(rdrvelem[0]),.elem1(rdrvelem[1]),.elem2(rdrvelem[2]),.elem3(rdrvelem[3]),.valid(),.multix(xmaif.daccplxx[0]),.multiy(xmaif.daccplxy[0]));
 //elementsum8 #(.ENV_ADDRWIDTH(QDRVENV_R_ADDRWIDTH),.ENV_DATAWIDTH(QDRVENV_R_DATAWIDTH),.FREQ_ADDRWIDTH(QDRVFREQ_R_ADDRWIDTH),.FREQ_DATAWIDTH(QDRVFREQ_R_DATAWIDTH))rdrvout (.elem0(rdrvelem[0]),.elem1(rdrvelem[1]),.elem2(rdrvelem[2]),.elem3(rdrvelem[3]),.elem4(rdrvelem[4]),.elem5(rdrvelem[5]),.elem6(rdrvelem[6]),.elem7(rdrvelem[7]),.valid(),.multix(dspif.dac[0]),.multiy());
 
-assign dspif.dac[0]=xmaif.sumcplxx[0];
-assign dspif.dac[1]=xmaif.sumcplxx[1];
-assign dspif.dac[2]=xmaif.sumcplxx[2];
-assign dspif.dac[3]=xmaif.sumcplxx[3];
-always @(posedge dspif.clk) begin
-	xmaif.coef<=dspif.coef;
-end
+assign dspif.dac[0]=xmaif.daccplxx[0];
+assign dspif.dac[1]=xmaif.daccplxx[1];
+assign dspif.dac[2]=xmaif.daccplxx[2];
+assign dspif.dac[3]=xmaif.daccplxx[3];
+//assign dspif.dac[0]=xmaif.sumcplxx[0];
+//assign dspif.dac[1]=xmaif.sumcplxx[1];
+//assign dspif.dac[2]=xmaif.sumcplxx[2];
+//assign dspif.dac[3]=xmaif.sumcplxx[3];
+assign xmaif.coef=dspif.coef;
 
 reg [ADC_AXIS_DATAWIDTH-1:0] adc[0:NADC-1];
 reg [NPROC-1:0] resetacc=0;
@@ -126,82 +130,88 @@ panzoomtrig(.clk(dspif.clk),.adc(adc),.dac(dac),.dlo(dlo),.acqbuf(acqbuf),.dacmo
 */
 
 
-xmultadd #(.NDAC(NDAC)) xmultadd(.xmaif(xmaif));
+   xmultadd #(.LB1_DATAWIDTH(LB1_DATAWIDTH),.LB1_ADDRWIDTH(LB1_ADDRWIDTH) ,.LB2_DATAWIDTH(LB2_DATAWIDTH),.LB2_ADDRWIDTH(LB2_ADDRWIDTH) ,.LB3_DATAWIDTH(LB3_DATAWIDTH),.LB3_ADDRWIDTH(LB3_ADDRWIDTH) ,.LB4_DATAWIDTH(LB4_DATAWIDTH),.LB4_ADDRWIDTH(LB4_ADDRWIDTH) ,.DAC_AXIS_DATAWIDTH(DAC_AXIS_DATAWIDTH) 
+   ,`include "bram_parainst.vh"
+   ,`include "braminit_parainst.vh"
+   ) xmultadd(.xmaif(xmaif));
 
-reg [DAC_AXIS_DATAWIDTH-1:0] dac[0:3];
-reg [8:0] reset_bram_read=0;
-reg [DACMON_W_ADDRWIDTH-1:0] addr_dacmon=0;
-wire we_dacmon=~locklast_dacmon;
-wire locklast_dacmon=&addr_dacmon;
-always @(posedge dspif.clk) begin
-	reset_bram_read<={9{dspif.stb_reset_bram_read}};
-end
-reg [ACQBUF_W_ADDRWIDTH-1:0] addr_acqbuf0=0;
-reg [ACQBUF_W_ADDRWIDTH-1:0] addr_acqbuf1=0;
-reg [ACQBUF_W_ADDRWIDTH-1:0] addr_acqbuf0_d=0;
-reg [ACQBUF_W_ADDRWIDTH-1:0] addr_acqbuf1_d=0;
-reg we_acqbuf0_d=0;
-reg we_acqbuf1_d=0;
-wire we_acqbuf0=~locklast_acqbuf0;
-wire locklast_acqbuf0=&addr_acqbuf0;
-wire we_acqbuf1=~locklast_acqbuf1;
-wire locklast_acqbuf1=&addr_acqbuf1;
-always @(posedge dspif.clk) begin
-	addr_acqbuf0<=reset_bram_read[0] ? 0 : (addr_acqbuf0+ (locklast_acqbuf0 ? 0 : 1));
-	addr_acqbuf1<=reset_bram_read[2] ? 0 : (addr_acqbuf1+ (locklast_acqbuf1 ? 0 : 1));
-	addr_acqbuf0_d<=addr_acqbuf0;
-	addr_acqbuf1_d<=addr_acqbuf1;
-	addr_dacmon<=reset_bram_read[1] ? 0 : (addr_dacmon+ (locklast_dacmon ? 0 : 1));
-	we_acqbuf0_d<=we_acqbuf0;
-	we_acqbuf1_d<=we_acqbuf1;
-end
-reg [ACQBUF_W_DATAWIDTH-1:0] data_acqbuf[0:1];
-reg [ACQBUF_W_DATAWIDTH-1:0] data_acqbuf_d[0:1];
-always @(posedge dspif.clk) begin
-	data_acqbuf[0]<=adc[0];
-	data_acqbuf[1]<=adc[1];
-	data_acqbuf_d[0]<=data_acqbuf[0];
-	data_acqbuf_d[1]<=data_acqbuf[1];
-	dspif.data_acqbuf[0]<=data_acqbuf_d[0];
-	dspif.data_acqbuf[1]<=data_acqbuf_d[1];
-	dspif.addr_acqbuf[0]<=addr_acqbuf0_d;
-	dspif.addr_acqbuf[1]<=addr_acqbuf1_d;
-	dspif.we_acqbuf[0]<=we_acqbuf0_d;
-	dspif.we_acqbuf[1]<=we_acqbuf1_d;
-	dspif.we_dacmon[0]<=we_dacmon;
-	dspif.we_dacmon[1]<=we_dacmon;
-	dspif.we_dacmon[2]<=we_dacmon;
-	dspif.we_dacmon[3]<=we_dacmon;
-	dspif.addr_dacmon[0]<=addr_dacmon;
-	dspif.addr_dacmon[1]<=addr_dacmon;
-	dspif.addr_dacmon[2]<=addr_dacmon;
-	dspif.addr_dacmon[3]<=addr_dacmon;
-end
+   reg [DAC_AXIS_DATAWIDTH-1:0] dac[0:3];
+   reg [8:0] reset_bram_read=0;
+   reg [DACMON_W_ADDRWIDTH-1:0] addr_dacmon=0;
+   wire we_dacmon=~locklast_dacmon;
+   wire locklast_dacmon=&addr_dacmon;
+   reg stb_reset_bram_read=0;
+   always @(posedge dspif.clk) begin
+	   stb_reset_bram_read<=dspif.stb_reset_bram_read;
+	   reset_bram_read<={9{stb_reset_bram_read}};
+   end
+   reg [ACQBUF_W_ADDRWIDTH-1:0] addr_acqbuf0=0;
+   reg [ACQBUF_W_ADDRWIDTH-1:0] addr_acqbuf1=0;
+   reg [ACQBUF_W_ADDRWIDTH-1:0] addr_acqbuf0_d=0;
+   reg [ACQBUF_W_ADDRWIDTH-1:0] addr_acqbuf1_d=0;
+   reg we_acqbuf0_d=0;
+   reg we_acqbuf1_d=0;
+   wire we_acqbuf0=~locklast_acqbuf0;
+   wire locklast_acqbuf0=&addr_acqbuf0;
+   wire we_acqbuf1=~locklast_acqbuf1;
+   wire locklast_acqbuf1=&addr_acqbuf1;
+   always @(posedge dspif.clk) begin
+	   addr_acqbuf0<=reset_bram_read[0] ? 0 : (addr_acqbuf0+ (locklast_acqbuf0 ? 0 : 1));
+	   addr_acqbuf1<=reset_bram_read[2] ? 0 : (addr_acqbuf1+ (locklast_acqbuf1 ? 0 : 1));
+	   addr_acqbuf0_d<=addr_acqbuf0;
+	   addr_acqbuf1_d<=addr_acqbuf1;
+	   addr_dacmon<=reset_bram_read[1] ? 0 : (addr_dacmon+ (locklast_dacmon ? 0 : 1));
+	   we_acqbuf0_d<=we_acqbuf0;
+	   we_acqbuf1_d<=we_acqbuf1;
+   end
+   reg [ACQBUF_W_DATAWIDTH-1:0] data_acqbuf[0:1];
+   reg [ACQBUF_W_DATAWIDTH-1:0] data_acqbuf_d[0:1];
+   always @(posedge dspif.clk) begin
+	   data_acqbuf[0]<=adc[0];
+	   data_acqbuf[1]<=adc[1];
+	   data_acqbuf_d[0]<=data_acqbuf[0];// one more?
+	   data_acqbuf_d[1]<=data_acqbuf[1];
+	   dspif.data_acqbuf[0]<=data_acqbuf_d[0];
+	   dspif.data_acqbuf[1]<=data_acqbuf_d[1];
+	   dspif.addr_acqbuf[0]<=addr_acqbuf0_d;
+	   dspif.addr_acqbuf[1]<=addr_acqbuf1_d;
+	   dspif.we_acqbuf[0]<=we_acqbuf0_d;
+	   dspif.we_acqbuf[1]<=we_acqbuf1_d;
+	   dspif.we_dacmon[0]<=we_dacmon;
+	   dspif.we_dacmon[1]<=we_dacmon;
+	   dspif.we_dacmon[2]<=we_dacmon;
+	   dspif.we_dacmon[3]<=we_dacmon;
+	   dspif.addr_dacmon[0]<=addr_dacmon;
+	   dspif.addr_dacmon[1]<=addr_dacmon;
+	   dspif.addr_dacmon[2]<=addr_dacmon;
+	   dspif.addr_dacmon[3]<=addr_dacmon;
+   end
 
-generate
-for (genvar i=0;i<16;i=i+1) begin : step16
-	for (genvar j=0;j<NDAC;j=j+1) begin
-		always @(posedge dspif.clk) begin
-			dac[j][(i+1)*16-1:i*16]<=dspif.dac[j][(i+1)*16-1:i*16];
-		end
-	end
-	for (genvar k=0;k<NDACMON;k=k+1) begin
-		always @(posedge dspif.clk) begin
-			dspif.data_dacmon[k][(i+1)*16-1:i*16]<=dac[k][(i+1)*16-1:i*16];
-		end
-	end
-end
-endgenerate
-//
+   generate
+   for (genvar i=0;i<16;i=i+1) begin : step16
+	   for (genvar j=0;j<NDAC;j=j+1) begin
+		   always @(posedge dspif.clk) begin
+			   dac[j][(i+1)*16-1:i*16]<=dspif.dac[j][(i+1)*16-1:i*16];
+		   end
+	   end
+	   for (genvar k=0;k<NDACMON;k=k+1) begin
+		   always @(posedge dspif.clk) begin
+			   dspif.data_dacmon[k][(i+1)*16-1:i*16]<=dac[k][(i+1)*16-1:i*16];
+		   end
+	   end
+   end
+   endgenerate
+   //
 
-enum {IDLE
-,START
-,PROCRUN
-,ELEMBUSY
-,MORESHOT
-,DONE
-,NSTATE
-} state,nextstate;
+   enum {IDLE
+   ,START
+   ,PROCRUN
+   ,ELEMBUSY
+   ,MORESHOT
+   ,SHOTADD
+   ,DONE
+   ,NSTATE
+} state=IDLE,nextstate=IDLE;
 always @(posedge dspif.clk) begin
 	if (dspif.reset) begin
 		state <= IDLE;
@@ -223,13 +233,16 @@ always @(*) begin
 				nextstate=PROCRUN;
 			end
 			PROCRUN: begin
-				nextstate= &procdone ? ELEMBUSY : PROCRUN;
+				nextstate= &procdone ? MORESHOT : PROCRUN;
 			end
 			ELEMBUSY: begin
 				nextstate= &nobusy ? MORESHOT : ELEMBUSY;
 			end
 			MORESHOT: begin
-				nextstate=(~|nshot) |(shotcnt==nshot-1) ? DONE : START;
+				nextstate=(~|nshot) |(nextshotcnt==nshot) ? DONE : SHOTADD;
+			end
+			SHOTADD: begin
+				nextstate=START;
 			end
 			DONE: begin
 				nextstate=IDLE;
@@ -248,7 +261,7 @@ always @(posedge dspif.clk) begin
 			IDLE: begin
 				done<=1'b0;
 				procreset<=1'b1;
-				shotcnt<=0;
+				//shotcnt<=0;
 				nshot<=dspif.nshot;
 			end
 			START: begin
@@ -269,7 +282,13 @@ always @(posedge dspif.clk) begin
 			end
 			MORESHOT: begin
 				done<=1'b0;
-				shotcnt<=shotcnt+32'h1;
+				shotcnt<=shotcnt;
+				procreset<=1'b1;
+			end
+			SHOTADD: begin
+				done<=1'b0;
+				shotcnt<=nextshotcnt;//+32'h1;
+				currentshotcnt<=shotcnt;
 				procreset<=1'b1;
 			end
 			DONE: begin
@@ -282,13 +301,13 @@ always @(posedge dspif.clk) begin
 end
 
 
-generate if (DEBUG=="true") begin     iladsp iladsp(.clk(dspif.clk) ,.probe0(data_acqbuf[0])    ,.probe1(adc[0])    ,.probe2(dspif.data_acqbuf[0])    ,.probe3(dspif.adc[0])    ,.probe4(dspif.dac[0])    ,.probe5(dspif.dac[1])    ,.probe6(dspif.dac[2])    ,.probe7(dspif.dac[3])    ,.probe8(proccorereset)    ,.probe9(stbprocend)    ,.probe10(dspif.stb_start)    ,.probe11(dspif.data_command[0])    ,.probe12(dspif.data_command[1])    ,.probe13(dspif.data_command[2])    ,.probe14(dspif.data_command[3])    ,.probe15(dspif.addr_command[0])    ,.probe16(dspif.addr_command[1])    ,.probe17(dspif.addr_command[2])    ,.probe18(dspif.addr_command[3])    ,.probe19(dspif.data_qdrvenv[0])    ,.probe20(dspif.addr_qdrvenv[0])    ,.probe21(dspif.data_qdrvenv[1])    ,.probe22(dspif.addr_qdrvenv[1])    ,.probe23(dspif.data_qdrvfreq[0])    ,.probe24(dspif.addr_qdrvfreq[0])    ,.probe25(qdrvelem[0].cmdstb)    ,.probe26(qdrvelem[1].cmdstb)    ,.probe27(qdrvelem[2].cmdstb)    ,.probe28(qdrvelem[3].cmdstb)    ,.probe29(qdrvelem[0].reset)    ,.probe30(qdrvelem[0].envstart)    ,.probe31(qdrvelem[0].envlength)    ,.probe32(qdrvelem[0].ampx)    ,.probe33(qdrvelem[0].ampy)    ,.probe34(qdrvelem[0].freqaddr)    ,.probe35(qdrvelem[0].pini)    ,.probe36(qdrvelem[0].mode)    ,.probe37(nshot)    ,.probe38(shotcnt)    ,.probe39(shotbusy)    ,.probe40(allprocend)    ,.probe41(procdone)    ,.probe42(nobusy)    ,.probe43(state)    ,.probe44(nextstate)    ,.probe45(procreset)        ); end endgenerate 
+`include "iladsp.vh"
 endmodule
 
 interface ifdsp #(
-	parameter DEBUG="true" ,parameter integer LB1_DATAWIDTH=32 ,parameter integer LB1_ADDRWIDTH=10 ,parameter integer LB2_DATAWIDTH=32 ,parameter integer LB2_ADDRWIDTH=10 ,parameter integer LB3_DATAWIDTH=32 ,parameter integer LB3_ADDRWIDTH=20 ,parameter integer LB4_DATAWIDTH=32 ,parameter integer LB4_ADDRWIDTH=20 ,parameter integer DAC_AXIS_DATAWIDTH=256 ,parameter integer ADC_AXIS_DATAWIDTH=64 ,parameter integer BRAMADDRWIDTH=32 ,parameter integer NPROC=4 ,parameter integer NADC=2 ,parameter integer NDLO=4 ,parameter integer NDAC=4 ,parameter integer NDACMON=4 ,parameter integer NACQ=2 ,parameter NCFGRESETN=8 ,parameter NDSPRESETN=8 ,parameter NPSRESETN=3 ,parameter NADC2RESETN=3 
-	,parameter integer ACCBUF_R_ADDRWIDTH=12,parameter integer ACCBUF_R_DATAWIDTH=32,parameter integer ACCBUF_R_DEPTH=4096,parameter integer ACCBUF_W_ADDRWIDTH=11,parameter integer ACCBUF_W_DATAWIDTH=64,parameter integer ACCBUF_W_DEPTH=2048 ,parameter integer ACQBUF_R_ADDRWIDTH=14,parameter integer ACQBUF_R_DATAWIDTH=32,parameter integer ACQBUF_R_DEPTH=16384,parameter integer ACQBUF_W_ADDRWIDTH=13,parameter integer ACQBUF_W_DATAWIDTH=64,parameter integer ACQBUF_W_DEPTH=8192 ,parameter integer COMMAND_R_ADDRWIDTH=10,parameter integer COMMAND_R_DATAWIDTH=128,parameter integer COMMAND_R_DEPTH=1024,parameter integer COMMAND_W_ADDRWIDTH=12,parameter integer COMMAND_W_DATAWIDTH=32,parameter integer COMMAND_W_DEPTH=4096 ,parameter integer DACMON_R_ADDRWIDTH=12,parameter integer DACMON_R_DATAWIDTH=32,parameter integer DACMON_R_DEPTH=4096,parameter integer DACMON_W_ADDRWIDTH=9,parameter integer DACMON_W_DATAWIDTH=256,parameter integer DACMON_W_DEPTH=512 ,parameter integer QDRVENV_R_ADDRWIDTH=10,parameter integer QDRVENV_R_DATAWIDTH=512,parameter integer QDRVENV_R_DEPTH=1024,parameter integer QDRVENV_W_ADDRWIDTH=14,parameter integer QDRVENV_W_DATAWIDTH=32,parameter integer QDRVENV_W_DEPTH=16384 ,parameter integer QDRVFREQ_R_ADDRWIDTH=9,parameter integer QDRVFREQ_R_DATAWIDTH=512,parameter integer QDRVFREQ_R_DEPTH=512,parameter integer QDRVFREQ_W_ADDRWIDTH=13,parameter integer QDRVFREQ_W_DATAWIDTH=32,parameter integer QDRVFREQ_W_DEPTH=8192 ,parameter integer RDLOENV_R_ADDRWIDTH=12,parameter integer RDLOENV_R_DATAWIDTH=128,parameter integer RDLOENV_R_DEPTH=4096,parameter integer RDLOENV_W_ADDRWIDTH=14,parameter integer RDLOENV_W_DATAWIDTH=32,parameter integer RDLOENV_W_DEPTH=16384 ,parameter integer RDLOFREQ_R_ADDRWIDTH=9,parameter integer RDLOFREQ_R_DATAWIDTH=128,parameter integer RDLOFREQ_R_DEPTH=512,parameter integer RDLOFREQ_W_ADDRWIDTH=11,parameter integer RDLOFREQ_W_DATAWIDTH=32,parameter integer RDLOFREQ_W_DEPTH=2048 ,parameter integer RDRVENV_R_ADDRWIDTH=12,parameter integer RDRVENV_R_DATAWIDTH=512,parameter integer RDRVENV_R_DEPTH=4096,parameter integer RDRVENV_W_ADDRWIDTH=16,parameter integer RDRVENV_W_DATAWIDTH=32,parameter integer RDRVENV_W_DEPTH=65536 ,parameter integer RDRVFREQ_R_ADDRWIDTH=9,parameter integer RDRVFREQ_R_DATAWIDTH=512,parameter integer RDRVFREQ_R_DEPTH=512,parameter integer RDRVFREQ_W_ADDRWIDTH=13,parameter integer RDRVFREQ_W_DATAWIDTH=32,parameter integer RDRVFREQ_W_DEPTH=8192
-	,parameter INIT_rdrvenv0="" ,parameter INIT_rdrvenv1="" ,parameter INIT_rdrvenv2="" ,parameter INIT_rdrvenv3="" ,parameter INIT_acqbuf0="" ,parameter INIT_acqbuf1="" ,parameter INIT_qdrvenv0="" ,parameter INIT_qdrvenv1="" ,parameter INIT_qdrvenv2="" ,parameter INIT_qdrvenv3="" ,parameter INIT_rdloenv0="" ,parameter INIT_rdloenv1="" ,parameter INIT_rdloenv2="" ,parameter INIT_rdloenv3="" ,parameter INIT_qdrvfreq0="" ,parameter INIT_qdrvfreq1="" ,parameter INIT_qdrvfreq2="" ,parameter INIT_qdrvfreq3="" ,parameter INIT_rdrvfreq0="" ,parameter INIT_rdrvfreq1="" ,parameter INIT_rdrvfreq2="" ,parameter INIT_rdrvfreq3="" ,parameter INIT_accbuf0="" ,parameter INIT_accbuf1="" ,parameter INIT_accbuf2="" ,parameter INIT_accbuf3="" ,parameter INIT_command0="" ,parameter INIT_command1="" ,parameter INIT_command2="" ,parameter INIT_command3="" ,parameter INIT_dacmon0="" ,parameter INIT_dacmon1="" ,parameter INIT_dacmon2="" ,parameter INIT_dacmon3="" ,parameter INIT_rdlofreq0="" ,parameter INIT_rdlofreq1="" ,parameter INIT_rdlofreq2="" ,parameter INIT_rdlofreq3=""
+	parameter DEBUG="true" ,parameter integer LB1_DATAWIDTH=32 ,parameter integer LB1_ADDRWIDTH=10 ,parameter integer LB2_DATAWIDTH=32 ,parameter integer LB2_ADDRWIDTH=10 ,parameter integer LB3_DATAWIDTH=32 ,parameter integer LB3_ADDRWIDTH=20 ,parameter integer LB4_DATAWIDTH=32 ,parameter integer LB4_ADDRWIDTH=20 ,parameter integer DAC_AXIS_DATAWIDTH=256 ,parameter integer ADC_AXIS_DATAWIDTH=64 ,parameter integer BRAMADDRWIDTH=32 ,parameter integer NPROC=4 ,parameter integer NADC=2 ,parameter integer NDLO=4 ,parameter integer NDAC=4 ,parameter integer NDACMON=4 ,parameter integer NACQ=2 ,`include "reset_para.vh" 
+	,`include "bram_para.vh"
+	,`include "braminit_para.vh"
 	)();
 	wire clk;
 	wire reset;
