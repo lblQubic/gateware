@@ -25,14 +25,14 @@ reg [ENV_DATAWIDTH-1:0] envdata_r=0;
 reg [ENV_DATAWIDTH-1:0] envdata_r2=0;
 wire lastenv=(envaddr_cnt==elem.envstart+elem.envlength-1);
 always @(posedge elem.clk) begin
-	if (elem.cmdstb_sr[0]) begin
+	if (elem.cmdstb) begin
 		envaddr_cnt<=elem.envstart;
 	end
 	else if (busy) begin
 		envaddr_cnt<=envaddr_cnt+(|elem.envlength);
 	end
 	//	envaddr_cnt<=elem.cmdstb[0] ? elem.envstart : (envaddr_cnt==elem.envstart+elem.envlength) ? envaddr_cnt : envaddr_cnt+1;
-	if (elem.cmdstb_sr[0])
+	if (elem.cmdstb)
 		busy<=1'b1;
 	else if (lastenv)
 		busy<=1'b0;
@@ -54,7 +54,7 @@ assign freqaddr=freqaddr_r;
 reg_delay1 #(.DW(ENV_ADDRWIDTH),.LEN(30)) envaddrdelay(.clk(elem.clk),.gate(1'b1),.din(envaddr_cnt),.dout(envaddr),.reset(1'b0));
 
 ammod #(.NSLICE(NSLICE)) 
-ammod(.clk(elem.clk),.gatein(busy_sr[1]),.tcnt(elem.tcnt),.freqcossinp32x16(freqdata_r2),.envxy32x16(envdata_r2),.pini(elem.pini),.multix16x16(elem.multix),.multiy16x16(elem.multiy),.ampx(elem.ampx),.gateout(elem.valid));
+ammod(.clk(elem.clk),.gatein(busy_sr[0]),.tcnt(elem.tcnt),.freqcossinp32x16(freqdata_r2),.envxy32x16(envdata_r2),.pini(elem.pini),.multix16x16(elem.multix),.multiy16x16(elem.multiy),.ampx(elem.ampx),.gateout(elem.valid));
 //ammod(.clk(elem.clk),.gatein(busy_sr[1]|elem.cw),.tcnt(elem.tcnt),.freqcossinp32x16(freqdata_r2),.envxy32x16(envdata_r2),.pini(elem.pini),.multix16x16(elem.multix),.multiy16x16(elem.multiy),.ampx(elem.ampx),.gateout(elem.valid));
 assign elem.prepbusy=|busy_sr;
 assign elem.pulsebusy=elem.valid;
@@ -66,10 +66,10 @@ module elementout#(parameter ENV_ADDRWIDTH=32,parameter ENV_DATAWIDTH=32,paramet
 ,output [NSLICE*16-1:0] multiy
 );
 localparam NSLICE=FREQ_DATAWIDTH/32;
-assign valid=elem.valid_r;
-assign multix=elem.multix_r;
-assign multiy=elem.multiy_r;
-assign elem.postprobusy=elem.valid_r;
+assign valid=elem.valid;
+assign multix=elem.multix;
+assign multiy=elem.multiy;
+assign elem.postprobusy=elem.valid;
 endmodule
 
 module elementsum4#(parameter ENV_ADDRWIDTH=32,parameter ENV_DATAWIDTH=32,parameter FREQ_ADDRWIDTH=32,parameter FREQ_DATAWIDTH=32)(ifelement.out elem0
@@ -94,14 +94,12 @@ for (genvar i=0;i<NSLICE;i++) begin : stepslice
 	reg [15:0] sumy1=0;
 	reg [15:0] sumy2=0;
 	always @(posedge elem0.clk) begin
-		sumx0<=elem0.multix_r[i*16+15:i*16+0]+elem1.multix_r[i*16+15:i*16+0];
-		sumx1<=elem3.multix_r[i*16+15:i*16+0]+elem2.multix_r[i*16+15:i*16+0];  //  not checking overflow, depends on usersumx0;
-		sumx2<=sumx0+sumx1;
-		sumx[i*16+15:i*16]<=sumx2;
-		sumy0<=elem0.multiy_r[i*16+15:i*16+0]+elem1.multiy_r[i*16+15:i*16+0];
-		sumy1<=elem3.multiy_r[i*16+15:i*16+0]+elem2.multiy_r[i*16+15:i*16+0];  //  not checking overflow, depends on user
-		sumy2<=sumy1+sumy0;
-		sumy[i*16+15:i*16]<=sumy2;
+		sumx0<=elem0.multix[i*16+15:i*16+0]+elem1.multix[i*16+15:i*16+0];
+		sumx1<=elem3.multix[i*16+15:i*16+0]+elem2.multix[i*16+15:i*16+0];  //  not checking overflow, depends on usersumx0;
+		sumx[i*16+15:i*16]<=sumx0+sumx1;
+		sumy0<=elem0.multiy[i*16+15:i*16+0]+elem1.multiy[i*16+15:i*16+0];
+		sumy1<=elem3.multiy[i*16+15:i*16+0]+elem2.multiy[i*16+15:i*16+0];  //  not checking overflow, depends on user
+		sumy[i*16+15:i*16]<=sumy1+sumy0;
 	end
 end
 endgenerate
@@ -110,18 +108,18 @@ reg valid1=0;
 reg valid2=0;
 reg valid3=0;
 always @(posedge elem0.clk) begin
-	valid0<=|{elem0.valid_r,elem1.valid_r,elem2.valid_r,elem3.valid_r};
+	valid0<=|{elem0.valid,elem1.valid,elem2.valid,elem3.valid};
 	valid1<=valid0;
 	valid2<=valid1;
 	valid3<=valid2;
 end
 assign multix=sumx;
 assign multiy=sumy;
-assign valid=valid3;
-assign elem0.postprobusy=elem0.valid_r;
-assign elem1.postprobusy=elem1.valid_r;
-assign elem2.postprobusy=elem2.valid_r;
-assign elem3.postprobusy=elem3.valid_r;
+assign valid=valid2;
+assign elem0.postprobusy=elem0.valid;
+assign elem1.postprobusy=elem1.valid;
+assign elem2.postprobusy=elem2.valid;
+assign elem3.postprobusy=elem3.valid;
 endmodule
 
 module elementsum8#(parameter ENV_ADDRWIDTH=32,parameter ENV_DATAWIDTH=32,parameter FREQ_ADDRWIDTH=32,parameter FREQ_DATAWIDTH=32)(ifelement.out elem0
@@ -367,7 +365,7 @@ always @(posedge clk) begin
 	valid_r<=valid;
 	reset_sr<={reset_sr[14:0],reset};
 	//tcnt<= reset_sr[6] ? 0 : tcnt+1;
-	tcnt<= reset_sr[7] ? 0 : tcnt+1;
+	tcnt<= reset_sr[8] ? 0 : tcnt+1;
 	{dummy_cmdstb_sr,cmdstb_sr}<={cmdstb_sr,cmdstb};
 	//cw_d0<=((|{envstart,ampx,freqaddr,pini}) & (~|envlength));
 	cw_d0<=& (~|envlength);
@@ -384,7 +382,7 @@ modport proc(output envstart,envlength,ampx,ampy,freqaddr,pini,mode,cmdstb,reset
 modport elem(input clk,reset,cmdstb,cmdstb_sr,cw,cw2,envstart,envlength,ampx,pini,mode,tcnt,freqaddr
 ,output multix,multiy,valid,prepbusy,pulsebusy
 );
-modport out(input clk,multix_r,multiy_r,valid_r
+modport out(input clk,multix,multiy,valid
 ,output postprobusy
 );
 modport mix(input clk,multix_r,multiy_r,valid_r,cmdstb

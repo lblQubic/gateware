@@ -35,4 +35,17 @@
 ,"start":{"access": "rw", "addr_width": 0, "data_width": 1, "sign": "unsigned", "init": "0", "base_addr": 34}
 ,"test":{"access": "rw", "addr_width": 0, "data_width": 32, "sign": "unsigned", "init": "0", "base_addr": 35}
 ,"test1":{"access": "r", "addr_width": 0, "data_width": 32, "sign": "unsigned", "init": "100", "base_addr": 36}
+,"acqbufreset":{"access": "rw", "addr_width": 0, "data_width": 1, "sign": "unsigned", "init": "1", "base_addr": 37}
+,"dacmonreset":{"access": "rw", "addr_width": 0, "data_width": 1, "sign": "unsigned", "init": "1", "base_addr": 38}
+,"decimator":{"access": "rw", "addr_width": 0, "data_width": 8, "sign": "unsigned", "init": "1", "base_addr": 39}
+,"acqchansel0":{"access": "rw", "addr_width": 0, "data_width": 5, "sign": "unsigned", "init": "1", "base_addr": 40}
+,"acqchansel1":{"access": "rw", "addr_width": 0, "data_width": 5, "sign": "unsigned", "init": "0", "base_addr": 41}
+,"dacmonchansel0":{"access": "rw", "addr_width": 0, "data_width": 5, "sign": "unsigned", "init": "0", "base_addr": 42}
+,"dacmonchansel1":{"access": "rw", "addr_width": 0, "data_width": 5, "sign": "unsigned", "init": "0", "base_addr": 43}
+,"dacmonchansel2":{"access": "rw", "addr_width": 0, "data_width": 5, "sign": "unsigned", "init": "0", "base_addr": 44}
+,"dacmonchansel3":{"access": "rw", "addr_width": 0, "data_width": 5, "sign": "unsigned", "init": "0", "base_addr": 45}
+,"delayaftertrig":{"access": "rw", "addr_width": 0, "data_width": 16, "sign": "unsigned", "init": "100", "base_addr": 46}
+,"mixbbxsel":{"access": "rw", "addr_width": 0, "data_width": 16, "sign": "unsigned", "init": "0", "base_addr": 47}
+,"mixbbysel":{"access": "rw", "addr_width": 0, "data_width": 16, "sign": "unsigned", "init": "6", "base_addr": 48}
+,"shift":{"access": "rw", "addr_width": 0, "data_width": 5, "sign": "unsigned", "init": "15", "base_addr": 49}
 }

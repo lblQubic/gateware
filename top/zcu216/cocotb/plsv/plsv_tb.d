@@ -69,3 +69,5 @@ plsv_tb.sv
 ../../../../dsp/xmultadd.sv
 ../../rfdc_simclk.vh
 ../../rfdc_wire.vh
+../../../../dsp/fakecore.sv
+../../../../dsp/panzoomtrig.sv

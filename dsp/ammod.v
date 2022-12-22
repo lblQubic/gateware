@@ -58,8 +58,8 @@ phtime phtime(.clk(clk),.freq(freq),.tcnt(tcnt),.phasetime(phasetime),.gatein(ga
 wire [15:0] ampx_d;
 reg [15:0] ampx_d2=0;
 wire [16:0] pini_d;
-reg_delay1 #(.DW(16),.LEN(9)) ampxdelay(.clk(clk),.gate(1'b1),.din(ampx),.dout(ampx_d),.reset(1'b0));
-reg_delay1 #(.DW(17),.LEN(9)) pinidelay(.clk(clk),.gate(1'b1),.din(pini),.dout(pini_d),.reset(1'b0));
+reg_delay1 #(.DW(16),.LEN(7)) ampxdelay(.clk(clk),.gate(1'b1),.din(ampx),.dout(ampx_d),.reset(1'b0));
+reg_delay1 #(.DW(17),.LEN(7)) pinidelay(.clk(clk),.gate(1'b1),.din(pini),.dout(pini_d),.reset(1'b0));
 
 // LEN clocks of delay.  Xilinx should turn this into
 
