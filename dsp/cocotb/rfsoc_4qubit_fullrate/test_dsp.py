@@ -179,7 +179,7 @@ async def test_rdrv_pulse(dut):
     await dspunit.load_freq_buffer(freq_buffers[1], 1, 0)
 
     await dspunit.run_program(500)
-    dacout_sim = st.generate_sim_dacout(pulse_seq, 16, extra_delay=3)
+    dacout_sim = st.generate_sim_dacout(pulse_seq, 16, extra_delay=2)
     plt.plot(dspunit.dac_out[0])
     plt.plot(dacout_sim)
     plt.show()

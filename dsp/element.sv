@@ -23,6 +23,7 @@ reg [ENV_ADDRWIDTH-1:0] envaddr_r2=0;
 reg [ENV_ADDRWIDTH-1:0] envaddr_r3=0;
 reg [ENV_DATAWIDTH-1:0] envdata_r=0;
 reg [ENV_DATAWIDTH-1:0] envdata_r2=0;
+reg [ENV_DATAWIDTH-1:0] envdata_r3=0;
 wire lastenv=(envaddr_cnt==elem.envstart+elem.envlength-1);
 always @(posedge elem.clk) begin
 	if (elem.cmdstb) begin
@@ -46,6 +47,7 @@ always @(posedge elem.clk) begin
 	envdata_r<=envdata;
 	//envdata_r2<= elem.cw ? {NSLICE{32'h7fff0000}} :envdata_r ;
 	envdata_r2<= envdata_r ;
+	envdata_r3<= envdata_r2 ;
 	envaddr_r<=envaddr_cnt;
 	envaddr_r3<=envaddr_r2;
 end
@@ -54,7 +56,7 @@ assign freqaddr=freqaddr_r;
 reg_delay1 #(.DW(ENV_ADDRWIDTH),.LEN(30)) envaddrdelay(.clk(elem.clk),.gate(1'b1),.din(envaddr_r),.dout(envaddr),.reset(1'b0));
 
 ammod #(.NSLICE(NSLICE)) 
-ammod(.clk(elem.clk),.gatein(busy_sr[2]),.tcnt(elem.tcnt),.freqcossinp32x16(freqdata_r2),.envxy32x16(envdata_r2),.pini(elem.pini),.multix16x16(elem.multix),.multiy16x16(elem.multiy),.ampx(elem.ampx),.gateout(elem.valid));
+ammod(.clk(elem.clk),.gatein(busy_sr[3]),.tcnt(elem.tcnt),.freqcossinp32x16(freqdata_r2),.envxy32x16(envdata_r3),.pini(elem.pini),.multix16x16(elem.multix),.multiy16x16(elem.multiy),.ampx(elem.ampx),.gateout(elem.valid));
 //ammod(.clk(elem.clk),.gatein(busy_sr[1]|elem.cw),.tcnt(elem.tcnt),.freqcossinp32x16(freqdata_r2),.envxy32x16(envdata_r2),.pini(elem.pini),.multix16x16(elem.multix),.multiy16x16(elem.multiy),.ampx(elem.ampx),.gateout(elem.valid));
 assign elem.prepbusy=|busy_sr;
 assign elem.pulsebusy=elem.valid;

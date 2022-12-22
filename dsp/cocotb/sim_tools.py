@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 from distproc.command_gen import twos_complement
 
 CORDIC_DELAY = 47 #in clks
-PHASEIN_DELAY = 0
+PHASEIN_DELAY = 1
 QCLK_DELAY = 2
 CSTROBE_DELAY = 1 #in clks
 PHASE_RST_DELAY = 8
