@@ -38,3 +38,4 @@ test-dsp-zcu216-fullsample:
     - make pre
     - cd ../../dsp/cocotb/rfsoc_4qubit_fullrate
     - make
+    - python ../.check_xml.py results.xml
