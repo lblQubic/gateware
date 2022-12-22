@@ -35,7 +35,7 @@ end
 wire clkadc2_mmcm_fb;
 wire clkadc2_mmcm_out0;
 wire clkadc2_mmcm_out1;
-MMCME4_ADV#(.CLKIN1_PERIOD(3.333)
+MMCME4_ADV#(.CLKIN1_PERIOD(4)
 ,.CLKFBOUT_MULT_F(4.000)
 ,.CLKFBOUT_PHASE(0.000)
 ,.CLKFBOUT_USE_FINE_PS("FALSE")
