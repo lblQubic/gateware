@@ -1,4 +1,4 @@
-module dsp_tb#(
+module dsp_sim_toplevel#(
 	`include "plps_para.vh"
 	,`include "bram_para.vh")(
     input clk,

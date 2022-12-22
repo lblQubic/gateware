@@ -4,6 +4,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import ipdb
 import dsp_drivers as dsp
+from hwconfig import RFSoCElementCfg
 import distproc.assembler as asm
 import sim_tools as st
 
@@ -16,7 +17,7 @@ async def test_const_pulse(dut):
     amp = 0.9
     env_i = 0.2*np.ones(pulse_length)
     env_q = 0.1*np.ones(pulse_length)
-    elemcfg = dsp.RFSoCElementCfg()
+    elemcfg = RFSoCElementCfg()
 
     dspunit = dsp.DSPDriver(dut, 16, 16, 16, 16)
 
@@ -34,9 +35,9 @@ async def test_const_pulse(dut):
     await dspunit.load_freq_buffer(freq_buffers[0], 0, 0)
     await dspunit.run_program(500)
     dacout_sim = st.generate_sim_dacout(pulse_seq, 16)
-    #plt.plot(dspunit.dac_out[1])
-    #plt.plot(dacout_sim)
-    #plt.show()
+    plt.plot(dspunit.dac_out[1])
+    plt.plot(dacout_sim)
+    plt.show()
     assert st.check_dacout_equal(dacout_sim, dspunit.dac_out[1])
 
 @cocotb.test()
@@ -52,7 +53,7 @@ async def test_ramp_pulse(dut):
     amp = 0.9
     env_i = np.arange(pulse_length)/pulse_length
     env_q = np.zeros(pulse_length)/pulse_length
-    elemcfg = dsp.RFSoCElementCfg()
+    elemcfg = RFSoCElementCfg()
 
     dspunit = dsp.DSPDriver(dut, 16, 16, 16, 16)
 
@@ -71,14 +72,14 @@ async def test_ramp_pulse(dut):
 
     await dspunit.run_program(500)
     dacout_sim = st.generate_sim_dacout(pulse_seq, 16)
-    #plt.plot(dspunit.dac_out[1])
-    #plt.plot(dacout_sim)
-    #plt.show()
+    plt.plot(dspunit.dac_out[1])
+    plt.plot(dacout_sim)
+    plt.show()
     assert st.check_dacout_equal(dacout_sim, dspunit.dac_out[1])
 
 @cocotb.test()
 async def test_consecutive_id_ramp_pulse(dut):
-    elemcfg = dsp.RFSoCElementCfg()
+    elemcfg = RFSoCElementCfg()
 
     dspunit = dsp.DSPDriver(dut, 16, 16, 16, 16)
 
@@ -114,7 +115,7 @@ async def test_consecutive_id_ramp_pulse(dut):
 
 @cocotb.test()
 async def test_consecutive_ramp_pulse(dut):
-    elemcfg = dsp.RFSoCElementCfg()
+    elemcfg = RFSoCElementCfg()
 
     dspunit = dsp.DSPDriver(dut, 16, 16, 16, 16)
 
@@ -144,9 +145,9 @@ async def test_consecutive_ramp_pulse(dut):
 
     await dspunit.run_program(500)
     dacout_sim = st.generate_sim_dacout(pulse_seq, 16)
-    #plt.plot(dspunit.dac_out[1])
-    #plt.plot(dacout_sim)
-    #plt.show()
+    plt.plot(dspunit.dac_out[1])
+    plt.plot(dacout_sim)
+    plt.show()
     assert st.check_dacout_equal(dacout_sim, dspunit.dac_out[1])
 
 @cocotb.test()
@@ -158,7 +159,7 @@ async def test_rdrv_pulse(dut):
     amp = 0.9
     env_i = np.arange(pulse_length)/pulse_length
     env_q = np.zeros(pulse_length)/pulse_length
-    elemcfg = dsp.RFSoCElementCfg()
+    elemcfg = RFSoCElementCfg()
 
     dspunit = dsp.DSPDriver(dut, 16, 16, 16, 16)
 
@@ -194,8 +195,8 @@ async def test_adc_lb(dut):
     env_i = 0.2*np.ones(pulse_length)
     env_q = np.zeros(pulse_length)
 
-    dacelemcfg = dsp.RFSoCElementCfg(16)
-    adcelemcfg = dsp.RFSoCElementCfg(4)
+    dacelemcfg = RFSoCElementCfg(16)
+    adcelemcfg = RFSoCElementCfg(4)
 
     adc_fullscale = 2**15-1
 

@@ -3,7 +3,8 @@ import ipdb
 import matplotlib.pyplot as plt
 from distproc.command_gen import twos_complement
 
-CORDIC_DELAY = 64 #in clks
+CORDIC_DELAY = 40 #in clks
+PHASEIN_DELAY = 9
 QCLK_DELAY = 2
 CSTROBE_DELAY = 1 #in clks
 PHASE_RST_DELAY = 8
@@ -74,7 +75,7 @@ def generate_sim_dacout(pulse_sequence, samples_per_clk, extra_delay=0, ncycles=
     scale_factor = 2**(ENV_BITS - 1)
     for pulse in pulse_sequence:
         sample_inds = np.arange(0, pulse['length'])
-        start_time = samples_per_clk*pulse['start_time'] + samples_per_clk*(CSTROBE_DELAY + QCLK_DELAY)
+        start_time = samples_per_clk*pulse['start_time'] + samples_per_clk*(CSTROBE_DELAY + QCLK_DELAY + PHASEIN_DELAY)
         phases = pulse['phase'] + 2*np.pi*(CLK_CYCLE/samples_per_clk)\
                 *1.e-9*(sample_inds + start_time - samples_per_clk*(PHASE_RST_DELAY))*pulse['freq']
         env_i = scale_factor*pulse['amp']*np.real(pulse['env'])[:pulse['length']]
