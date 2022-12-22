@@ -51,7 +51,7 @@ always @(posedge elem.clk) begin
 end
 assign freqaddr=freqaddr_r;
 
-reg_delay1 #(.DW(ENV_ADDRWIDTH),.LEN(30)) envaddrdelay(.clk(elem.clk),.gate(1'b1),.din(envaddr_cnt),.dout(envaddr),.reset(1'b0));
+reg_delay1 #(.DW(ENV_ADDRWIDTH),.LEN(30)) envaddrdelay(.clk(elem.clk),.gate(1'b1),.din(envaddr_r),.dout(envaddr),.reset(1'b0));
 
 ammod #(.NSLICE(NSLICE)) 
 ammod(.clk(elem.clk),.gatein(busy_sr[0]),.tcnt(elem.tcnt),.freqcossinp32x16(freqdata_r2),.envxy32x16(envdata_r2),.pini(elem.pini),.multix16x16(elem.multix),.multiy16x16(elem.multiy),.ampx(elem.ampx),.gateout(elem.valid));
