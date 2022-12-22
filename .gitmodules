@@ -12,4 +12,4 @@
 	url = ../../lbl-bids/tools.git
 [submodule "submodules/distributed_processor"]
 	path = submodules/distributed_processor
-	url = ../../lblwork/distributed-processor-ghuang.git
+	url = ../../LBL-QubiC/distributed-processor.git
