@@ -122,7 +122,7 @@ wire [NFCNT-1:0] freqcnt_clks= {
 	,clkadc2_300
 	,clkadc2_600
 };
-/*
+
 genvar jx;
 generate for (jx=0; jx<NFCNT; jx=jx+1)	begin: gen_fcnt
 	freq_count3 #(.REFCNTWIDTH(24))
@@ -130,7 +130,7 @@ generate for (jx=0; jx<NFCNT; jx=jx+1)	begin: gen_fcnt
 //		{regs.fclk100,regs.fclk125,regs.fusersi570c0,regs.fusersi570c1,regs.fclk104plsysref,regs.fclk104plclk,regs.fclk_dac2,regs.fclk_dac3,regs.fclk_adc2,regs.fclkadc2_300,regs.fclkadc2_600}
 end
 endgenerate
-*/
+
 
 
 `include "bram_read.vh"
