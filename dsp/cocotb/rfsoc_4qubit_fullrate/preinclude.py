@@ -56,6 +56,8 @@ if __name__=="__main__":
         else:
             print("%s is not a file\n"%p)
     vsv=files['v']+files['sv']
+    if not os.path.isdir('gensrc'):
+        os.makedirs('./gensrc')
     for index,f in enumerate(vsv):
         with open(f) as fread:
             orig=fread.read()
