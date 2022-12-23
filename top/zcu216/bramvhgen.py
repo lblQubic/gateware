@@ -196,6 +196,12 @@ class brams:
         strval=template['braminit_parainst.vh']['all']%(dict(perbus=perbus))
         self.writefile(filename,strval)
         return strval
+    def bramsiminit_vh(self,filename="bramsiminit.vh"):
+        perbus='\n'.join([b.bramsiminit_vh() for b in self.bramlist])
+        strval=template['bramsiminit.vh']['all']%(dict(perbus=perbus))
+        self.writefile(filename,strval)
+        return strval
+
 
 
 
@@ -231,9 +237,10 @@ class bram:
         nosubname=['command']
         subname=self.name
         if self.name not in nosubname:
-            m=re.match('(\S+)([0-9a-f]+)',self.name)
+            m=re.match('(\S+?)([0-9]+)$',self.name)
+            #print('debug',self.name,m.groups())
             if m:
-                subname='%s[%d]'%(m.groups()[0],int(m.groups()[1],16))
+                subname='%s[%d]'%(m.groups()[0],int(m.groups()[1],0))
         return subname
     @property
     def sizekM(self):
@@ -311,6 +318,8 @@ class bram:
         return template['braminit_para.vh']['perbus']%(self.paradict())
     def braminit_parainst_vh(self):
         return template['braminit_parainst.vh']['perbus']%(self.paradict())
+    def bramsiminit_vh(self):
+        return template['bramsiminit.vh']['perbus']%(self.paradict())
 
 if __name__=="__main__":
     template={"brambus.tcl":{
@@ -357,6 +366,10 @@ if __name__=="__main__":
     ,"braminit_parainst.vh":{
         "all":"%(perbus)s"
         ,"perbus":".INIT_%(name)s(INIT_%(name)s)"
+        }
+    ,"bramsiminit.vh":{
+        "all":"%(perbus)s"
+        ,"perbus":"localparam INIT_%(name)s=\"INIT_%(name)s.mem\";"
         }
     ,"bram_plsv.vh":{
         "all":"%(addrperdata)s\n\n%(perbus)s"
@@ -428,7 +441,9 @@ if __name__=="__main__":
     print(bs.read())
     print(bs.ifbramctrl_sv())
     print(bs.bram_json())
+    print(bs.bramsiminit_vh())
     bs.assign()
+
     for k,(v,c,w) in bs.addressmap().items():
         print(k,format(v,'08x'),format(c,'08x'),w)
 

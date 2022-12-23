@@ -68,8 +68,8 @@ reg [26:0] phasetime_r2=0;
 reg [26:0] phasetime_r3=0;
 reg [7:0] gatesr=0;
 always @(posedge clk) begin
-	freq_r=freq;
-	tcnt_r=tcnt;
+	freq_r<=freq;
+	tcnt_r<=tcnt;
 	phasetime_r0<=phasetime_w[26:0];
 	phasetime_r1<=phasetime_r0;
 	phasetime_r2<=phasetime_r1;

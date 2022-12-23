@@ -28,12 +28,9 @@ plsv_tb.sv
 ../../bram_read.vh
 ../../bram_write.vh
 ../../ifbramctrl.sv
-../../asym_ram_sdp_read_wider.v
 ../../bram_plsv.vh
-../../asym_ram_sdp_write_wider.v
 ../../bramif_lbportinst.vh
 ../../bramif_lbport.vh
-../../phtime.v
 ../../gitrevision.v
 ../../braminit_parainst.vh
 ../../braminit_para.vh
@@ -71,3 +68,8 @@ plsv_tb.sv
 ../../rfdc_wire.vh
 ../../../../dsp/fakecore.sv
 ../../../../dsp/panzoomtrig.sv
+../../../../submodules/common-hdl/asym_ram_sdp_read_wider.sv
+../../../../submodules/common-hdl/asym_ram_sdp_write_wider.sv
+../../../../dsp/phtime.v
+../../ilaauto.v
+../../ilaauto.vh

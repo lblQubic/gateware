@@ -4,14 +4,17 @@ module xmultadd #(`include "plps_para.vh"
 )(ifxma.xma xmaif)
 ;
 localparam NRATIO=16;
-
+(* ram_style = "registers" *) 
 reg [31:0] coef [0:NDAC-1][0:NDAC-1];
 always @(posedge xmaif.clk) begin
 	coef<=xmaif.coef;
 end
 generate
 for (genvar r=0;r<NRATIO;r=r+1) begin: ratio
+
+	(* ram_style = "registers" *) 
 	reg signed [15:0] zr[0:NDAC-1][0:NDAC-1];
+	(* ram_style = "registers" *) 
 	reg signed [15:0] zi[0:NDAC-1][0:NDAC-1];
 	for (genvar i=0;i<NDAC;i=i+1) begin: multirow
 		for (genvar j=0;j<NDAC;j=j+1) begin: multicol
@@ -90,7 +93,7 @@ endmodule
 
 interface ifxma #(parameter NDAC=4,parameter DAC_AXIS_DATAWIDTH=256)
 	(input clk);
-	logic [31:0] coef [0:NDAC-1][0:NDAC-1];
+	logic [31:0]coef  [0:NDAC-1][0:NDAC-1];
 	logic [DAC_AXIS_DATAWIDTH-1:0] sumcplxx[0:NDAC-1];
 	logic [DAC_AXIS_DATAWIDTH-1:0] sumcplxy[0:NDAC-1];
 	logic [DAC_AXIS_DATAWIDTH-1:0] daccplxx[0:NDAC-1];
