@@ -27,3 +27,4 @@ vivado_project
 vivado_project_sim
 webtalk*.jou
 webtalk*.log
+**/gensrc
