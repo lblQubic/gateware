@@ -1,5 +1,5 @@
 //qdrvelem qdrvelem (.elem(qdrvelem),.envaddr(addr_qdrvenv),.envdata(data_qdrvenv),.freqaddr(addr_qdrvfreq),.freqdata(data_qdrvfreq));
-module elementconn#(parameter ENV_ADDRWIDTH=32,parameter ENV_DATAWIDTH=32,parameter FREQ_ADDRWIDTH=32,parameter FREQ_DATAWIDTH=32)(ifelement.elem elem
+module elementconn#(parameter ENV_ADDRWIDTH=32,parameter ENV_DATAWIDTH=32,parameter FREQ_ADDRWIDTH=32,parameter FREQ_DATAWIDTH=32,parameter INTPRATIO=1)(ifelement.elem elem
 ,output [ENV_ADDRWIDTH-1:0] envaddr
 ,input [ENV_DATAWIDTH-1:0] envdata
 ,output [FREQ_ADDRWIDTH-1:0] freqaddr
@@ -22,8 +22,8 @@ reg [ENV_ADDRWIDTH-1:0] envaddr_r=0;
 reg [ENV_ADDRWIDTH-1:0] envaddr_r2=0;
 reg [ENV_ADDRWIDTH-1:0] envaddr_r3=0;
 reg [ENV_DATAWIDTH-1:0] envdata_r=0;
-reg [ENV_DATAWIDTH-1:0] envdata_r2=0;
-reg [ENV_DATAWIDTH-1:0] envdata_r3=0;
+reg [INTPRATIO*ENV_DATAWIDTH-1:0] envdata_r3=0;
+reg [INTPRATIO*ENV_DATAWIDTH-1:0] envdata_r2=0;
 wire lastenv=(envaddr_cnt==elem.envstart+elem.envlength-1);
 always @(posedge elem.clk) begin
 	if (elem.cmdstb) begin
@@ -46,11 +46,18 @@ always @(posedge elem.clk) begin
 	freqaddr_r4<=freqaddr_r3;
 	envdata_r<=envdata;
 	//envdata_r2<= elem.cw ? {NSLICE{32'h7fff0000}} :envdata_r ;
-	envdata_r2<= envdata_r ;
 	envdata_r3<= envdata_r2 ;
 	envaddr_r<=envaddr_cnt;
 	envaddr_r3<=envaddr_r2;
 end
+generate
+for (genvar j=0;j<ENV_DATAWIDTH/32;j=j+1) begin
+	always @(posedge elem.clk) begin
+		envdata_r2[INTPRATIO*j*32+:(INTPRATIO*32)] <= {INTPRATIO{envdata_r[j*32+:32]}};
+	end
+end
+endgenerate
+
 assign freqaddr=freqaddr_r;
 
 reg_delay1 #(.DW(ENV_ADDRWIDTH),.LEN(30)) envaddrdelay(.clk(elem.clk),.gate(1'b1),.din(envaddr_r),.dout(envaddr),.reset(1'b0));
@@ -124,6 +131,31 @@ assign elem2.postprobusy=elem2.valid;
 assign elem3.postprobusy=elem3.valid;
 endmodule
 
+module slicesum#(parameter DATAWIDTH=256,parameter SLICEWIDTH=16,parameter NITEM=8) (input clk,input signed [DATAWIDTH-1:0] xin [0:NITEM-1]
+,input signed [DATAWIDTH-1:0] yin[0:NITEM-1]
+,output valid
+,output [DATAWIDTH-1:0] xout
+,output [DATAWIDTH-1:0] yout
+);
+localparam NSLICE=DATAWIDTH/SLICEWIDTH;
+
+generate
+for (genvar i=0;i<NSLICE;i++) begin : stepslice
+	wire signed [SLICEWIDTH-1:0] xinslice[0:NITEM-1];
+	wire signed [SLICEWIDTH-1:0] yinslice[0:NITEM-1];
+	wire signed [SLICEWIDTH-1:0] xoutslice;
+	wire signed [SLICEWIDTH-1:0] youtslice;
+	for (genvar j=0;j<NITEM;j=j+1) begin
+		assign xinslice[j]=(SLICEWIDTH)'(signed'(xin[j][i*SLICEWIDTH+SLICEWIDTH-1:i*SLICEWIDTH]));
+		assign yinslice[j]=(SLICEWIDTH)'(signed'(yin[j][i*SLICEWIDTH+SLICEWIDTH-1:i*SLICEWIDTH]));
+	end
+	sum #(.DWIDTH(SLICEWIDTH),.NITEM(NITEM)) sumx(.clk(clk),.vin(xinslice),.vout(xoutslice),.gin(1'b1),.gout());
+	sum #(.DWIDTH(SLICEWIDTH),.NITEM(NITEM)) sumy(.clk(clk),.vin(yinslice),.vout(youtslice),.gin(1'b1),.gout());
+	assign xout[i*SLICEWIDTH+SLICEWIDTH-1:i*SLICEWIDTH]=xoutslice;
+	assign yout[i*SLICEWIDTH+SLICEWIDTH-1:i*SLICEWIDTH]=youtslice;
+end
+endgenerate
+endmodule
 module elementsum8#(parameter ENV_ADDRWIDTH=32,parameter ENV_DATAWIDTH=32,parameter FREQ_ADDRWIDTH=32,parameter FREQ_DATAWIDTH=32)(ifelement.out elem0
 ,ifelement.out elem1
 ,ifelement.out elem2
@@ -143,38 +175,38 @@ reg [NSLICE*16-1:0] sumy=0;
 
 generate
 for (genvar i=0;i<NSLICE;i++) begin : stepslice
-       reg [15:0] sumx0=0;
-       reg [15:0] sumx1=0;
-       reg [15:0] sumx2=0;
-       reg [15:0] sumx3=0;
-       reg [15:0] sumx4=0;
-       reg [15:0] sumx5=0;
-       reg [15:0] sumx6=0;
-       reg [15:0] sumy0=0;
-       reg [15:0] sumy1=0;
-       reg [15:0] sumy2=0;
-       reg [15:0] sumy3=0;
-       reg [15:0] sumy4=0;
-       reg [15:0] sumy5=0;
-       reg [15:0] sumy6=0;
-       always @(posedge elem0.clk) begin
-               sumx0<=elem0.multix_r[i*16+15:i*16+0]+elem1.multix_r[i*16+15:i*16+0];
-               sumx1<=elem2.multix_r[i*16+15:i*16+0]+elem3.multix_r[i*16+15:i*16+0];  //  not checking overflow, depends on usersumx0;
-               sumx2<=elem4.multix_r[i*16+15:i*16+0]+elem5.multix_r[i*16+15:i*16+0];
-               sumx3<=elem6.multix_r[i*16+15:i*16+0]+elem7.multix_r[i*16+15:i*16+0];  //  not checking overflow, depends on usersumx0;
-               sumx4<=sumx0+sumx1;
-               sumx5<=sumx2+sumx3;
-               sumx6<=sumx4+sumx5;
-               sumx[i*16+15:i*16]<=sumx6;
-               sumy0<=elem0.multiy_r[i*16+15:i*16+0]+elem1.multiy_r[i*16+15:i*16+0];
-               sumy1<=elem2.multiy_r[i*16+15:i*16+0]+elem3.multiy_r[i*16+15:i*16+0];  //  not checking overflow, depends on user
-               sumy2<=elem4.multiy_r[i*16+15:i*16+0]+elem5.multiy_r[i*16+15:i*16+0];
-               sumy3<=elem6.multiy_r[i*16+15:i*16+0]+elem7.multiy_r[i*16+15:i*16+0];  //  not checking overflow, depends on user
-               sumy4<=sumy1+sumy0;
-               sumy5<=sumy2+sumy3;
-               sumy6<=sumy4+sumy5;
-               sumy[i*16+15:i*16]<=sumy6;
-       end
+	reg [15:0] sumx0=0;
+	reg [15:0] sumx1=0;
+	reg [15:0] sumx2=0;
+	reg [15:0] sumx3=0;
+	reg [15:0] sumx4=0;
+	reg [15:0] sumx5=0;
+	reg [15:0] sumx6=0;
+	reg [15:0] sumy0=0;
+	reg [15:0] sumy1=0;
+	reg [15:0] sumy2=0;
+	reg [15:0] sumy3=0;
+	reg [15:0] sumy4=0;
+	reg [15:0] sumy5=0;
+	reg [15:0] sumy6=0;
+	always @(posedge elem0.clk) begin
+		sumx0<=elem0.multix[i*16+15:i*16+0]+elem1.multix[i*16+15:i*16+0];
+		sumx1<=elem2.multix[i*16+15:i*16+0]+elem3.multix[i*16+15:i*16+0];  //  not checking overflow, depends on usersumx0;
+		sumx2<=elem4.multix[i*16+15:i*16+0]+elem5.multix[i*16+15:i*16+0];
+		sumx3<=elem6.multix[i*16+15:i*16+0]+elem7.multix[i*16+15:i*16+0];  //  not checking overflow, depends on usersumx0;
+		sumx4<=sumx0+sumx1;
+		sumx5<=sumx2+sumx3;
+		sumx6<=sumx4+sumx5;
+		sumx[i*16+15:i*16]<=sumx6;
+		sumy0<=elem0.multiy[i*16+15:i*16+0]+elem1.multiy[i*16+15:i*16+0];
+		sumy1<=elem2.multiy[i*16+15:i*16+0]+elem3.multiy[i*16+15:i*16+0];  //  not checking overflow, depends on user
+		sumy2<=elem4.multiy[i*16+15:i*16+0]+elem5.multiy[i*16+15:i*16+0];
+		sumy3<=elem6.multiy[i*16+15:i*16+0]+elem7.multiy[i*16+15:i*16+0];  //  not checking overflow, depends on user
+		sumy4<=sumy1+sumy0;
+		sumy5<=sumy2+sumy3;
+		sumy6<=sumy4+sumy5;
+		sumy[i*16+15:i*16]<=sumy6;
+	end
 end
 endgenerate
 reg valid0=0;
@@ -182,10 +214,10 @@ reg valid1=0;
 reg valid2=0;
 reg valid3=0;
 always @(posedge elem0.clk) begin
-       valid0<=|{elem0.valid_r,elem1.valid_r,elem2.valid_r,elem3.valid_r};
-       valid1<=valid0;
-       valid2<=valid1;
-       valid3<=valid2;
+	valid0<=|{elem0.valid,elem1.valid,elem2.valid,elem3.valid};
+	valid1<=valid0;
+	valid2<=valid1;
+	valid3<=valid2;
 end
 assign multix=sumx;
 assign multiy=sumy;
@@ -212,8 +244,10 @@ always @(posedge elem.clk) begin
 	adcx_r<=adcx;
 	adcy_r<=adcy;
 end
-reg signed [32:0] multixi[0:NSLICE-1][0:NSLICE-1];
-reg signed [32:0] multiyi[0:NSLICE-1][0:NSLICE-1];
+(* ram_style = "registers" *)
+reg signed [32:0]multixi [0:NSLICE-1][0:NSLICE-1];
+(* ram_style = "registers" *)
+reg signed [32:0]multiyi [0:NSLICE-1][0:NSLICE-1];
 reg [32+NSLICEWIDTH-1:0] sumxslice[0:NSLICE-1];
 reg [32+NSLICEWIDTH-1:0] sumyslice[0:NSLICE-1];
 localparam NSLICE=FREQ_DATAWIDTH/32;
@@ -310,84 +344,84 @@ endmodule
 
 interface ifelement#(parameter ENV_ADDRWIDTH=32,parameter ENV_DATAWIDTH=32,parameter TCNTWIDTH=27,parameter FREQ_ADDRWIDTH=32,parameter FREQ_DATAWIDTH=32)(
 	input clk
-);
-logic reset;
-localparam NSLICE=FREQ_DATAWIDTH/32;
-logic cmdstb;
-reg [15:0] cmdstb_sr=0;
-reg dummy_cmdstb_sr=0;
-reg [15:0] reset_sr=0;
-//reg [12-1:0] envstart=0;  // force 12 bit, for the longer element
-//reg [12-1:0] envlength=0;
-reg [ENV_ADDRWIDTH-1:0] envstart=0;
-reg [ENV_ADDRWIDTH-1:0] envlength=0;
-reg [15:0] ampx=0;
-reg [15:0] ampy=0;
-reg [16:0] pini=0;
-reg [1:0] mode=0;
-logic valid;
-reg valid_r=0;
-logic [NSLICE*16-1:0] multix;
-logic [NSLICE*16-1:0] multiy;
-reg [NSLICE*16-1:0] multix_r=0;
-reg [NSLICE*16-1:0] multiy_r=0;
-logic [15:0] multix_check [0:NSLICE-1];
-logic [15:0] multiy_check [0:NSLICE-1];
-reg [TCNTWIDTH-1:0] tcnt=0;
-reg [127:0] command=0;
-reg [127:0] command_d=0;
-reg [127:0] command_d2=0;
-reg cw_d0=0;
-reg cw_d1=0;
-reg cw_d2=0;
-reg cw_d3=0;
-reg cw_d4=0;
-logic prepbusy;
-logic pulsebusy;
-logic postprobusy;
-reg busy_r=0;
-wire busy;
-assign busy=busy_r|cmdstb;
+	);
+	logic reset;
+	localparam NSLICE=FREQ_DATAWIDTH/32;
+	logic cmdstb;
+	reg [15:0] cmdstb_sr=0;
+	reg dummy_cmdstb_sr=0;
+	reg [15:0] reset_sr=0;
+	//reg [12-1:0] envstart=0;  // force 12 bit, for the longer element
+	//reg [12-1:0] envlength=0;
+	reg [ENV_ADDRWIDTH-1:0] envstart=0;
+	reg [ENV_ADDRWIDTH-1:0] envlength=0;
+	reg [15:0] ampx=0;
+	reg [15:0] ampy=0;
+	reg [16:0] pini=0;
+	reg [1:0] mode=0;
+	logic valid;
+	reg valid_r=0;
+	logic [NSLICE*16-1:0] multix;
+	logic [NSLICE*16-1:0] multiy;
+	reg [NSLICE*16-1:0] multix_r=0;
+	reg [NSLICE*16-1:0] multiy_r=0;
+	logic [15:0] multix_check [0:NSLICE-1];
+	logic [15:0] multiy_check [0:NSLICE-1];
+	reg [TCNTWIDTH-1:0] tcnt=0;
+	reg [127:0] command=0;
+	reg [127:0] command_d=0;
+	reg [127:0] command_d2=0;
+	reg cw_d0=0;
+	reg cw_d1=0;
+	reg cw_d2=0;
+	reg cw_d3=0;
+	reg cw_d4=0;
+	logic prepbusy;
+	logic pulsebusy;
+	logic postprobusy;
+	reg busy_r=0;
+	wire busy;
+	assign busy=busy_r|cmdstb;
 
-wire cw=cw_d2;//_sr[2];
-wire cw2=cw_d4;//_sr[2];
-reg [4:0] cw_sr=0;
-reg dummycw_sr=0;
-reg [26:0] trigt=0;
-reg [FREQ_ADDRWIDTH-1:0] freqaddr;
-generate
-for (genvar i=0;i<NSLICE;i=i+1) begin
-	assign multix_check[i]=multix[i*16+15:i*16];
-	assign multiy_check[i]=multiy[i*16+15:i*16];
-end
-endgenerate
-always @(posedge clk) begin
-	multix_r<=multix;
-	multiy_r<=multiy;
-	valid_r<=valid;
-	reset_sr<={reset_sr[14:0],reset};
-	//tcnt<= reset_sr[6] ? 0 : tcnt+1;
-	tcnt<= reset_sr[8] ? 0 : tcnt+1;
-	{dummy_cmdstb_sr,cmdstb_sr}<={cmdstb_sr,cmdstb};
-	//cw_d0<=((|{envstart,ampx,freqaddr,pini}) & (~|envlength));
-	cw_d0<=& (~|envlength);
-	cw_d1<=cw_d0;
-	cw_d2<=cw_d1;
-	cw_d3<=cw_d2;
-	cw_d4<=cw_d3;
-//	{dummycw_sr,cw_sr}<={cw_sr,cw0};
-	busy_r<=|{cmdstb,cmdstb_sr,prepbusy,pulsebusy,postprobusy} ;
-end
-modport proc(output envstart,envlength,ampx,ampy,freqaddr,pini,mode,cmdstb,reset
-,input clk,busy
-);
-modport elem(input clk,reset,cmdstb,cmdstb_sr,cw,cw2,envstart,envlength,ampx,pini,mode,tcnt,freqaddr
-,output multix,multiy,valid,prepbusy,pulsebusy
-);
-modport out(input clk,multix,multiy,valid
-,output postprobusy
-);
-modport mix(input clk,multix_r,multiy_r,valid_r,cmdstb
-,output postprobusy
-);
+	wire cw=cw_d2;//_sr[2];
+	wire cw2=cw_d4;//_sr[2];
+	reg [4:0] cw_sr=0;
+	reg dummycw_sr=0;
+	reg [26:0] trigt=0;
+	reg [FREQ_ADDRWIDTH-1:0] freqaddr;
+	generate
+	for (genvar i=0;i<NSLICE;i=i+1) begin
+		assign multix_check[i]=multix[i*16+15:i*16];
+		assign multiy_check[i]=multiy[i*16+15:i*16];
+	end
+	endgenerate
+	always @(posedge clk) begin
+		multix_r<=multix;
+		multiy_r<=multiy;
+		valid_r<=valid;
+		reset_sr<={reset_sr[14:0],reset};
+		//tcnt<= reset_sr[6] ? 0 : tcnt+1;
+		tcnt<= reset_sr[8] ? 0 : tcnt+1;
+		{dummy_cmdstb_sr,cmdstb_sr}<={cmdstb_sr,cmdstb};
+		//cw_d0<=((|{envstart,ampx,freqaddr,pini}) & (~|envlength));
+		cw_d0<=& (~|envlength);
+		cw_d1<=cw_d0;
+		cw_d2<=cw_d1;
+		cw_d3<=cw_d2;
+		cw_d4<=cw_d3;
+		//	{dummycw_sr,cw_sr}<={cw_sr,cw0};
+		busy_r<=|{cmdstb,cmdstb_sr,prepbusy,pulsebusy,postprobusy} ;
+	end
+	modport proc(output envstart,envlength,ampx,ampy,freqaddr,pini,mode,cmdstb,reset
+	,input clk,busy
+	);
+	modport elem(input clk,reset,cmdstb,cmdstb_sr,cw,cw2,envstart,envlength,ampx,pini,mode,tcnt,freqaddr
+	,output multix,multiy,valid,prepbusy,pulsebusy
+	);
+	modport out(input clk,multix,multiy,valid
+	,output postprobusy
+	);
+	modport mix(input clk,multix_r,multiy_r,valid_r,cmdstb
+	,output postprobusy
+	);
 endinterface

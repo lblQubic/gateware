@@ -7,20 +7,23 @@ interface panzoomtrigif #(parameter NCHAN=6,parameter ADDRWIDTH=9,parameter DATA
 	logic [DATAWIDTH-1:0] chan [0:NCHAN-1];
 
 
-	wire trig=stb_start; // add more later
+	reg trig=0;
+	always @(posedge clk) begin
+		trig<=stb_start; // add more later
+	end
 
 	reg [15:0]  delayaftertrigcnt=0;
-	reg [15:0]  delayaftertrig=0;
+	logic [15:0]  delayaftertrig;
 	wire delayaftertrigcnt0=~|delayaftertrigcnt;
-	reg [7:0] decimator=0;
+	logic [7:0] decimator;
 	reg [7:0] decimatorcnt=0;
 	wire decimator0=~|decimatorcnt;
 	reg [ADDRWIDTH-1:0] addr=0;
-	reg [ADDRWIDTH-1:0] nextaddr=0;
+	wire [ADDRWIDTH-1:0] nextaddr=addr+1;
 	reg [DATAWIDTH-1:0] data=0;
 	reg [DATAWIDTH-1:0] datasel=0;
 	reg we=0;
-	reg [4:0] chansel=0;
+	logic [4:0] chansel;
 	wire buffull=&addr;
 	enum {IDLE		=3'b111
 	,WAITFORTRIG	=3'b101
@@ -45,7 +48,7 @@ interface panzoomtrigif #(parameter NCHAN=6,parameter ADDRWIDTH=9,parameter DATA
 				nextstate = WAITFORTRIG;
 			end
 			WAITFORTRIG: begin
-				nextstate= trig ? DELAYAFTERTRIG : WAITFORTRIG;
+				nextstate= trig ? (delayaftertrigcnt0 ? WRITEBUF : DELAYAFTERTRIG) : WAITFORTRIG;
 			end
 			DELAYAFTERTRIG : begin
 				nextstate= delayaftertrigcnt0 ? WRITEBUF : DELAYAFTERTRIG ;
@@ -63,7 +66,6 @@ interface panzoomtrigif #(parameter NCHAN=6,parameter ADDRWIDTH=9,parameter DATA
 	end
 	always @(posedge clk) begin
 		datasel<=chan[chansel];
-		nextaddr<=addr+1;
 		if (reset) begin
 			delayaftertrigcnt<=delayaftertrig;
 			addr<=0;

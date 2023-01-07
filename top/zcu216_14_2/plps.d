@@ -1,9 +1,9 @@
 ../../dsp/ammod.v
-../../dsp/phtime.v
 ../../dsp/dsp.sv
 ../../dsp/element.sv
 ../../dsp/fakecore.sv
 ../../dsp/panzoomtrig.sv
+../../dsp/phtime.v
 ../../dsp/proc_core.sv
 ../../dsp/xmultadd.sv
 ../../submodules/board-support/zcu216/board.sv
@@ -13,6 +13,8 @@
 ../../submodules/board-support/zcu216/fpga_via.vh
 ../../submodules/board-support/zcu216/hwif.sv
 ../../submodules/common-hdl/areset.v
+../../submodules/common-hdl/asym_ram_sdp_read_wider.sv
+../../submodules/common-hdl/asym_ram_sdp_write_wider.sv
 ../../submodules/common-hdl/axi4_lb.v
 ../../submodules/common-hdl/axi4stream.sv
 ../../submodules/common-hdl/bram_if.sv
@@ -40,8 +42,6 @@
 ../../submodules/distributed_processor/hdl/qclk.v
 ../../submodules/distributed_processor/hdl/reg_file.v
 ../../submodules/distributed_processor/hdl/sync_iface.sv
-../../submodules/common-hdl/asym_ram_sdp_read_wider.sv
-../../submodules/common-hdl/asym_ram_sdp_write_wider.sv
 boardcfg.sv
 bram_para.vh
 bram_parainst.vh
@@ -76,3 +76,5 @@ reset_portinst.vh
 rfdc_plsv.vh
 rfdc_port.vh
 rfdc_portinst.vh
+../../submodules/common-hdl/sum.sv
+../../dsp/ifdsp.sv

@@ -67,11 +67,16 @@ apply_bd_automation -rule xilinx.com:bd_rule:debug -dict [list \
 connect_bd_net [get_bd_pins plps_0/dspclk] [get_bd_pins system_ila_0/clk]
 #apply_bd_automation -rule xilinx.com:bd_rule:board -config { Manual_Source {Auto}}  [get_bd_pins rst_psbd_100M/ext_reset_in]
 }
-# adc axis
 if {0} {
-set_property HDL_ATTRIBUTE.DEBUG true [get_bd_intf_nets {rf_data_converter_m20_axis}]
+set_property HDL_ATTRIBUTE.DEBUG true [get_bd_intf_nets {rf_data_converter_m30_axis}]
 apply_bd_automation -rule xilinx.com:bd_rule:debug -dict [list \
-                                                          [get_bd_intf_nets rf_data_converter_m20_axis] {AXIS_SIGNALS "Data and Trigger" CLK_SRC "/plps_0/dspclk" SYSTEM_ILA "Auto" APC_EN "0" } \
+                                                          [get_bd_intf_nets rf_data_converter_m30_axis] {AXIS_SIGNALS "Data and Trigger" CLK_SRC "/plps_0/dspclk" SYSTEM_ILA "Auto" APC_EN "0" } \
                                                          ]
 apply_bd_automation -rule xilinx.com:bd_rule:board -config { Manual_Source {/zynq_ultra_ps_e_0/pl_resetn0 (ACTIVE_LOW)}}  [get_bd_pins rst_psbd_500M/ext_reset_in]
 }
+if {0} {
+set_property HDL_ATTRIBUTE.DEBUG true [get_bd_intf_nets {plps_0_DAC20_M_AXIS}]
+apply_bd_automation -rule xilinx.com:bd_rule:debug -dict [list \
+                                                          [get_bd_intf_nets plps_0_DAC20_M_AXIS] {AXIS_SIGNALS "Data and Trigger" CLK_SRC "/plps_0/dspclk" SYSTEM_ILA "Auto" APC_EN "0" } \
+                                                         ]
+												 }

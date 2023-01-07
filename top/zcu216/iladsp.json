@@ -23,6 +23,9 @@
 		,"acqpztif[0].data":64
 		,"acqpztif[0].state":5
 		,"acqpztif[0].nextstate":5
+		,"stbprocend":16
+		,"procdone":16
+		,"nobusy":16
 	}
 }
 
