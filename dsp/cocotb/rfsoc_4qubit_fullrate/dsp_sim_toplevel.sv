@@ -20,7 +20,7 @@ module dsp_sim_toplevel#(
     //instantiate 3x qdrv elem mems
     genvar i;
     generate for(i=0; i<3; i=i+1) begin
-        wire cmd_wen, env_qdrv_wen, freq_qdrv_wen, env_rdrv_wen, freq_rdrv_wen, env_rdlo_wen, env_rdrv_wen;
+        wire cmd_wen, env_qdrv_wen, freq_qdrv_wen, env_rdrv_wen, freq_rdrv_wen, env_rdlo_wen, freq_rdlo_wen;
         assign cmd_wen = (proc_write_sel == i) & (mem_write_sel == 0) & mem_write_en;
         aligned_ram #(.DIN_WIDTH(32), .N_DIN_TO_DOUT(4), .DOUT_ADDR_WIDTH(COMMAND_R_ADDRWIDTH), .READ_LATENCY(2))
             cmd_mem(.clk(clk), .write_data(mem_write_data), .write_addr(mem_write_addr[COMMAND_W_ADDRWIDTH-1:0]),
