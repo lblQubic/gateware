@@ -1,5 +1,6 @@
 dsp_sim_toplevel.sv
 ../../../submodules/common-hdl/bram_if.sv
+../../../submodules/common-hdl/sum.sv
 ../../../submodules/common-hdl/areset.v
 ../../../submodules/common-hdl/cordicg3.sv
 ../../../submodules/common-hdl/freq_count3.v
@@ -8,12 +9,14 @@ dsp_sim_toplevel.sv
 ../../../top/zcu216/plps_port.vh
 ../../../submodules/common-hdl/cmultiplier2.v
 ../../dsp.sv
+../../ifdsp.sv
 ../../panzoomtrig.sv
 ../../element.sv
 ../../aligned_ram.v
 ../../ammod.v
 ../../proc_core.sv
 ../../xmultadd.sv
+../../phtime.v
 ../../../top/zcu216/iladsp.vh
 ../../../top/zcu216/plps_parainst.vh
 ../../../top/zcu216/plps_para.vh
@@ -27,7 +30,6 @@ dsp_sim_toplevel.sv
 ../../../top/zcu216/bram_write.vh
 ../../../top/zcu216/bramif_lbportinst.vh
 ../../../top/zcu216/bramif_lbport.vh
-../../../top/zcu216/phtime.v
 ../../../top/zcu216/braminit_parainst.vh
 ../../../top/zcu216/braminit_para.vh
 ../../../submodules/distributed_processor/hdl/alu.v
