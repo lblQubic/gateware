@@ -249,8 +249,8 @@ for (genvar i=0;i<2;i=i+1) begin: acqpztifwire
 	assign acqpztif[i].chan[5]=rdloelem[1].multiy;
 	assign acqpztif[i].chan[6]=rdloelem[2].multix;
 	assign acqpztif[i].chan[7]=rdloelem[2].multiy;
-	assign acqpztif[i].chan[8]=rdloelem[3].multix;
-	assign acqpztif[i].chan[9]=rdloelem[3].multiy;
+	//assign acqpztif[i].chan[8]=rdloelem[3].multix;
+	//assign acqpztif[i].chan[9]=rdloelem[3].multiy;
 	assign dspif.we_acqbuf[i]=acqpztif[i].we;
 	assign dspif.addr_acqbuf[i]=acqpztif[i].addr;
 	assign dspif.data_acqbuf[i]=acqpztif[i].data;

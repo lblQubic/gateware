@@ -35,10 +35,10 @@ async def test_const_pulse(dut):
     await dspunit.load_freq_buffer(freq_buffers[0], 0, 0)
     await dspunit.run_program(500)
     dacout_sim = st.generate_sim_dacout(pulse_seq, 16)
-    plt.plot(dspunit.dac_out[1])
+    plt.plot(dspunit.dac_out[0])
     plt.plot(dacout_sim)
     plt.show()
-    assert st.check_dacout_equal(dacout_sim, dspunit.dac_out[1])
+    assert st.check_dacout_equal(dacout_sim, dspunit.dac_out[0])
 
 @cocotb.test()
 async def test_ramp_pulse(dut):
@@ -72,10 +72,10 @@ async def test_ramp_pulse(dut):
 
     await dspunit.run_program(500)
     dacout_sim = st.generate_sim_dacout(pulse_seq, 16)
-    plt.plot(dspunit.dac_out[1])
+    plt.plot(dspunit.dac_out[0])
     plt.plot(dacout_sim)
     plt.show()
-    assert st.check_dacout_equal(dacout_sim, dspunit.dac_out[1])
+    assert st.check_dacout_equal(dacout_sim, dspunit.dac_out[0])
 
 @cocotb.test()
 async def test_consecutive_id_ramp_pulse(dut):
@@ -108,10 +108,10 @@ async def test_consecutive_id_ramp_pulse(dut):
 
     await dspunit.run_program(500)
     dacout_sim = st.generate_sim_dacout(pulse_seq, 16)
-    #plt.plot(dspunit.dac_out[1])
+    #plt.plot(dspunit.dac_out[0])
     #plt.plot(dacout_sim)
     #plt.show()
-    assert st.check_dacout_equal(dacout_sim, dspunit.dac_out[1])
+    assert st.check_dacout_equal(dacout_sim, dspunit.dac_out[0])
 
 @cocotb.test()
 async def test_consecutive_ramp_pulse(dut):
@@ -145,10 +145,10 @@ async def test_consecutive_ramp_pulse(dut):
 
     await dspunit.run_program(500)
     dacout_sim = st.generate_sim_dacout(pulse_seq, 16)
-    plt.plot(dspunit.dac_out[1])
+    plt.plot(dspunit.dac_out[0])
     plt.plot(dacout_sim)
     plt.show()
-    assert st.check_dacout_equal(dacout_sim, dspunit.dac_out[1])
+    assert st.check_dacout_equal(dacout_sim, dspunit.dac_out[0])
 
 @cocotb.test()
 async def test_rdrv_pulse(dut):
@@ -180,7 +180,7 @@ async def test_rdrv_pulse(dut):
 
     await dspunit.run_program(500)
     dacout_sim = st.generate_sim_dacout(pulse_seq, 16, extra_delay=2)
-    plt.plot(dspunit.dac_out[0])
+    plt.plot(dspunit.dac_out[3])
     plt.plot(dacout_sim)
     plt.show()
     assert st.check_dacout_equal(dacout_sim, dspunit.dac_out[0])
