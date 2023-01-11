@@ -49,8 +49,8 @@ always @(posedge hw.clk125) begin
 	cnt125<=cnt125+1;
 end
 assign cfgclk=hw.clk100;
-//assign dspclk=hw.clk104_pl_clk;// clk_dac2;
-assign dspclk=clk_dac2;
+assign dspclk=hw.clk104_pl_clk;// clk_dac2;
+//assign dspclk=clk_dac2;
 assign hw.ledrgb[0][1]=cnt100[27];
 assign hw.ledrgb[1][1]=cnt100[26];
 assign hw.ledrgb[2][1]=cnt100[25];
@@ -161,9 +161,9 @@ endgenerate
 //wire adc20datavalid;
 //axi4stream_slave_handshake_data #(.DATA_WIDTH (ADC_AXIS_DATAWIDTH))adc20hsda(.axis(adc20axis),.ready(1'b1),.datavalid(adc20datavalid),.data(dspif.adc[1]));
 wire adc30datavalid;
-axi4stream_slave_handshake_data #(.DATA_WIDTH (ADC_AXIS_DATAWIDTH))adc30hsda(.axis(adc30axis),.ready(1'b1),.datavalid(adc30datavalid),.data(dspif.adc[0]));
+axi4stream_slave_handshake_data #(.DATA_WIDTH (ADC_AXIS_DATAWIDTH))adc30hsda(.axis(adc30axis),.ready(1'b1),.datavalid(adc30datavalid),.data(dspif.adc[1]));
 wire adc32datavalid;
-axi4stream_slave_handshake_data #(.DATA_WIDTH (ADC_AXIS_DATAWIDTH))adc32hsda(.axis(adc32axis),.ready(1'b1),.datavalid(adc32datavalid),.data(dspif.adc[1]));
+axi4stream_slave_handshake_data #(.DATA_WIDTH (ADC_AXIS_DATAWIDTH))adc32hsda(.axis(adc32axis),.ready(1'b1),.datavalid(adc32datavalid),.data(dspif.adc[0]));
 
 axi4stream_master_handshake_data #(.DATA_WIDTH (DAC_AXIS_DATAWIDTH))dac00hsda(.axis(dac00axis),.datavalid(1'b1),.data(dspif.dac[3]));
 //axi4stream_master_handshake_data #(.DATA_WIDTH (DAC_AXIS_DATAWIDTH))dac01hsda(.axis(dac01axis),.datavalid(1'b1),.data(dspif.dac[14]));
