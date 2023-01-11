@@ -62,9 +62,9 @@ for (genvar i =0; i<NPROC; i=i+1) begin: procinst
 	);
 	elementconn #(.ENV_ADDRWIDTH(QDRVENV_R_ADDRWIDTH),.ENV_DATAWIDTH(QDRVENV_R_DATAWIDTH),.FREQ_ADDRWIDTH(QDRVFREQ_R_ADDRWIDTH),.FREQ_DATAWIDTH(QDRVFREQ_R_DATAWIDTH))
 	qdrvelemconn(.elem(qdrvelem[i]),.envaddr(dspif.addr_qdrvenv[i]),.envdata(dspif.data_qdrvenv[i]),.freqaddr(dspif.addr_qdrvfreq[i]),.freqdata(dspif.data_qdrvfreq[i]));
-	elementconn #(.ENV_ADDRWIDTH(RDRVENV_R_ADDRWIDTH),.ENV_DATAWIDTH(RDRVENV_R_DATAWIDTH),.FREQ_ADDRWIDTH(RDRVFREQ_R_ADDRWIDTH),.FREQ_DATAWIDTH(RDRVFREQ_R_DATAWIDTH),.INTPRATIO(8))
+	elementconn #(.ENV_ADDRWIDTH(RDRVENV_R_ADDRWIDTH),.ENV_DATAWIDTH(RDRVENV_R_DATAWIDTH),.FREQ_ADDRWIDTH(RDRVFREQ_R_ADDRWIDTH),.FREQ_DATAWIDTH(RDRVFREQ_R_DATAWIDTH),.INTPRATIO(16))
 	rdrvelemconn(.elem(rdrvelem[i]),.envaddr(dspif.addr_rdrvenv[i]),.envdata(dspif.data_rdrvenv[i]),.freqaddr(dspif.addr_rdrvfreq[i]),.freqdata(dspif.data_rdrvfreq[i]));
-	elementconn #(.ENV_ADDRWIDTH(RDLOENV_R_ADDRWIDTH),.ENV_DATAWIDTH(RDLOENV_R_DATAWIDTH),.FREQ_ADDRWIDTH(RDLOFREQ_R_ADDRWIDTH),.FREQ_DATAWIDTH(RDLOFREQ_R_DATAWIDTH),.INTPRATIO(2))
+	elementconn #(.ENV_ADDRWIDTH(RDLOENV_R_ADDRWIDTH),.ENV_DATAWIDTH(RDLOENV_R_DATAWIDTH),.FREQ_ADDRWIDTH(RDLOFREQ_R_ADDRWIDTH),.FREQ_DATAWIDTH(RDLOFREQ_R_DATAWIDTH),.INTPRATIO(4))
 	rdloelemconn(.elem(rdloelem[i]),.envaddr(dspif.addr_rdloenv[i]),.envdata(dspif.data_rdloenv[i]),.freqaddr(dspif.addr_rdlofreq[i]),.freqdata(dspif.data_rdlofreq[i]));
 end
 endgenerate
@@ -249,8 +249,8 @@ for (genvar i=0;i<2;i=i+1) begin: acqpztifwire
 	assign acqpztif[i].chan[5]=rdloelem[1].multiy;
 	assign acqpztif[i].chan[6]=rdloelem[2].multix;
 	assign acqpztif[i].chan[7]=rdloelem[2].multiy;
-	assign acqpztif[i].chan[8]=rdloelem[3].multix;
-	assign acqpztif[i].chan[9]=rdloelem[3].multiy;
+	//assign acqpztif[i].chan[8]=rdloelem[3].multix;
+	//assign acqpztif[i].chan[9]=rdloelem[3].multiy;
 	assign dspif.we_acqbuf[i]=acqpztif[i].we;
 	assign dspif.addr_acqbuf[i]=acqpztif[i].addr;
 	assign dspif.data_acqbuf[i]=acqpztif[i].data;

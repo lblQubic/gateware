@@ -11,16 +11,21 @@ module boardcfg #(
 ,output cfgclk
 ,output dspclk
 ,input pl_clk0
+,input clk_dac0
+,input clk_dac1
 ,input clk_dac2
 ,input clk_dac3
+,input clk_adc0
+,input clk_adc1
 ,input clk_adc2
-,input clkadc2_300
-,input clkadc2_600
+,input clk_adc3
+,input clkadc3_300
+,input clkadc3_600
 ,input aresetn
 ,output cfgreset
 ,output dspreset
 ,output psreset
-,output adc2reset
+,output adc3reset
 );
 wire reset=(~aresetn)|hw.gpio_sw_c;
 areset #(.WIDTH(1),.SRWIDTH(4))
@@ -30,7 +35,7 @@ dspareset(.clk(dspclk),.areset(reset),.sreset(dspreset),.sreset_val());
 areset #(.WIDTH(1),.SRWIDTH(4))
 psareset(.clk(pl_clk0),.areset(reset),.sreset(psreset),.sreset_val());
 areset #(.WIDTH(1),.SRWIDTH(4))
-adc2areset(.clk(clkadc2_600),.areset(reset),.sreset(adc2reset),.sreset_val());
+adc3areset(.clk(clkadc3_600),.areset(reset),.sreset(adc3reset),.sreset_val());
 
 gitrevision gitrevision(cfgregs.gitrevision);
 
@@ -87,11 +92,16 @@ enum {CLK100
 ,USERSI570C1
 ,CLK104PLSYSREF
 ,CLK104PLCLK
+,CLKDAC0
+,CLKDAC1
 ,CLKDAC2
 ,CLKDAC3
+,CLKADC0
+,CLKADC1
 ,CLKADC2
-,CLKADC2_300
-,CLKADC2_600
+,CLKADC3
+,CLKADC3_300
+,CLKADC3_600
 ,NFCNT
 } fcnt;
 
@@ -102,11 +112,16 @@ assign freq_cnt={cfgregs.fclk100
 ,cfgregs.fusersi570c1
 ,cfgregs.fclk104plsysref
 ,cfgregs.fclk104plclk
+,cfgregs.fclk_dac0
+,cfgregs.fclk_dac1
 ,cfgregs.fclk_dac2
 ,cfgregs.fclk_dac3
+,cfgregs.fclk_adc0
+,cfgregs.fclk_adc1
 ,cfgregs.fclk_adc2
-,cfgregs.fclkadc2_300
-,cfgregs.fclkadc2_600
+,cfgregs.fclk_adc3
+,cfgregs.fclkadc3_300
+,cfgregs.fclkadc3_600
 };
 
 wire [NFCNT-1:0] freqcnt_clks= {
@@ -116,11 +131,16 @@ wire [NFCNT-1:0] freqcnt_clks= {
 	,hw.usersi570c1
 	,hw.clk104_pl_sysref
 	,hw.clk104_pl_clk
+	,clk_dac0
+	,clk_dac1
 	,clk_dac2
 	,clk_dac3
+	,clk_adc0
+	,clk_adc1
 	,clk_adc2
-	,clkadc2_300
-	,clkadc2_600
+	,clk_adc3
+	,clkadc3_300
+	,clkadc3_600
 };
 
 genvar jx;
@@ -136,22 +156,31 @@ endgenerate
 `include "bram_read.vh"
 `include "bram_write.vh"
 
-wire adc20datavalid;
-//wire [ADC_AXIS_DATAWIDTH-1:0] adc20data_x;
-//axi4stream_slave_handshake_data #(.DATA_WIDTH (ADC_AXIS_DATAWIDTH))adc20hsda(.axis(adc20axis),.ready(1'b1),.datavalid(adc20datavalid),.data(adc20data_x));
-//samefreqxdomain #(.DW(ADC_AXIS_DATAWIDTH))adc20data_xdomain(.clkw(clkadc2_600),.clkr(dspclk),.dataw(adc20data_x),.datar(dspif.adc[0]),.reset(1'b0));
-axi4stream_slave_handshake_data #(.DATA_WIDTH (ADC_AXIS_DATAWIDTH))adc20hsda(.axis(adc20axis),.ready(1'b1),.datavalid(adc20datavalid),.data(dspif.adc[0]));
+//wire adc00datavalid;
+//axi4stream_slave_handshake_data #(.DATA_WIDTH (ADC_AXIS_DATAWIDTH))adc00hsda(.axis(adc00axis),.ready(1'b1),.datavalid(adc00datavalid),.data(dspif.adc[0]));
+//wire adc20datavalid;
+//axi4stream_slave_handshake_data #(.DATA_WIDTH (ADC_AXIS_DATAWIDTH))adc20hsda(.axis(adc20axis),.ready(1'b1),.datavalid(adc20datavalid),.data(dspif.adc[1]));
+wire adc30datavalid;
+axi4stream_slave_handshake_data #(.DATA_WIDTH (ADC_AXIS_DATAWIDTH))adc30hsda(.axis(adc30axis),.ready(1'b1),.datavalid(adc30datavalid),.data(dspif.adc[0]));
+wire adc32datavalid;
+axi4stream_slave_handshake_data #(.DATA_WIDTH (ADC_AXIS_DATAWIDTH))adc32hsda(.axis(adc32axis),.ready(1'b1),.datavalid(adc32datavalid),.data(dspif.adc[1]));
 
-wire adc21datavalid;
-//wire [ADC_AXIS_DATAWIDTH-1:0] adc21data_x;
-//axi4stream_slave_handshake_data #(.DATA_WIDTH (ADC_AXIS_DATAWIDTH))adc21hsda(.axis(adc21axis),.ready(1'b1),.datavalid(adc21datavalid),.data(adc21data_x));
-//samefreqxdomain #(.DW(ADC_AXIS_DATAWIDTH))adc21data_xdomain(.clkw(clkadc2_600),.clkr(dspclk),.dataw(adc21data_x),.datar(dspif.adc[1]),.reset(1'b0));
-axi4stream_slave_handshake_data #(.DATA_WIDTH (ADC_AXIS_DATAWIDTH))adc21hsda(.axis(adc21axis),.ready(1'b1),.datavalid(adc21datavalid),.data(dspif.adc[1]));
-
-axi4stream_master_handshake_data #(.DATA_WIDTH (DAC_AXIS_DATAWIDTH))dac32hsda(.axis(dac32axis),.datavalid(1'b1),.data(dspif.dac[0]));
-axi4stream_master_handshake_data #(.DATA_WIDTH (DAC_AXIS_DATAWIDTH))dac30hsda(.axis(dac30axis),.datavalid(1'b1),.data(dspif.dac[1]));
-axi4stream_master_handshake_data #(.DATA_WIDTH (DAC_AXIS_DATAWIDTH))dac22hsda(.axis(dac22axis),.datavalid(1'b1),.data(dspif.dac[2]));
-axi4stream_master_handshake_data #(.DATA_WIDTH (DAC_AXIS_DATAWIDTH))dac20hsda(.axis(dac20axis),.datavalid(1'b1),.data(dspif.dac[3]));
+axi4stream_master_handshake_data #(.DATA_WIDTH (DAC_AXIS_DATAWIDTH))dac00hsda(.axis(dac00axis),.datavalid(1'b1),.data(dspif.dac[3]));
+//axi4stream_master_handshake_data #(.DATA_WIDTH (DAC_AXIS_DATAWIDTH))dac01hsda(.axis(dac01axis),.datavalid(1'b1),.data(dspif.dac[14]));
+axi4stream_master_handshake_data #(.DATA_WIDTH (DAC_AXIS_DATAWIDTH))dac02hsda(.axis(dac02axis),.datavalid(1'b1),.data(dspif.dac[2]));
+//axi4stream_master_handshake_data #(.DATA_WIDTH (DAC_AXIS_DATAWIDTH))dac03hsda(.axis(dac03axis),.datavalid(1'b1),.data(dspif.dac[12]));
+axi4stream_master_handshake_data #(.DATA_WIDTH (DAC_AXIS_DATAWIDTH))dac10hsda(.axis(dac10axis),.datavalid(1'b1),.data(dspif.dac[1]));
+//axi4stream_master_handshake_data #(.DATA_WIDTH (DAC_AXIS_DATAWIDTH))dac11hsda(.axis(dac11axis),.datavalid(1'b1),.data(dspif.dac[10]));
+axi4stream_master_handshake_data #(.DATA_WIDTH (DAC_AXIS_DATAWIDTH))dac12hsda(.axis(dac12axis),.datavalid(1'b1),.data(dspif.dac[0]));
+//axi4stream_master_handshake_data #(.DATA_WIDTH (DAC_AXIS_DATAWIDTH))dac13hsda(.axis(dac13axis),.datavalid(1'b1),.data(dspif.dac[8]));
+//axi4stream_master_handshake_data #(.DATA_WIDTH (DAC_AXIS_DATAWIDTH))dac20hsda(.axis(dac20axis),.datavalid(1'b1),.data(dspif.dac[7]));
+//axi4stream_master_handshake_data #(.DATA_WIDTH (DAC_AXIS_DATAWIDTH))dac21hsda(.axis(dac21axis),.datavalid(1'b1),.data(dspif.dac[6]));
+//axi4stream_master_handshake_data #(.DATA_WIDTH (DAC_AXIS_DATAWIDTH))dac22hsda(.axis(dac22axis),.datavalid(1'b1),.data(dspif.dac[5]));
+//axi4stream_master_handshake_data #(.DATA_WIDTH (DAC_AXIS_DATAWIDTH))dac23hsda(.axis(dac23axis),.datavalid(1'b1),.data(dspif.dac[4]));
+//axi4stream_master_handshake_data #(.DATA_WIDTH (DAC_AXIS_DATAWIDTH))dac30hsda(.axis(dac30axis),.datavalid(1'b1),.data(dspif.dac[3]));
+//axi4stream_master_handshake_data #(.DATA_WIDTH (DAC_AXIS_DATAWIDTH))dac31hsda(.axis(dac31axis),.datavalid(1'b1),.data(dspif.dac[2]));
+//axi4stream_master_handshake_data #(.DATA_WIDTH (DAC_AXIS_DATAWIDTH))dac32hsda(.axis(dac32axis),.datavalid(1'b1),.data(dspif.dac[1]));
+//axi4stream_master_handshake_data #(.DATA_WIDTH (DAC_AXIS_DATAWIDTH))dac33hsda(.axis(dac33axis),.datavalid(1'b1),.data(dspif.dac[0]));
 assign dspif.clk=dspclk;
 reg dspreset_r=0;
 always @(posedge dspclk) begin
@@ -181,8 +210,8 @@ assign dspif.dacmonchansel[1]=dspregs.dacmonchansel1;
 assign dspif.dacmonchansel[2]=dspregs.dacmonchansel2;
 assign dspif.dacmonchansel[3]=dspregs.dacmonchansel3;
 
-assign dspif.mixbbxsel=dspregs.mixbbxsel;
-assign dspif.mixbbysel=dspregs.mixbbysel;
+assign dspif.mixbb1sel=dspregs.mixbb1sel;
+assign dspif.mixbb2sel=dspregs.mixbb2sel;
 assign dspif.shift=dspregs.shift;
 
 
@@ -202,20 +231,22 @@ assign dspif.coef[3][0]=dspregs.coef30;
 assign dspif.coef[3][1]=dspregs.coef31;
 assign dspif.coef[3][2]=dspregs.coef32;
 assign dspif.coef[3][3]=dspregs.coef33;
-
-reg [15:0] adc20axis_data=0;
-reg adc20axis_resetn=0;
-reg [31:0] test=0;
-always @(posedge dspclk) begin
-	test<=test+1;
-	adc20axis_data<=adc20axis.data;
-	adc20axis_resetn<=adc20axis.resetn;
-end
+assign dspregs.procdone=dspif.procdone;
+assign dspregs.cnt00=dac00axis.cnt;
+//assign dspregs.cnt01=dac01axis.cnt;
+assign dspregs.cnt02=dac02axis.cnt;
+//assign dspregs.cnt03=dac03axis.cnt;
+assign dspregs.cnt10=dac10axis.cnt;
+//assign dspregs.cnt11=dac11axis.cnt;
+assign dspregs.cnt12=dac12axis.cnt;
+//assign dspregs.cnt13=dac13axis.cnt;
+//assign dspregs.cnt20=dac20axis.cnt;
+//assign dspregs.cnt21=dac21axis.cnt;
+//assign dspregs.cnt22=dac22axis.cnt;
+//assign dspregs.cnt23=dac23axis.cnt;
+//assign dspregs.cnt30=dac30axis.cnt;
+//assign dspregs.cnt31=dac31axis.cnt;
+//assign dspregs.cnt32=dac32axis.cnt;
+//assign dspregs.cnt33=dac33axis.cnt;
 //`include "ilaauto.vh"
-/*"adc20axis.cnt":32
-		,"adc20axis.data":16
-		,"adc20axis.ready":1
-		,"adc20axis.valid":1
-	,"adc20axis.resetn":1
-	*/
 endmodule
