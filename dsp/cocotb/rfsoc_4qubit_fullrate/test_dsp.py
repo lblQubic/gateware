@@ -151,6 +151,41 @@ async def test_consecutive_ramp_pulse(dut):
     assert st.check_dacout_equal(dacout_sim, dspunit.dac_out[0])
 
 @cocotb.test()
+async def test_qdrv_initphase_ramp(dut):
+    freq = 347.e6
+    phase = np.pi/8
+    tstart = 10
+    pulse_length = 1000
+    amp = 0.9
+    env_i = np.arange(pulse_length)/pulse_length
+    env_q = np.zeros(pulse_length)/pulse_length
+    elemcfg = RFSoCElementCfg()
+
+    dspunit = dsp.DSPDriver(dut, 16, 16, 16, 16)
+
+    prog = asm.SingleCoreAssembler([elemcfg, elemcfg, elemcfg])
+    prog.add_phase_reset()
+    prog.add_pulse(freq, phase, amp, tstart, env_i + 1j*env_q, 0)
+    prog.add_done_stb()
+    cmd_list, env_buffers, freq_buffers = prog.get_compiled_program()
+    sim_prog = prog.get_sim_program()
+    pulse_seq = [sim_prog[1]]
+
+    cocotb.start_soon(dsp.generate_clock(dut))
+    await dspunit.load_program([cmd_list])
+    await dspunit.load_env_buffer(env_buffers[0], 0, 0)
+    await dspunit.load_freq_buffer(freq_buffers[0], 0, 0)
+    await dspunit.load_env_buffer(env_buffers[1], 1, 0)
+    await dspunit.load_freq_buffer(freq_buffers[1], 1, 0)
+
+    await dspunit.run_program(500)
+    dacout_sim = st.generate_sim_dacout(pulse_seq, 16)
+    plt.plot(dspunit.dac_out[0])
+    plt.plot(dacout_sim)
+    plt.show()
+    assert st.check_dacout_equal(dacout_sim, dspunit.dac_out[0])
+
+@cocotb.test()
 async def test_rdrv_pulse(dut):
     freq = 347.e6
     phase = np.pi/8
