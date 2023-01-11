@@ -4,16 +4,16 @@ module plsv #(`include "plps_para.vh"
 ,`include "braminit_para.vh"
 )(	`include "plps_port.vh"
 ,hwif hw
-,input clkadc2_300
-,input clkadc2_600
+,input clkadc3_300
+,input clkadc3_600
 );
 
 wire cfgreset;
 wire dspreset;
 wire psreset;
-wire adc2reset;
+wire adc3reset;
 wire psclk=pl_clk0;
-wire adc2clk=clkadc2_600;
+wire adc3clk=clkadc3_600;
 `include "reset_plsv.vh"
 iflocalbus #(.DATA_WIDTH(LB1_DATAWIDTH),.ADDR_WIDTH(LB1_ADDRWIDTH))
 lb1();
@@ -38,7 +38,7 @@ lb4map(.lb(lb4),.wren(lb4_wren),.rden(lb4_rden),.rdenlast(lb4_rdenlast),.waddr(l
 
 `include "bram_plsv.vh"
 
-ifbramctrl#(.DATA_WIDTH(LB3_DATAWIDTH),.ADDR_WIDTH(LB3_ADDRWIDTH),.READDELAY(3)
+ifbramctrl#(.DATA_WIDTH(LB3_DATAWIDTH),.ADDR_WIDTH(LB3_ADDRWIDTH),.READDELAY(5)
 ,`include "bram_parainst.vh"
 ,`include "braminit_parainst.vh"
 )
@@ -70,16 +70,21 @@ boardcfg(.hw(hw),.cfgregs(cfgregs.regs)
 ,.pl_clk0(pl_clk0)
 ,.cfgclk(cfgclk)
 ,.dspclk(dspclk)
+,.clk_dac0(clk_dac0)
+,.clk_dac1(clk_dac1)
 ,.clk_dac2(clk_dac2)
 ,.clk_dac3(clk_dac3)
+,.clk_adc0(clk_adc0)
+,.clk_adc1(clk_adc1)
 ,.clk_adc2(clk_adc2)
-,.clkadc2_300(clkadc2_300)
-,.clkadc2_600(clkadc2_600)
+,.clk_adc3(clk_adc3)
+,.clkadc3_300(clkadc3_300)
+,.clkadc3_600(clkadc3_600)
 ,.aresetn(aresetn)
 ,.cfgreset(cfgreset)
 ,.dspreset(dspreset)
 ,.psreset(psreset)
-,.adc2reset(adc2reset)
+,.adc3reset(adc3reset)
 );
 dsp #(`include "plps_parainst.vh"
 ,`include "bram_parainst.vh"

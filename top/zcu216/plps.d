@@ -26,6 +26,7 @@
 ../../submodules/common-hdl/samefreqxdomain_1.v
 ../../submodules/common-hdl/via.v
 ../../submodules/common-hdl/viabus.v
+../../submodules/common-hdl/sum.sv
 ../../submodules/distributed_processor/hdl/alu.v
 ../../submodules/distributed_processor/hdl/cmd_mem.v
 ../../submodules/distributed_processor/hdl/cmd_mem_iface.sv

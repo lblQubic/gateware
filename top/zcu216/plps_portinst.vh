@@ -49,8 +49,8 @@
 ,.lb4_clk(lb4_clk)
 ,.lb4_aresetn(lb4_aresetn)
 
-,.clkadc2_300(clkadc2_300)
-,.clkadc2_600(clkadc2_600)
+,.clkadc3_300(clkadc3_300)
+,.clkadc3_600(clkadc3_600)
 
 ,`include "rfdc_portinst.vh"
 ,.cfgclk(cfgclk)
