@@ -1,6 +1,7 @@
 ../../dsp/ammod.v
 ../../dsp/phtime.v
 ../../dsp/dsp.sv
+../../dsp/ifdsp.sv
 ../../dsp/element.sv
 ../../dsp/fakecore.sv
 ../../dsp/panzoomtrig.sv
