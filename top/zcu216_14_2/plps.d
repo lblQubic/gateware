@@ -2,6 +2,7 @@
 ../../dsp/dsp.sv
 ../../dsp/element.sv
 ../../dsp/fakecore.sv
+../../dsp/ifdsp.sv
 ../../dsp/panzoomtrig.sv
 ../../dsp/phtime.v
 ../../dsp/proc_core.sv
@@ -25,6 +26,7 @@
 ../../submodules/common-hdl/iflocalbus.tcl
 ../../submodules/common-hdl/reg_delay1.v
 ../../submodules/common-hdl/samefreqxdomain_1.v
+../../submodules/common-hdl/sum.sv
 ../../submodules/common-hdl/via.v
 ../../submodules/common-hdl/viabus.v
 ../../submodules/distributed_processor/hdl/alu.v
@@ -42,6 +44,9 @@
 ../../submodules/distributed_processor/hdl/qclk.v
 ../../submodules/distributed_processor/hdl/reg_file.v
 ../../submodules/distributed_processor/hdl/sync_iface.sv
+../src/plps.v
+../src/plpsboard.sv
+../src/plsv.sv
 boardcfg.sv
 bram_para.vh
 bram_parainst.vh
@@ -62,13 +67,10 @@ ilaauto.tcl
 ilaauto.vh
 iladsp.tcl
 iladsp.vh
-plps.v
 plps_para.vh
 plps_parainst.vh
 plps_port.vh
 plps_portinst.vh
-plpsboard.sv
-plsv.sv
 reset_para.vh
 reset_plsv.vh
 reset_port.vh
@@ -76,5 +78,3 @@ reset_portinst.vh
 rfdc_plsv.vh
 rfdc_port.vh
 rfdc_portinst.vh
-../../submodules/common-hdl/sum.sv
-../../dsp/ifdsp.sv

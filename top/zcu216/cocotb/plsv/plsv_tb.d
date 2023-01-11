@@ -1,8 +1,7 @@
-../../plsv.sv
+../../../src/plsv.sv
 plsv_tb.sv
 ../../../../submodules/common-hdl/iflocalbus.sv
 ../../../../submodules/common-hdl/bram_if.sv
-../../pltop.sv
 ../../../../submodules/common-hdl/areset.v
 ../../ifdspregs.sv
 ../../ifcfgregs.sv
@@ -73,3 +72,5 @@ plsv_tb.sv
 ../../../../dsp/phtime.v
 ../../ilaauto.v
 ../../ilaauto.vh
+../../../../dsp/ifdsp.sv
+../../../../submodules/common-hdl/sum.sv

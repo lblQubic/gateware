@@ -17,4 +17,6 @@ parameter DEBUG="true"
 ,parameter integer NDAC=16
 ,parameter integer NDACMON=4
 ,parameter integer NACQ=2
+,parameter integer RDLOINTPRATIO=4
+,parameter integer RDRVINTPRATIO=16
 ,`include "reset_para.vh"

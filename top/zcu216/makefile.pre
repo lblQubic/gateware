@@ -7,9 +7,9 @@ ifdspregs.sv: dspregs.json ../../submodules/tools/axilb.py ../../submodules/comm
 	python ../../submodules/tools/axilb.py -m dspregs.json -b ../../submodules/common-hdl/axilb.json -o ifdspregs -u 
 ifcfgregs.sv:	cfgregs.json ../../submodules/tools/axilb.py ../../submodules/common-hdl/axilb.json makefile.pre
 	python ../../submodules/tools/axilb.py -m cfgregs.json -b ../../submodules/common-hdl/axilb.json -o ifcfgregs -u
-bramvh: bram.json bramvhgen.py
-	python bramvhgen.py
-rfdcvh: rfdc.py	
-	python rfdc.py
-resetvh: reset.py
-	python reset.py
+bramvh: bram.json ../src/bramvhgen.py
+	python ../src/bramvhgen.py
+rfdcvh: ../src/rfdc.py	
+	python ../src/rfdc.py
+resetvh: ../src/reset.py
+	python ../src/reset.py

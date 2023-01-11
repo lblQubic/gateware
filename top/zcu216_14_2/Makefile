@@ -8,9 +8,9 @@ DATETIME = $(shell date  +'%Y%m%d%H%M%S')
 AUTOCOMMITMSG=Makefileautomatedcommit
 TOOLS="../../submodules/tools/"
 psbd: plps bramwithctrl.tcl
-	time vivado -mode batch -source psbd.tcl
+	time vivado -mode batch -source ../src/psbd.tcl
 plps: clean pre gitrevision.v
-	time vivado -mode batch -source plps.tcl
+	time vivado -mode batch -source ../src/plps.tcl
 pre: makefile.pre	
 	make -f makefile.pre
 
@@ -30,7 +30,7 @@ gitpush:
 	python submodules/tools/gitauto.py -action push
 
 
-$(TGT).bit: $(TGT).tcl psbd
+$(TGT).bit: $(TGT)
 	$(eval FNAME:=$(TGT)_$(DATETIME)_$(COMMITNUM))
 	echo $(FNAME)
 	cp -f vivado_project/$(TGT)/$(TGT).runs/impl_1/$(TGT).bit  ./bits/$(FNAME).bit

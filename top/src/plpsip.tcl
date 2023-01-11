@@ -138,7 +138,7 @@ brambus acqbuf1
 }
 
 
-fpgaif "fpga_master_dir"
+fpgaif "../src/fpga_master_dir"
 set_property master_direction in [ipx::get_bus_abstraction_ports G12 -of_objects [ipx::current_busabs]]
 set_property master_direction in [ipx::get_bus_abstraction_ports G11 -of_objects [ipx::current_busabs]]
 set_property slave_direction in [ipx::get_bus_abstraction_ports G12 -of_objects [ipx::current_busabs]]
@@ -156,7 +156,7 @@ ipx::add_bus_parameter NUM_READ_OUTSTANDING [ipx::get_bus_interfaces fpga -of_ob
 ipx::add_bus_parameter NUM_WRITE_OUTSTANDING [ipx::get_bus_interfaces fpga -of_objects [ipx::current_core]]
 set_property abstraction_type_vlnv fpga:user:fpga_rtl:1.0 [ipx::get_bus_interfaces fpga -of_objects [ipx::current_core]]
 set_property bus_type_vlnv fpga:user:fpga:1.0 [ipx::get_bus_interfaces fpga -of_objects [ipx::current_core]]
-fpgamap "fpga_master_dir"
+fpgamap "../src/fpga_master_dir"
 
 set_property ip_repo_paths {vivado_project/iflocalbus} [current_project]
 update_ip_catalog
@@ -200,6 +200,7 @@ ipx::check_integrity [ipx::current_core]
 ipx::save_core [ipx::current_core]
 update_ip_catalog
 
+clkbus pl_sysref
 clkbus cfgclk
 clkbus dspclk
 clkbus clkadc2_300

@@ -7,7 +7,7 @@ source ${submodulepath}/tools/proj.tcl
 source ${submodulepath}/tools/depsrc.tcl
 source ${submodulepath}/tools/synimpbit.tcl
 proj ${target} ${part} ${outputdir} ${depd}
-source ../zcu216/plpsip.tcl
+source ../src/plpsip.tcl
 #ipx::package_project  -root_dir ./vivado_project/plip -set_current false
 #-vendor user.org -library user -taxonomy /UserIP -import_files 
 #synimpbit $target 11
