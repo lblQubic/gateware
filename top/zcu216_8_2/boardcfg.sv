@@ -167,11 +167,11 @@ axi4stream_slave_handshake_data #(.DATA_WIDTH (ADC_AXIS_DATAWIDTH))adc32hsda(.ax
 
 axi4stream_master_handshake_data #(.DATA_WIDTH (DAC_AXIS_DATAWIDTH))dac00hsda(.axis(dac00axis),.datavalid(1'b1),.data(dspif.dac[8]));
 axi4stream_master_handshake_data #(.DATA_WIDTH (DAC_AXIS_DATAWIDTH))dac01hsda(.axis(dac01axis),.datavalid(1'b1),.data(dspif.dac[3]));
-axi4stream_master_handshake_data #(.DATA_WIDTH (DAC_AXIS_DATAWIDTH))dac02hsda(.axis(dac02axis),.datavalid(1'b1),.data(dspif.dac[0]));
+axi4stream_master_handshake_data #(.DATA_WIDTH (DAC_AXIS_DATAWIDTH))dac02hsda(.axis(dac02axis),.datavalid(1'b1),.data(dspif.dac[2]));
 axi4stream_master_handshake_data #(.DATA_WIDTH (DAC_AXIS_DATAWIDTH))dac03hsda(.axis(dac03axis),.datavalid(1'b1),.data(dspif.dac[4]));
 axi4stream_master_handshake_data #(.DATA_WIDTH (DAC_AXIS_DATAWIDTH))dac10hsda(.axis(dac10axis),.datavalid(1'b1),.data(dspif.dac[1]));
 axi4stream_master_handshake_data #(.DATA_WIDTH (DAC_AXIS_DATAWIDTH))dac11hsda(.axis(dac11axis),.datavalid(1'b1),.data(dspif.dac[5]));
-axi4stream_master_handshake_data #(.DATA_WIDTH (DAC_AXIS_DATAWIDTH))dac12hsda(.axis(dac12axis),.datavalid(1'b1),.data(dspif.dac[2]));
+axi4stream_master_handshake_data #(.DATA_WIDTH (DAC_AXIS_DATAWIDTH))dac12hsda(.axis(dac12axis),.datavalid(1'b1),.data(dspif.dac[0]));
 axi4stream_master_handshake_data #(.DATA_WIDTH (DAC_AXIS_DATAWIDTH))dac13hsda(.axis(dac13axis),.datavalid(1'b1),.data(dspif.dac[6]));
 axi4stream_master_handshake_data #(.DATA_WIDTH (DAC_AXIS_DATAWIDTH))dac20hsda(.axis(dac20axis),.datavalid(1'b1),.data(dspif.dac[7]));
 //axi4stream_master_handshake_data #(.DATA_WIDTH (DAC_AXIS_DATAWIDTH))dac21hsda(.axis(dac21axis),.datavalid(1'b1),.data(dspif.dac[6]));
