@@ -1,3 +1,52 @@
+def adctile(tile,fsample=2000,sampratio=4,outratio=8):
+    fref=fsample/sampratio  if tile==2 else fsample
+    fout=fsample/outratio
+    return {
+    "CONFIG.ADC%(tile)d_Clock_Dist":"2" if tile ==2 else "0"
+    ,"CONFIG.ADC%(tile)d_Clock_Source":"2"
+    ,"CONFIG.ADC%(tile)d_Enable":"1"
+    ,"CONFIG.ADC%(tile)d_Link_Coupling":"0"
+    ,"CONFIG.ADC%(tile)d_Multi_Tile_Sync":"true"
+    ,"CONFIG.ADC%(tile)d_Outclk_Freq":"%.3f"%(fout)
+    ,"CONFIG.ADC%(tile)d_PLL_Enable":"true" if tile ==2 else "false"
+    ,"CONFIG.ADC%(tile)d_Refclk_Freq":"%.3f"%fref
+    ,"CONFIG.ADC%(tile)d_Sampling_Rate":"%.3f"%(fsample/1000)
+    }
+    #    ,"CONFIG.ADC%(tile)d_Fabric_Freq":"%.3f"%freq 
+def adcchan(tile,chan,datawidth=4):
+    return {
+    "CONFIG.ADC_Coarse_Mixer_Freq%(tile)s%(chan)s":"3"
+    ,"CONFIG.ADC_Data_Width%(tile)d%(chan)d":"%d"%(datawidth)
+    ,"CONFIG.ADC_Decimation_Mode%(tile)d%(chan)d":"1"
+    ,"CONFIG.ADC_Dither%(tile)d%(chan)d":"false"
+    ,"CONFIG.ADC_Mixer_Type%(tile)d%(chan)d":"1"
+    ,"CONFIG.ADC_OBS%(tile)d%(chan)d":"0"
+    ,"CONFIG.ADC_Slice%(tile)d%(chan)d_Enable":"true"
+    }
+def dactile(tile,fsample=8000,sampratio=16,outratio=16):
+    fref=fsample/sampratio if tile==2 else fsample
+    fout=fsample/outratio
+    return {
+    "CONFIG.DAC%(tile)d_Clock_Source":"6"
+    ,"CONFIG.DAC%(tile)d_Enable":"1"
+    ,"CONFIG.DAC%(tile)d_Link_Coupling":"0"
+    ,"CONFIG.DAC%(tile)d_Multi_Tile_Sync":"true"
+    ,"CONFIG.DAC%(tile)d_Outclk_Freq":"%.3f"%(fout)
+    ,"CONFIG.DAC%(tile)d_PLL_Enable":"true" if tile==2 else "false"
+    ,"CONFIG.DAC%(tile)d_Refclk_Freq":"%.3f"%fref
+    ,"CONFIG.DAC%(tile)d_Sampling_Rate":"%.3f"%(fsample/1000)
+    ,"CONFIG.DAC%(tile)d_Clock_Dist":"2" if tile==2 else "0"
+    }
+    #,"CONFIG.DAC%(tile)d_Fabric_Freq":"%.3f"%freq
+def dacchan(tile,chan):
+    return {
+    "CONFIG.DAC_Coarse_Mixer_Freq%(tile)d%(chan)d":"3"
+    ,"CONFIG.DAC_Interpolation_Mode%(tile)d%(chan)d":"1"
+    ,"CONFIG.DAC_Mixer_Type%(tile)d%(chan)d":"1"
+    ,"CONFIG.DAC_Mode%(tile)d%(chan)d":"3"
+    ,"CONFIG.DAC_Nyquist%(tile)d%(chan)d":"0"
+    ,"CONFIG.DAC_Slice%(tile)d%(chan)d_Enable":"true"
+    }
 def rfdc(dactilechan,adctilechan):    
     dacporttemplate='''input  %(DACNAME)s_M_AXIS_ACLK
     ,input  %(DACNAME)s_M_AXIS_ARESETN
@@ -72,6 +121,12 @@ def rfdc(dactilechan,adctilechan):
     dacifportinsttemplate='''.%(dacname)saxis(%(dacname)saxis.master)'''
     adcifportinsttemplate='''.%(adcname)saxis(%(adcname)saxis.slave)'''
 
+    tcltemplate='''create_bd_cell -type ip -vlnv xilinx.com:ip:usp_rf_data_converter:2.6 rf_data_converter
+set_property -dict {
+CONFIG.Axiclk_Freq {100}
+%(rfdc)s
+} [get_bd_cells rf_data_converter]'''
+
 
 
     dacports=[]
@@ -80,11 +135,15 @@ def rfdc(dactilechan,adctilechan):
     dacwire=[]
     dacsimclk=[]
     dacplsv=[]
+    dactiletcl=[]
+    dacchantcl=[]
     dacifport=[]
     dacifportinst=[]
     adcifport=[]
     adcifportinst=[]
     dactiles=[]
+    adctiletcl=[]
+    adcchantcl=[]
     for tile,chan in dactilechan:
         dacparadict.update(dict(dactile=tile))
         DACNAME='DAC%d%d'%(tile,chan)
@@ -96,11 +155,14 @@ def rfdc(dactilechan,adctilechan):
         dacplsv.append(dacplsvtemplate%(dacparadict))
         dacifport.append(dacifporttemplate%(dacparadict))
         dacifportinst.append(dacifportinsttemplate%(dacparadict))
+        dacchantcl.append('\n'.join(['%(key)s {%(value)s}'%(dict(key=k%(dict(tile=tile,chan=chan)),value=v)) for k,v in dacchan(tile,chan).items()]))
+
         if tile not in dactiles:
             dactiles.append(tile)
             dacports.append(dacclkporttemplate%(dacparadict))
             dacportinsts.append(dacclkportinsttemplate%(dacparadict))
             dacsimclk.append(dacsimclktemplate%(dacparadict))
+            dactiletcl.append('\n'.join(['%(key)s {%(value)s}'%(dict(key=k%(dict(tile=tile,chan=chan)),value=v)) for k,v in dactile(tile).items()]))
 
     adcports=[]
     adcportinsts=[]
@@ -120,11 +182,13 @@ def rfdc(dactilechan,adctilechan):
         adcplsv.append(adcplsvtemplate%(adcparadict))
         adcifport.append(adcifporttemplate%(adcparadict))
         adcifportinst.append(adcifportinsttemplate%(adcparadict))
+        adcchantcl.append('\n'.join(['%(key)s {%(value)s}'%(dict(key=k%(dict(tile=tile,chan=chan)),value=v)) for k,v in adcchan(tile,chan).items()]))
         if tile not in adctiles:
             adctiles.append(tile)
             adcports.append(adcclkporttemplate%(adcparadict))
             adcportinsts.append(adcclkportinsttemplate%(adcparadict))
             adcsimclk.append(adcsimclktemplate%(adcparadict))
+            adctiletcl.append('\n'.join(['%(key)s {%(value)s}'%(dict(key=k%(dict(tile=tile,chan=chan)),value=v)) for k,v in adctile(tile).items()]))
 
     with open("rfdc_port.vh",'w') as f:
         f.write('\n,'.join(dacports+adcports))
@@ -140,8 +204,13 @@ def rfdc(dactilechan,adctilechan):
         f.write('\n,'.join(dacifport+adcifport))        
     with open("rfdcif_portinst.vh",'w') as f:
         f.write('\n,'.join(dacifportinst+adcifportinst))        
+
+    print(tcltemplate%(dict(rfdc='\n'.join(adctiletcl+adcchantcl+dactiletcl+dacchantcl))))
 if __name__=="__main__":
     import json
     with open('rfdc.json') as fjson:
         rfdccfg=json.load(fjson)
     rfdc(rfdccfg['dactilechan'],rfdccfg['adctilechan'])    
+
+
+

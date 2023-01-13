@@ -30,9 +30,9 @@ class plsv():
 
         nproc=8
         nfreq=6
-        self.rabit()
+#        self.rabit()
 #        self.rblob()
-#        self.vna()
+        self.vna()
         if 0:
             for i in range(nproc):
                 buf='command%d'%i
@@ -314,12 +314,15 @@ class plsv():
 
             a.cmdbuf(buf,[command_gen.done_cmd()])
         for envname in ['%senv%d'%(name,i) for name in ['qdrv','rdrv','rdlo'] for i in range(8)]:
-            a.envbuf(envname,[numpy.ones(a.brams[envname].length)*0x7fff0000],0)
+            #a.envbuf(envname,[numpy.ones(a.brams[envname].length)*0x7fff0000],0)
+            a.envbuf(envname,[numpy.arange(a.brams[envname].length)],0)
     def rabit(self):
         a=self
         chan=7
         for envname in ['%senv%d'%(name,i) for name in ['qdrv','rdrv','rdlo'] for i in range(8)]:
-            a.envbuf(envname,[numpy.ones(a.brams[envname].length)*0x7fff0000],0)
+            if (envname=="rdrvenv3"):
+                #a.envbuf(envname,[numpy.ones(a.brams[envname].length)*0x7fff0000],0)
+                a.envbuf(envname,[numpy.arange(a.brams[envname].length)],0)
         fr=[10e6,6.55e9,]
         fq=[20e6,5.34e9,]
         a.freqbuf('qdrvfreq%d'%chan,fq,ratio=16,ffpga=500e6)

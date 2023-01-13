@@ -11,3 +11,4 @@ source ../src/plpsip.tcl
 #ipx::package_project  -root_dir ./vivado_project/plip -set_current false
 #-vendor user.org -library user -taxonomy /UserIP -import_files 
 #synimpbit $target 11
+#close_project
