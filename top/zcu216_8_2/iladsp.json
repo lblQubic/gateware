@@ -1,12 +1,14 @@
 {
 	"clk":"dspif.clk"
 	,"probes":{
-		"adc[0]":16
-		,"dspif.adc[0]":16
-		,"dspif.dac[0]":16
-		,"dspif.dac[1]":16
-		,"dspif.dac[7]":16
-		,"dspif.dac[13]":16
+		"dspif.addr_rdrvenv[0]":16
+		,"dspif.data_rdrvenv[0]":32
+		,"dspif.addr_rdrvenv[1]":16
+		,"dspif.data_rdrvenv[1]":32
+		,"dspif.addr_rdrvenv[2]":16
+		,"dspif.data_rdrvenv[2]":32
+		,"dspif.addr_rdrvenv[3]":16
+		,"dspif.data_rdrvenv[3]":32
 		,"dspif.stb_start":1
 		,"state":4
 		,"nextstate":4
@@ -23,16 +25,6 @@
 		,"mixbb1":64
 		,"mixbb2":64
 		,"dspif.shift":5
-		,"rdloelem[0].multix":64
-		,"rdloelem[0].multiy":64
-		,"rdloelem[0].valid":1
-		,"data_accbuf[0]":64
-		,"addr_accbuf[0]":10
-		,"rdloelem[9].multix":64
-		,"rdloelem[9].multiy":64
-		,"rdloelem[9].valid":1
-		,"data_accbuf[9]":64
-		,"addr_accbuf[9]":10
 	}
 }
 

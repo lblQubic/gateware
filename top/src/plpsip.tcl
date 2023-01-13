@@ -90,6 +90,7 @@ ipx::package_project -root_dir ./vivado_project/plip -vendor user.org -library u
 ipx::package_project -root_dir ./vivado_project/plip -vendor user.org -library user -taxonomy /UserIP -import_files -set_current false -force
 ipx::unload_core ./vivado_project/plip/component.xml
 ipx::open_ipxact_file ./vivado_project/plip/component.xml
+
 #ipx::edit_ip_in_project -upgrade true -name plip -directory ./vivado_project/plip ./vivado_project/plip/component.xml
 if {0} {
 brambus qdrvenv0
