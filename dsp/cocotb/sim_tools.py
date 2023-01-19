@@ -5,7 +5,7 @@ from distproc.command_gen import twos_complement
 
 CORDIC_DELAY = 47 #in clks
 PHASEIN_DELAY = 1
-QCLK_DELAY = 2
+QCLK_DELAY = 4
 CSTROBE_DELAY = 1 #in clks
 PHASE_RST_DELAY = 8
 CLK_CYCLE = 2 # in ns
@@ -70,7 +70,7 @@ def dac_debug_plots(program, dac_out):
     plt.xlabel('Time (ns)')
     plt.show()
 
-def generate_sim_dacout(pulse_sequence, samples_per_clk, extra_delay=0, ncycles=N_CLKS):
+def generate_sim_dacout(pulse_sequence, samples_per_clk, extra_delay=0, interp_ratio=1, ncycles=N_CLKS):
     dac_out_sim = np.zeros(ncycles)
     scale_factor = 2**(ENV_BITS - 1)
     for pulse in pulse_sequence:
@@ -78,6 +78,8 @@ def generate_sim_dacout(pulse_sequence, samples_per_clk, extra_delay=0, ncycles=
         start_time = samples_per_clk*pulse['start_time'] + samples_per_clk*(CSTROBE_DELAY + QCLK_DELAY + PHASEIN_DELAY)
         phases = pulse['phase'] + 2*np.pi*(CLK_CYCLE/samples_per_clk)\
                 *1.e-9*(sample_inds + start_time - samples_per_clk*(PHASE_RST_DELAY))*pulse['freq']
+        if interp_ratio>1:
+            pulse['env'] = np.vstack([pulse['env'] for i in range(interp_ratio)]).T.flatten()
         env_i = scale_factor*pulse['amp']*np.real(pulse['env'])[:pulse['length']]
         env_q = scale_factor*pulse['amp']*np.imag(pulse['env'])[:pulse['length']]
         pulse_i = env_i*np.cos(phases) - env_q*np.sin(phases)

@@ -1,4 +1,5 @@
 from distproc.hwconfig import ElementConfig
+import qubitconfig.envelope_pulse as ep
 import distproc.command_gen as cg
 import ipdb
 import numpy as np
@@ -10,7 +11,7 @@ class RFSoCElementCfg(ElementConfig):
         - remove DAC/ADC distinctions, just have sample period. each element
           can then have its own hwconfig object
     """
-    def __init__(self, samples_per_clk=16):
+    def __init__(self, samples_per_clk=16, interp_ratio=1):
         self.env_n_bits = 16
         self.freq_n_bits = 32
         self.n_phase_bits = 17
@@ -51,9 +52,29 @@ class RFSoCElementCfg(ElementConfig):
     def get_env_word(self, env_ind, length):
         return env_ind//self.samples_per_clk + (int(np.ceil(length/self.samples_per_clk)) << 12)
 
-    def get_env_buffer(self, env_samples):
-        env_samples = np.pad(env_samples, (0, (self.samples_per_clk - len(env_samples) \
-                % self.samples_per_clk) % self.samples_per_clk))
+    def get_env_buffer(self, env):
+        """
+        Converts env to a list of samples to write to the env buffer memory.
+
+        Parameters
+        ----------
+            env : np.ndarray, list, or dict
+                if np.ndarray or list this is interpreted as a list of samples. Samples
+                should be normalized to 1.
+
+                if dict, a function in the qubitconfig.envelope_pulse library is used to
+                calculate the envelope samples. env['env_func'] should be the name of the function,
+                and env['paradict'] is a dictionary of attributes to pass to env_func. The 
+                set of attributes varies according to the function but should include the 
+                pulse duration twidth
+        """
+        if isinstance(env, np.ndarray) or isinstance(env, list):
+            env_samples = np.pad(env, (0, (self.samples_per_clk - len(env) \
+                    % self.samples_per_clk) % self.samples_per_clk))
+        elif isinstance(env, dict):
+            dt = self.interp_ratio * self.sample_period
+            env_func = getattr(ep, env['env_func'])
+            env_samples = env_func(dt=dt, **env['paradict'])
         return (cg.twos_complement(np.real(env_samples*(2**(self.env_n_bits-1)-1)).astype(int), nbits=self.env_n_bits) << self.env_n_bits) \
                     + cg.twos_complement(np.imag(env_samples*(2**(self.env_n_bits-1)-1)).astype(int), nbits=self.env_n_bits)
 

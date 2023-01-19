@@ -4,6 +4,7 @@ module dsp_sim_toplevel#(
     input clk,
     input reset,
     input stb_start,
+    input[31:0] nshot,
     input[32:0] mem_write_data,
     input[15:0] mem_write_addr,
     input[2:0] proc_write_sel, //index proc cores
@@ -73,6 +74,7 @@ module dsp_sim_toplevel#(
     assign dspif.clk = clk;
     assign dspif.reset = reset;
     assign dspif.stb_start = stb_start;
+    assign dspif.nshot = nshot;
 
     generate for(i=0; i<3; i=i+1) begin
         assign dspif.coef[i][i] = 32'h7fff0000;

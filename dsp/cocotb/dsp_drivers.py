@@ -189,11 +189,12 @@ class DSPDriver:
         return unravel_dac(acq_buf, self.adc_samples_per_clk, self.adc_nbits)
             
 
-    async def run_program(self, ncycles):
+    async def run_program(self, ncycles, nshots=2):
         """
         For backwards compatibility with earlier tests; can be used 
         to run simple programs without external (fproc) input.
         """
+        self._dut.nshot.value = nshots
         await self.reset()
         self._dut.stb_start.value = 1
         await RisingEdge(self._dut.clk)
