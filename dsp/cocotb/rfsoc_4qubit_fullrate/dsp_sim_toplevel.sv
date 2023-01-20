@@ -73,8 +73,10 @@ module dsp_sim_toplevel#(
     assign dspif.adc = adc;
     assign dspif.clk = clk;
     assign dspif.reset = reset;
+    assign dspif.resetacc = reset;
     assign dspif.stb_start = stb_start;
     assign dspif.nshot = nshot;
+    assign dspif.shift = 15;
 
     generate for(i=0; i<3; i=i+1) begin
         assign dspif.coef[i][i] = 32'h7fff0000;
