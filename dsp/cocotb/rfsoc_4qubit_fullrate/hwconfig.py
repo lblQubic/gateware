@@ -15,6 +15,7 @@ class RFSoCElementCfg(ElementConfig):
         self.env_n_bits = 16
         self.freq_n_bits = 32
         self.n_phase_bits = 17
+        self.interp_ratio = interp_ratio
         super().__init__(2.e-9, 16)
 
     def get_freq_addr(self, freq_ind):
@@ -50,7 +51,7 @@ class RFSoCElementCfg(ElementConfig):
         return int((phase/(2*np.pi) * 2**17))
 
     def get_env_word(self, env_ind, length):
-        return env_ind//self.samples_per_clk + (int(np.ceil(length/self.samples_per_clk)) << 12)
+        return env_ind//self.samples_per_clk + (int(np.ceil(self.interp_ratio*length/self.samples_per_clk)) << 12)
 
     def get_env_buffer(self, env):
         """

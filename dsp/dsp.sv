@@ -401,13 +401,14 @@ always @(state) begin
 end
 always @(posedge dspif.clk) begin
 	nextshotcnt<=shotcnt+1;
-	shotadd<=|(nextshotcnt^nshot) | (~|nshot);
+	shotadd <= (|(nextshotcnt^nshot)) | (~|nshot);
 	nobusy_r<=&nobusy;
 	procdone_r<=&procdone;
 	if (dspif.reset) begin
 		shotcnt<=0;
 		done<=1'b0;
 		procreset<=1'b1;
+        nshot<=dspif.nshot;
 	end
 	else begin
 		case (nextstate)

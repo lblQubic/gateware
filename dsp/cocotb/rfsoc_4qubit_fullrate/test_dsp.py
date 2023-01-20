@@ -35,9 +35,9 @@ async def test_const_pulse(dut):
     await dspunit.load_freq_buffer(freq_buffers[0], 0, 0)
     await dspunit.run_program(500)
     dacout_sim = st.generate_sim_dacout(pulse_seq, 16)
-    #plt.plot(dspunit.dac_out[0])
-    #plt.plot(dacout_sim)
-    #plt.show()
+    plt.plot(dspunit.dac_out[0])
+    plt.plot(dacout_sim)
+    plt.show()
     assert st.check_dacout_equal(dacout_sim, dspunit.dac_out[0])
 
 @cocotb.test()
@@ -194,7 +194,7 @@ async def test_rdrv_pulse(dut):
     amp = 0.9
     env_i = np.arange(pulse_length)/pulse_length
     env_q = np.zeros(pulse_length)/pulse_length
-    elemcfg = RFSoCElementCfg()
+    elemcfg = RFSoCElementCfg(interp_ratio=16)
 
     dspunit = dsp.DSPDriver(dut, 16, 16, 16, 16)
 
@@ -215,10 +215,12 @@ async def test_rdrv_pulse(dut):
 
     await dspunit.run_program(500)
     dacout_sim = st.generate_sim_dacout(pulse_seq, 16, extra_delay=2, interp_ratio=16)
-    #plt.plot(dspunit.dac_out[3])
-    #plt.plot(dacout_sim)
-    #plt.show()
-    assert st.check_dacout_equal(dacout_sim, dspunit.dac_out[0])
+    plt.plot(dspunit.dac_out[3])
+    plt.plot(dacout_sim)
+    plt.show()
+    plt.plot(dacout_sim[:len(dspunit.dac_out[3])] - dspunit.dac_out[3])
+    plt.show()
+    assert st.check_dacout_equal(dacout_sim, dspunit.dac_out[3])
 
 @cocotb.test()
 async def test_adc_lb(dut):
@@ -335,7 +337,7 @@ async def test_acc_sweep(dut):
     freq = 347.e6
     phase = np.pi/8
     tstart = 20
-    pulse_length = 400
+    pulse_length = 200
     amp = 0.9
     env_i = 0.2*np.ones(pulse_length)
     env_q = np.zeros(pulse_length)
@@ -357,7 +359,7 @@ async def test_acc_sweep(dut):
     prog.add_reg_write('i', 0)
     prog.add_reg_write('phase', 0, dtype=('phase', 2))
     prog.add_pulse(freq, 'phase', amp, tstart, env_i + 1j*env_q, 2, label='PULSE')
-    prog.add_alu_cmd('inc_qclk', -100, 'add')
+    prog.add_alu_cmd('inc_qclk', -pulse_length, 'add')
     prog.add_alu_cmd('reg_alu', 1, 'add', 'i', 'i')
     prog.add_alu_cmd('reg_alu', 2*np.pi/niters, 'add', 'phase', 'phase')
     prog.add_alu_cmd('jump_cond', 'i', 'le', 'n_iters', jump_label='PULSE')

@@ -201,7 +201,7 @@ class DSPDriver:
         return acc_buf
             
 
-    async def run_program(self, ncycles, nshots=2):
+    async def run_program(self, ncycles, nshots=1):
         """
         For backwards compatibility with earlier tests; can be used 
         to run simple programs without external (fproc) input.
