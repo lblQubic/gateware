@@ -10,9 +10,6 @@
 [submodule "submodules/tools"]
 	path = submodules/tools
 	url = ../../lbl-bids/tools.git
-#[submodule "submodules/distributed_processor"]
-#	path = submodules/distributed_processor
-#	url = ../../LBL-QubiC/distributed_processor.git
 [submodule "submodules/distributed_processor/"]
 	path = submodules/distributed_processor
 	url = ../../LBL-QubiC/distributed_processor.git
