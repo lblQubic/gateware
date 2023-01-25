@@ -33,6 +33,7 @@ make-pre-zcu216:
 test-dsp-zcu216-fullsample:
   stage: test
   script:
+    - pip install git+https://gitlab.com/LBL-QubiC/experiments/qubitconfig.git
     - pip install -e $PROC_DRIVER_PATH
     - cd top/zcu216
     - make pre
