@@ -85,7 +85,7 @@ class DSPDriver:
         if not (isinstance(cmd_lists[0], list) or isinstance(cmd_lists[0], np.ndarray)):
             raise Exception('cmd_lists must be list of lists')
         self._dut.reset.value = 1
-        self._dut.mem_write_en.value = 1 
+        self._dut.mem_write_en.value = 1
         self._dut.mem_write_sel.value = 0
         for i, cmd_list in enumerate(cmd_lists):
             cmd_addr = 0

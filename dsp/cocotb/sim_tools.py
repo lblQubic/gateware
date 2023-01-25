@@ -39,39 +39,23 @@ def twoscomp_to_signed(value, nbits=16):
     sval += -1*(value & (2**(nbits - 1)))
     return sval
 
-def check_pulse_output(program, dac_i, dac_q, tol=.005):
-    """
-    Parameters
-    ----------
-        program : list of dict:
-            {'freq': <freq in Hz>, 'phase': initial phase in rad
-             'start_time': pulse start time in clks, 'env_i': env samples
-             'env_q': env samples}
-        tol : float
-            tolerance as a fraction of max value
-    """
-    dac_i_sim, dac_q_sim = generate_sim_output(program)
-    return check_dacout_equal(dac_i_sim, dac_q_sim, dac_i, dac_q, tol)
 
 def check_dacout_equal(dac_out_sim, dac_out, tol=.005):
     tol = tol*np.max(dac_out)
     max_len = max(len(dac_out), len(dac_out_sim))
     dac_out = np.pad(dac_out, (0, max_len-len(dac_out)))
     dac_out_sim = np.pad(dac_out_sim, (0, max_len-len(dac_out_sim)))
-    plt.plot(np.abs(dac_out - dac_out_sim))
-    plt.plot(tol*np.ones(len(dac_out)), '.')
-    plt.show()
     return np.all(np.abs(dac_out - dac_out_sim) < tol)
 
-def dac_debug_plots(program, dac_out):
-    dac_i_sim, dac_q_sim = generate_sim_output(program)
-    plt.plot(dac_i, '-', label='I')
-    plt.plot(dac_q, '-', label='Q')
-    plt.plot(dac_i_sim, ':', label='Sim I')
-    plt.plot(dac_q_sim, ':', label='Sim Q')
-    plt.legend()
-    plt.xlabel('Time (ns)')
-    plt.show()
+# def dac_debug_plots(program, dac_out):
+#     dac_i_sim, dac_q_sim = generate_sim_output(program)
+#     plt.plot(dac_i, '-', label='I')
+#     plt.plot(dac_q, '-', label='Q')
+#     plt.plot(dac_i_sim, ':', label='Sim I')
+#     plt.plot(dac_q_sim, ':', label='Sim Q')
+#     plt.legend()
+#     plt.xlabel('Time (ns)')
+#     plt.show()
 
 def generate_sim_dacout(pulse_sequence, samples_per_clk, extra_delay=0, interp_ratio=1, ncycles=N_CLKS):
     dac_out_sim = np.zeros(ncycles)

@@ -16,7 +16,7 @@ class RFSoCElementCfg(ElementConfig):
         self.freq_n_bits = 32
         self.n_phase_bits = 17
         self.interp_ratio = interp_ratio
-        super().__init__(2.e-9, 16)
+        super().__init__(2.e-9, samples_per_clk)
 
     def get_freq_addr(self, freq_ind):
         return freq_ind
