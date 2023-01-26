@@ -9,7 +9,7 @@ from sim_tools import unravel_dac, ravel_adc, twoscomp_to_signed
 
 N_MAX_CMD = 30 #for flushing cmd buffer
 N_CLKS = 100000
-CLK_CYCLE = 2
+CLK_CYCLE = 1
 N_PROC = 4
 CMD_WRITE_WORDS = 4
 

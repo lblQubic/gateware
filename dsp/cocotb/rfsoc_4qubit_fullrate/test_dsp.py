@@ -390,7 +390,7 @@ async def test_vna(dut):
     rdlo_delay = 100
     rdrv_amp = 0.25
     pulse_length = 2000 #length in samples
-    rdrv_plength = pulse_length//16 #env size, divide by 16 b/c interpolation
+    rdrv_plength = pulse_length #env size, divide by 16 b/c interpolation
     rdlo_plength = rdrv_plength
     
     vna_prog = [{'op': 'declare_freq', 'freq': f, 'elem_ind': 1} for f in freqs]
@@ -407,7 +407,7 @@ async def test_vna(dut):
     
     vna_prog.append({'op': 'reg_alu', 'in0': 1, 'in1_reg': 'freq', 'out_reg': 'freq', 'alu_op': 'add'})
     vna_prog.append({'op': 'reg_alu', 'in0': 1, 'in1_reg': 'i', 'out_reg': 'i', 'alu_op': 'add'})
-    vna_prog.append({'op': 'inc_qclk', 'in0': -(20 + rdlo_delay + pulse_length//16 + 100)})
+    vna_prog.append({'op': 'inc_qclk', 'in0': -(20 + rdlo_delay + pulse_length + 100)})
     vna_prog.append({'op': 'jump_cond', 'in0': 'i', 'in1_reg': 'niters', 'jump_label': 'PULSE_START', 'alu_op': 'le'})
     vna_prog.append({'op': 'done_stb'})
 
@@ -435,7 +435,7 @@ async def test_vna(dut):
     await dspunit.load_freq_buffer(freq_buffers[2], 2, 0)
 
     # cocotb.start_soon(dspunit.generate_adc_signal(adc_signal, 0))
-    await dspunit.run_program(10000)
+    await dspunit.run_program(50000)
     acc_buf = await dspunit.read_acc_buf(100)
     plt.plot(np.real(acc_buf), np.imag(acc_buf), '.')
     plt.show()
