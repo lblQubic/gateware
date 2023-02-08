@@ -5,11 +5,11 @@ import numpy as np
 import matplotlib.pyplot as plt
 from cocotb.triggers import Timer, RisingEdge
 import distproc.command_gen as cg
-from sim_tools import unravel_dac, ravel_adc
+from sim_tools import unravel_dac, ravel_adc, twoscomp_to_signed
 
 N_MAX_CMD = 30 #for flushing cmd buffer
 N_CLKS = 100000
-CLK_CYCLE = 2
+CLK_CYCLE = 1
 N_PROC = 4
 CMD_WRITE_WORDS = 4
 
@@ -85,7 +85,7 @@ class DSPDriver:
         if not (isinstance(cmd_lists[0], list) or isinstance(cmd_lists[0], np.ndarray)):
             raise Exception('cmd_lists must be list of lists')
         self._dut.reset.value = 1
-        self._dut.mem_write_en.value = 1 
+        self._dut.mem_write_en.value = 1
         self._dut.mem_write_sel.value = 0
         for i, cmd_list in enumerate(cmd_lists):
             cmd_addr = 0
@@ -182,18 +182,31 @@ class DSPDriver:
     async def read_acq_buf(self, nvalues, adc_ind, start_addr=0):
         acq_buf = np.zeros(nvalues)
         for i in range(nvalues):
-            self._dut.buf_read_addr.value = i
+            self._dut.buf_read_addr.value = i + start_addr
             acq_buf[i] = self._dut.acq_read_data[adc_ind].value
             await(RisingEdge(self._dut.clk))
 
         return unravel_dac(acq_buf, self.adc_samples_per_clk, self.adc_nbits)
+
+    async def read_acc_buf(self, nvalues, proc_ind=0, start_addr=0):
+        acc_buf = np.zeros(nvalues, dtype=np.complex128)
+        for i in range(nvalues):
+            self._dut.buf_read_addr.value = i + start_addr
+            await(RisingEdge(self._dut.clk))
+            await(RisingEdge(self._dut.clk))
+            raw_val = self._dut.acc_read_data[proc_ind].value
+            acc_buf[i] = twoscomp_to_signed(raw_val & (0xFFFFFFFF), nbits=32) \
+                + 1j*twoscomp_to_signed((raw_val >> 32) & (0xFFFFFFFF), nbits=32)
+
+        return acc_buf
             
 
-    async def run_program(self, ncycles):
+    async def run_program(self, ncycles, nshots=1):
         """
         For backwards compatibility with earlier tests; can be used 
         to run simple programs without external (fproc) input.
         """
+        self._dut.nshot.value = nshots
         await self.reset()
         self._dut.stb_start.value = 1
         await RisingEdge(self._dut.clk)

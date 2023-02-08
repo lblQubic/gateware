@@ -77,6 +77,8 @@ interface panzoomtrigif #(parameter NCHAN=6,parameter ADDRWIDTH=9,parameter DATA
 				IDLE: begin
 					addr<=0;
 					we<=1'b0;
+			        decimatorcnt<=decimator;
+			        delayaftertrigcnt<=delayaftertrig;
 				end
 				WAITFORTRIG: begin
 					we<=1'b0;
