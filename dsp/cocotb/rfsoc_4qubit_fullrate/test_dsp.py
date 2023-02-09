@@ -462,7 +462,7 @@ async def test_compile_chain_linear(dut):
 
     globalasm = asm.GlobalAssembler(compiled_prog, channel_configs, RFSoCElementCfg)
     asmprog = globalasm.get_assembled_program()
-    ipdb.set_trace()
+    #ipdb.set_trace()
 
     dspunit = dsp.DSPDriver(dut, 16, 16, 4, 16)
     # adc_signal = adc_fullscale*np.cos(2*np.pi*freq*(1.e-9*dsp.CLK_CYCLE/dspunit.adc_samples_per_clk)*np.arange(40000) + phase)
