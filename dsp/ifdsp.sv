@@ -51,6 +51,7 @@ interface ifdsp #(
 	reg we_qdrvfreq[0:NPROC-1];
 
 	logic stb_start;
+	logic start;
 	logic [31:0] nshot;
 	logic resetacc;
 	logic stb_reset_bram_read;
@@ -74,18 +75,24 @@ interface ifdsp #(
 	logic [15:0] mixbb2sel;
 	logic [4:0] shift;
 	logic [NPROC-1:0] procdone;
+
+
+	logic [23:0] test_freq;
+	logic [15:0] test_amp;
 	modport dsp(input clk,reset,data_command,data_qdrvenv,data_rdrvenv,data_rdloenv,data_qdrvfreq,data_rdrvfreq,data_rdlofreq,acqbufreset,dacmonreset,acqchansel,dacmonchansel,delayaftertrig,decimator
 	,input adc
-	,input stb_start,nshot,resetacc,stb_reset_bram_read
+	,input stb_start,start,nshot,resetacc,stb_reset_bram_read
 	,input coef,mixbb1sel,mixbb2sel,shift
 	,output lastshotdone,shotcnt,addr_accbuf_mon0,addr_accbuf_mon1,addr_accbuf_mon2,addr_accbuf_mon3,procdone
 	,output dac	,addr_accbuf,addr_acqbuf,addr_command,addr_qdrvenv,addr_rdrvenv,addr_rdloenv,addr_qdrvfreq,addr_rdrvfreq,addr_rdlofreq,addr_dacmon	,data_accbuf,we_accbuf,data_acqbuf,we_acqbuf,data_dacmon,we_dacmon
+	,input test_amp,test_freq
 	);
 	modport cfg(output adc
 	,output clk,reset,data_command,data_qdrvenv,data_rdrvenv,data_rdloenv,data_qdrvfreq,data_rdrvfreq,data_rdlofreq
-	,output stb_start,nshot,resetacc,stb_reset_bram_read,acqbufreset,dacmonreset,acqchansel,dacmonchansel,delayaftertrig,decimator
+	,output stb_start,start,nshot,resetacc,stb_reset_bram_read,acqbufreset,dacmonreset,acqchansel,dacmonchansel,delayaftertrig,decimator
 	,output coef,mixbb1sel,mixbb2sel,shift
 	,input dac,addr_accbuf,addr_acqbuf,addr_command,addr_qdrvenv,addr_rdrvenv,addr_rdloenv,addr_qdrvfreq,addr_rdrvfreq,addr_rdlofreq,addr_dacmon,data_accbuf,we_accbuf,data_acqbuf,we_acqbuf,data_dacmon,we_dacmon
 	,input lastshotdone,shotcnt,addr_accbuf_mon0,addr_accbuf_mon1,addr_accbuf_mon2,addr_accbuf_mon3,procdone
+	,output test_amp,test_freq
 	);
 endinterface
