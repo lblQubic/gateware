@@ -42,8 +42,8 @@ assign ts_phstep = freq_r[23:7-tslicel];
 
 wire [dw*tslice-1:0] xout;
 wire [dw*tslice-1:0] yout;
-reg [dw*tslice-1:0] xout_d=0;
-reg [dw*tslice-1:0] yout_d=0;
+reg [dw*tslice-1:0] xout_d[0:NDAC-1];
+reg [dw*tslice-1:0] yout_d[0:NDAC-1];
 
 // sine wave //
 genvar ix;
@@ -56,10 +56,6 @@ generate for (ix=0; ix<tslice; ix=ix+1) begin: timeslice
 end endgenerate
 
 
-always @(posedge dspif.clk) begin
-    xout_d<=xout;
-    yout_d<=yout;
-end
 
 
 /*
@@ -72,7 +68,11 @@ end
 */
 generate
 for (genvar i=0;i<NDAC;i=i+1) begin
-	assign dspif.dac[i]=xout_d;
+	assign dspif.dac[i]=xout_d[i];
+	always @(posedge dspif.clk) begin
+		xout_d[i]<=xout;
+		yout_d[i]<=yout;
+	end
 end
 endgenerate
 

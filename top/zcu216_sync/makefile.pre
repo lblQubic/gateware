@@ -1,0 +1,15 @@
+all: ilaauto iladsp ifdspregs.sv ifcfgregs.sv bramvh rfdcvh resetvh
+ilaauto: ilaauto.json ../../submodules/tools/ila.py 
+	python ../../submodules/tools/ila.py $<
+iladsp: iladsp.json ../../submodules/tools/ila.py $(ILADSP)
+	python ../../submodules/tools/ila.py $<
+ifdspregs.sv: dspregs.json ../../submodules/tools/axilb.py ../../submodules/common-hdl/axilb.json makefile.pre
+	python ../../submodules/tools/axilb.py -m dspregs.json -b ../../submodules/common-hdl/axilb.json -o ifdspregs -u -k
+ifcfgregs.sv:	cfgregs.json ../../submodules/tools/axilb.py ../../submodules/common-hdl/axilb.json makefile.pre
+	python ../../submodules/tools/axilb.py -m cfgregs.json -b ../../submodules/common-hdl/axilb.json -o ifcfgregs -u -k
+bramvh: bram.json ../src/bramvhgen.py
+	python ../src/bramvhgen.py
+rfdcvh: ../src/rfdc.py	
+	python ../src/rfdc.py
+resetvh: ../src/reset.py
+	python ../src/reset.py

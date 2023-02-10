@@ -1,0 +1,11 @@
+{"acqbuf":{"cnt":2,"cfg":{"Awidth":64,"Adepth":4096,"Bwidth":32,"latency":2,"prefix":"ACQBUF","access":"w","address":null,"ram_style":"block"}}
+,"accbuf":{"cnt":8,"cfg":{"Awidth":64,"Adepth":1024,"Bwidth":32,"latency":2,"prefix":"ACCBUF","access":"w","address":null,"ram_style":"block"}}
+,"command":{"cnt":8,"cfg":{"Awidth":32,"Adepth":8192,"Bwidth":128,"latency":2,"prefix":"COMMAND","access":"r","address":null,"ram_style":"block"}}
+,"dacmon":{"cnt":4,"cfg":{"Awidth":256,"Adepth":512,"Bwidth":32,"latency":2,"prefix":"DACMON","access":"w","address":null,"ram_style":"block"}}
+,"qdrvenv":{"cnt":8,"cfg":{"Awidth":32,"Adepth":4096,"Bwidth":512,"latency":2,"prefix":"QDRVENV","access":"r","address":null,"ram_style":"block"}}
+,"qdrvfreq":{"cnt":8,"cfg":{"Awidth":32,"Adepth":8192,"Bwidth":512,"latency":2,"prefix":"QDRVFREQ","access":"r","address":null,"ram_style":"block"}}
+,"rdloenv":{"cnt":8,"cfg":{"Awidth":32,"Adepth":4096,"Bwidth":32,"latency":2,"prefix":"RDLOENV","access":"r","address":null,"ram_style":"block"}}
+,"rdlofreq":{"cnt":8,"cfg":{"Awidth":32,"Adepth":2048,"Bwidth":128,"latency":2,"prefix":"RDLOFREQ","access":"r","address":null,"ram_style":"block"}}
+,"rdrvenv":{"cnt":8,"cfg":{"Awidth":32,"Adepth":4096,"Bwidth":32,"latency":2,"prefix":"RDRVENV","access":"r","address":null,"ram_style":"block"}}
+,"rdrvfreq":{"cnt":8,"cfg":{"Awidth":32,"Adepth":8192,"Bwidth":512,"latency":2,"prefix":"RDRVFREQ","access":"r","address":null,"ram_style":"block"}}
+}
