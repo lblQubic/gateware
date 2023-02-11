@@ -1,7 +1,10 @@
 from distproc.hwconfig import ElementConfig
 import qubitconfig.envelope_pulse as ep
 import distproc.command_gen as cg
-import ipdb
+try:
+    import ipdb
+except ImportError:
+    print('warning: failed to import ipdb')
 import numpy as np
 
 class RFSoCElementCfg(ElementConfig):
@@ -50,8 +53,9 @@ class RFSoCElementCfg(ElementConfig):
     def get_phase_word(self, phase):
         return int((phase/(2*np.pi) * 2**17))
 
-    def get_env_word(self, env_ind, length):
-        return env_ind//self.samples_per_clk + (int(np.ceil(self.interp_ratio*length/self.samples_per_clk)) << 12)
+    def get_env_word(self, env_ind, length_nsamples):
+        return env_ind//int(self.samples_per_clk/self.interp_ratio) \
+                + (int(np.ceil(self.interp_ratio*length_nsamples/self.samples_per_clk)) << 12)
 
     def get_env_buffer(self, env):
         """
@@ -70,12 +74,18 @@ class RFSoCElementCfg(ElementConfig):
                 pulse duration twidth
         """
         if isinstance(env, np.ndarray) or isinstance(env, list):
-            env_samples = np.pad(env, (0, (self.samples_per_clk - len(env) \
-                    % self.samples_per_clk) % self.samples_per_clk))
+            env_samples = np.asarray(env)
         elif isinstance(env, dict):
             dt = self.interp_ratio * self.sample_period
             env_func = getattr(ep, env['env_func'])
-            env_samples = env_func(dt=dt, **env['paradict'])
+            _, env_samples = env_func(dt=dt, **env['paradict'])
+            # ipdb.set_trace()
+        else:
+            raise TypeError('env must be dict or array')
+
+        env_samples = np.pad(env_samples, (0, (self.samples_per_clk//self.interp_ratio - len(env_samples)
+                % self.samples_per_clk//self.interp_ratio) % self.samples_per_clk//self.interp_ratio))
+
         return (cg.twos_complement(np.real(env_samples*(2**(self.env_n_bits-1)-1)).astype(int), nbits=self.env_n_bits) << self.env_n_bits) \
                     + cg.twos_complement(np.imag(env_samples*(2**(self.env_n_bits-1)-1)).astype(int), nbits=self.env_n_bits)
 
