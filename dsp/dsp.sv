@@ -118,7 +118,8 @@ rdrvelemout2 (.clk(dspif.clk),.xin(rdrvxin2),.yin(rdrvyin2),.valid(),.xout(xmaif
 
 generate
 for (genvar i=0;i<NDAC;i=i+1) begin
-	assign dspif.dac[i]=xmaif.daccplxx[i];
+	//assign dspif.dac[i]=xmaif.daccplxx[i];
+	assign dspif.dac[i]=xmaif.sumcplxx[i];
 end
 endgenerate
 //assign dspif.dac[1]=xmaif.daccplxx[1];
@@ -279,11 +280,11 @@ end
 endgenerate
 
 
-/*xmultadd #(`include "plps_parainst.vh"
+xmultadd #(`include "plps_parainst.vh"
 ,`include "bram_parainst.vh"
 ,`include "braminit_parainst.vh"
 ) xmultadd(.xmaif(xmaif));
-*/
+
 
 
 /*reg [8:0] reset_bram_read=0;
