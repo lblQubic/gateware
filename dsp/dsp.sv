@@ -413,7 +413,7 @@ always @(posedge dspif.clk) begin
 	else begin
 		case (nextstate)
 			IDLE: begin
-				done<=1'b0;
+				done<=1'b1;
 				procreset<=1'b1;
 				shotcnt<=0;
 				nshot<=dspif.nshot;
