@@ -306,7 +306,7 @@ async def test_accbuf(dut):
     await dspunit.load_freq_buffer(freq_buffers[2], 2, 0)
 
     cocotb.start_soon(dspunit.generate_adc_signal(adc_signal, 0))
-    await dspunit.run_program(500)
+    await dspunit.run_program(2500, nshots=5)
     acc_buf0 = await dspunit.read_acc_buf(3)
 
     prog = asm.SingleCoreAssembler([qdrvelemcfg, rdrvelemcfg, rdloelemcfg])
