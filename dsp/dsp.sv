@@ -408,7 +408,7 @@ always @(posedge dspif.clk) begin
 		shotcnt<=0;
 		done<=1'b0;
 		procreset<=1'b1;
-        nshot<=dspif.nshot;
+        //nshot<=dspif.nshot;
 	end
 	else begin
 		case (nextstate)
