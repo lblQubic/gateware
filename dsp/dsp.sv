@@ -217,7 +217,7 @@ for (genvar i=0;i<NDLO;i=i+1) begin: rdlomixacc
 	always @(posedge dspif.clk) begin
 		we_accbuf[i] <= accvalid;
 		addr_accbuf[i] <= resetacc[i] ? 0 : addr_accbuf[i]+ (~locklast_accbuf[i] & we_accbuf[i]);
-		fproc_meas_valid[i] <= accvalid;
+		fproc_meas_valid[i] <= we_accbuf[i];
 		fproc_meas_input[i] <= data_accbuf[i][63]; //threshold across x (real) axis
 	end
 end
