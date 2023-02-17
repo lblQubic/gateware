@@ -82,6 +82,6 @@
 ,"copper_corr64_h":{"access": "rw", "addr_width": 0, "data_width": 32, "sign": "unsigned", "init": 0, "base_addr": 81}
 ,"copper_corr64_l":{"access": "rw", "addr_width": 0, "data_width": 32, "sign": "unsigned", "init": 0, "base_addr": 82}
 ,"copper_clkcnt_sw":{"access": "rw", "addr_width": 0, "data_width": 1, "sign": "unsigned", "init": 0, "base_addr": 83}
-,"copper_clkcnt_trig_h":{"access": "rw", "addr_width": 0, "data_width": 32, "sign": "unsigned", "init": 4, "base_addr": 84}
+,"copper_clkcnt_trig_h":{"access": "rw", "addr_width": 0, "data_width": 32, "sign": "unsigned", "init": 16, "base_addr": 84}
 ,"copper_clkcnt_trig_l":{"access": "rw", "addr_width": 0, "data_width": 32, "sign": "unsigned", "init": 0, "base_addr": 85}
 }
