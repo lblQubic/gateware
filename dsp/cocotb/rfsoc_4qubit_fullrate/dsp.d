@@ -43,6 +43,7 @@ dsp_sim_toplevel.sv
 ../../../submodules/distributed_processor/hdl/core_state_mgr.sv
 ../../../submodules/distributed_processor/hdl/fproc_iface.sv
 ../../../submodules/distributed_processor/hdl/fproc_lut.sv
+../../../submodules/distributed_processor/hdl/fproc_meas.sv
 ../../../submodules/distributed_processor/hdl/meas_lut.sv
 ../../../submodules/distributed_processor/hdl/proc.sv
 ../../../submodules/distributed_processor/hdl/pulse_iface.sv

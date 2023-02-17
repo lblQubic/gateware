@@ -51,13 +51,16 @@ rdrvelem[0:NPROC-1](.clk(dspif.clk));
 ifelement #(.ENV_ADDRWIDTH(RDLOENV_R_ADDRWIDTH),.ENV_DATAWIDTH(RDLOENV_R_DATAWIDTH),.FREQ_ADDRWIDTH(RDLOFREQ_R_ADDRWIDTH),.FREQ_DATAWIDTH(RDLOFREQ_R_DATAWIDTH),.TCNTWIDTH(TCNTWIDTH))
 rdloelem[0:NPROC-1](.clk(dspif.clk));
 
+fproc_iface fproc_if[NPROC-1:0]();
+reg [NDLO-1:0] fproc_meas_input;
+reg [NDLO-1:0] fproc_meas_valid;
 
 wire [3:0] state_dbg[0:NPROC-1];
 wire [3:0] nextstate_dbg[0:NPROC-1];
 generate 
 for (genvar i =0; i<NPROC; i=i+1) begin: procinst
 	proc_core 
-	proc_core(.clk(dspif.clk),.reset(proccorereset[i]),.command(dspif.data_command[i]), .cmd_read_addr(dspif.addr_command[i]),.qdrvelem(qdrvelem[i]),.rdrvelem(rdrvelem[i]),.rdloelem(rdloelem[i]),.stbend(stbprocend[i]),.procdone_mon(procdone[i]),.nobusy_mon(nobusy[i])
+	proc_core(.clk(dspif.clk),.reset(proccorereset[i]),.command(dspif.data_command[i]), .cmd_read_addr(dspif.addr_command[i]),.qdrvelem(qdrvelem[i]),.rdrvelem(rdrvelem[i]),.rdloelem(rdloelem[i]),.stbend(stbprocend[i]),.procdone_mon(procdone[i]),.nobusy_mon(nobusy[i]), .fproc(fproc_if[i])
 	,.state_dbg(state_dbg[i]),.nextstate_dbg(nextstate_dbg[i])
 	);
 	elementconn #(.ENV_ADDRWIDTH(QDRVENV_R_ADDRWIDTH),.ENV_DATAWIDTH(QDRVENV_R_DATAWIDTH),.FREQ_ADDRWIDTH(QDRVFREQ_R_ADDRWIDTH),.FREQ_DATAWIDTH(QDRVFREQ_R_DATAWIDTH))
@@ -212,8 +215,10 @@ for (genvar i=0;i<NDLO;i=i+1) begin: rdlomixacc
 	end
 	assign locklast_accbuf[i]=&addr_accbuf[i];
 	always @(posedge dspif.clk) begin
-		we_accbuf[i]<=accvalid;
-		addr_accbuf[i]<=resetacc[i] ? 0 : addr_accbuf[i]+ (~locklast_accbuf[i] & we_accbuf[i]);
+		we_accbuf[i] <= accvalid;
+		addr_accbuf[i] <= resetacc[i] ? 0 : addr_accbuf[i]+ (~locklast_accbuf[i] & we_accbuf[i]);
+		fproc_meas_valid[i] <= accvalid;
+		fproc_meas_input[i] <= data_accbuf[i][63]; //threshold across x (real) axis
 	end
 end
 endgenerate
@@ -226,6 +231,9 @@ assign dspif.addr_accbuf_mon2=addr_accbuf[2];
 assign dspif.addr_accbuf_mon3=addr_accbuf[3];
 
 reg [DAC_AXIS_DATAWIDTH-1:0] dac[0:3];
+
+fproc_meas #(.N_CORES(NPROC), .N_MEAS(NDLO)) fproc(.clk(dspif.clk), .reset(procreset), .meas(fproc_meas_input),
+	.meas_valid(fproc_meas_valid), .core(fproc_if));
 
 panzoomtrigif #(.NCHAN(10),.ADDRWIDTH(ACQBUF_W_ADDRWIDTH),.DATAWIDTH(ACQBUF_W_DATAWIDTH))acqpztif[0:1]();
 panzoomtrigif #(.NCHAN(4),.ADDRWIDTH(DACMON_W_ADDRWIDTH),.DATAWIDTH(DACMON_W_DATAWIDTH))dacmonpztif[0:4]();
