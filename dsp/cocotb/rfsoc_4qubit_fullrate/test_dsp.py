@@ -445,7 +445,7 @@ async def test_acc_sweep(dut):
 
 @cocotb.test()
 async def test_compile_chain_linear(dut):
-    qchip = qc.QChip('../../../submodules/distributed_processor/python/test/qubitcfg.json')
+    qchip = qc.QChip('qubitcfg.json')
     fpga_config = {'alu_instr_clks': 2,
                    'fpga_clk_period': 2.e-9,
                    'jump_cond_clks': 3,
@@ -538,7 +538,6 @@ async def test_fproc_jump(dut):
     await dspunit.load_env_buffer(env_buffers[2], 2, 0)
     await dspunit.load_freq_buffer(freq_buffers[2], 2, 0)
     await dspunit.run_program(500)
-    plt.plot(dspunit.dac_out[0])
     assert np.all(dspunit.dac_out[0] == 0)
 
 @cocotb.test()
@@ -571,7 +570,6 @@ async def test_fproc_notjump(dut):
     await dspunit.load_env_buffer(env_buffers[2], 2, 0)
     await dspunit.load_freq_buffer(freq_buffers[2], 2, 0)
     await dspunit.run_program(500)
-    plt.plot(dspunit.dac_out[0])
     assert not np.all(dspunit.dac_out[0] == 0)
 
 @cocotb.test()
@@ -604,7 +602,6 @@ async def test_fproc_jump_ph_adj(dut):
     await dspunit.load_env_buffer(env_buffers[2], 2, 0)
     await dspunit.load_freq_buffer(freq_buffers[2], 2, 0)
     await dspunit.run_program(500)
-    plt.plot(dspunit.dac_out[0])
     assert np.all(dspunit.dac_out[0] == 0)
 
 
@@ -661,7 +658,6 @@ async def test_fproc_jump_diffcore(dut):
 
     cocotb.start_soon(dspunit.generate_adc_signal(adc_signal, 1))
     await dspunit.run_program(500)
-    plt.plot(dspunit.dac_out[2])
     assert np.all(dspunit.dac_out[2] == 0)
 
 
@@ -715,6 +711,82 @@ async def test_fproc_nojump_diffcore(dut):
 
     cocotb.start_soon(dspunit.generate_adc_signal(adc_signal, 1))
     await dspunit.run_program(500)
-    plt.plot(dspunit.dac_out[2])
     assert not np.all(dspunit.dac_out[2] == 0)
 
+@cocotb.test()
+async def test_fproc_reset_compile(dut):
+    qchip = qc.QChip('qubitcfg.json')
+    fpga_config = {'alu_instr_clks': 2,
+                   'fpga_clk_period': 2.e-9,
+                   'jump_cond_clks': 3,
+                   'jump_fproc_clks': 4,
+                   'pulse_regwrite_clks': 1}
+    program = [{'name': 'X90', 'qubit': ['Q0']},
+               {'name': 'read_test', 'qubit': ['Q0']},
+               {'name': 'branch_fproc', 'alu_cond': 'eq', 'cond_lhs': 1, 'func_id': 0, 'scope': ['Q0'],
+                'true': [{'name': 'delay', 't': 140.e-9, 'qubit': ['Q0']},
+                             {'name': 'X90', 'qubit': ['Q0']}, 
+                             {'name': 'X90', 'qubit': ['Q0']}], 
+                    'false': []},
+               {'name': 'read_test', 'qubit': ['Q0']}]
+    fpga_config = hw.FPGAConfig(**fpga_config)
+    channel_configs = hw.load_channel_configs('../../../submodules/distributed_processor/python/test/channel_config.json')
+    compiler = cm.Compiler(program, 'by_qubit', fpga_config, qchip)
+    compiled_prog = compiler.compile()
+    #compiled_prog = cm.CompiledProgram(compiler.asm_progs, fpga_config)
+    for statement in compiled_prog.program[('Q0.qdrv', 'Q0.rdrv', 'Q0.rdlo')]:
+        print(statement)
+
+    globalasm = asm.GlobalAssembler(compiled_prog, channel_configs, RFSoCElementCfg)
+    asmprog = globalasm.get_assembled_program()
+
+    dspunit = dsp.DSPDriver(dut, 16, 16, 4, 16)
+
+    cocotb.start_soon(dsp.generate_clock(dut))
+    await dspunit.load_program([asmprog[0]['cmd_list']])
+    await dspunit.load_env_buffer(asmprog[0]['env_buffers'][0], 0, 0)
+    await dspunit.load_freq_buffer(asmprog[0]['freq_buffers'][0], 0, 0)
+    await dspunit.run_program(1500)
+    plt.plot(dspunit.dac_out[0])
+    plt.show()
+    #assert not np.all(dspunit.dac_out[2] == 0)
+    #plt.plot(dspunit.dac_out[0])
+    assert not np.all(dspunit.dac_out[0][1250:] == 0)
+
+@cocotb.test()
+async def test_fproc_noreset_compile(dut):
+    qchip = qc.QChip('qubitcfg.json')
+    fpga_config = {'alu_instr_clks': 2,
+                   'fpga_clk_period': 2.e-9,
+                   'jump_cond_clks': 3,
+                   'jump_fproc_clks': 4,
+                   'pulse_regwrite_clks': 1}
+    program = [{'name': 'X90', 'qubit': ['Q0']},
+               {'name': 'read_test', 'qubit': ['Q0']},
+               {'name': 'branch_fproc', 'alu_cond': 'eq', 'cond_lhs': 0, 'func_id': 0, 'scope': ['Q0'],
+                'true': [{'name': 'delay', 't': 140.e-9, 'qubit': ['Q0']},
+                             {'name': 'X90', 'qubit': ['Q0']}, 
+                             {'name': 'X90', 'qubit': ['Q0']}], 
+                    'false': []},
+               {'name': 'read_test', 'qubit': ['Q0']}]
+    fpga_config = hw.FPGAConfig(**fpga_config)
+    channel_configs = hw.load_channel_configs('../../../submodules/distributed_processor/python/test/channel_config.json')
+    compiler = cm.Compiler(program, 'by_qubit', fpga_config, qchip)
+    compiled_prog = compiler.compile()
+    #compiled_prog = cm.CompiledProgram(compiler.asm_progs, fpga_config)
+    for statement in compiled_prog.program[('Q0.qdrv', 'Q0.rdrv', 'Q0.rdlo')]:
+        print(statement)
+
+    globalasm = asm.GlobalAssembler(compiled_prog, channel_configs, RFSoCElementCfg)
+    asmprog = globalasm.get_assembled_program()
+
+    dspunit = dsp.DSPDriver(dut, 16, 16, 4, 16)
+
+    cocotb.start_soon(dsp.generate_clock(dut))
+    await dspunit.load_program([asmprog[0]['cmd_list']])
+    await dspunit.load_env_buffer(asmprog[0]['env_buffers'][0], 0, 0)
+    await dspunit.load_freq_buffer(asmprog[0]['freq_buffers'][0], 0, 0)
+    await dspunit.run_program(1500)
+    plt.plot(dspunit.dac_out[0])
+    plt.show()
+    assert np.all(dspunit.dac_out[0][1250:] == 0)
