@@ -189,7 +189,7 @@ end
 assign dspif.reset=dspreset_r;
 
 assign dspif.stb_start=dspregs.stb_start;
-assign dspif.start=dspregs.start;
+assign dspif.start=ready_dspclk;
 assign dspif.nshot=dspregs.nshot;
 assign dspif.resetacc=dspregs.resetacc;
 assign dspif.stb_reset_bram_read=dspregs.stb_reset_bram_read;
@@ -250,6 +250,18 @@ assign dspregs.cnt31=dac31axis.cnt;
 assign dspregs.cnt32=dac32axis.cnt;
 assign dspregs.cnt33=dac33axis.cnt;
 
+reg current_sample=1'b0;
+reg last_sample=1'b0;
+reg [2:0] sysref_cnt=0;
+reg ready_sysref=1'b0;
+always @(posedge dspclk) begin
+    current_sample <= hw.clk104_pl_sysref;
+    last_sample <= current_sample;
+    if (dspregs.start) begin
+        sysref_cnt <= sysref_cnt + (~last_sample & current_sample);
+    end
+    if (sysref_cnt[2]) ready_sysref<=1'b1;
+end
 
 assign dspif.test_amp=dspregs.test_amp;
 assign dspif.test_freq=dspregs.test_freq;
@@ -258,7 +270,7 @@ reg [63:0] dspclkcnt_orig=0;
 wire [63:0] corr64={dspregs.copper_corr64_h,dspregs.copper_corr64_l};
 reg [63:0] dspclkcnt_corr=0;
 always @(posedge dspclk) begin
-	dspclkcnt_orig <= dspclkcnt_orig + 1;
+	if (ready_sysref) dspclkcnt_orig <= dspclkcnt_orig + 1;
 	dspclkcnt_corr <= dspclkcnt_orig + corr64;
 end
 
@@ -284,7 +296,8 @@ wire copper_rx_data;
 wire copper_tx_en=dspregs.copper_tx_en;
 wire copper_tx_rst=dspregs.copper_tx_rst;
 
-IOBUF synciobuf (.IO(hw.pmod1[0]),.I(copper_tx_data),.O(copper_rx_data),.T(~copper_tx_en));
+//IOBUF synciobuf (.IO(hw.pmod1[0]),.I(copper_tx_data),.O(copper_rx_data),.T(~copper_tx_en));
+IOBUF synciobuf (.IO(hw.dacio[0]),.I(copper_tx_data),.O(copper_rx_data),.T(~copper_tx_en));
 
 //assign hw.pmod1[0]= ~copper_tx_en ? copper_tx_data : 1'bz;
 //assign copper_rx_data = hw.pmod1[0];
@@ -316,7 +329,8 @@ wire copper_rx_data_slv;
 wire copper_tx_en_slv=dspregs.copper_tx_en_slv;
 wire copper_tx_rst_slv=dspregs.copper_tx_rst_slv;
 
-IOBUF synciobuf_slv (.IO(hw.pmod1[1]),.I(copper_tx_data_slv),.O(copper_rx_data_slv),.T(~copper_tx_en_slv));
+//IOBUF synciobuf_slv (.IO(hw.pmod1[1]),.I(copper_tx_data_slv),.O(copper_rx_data_slv),.T(~copper_tx_en_slv));
+IOBUF synciobuf_slv (.IO(hw.dacio[1]),.I(copper_tx_data_slv),.O(copper_rx_data_slv),.T(~copper_tx_en_slv));
 //assign hw.pmod1[1]= ~copper_tx_en_slv ? copper_tx_data_slv : 1'bz;
 //assign copper_rx_data_slv = hw.pmod1[1];
 sync sync_copper_slv(.clk(dspclk)
@@ -336,7 +350,8 @@ assign	{dspregs.copper_tx_clkcnt_h_slv,dspregs.copper_tx_clkcnt_l_slv}=copper_tx
 assign	{dspregs.copper_rx_clkcnt_h_slv,dspregs.copper_rx_clkcnt_l_slv}=copper_rx_clkcnt_slv_r;
 // lcdac.xdc, lbreg.json, regmap_modport.vh, hw.vc707.user_sma_gpio_n //
 
-assign hw.pmod1[7:2]=dspclkcnt[25:20];
+//assign hw.pmod1[7:2]=dspclkcnt[25:20];
+assign hw.dacio[15:2]=dspclkcnt[25:12];
 
 
 
