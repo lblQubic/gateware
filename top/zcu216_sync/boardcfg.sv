@@ -151,8 +151,6 @@ generate for (jx=0; jx<NFCNT; jx=jx+1)	begin: gen_fcnt
 end
 endgenerate
 
-
-
 `include "bram_read.vh"
 `include "bram_write.vh"
 
@@ -214,7 +212,6 @@ assign dspif.dacmonchansel[3]=dspregs.dacmonchansel3;
 assign dspif.mixbb1sel=dspregs.mixbb1sel;
 assign dspif.mixbb2sel=dspregs.mixbb2sel;
 assign dspif.shift=dspregs.shift;
-
 
 assign dspif.coef[0][0]=dspregs.coef00;
 assign dspif.coef[0][1]=dspregs.coef01;
@@ -284,8 +281,6 @@ always @(posedge dspclk) begin
 	ready_dspclk <= dspclkcnt>=dspclkcnt_trig;
 end
 
-
-
 // Multi-FPGA synchronization //
 wire [63:0] copper_tx_clkcnt;
 wire [63:0] copper_rx_clkcnt;
@@ -304,7 +299,6 @@ IOBUF synciobuf (.IO(hw.dacio[0]),.I(copper_tx_data),.O(copper_rx_data),.T(~copp
 
 sync sync_copper(.clk(dspclk)
 ,.tx_data(copper_tx_data)
-//,.tx_en(1'b1)
 ,.tx_rst(copper_tx_rst)
 ,.rx_data(copper_rx_data)
 ,.clkcnt(dspclkcnt)
@@ -318,8 +312,7 @@ end
 assign	{dspregs.copper_tx_clkcnt_h,dspregs.copper_tx_clkcnt_l}=copper_tx_clkcnt_r;
 assign	{dspregs.copper_rx_clkcnt_h,dspregs.copper_rx_clkcnt_l}=copper_rx_clkcnt_r;
 
-
-// user_sma_gpio loop back //
+// loop back //
 wire [63:0] copper_tx_clkcnt_slv;
 wire [63:0] copper_rx_clkcnt_slv;
 reg [63:0] copper_tx_clkcnt_slv_r=0;
@@ -335,7 +328,6 @@ IOBUF synciobuf_slv (.IO(hw.dacio[1]),.I(copper_tx_data_slv),.O(copper_rx_data_s
 //assign copper_rx_data_slv = hw.pmod1[1];
 sync sync_copper_slv(.clk(dspclk)
 ,.tx_data(copper_tx_data_slv)
-//,.tx_en(1'b1)
 ,.tx_rst(copper_tx_rst_slv)
 ,.rx_data(copper_rx_data_slv)
 ,.clkcnt(dspclkcnt)
@@ -348,13 +340,9 @@ always @(posedge dspclk) begin
 end
 assign	{dspregs.copper_tx_clkcnt_h_slv,dspregs.copper_tx_clkcnt_l_slv}=copper_tx_clkcnt_slv_r;
 assign	{dspregs.copper_rx_clkcnt_h_slv,dspregs.copper_rx_clkcnt_l_slv}=copper_rx_clkcnt_slv_r;
-// lcdac.xdc, lbreg.json, regmap_modport.vh, hw.vc707.user_sma_gpio_n //
 
 //assign hw.pmod1[7:2]=dspclkcnt[25:20];
 assign hw.dacio[15:2]=dspclkcnt[25:12];
-
-
-
 
 //`include "ilaauto.vh"
 endmodule
