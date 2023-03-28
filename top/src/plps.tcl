@@ -6,6 +6,7 @@ set submodulepath ../../submodules
 source ${submodulepath}/tools/proj.tcl
 source ${submodulepath}/tools/depsrc.tcl
 source ${submodulepath}/tools/synimpbit.tcl
+put ${depd}
 proj ${target} ${part} ${outputdir} ${depd}
 source ../src/plpsip.tcl
 #ipx::package_project  -root_dir ./vivado_project/plip -set_current false

@@ -16,7 +16,7 @@
 ../../submodules/common-hdl/areset.v
 ../../submodules/common-hdl/asym_ram_sdp_read_wider.sv
 ../../submodules/common-hdl/asym_ram_sdp_write_wider.sv
-../../submodules/common-hdl/axi4_lb.sv
+../../submodules/common-hdl/axi4_lb.v
 ../../submodules/common-hdl/axi4stream.sv
 ../../submodules/common-hdl/bram_if.sv
 ../../submodules/common-hdl/cmultiplier2.v
@@ -27,7 +27,7 @@
 ../../submodules/common-hdl/reg_delay1.v
 ../../submodules/common-hdl/samefreqxdomain_1.v
 ../../submodules/common-hdl/sum.sv
-../../submodules/common-hdl/via.v
+../../submodules/common-hdl/via.sv
 ../../submodules/common-hdl/viabus.v
 ../../submodules/distributed_processor/hdl/alu.v
 ../../submodules/distributed_processor/hdl/cmd_mem.v

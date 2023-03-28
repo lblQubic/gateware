@@ -12,7 +12,7 @@
 ../../../../submodules/common-hdl/areset.v
 ../../../../submodules/common-hdl/asym_ram_sdp_read_wider.sv
 ../../../../submodules/common-hdl/asym_ram_sdp_write_wider.sv
-../../../../submodules/common-hdl/axi4_lb.sv
+../../../../submodules/common-hdl/axi4_lb.v
 ../../../../submodules/common-hdl/axi4stream.sv
 ../../../../submodules/common-hdl/bram_if.sv
 ../../../../submodules/common-hdl/cmultiplier2.v
