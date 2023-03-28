@@ -2,8 +2,8 @@ interface ifdsp #(
 	`include "plps_para.vh"
 	,`include "bram_para.vh"
 	,`include "braminit_para.vh"
-	)();
-	wire clk;
+	)(input clk);
+//	wire clk;
 	wire reset;
 	localparam NDLO=NDLO1+NDLO2;
 	logic [ADC_AXIS_DATAWIDTH-1:0] adc[0:NADC-1];
@@ -88,7 +88,7 @@ interface ifdsp #(
 	,input test_amp,test_freq
 	);
 	modport cfg(output adc
-	,output clk,reset,data_command,data_qdrvenv,data_rdrvenv,data_rdloenv,data_qdrvfreq,data_rdrvfreq,data_rdlofreq
+	,output reset,data_command,data_qdrvenv,data_rdrvenv,data_rdloenv,data_qdrvfreq,data_rdrvfreq,data_rdlofreq
 	,output stb_start,start,nshot,resetacc,stb_reset_bram_read,acqbufreset,dacmonreset,acqchansel,dacmonchansel,delayaftertrig,decimator
 	,output coef,mixbb1sel,mixbb2sel,shift
 	,input dac,addr_accbuf,addr_acqbuf,addr_command,addr_qdrvenv,addr_rdrvenv,addr_rdloenv,addr_qdrvfreq,addr_rdrvfreq,addr_rdlofreq,addr_dacmon,data_accbuf,we_accbuf,data_acqbuf,we_acqbuf,data_dacmon,we_dacmon

@@ -6,6 +6,8 @@ import regs
 import numpy
 import random
 from matplotlib import pyplot
+from cocotb.clock import Clock
+
 
 import sys
 sys.path.append("../../../../submodules/distributed_processor/python")  # install doesn't work, why?
@@ -586,25 +588,28 @@ class plsv():
         #dut._log.debug("clk cycle {}".format(i))
 
     def startclk(self,dut,tstop):
-        cocotb.start_soon(self.generate_clock(freq=100e6,pin=dut.clk100,tstop=tstop))
-        cocotb.start_soon(self.generate_clock(freq=300e6,pin=dut.usersi570c0,tstop=tstop))
-        cocotb.start_soon(self.generate_clock(freq=300e6,pin=dut.usersi570c1,tstop=tstop))
-        cocotb.start_soon(self.generate_clock(freq=600e6,pin=dut.clk104_pl_clk,tstop=tstop))
-        cocotb.start_soon(self.generate_clock(freq=9.8e6,pin=dut.clk104_pl_sysref,tstop=tstop))
-        cocotb.start_soon(self.generate_clock(freq=600e6,pin=dut.lb1_clk,tstop=tstop))
-        cocotb.start_soon(self.generate_clock(freq=600e6,pin=dut.lb2_clk,tstop=tstop))
-        cocotb.start_soon(self.generate_clock(freq=33.3e6,pin=dut.pl_clk0,tstop=tstop))
-        cocotb.start_soon(self.generate_clock(freq=600e6,pin=dut.clk_dac0,tstop=tstop))
-        cocotb.start_soon(self.generate_clock(freq=600e6,pin=dut.clk_dac1,tstop=tstop))
-        cocotb.start_soon(self.generate_clock(freq=600e6,pin=dut.clk_dac2,tstop=tstop))
-        cocotb.start_soon(self.generate_clock(freq=600e6,pin=dut.clk_dac3,tstop=tstop))
-        cocotb.start_soon(self.generate_clock(freq=300e6,pin=dut.clk_adc0,tstop=tstop))
-        cocotb.start_soon(self.generate_clock(freq=300e6,pin=dut.clk_adc1,tstop=tstop))
-        cocotb.start_soon(self.generate_clock(freq=300e6,pin=dut.clk_adc2,tstop=tstop))
-        cocotb.start_soon(self.generate_clock(freq=300e6,pin=dut.clk_adc3,tstop=tstop))
-        cocotb.start_soon(self.generate_clock(freq=300e6,pin=dut.clkadc3_300,tstop=tstop))
-        cocotb.start_soon(self.generate_clock(freq=600e6,pin=dut.clkadc3_600,tstop=tstop))
-        cocotb.start_soon(self.generate_clock(freq=125e6,pin=dut.clk125,tstop=tstop))
+        cocotb.start_soon(Clock(period=10,signal=dut.clk100,units="ns").start())
+        cocotb.start_soon(Clock(period=4,signal=dut.usersi570c0,units="ns").start())
+        cocotb.start_soon(Clock(period=4,signal=dut.usersi570c1,units="ns").start())
+        cocotb.start_soon(Clock(period=2,signal=dut.clk104_pl_clk,units="ns").start())
+        cocotb.start_soon(Clock(period=11.2,signal=dut.clk104_pl_sysref,units="ns").start())
+        cocotb.start_soon(Clock(period=2,signal=dut.lb1_clk,units="ns").start())
+        cocotb.start_soon(Clock(period=2,signal=dut.lb2_clk,units="ns").start())
+        cocotb.start_soon(Clock(period=2,signal=dut.lb3_clk,units="ns").start())
+        cocotb.start_soon(Clock(period=2,signal=dut.lb4_clk,units="ns").start())
+        cocotb.start_soon(Clock(period=2,signal=dut.pl_clk0,units="ns").start())
+        cocotb.start_soon(Clock(period=2,signal=dut.clk_dac0,units="ns").start())
+        cocotb.start_soon(Clock(period=2,signal=dut.clk_dac1,units="ns").start())
+        cocotb.start_soon(Clock(period=2,signal=dut.clk_dac2,units="ns").start())
+        cocotb.start_soon(Clock(period=2,signal=dut.clk_dac3,units="ns").start())
+        cocotb.start_soon(Clock(period=2,signal=dut.clk_adc0,units="ns").start())
+        cocotb.start_soon(Clock(period=2,signal=dut.clk_adc1,units="ns").start())
+        cocotb.start_soon(Clock(period=2,signal=dut.clk_adc2,units="ns").start())
+        cocotb.start_soon(Clock(period=2,signal=dut.clk_adc3,units="ns").start())
+        cocotb.start_soon(Clock(period=4,signal=dut.clkadc3_300,units="ns").start())
+        cocotb.start_soon(Clock(period=2,signal=dut.clkadc3_600,units="ns").start())
+        cocotb.start_soon(Clock(period=8,signal=dut.clk125,units="ns").start())
+        
     async def clk(self,tstop,resettime=257,resetpulselen=230):
         self.dutinit()
         self.startclk(dut=self.dut,tstop=tstop)

@@ -16,7 +16,7 @@ module dsp_sim_toplevel#(
     output[ACCBUF_W_DATAWIDTH-1:0] acc_read_data[0:NPROC-1],
     output[ACQBUF_W_DATAWIDTH-1:0] acq_read_data[0:NADC-1]);
 
-    ifdsp dspif();
+    ifdsp dspif(.clk(clk));
 
     //instantiate 3x qdrv elem mems
     genvar i;
@@ -71,7 +71,7 @@ module dsp_sim_toplevel#(
 
     assign dac = dspif.dac;
     assign dspif.adc = adc;
-    assign dspif.clk = clk;
+    //assign dspif.clk = clk;
     assign dspif.reset = reset;
     assign dspif.resetacc = reset;
     assign dspif.stb_start = stb_start;
@@ -83,7 +83,7 @@ module dsp_sim_toplevel#(
     end
     endgenerate
 
-    dsp dspmod(.dspif(dspif));
+    //dsp dspmod(.dspif(dspif));
 
 endmodule
 

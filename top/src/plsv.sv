@@ -16,13 +16,13 @@ wire psclk=pl_clk0;
 wire adc3clk=clkadc3_600;
 `include "reset_plsv.vh"
 iflocalbus #(.DATA_WIDTH(LB1_DATAWIDTH),.ADDR_WIDTH(LB1_ADDRWIDTH))
-lb1();
+lb1(.clk(lb1_clk));
 iflocalbus #(.DATA_WIDTH(LB2_DATAWIDTH),.ADDR_WIDTH(LB2_ADDRWIDTH))
-lb2();
+lb2(.clk(lb2_clk));
 iflocalbus #(.DATA_WIDTH(LB3_DATAWIDTH),.ADDR_WIDTH(LB3_ADDRWIDTH))
-lb3();
+lb3(.clk(lb3_clk));
 iflocalbus #(.DATA_WIDTH(LB4_DATAWIDTH),.ADDR_WIDTH(LB4_ADDRWIDTH))
-lb4();
+lb4(.clk(lb4_clk));
 
 localbus_mappin #(.DATA_WIDTH(LB1_DATAWIDTH),.ADDR_WIDTH(LB1_ADDRWIDTH))
 lb1map(.lb(lb1),.wren(lb1_wren),.rden(lb1_rden),.rdenlast(lb1_rdenlast),.waddr(lb1_waddr),.rvalid(lb1_rvalid),.rvalidlast(lb1_rvalidlast),.wdata(lb1_wdata),.raddr(lb1_raddr),.rdata(lb1_rdata),.clk(lb1_clk),.aresetn(lb1_aresetn));
@@ -57,7 +57,7 @@ ifdsp #(`include "plps_parainst.vh"
 ,`include "bram_parainst.vh"
 ,`include "braminit_parainst.vh"
 )
-dspif();
+dspif(.clk(dspclk));
 boardcfg #(`include "plps_parainst.vh"
 ,`include "bram_parainst.vh"
 ,`include "braminit_parainst.vh"

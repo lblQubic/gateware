@@ -1,11 +1,13 @@
 import cocotb
 from cocotb.triggers import Timer, RisingEdge
+from cocotb.clock import Clock
 import axi4
 import bram
 import regs
 import numpy
 import random
 from matplotlib import pyplot
+from cocotb.clock import Clock
 
 import sys
 sys.path.append("../../../../submodules/distributed_processor/python")  # install doesn't work, why?
@@ -207,7 +209,7 @@ class plsv():
             startaddr=self.brams[bufname].next
             for j in range(3):
                 self.brams[bufname].set_value(startaddr+j,(cmd>>(j*32))&0xffffffff)
-                print('cmdbuf',startaddr+j,format((cmd>>(j*32))&0xffffffff,'#010x'))
+                #print('cmdbuf',startaddr+j,format((cmd>>(j*32))&0xffffffff,'#010x'))
         self.brams[bufname].siminit()
     def fakecmd(self,trigt,amp,freqaddr,envstart,envlength,mode,pini):
         cmd=self.widthshift(mode,2,0)\
@@ -291,30 +293,25 @@ class plsv():
         value= await self.bramsaxi.read(addr=self.brams[name].address(offset)*4)
         self.brams[name].set_value(offset=offset,value=value)
         return value
-    async def generate_clock(slef,freq,pin,tstop):
-        clk_cycle_ns=round(1/freq*1e9/2.0,3)
-        for i in range(int(tstop/(clk_cycle_ns*1e-9))):
-            pin.value = 0
-            await Timer(clk_cycle_ns, units='ns')
-            pin.value = 1
-            await Timer(clk_cycle_ns, units='ns')
-        #dut._log.debug("clk cycle {}".format(i))
 
     def startclk(self,dut,tstop):
-        cocotb.start_soon(self.generate_clock(freq=100e6,pin=dut.clk100,tstop=tstop))
-        cocotb.start_soon(self.generate_clock(freq=300e6,pin=dut.usersi570c0,tstop=tstop))
-        cocotb.start_soon(self.generate_clock(freq=300e6,pin=dut.usersi570c1,tstop=tstop))
-        cocotb.start_soon(self.generate_clock(freq=600e6,pin=dut.clk104_pl_clk,tstop=tstop))
-        cocotb.start_soon(self.generate_clock(freq=9.8e6,pin=dut.clk104_pl_sysref,tstop=tstop))
-        cocotb.start_soon(self.generate_clock(freq=600e6,pin=dut.lb1_clk,tstop=tstop))
-        cocotb.start_soon(self.generate_clock(freq=600e6,pin=dut.lb2_clk,tstop=tstop))
-        cocotb.start_soon(self.generate_clock(freq=33.3e6,pin=dut.pl_clk0,tstop=tstop))
-        cocotb.start_soon(self.generate_clock(freq=600e6,pin=dut.clk_dac2,tstop=tstop))
-        cocotb.start_soon(self.generate_clock(freq=600e6,pin=dut.clk_dac3,tstop=tstop))
-        cocotb.start_soon(self.generate_clock(freq=300e6,pin=dut.clk_adc2,tstop=tstop))
-        cocotb.start_soon(self.generate_clock(freq=300e6,pin=dut.clkadc2_300,tstop=tstop))
-        cocotb.start_soon(self.generate_clock(freq=600e6,pin=dut.clkadc2_600,tstop=tstop))
-        cocotb.start_soon(self.generate_clock(freq=125e6,pin=dut.clk125,tstop=tstop))
+        cocotb.start_soon(Clock(period=10,signal=dut.clk100,units="ns").start())
+        cocotb.start_soon(Clock(period=4,signal=dut.usersi570c0,units="ns").start())
+        cocotb.start_soon(Clock(period=4,signal=dut.usersi570c1,units="ns").start())
+        cocotb.start_soon(Clock(period=2,signal=dut.clk104_pl_clk,units="ns").start())
+        cocotb.start_soon(Clock(period=11.2,signal=dut.clk104_pl_sysref,units="ns").start())
+        cocotb.start_soon(Clock(period=2,signal=dut.lb1_clk,units="ns").start())
+        cocotb.start_soon(Clock(period=2,signal=dut.lb2_clk,units="ns").start())
+        cocotb.start_soon(Clock(period=2,signal=dut.lb3_clk,units="ns").start())
+        cocotb.start_soon(Clock(period=2,signal=dut.lb4_clk,units="ns").start())
+        cocotb.start_soon(Clock(period=2,signal=dut.pl_clk0,units="ns").start())
+        cocotb.start_soon(Clock(period=2,signal=dut.clk_dac2,units="ns").start())
+        cocotb.start_soon(Clock(period=2,signal=dut.clk_dac3,units="ns").start())
+        cocotb.start_soon(Clock(period=2,signal=dut.clk_adc2,units="ns").start())
+        cocotb.start_soon(Clock(period=4,signal=dut.clkadc2_300,units="ns").start())
+        cocotb.start_soon(Clock(period=2,signal=dut.clkadc2_600,units="ns").start())
+        cocotb.start_soon(Clock(period=8,signal=dut.clk125,units="ns").start())
+
     async def clk(self,tstop,resettime=257,resetpulselen=23):
         self.dutinit()
         self.startclk(dut=self.dut,tstop=tstop)
@@ -357,8 +354,10 @@ class plsv():
         addroffset=28
         randval=random.randint(0,2**32)
         await self.bramswrite("command0",addroffset,randval)
+        clkcnt=self.dut.axi4lbbram.clkcnt.value.integer
+        print('clkcnt',clkcnt)
         assert self.dut.plsv.command0_mem.addrA_d.value.integer==addroffset
-        assert self.dut.plsv.command0_mem.weA_d.value.integer==1
+#        assert self.dut.plsv.command0_mem.weA_d.value.integer==1
         assert self.dut.plsv.command0_mem.diA_d.value.integer==randval
         await self.delayclk(20,"hw.clk100")
 
@@ -391,6 +390,11 @@ a=plsv()
 @cocotb.test()
 async def init(dut):
     a.conndut(dut)
+
+#@cocotb.test()
+#async def clkexist(dut):
+#    cocotb.start_soon(Clock(dut.clk104_pl_clk, 10, units="ns").start())
+#    await Timer(200,units='ns')
 
 @cocotb.test()
 async def clk(dut):

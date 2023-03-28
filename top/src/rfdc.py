@@ -104,13 +104,13 @@ def rfdc(dactilechan,adctilechan):
     '''
     adcsimclktemplate='''input clk_adc%(adctile)d'''
 
-    dacplsvtemplate='''axi4stream #(.DATA_WIDTH(DAC_AXIS_DATAWIDTH))   %(dacname)saxis();
-    axi4stream_clkrst %(dacname)saxisclkrst(.axi4(%(dacname)saxis.clkrst),.clk(%(DACNAME)s_M_AXIS_ACLK),.resetn(%(DACNAME)s_M_AXIS_ARESETN));
+    dacplsvtemplate='''axi4stream #(.DATA_WIDTH(DAC_AXIS_DATAWIDTH))   %(dacname)saxis(.clk(%(DACNAME)s_M_AXIS_ACLK));
+    axi4stream_clkrst %(dacname)saxisclkrst(.axi4(%(dacname)saxis.clkrst),.resetn(%(DACNAME)s_M_AXIS_ARESETN));
     axi4stream_master_map #(.DATA_WIDTH(DAC_AXIS_DATAWIDTH))
     %(dacname)saxismap(.axis(%(dacname)saxis),.ready(%(DACNAME)s_M_AXIS_TREADY),.valid(%(DACNAME)s_M_AXIS_TVALID),.data(%(DACNAME)s_M_AXIS_TDATA),.strb(%(DACNAME)s_M_AXIS_TSTRB),.last(%(DACNAME)s_M_AXIS_TLAST));
     '''
-    adcplsvtemplate='''axi4stream #(.DATA_WIDTH(ADC_AXIS_DATAWIDTH))   %(adcname)saxis();
-    axi4stream_clkrst %(adcname)saxisclkrst(.axi4(%(adcname)saxis.clkrst),.clk(%(ADCNAME)s_S_AXIS_ACLK),.resetn(%(ADCNAME)s_S_AXIS_ARESETN));
+    adcplsvtemplate='''axi4stream #(.DATA_WIDTH(ADC_AXIS_DATAWIDTH))   %(adcname)saxis(.clk(%(ADCNAME)s_S_AXIS_ACLK));
+    axi4stream_clkrst %(adcname)saxisclkrst(.axi4(%(adcname)saxis.clkrst),.resetn(%(ADCNAME)s_S_AXIS_ARESETN));
     axi4stream_slave_map #(.DATA_WIDTH(ADC_AXIS_DATAWIDTH))
     %(adcname)saxismap(.axis(%(adcname)saxis),.ready(%(ADCNAME)s_S_AXIS_TREADY),.valid(%(ADCNAME)s_S_AXIS_TVALID),.data(%(ADCNAME)s_S_AXIS_TDATA),.strb(%(ADCNAME)s_S_AXIS_TSTRB),.last(%(ADCNAME)s_S_AXIS_TLAST));
     '''

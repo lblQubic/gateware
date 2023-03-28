@@ -62,7 +62,7 @@ class bram:
                 self._set_value(offset+i,v)
     def siminit(self,filename=None):
         filename ="INIT_%s.mem"%self.name if filename is None else filename
-        print("write init file for simulation:",filename)
+#        print("write init file for simulation:",filename)
         f=open(filename,'w')
         s='\n'.join([format(int(i),'08x') for i in self._value])
         f.write(s)

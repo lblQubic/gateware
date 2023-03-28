@@ -181,7 +181,7 @@ axi4stream_master_handshake_data #(.DATA_WIDTH (DAC_AXIS_DATAWIDTH))dac30hsda(.a
 axi4stream_master_handshake_data #(.DATA_WIDTH (DAC_AXIS_DATAWIDTH))dac31hsda(.axis(dac31axis),.datavalid(1'b1),.data(dspif.dac[2]));
 axi4stream_master_handshake_data #(.DATA_WIDTH (DAC_AXIS_DATAWIDTH))dac32hsda(.axis(dac32axis),.datavalid(1'b1),.data(dspif.dac[1]));
 axi4stream_master_handshake_data #(.DATA_WIDTH (DAC_AXIS_DATAWIDTH))dac33hsda(.axis(dac33axis),.datavalid(1'b1),.data(dspif.dac[0]));
-assign dspif.clk=dspclk;
+//assign dspif.clk=dspclk;
 reg dspreset_r=0;
 always @(posedge dspclk) begin
 	dspreset_r<=dspreset|dspregs.stb_dspreset;

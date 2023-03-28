@@ -198,6 +198,11 @@ input aresetn
 ,input usersi570c1
 ,input clk104_pl_sysref
 ,input clk104_pl_clk
+,input lb1_clk
+,input lb2_clk
+,input lb3_clk
+,input lb4_clk
+
 );
 /*initial begin
 $dumpvars(0,plsv_tb);
@@ -293,7 +298,7 @@ wire lb1_rvalid;
 wire lb1_rvalidlast;
 wire [LB1_DATAWIDTH-1 : 0] lb1_wdata;
 wire [LB1_DATAWIDTH-1 : 0] lb1_rdata;
-wire lb1_clk;
+//wire lb1_clk;
 wire lb1_aresetn;
 
 wire [LB2_ADDRWIDTH-1:0] lb2_raddr;
@@ -305,7 +310,7 @@ wire lb2_rvalid;
 wire lb2_rvalidlast;
 wire [LB2_DATAWIDTH-1 : 0] lb2_wdata;
 wire [LB2_DATAWIDTH-1 : 0] lb2_rdata;
-wire lb2_clk;
+//wire lb2_clk;
 wire lb2_aresetn;
 
 wire [LB3_ADDRWIDTH-1:0] lb3_raddr;
@@ -317,7 +322,7 @@ wire lb3_rvalid;
 wire lb3_rvalidlast;
 wire [LB3_DATAWIDTH-1 : 0] lb3_wdata;
 wire [LB3_DATAWIDTH-1 : 0] lb3_rdata;
-wire lb3_clk;
+//wire lb3_clk;
 wire lb3_aresetn;
 
 wire [LB4_ADDRWIDTH-1:0] lb4_raddr;
@@ -329,7 +334,7 @@ wire lb4_rvalid;
 wire lb4_rvalidlast;
 wire [LB4_DATAWIDTH-1 : 0] lb4_wdata;
 wire [LB4_DATAWIDTH-1 : 0] lb4_rdata;
-wire lb4_clk;
+//wire lb4_clk;
 wire lb4_aresetn;
 
 `include "rfdc_wire.vh"
@@ -471,7 +476,7 @@ axi4_lb #(.DATA_WIDTH(LB1_DATAWIDTH),.ADDR_WIDTH(LB1_ADDRWIDTH+$clog2(LB1_DATAWI
 ,.lb_wdata    (lb1_wdata)
 ,.lb_raddr    (lb1_raddr)
 ,.lb_rdata    (lb1_rdata)
-,.lb_clk      (lb1_clk)
+//,.lb_clk      (lb1_clk)
 ,.lb_aresetn  (lb1_aresetn)
 
 ,.awstate_dbg()
@@ -538,7 +543,7 @@ axi4_lb #(.DATA_WIDTH(LB2_DATAWIDTH),.ADDR_WIDTH(LB2_ADDRWIDTH+$clog2(LB2_DATAWI
 ,.lb_wdata    (lb2_wdata)
 ,.lb_raddr    (lb2_raddr)
 ,.lb_rdata    (lb2_rdata)
-,.lb_clk      (lb2_clk)
+//,.lb_clk      (lb2_clk)
 ,.lb_aresetn  (lb2_aresetn)
 ,.awstate_dbg()
 ,.arstate_dbg()
@@ -605,7 +610,7 @@ axi4_lb #(.DATA_WIDTH(LB3_DATAWIDTH),.ADDR_WIDTH(LB3_ADDRWIDTH+$clog2(LB3_DATAWI
 ,.lb_wdata    (lb3_wdata)
 ,.lb_raddr    (lb3_raddr)
 ,.lb_rdata    (lb3_rdata)
-,.lb_clk      (lb3_clk)
+//,.lb_clk      (lb3_clk)
 ,.lb_aresetn  (lb3_aresetn)
 ,.awstate_dbg()
 ,.arstate_dbg()
@@ -653,6 +658,8 @@ hwif hw();
 //localparam integer BRAMTOHOST_DATAWIDTH=64;
 //localparam integer BRAMFROMHOST_ADDRWIDTH=13;
 //localparam integer BRAMFROMHOST_DATAWIDTH=512;
+
+
 plsv #(`include "plps_parainst.vh"
 ,`include "bram_parainst.vh"
 ,`include "braminit_parainst.vh"
@@ -664,6 +671,8 @@ plsv
 `include "plps_portinst.vh"
 ,.hw(hw)
 );
+
+
 hwifsim hwifsim(.hw(hw)
 ,.clk100(clk100),.clk125(clk125),.usersi570c0(usersi570c0),.usersi570c1(usersi570c1),.clk104_pl_sysref(clk104_pl_sysref),.clk104_pl_clk(clk104_pl_clk)
 );

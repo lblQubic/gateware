@@ -28,6 +28,7 @@ reg [31:0] nshot=0;
 wire [NPROC-1:0] stbprocend;
 wire [NPROC-1:0] procdone;
 reg procdone_r=0;
+reg procstart=0;
 wire [NPROC-1:0] nobusy;
 reg nobusy_r=0;
 reg [31:0] shotcnt=0;
@@ -38,7 +39,6 @@ always @(posedge dspif.clk) begin
 	procreset_d<=procreset;
 	//	proccorereset<={NPROC{procreset|procreset_d}};
 	proccorereset<={NPROC{procreset}};
-	dspif.procdone<=procdone;
 end
 
 assign dspif.shotcnt=currentshotcnt;
@@ -118,8 +118,8 @@ rdrvelemout2 (.clk(dspif.clk),.xin(rdrvxin2),.yin(rdrvyin2),.valid(),.xout(xmaif
 
 generate
 for (genvar i=0;i<NDAC;i=i+1) begin
-	//assign dspif.dac[i]=xmaif.daccplxx[i];
-	assign dspif.dac[i]=xmaif.sumcplxx[i];
+	assign dspif.dac[i]=xmaif.daccplxx[i];
+	//assign dspif.dac[i]=xmaif.sumcplxx[i];
 end
 endgenerate
 //assign dspif.dac[1]=xmaif.daccplxx[1];
@@ -228,15 +228,15 @@ assign dspif.addr_accbuf_mon3=addr_accbuf[3];
 
 reg [DAC_AXIS_DATAWIDTH-1:0] dac[0:3];
 
-panzoomtrigif #(.NCHAN(10),.ADDRWIDTH(ACQBUF_W_ADDRWIDTH),.DATAWIDTH(ACQBUF_W_DATAWIDTH))acqpztif[0:1]();
-panzoomtrigif #(.NCHAN(4),.ADDRWIDTH(DACMON_W_ADDRWIDTH),.DATAWIDTH(DACMON_W_DATAWIDTH))dacmonpztif[0:4]();
+panzoomtrigif #(.NCHAN(10),.ADDRWIDTH(ACQBUF_W_ADDRWIDTH),.DATAWIDTH(ACQBUF_W_DATAWIDTH))acqpztif[0:1](.clk(dspif.clk));
+panzoomtrigif #(.NCHAN(4),.ADDRWIDTH(DACMON_W_ADDRWIDTH),.DATAWIDTH(DACMON_W_DATAWIDTH))dacmonpztif[0:3](.clk(dspif.clk));
 generate 
 for (genvar i=0;i<2;i=i+1) begin: acqpztifwire
 	reg stb_start_r=0;
 	always @(posedge dspif.clk) begin
 		stb_start_r<=dspif.stb_start;
 	end
-	assign acqpztif[i].clk=dspif.clk;
+//	assign acqpztif[i].clk=dspif.clk;
 	assign acqpztif[i].reset=dspif.acqbufreset;
 	assign acqpztif[i].chansel=dspif.acqchansel[i];
 	assign acqpztif[i].stb_start=stb_start_r;
@@ -263,7 +263,7 @@ for (genvar i=0;i<4;i=i+1) begin: dacmonpztifwire
 	always @(posedge dspif.clk) begin
 		stb_start_r<=dspif.stb_start;
 	end
-	assign dacmonpztif[i].clk=dspif.clk;
+//	assign dacmonpztif[i].clk=dspif.clk;
 	assign dacmonpztif[i].reset=dspif.dacmonreset;
 	assign dacmonpztif[i].chansel=dspif.dacmonchansel[i];
 	assign dacmonpztif[i].stb_start=stb_start_r;
@@ -373,7 +373,7 @@ always @(posedge dspif.clk) begin
 		state <= nextstate;
 	end
 end
-always @(state) begin
+always @(*) begin
 	nextstate=IDLE;
 	case (state)
 		IDLE: begin
@@ -409,6 +409,7 @@ always @(posedge dspif.clk) begin
 		shotcnt<=0;
 		done<=1'b0;
 		procreset<=1'b1;
+		procstart<=1'b0;
         nshot<=dspif.nshot;
 	end
 	else begin
@@ -416,6 +417,7 @@ always @(posedge dspif.clk) begin
 			IDLE: begin
 				done<=1'b0;
 				procreset<=1'b1;
+				procstart<=1'b0;
 				shotcnt<=0;
 				nshot<=dspif.nshot;
 			end
@@ -423,37 +425,50 @@ always @(posedge dspif.clk) begin
 				done<=1'b0;
 				procreset<=1'b0;
 				shotcnt<=shotcnt;
+				procstart<=1'b1;
 			end
 			PROCRUN: begin
 				done<=1'b0;
 				procreset<=1'b0;
 				shotcnt<=shotcnt;
+				procstart<=1'b0;
 			end
 			ELEMBUSY: begin
 				done<=1'b0;
 				procreset<=1'b1;
 				shotcnt<=shotcnt;
+				procstart<=1'b0;
 			end
 			MORESHOT: begin
 				done<=1'b0;
 				shotcnt<=shotcnt;
 				procreset<=1'b1;
+				procstart<=1'b0;
 			end
 			SHOTADD: begin
 				done<=1'b0;
 				shotcnt<=nextshotcnt;//+32'h1;
 				currentshotcnt<=shotcnt;
 				procreset<=1'b1;
+				procstart<=1'b0;
 			end
 			DONE: begin
 				done<=1'b1;
 				shotcnt<=0;
 				procreset<=1'b1;
+				procstart<=1'b0;
 			end
 		endcase
 	end
 end
-
+always @(posedge dspif.clk) begin
+	if (procdone_r) begin
+		dspif.procdone<=1'b1;
+	end
+	else if (procstart) begin
+		dspif.procdone<=1'b0;
+	end
+end
 /*`include "iladsp.vh"*/
 endmodule
 

@@ -1,6 +1,6 @@
 interface panzoomtrigif #(parameter NCHAN=6,parameter ADDRWIDTH=9,parameter DATAWIDTH=64
-	)();
-	logic clk;
+	)(input clk);
+//	logic clk;
 	logic reset;
 	localparam SELWIDTH=$clog2(NCHAN)+1;
 	logic stb_start;
