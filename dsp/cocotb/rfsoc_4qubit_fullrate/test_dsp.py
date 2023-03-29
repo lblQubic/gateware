@@ -445,7 +445,7 @@ async def test_acc_sweep(dut):
 
 @cocotb.test()
 async def test_compile_chain_linear(dut):
-    qchip = qc.QChip('../../../submodules/distributed_processor/python/test/qubitcfg.json')
+    qchip = qc.QChip('qubitcfg.json')
     fpga_config = {'alu_instr_clks': 2,
                    'fpga_clk_period': 2.e-9,
                    'jump_cond_clks': 3,
@@ -478,3 +478,315 @@ async def test_compile_chain_linear(dut):
     plt.plot(dspunit.dac_out[0])
     #plt.plot(dacout_sim)
     plt.show()
+
+@cocotb.test()
+async def test_fproc_read(dut):
+    progdict = [{'op' : 'declare_reg', 'name' : 'fproc_meas0'},
+            {'op' : 'phase_reset'},
+            {'op' : 'pulse', 'freq' : 347.e6, 'phase' : 0, 'env' : np.ones(200), 'amp' : 0.5, 
+             'start_time': 5, 'elem_ind': 1}, 
+            {'op' : 'pulse', 'freq' : 347.e6, 'phase' : 0, 'env' : np.ones(200), 'amp' : 0.5, 
+             'start_time': 25, 'elem_ind': 2}, 
+            {'op' : 'alu_fproc', 'in0': 0, 'alu_op': 'id1', 'out_reg': 'fproc_meas0'},
+            {'op' : 'done_stb'}]
+
+    dspunit = dsp.DSPDriver(dut, 16, 16, 4, 16)
+    qdrvelemcfg = RFSoCElementCfg(16)
+    rdrvelemcfg = RFSoCElementCfg(16, interp_ratio=16)
+    rdloelemcfg = RFSoCElementCfg(4, interp_ratio=4)
+    prog = asm.SingleCoreAssembler([qdrvelemcfg, rdrvelemcfg, rdloelemcfg])
+    prog.from_list(progdict)
+    cmd_list, env_buffers, freq_buffers = prog.get_compiled_program()
+
+    cocotb.start_soon(dsp.generate_clock(dut))
+    await dspunit.load_program([cmd_list])
+    await dspunit.load_env_buffer(env_buffers[0], 0, 0)
+    await dspunit.load_freq_buffer(freq_buffers[0], 0, 0)
+    await dspunit.load_env_buffer(env_buffers[1], 1, 0)
+    await dspunit.load_freq_buffer(freq_buffers[1], 1, 0)
+    await dspunit.load_env_buffer(env_buffers[2], 2, 0)
+    await dspunit.load_freq_buffer(freq_buffers[2], 2, 0)
+    await dspunit.run_program(500)
+
+@cocotb.test()
+async def test_fproc_jump(dut):
+    progdict = [{'op' : 'declare_reg', 'name' : 'fproc_meas0'},
+            {'op' : 'phase_reset'},
+            {'op' : 'pulse', 'freq' : 347.e6, 'phase' : 0, 'env' : np.ones(200), 'amp' : 0.5, 
+             'start_time': 5, 'elem_ind': 1}, 
+            {'op' : 'pulse', 'freq' : 347.e6, 'phase' : 0, 'env' : np.ones(200), 'amp' : 0.5, 
+             'start_time': 25, 'elem_ind': 2}, 
+            {'op' : 'jump_fproc', 'in0': 1, 'alu_op': 'eq', 'jump_label': 'done'},
+            {'op' : 'pulse', 'freq' : 347.e6, 'phase' : 0, 'env' : np.ones(200), 'amp' : 0.5, 
+             'start_time': 300, 'elem_ind': 0}, 
+            {'op' : 'done_stb', 'label': 'done'}]
+
+    dspunit = dsp.DSPDriver(dut, 16, 16, 4, 16)
+    qdrvelemcfg = RFSoCElementCfg(16)
+    rdrvelemcfg = RFSoCElementCfg(16, interp_ratio=16)
+    rdloelemcfg = RFSoCElementCfg(4, interp_ratio=4)
+    prog = asm.SingleCoreAssembler([qdrvelemcfg, rdrvelemcfg, rdloelemcfg])
+    prog.from_list(progdict)
+    cmd_list, env_buffers, freq_buffers = prog.get_compiled_program()
+
+    cocotb.start_soon(dsp.generate_clock(dut))
+    await dspunit.load_program([cmd_list])
+    await dspunit.load_env_buffer(env_buffers[0], 0, 0)
+    await dspunit.load_freq_buffer(freq_buffers[0], 0, 0)
+    await dspunit.load_env_buffer(env_buffers[1], 1, 0)
+    await dspunit.load_freq_buffer(freq_buffers[1], 1, 0)
+    await dspunit.load_env_buffer(env_buffers[2], 2, 0)
+    await dspunit.load_freq_buffer(freq_buffers[2], 2, 0)
+    await dspunit.run_program(500)
+    assert np.all(dspunit.dac_out[0] == 0)
+
+@cocotb.test()
+async def test_fproc_notjump(dut):
+    progdict = [{'op' : 'declare_reg', 'name' : 'fproc_meas0'},
+            {'op' : 'phase_reset'},
+            {'op' : 'pulse', 'freq' : 347.e6, 'phase' : 0, 'env' : np.ones(200), 'amp' : 0.5, 
+             'start_time': 5, 'elem_ind': 1}, 
+            {'op' : 'pulse', 'freq' : 347.e6, 'phase' : 0, 'env' : np.ones(200), 'amp' : 0.5, 
+             'start_time': 25, 'elem_ind': 2}, 
+            {'op' : 'jump_fproc', 'in0': 0, 'alu_op': 'eq', 'jump_label': 'done'},
+            {'op' : 'pulse', 'freq' : 347.e6, 'phase' : 0, 'env' : np.ones(200), 'amp' : 0.5, 
+             'start_time': 300, 'elem_ind': 0}, 
+            {'op' : 'done_stb', 'label': 'done'}]
+
+    dspunit = dsp.DSPDriver(dut, 16, 16, 4, 16)
+    qdrvelemcfg = RFSoCElementCfg(16)
+    rdrvelemcfg = RFSoCElementCfg(16, interp_ratio=16)
+    rdloelemcfg = RFSoCElementCfg(4, interp_ratio=4)
+    prog = asm.SingleCoreAssembler([qdrvelemcfg, rdrvelemcfg, rdloelemcfg])
+    prog.from_list(progdict)
+    cmd_list, env_buffers, freq_buffers = prog.get_compiled_program()
+
+    cocotb.start_soon(dsp.generate_clock(dut))
+    await dspunit.load_program([cmd_list])
+    await dspunit.load_env_buffer(env_buffers[0], 0, 0)
+    await dspunit.load_freq_buffer(freq_buffers[0], 0, 0)
+    await dspunit.load_env_buffer(env_buffers[1], 1, 0)
+    await dspunit.load_freq_buffer(freq_buffers[1], 1, 0)
+    await dspunit.load_env_buffer(env_buffers[2], 2, 0)
+    await dspunit.load_freq_buffer(freq_buffers[2], 2, 0)
+    await dspunit.run_program(500)
+    assert not np.all(dspunit.dac_out[0] == 0)
+
+@cocotb.test()
+async def test_fproc_jump_ph_adj(dut):
+    progdict = [{'op' : 'declare_reg', 'name' : 'fproc_meas0'},
+            {'op' : 'phase_reset'},
+            {'op' : 'pulse', 'freq' : 347.e6, 'phase' : 0, 'env' : np.ones(200), 'amp' : 0.5, 
+             'start_time': 5, 'elem_ind': 1}, 
+            {'op' : 'pulse', 'freq' : 347.e6, 'phase' : np.pi, 'env' : np.ones(200), 'amp' : 0.5, 
+             'start_time': 25, 'elem_ind': 2}, 
+            {'op' : 'jump_fproc', 'in0': 0, 'alu_op': 'eq', 'jump_label': 'done'},
+            {'op' : 'pulse', 'freq' : 347.e6, 'phase' : 0, 'env' : np.ones(200), 'amp' : 0.5, 
+             'start_time': 300, 'elem_ind': 0}, 
+            {'op' : 'done_stb', 'label': 'done'}]
+
+    dspunit = dsp.DSPDriver(dut, 16, 16, 4, 16)
+    qdrvelemcfg = RFSoCElementCfg(16)
+    rdrvelemcfg = RFSoCElementCfg(16, interp_ratio=16)
+    rdloelemcfg = RFSoCElementCfg(4, interp_ratio=4)
+    prog = asm.SingleCoreAssembler([qdrvelemcfg, rdrvelemcfg, rdloelemcfg])
+    prog.from_list(progdict)
+    cmd_list, env_buffers, freq_buffers = prog.get_compiled_program()
+
+    cocotb.start_soon(dsp.generate_clock(dut))
+    await dspunit.load_program([cmd_list])
+    await dspunit.load_env_buffer(env_buffers[0], 0, 0)
+    await dspunit.load_freq_buffer(freq_buffers[0], 0, 0)
+    await dspunit.load_env_buffer(env_buffers[1], 1, 0)
+    await dspunit.load_freq_buffer(freq_buffers[1], 1, 0)
+    await dspunit.load_env_buffer(env_buffers[2], 2, 0)
+    await dspunit.load_freq_buffer(freq_buffers[2], 2, 0)
+    await dspunit.run_program(500)
+    assert np.all(dspunit.dac_out[0] == 0)
+
+
+@cocotb.test()
+async def test_fproc_jump_diffcore(dut):
+    """
+    Same as above but change rdlo phase to 0
+    """
+    freq = 347.e6
+    progdict1 = [{'op' : 'phase_reset'},
+            {'op' : 'pulse', 'freq' : freq, 'phase' : 0, 'env' : np.ones(200), 'amp' : 0.5, 
+             'start_time': 5, 'elem_ind': 1}, 
+            {'op' : 'pulse', 'freq' : freq, 'phase' : np.pi, 'env' : np.ones(200), 'amp' : 0.5, 
+             'start_time': 25, 'elem_ind': 2}, 
+            {'op' : 'done_stb', 'label': 'done'}]
+
+    progdict2 = [{'op' : 'declare_reg', 'name' : 'fproc_meas0'},
+            {'op' : 'phase_reset'},
+            {'op' : 'jump_fproc', 'in0': 0, 'alu_op': 'eq', 'jump_label': 'done', 'func_id': 1},
+            {'op' : 'pulse', 'freq' : 347.e6, 'phase' : 0, 'env' : np.ones(200), 'amp' : 0.5, 
+             'start_time': 300, 'elem_ind': 0}, 
+            {'op' : 'done_stb', 'label': 'done'}]
+
+
+    dspunit = dsp.DSPDriver(dut, 16, 16, 4, 16)
+    qdrvelemcfg = RFSoCElementCfg(16)
+    rdrvelemcfg = RFSoCElementCfg(16, interp_ratio=16)
+    rdloelemcfg = RFSoCElementCfg(4, interp_ratio=4)
+    prog1 = asm.SingleCoreAssembler([qdrvelemcfg, rdrvelemcfg, rdloelemcfg])
+    prog2 = asm.SingleCoreAssembler([qdrvelemcfg, rdrvelemcfg, rdloelemcfg])
+    prog1.from_list(progdict1)
+    prog2.from_list(progdict2)
+    cmd_list1, env_buffers1, freq_buffers1 = prog1.get_compiled_program()
+    cmd_list2, env_buffers2, freq_buffers2 = prog2.get_compiled_program()
+
+    adc_signal = (2**15-1)*np.cos(2*np.pi*freq*(1.e-9*dsp.CLK_CYCLE/dspunit.adc_samples_per_clk)*np.arange(500))
+    adc_signal[-1] = 0
+
+    cocotb.start_soon(dsp.generate_clock(dut))
+    await dspunit.load_program([[],cmd_list1,cmd_list2])
+    await dspunit.load_env_buffer(env_buffers1[0], 0, 1)
+    await dspunit.load_freq_buffer(freq_buffers1[0], 0, 1)
+    await dspunit.load_env_buffer(env_buffers1[1], 1, 1)
+    await dspunit.load_freq_buffer(freq_buffers1[1], 1, 1)
+    await dspunit.load_env_buffer(env_buffers1[2], 2, 1)
+    await dspunit.load_freq_buffer(freq_buffers1[2], 2, 1)
+
+    await dspunit.load_env_buffer(env_buffers2[0], 0, 2)
+    await dspunit.load_freq_buffer(freq_buffers2[0], 0, 2)
+    await dspunit.load_env_buffer(env_buffers2[1], 1, 2)
+    await dspunit.load_freq_buffer(freq_buffers2[1], 1, 2)
+    await dspunit.load_env_buffer(env_buffers2[2], 2, 2)
+    await dspunit.load_freq_buffer(freq_buffers2[2], 2, 2)
+
+    cocotb.start_soon(dspunit.generate_adc_signal(adc_signal, 1))
+    await dspunit.run_program(500)
+    assert np.all(dspunit.dac_out[2] == 0)
+
+
+@cocotb.test()
+async def test_fproc_nojump_diffcore(dut):
+    freq = 347.e6
+    progdict1 = [{'op' : 'phase_reset'},
+            {'op' : 'pulse', 'freq' : freq, 'phase' : 0, 'env' : np.ones(200), 'amp' : 0.5, 
+             'start_time': 5, 'elem_ind': 1}, 
+            {'op' : 'pulse', 'freq' : freq, 'phase' : 0, 'env' : np.ones(200), 'amp' : 0.5, 
+             'start_time': 25, 'elem_ind': 2}, 
+            {'op' : 'done_stb', 'label': 'done'}]
+
+    progdict2 = [{'op' : 'declare_reg', 'name' : 'fproc_meas0'},
+            {'op' : 'phase_reset'},
+            {'op' : 'jump_fproc', 'in0': 0, 'alu_op': 'eq', 'jump_label': 'done', 'func_id': 1},
+            {'op' : 'pulse', 'freq' : 347.e6, 'phase' : 0, 'env' : np.ones(200), 'amp' : 0.5, 
+             'start_time': 300, 'elem_ind': 0}, 
+            {'op' : 'done_stb', 'label': 'done'}]
+
+
+    dspunit = dsp.DSPDriver(dut, 16, 16, 4, 16)
+    qdrvelemcfg = RFSoCElementCfg(16)
+    rdrvelemcfg = RFSoCElementCfg(16, interp_ratio=16)
+    rdloelemcfg = RFSoCElementCfg(4, interp_ratio=4)
+    prog1 = asm.SingleCoreAssembler([qdrvelemcfg, rdrvelemcfg, rdloelemcfg])
+    prog2 = asm.SingleCoreAssembler([qdrvelemcfg, rdrvelemcfg, rdloelemcfg])
+    prog1.from_list(progdict1)
+    prog2.from_list(progdict2)
+    cmd_list1, env_buffers1, freq_buffers1 = prog1.get_compiled_program()
+    cmd_list2, env_buffers2, freq_buffers2 = prog2.get_compiled_program()
+
+    adc_signal = (2**15-1)*np.cos(2*np.pi*freq*(1.e-9*dsp.CLK_CYCLE/dspunit.adc_samples_per_clk)*np.arange(500))
+    adc_signal[-1] = 0
+
+    cocotb.start_soon(dsp.generate_clock(dut))
+    await dspunit.load_program([[],cmd_list1,cmd_list2])
+    await dspunit.load_env_buffer(env_buffers1[0], 0, 1)
+    await dspunit.load_freq_buffer(freq_buffers1[0], 0, 1)
+    await dspunit.load_env_buffer(env_buffers1[1], 1, 1)
+    await dspunit.load_freq_buffer(freq_buffers1[1], 1, 1)
+    await dspunit.load_env_buffer(env_buffers1[2], 2, 1)
+    await dspunit.load_freq_buffer(freq_buffers1[2], 2, 1)
+
+    await dspunit.load_env_buffer(env_buffers2[0], 0, 2)
+    await dspunit.load_freq_buffer(freq_buffers2[0], 0, 2)
+    await dspunit.load_env_buffer(env_buffers2[1], 1, 2)
+    await dspunit.load_freq_buffer(freq_buffers2[1], 1, 2)
+    await dspunit.load_env_buffer(env_buffers2[2], 2, 2)
+    await dspunit.load_freq_buffer(freq_buffers2[2], 2, 2)
+
+    cocotb.start_soon(dspunit.generate_adc_signal(adc_signal, 1))
+    await dspunit.run_program(500)
+    assert not np.all(dspunit.dac_out[2] == 0)
+
+@cocotb.test()
+async def test_fproc_reset_compile(dut):
+    qchip = qc.QChip('qubitcfg.json')
+    fpga_config = {'alu_instr_clks': 2,
+                   'fpga_clk_period': 2.e-9,
+                   'jump_cond_clks': 3,
+                   'jump_fproc_clks': 4,
+                   'pulse_regwrite_clks': 1}
+    program = [{'name': 'X90', 'qubit': ['Q0']},
+               {'name': 'read_test', 'qubit': ['Q0']},
+               {'name': 'branch_fproc', 'alu_cond': 'eq', 'cond_lhs': 1, 'func_id': 0, 'scope': ['Q0'],
+                'true': [{'name': 'delay', 't': 140.e-9, 'qubit': ['Q0']},
+                             {'name': 'X90', 'qubit': ['Q0']}, 
+                             {'name': 'X90', 'qubit': ['Q0']}], 
+                    'false': []},
+               {'name': 'read_test', 'qubit': ['Q0']}]
+    fpga_config = hw.FPGAConfig(**fpga_config)
+    channel_configs = hw.load_channel_configs('../../../submodules/distributed_processor/python/test/channel_config.json')
+    compiler = cm.Compiler(program, 'by_qubit', fpga_config, qchip)
+    compiled_prog = compiler.compile()
+    #compiled_prog = cm.CompiledProgram(compiler.asm_progs, fpga_config)
+    for statement in compiled_prog.program[('Q0.qdrv', 'Q0.rdrv', 'Q0.rdlo')]:
+        print(statement)
+
+    globalasm = asm.GlobalAssembler(compiled_prog, channel_configs, RFSoCElementCfg)
+    asmprog = globalasm.get_assembled_program()
+
+    dspunit = dsp.DSPDriver(dut, 16, 16, 4, 16)
+
+    cocotb.start_soon(dsp.generate_clock(dut))
+    await dspunit.load_program([asmprog[0]['cmd_list']])
+    await dspunit.load_env_buffer(asmprog[0]['env_buffers'][0], 0, 0)
+    await dspunit.load_freq_buffer(asmprog[0]['freq_buffers'][0], 0, 0)
+    await dspunit.run_program(1500)
+    plt.plot(dspunit.dac_out[0])
+    plt.show()
+    #assert not np.all(dspunit.dac_out[2] == 0)
+    #plt.plot(dspunit.dac_out[0])
+    assert not np.all(dspunit.dac_out[0][1250:] == 0)
+
+@cocotb.test()
+async def test_fproc_noreset_compile(dut):
+    qchip = qc.QChip('qubitcfg.json')
+    fpga_config = {'alu_instr_clks': 2,
+                   'fpga_clk_period': 2.e-9,
+                   'jump_cond_clks': 3,
+                   'jump_fproc_clks': 4,
+                   'pulse_regwrite_clks': 1}
+    program = [{'name': 'X90', 'qubit': ['Q0']},
+               {'name': 'read_test', 'qubit': ['Q0']},
+               {'name': 'branch_fproc', 'alu_cond': 'eq', 'cond_lhs': 0, 'func_id': 0, 'scope': ['Q0'],
+                'true': [{'name': 'delay', 't': 140.e-9, 'qubit': ['Q0']},
+                             {'name': 'X90', 'qubit': ['Q0']}, 
+                             {'name': 'X90', 'qubit': ['Q0']}], 
+                    'false': []},
+               {'name': 'read_test', 'qubit': ['Q0']}]
+    fpga_config = hw.FPGAConfig(**fpga_config)
+    channel_configs = hw.load_channel_configs('../../../submodules/distributed_processor/python/test/channel_config.json')
+    compiler = cm.Compiler(program, 'by_qubit', fpga_config, qchip)
+    compiled_prog = compiler.compile()
+    #compiled_prog = cm.CompiledProgram(compiler.asm_progs, fpga_config)
+    for statement in compiled_prog.program[('Q0.qdrv', 'Q0.rdrv', 'Q0.rdlo')]:
+        print(statement)
+
+    globalasm = asm.GlobalAssembler(compiled_prog, channel_configs, RFSoCElementCfg)
+    asmprog = globalasm.get_assembled_program()
+
+    dspunit = dsp.DSPDriver(dut, 16, 16, 4, 16)
+
+    cocotb.start_soon(dsp.generate_clock(dut))
+    await dspunit.load_program([asmprog[0]['cmd_list']])
+    await dspunit.load_env_buffer(asmprog[0]['env_buffers'][0], 0, 0)
+    await dspunit.load_freq_buffer(asmprog[0]['freq_buffers'][0], 0, 0)
+    await dspunit.run_program(1500)
+    plt.plot(dspunit.dac_out[0])
+    plt.show()
+    assert np.all(dspunit.dac_out[0][1250:] == 0)
