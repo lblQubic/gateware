@@ -69,7 +69,7 @@ for (genvar i =0; i<NPROC; i=i+1) begin: procinst
 end
 endgenerate
 
-ifxma #(.NDAC(NDAC),.DAC_AXIS_DATAWIDTH(DAC_AXIS_DATAWIDTH)) xmaif(.clk(dspif.clk));
+ifxma #(.NQDRV(NQDRV),.DAC_AXIS_DATAWIDTH(DAC_AXIS_DATAWIDTH)) xmaif(.clk(dspif.clk));
 
 generate
 for (genvar i=0;i<NPROC;i=i+1) begin: qdrvouts
@@ -101,10 +101,14 @@ for (genvar i=0;i<NDLO1;i=i+1) begin
 end
 endgenerate
 
-slicesum #(.DATAWIDTH(DAC_AXIS_DATAWIDTH),.NITEM(NDLO1))
-rdrvelemout1 (.clk(dspif.clk),.xin(rdrvxin1),.yin(rdrvyin1),.valid(),.xout(xmaif.daccplxx[NPROC]),.yout(xmaif.daccplxy[NPROC]));
 
-reg signed [DAC_AXIS_DATAWIDTH-1:0] rdrvxin2 [0:NDLO2-1];
+logic [DAC_AXIS_DATAWIDTH-1:0] rdrvxout[0:NRDRV-1];
+logic [DAC_AXIS_DATAWIDTH-1:0] rdrvyout[0:NRDRV-1];
+
+slicesum #(.DATAWIDTH(DAC_AXIS_DATAWIDTH),.NITEM(NDLO1))
+rdrvelemout1 (.clk(dspif.clk),.xin(rdrvxin1),.yin(rdrvyin1),.valid(),.xout(rdrvxout[0]),.yout(rdrvyout[0]));
+
+/*reg signed [DAC_AXIS_DATAWIDTH-1:0] rdrvxin2 [0:NDLO2-1];
 reg signed [DAC_AXIS_DATAWIDTH-1:0] rdrvyin2 [0:NDLO2-1];
 generate
 for (genvar i=0;i<NDLO2;i=i+1) begin
@@ -114,12 +118,15 @@ end
 endgenerate
 
 slicesum #(.DATAWIDTH(DAC_AXIS_DATAWIDTH),.NITEM(NDLO2))
-rdrvelemout2 (.clk(dspif.clk),.xin(rdrvxin2),.yin(rdrvyin2),.valid(),.xout(xmaif.daccplxx[NPROC+1]),.yout(xmaif.daccplxy[NPROC+1]));
+rdrvelemout2 (.clk(dspif.clk),.xin(rdrvxin2),.yin(rdrvyin2),.valid(),.xout(rdrvxout[1]),.yout(rdrvyout[1]));
+*/
 
 generate
 for (genvar i=0;i<NDAC;i=i+1) begin
-	assign dspif.dac[i]=xmaif.daccplxx[i];
-	//assign dspif.dac[i]=xmaif.sumcplxx[i];
+	if (i<NQDRV)
+		assign dspif.dac[i]=xmaif.sumcplxx[i];
+	else
+		assign dspif.dac[i]=rdrvxout[i-NQDRV];
 end
 endgenerate
 //assign dspif.dac[1]=xmaif.daccplxx[1];
@@ -167,10 +174,10 @@ always @(posedge dspif.clk) begin
 	//	6: 	mixbb1<=0;
 	endcase
 	case (dspif.mixbb2sel)
-		0: 	mixbb2<=adc[1];
+//		0: 	mixbb2<=adc[1];
 		1: 	mixbb2<=dacundersample[2];
 		2: 	mixbb2<=dacundersample[3];
-	//	0: 	mixbb2<=adc[0];
+		0: 	mixbb2<=adc[0];
 		//1: 	mixbb2<=adc[1];
 		//2: 	mixbb2<=dacundersample[0];
 		//3: 	mixbb2<=dacundersample[1];
@@ -243,7 +250,7 @@ for (genvar i=0;i<2;i=i+1) begin: acqpztifwire
 	assign acqpztif[i].delayaftertrig=dspif.delayaftertrig;
 	assign acqpztif[i].decimator=dspif.decimator;
 	assign acqpztif[i].chan[0]=adc[0];
-	assign acqpztif[i].chan[1]=adc[1];
+//	assign acqpztif[i].chan[1]=adc[1];
 	assign acqpztif[i].chan[2]=rdloelem[0].multix;
 	assign acqpztif[i].chan[3]=rdloelem[0].multiy;
 	assign acqpztif[i].chan[4]=rdloelem[1].multix;

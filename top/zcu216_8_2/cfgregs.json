@@ -23,4 +23,6 @@
 ,"test1":{"access": "rw", "addr_width": 0, "data_width": 32, "sign": "unsigned", "init": "0", "base_addr": 22}
 ,"r2":{"access": "rw", "addr_width": 0, "data_width": 32, "sign": "unsigned", "init": "0", "base_addr": 23}
 ,"gitrevision":{"access": "r", "addr_width": 0, "data_width": 32, "sign": "unsigned", "init": "0", "base_addr": 24}
+,"io":{"access": "rw", "addr_width": 0, "data_width": 32, "sign": "unsigned", "init": "0", "base_addr": 25}
+,"ioval":{"access": "r", "addr_width": 0, "data_width": 32, "sign": "unsigned", "init": "0", "base_addr": 26}
 }

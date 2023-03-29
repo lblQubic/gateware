@@ -1,5 +1,4 @@
-module boardcfg #(
-`include "plps_para.vh"	
+module boardcfg #(`include "plps_para.vh"	
 ,`include "bram_para.vh"
 ,`include "braminit_para.vh"
 )(hwif.cfg hw
@@ -77,6 +76,17 @@ assign hw.pmod0[3]=hw.usersi570c1;
 assign hw.pmod0[2]=hw.clk104_pl_sysref;
 assign hw.pmod0[1]=hw.clk104_pl_clk;
 */
+generate
+if (SIM) begin
+	assign cfgregs.ioval= hw.pmod0[1];
+	assign hw.pmod0[1]= cfgregs.io ? cnt100[27] : 1'bx;
+end
+else begin
+	IOBUF pmod0_1iobuf(.IO(hw.pmod0[1]),.T(cfgregs.io),.I(cnt100[27]),.O(cfgregs.ioval));
+end
+endgenerate
+
+
 assign hw.ledrgb[0][2]=cfgregs.test[0];
 assign hw.ledrgb[1][2]=cfgregs.test[1];
 assign hw.ledrgb[2][2]=cfgregs.test[2];
@@ -124,30 +134,29 @@ assign freq_cnt={cfgregs.fclk100
 ,cfgregs.fclkadc3_600
 };
 
-wire [NFCNT-1:0] freqcnt_clks= {
-	hw.clk100
-	,hw.clk125
-	,hw.usersi570c0
-	,hw.usersi570c1
-	,hw.clk104_pl_sysref
-	,hw.clk104_pl_clk
-	,clk_dac0
-	,clk_dac1
-	,clk_dac2
-	,clk_dac3
-	,clk_adc0
-	,clk_adc1
-	,clk_adc2
-	,clk_adc3
-	,clkadc3_300
-	,clkadc3_600
+wire [NFCNT-1:0] freqcnt_clks= {hw.clk100
+,hw.clk125
+,hw.usersi570c0
+,hw.usersi570c1
+,hw.clk104_pl_sysref
+,hw.clk104_pl_clk
+,clk_dac0
+,clk_dac1
+,clk_dac2
+,clk_dac3
+,clk_adc0
+,clk_adc1
+,clk_adc2
+,clk_adc3
+,clkadc3_300
+,clkadc3_600
 };
 
 genvar jx;
 generate for (jx=0; jx<NFCNT; jx=jx+1)	begin: gen_fcnt
 	freq_count3 #(.REFCNTWIDTH(24))
 	freq_count3(.clk(hw.clk100),.fin(freqcnt_clks[jx]),.frequency(freq_cnt[jx*32+31:jx*32]));
-//		{regs.fclk100,regs.fclk125,regs.fusersi570c0,regs.fusersi570c1,regs.fclk104plsysref,regs.fclk104plclk,regs.fclk_dac2,regs.fclk_dac3,regs.fclk_adc2,regs.fclkadc2_300,regs.fclkadc2_600}
+	//		{regs.fclk100,regs.fclk125,regs.fusersi570c0,regs.fusersi570c1,regs.fclk104plsysref,regs.fclk104plclk,regs.fclk_dac2,regs.fclk_dac3,regs.fclk_adc2,regs.fclkadc2_300,regs.fclkadc2_600}
 end
 endgenerate
 
@@ -171,11 +180,11 @@ axi4stream_master_handshake_data #(.DATA_WIDTH (DAC_AXIS_DATAWIDTH))dac02hsda(.a
 axi4stream_master_handshake_data #(.DATA_WIDTH (DAC_AXIS_DATAWIDTH))dac03hsda(.axis(dac03axis),.datavalid(1'b1),.data(dspif.dac[4])); // 228 3
 axi4stream_master_handshake_data #(.DATA_WIDTH (DAC_AXIS_DATAWIDTH))dac10hsda(.axis(dac10axis),.datavalid(1'b1),.data(dspif.dac[1])); // 229 0
 axi4stream_master_handshake_data #(.DATA_WIDTH (DAC_AXIS_DATAWIDTH))dac11hsda(.axis(dac11axis),.datavalid(1'b1),.data(dspif.dac[5])); // 229 1
-//axi4stream_master_handshake_data #(.DATA_WIDTH (DAC_AXIS_DATAWIDTH))dac12hsda(.axis(dac12axis),.datavalid(1'b1),.data(dspif.dac[0])); // 229 2
+axi4stream_master_handshake_data #(.DATA_WIDTH (DAC_AXIS_DATAWIDTH))dac12hsda(.axis(dac12axis),.datavalid(1'b1),.data(dspif.dac[0])); // 229 2
 axi4stream_master_handshake_data #(.DATA_WIDTH (DAC_AXIS_DATAWIDTH))dac13hsda(.axis(dac13axis),.datavalid(1'b1),.data(dspif.dac[6])); // 229 3
 axi4stream_master_handshake_data #(.DATA_WIDTH (DAC_AXIS_DATAWIDTH))dac20hsda(.axis(dac20axis),.datavalid(1'b1),.data(dspif.dac[7])); // 230 0
 //axi4stream_master_handshake_data #(.DATA_WIDTH (DAC_AXIS_DATAWIDTH))dac21hsda(.axis(dac21axis),.datavalid(1'b1),.data(dspif.dac[6]));
-axi4stream_master_handshake_data #(.DATA_WIDTH (DAC_AXIS_DATAWIDTH))dac22hsda(.axis(dac22axis),.datavalid(1'b1),.data(dspif.dac[0])); // 230 2
+//axi4stream_master_handshake_data #(.DATA_WIDTH (DAC_AXIS_DATAWIDTH))dac22hsda(.axis(dac22axis),.datavalid(1'b1),.data(dspif.dac[0])); // 230 2
 //axi4stream_master_handshake_data #(.DATA_WIDTH (DAC_AXIS_DATAWIDTH))dac23hsda(.axis(dac23axis),.datavalid(1'b1),.data(dspif.dac[4]));
 //axi4stream_master_handshake_data #(.DATA_WIDTH (DAC_AXIS_DATAWIDTH))dac30hsda(.axis(dac30axis),.datavalid(1'b1),.data(dspif.dac[3]));
 //axi4stream_master_handshake_data #(.DATA_WIDTH (DAC_AXIS_DATAWIDTH))dac31hsda(.axis(dac31axis),.datavalid(1'b1),.data(dspif.dac[2]));
@@ -184,14 +193,14 @@ axi4stream_master_handshake_data #(.DATA_WIDTH (DAC_AXIS_DATAWIDTH))dac22hsda(.a
 //assign dspif.clk=dspclk;
 reg dspreset_r=0;
 always @(posedge dspclk) begin
-	dspreset_r<=dspreset|dspregs.stb_dspreset;
+	dspreset_r<=dspreset|dspregs.wstb_dspreset;
 end
 assign dspif.reset=dspreset_r;
 
-assign dspif.stb_start=dspregs.stb_start;
+assign dspif.stb_start=dspregs.wstb_start;
 assign dspif.nshot=dspregs.nshot;
 assign dspif.resetacc=dspregs.resetacc;
-assign dspif.stb_reset_bram_read=dspregs.stb_reset_bram_read;
+assign dspif.stb_reset_bram_read=dspregs.wstb_reset_bram_read;
 assign dspregs.lastshotdone=dspif.lastshotdone;
 assign dspregs.shotcnt=dspif.shotcnt;
 assign dspregs.addr_accbuf_mon0=dspif.addr_accbuf_mon0;
@@ -214,6 +223,34 @@ assign dspif.mixbb1sel=dspregs.mixbb1sel;
 assign dspif.mixbb2sel=dspregs.mixbb2sel;
 assign dspif.shift=dspregs.shift;
 
+reg [31:0] coef[0:7][0:7];
+initial begin
+	for (integer i=0;i<8;i=i+1) begin
+		for (integer j=0;j<8;j=j+1) begin
+			if (i==j) begin
+				coef[i][j]=32'h7fff0000;
+			end
+			else begin
+				coef[i][j]=32'h0;
+			end
+		end
+	end
+end
+
+generate
+for (genvar i=0;i<8;i=i+1) begin
+	for (genvar j=0;j<8;j=j+1) begin
+		always @(posedge dspclk) begin
+			if (dspregs.wstb_coef) begin
+				if (dspregs.waddr_coef==i*8+j) begin
+					coef[i][j]<=dspregs.wdata_coef;
+				end
+			end
+		end
+	end
+end
+
+endgenerate
 assign dspif.coef[0][0]=dspregs.coef00;
 assign dspif.coef[0][1]=dspregs.coef01;
 assign dspif.coef[0][2]=dspregs.coef02;

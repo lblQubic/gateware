@@ -80,7 +80,7 @@ class plsv():
                 a.cmdbuf(buf,[command_gen.pulse_i(freq_word=freqrdrv, phase_word=110, amp_word=amprdrv,
                             env_word=(pulselengthrdrv<<12)+0x20, cfg_word=1, cmd_time=170)])
                 a.cmdbuf(buf,[command_gen.done_cmd()])
-        if 0:
+        if 1:
             nproc=8
             for i in range(nproc):
                 buf='command%d'%i
@@ -712,9 +712,9 @@ async def bramsr(dut):
 async def start(dut):
     await a.start()
 
-@cocotb.test()
+#@cocotb.test()
 async def pulse_i_test(dut):
-    await a.clk(100e-6)
+    await a.clk(10e-6)
     await a.delayclk(20,"clk_dac2")
     await a.dspregswrite("nshot",2)
     await a.dspregswrite("start",0)

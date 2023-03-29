@@ -6,7 +6,7 @@ TOPLEVEL_LANG ?= verilog
 #VERILOG_SOURCES= $(shell python preinclude.py plsv_tb.d -oneline)
 VERILOG_SOURCES= $(shell cat plsv_tb.d)
 
-EXTRA_ARGS += --trace --trace-structs --trace-fst
+EXTRA_ARGS += --trace --trace-structs --trace-fst -y vh
 COMPILE_ARGS += -Wno-fatal 
 
 TOPLEVEL = $(TGT)

@@ -62,7 +62,7 @@ interface ifdsp #(
 	logic [ACCBUF_W_ADDRWIDTH-1:0] addr_accbuf_mon2;
 	logic [ACCBUF_W_ADDRWIDTH-1:0] addr_accbuf_mon3;
 	(* ram_style = "registers" *)
-	logic [31:0]coef  [0:NDAC-1][0:NDAC-1];
+	logic [31:0]coef  [0:NQDRV-1][0:NQDRV-1];
 
 
 	logic acqbufreset;

@@ -1,4 +1,3 @@
-
 ../../../../dsp/ammod.v
 ../../../../dsp/dsp.sv
 ../../../../dsp/element.sv
@@ -8,6 +7,7 @@
 ../../../../dsp/phtime.v
 ../../../../dsp/proc_core.sv
 ../../../../dsp/xmultadd.sv
+../../../../dsp/xmult.sv
 ../../../../submodules/board-support/zcu216/hwif.sv
 ../../../../submodules/common-hdl/areset.v
 ../../../../submodules/common-hdl/asym_ram_sdp_read_wider.sv
