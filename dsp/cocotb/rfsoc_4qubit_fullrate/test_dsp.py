@@ -29,12 +29,12 @@ async def test_const_pulse(dut):
     prog.add_phase_reset()
     prog.add_pulse(freq, phase, amp, tstart, env_i + 1j*env_q, 0)
     prog.add_done_stb()
-    cmd_list, env_buffers, freq_buffers = prog.get_compiled_program()
+    cmd_buf, env_buffers, freq_buffers = prog.get_compiled_program()
     sim_prog = prog.get_sim_program()
     pulse_seq = [sim_prog[1]]
 
     cocotb.start_soon(dsp.generate_clock(dut))
-    await dspunit.load_program([cmd_list])
+    await dspunit.load_program([cmd_buf])
     await dspunit.load_env_buffer(env_buffers[0], 0, 0)
     await dspunit.load_freq_buffer(freq_buffers[0], 0, 0)
     await dspunit.run_program(500)
@@ -66,12 +66,12 @@ async def test_ramp_pulse(dut):
     prog.add_phase_reset()
     prog.add_pulse(freq, phase, amp, tstart, env_i + 1j*env_q, 0)
     prog.add_done_stb()
-    cmd_list, env_buffers, freq_buffers = prog.get_compiled_program()
+    cmd_buf, env_buffers, freq_buffers = prog.get_compiled_program()
     sim_prog = prog.get_sim_program()
     pulse_seq = [sim_prog[1]]
 
     cocotb.start_soon(dsp.generate_clock(dut))
-    await dspunit.load_program([cmd_list])
+    await dspunit.load_program([cmd_buf])
     await dspunit.load_env_buffer(env_buffers[0], 0, 0)
     await dspunit.load_freq_buffer(freq_buffers[0], 0, 0)
 
@@ -102,12 +102,12 @@ async def test_consecutive_id_ramp_pulse(dut):
     prog.add_pulse(freq=0.85e9, phase=0, amp=0.9, start_time=100, env=env_i + 1j*env_q, elem_ind=0)
 
     prog.add_done_stb()
-    cmd_list, env_buffers, freq_buffers = prog.get_compiled_program()
+    cmd_buf, env_buffers, freq_buffers = prog.get_compiled_program()
     sim_prog = prog.get_sim_program()
     pulse_seq = sim_prog[1:3]
 
     cocotb.start_soon(dsp.generate_clock(dut))
-    await dspunit.load_program([cmd_list])
+    await dspunit.load_program([cmd_buf])
     await dspunit.load_env_buffer(env_buffers[0], 0, 0)
     await dspunit.load_freq_buffer(freq_buffers[0], 0, 0)
 
@@ -138,13 +138,13 @@ async def test_consecutive_ramp_pulse(dut):
     prog.add_pulse(freq=0.85e9, phase=np.pi/4, amp=0.8, start_time=110, env=env_i + 1j*env_q, elem_ind=0)
 
     prog.add_done_stb()
-    cmd_list, env_buffers, freq_buffers = prog.get_compiled_program()
+    cmd_buf, env_buffers, freq_buffers = prog.get_compiled_program()
     sim_prog = prog.get_sim_program()
     pulse_seq = sim_prog[1:3]
     #pulse_seq = [sim_prog[1]]
 
     cocotb.start_soon(dsp.generate_clock(dut))
-    await dspunit.load_program([cmd_list])
+    await dspunit.load_program([cmd_buf])
     await dspunit.load_env_buffer(env_buffers[0], 0, 0)
     await dspunit.load_freq_buffer(freq_buffers[0], 0, 0)
 
@@ -172,12 +172,12 @@ async def test_qdrv_initphase_ramp(dut):
     prog.add_phase_reset()
     prog.add_pulse(freq, phase, amp, tstart, env_i + 1j*env_q, 0)
     prog.add_done_stb()
-    cmd_list, env_buffers, freq_buffers = prog.get_compiled_program()
+    cmd_buf, env_buffers, freq_buffers = prog.get_compiled_program()
     sim_prog = prog.get_sim_program()
     pulse_seq = [sim_prog[1]]
 
     cocotb.start_soon(dsp.generate_clock(dut))
-    await dspunit.load_program([cmd_list])
+    await dspunit.load_program([cmd_buf])
     await dspunit.load_env_buffer(env_buffers[0], 0, 0)
     await dspunit.load_freq_buffer(freq_buffers[0], 0, 0)
     await dspunit.load_env_buffer(env_buffers[1], 1, 0)
@@ -207,12 +207,12 @@ async def test_rdrv_pulse(dut):
     prog.add_phase_reset()
     prog.add_pulse(freq, phase, amp, tstart, env_i + 1j*env_q, 1)
     prog.add_done_stb()
-    cmd_list, env_buffers, freq_buffers = prog.get_compiled_program()
+    cmd_buf, env_buffers, freq_buffers = prog.get_compiled_program()
     sim_prog = prog.get_sim_program()
     pulse_seq = [sim_prog[1]]
 
     cocotb.start_soon(dsp.generate_clock(dut))
-    await dspunit.load_program([cmd_list])
+    await dspunit.load_program([cmd_buf])
     await dspunit.load_env_buffer(env_buffers[0], 0, 0)
     await dspunit.load_freq_buffer(freq_buffers[0], 0, 0)
     await dspunit.load_env_buffer(env_buffers[1], 1, 0)
@@ -245,12 +245,12 @@ async def test_adc_lb(dut):
     prog.add_phase_reset()
     prog.add_pulse(freq, phase, amp, tstart, env_i + 1j*env_q, 2)
     prog.add_done_stb()
-    cmd_list, env_buffers, freq_buffers = prog.get_compiled_program()
+    cmd_buf, env_buffers, freq_buffers = prog.get_compiled_program()
     sim_prog = prog.get_sim_program()
     pulse_seq = [sim_prog[1]]
 
     cocotb.start_soon(dsp.generate_clock(dut))
-    await dspunit.load_program([cmd_list])
+    await dspunit.load_program([cmd_buf])
     await dspunit.load_env_buffer(env_buffers[0], 0, 0)
     await dspunit.load_freq_buffer(freq_buffers[0], 0, 0)
     await dspunit.load_env_buffer(env_buffers[1], 1, 0)
@@ -292,12 +292,12 @@ async def test_accbuf(dut):
     #prog.add_pulse(freq, phase, amp, tstart, env_i + 1j*env_q, 1)
     prog.add_pulse(freq, phase, amp, tstart, env_i + 1j*env_q, 2)
     prog.add_done_stb()
-    cmd_list, env_buffers, freq_buffers = prog.get_compiled_program()
+    cmd_buf, env_buffers, freq_buffers = prog.get_compiled_program()
     sim_prog = prog.get_sim_program()
     pulse_seq = [sim_prog[1]]
 
     cocotb.start_soon(dsp.generate_clock(dut))
-    await dspunit.load_program([cmd_list])
+    await dspunit.load_program([cmd_buf])
     await dspunit.load_env_buffer(env_buffers[0], 0, 0)
     await dspunit.load_freq_buffer(freq_buffers[0], 0, 0)
     await dspunit.load_env_buffer(env_buffers[1], 1, 0)
@@ -314,12 +314,12 @@ async def test_accbuf(dut):
     #prog.add_pulse(freq, phase, amp, tstart, env_i + 1j*env_q, 1)
     prog.add_pulse(freq, phase + np.pi/2, amp, tstart, env_i + 1j*env_q, 2)
     prog.add_done_stb()
-    cmd_list, env_buffers, freq_buffers = prog.get_compiled_program()
+    cmd_buf, env_buffers, freq_buffers = prog.get_compiled_program()
     sim_prog = prog.get_sim_program()
     pulse_seq = [sim_prog[1]]
 
     #cocotb.start_soon(dsp.generate_clock(dut))
-    await dspunit.load_program([cmd_list])
+    await dspunit.load_program([cmd_buf])
     await dspunit.load_env_buffer(env_buffers[0], 0, 0)
     await dspunit.load_freq_buffer(freq_buffers[0], 0, 0)
     await dspunit.load_env_buffer(env_buffers[1], 1, 0)
@@ -364,12 +364,12 @@ async def test_acc_sweep(dut):
     prog.add_alu_cmd('reg_alu', 2*np.pi/niters, 'add', 'phase', 'phase')
     prog.add_alu_cmd('jump_cond', 'i', 'le', 'n_iters', jump_label='PULSE')
     prog.add_done_stb()
-    cmd_list, env_buffers, freq_buffers = prog.get_compiled_program()
+    cmd_buf, env_buffers, freq_buffers = prog.get_compiled_program()
     sim_prog = prog.get_sim_program()
     pulse_seq = [sim_prog[1]]
 
     cocotb.start_soon(dsp.generate_clock(dut))
-    await dspunit.load_program([cmd_list])
+    await dspunit.load_program([cmd_buf])
     await dspunit.load_env_buffer(env_buffers[0], 0, 0)
     await dspunit.load_freq_buffer(freq_buffers[0], 0, 0)
     await dspunit.load_env_buffer(env_buffers[1], 1, 0)
@@ -425,11 +425,11 @@ async def test_acc_sweep(dut):
 #    prog = asm.SingleCoreAssembler([qdrvelemcfg, rdrvelemcfg, rdloelemcfg])
 #    prog.from_list(vna_prog)
 #
-#    cmd_list, env_buffers, freq_buffers = prog.get_compiled_program()
+#    cmd_buf, env_buffers, freq_buffers = prog.get_compiled_program()
 #    sim_prog = prog.get_sim_program()
 #
 #    cocotb.start_soon(dsp.generate_clock(dut))
-#    await dspunit.load_program([cmd_list])
+#    await dspunit.load_program([cmd_buf])
 #    await dspunit.load_env_buffer(env_buffers[0], 0, 0)
 #    await dspunit.load_freq_buffer(freq_buffers[0], 0, 0)
 #    await dspunit.load_env_buffer(env_buffers[1], 1, 0)
@@ -469,11 +469,11 @@ async def test_compile_chain_linear(dut):
     # adc_signal[-1] = 0
 
     cocotb.start_soon(dsp.generate_clock(dut))
-    await dspunit.load_program([asmprog[0]['cmd_list']])
-    await dspunit.load_env_buffer(asmprog[0]['env_buffers'][0], 0, 0)
-    await dspunit.load_freq_buffer(asmprog[0]['freq_buffers'][0], 0, 0)
+    await dspunit.load_program([asmprog['0']['cmd_buf']])
+    await dspunit.load_env_buffer(asmprog['0']['env_buffers'][0], 0, 0)
+    await dspunit.load_freq_buffer(asmprog['0']['freq_buffers'][0], 0, 0)
     await dspunit.run_program(1000)
-    sim_prog = globalasm.assemblers[0].get_sim_program()
+    sim_prog = globalasm.assemblers['0'].get_sim_program()
     #dacout_sim = st.generate_sim_dacout(sim_prog[1], 16)
     plt.plot(dspunit.dac_out[0])
     #plt.plot(dacout_sim)
@@ -496,10 +496,10 @@ async def test_fproc_read(dut):
     rdloelemcfg = RFSoCElementCfg(4, interp_ratio=4)
     prog = asm.SingleCoreAssembler([qdrvelemcfg, rdrvelemcfg, rdloelemcfg])
     prog.from_list(progdict)
-    cmd_list, env_buffers, freq_buffers = prog.get_compiled_program()
+    cmd_buf, env_buffers, freq_buffers = prog.get_compiled_program()
 
     cocotb.start_soon(dsp.generate_clock(dut))
-    await dspunit.load_program([cmd_list])
+    await dspunit.load_program([cmd_buf])
     await dspunit.load_env_buffer(env_buffers[0], 0, 0)
     await dspunit.load_freq_buffer(freq_buffers[0], 0, 0)
     await dspunit.load_env_buffer(env_buffers[1], 1, 0)
@@ -527,10 +527,10 @@ async def test_fproc_jump(dut):
     rdloelemcfg = RFSoCElementCfg(4, interp_ratio=4)
     prog = asm.SingleCoreAssembler([qdrvelemcfg, rdrvelemcfg, rdloelemcfg])
     prog.from_list(progdict)
-    cmd_list, env_buffers, freq_buffers = prog.get_compiled_program()
+    cmd_buf, env_buffers, freq_buffers = prog.get_compiled_program()
 
     cocotb.start_soon(dsp.generate_clock(dut))
-    await dspunit.load_program([cmd_list])
+    await dspunit.load_program([cmd_buf])
     await dspunit.load_env_buffer(env_buffers[0], 0, 0)
     await dspunit.load_freq_buffer(freq_buffers[0], 0, 0)
     await dspunit.load_env_buffer(env_buffers[1], 1, 0)
@@ -559,10 +559,10 @@ async def test_fproc_notjump(dut):
     rdloelemcfg = RFSoCElementCfg(4, interp_ratio=4)
     prog = asm.SingleCoreAssembler([qdrvelemcfg, rdrvelemcfg, rdloelemcfg])
     prog.from_list(progdict)
-    cmd_list, env_buffers, freq_buffers = prog.get_compiled_program()
+    cmd_buf, env_buffers, freq_buffers = prog.get_compiled_program()
 
     cocotb.start_soon(dsp.generate_clock(dut))
-    await dspunit.load_program([cmd_list])
+    await dspunit.load_program([cmd_buf])
     await dspunit.load_env_buffer(env_buffers[0], 0, 0)
     await dspunit.load_freq_buffer(freq_buffers[0], 0, 0)
     await dspunit.load_env_buffer(env_buffers[1], 1, 0)
@@ -591,10 +591,10 @@ async def test_fproc_jump_ph_adj(dut):
     rdloelemcfg = RFSoCElementCfg(4, interp_ratio=4)
     prog = asm.SingleCoreAssembler([qdrvelemcfg, rdrvelemcfg, rdloelemcfg])
     prog.from_list(progdict)
-    cmd_list, env_buffers, freq_buffers = prog.get_compiled_program()
+    cmd_buf, env_buffers, freq_buffers = prog.get_compiled_program()
 
     cocotb.start_soon(dsp.generate_clock(dut))
-    await dspunit.load_program([cmd_list])
+    await dspunit.load_program([cmd_buf])
     await dspunit.load_env_buffer(env_buffers[0], 0, 0)
     await dspunit.load_freq_buffer(freq_buffers[0], 0, 0)
     await dspunit.load_env_buffer(env_buffers[1], 1, 0)
@@ -634,14 +634,14 @@ async def test_fproc_jump_diffcore(dut):
     prog2 = asm.SingleCoreAssembler([qdrvelemcfg, rdrvelemcfg, rdloelemcfg])
     prog1.from_list(progdict1)
     prog2.from_list(progdict2)
-    cmd_list1, env_buffers1, freq_buffers1 = prog1.get_compiled_program()
-    cmd_list2, env_buffers2, freq_buffers2 = prog2.get_compiled_program()
+    cmd_buf1, env_buffers1, freq_buffers1 = prog1.get_compiled_program()
+    cmd_buf2, env_buffers2, freq_buffers2 = prog2.get_compiled_program()
 
     adc_signal = (2**15-1)*np.cos(2*np.pi*freq*(1.e-9*dsp.CLK_CYCLE/dspunit.adc_samples_per_clk)*np.arange(500))
     adc_signal[-1] = 0
 
     cocotb.start_soon(dsp.generate_clock(dut))
-    await dspunit.load_program([[],cmd_list1,cmd_list2])
+    await dspunit.load_program([bytes(), cmd_buf1, cmd_buf2])
     await dspunit.load_env_buffer(env_buffers1[0], 0, 1)
     await dspunit.load_freq_buffer(freq_buffers1[0], 0, 1)
     await dspunit.load_env_buffer(env_buffers1[1], 1, 1)
@@ -687,14 +687,14 @@ async def test_fproc_nojump_diffcore(dut):
     prog2 = asm.SingleCoreAssembler([qdrvelemcfg, rdrvelemcfg, rdloelemcfg])
     prog1.from_list(progdict1)
     prog2.from_list(progdict2)
-    cmd_list1, env_buffers1, freq_buffers1 = prog1.get_compiled_program()
-    cmd_list2, env_buffers2, freq_buffers2 = prog2.get_compiled_program()
+    cmd_buf1, env_buffers1, freq_buffers1 = prog1.get_compiled_program()
+    cmd_buf2, env_buffers2, freq_buffers2 = prog2.get_compiled_program()
 
     adc_signal = (2**15-1)*np.cos(2*np.pi*freq*(1.e-9*dsp.CLK_CYCLE/dspunit.adc_samples_per_clk)*np.arange(500))
     adc_signal[-1] = 0
 
     cocotb.start_soon(dsp.generate_clock(dut))
-    await dspunit.load_program([[],cmd_list1,cmd_list2])
+    await dspunit.load_program([bytes(),cmd_buf1,cmd_buf2])
     await dspunit.load_env_buffer(env_buffers1[0], 0, 1)
     await dspunit.load_freq_buffer(freq_buffers1[0], 0, 1)
     await dspunit.load_env_buffer(env_buffers1[1], 1, 1)
@@ -743,9 +743,9 @@ async def test_fproc_reset_compile(dut):
     dspunit = dsp.DSPDriver(dut, 16, 16, 4, 16)
 
     cocotb.start_soon(dsp.generate_clock(dut))
-    await dspunit.load_program([asmprog[0]['cmd_list']])
-    await dspunit.load_env_buffer(asmprog[0]['env_buffers'][0], 0, 0)
-    await dspunit.load_freq_buffer(asmprog[0]['freq_buffers'][0], 0, 0)
+    await dspunit.load_program([asmprog['0']['cmd_buf']])
+    await dspunit.load_env_buffer(asmprog['0']['env_buffers'][0], 0, 0)
+    await dspunit.load_freq_buffer(asmprog['0']['freq_buffers'][0], 0, 0)
     await dspunit.run_program(1500)
     plt.plot(dspunit.dac_out[0])
     plt.show()
@@ -783,9 +783,9 @@ async def test_fproc_noreset_compile(dut):
     dspunit = dsp.DSPDriver(dut, 16, 16, 4, 16)
 
     cocotb.start_soon(dsp.generate_clock(dut))
-    await dspunit.load_program([asmprog[0]['cmd_list']])
-    await dspunit.load_env_buffer(asmprog[0]['env_buffers'][0], 0, 0)
-    await dspunit.load_freq_buffer(asmprog[0]['freq_buffers'][0], 0, 0)
+    await dspunit.load_program([asmprog['0']['cmd_buf']])
+    await dspunit.load_env_buffer(asmprog['0']['env_buffers'][0], 0, 0)
+    await dspunit.load_freq_buffer(asmprog['0']['freq_buffers'][0], 0, 0)
     await dspunit.run_program(1500)
     plt.plot(dspunit.dac_out[0])
     plt.show()
