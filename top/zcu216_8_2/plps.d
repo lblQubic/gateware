@@ -7,11 +7,9 @@
 ../../dsp/phtime.v
 ../../dsp/proc_core.sv
 ../../dsp/xmultadd.sv
+../../submodules/board-support/zcu216/addapin.sv
+../../submodules/board-support/zcu216/addapin_port.vh
 ../../submodules/board-support/zcu216/board.sv
-../../submodules/board-support/zcu216/fpga_if.sv
-../../submodules/board-support/zcu216/fpga_inst.vh
-../../submodules/board-support/zcu216/fpga_port.vh
-../../submodules/board-support/zcu216/fpga_via.vh
 ../../submodules/board-support/zcu216/hwif.sv
 ../../submodules/common-hdl/areset.v
 ../../submodules/common-hdl/asym_ram_sdp_read_wider.sv
@@ -29,6 +27,7 @@
 ../../submodules/common-hdl/sum.sv
 ../../submodules/common-hdl/via.sv
 ../../submodules/common-hdl/viabus.v
+../../submodules/common-hdl/viapairs.v
 ../../submodules/distributed_processor/hdl/alu.v
 ../../submodules/distributed_processor/hdl/cmd_mem.v
 ../../submodules/distributed_processor/hdl/cmd_mem_iface.sv
@@ -44,9 +43,14 @@
 ../../submodules/distributed_processor/hdl/qclk.v
 ../../submodules/distributed_processor/hdl/reg_file.v
 ../../submodules/distributed_processor/hdl/sync_iface.sv
+../../submodules/fpga-family/xczu49drffvf1760pkg/fpga_if.sv
+../../submodules/fpga-family/xczu49drffvf1760pkg/fpga_inst.vh
+../../submodules/fpga-family/xczu49drffvf1760pkg/fpga_port.vh
+../../submodules/fpga-family/xczu49drffvf1760pkg/fpga_via.vh
 ../src/plps.v
 ../src/plpsboard.sv
 ../src/plsv.sv
+addapin_port.vh
 boardcfg.sv
 bram_para.vh
 bram_parainst.vh

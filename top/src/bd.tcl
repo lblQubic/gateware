@@ -23,41 +23,41 @@ create_bd_cell -type ip -vlnv user.org:user:axi4_lb:1.0 bramctrl
 create_bd_cell -type ip -vlnv user.org:user:axi4_lb:1.0 dspregs
 create_bd_cell -type ip -vlnv xilinx.com:ip:axi_interconnect:2.1 axi_interconnect_1
 create_bd_cell -type ip -vlnv xilinx.com:ip:axi_clock_converter:2.1 axi_clock_converter_0
-create_bd_intf_port -mode Master -vlnv xilinx.com:interface:diff_analog_io_rtl:1.0 vout00
-create_bd_intf_port -mode Master -vlnv xilinx.com:interface:diff_analog_io_rtl:1.0 vout01
-create_bd_intf_port -mode Master -vlnv xilinx.com:interface:diff_analog_io_rtl:1.0 vout02
-create_bd_intf_port -mode Master -vlnv xilinx.com:interface:diff_analog_io_rtl:1.0 vout03
-create_bd_intf_port -mode Master -vlnv xilinx.com:interface:diff_analog_io_rtl:1.0 vout10
-create_bd_intf_port -mode Master -vlnv xilinx.com:interface:diff_analog_io_rtl:1.0 vout11
-create_bd_intf_port -mode Master -vlnv xilinx.com:interface:diff_analog_io_rtl:1.0 vout12
-create_bd_intf_port -mode Master -vlnv xilinx.com:interface:diff_analog_io_rtl:1.0 vout13
-create_bd_intf_port -mode Master -vlnv xilinx.com:interface:diff_analog_io_rtl:1.0 vout20
-create_bd_intf_port -mode Master -vlnv xilinx.com:interface:diff_analog_io_rtl:1.0 vout21
-create_bd_intf_port -mode Master -vlnv xilinx.com:interface:diff_analog_io_rtl:1.0 vout22
-create_bd_intf_port -mode Master -vlnv xilinx.com:interface:diff_analog_io_rtl:1.0 vout23
-create_bd_intf_port -mode Master -vlnv xilinx.com:interface:diff_analog_io_rtl:1.0 vout30
-create_bd_intf_port -mode Master -vlnv xilinx.com:interface:diff_analog_io_rtl:1.0 vout31
-create_bd_intf_port -mode Master -vlnv xilinx.com:interface:diff_analog_io_rtl:1.0 vout32
-create_bd_intf_port -mode Master -vlnv xilinx.com:interface:diff_analog_io_rtl:1.0 vout33
-create_bd_intf_port -mode Slave -vlnv xilinx.com:display_usp_rf_data_converter:diff_pins_rtl:1.0 sysref_in
-create_bd_intf_port -mode Slave -vlnv xilinx.com:interface:diff_clock_rtl:1.0 dac2_clk
-create_bd_intf_port -mode Slave -vlnv xilinx.com:interface:diff_clock_rtl:1.0 adc2_clk
-create_bd_intf_port -mode Slave -vlnv xilinx.com:interface:diff_analog_io_rtl:1.0 vin00
-create_bd_intf_port -mode Slave -vlnv xilinx.com:interface:diff_analog_io_rtl:1.0 vin01
-create_bd_intf_port -mode Slave -vlnv xilinx.com:interface:diff_analog_io_rtl:1.0 vin02
-create_bd_intf_port -mode Slave -vlnv xilinx.com:interface:diff_analog_io_rtl:1.0 vin03
-create_bd_intf_port -mode Slave -vlnv xilinx.com:interface:diff_analog_io_rtl:1.0 vin10
-create_bd_intf_port -mode Slave -vlnv xilinx.com:interface:diff_analog_io_rtl:1.0 vin11
-create_bd_intf_port -mode Slave -vlnv xilinx.com:interface:diff_analog_io_rtl:1.0 vin12
-create_bd_intf_port -mode Slave -vlnv xilinx.com:interface:diff_analog_io_rtl:1.0 vin13
-create_bd_intf_port -mode Slave -vlnv xilinx.com:interface:diff_analog_io_rtl:1.0 vin20
-create_bd_intf_port -mode Slave -vlnv xilinx.com:interface:diff_analog_io_rtl:1.0 vin21
-create_bd_intf_port -mode Slave -vlnv xilinx.com:interface:diff_analog_io_rtl:1.0 vin22
-create_bd_intf_port -mode Slave -vlnv xilinx.com:interface:diff_analog_io_rtl:1.0 vin23
-create_bd_intf_port -mode Slave -vlnv xilinx.com:interface:diff_analog_io_rtl:1.0 vin30
-create_bd_intf_port -mode Slave -vlnv xilinx.com:interface:diff_analog_io_rtl:1.0 vin31
-create_bd_intf_port -mode Slave -vlnv xilinx.com:interface:diff_analog_io_rtl:1.0 vin32
-create_bd_intf_port -mode Slave -vlnv xilinx.com:interface:diff_analog_io_rtl:1.0 vin33
+#create_bd_intf_port -mode Master -vlnv xilinx.com:interface:diff_analog_io_rtl:1.0 vout00
+#create_bd_intf_port -mode Master -vlnv xilinx.com:interface:diff_analog_io_rtl:1.0 vout01
+#create_bd_intf_port -mode Master -vlnv xilinx.com:interface:diff_analog_io_rtl:1.0 vout02
+#create_bd_intf_port -mode Master -vlnv xilinx.com:interface:diff_analog_io_rtl:1.0 vout03
+#create_bd_intf_port -mode Master -vlnv xilinx.com:interface:diff_analog_io_rtl:1.0 vout10
+#create_bd_intf_port -mode Master -vlnv xilinx.com:interface:diff_analog_io_rtl:1.0 vout11
+#create_bd_intf_port -mode Master -vlnv xilinx.com:interface:diff_analog_io_rtl:1.0 vout12
+#create_bd_intf_port -mode Master -vlnv xilinx.com:interface:diff_analog_io_rtl:1.0 vout13
+#create_bd_intf_port -mode Master -vlnv xilinx.com:interface:diff_analog_io_rtl:1.0 vout20
+#create_bd_intf_port -mode Master -vlnv xilinx.com:interface:diff_analog_io_rtl:1.0 vout21
+#create_bd_intf_port -mode Master -vlnv xilinx.com:interface:diff_analog_io_rtl:1.0 vout22
+#create_bd_intf_port -mode Master -vlnv xilinx.com:interface:diff_analog_io_rtl:1.0 vout23
+#create_bd_intf_port -mode Master -vlnv xilinx.com:interface:diff_analog_io_rtl:1.0 vout30
+#create_bd_intf_port -mode Master -vlnv xilinx.com:interface:diff_analog_io_rtl:1.0 vout31
+#create_bd_intf_port -mode Master -vlnv xilinx.com:interface:diff_analog_io_rtl:1.0 vout32
+#create_bd_intf_port -mode Master -vlnv xilinx.com:interface:diff_analog_io_rtl:1.0 vout33
+#create_bd_intf_port -mode Slave -vlnv xilinx.com:display_usp_rf_data_converter:diff_pins_rtl:1.0 sysref_in
+#create_bd_intf_port -mode Slave -vlnv xilinx.com:interface:diff_clock_rtl:1.0 dac2_clk
+#create_bd_intf_port -mode Slave -vlnv xilinx.com:interface:diff_clock_rtl:1.0 adc2_clk
+#create_bd_intf_port -mode Slave -vlnv xilinx.com:interface:diff_analog_io_rtl:1.0 vin00
+#create_bd_intf_port -mode Slave -vlnv xilinx.com:interface:diff_analog_io_rtl:1.0 vin01
+#create_bd_intf_port -mode Slave -vlnv xilinx.com:interface:diff_analog_io_rtl:1.0 vin02
+#create_bd_intf_port -mode Slave -vlnv xilinx.com:interface:diff_analog_io_rtl:1.0 vin03
+#create_bd_intf_port -mode Slave -vlnv xilinx.com:interface:diff_analog_io_rtl:1.0 vin10
+#create_bd_intf_port -mode Slave -vlnv xilinx.com:interface:diff_analog_io_rtl:1.0 vin11
+#create_bd_intf_port -mode Slave -vlnv xilinx.com:interface:diff_analog_io_rtl:1.0 vin12
+#create_bd_intf_port -mode Slave -vlnv xilinx.com:interface:diff_analog_io_rtl:1.0 vin13
+#create_bd_intf_port -mode Slave -vlnv xilinx.com:interface:diff_analog_io_rtl:1.0 vin20
+#create_bd_intf_port -mode Slave -vlnv xilinx.com:interface:diff_analog_io_rtl:1.0 vin21
+#create_bd_intf_port -mode Slave -vlnv xilinx.com:interface:diff_analog_io_rtl:1.0 vin22
+#create_bd_intf_port -mode Slave -vlnv xilinx.com:interface:diff_analog_io_rtl:1.0 vin23
+#create_bd_intf_port -mode Slave -vlnv xilinx.com:interface:diff_analog_io_rtl:1.0 vin30
+#create_bd_intf_port -mode Slave -vlnv xilinx.com:interface:diff_analog_io_rtl:1.0 vin31
+#create_bd_intf_port -mode Slave -vlnv xilinx.com:interface:diff_analog_io_rtl:1.0 vin32
+#create_bd_intf_port -mode Slave -vlnv xilinx.com:interface:diff_analog_io_rtl:1.0 vin33
 set_property -dict [list CONFIG.NUM_MI {4}] [get_bd_cells axi_interconnect_1]
 connect_bd_net [get_bd_pins zynq_ultra_ps_e_0/maxihpm0_lpd_aclk] [get_bd_pins zynq_ultra_ps_e_0/pl_clk0]
 connect_bd_net [get_bd_pins axi_interconnect_1/S00_ACLK] [get_bd_pins zynq_ultra_ps_e_0/pl_clk0]
@@ -125,42 +125,112 @@ connect_bd_intf_net [get_bd_intf_pins axi_interconnect_1/M03_AXI] [get_bd_intf_p
 
 connect_bd_intf_net [get_bd_intf_pins axi_clock_converter_0/M_AXI] [get_bd_intf_pins dspregs/axi]
 #connect_bd_intf_net [get_bd_intf_pins rf_data_converter/adc3_clk] [get_bd_intf_ports adc3_clk]
-connect_bd_intf_net [get_bd_intf_pins rf_data_converter/dac2_clk] [get_bd_intf_ports dac2_clk]
-connect_bd_intf_net [get_bd_intf_pins rf_data_converter/adc2_clk] [get_bd_intf_ports adc2_clk]
-connect_bd_intf_net [get_bd_intf_pins rf_data_converter/sysref_in] [get_bd_intf_ports sysref_in]
-connect_bd_intf_net [get_bd_intf_pins rf_data_converter/vin00] [get_bd_intf_ports vin00]
-connect_bd_intf_net [get_bd_intf_pins rf_data_converter/vin01] [get_bd_intf_ports vin01]
-connect_bd_intf_net [get_bd_intf_pins rf_data_converter/vin02] [get_bd_intf_ports vin02]
-connect_bd_intf_net [get_bd_intf_pins rf_data_converter/vin03] [get_bd_intf_ports vin03]
-connect_bd_intf_net [get_bd_intf_pins rf_data_converter/vin10] [get_bd_intf_ports vin10]
-connect_bd_intf_net [get_bd_intf_pins rf_data_converter/vin11] [get_bd_intf_ports vin11]
-connect_bd_intf_net [get_bd_intf_pins rf_data_converter/vin12] [get_bd_intf_ports vin12]
-connect_bd_intf_net [get_bd_intf_pins rf_data_converter/vin13] [get_bd_intf_ports vin13]
-connect_bd_intf_net [get_bd_intf_pins rf_data_converter/vin20] [get_bd_intf_ports vin20]
-connect_bd_intf_net [get_bd_intf_pins rf_data_converter/vin21] [get_bd_intf_ports vin21]
-connect_bd_intf_net [get_bd_intf_pins rf_data_converter/vin22] [get_bd_intf_ports vin22]
-connect_bd_intf_net [get_bd_intf_pins rf_data_converter/vin23] [get_bd_intf_ports vin23]
-connect_bd_intf_net [get_bd_intf_pins rf_data_converter/vin30] [get_bd_intf_ports vin30]
-connect_bd_intf_net [get_bd_intf_pins rf_data_converter/vin31] [get_bd_intf_ports vin31]
-connect_bd_intf_net [get_bd_intf_pins rf_data_converter/vin32] [get_bd_intf_ports vin32]
-connect_bd_intf_net [get_bd_intf_pins rf_data_converter/vin33] [get_bd_intf_ports vin33]
-connect_bd_intf_net [get_bd_intf_pins rf_data_converter/vout00] [get_bd_intf_ports vout00]
-connect_bd_intf_net [get_bd_intf_pins rf_data_converter/vout01] [get_bd_intf_ports vout01]
-connect_bd_intf_net [get_bd_intf_pins rf_data_converter/vout02] [get_bd_intf_ports vout02]
-connect_bd_intf_net [get_bd_intf_pins rf_data_converter/vout03] [get_bd_intf_ports vout03]
-connect_bd_intf_net [get_bd_intf_pins rf_data_converter/vout10] [get_bd_intf_ports vout10]
-connect_bd_intf_net [get_bd_intf_pins rf_data_converter/vout11] [get_bd_intf_ports vout11]
-connect_bd_intf_net [get_bd_intf_pins rf_data_converter/vout12] [get_bd_intf_ports vout12]
-connect_bd_intf_net [get_bd_intf_pins rf_data_converter/vout13] [get_bd_intf_ports vout13]
-connect_bd_intf_net [get_bd_intf_pins rf_data_converter/vout20] [get_bd_intf_ports vout20]
-connect_bd_intf_net [get_bd_intf_pins rf_data_converter/vout21] [get_bd_intf_ports vout21]
-connect_bd_intf_net [get_bd_intf_pins rf_data_converter/vout22] [get_bd_intf_ports vout22]
-connect_bd_intf_net [get_bd_intf_pins rf_data_converter/vout23] [get_bd_intf_ports vout23]
-connect_bd_intf_net [get_bd_intf_pins rf_data_converter/vout30] [get_bd_intf_ports vout30]
-connect_bd_intf_net [get_bd_intf_pins rf_data_converter/vout31] [get_bd_intf_ports vout31]
-connect_bd_intf_net [get_bd_intf_pins rf_data_converter/vout32] [get_bd_intf_ports vout32]
-connect_bd_intf_net [get_bd_intf_pins rf_data_converter/vout33] [get_bd_intf_ports vout33]
+#connect_bd_intf_net [get_bd_intf_pins rf_data_converter/dac2_clk] [get_bd_intf_ports dac2_clk]
+#connect_bd_intf_net [get_bd_intf_pins rf_data_converter/adc2_clk] [get_bd_intf_ports adc2_clk]
+#connect_bd_intf_net [get_bd_intf_pins rf_data_converter/sysref_in] [get_bd_intf_ports sysref_in]
+#connect_bd_intf_net [get_bd_intf_pins rf_data_converter/vin00] [get_bd_intf_ports vin00]
+#connect_bd_intf_net [get_bd_intf_pins rf_data_converter/vin01] [get_bd_intf_ports vin01]
+#connect_bd_intf_net [get_bd_intf_pins rf_data_converter/vin02] [get_bd_intf_ports vin02]
+#connect_bd_intf_net [get_bd_intf_pins rf_data_converter/vin03] [get_bd_intf_ports vin03]
+#connect_bd_intf_net [get_bd_intf_pins rf_data_converter/vin10] [get_bd_intf_ports vin10]
+#connect_bd_intf_net [get_bd_intf_pins rf_data_converter/vin11] [get_bd_intf_ports vin11]
+#connect_bd_intf_net [get_bd_intf_pins rf_data_converter/vin12] [get_bd_intf_ports vin12]
+#connect_bd_intf_net [get_bd_intf_pins rf_data_converter/vin13] [get_bd_intf_ports vin13]
+#connect_bd_intf_net [get_bd_intf_pins rf_data_converter/vin20] [get_bd_intf_ports vin20]
+#connect_bd_intf_net [get_bd_intf_pins rf_data_converter/vin21] [get_bd_intf_ports vin21]
+#connect_bd_intf_net [get_bd_intf_pins rf_data_converter/vin22] [get_bd_intf_ports vin22]
+#connect_bd_intf_net [get_bd_intf_pins rf_data_converter/vin23] [get_bd_intf_ports vin23]
+#connect_bd_intf_net [get_bd_intf_pins rf_data_converter/vin30] [get_bd_intf_ports vin30]
+#connect_bd_intf_net [get_bd_intf_pins rf_data_converter/vin31] [get_bd_intf_ports vin31]
+#connect_bd_intf_net [get_bd_intf_pins rf_data_converter/vin32] [get_bd_intf_ports vin32]
+#connect_bd_intf_net [get_bd_intf_pins rf_data_converter/vin33] [get_bd_intf_ports vin33]
+#connect_bd_intf_net [get_bd_intf_pins rf_data_converter/vout00] [get_bd_intf_ports vout00]
+#connect_bd_intf_net [get_bd_intf_pins rf_data_converter/vout01] [get_bd_intf_ports vout01]
+#connect_bd_intf_net [get_bd_intf_pins rf_data_converter/vout02] [get_bd_intf_ports vout02]
+#connect_bd_intf_net [get_bd_intf_pins rf_data_converter/vout03] [get_bd_intf_ports vout03]
+#connect_bd_intf_net [get_bd_intf_pins rf_data_converter/vout10] [get_bd_intf_ports vout10]
+#connect_bd_intf_net [get_bd_intf_pins rf_data_converter/vout11] [get_bd_intf_ports vout11]
+#connect_bd_intf_net [get_bd_intf_pins rf_data_converter/vout12] [get_bd_intf_ports vout12]
+#connect_bd_intf_net [get_bd_intf_pins rf_data_converter/vout13] [get_bd_intf_ports vout13]
+#connect_bd_intf_net [get_bd_intf_pins rf_data_converter/vout20] [get_bd_intf_ports vout20]
+#connect_bd_intf_net [get_bd_intf_pins rf_data_converter/vout21] [get_bd_intf_ports vout21]
+#connect_bd_intf_net [get_bd_intf_pins rf_data_converter/vout22] [get_bd_intf_ports vout22]
+#connect_bd_intf_net [get_bd_intf_pins rf_data_converter/vout23] [get_bd_intf_ports vout23]
+#connect_bd_intf_net [get_bd_intf_pins rf_data_converter/vout30] [get_bd_intf_ports vout30]
+#connect_bd_intf_net [get_bd_intf_pins rf_data_converter/vout31] [get_bd_intf_ports vout31]
+#connect_bd_intf_net [get_bd_intf_pins rf_data_converter/vout32] [get_bd_intf_ports vout32]
+#connect_bd_intf_net [get_bd_intf_pins rf_data_converter/vout33] [get_bd_intf_ports vout33]
+connect_bd_net [get_bd_pins plps_0/dac2_clk_p] [get_bd_pins rf_data_converter/dac2_clk_p]
+connect_bd_net [get_bd_pins plps_0/dac2_clk_n] [get_bd_pins rf_data_converter/dac2_clk_n]
+connect_bd_net [get_bd_pins plps_0/adc2_clk_p] [get_bd_pins rf_data_converter/adc2_clk_p]
+connect_bd_net [get_bd_pins plps_0/adc2_clk_n] [get_bd_pins rf_data_converter/adc2_clk_n]
+connect_bd_net [get_bd_pins plps_0/sysref_in_p] [get_bd_pins rf_data_converter/sysref_in_p]
+connect_bd_net [get_bd_pins plps_0/sysref_in_n] [get_bd_pins rf_data_converter/sysref_in_n]
+connect_bd_net [get_bd_pins plps_0/vin00_p] [get_bd_pins rf_data_converter/vin00_p]
+connect_bd_net [get_bd_pins plps_0/vin00_n] [get_bd_pins rf_data_converter/vin00_n]
+connect_bd_net [get_bd_pins plps_0/vin01_p] [get_bd_pins rf_data_converter/vin01_p]
+connect_bd_net [get_bd_pins plps_0/vin01_n] [get_bd_pins rf_data_converter/vin01_n]
+connect_bd_net [get_bd_pins plps_0/vin02_p] [get_bd_pins rf_data_converter/vin02_p]
+connect_bd_net [get_bd_pins plps_0/vin02_n] [get_bd_pins rf_data_converter/vin02_n]
+connect_bd_net [get_bd_pins plps_0/vin03_p] [get_bd_pins rf_data_converter/vin03_p]
+connect_bd_net [get_bd_pins plps_0/vin03_n] [get_bd_pins rf_data_converter/vin03_n]
+connect_bd_net [get_bd_pins plps_0/vin10_p] [get_bd_pins rf_data_converter/vin10_p]
+connect_bd_net [get_bd_pins plps_0/vin10_n] [get_bd_pins rf_data_converter/vin10_n]
+connect_bd_net [get_bd_pins plps_0/vin11_p] [get_bd_pins rf_data_converter/vin11_p]
+connect_bd_net [get_bd_pins plps_0/vin11_n] [get_bd_pins rf_data_converter/vin11_n]
+connect_bd_net [get_bd_pins plps_0/vin12_p] [get_bd_pins rf_data_converter/vin12_p]
+connect_bd_net [get_bd_pins plps_0/vin12_n] [get_bd_pins rf_data_converter/vin12_n]
+connect_bd_net [get_bd_pins plps_0/vin13_p] [get_bd_pins rf_data_converter/vin13_p]
+connect_bd_net [get_bd_pins plps_0/vin13_n] [get_bd_pins rf_data_converter/vin13_n]
+connect_bd_net [get_bd_pins plps_0/vin20_p] [get_bd_pins rf_data_converter/vin20_p]
+connect_bd_net [get_bd_pins plps_0/vin20_n] [get_bd_pins rf_data_converter/vin20_n]
+connect_bd_net [get_bd_pins plps_0/vin21_p] [get_bd_pins rf_data_converter/vin21_p]
+connect_bd_net [get_bd_pins plps_0/vin21_n] [get_bd_pins rf_data_converter/vin21_n]
+connect_bd_net [get_bd_pins plps_0/vin22_p] [get_bd_pins rf_data_converter/vin22_p]
+connect_bd_net [get_bd_pins plps_0/vin22_n] [get_bd_pins rf_data_converter/vin22_n]
+connect_bd_net [get_bd_pins plps_0/vin23_p] [get_bd_pins rf_data_converter/vin23_p]
+connect_bd_net [get_bd_pins plps_0/vin23_n] [get_bd_pins rf_data_converter/vin23_n]
+connect_bd_net [get_bd_pins plps_0/vin30_p] [get_bd_pins rf_data_converter/vin30_p]
+connect_bd_net [get_bd_pins plps_0/vin30_n] [get_bd_pins rf_data_converter/vin30_n]
+connect_bd_net [get_bd_pins plps_0/vin31_p] [get_bd_pins rf_data_converter/vin31_p]
+connect_bd_net [get_bd_pins plps_0/vin31_n] [get_bd_pins rf_data_converter/vin31_n]
+connect_bd_net [get_bd_pins plps_0/vin32_p] [get_bd_pins rf_data_converter/vin32_p]
+connect_bd_net [get_bd_pins plps_0/vin32_n] [get_bd_pins rf_data_converter/vin32_n]
+connect_bd_net [get_bd_pins plps_0/vin33_p] [get_bd_pins rf_data_converter/vin33_p]
+connect_bd_net [get_bd_pins plps_0/vin33_n] [get_bd_pins rf_data_converter/vin33_n]
 
+connect_bd_net [get_bd_pins plps_0/vout00_p] [get_bd_pins rf_data_converter/vout00_p]
+connect_bd_net [get_bd_pins plps_0/vout00_n] [get_bd_pins rf_data_converter/vout00_n]
+connect_bd_net [get_bd_pins plps_0/vout01_p] [get_bd_pins rf_data_converter/vout01_p]
+connect_bd_net [get_bd_pins plps_0/vout01_n] [get_bd_pins rf_data_converter/vout01_n]
+connect_bd_net [get_bd_pins plps_0/vout02_p] [get_bd_pins rf_data_converter/vout02_p]
+connect_bd_net [get_bd_pins plps_0/vout02_n] [get_bd_pins rf_data_converter/vout02_n]
+connect_bd_net [get_bd_pins plps_0/vout03_p] [get_bd_pins rf_data_converter/vout03_p]
+connect_bd_net [get_bd_pins plps_0/vout03_n] [get_bd_pins rf_data_converter/vout03_n]
+connect_bd_net [get_bd_pins plps_0/vout10_p] [get_bd_pins rf_data_converter/vout10_p]
+connect_bd_net [get_bd_pins plps_0/vout10_n] [get_bd_pins rf_data_converter/vout10_n]
+connect_bd_net [get_bd_pins plps_0/vout11_p] [get_bd_pins rf_data_converter/vout11_p]
+connect_bd_net [get_bd_pins plps_0/vout11_n] [get_bd_pins rf_data_converter/vout11_n]
+connect_bd_net [get_bd_pins plps_0/vout12_p] [get_bd_pins rf_data_converter/vout12_p]
+connect_bd_net [get_bd_pins plps_0/vout12_n] [get_bd_pins rf_data_converter/vout12_n]
+connect_bd_net [get_bd_pins plps_0/vout13_p] [get_bd_pins rf_data_converter/vout13_p]
+connect_bd_net [get_bd_pins plps_0/vout13_n] [get_bd_pins rf_data_converter/vout13_n]
+connect_bd_net [get_bd_pins plps_0/vout20_p] [get_bd_pins rf_data_converter/vout20_p]
+connect_bd_net [get_bd_pins plps_0/vout20_n] [get_bd_pins rf_data_converter/vout20_n]
+connect_bd_net [get_bd_pins plps_0/vout21_p] [get_bd_pins rf_data_converter/vout21_p]
+connect_bd_net [get_bd_pins plps_0/vout21_n] [get_bd_pins rf_data_converter/vout21_n]
+connect_bd_net [get_bd_pins plps_0/vout22_p] [get_bd_pins rf_data_converter/vout22_p]
+connect_bd_net [get_bd_pins plps_0/vout22_n] [get_bd_pins rf_data_converter/vout22_n]
+connect_bd_net [get_bd_pins plps_0/vout23_p] [get_bd_pins rf_data_converter/vout23_p]
+connect_bd_net [get_bd_pins plps_0/vout23_n] [get_bd_pins rf_data_converter/vout23_n]
+connect_bd_net [get_bd_pins plps_0/vout30_p] [get_bd_pins rf_data_converter/vout30_p]
+connect_bd_net [get_bd_pins plps_0/vout30_n] [get_bd_pins rf_data_converter/vout30_n]
+connect_bd_net [get_bd_pins plps_0/vout31_p] [get_bd_pins rf_data_converter/vout31_p]
+connect_bd_net [get_bd_pins plps_0/vout31_n] [get_bd_pins rf_data_converter/vout31_n]
+connect_bd_net [get_bd_pins plps_0/vout32_p] [get_bd_pins rf_data_converter/vout32_p]
+connect_bd_net [get_bd_pins plps_0/vout32_n] [get_bd_pins rf_data_converter/vout32_n]
+connect_bd_net [get_bd_pins plps_0/vout33_p] [get_bd_pins rf_data_converter/vout33_p]
+connect_bd_net [get_bd_pins plps_0/vout33_n] [get_bd_pins rf_data_converter/vout33_n]
 
 connect_bd_intf_net [get_bd_intf_pins plps_0/ADC00_S_AXIS] [get_bd_intf_pins rf_data_converter/m00_axis]
 connect_bd_intf_net [get_bd_intf_pins plps_0/ADC01_S_AXIS] [get_bd_intf_pins rf_data_converter/m01_axis]
@@ -208,13 +278,13 @@ connect_bd_net [get_bd_pins plps_0/cfgclk] [get_bd_pins cfgregs/axi_aclk]
 connect_bd_net [get_bd_pins plps_0/cfgclk] [get_bd_pins bramctrl/axi_aclk]
 connect_bd_net [get_bd_pins plps_0/cfgclk] [get_bd_pins rf_data_converter/s_axi_aclk]
 connect_bd_net [get_bd_pins plps_0/cfgresetn0] [get_bd_pins axi_interconnect_1/M00_ARESETN] 
-connect_bd_net [get_bd_pins plps_0/cfgresetn1] [get_bd_pins axi_interconnect_1/M01_ARESETN]
-connect_bd_net [get_bd_pins plps_0/cfgresetn2] [get_bd_pins axi_interconnect_1/M02_ARESETN]
-connect_bd_net [get_bd_pins plps_0/cfgresetn3] [get_bd_pins axi_interconnect_1/M03_ARESETN]
-connect_bd_net [get_bd_pins plps_0/cfgresetn4] [get_bd_pins cfgregs/axi_aresetn]
-connect_bd_net [get_bd_pins plps_0/cfgresetn5] [get_bd_pins bramctrl/axi_aresetn]
-connect_bd_net [get_bd_pins plps_0/cfgresetn6] [get_bd_pins axi_clock_converter_0/s_axi_aresetn]
-connect_bd_net [get_bd_pins plps_0/cfgresetn7] [get_bd_pins rf_data_converter/s_axi_aresetn]
+connect_bd_net [get_bd_pins plps_0/cfgresetn0] [get_bd_pins axi_interconnect_1/M01_ARESETN]
+connect_bd_net [get_bd_pins plps_0/cfgresetn0] [get_bd_pins axi_interconnect_1/M02_ARESETN]
+connect_bd_net [get_bd_pins plps_0/cfgresetn0] [get_bd_pins axi_interconnect_1/M03_ARESETN]
+connect_bd_net [get_bd_pins plps_0/cfgresetn0] [get_bd_pins cfgregs/axi_aresetn]
+connect_bd_net [get_bd_pins plps_0/cfgresetn0] [get_bd_pins bramctrl/axi_aresetn]
+connect_bd_net [get_bd_pins plps_0/cfgresetn0] [get_bd_pins axi_clock_converter_0/s_axi_aresetn]
+connect_bd_net [get_bd_pins plps_0/cfgresetn0] [get_bd_pins rf_data_converter/s_axi_aresetn]
 connect_bd_net [get_bd_pins plps_0/clk_dac0] [get_bd_pins rf_data_converter/clk_dac0]
 connect_bd_net [get_bd_pins plps_0/clk_dac1] [get_bd_pins rf_data_converter/clk_dac1]
 connect_bd_net [get_bd_pins plps_0/clk_dac2] [get_bd_pins rf_data_converter/clk_dac2]
@@ -266,50 +336,50 @@ connect_bd_net [get_bd_pins plps_0/dspclk] [get_bd_pins rf_data_converter/s1_axi
 connect_bd_net [get_bd_pins plps_0/dspclk] [get_bd_pins rf_data_converter/s2_axis_aclk]
 connect_bd_net [get_bd_pins plps_0/dspclk] [get_bd_pins rf_data_converter/s3_axis_aclk]
 connect_bd_net [get_bd_pins plps_0/dspresetn0] [get_bd_pins dspregs/axi_aresetn] 
-connect_bd_net [get_bd_pins plps_0/dspresetn1] [get_bd_pins axi_clock_converter_0/m_axi_aresetn]
-connect_bd_net [get_bd_pins plps_0/dspresetn2] [get_bd_pins plps_0/DAC00_M_AXIS_ARESETN]
-connect_bd_net [get_bd_pins plps_0/dspresetn3] [get_bd_pins plps_0/DAC01_M_AXIS_ARESETN]
-connect_bd_net [get_bd_pins plps_0/dspresetn4] [get_bd_pins plps_0/DAC02_M_AXIS_ARESETN]
-connect_bd_net [get_bd_pins plps_0/dspresetn5] [get_bd_pins plps_0/DAC03_M_AXIS_ARESETN]
-connect_bd_net [get_bd_pins plps_0/dspresetn6] [get_bd_pins plps_0/DAC10_M_AXIS_ARESETN]
-connect_bd_net [get_bd_pins plps_0/dspresetn7] [get_bd_pins plps_0/DAC11_M_AXIS_ARESETN]
-connect_bd_net [get_bd_pins plps_0/dspresetn8] [get_bd_pins plps_0/DAC12_M_AXIS_ARESETN]
-connect_bd_net [get_bd_pins plps_0/dspresetn9] [get_bd_pins plps_0/DAC13_M_AXIS_ARESETN]
-connect_bd_net [get_bd_pins plps_0/dspresetn10] [get_bd_pins plps_0/DAC20_M_AXIS_ARESETN]
-connect_bd_net [get_bd_pins plps_0/dspresetn11] [get_bd_pins plps_0/DAC21_M_AXIS_ARESETN]
-connect_bd_net [get_bd_pins plps_0/dspresetn12] [get_bd_pins plps_0/DAC22_M_AXIS_ARESETN]
-connect_bd_net [get_bd_pins plps_0/dspresetn13] [get_bd_pins plps_0/DAC23_M_AXIS_ARESETN]
-connect_bd_net [get_bd_pins plps_0/dspresetn14] [get_bd_pins plps_0/DAC30_M_AXIS_ARESETN]
-connect_bd_net [get_bd_pins plps_0/dspresetn15] [get_bd_pins plps_0/DAC31_M_AXIS_ARESETN]
-connect_bd_net [get_bd_pins plps_0/dspresetn16] [get_bd_pins plps_0/DAC32_M_AXIS_ARESETN]
-connect_bd_net [get_bd_pins plps_0/dspresetn17] [get_bd_pins plps_0/DAC33_M_AXIS_ARESETN]
-connect_bd_net [get_bd_pins plps_0/dspresetn18] [get_bd_pins plps_0/ADC00_S_AXIS_ARESETN]
-connect_bd_net [get_bd_pins plps_0/dspresetn19] [get_bd_pins plps_0/ADC01_S_AXIS_ARESETN]
-connect_bd_net [get_bd_pins plps_0/dspresetn20] [get_bd_pins plps_0/ADC02_S_AXIS_ARESETN]
-connect_bd_net [get_bd_pins plps_0/dspresetn21] [get_bd_pins plps_0/ADC03_S_AXIS_ARESETN]
-connect_bd_net [get_bd_pins plps_0/dspresetn22] [get_bd_pins plps_0/ADC10_S_AXIS_ARESETN]
-connect_bd_net [get_bd_pins plps_0/dspresetn23] [get_bd_pins plps_0/ADC11_S_AXIS_ARESETN]
-connect_bd_net [get_bd_pins plps_0/dspresetn24] [get_bd_pins plps_0/ADC12_S_AXIS_ARESETN]
-connect_bd_net [get_bd_pins plps_0/dspresetn25] [get_bd_pins plps_0/ADC13_S_AXIS_ARESETN]
-connect_bd_net [get_bd_pins plps_0/dspresetn26] [get_bd_pins plps_0/ADC20_S_AXIS_ARESETN]
-connect_bd_net [get_bd_pins plps_0/dspresetn27] [get_bd_pins plps_0/ADC21_S_AXIS_ARESETN]
-connect_bd_net [get_bd_pins plps_0/dspresetn28] [get_bd_pins plps_0/ADC22_S_AXIS_ARESETN]
-connect_bd_net [get_bd_pins plps_0/dspresetn29] [get_bd_pins plps_0/ADC23_S_AXIS_ARESETN]
-connect_bd_net [get_bd_pins plps_0/dspresetn30] [get_bd_pins plps_0/ADC30_S_AXIS_ARESETN]
-connect_bd_net [get_bd_pins plps_0/dspresetn31] [get_bd_pins plps_0/ADC31_S_AXIS_ARESETN]
-connect_bd_net [get_bd_pins plps_0/dspresetn32] [get_bd_pins plps_0/ADC32_S_AXIS_ARESETN]
-connect_bd_net [get_bd_pins plps_0/dspresetn33] [get_bd_pins plps_0/ADC33_S_AXIS_ARESETN]
-connect_bd_net [get_bd_pins plps_0/dspresetn34] [get_bd_pins rf_data_converter/s0_axis_aresetn]
-connect_bd_net [get_bd_pins plps_0/dspresetn35] [get_bd_pins rf_data_converter/s1_axis_aresetn]
-connect_bd_net [get_bd_pins plps_0/dspresetn36] [get_bd_pins rf_data_converter/s2_axis_aresetn]
-connect_bd_net [get_bd_pins plps_0/dspresetn37] [get_bd_pins rf_data_converter/s3_axis_aresetn]
-connect_bd_net [get_bd_pins plps_0/dspresetn38] [get_bd_pins rf_data_converter/m3_axis_aresetn]
-connect_bd_net [get_bd_pins plps_0/dspresetn39] [get_bd_pins rf_data_converter/m2_axis_aresetn]
-connect_bd_net [get_bd_pins plps_0/dspresetn40] [get_bd_pins rf_data_converter/m1_axis_aresetn]
-connect_bd_net [get_bd_pins plps_0/dspresetn41] [get_bd_pins rf_data_converter/m0_axis_aresetn]
+connect_bd_net [get_bd_pins plps_0/dspresetn0] [get_bd_pins axi_clock_converter_0/m_axi_aresetn]
+connect_bd_net [get_bd_pins plps_0/dspresetn0] [get_bd_pins plps_0/DAC00_M_AXIS_ARESETN]
+connect_bd_net [get_bd_pins plps_0/dspresetn0] [get_bd_pins plps_0/DAC01_M_AXIS_ARESETN]
+connect_bd_net [get_bd_pins plps_0/dspresetn0] [get_bd_pins plps_0/DAC02_M_AXIS_ARESETN]
+connect_bd_net [get_bd_pins plps_0/dspresetn0] [get_bd_pins plps_0/DAC03_M_AXIS_ARESETN]
+connect_bd_net [get_bd_pins plps_0/dspresetn0] [get_bd_pins plps_0/DAC10_M_AXIS_ARESETN]
+connect_bd_net [get_bd_pins plps_0/dspresetn0] [get_bd_pins plps_0/DAC11_M_AXIS_ARESETN]
+connect_bd_net [get_bd_pins plps_0/dspresetn0] [get_bd_pins plps_0/DAC12_M_AXIS_ARESETN]
+connect_bd_net [get_bd_pins plps_0/dspresetn0] [get_bd_pins plps_0/DAC13_M_AXIS_ARESETN]
+connect_bd_net [get_bd_pins plps_0/dspresetn0] [get_bd_pins plps_0/DAC20_M_AXIS_ARESETN]
+connect_bd_net [get_bd_pins plps_0/dspresetn0] [get_bd_pins plps_0/DAC21_M_AXIS_ARESETN]
+connect_bd_net [get_bd_pins plps_0/dspresetn0] [get_bd_pins plps_0/DAC22_M_AXIS_ARESETN]
+connect_bd_net [get_bd_pins plps_0/dspresetn0] [get_bd_pins plps_0/DAC23_M_AXIS_ARESETN]
+connect_bd_net [get_bd_pins plps_0/dspresetn0] [get_bd_pins plps_0/DAC30_M_AXIS_ARESETN]
+connect_bd_net [get_bd_pins plps_0/dspresetn0] [get_bd_pins plps_0/DAC31_M_AXIS_ARESETN]
+connect_bd_net [get_bd_pins plps_0/dspresetn0] [get_bd_pins plps_0/DAC32_M_AXIS_ARESETN]
+connect_bd_net [get_bd_pins plps_0/dspresetn0] [get_bd_pins plps_0/DAC33_M_AXIS_ARESETN]
+connect_bd_net [get_bd_pins plps_0/dspresetn0] [get_bd_pins plps_0/ADC00_S_AXIS_ARESETN]
+connect_bd_net [get_bd_pins plps_0/dspresetn0] [get_bd_pins plps_0/ADC01_S_AXIS_ARESETN]
+connect_bd_net [get_bd_pins plps_0/dspresetn0] [get_bd_pins plps_0/ADC02_S_AXIS_ARESETN]
+connect_bd_net [get_bd_pins plps_0/dspresetn0] [get_bd_pins plps_0/ADC03_S_AXIS_ARESETN]
+connect_bd_net [get_bd_pins plps_0/dspresetn0] [get_bd_pins plps_0/ADC10_S_AXIS_ARESETN]
+connect_bd_net [get_bd_pins plps_0/dspresetn0] [get_bd_pins plps_0/ADC11_S_AXIS_ARESETN]
+connect_bd_net [get_bd_pins plps_0/dspresetn0] [get_bd_pins plps_0/ADC12_S_AXIS_ARESETN]
+connect_bd_net [get_bd_pins plps_0/dspresetn0] [get_bd_pins plps_0/ADC13_S_AXIS_ARESETN]
+connect_bd_net [get_bd_pins plps_0/dspresetn0] [get_bd_pins plps_0/ADC20_S_AXIS_ARESETN]
+connect_bd_net [get_bd_pins plps_0/dspresetn0] [get_bd_pins plps_0/ADC21_S_AXIS_ARESETN]
+connect_bd_net [get_bd_pins plps_0/dspresetn0] [get_bd_pins plps_0/ADC22_S_AXIS_ARESETN]
+connect_bd_net [get_bd_pins plps_0/dspresetn0] [get_bd_pins plps_0/ADC23_S_AXIS_ARESETN]
+connect_bd_net [get_bd_pins plps_0/dspresetn0] [get_bd_pins plps_0/ADC30_S_AXIS_ARESETN]
+connect_bd_net [get_bd_pins plps_0/dspresetn0] [get_bd_pins plps_0/ADC31_S_AXIS_ARESETN]
+connect_bd_net [get_bd_pins plps_0/dspresetn0] [get_bd_pins plps_0/ADC32_S_AXIS_ARESETN]
+connect_bd_net [get_bd_pins plps_0/dspresetn0] [get_bd_pins plps_0/ADC33_S_AXIS_ARESETN]
+connect_bd_net [get_bd_pins plps_0/dspresetn0] [get_bd_pins rf_data_converter/s0_axis_aresetn]
+connect_bd_net [get_bd_pins plps_0/dspresetn0] [get_bd_pins rf_data_converter/s1_axis_aresetn]
+connect_bd_net [get_bd_pins plps_0/dspresetn0] [get_bd_pins rf_data_converter/s2_axis_aresetn]
+connect_bd_net [get_bd_pins plps_0/dspresetn0] [get_bd_pins rf_data_converter/s3_axis_aresetn]
+connect_bd_net [get_bd_pins plps_0/dspresetn0] [get_bd_pins rf_data_converter/m3_axis_aresetn]
+connect_bd_net [get_bd_pins plps_0/dspresetn0] [get_bd_pins rf_data_converter/m2_axis_aresetn]
+connect_bd_net [get_bd_pins plps_0/dspresetn0] [get_bd_pins rf_data_converter/m1_axis_aresetn]
+connect_bd_net [get_bd_pins plps_0/dspresetn0] [get_bd_pins rf_data_converter/m0_axis_aresetn]
 connect_bd_net [get_bd_pins plps_0/pl_clk0] [get_bd_pins zynq_ultra_ps_e_0/pl_clk0]
 connect_bd_net [get_bd_pins plps_0/psresetn0] [get_bd_pins axi_interconnect_1/ARESETN]
-connect_bd_net [get_bd_pins plps_0/psresetn1] [get_bd_pins axi_interconnect_1/S00_ARESETN]
+connect_bd_net [get_bd_pins plps_0/psresetn0] [get_bd_pins axi_interconnect_1/S00_ARESETN]
 connect_bd_net [get_bd_pins plps_0/pl_sysref] [get_bd_pins rf_data_converter/user_sysref_dac]
 connect_bd_net [get_bd_pins plps_0/pl_sysref] [get_bd_pins rf_data_converter/user_sysref_adc]
 

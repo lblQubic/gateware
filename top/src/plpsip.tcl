@@ -1,15 +1,15 @@
 proc portpin {busname portname physical_name} {
-ipx::add_port_map ${portname} [ipx::get_bus_interfaces ${busname}  -of_objects [ipx::current_core]]
-set_property physical_name ${physical_name} [ipx::get_port_maps ${portname} -of_objects [ipx::get_bus_interfaces ${busname} -of_objects [ipx::current_core]]]
+	ipx::add_port_map ${portname} [ipx::get_bus_interfaces ${busname}  -of_objects [ipx::current_core]]
+	set_property physical_name ${physical_name} [ipx::get_port_maps ${portname} -of_objects [ipx::get_bus_interfaces ${busname} -of_objects [ipx::current_core]]]
 }
 proc lbbus {lbname} {
-ipx::add_bus_interface ${lbname} [ipx::current_core]
-set_property abstraction_type_vlnv user:user:iflocalbus_rtl:1.0 [ipx::get_bus_interfaces ${lbname} -of_objects [ipx::current_core]]
-set_property bus_type_vlnv user:user:iflocalbus:1.0 [ipx::get_bus_interfaces ${lbname} -of_objects [ipx::current_core]]
-set pin {rdata raddr rden rdenlast wdata waddr wren rvalid rvalidlast clk aresetn}
-foreach p $pin {
-	portpin ${lbname} $p ${lbname}_$p
-}
+	ipx::add_bus_interface ${lbname} [ipx::current_core]
+	set_property abstraction_type_vlnv user:user:iflocalbus_rtl:1.0 [ipx::get_bus_interfaces ${lbname} -of_objects [ipx::current_core]]
+	set_property bus_type_vlnv user:user:iflocalbus:1.0 [ipx::get_bus_interfaces ${lbname} -of_objects [ipx::current_core]]
+	set pin {rdata raddr rden rdenlast wdata waddr wren rvalid rvalidlast clk aresetn}
+	foreach p $pin {
+		portpin ${lbname} $p ${lbname}_$p
+	}
 }
 proc brambus {bramname} {
 	ipx::add_bus_interface ${bramname} [ipx::current_core]
@@ -43,12 +43,17 @@ proc iopin {pin masterdir} {
 
 	} else {
 		puts "direction wrong"
+		puts ${pin}
+		puts ${masterdir}
 	}
 }
 
 proc fpgapinmap {pin} {
-	ipx::add_port_map ${pin} [ipx::get_bus_interfaces fpga -of_objects [ipx::current_core]]
-	set_property physical_name FPGA_${pin} [ipx::get_port_maps ${pin} -of_objects [ipx::get_bus_interfaces fpga -of_objects [ipx::current_core]]]
+	if [string equal $pin ""] {
+	} else {
+		ipx::add_port_map ${pin} [ipx::get_bus_interfaces fpga -of_objects [ipx::current_core]]
+		set_property physical_name FPGA_${pin} [ipx::get_port_maps ${pin} -of_objects [ipx::get_bus_interfaces fpga -of_objects [ipx::current_core]]]
+	}
 }
 proc fpgamap {pindirfile} {
 	set fp [open $pindirfile r]
@@ -93,49 +98,49 @@ ipx::open_ipxact_file ./vivado_project/plip/component.xml
 
 #ipx::edit_ip_in_project -upgrade true -name plip -directory ./vivado_project/plip ./vivado_project/plip/component.xml
 if {0} {
-brambus qdrvenv0
-brambus qdrvenv1
-brambus qdrvenv2
-brambus qdrvenv3
-brambus qdrvenv4
-brambus qdrvenv5
-brambus qdrvenv6
-brambus qdrvenv7
-brambus qdrvenv8
-brambus qdrvenv9
-brambus qdrvenva
-brambus qdrvenvb
-brambus qdrvenvc
-brambus qdrvenvd
-brambus qdrvenve
-brambus qdrvenvf
-brambus rdrvenv0
-brambus rdrvenv1
-brambus rdrvenv2
-brambus rdrvenv3
-brambus rdrvenv4
-brambus rdrvenv5
-brambus rdrvenv6
-brambus rdrvenv7
-brambus rdloenv0
-brambus rdloenv1
-brambus rdloenv2
-brambus rdloenv3
-brambus rdloenv4
-brambus rdloenv5
-brambus rdloenv6
-brambus rdloenv7
-brambus command
-brambus accbuf0
-brambus accbuf1
-brambus accbuf2
-brambus accbuf3
-brambus accbuf4
-brambus accbuf5
-brambus accbuf6
-brambus accbuf7
-brambus acqbuf0
-brambus acqbuf1
+	brambus qdrvenv0
+	brambus qdrvenv1
+	brambus qdrvenv2
+	brambus qdrvenv3
+	brambus qdrvenv4
+	brambus qdrvenv5
+	brambus qdrvenv6
+	brambus qdrvenv7
+	brambus qdrvenv8
+	brambus qdrvenv9
+	brambus qdrvenva
+	brambus qdrvenvb
+	brambus qdrvenvc
+	brambus qdrvenvd
+	brambus qdrvenve
+	brambus qdrvenvf
+	brambus rdrvenv0
+	brambus rdrvenv1
+	brambus rdrvenv2
+	brambus rdrvenv3
+	brambus rdrvenv4
+	brambus rdrvenv5
+	brambus rdrvenv6
+	brambus rdrvenv7
+	brambus rdloenv0
+	brambus rdloenv1
+	brambus rdloenv2
+	brambus rdloenv3
+	brambus rdloenv4
+	brambus rdloenv5
+	brambus rdloenv6
+	brambus rdloenv7
+	brambus command
+	brambus accbuf0
+	brambus accbuf1
+	brambus accbuf2
+	brambus accbuf3
+	brambus accbuf4
+	brambus accbuf5
+	brambus accbuf6
+	brambus accbuf7
+	brambus acqbuf0
+	brambus acqbuf1
 }
 
 
@@ -166,33 +171,33 @@ lbbus lb2
 lbbus lb3
 lbbus lb4
 if {0} {
-ipx::add_bus_interface lb1 [ipx::current_core]
-set_property abstraction_type_vlnv user:user:iflocalbus_rtl:1.0 [ipx::get_bus_interfaces lb1 -of_objects [ipx::current_core]]
-set_property bus_type_vlnv user:user:iflocalbus:1.0 [ipx::get_bus_interfaces lb1 -of_objects [ipx::current_core]]
+	ipx::add_bus_interface lb1 [ipx::current_core]
+	set_property abstraction_type_vlnv user:user:iflocalbus_rtl:1.0 [ipx::get_bus_interfaces lb1 -of_objects [ipx::current_core]]
+	set_property bus_type_vlnv user:user:iflocalbus:1.0 [ipx::get_bus_interfaces lb1 -of_objects [ipx::current_core]]
 
-portpin lb1 rdata lb1_rdata
-portpin lb1 raddr lb1_raddr
-portpin lb1 rden lb1_rden
-portpin lb1 wdata lb1_wdata
-portpin lb1 waddr lb1_waddr
-portpin lb1 wren lb1_wren
-portpin lb1 rvalid lb1_rvalid
-portpin lb1 clk lb1_clk
-portpin lb1 aresetn lb1_aresetn
+	portpin lb1 rdata lb1_rdata
+	portpin lb1 raddr lb1_raddr
+	portpin lb1 rden lb1_rden
+	portpin lb1 wdata lb1_wdata
+	portpin lb1 waddr lb1_waddr
+	portpin lb1 wren lb1_wren
+	portpin lb1 rvalid lb1_rvalid
+	portpin lb1 clk lb1_clk
+	portpin lb1 aresetn lb1_aresetn
 
-ipx::add_bus_interface lb2 [ipx::current_core]
-set_property abstraction_type_vlnv user:user:iflocalbus_rtl:1.0 [ipx::get_bus_interfaces lb2 -of_objects [ipx::current_core]]
-set_property bus_type_vlnv user:user:iflocalbus:1.0 [ipx::get_bus_interfaces lb2 -of_objects [ipx::current_core]]
+	ipx::add_bus_interface lb2 [ipx::current_core]
+	set_property abstraction_type_vlnv user:user:iflocalbus_rtl:1.0 [ipx::get_bus_interfaces lb2 -of_objects [ipx::current_core]]
+	set_property bus_type_vlnv user:user:iflocalbus:1.0 [ipx::get_bus_interfaces lb2 -of_objects [ipx::current_core]]
 
-portpin lb2 rdata lb2_rdata
-portpin lb2 raddr lb2_raddr
-portpin lb2 rden lb2_rden
-portpin lb2 wdata lb2_wdata
-portpin lb2 waddr lb2_waddr
-portpin lb2 wren lb2_wren
-portpin lb2 rvalid lb2_rvalid
-portpin lb2 clk lb2_clk
-portpin lb2 aresetn lb2_aresetn
+	portpin lb2 rdata lb2_rdata
+	portpin lb2 raddr lb2_raddr
+	portpin lb2 rden lb2_rden
+	portpin lb2 wdata lb2_wdata
+	portpin lb2 waddr lb2_waddr
+	portpin lb2 wren lb2_wren
+	portpin lb2 rvalid lb2_rvalid
+	portpin lb2 clk lb2_clk
+	portpin lb2 aresetn lb2_aresetn
 }
 set_property core_revision 1 [ipx::current_core]
 ipx::create_xgui_files [ipx::current_core]

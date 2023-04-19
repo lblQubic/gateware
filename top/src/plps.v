@@ -6,6 +6,7 @@ module plps #(
 )(
 `include "plps_port.vh"
 ,`include "fpga_port.vh"
+,`include "addapin_port.vh"
 ,output clkadc3_300  // in the plps_inst, but not in the plps_port, because change direction
 ,output clkadc3_600
 ,output pl_sysref

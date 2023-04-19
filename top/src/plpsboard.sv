@@ -5,8 +5,8 @@ module plpsboard #(
 ,`include "braminit_para.vh"
 )(
 `include "plps_port.vh"
-,
-`include "fpga_port.vh"
+,`include "addapin_port.vh"
+,`include "fpga_port.vh"
 ,output clkadc3_300
 ,output clkadc3_600
 ,output pl_sysref
