@@ -35,6 +35,7 @@
 ../../submodules/distributed_processor/hdl/ctrl.v
 ../../submodules/distributed_processor/hdl/fproc_iface.sv
 ../../submodules/distributed_processor/hdl/fproc_lut.sv
+../../submodules/distributed_processor/hdl/fproc_meas.sv
 ../../submodules/distributed_processor/hdl/instr_ptr.v
 ../../submodules/distributed_processor/hdl/meas_lut.sv
 ../../submodules/distributed_processor/hdl/proc.sv
