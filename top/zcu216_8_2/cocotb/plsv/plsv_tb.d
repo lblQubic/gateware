@@ -45,3 +45,4 @@
 ../../ifdspregs.sv
 ../../iladsp.v
 plsv_tb.sv
+../../../../submodules/distributed_processor/hdl/fproc_meas.sv

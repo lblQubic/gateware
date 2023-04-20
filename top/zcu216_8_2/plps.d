@@ -7,6 +7,10 @@
 ../../dsp/phtime.v
 ../../dsp/proc_core.sv
 ../../dsp/xmultadd.sv
+../../submodules/board-support/zcu216/fpga_if.sv
+../../submodules/board-support/zcu216/fpga_inst.vh
+../../submodules/board-support/zcu216/fpga_port.vh
+../../submodules/board-support/zcu216/fpga_via.vh
 ../../submodules/board-support/zcu216/addapin.sv
 ../../submodules/board-support/zcu216/addapin_port.vh
 ../../submodules/board-support/zcu216/board.sv
@@ -44,10 +48,6 @@
 ../../submodules/distributed_processor/hdl/qclk.v
 ../../submodules/distributed_processor/hdl/reg_file.v
 ../../submodules/distributed_processor/hdl/sync_iface.sv
-../../submodules/fpga-family/xczu49drffvf1760pkg/fpga_if.sv
-../../submodules/fpga-family/xczu49drffvf1760pkg/fpga_inst.vh
-../../submodules/fpga-family/xczu49drffvf1760pkg/fpga_port.vh
-../../submodules/fpga-family/xczu49drffvf1760pkg/fpga_via.vh
 ../src/plps.v
 ../src/plpsboard.sv
 ../src/plsv.sv

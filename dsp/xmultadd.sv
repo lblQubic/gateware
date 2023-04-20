@@ -6,8 +6,12 @@ module xmultadd #(`include "plps_para.vh"
 localparam NRATIO=16;
 (* ram_style = "registers" *) 
 reg [31:0] coef [0:NQDRV-1][0:NQDRV-1];
+reg [DAC_AXIS_DATAWIDTH-1:0] daccplxx[0:NQDRV-1];
+reg [DAC_AXIS_DATAWIDTH-1:0] daccplxy[0:NQDRV-1];
 always @(posedge xmaif.clk) begin
 	coef<=xmaif.coef;
+	daccplxx<=xmaif.daccplxx;
+	daccplxy<=xmaif.daccplxy;
 end
 generate
 for (genvar r=0;r<NRATIO;r=r+1) begin: ratio
@@ -54,8 +58,8 @@ for (genvar r=0;r<NRATIO;r=r+1) begin: ratio
 			if (jj==i+NMULTI/2) begin
 			//if (j==i) begin
 				always @(posedge xmaif.clk) begin
-					zr_r1<=signed'(xmaif.daccplxx[j][r*16+15:r*16]);
-					zi_r1<=signed'(xmaif.daccplxy[j][r*16+15:r*16]);
+					zr_r1<=signed'(daccplxx[j][r*16+15:r*16]);
+					zi_r1<=signed'(daccplxy[j][r*16+15:r*16]);
 					zr_r2<=zr_r1;
 					zi_r2<=zi_r1;
 					{zr_r3,zi_r3}<={zr_r2,zi_r2};
@@ -76,8 +80,8 @@ for (genvar r=0;r<NRATIO;r=r+1) begin: ratio
 				always @(posedge xmaif.clk) begin
 					xr<=signed'(coef[i][j][31:16]);
 					xi<=signed'(coef[i][j][15:0]);
-					yr<=signed'(xmaif.daccplxx[j][r*16+15:r*16]);
-					yi<=signed'(xmaif.daccplxy[j][r*16+15:r*16]);
+					yr<=signed'(daccplxx[j][r*16+15:r*16]);
+					yi<=signed'(daccplxy[j][r*16+15:r*16]);
 					zr_r<=zr_w;
 					zi_r<=zi_w;
 					xr_r1<=xr;

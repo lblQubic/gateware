@@ -244,7 +244,16 @@ panzoomtrigif #(.NCHAN(10),.ADDRWIDTH(ACQBUF_W_ADDRWIDTH),.DATAWIDTH(ACQBUF_W_DA
 panzoomtrigif #(.NCHAN(4),.ADDRWIDTH(DACMON_W_ADDRWIDTH),.DATAWIDTH(DACMON_W_DATAWIDTH))dacmonpztif[0:3](.clk(dspif.clk));
 fproc_meas #(.N_CORES(NPROC), .N_MEAS(NDLO)) fproc(.clk(dspif.clk), .reset(procreset), .meas(fproc_meas_input),
 	.meas_valid(fproc_meas_valid), .core(fproc_if));
-
+reg [31:0] delayaftertrig1=0;
+reg [31:0] delayaftertrig2=0;
+reg [15:0] decimator1=0;
+reg [15:0] decimator2=0;
+always @(posedge dspif.clk) begin
+	delayaftertrig1<=dspif.delayaftertrig;
+	delayaftertrig2<=dspif.delayaftertrig;
+	decimator1<=dspif.decimator;
+	decimator2<=dspif.decimator;
+end
 generate 
 for (genvar i=0;i<2;i=i+1) begin: acqpztifwire
 	reg stb_start_r=0;
@@ -255,8 +264,8 @@ for (genvar i=0;i<2;i=i+1) begin: acqpztifwire
 	assign acqpztif[i].reset=dspif.acqbufreset;
 	assign acqpztif[i].chansel=dspif.acqchansel[i];
 	assign acqpztif[i].stb_start=stb_start_r;
-	assign acqpztif[i].delayaftertrig=dspif.delayaftertrig;
-	assign acqpztif[i].decimator=dspif.decimator;
+	assign acqpztif[i].delayaftertrig=delayaftertrig1;
+	assign acqpztif[i].decimator=decimator1;
 	assign acqpztif[i].chan[0]=adc[0];
 //	assign acqpztif[i].chan[1]=adc[1];
 	assign acqpztif[i].chan[2]=rdloelem[0].multix;
@@ -282,8 +291,8 @@ for (genvar i=0;i<4;i=i+1) begin: dacmonpztifwire
 	assign dacmonpztif[i].reset=dspif.dacmonreset;
 	assign dacmonpztif[i].chansel=dspif.dacmonchansel[i];
 	assign dacmonpztif[i].stb_start=stb_start_r;
-	assign dacmonpztif[i].delayaftertrig=dspif.delayaftertrig;
-	assign dacmonpztif[i].decimator=dspif.decimator;
+	assign dacmonpztif[i].delayaftertrig=delayaftertrig2;
+	assign dacmonpztif[i].decimator=decimator2;
 	assign dacmonpztif[i].chan[0]=dac[0];
 	assign dacmonpztif[i].chan[1]=dac[1];
 	assign dacmonpztif[i].chan[2]=dac[2];

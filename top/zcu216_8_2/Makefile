@@ -45,7 +45,7 @@ $(TGT).bit: $(TGT)
 	- cp -f vivado_project/$(TGT)/$(TGT).runs/impl_1/$(TGT).ltx ./bits/$(FNAME)/$(FNAME).ltx
 	- ln -sf ./bits/$(FNAME)/$(FNAME).ltx $(TGT).ltx
 	- cp -f vivado_project/$(TGT)/$(TGT).runs/impl_1/$(TGT).bin    ./bits/$(FNAME)/$(FNAME).bin
-	printf "\a\a\a"
+	printf "\a";sleep 1; printf "\a"; sleep 1; printf "\a"
 
 
 
