@@ -67,8 +67,8 @@ for (genvar r=0;r<NRATIO;r=r+1) begin: ratio
 					{zr_r5,zi_r5}<={zr_r4,zi_r4};
 					{zr_r6,zi_r6}<={zr_r5,zi_r5};
 					{zr_r7,zi_r7}<={zr_r6,zi_r6};
-					zr_r<=zr_r7<<<16;
-					zi_r<=zi_r7<<<16;
+					zr_r<=zr_r7<<<15;
+					zi_r<=zi_r7<<<15;
 					zr[i][j]<=zr_r[30:15];
 					zi[i][j]<=zi_r[30:15];
 				end
@@ -78,8 +78,8 @@ for (genvar r=0;r<NRATIO;r=r+1) begin: ratio
 				cmultiplier #(.XWIDTH(16),.YWIDTH(16))
 				mult1(.clk(xmaif.clk),.xr(xr),.xi(xi),.yr(yr),.yi(yi),.zr(zr_w),.zi(zi_w));
 				always @(posedge xmaif.clk) begin
-					xr<=signed'(coef[i][j][31:16]);
-					xi<=signed'(coef[i][j][15:0]);
+					xr<=signed'(coefij[31:16]);
+					xi<=signed'(coefij[15:0]);
 					yr<=signed'(daccplxx[j][r*16+15:r*16]);
 					yi<=signed'(daccplxy[j][r*16+15:r*16]);
 					zr_r<=zr_w;
