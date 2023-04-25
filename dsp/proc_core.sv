@@ -11,6 +11,7 @@ module proc_core(input clk
 ,ifelement.proc rdrvelem
 ,ifelement.proc rdloelem
 ,fproc_iface.proc fproc
+,sync_iface.proc sync
 );
 localparam ENV_WIDTH = 24;
 localparam PHASE_WIDTH = 17;
@@ -25,7 +26,7 @@ localparam DATA_WIDTH=32;
 
 cmd_mem_iface #(.CMD_ADDR_WIDTH(16), .MEM_WIDTH(128), .MEM_TO_CMD(1)) memif();
 //fproc_iface #(.FPROC_ID_WIDTH(8), .FPROC_RESULT_WIDTH(32)) fproc();
-sync_iface #(.SYNC_BARRIER_WIDTH(8)) sync();
+//sync_iface #(.SYNC_BARRIER_WIDTH(8)) sync();
 pulse_iface #(.PHASE_WIDTH(PHASE_WIDTH), .FREQ_WIDTH(FREQ_WIDTH),.ENV_WORD_WIDTH(ENV_WIDTH), .AMP_WIDTH(AMP_WIDTH), .CFG_WIDTH(CFG_WIDTH)) 
 pulseout();
 

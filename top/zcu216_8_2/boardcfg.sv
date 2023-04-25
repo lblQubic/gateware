@@ -198,6 +198,7 @@ end
 assign dspif.reset=dspreset_r;
 
 assign dspif.stb_start=dspregs.wstb_start;
+assign dspif.start=ready_dspclk;
 assign dspif.nshot=dspregs.nshot;
 assign dspif.resetacc=dspregs.resetacc;
 assign dspif.stb_reset_bram_read=dspregs.wstb_reset_bram_read;
@@ -222,6 +223,93 @@ assign dspif.dacmonchansel[3]=dspregs.dacmonchansel3;
 assign dspif.mixbb1sel=dspregs.mixbb1sel;
 assign dspif.mixbb2sel=dspregs.mixbb2sel;
 assign dspif.shift=dspregs.shift;
+
+
+reg current_sample=1'b0;
+reg last_sample=1'b0;
+reg [2:0] sysref_cnt=0;
+reg ready_sysref=1'b0;
+always @(posedge dspclk) begin
+    current_sample <= hw.clk104_pl_sysref;
+    last_sample <= current_sample;
+    if (dspregs.start) begin
+        sysref_cnt <= sysref_cnt + (~last_sample & current_sample);
+    end
+    if (sysref_cnt[2]) ready_sysref<=1'b1;
+end
+
+reg [63:0] dspclkcnt_orig=0;
+wire [63:0] corr64={dspregs.copper_corr64_h,dspregs.copper_corr64_l};
+reg [63:0] dspclkcnt_corr=0;
+always @(posedge dspclk) begin
+    if (ready_sysref) dspclkcnt_orig <= dspclkcnt_orig + 1;
+    dspclkcnt_corr <= dspclkcnt_orig + corr64;
+end
+
+wire dspclkcnt_sw=dspregs.copper_clkcnt_sw;
+wire [63:0] dspclkcnt;
+assign dspclkcnt = dspclkcnt_sw ? dspclkcnt_corr : dspclkcnt_orig;
+
+wire [63:0] dspclkcnt_trig={dspregs.copper_clkcnt_trig_h,dspregs.copper_clkcnt_trig_l};
+reg ready_dspclk=1'b0;
+always @(posedge dspclk) begin
+    ready_dspclk <= dspclkcnt>=dspclkcnt_trig;
+end
+
+
+wire [63:0] copper_tx_clkcnt;
+wire [63:0] copper_rx_clkcnt;
+reg [63:0] copper_tx_clkcnt_r=0;
+reg [63:0] copper_rx_clkcnt_r=0;
+wire copper_tx_data;
+wire copper_rx_data;
+wire copper_tx_en=dspregs.copper_tx_en;
+wire copper_tx_rst=dspregs.copper_tx_rst;
+
+IOBUF synciobuf (.IO(hw.dacio[0]),.I(copper_tx_data),.O(copper_rx_data),.T(~copper_tx_en));
+sync sync_copper(.clk(dspclk)
+,.tx_data(copper_tx_data)
+,.tx_rst(copper_tx_rst)
+,.rx_data(copper_rx_data)
+,.clkcnt(dspclkcnt)
+,.tx_clkcnt(copper_tx_clkcnt)
+,.rx_clkcnt(copper_rx_clkcnt)
+);
+always @(posedge dspclk) begin
+    copper_tx_clkcnt_r<=copper_tx_clkcnt;
+    copper_rx_clkcnt_r<=copper_rx_clkcnt;
+end
+assign  {dspregs.copper_tx_clkcnt_h,dspregs.copper_tx_clkcnt_l}=copper_tx_clkcnt_r;
+assign  {dspregs.copper_rx_clkcnt_h,dspregs.copper_rx_clkcnt_l}=copper_rx_clkcnt_r;
+
+
+wire [63:0] copper_tx_clkcnt_slv;
+wire [63:0] copper_rx_clkcnt_slv;
+reg [63:0] copper_tx_clkcnt_slv_r=0;
+reg [63:0] copper_rx_clkcnt_slv_r=0;
+wire copper_tx_data_slv;
+wire copper_rx_data_slv;
+wire copper_tx_en_slv=dspregs.copper_tx_en_slv;
+wire copper_tx_rst_slv=dspregs.copper_tx_rst_slv;
+
+IOBUF synciobuf_slv (.IO(hw.dacio[1]),.I(copper_tx_data_slv),.O(copper_rx_data_slv),.T(~copper_tx_en_slv));
+sync sync_copper_slv(.clk(dspclk)
+,.tx_data(copper_tx_data_slv)
+,.tx_rst(copper_tx_rst_slv)
+,.rx_data(copper_rx_data_slv)
+,.clkcnt(dspclkcnt)
+,.tx_clkcnt(copper_tx_clkcnt_slv)
+,.rx_clkcnt(copper_rx_clkcnt_slv)
+);
+always @(posedge dspclk) begin
+    copper_tx_clkcnt_slv_r<=copper_tx_clkcnt_slv;
+    copper_rx_clkcnt_slv_r<=copper_rx_clkcnt_slv;
+end
+assign  {dspregs.copper_tx_clkcnt_h_slv,dspregs.copper_tx_clkcnt_l_slv}=copper_tx_clkcnt_slv_r;
+assign  {dspregs.copper_rx_clkcnt_h_slv,dspregs.copper_rx_clkcnt_l_slv}=copper_rx_clkcnt_slv_r;
+
+assign hw.dacio[15:2]=dspclkcnt[25:12];
+
 
 reg [31:0] coef[0:7][0:7];
 initial begin

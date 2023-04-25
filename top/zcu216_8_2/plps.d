@@ -11,7 +11,6 @@
 ../../submodules/board-support/zcu216/fpga_inst.vh
 ../../submodules/board-support/zcu216/fpga_port.vh
 ../../submodules/board-support/zcu216/fpga_via.vh
-../../submodules/board-support/zcu216/addapin.sv
 ../../submodules/board-support/zcu216/addapin_port.vh
 ../../submodules/board-support/zcu216/board.sv
 ../../submodules/board-support/zcu216/hwif.sv
@@ -29,6 +28,7 @@
 ../../submodules/common-hdl/reg_delay1.v
 ../../submodules/common-hdl/samefreqxdomain_1.v
 ../../submodules/common-hdl/sum.sv
+../../submodules/common-hdl/sync.v
 ../../submodules/common-hdl/via.sv
 ../../submodules/common-hdl/viabus.v
 ../../submodules/common-hdl/viapairs.v

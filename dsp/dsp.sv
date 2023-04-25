@@ -55,12 +55,19 @@ fproc_iface fproc_if[NPROC-1:0]();
 reg [NDLO-1:0] fproc_meas_input;
 reg [NDLO-1:0] fproc_meas_valid;
 
+sync_iface sync_if[NPROC-1:0]();
+generate
+for (genvar i=0;i<NPROC;i=i+1) begin: sync_ifs
+	assign sync_if[i].ready=dspif.start;
+end
+endgenerate
+
 wire [3:0] state_dbg[0:NPROC-1];
 wire [3:0] nextstate_dbg[0:NPROC-1];
 generate 
 for (genvar i =0; i<NPROC; i=i+1) begin: procinst
 	proc_core 
-	proc_core(.clk(dspif.clk),.reset(proccorereset[i]),.command(dspif.data_command[i]), .cmd_read_addr(dspif.addr_command[i]),.qdrvelem(qdrvelem[i]),.rdrvelem(rdrvelem[i]),.rdloelem(rdloelem[i]),.stbend(stbprocend[i]),.procdone_mon(procdone[i]),.nobusy_mon(nobusy[i]), .fproc(fproc_if[i])
+	proc_core(.clk(dspif.clk),.reset(proccorereset[i]),.command(dspif.data_command[i]), .cmd_read_addr(dspif.addr_command[i]),.qdrvelem(qdrvelem[i]),.rdrvelem(rdrvelem[i]),.rdloelem(rdloelem[i]),.stbend(stbprocend[i]),.procdone_mon(procdone[i]),.nobusy_mon(nobusy[i]), .fproc(fproc_if[i]), .sync(sync_if[i])
 	,.state_dbg(state_dbg[i]),.nextstate_dbg(nextstate_dbg[i])
 	);
 	elementconn #(.ENV_ADDRWIDTH(QDRVENV_R_ADDRWIDTH),.ENV_DATAWIDTH(QDRVENV_R_DATAWIDTH),.FREQ_ADDRWIDTH(QDRVFREQ_R_ADDRWIDTH),.FREQ_DATAWIDTH(QDRVFREQ_R_DATAWIDTH))
