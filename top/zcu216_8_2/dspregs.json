@@ -114,5 +114,6 @@
 ,"cnt32":{"access": "r", "addr_width": 0, "data_width": 32, "sign": "unsigned", "init": "0", "base_addr": 113}
 ,"cnt33":{"access": "r", "addr_width": 0, "data_width": 32, "sign": "unsigned", "init": "0", "base_addr": 114}
 ,"cnt":{"access": "r", "addr_width": 4, "data_width": 32, "sign": "unsigned", "init": "0", "base_addr": 128}
-,"coef":{"access": "rw", "addr_width": 6, "data_width": 32, "sign": "signed", "init": "2147418112", "base_addr": 192}
+,"coef":{"access": "w", "addr_width": 6, "data_width": 32, "sign": "signed", "init": "0", "base_addr": 192}
+,"coefused":{"access": "r", "addr_width": 6, "data_width": 32, "sign": "signed", "init": "0", "base_addr": 256}
 }

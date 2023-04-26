@@ -63,6 +63,7 @@ interface ifdsp #(
 	logic [ACCBUF_W_ADDRWIDTH-1:0] addr_accbuf_mon3;
 	(* ram_style = "registers" *)
 	logic [31:0]coef  [0:NQDRV-1][0:NQDRV-1];
+	logic [31:0]coefused[0:NQDRV-1][0:NQDRV-1];
 
 
 	logic acqbufreset;
@@ -83,7 +84,7 @@ interface ifdsp #(
 	,input adc
 	,input stb_start,start,nshot,resetacc,stb_reset_bram_read
 	,input coef,mixbb1sel,mixbb2sel,shift
-	,output lastshotdone,shotcnt,addr_accbuf_mon0,addr_accbuf_mon1,addr_accbuf_mon2,addr_accbuf_mon3,procdone
+	,output lastshotdone,shotcnt,addr_accbuf_mon0,addr_accbuf_mon1,addr_accbuf_mon2,addr_accbuf_mon3,procdone,coefused
 	,output dac	,addr_accbuf,addr_acqbuf,addr_command,addr_qdrvenv,addr_rdrvenv,addr_rdloenv,addr_qdrvfreq,addr_rdrvfreq,addr_rdlofreq,addr_dacmon	,data_accbuf,we_accbuf,data_acqbuf,we_acqbuf,data_dacmon,we_dacmon
 	,input test_amp,test_freq
 	);
@@ -91,7 +92,7 @@ interface ifdsp #(
 	,output reset,data_command,data_qdrvenv,data_rdrvenv,data_rdloenv,data_qdrvfreq,data_rdrvfreq,data_rdlofreq
 	,output stb_start,start,nshot,resetacc,stb_reset_bram_read,acqbufreset,dacmonreset,acqchansel,dacmonchansel,delayaftertrig,decimator
 	,output coef,mixbb1sel,mixbb2sel,shift
-	,input dac,addr_accbuf,addr_acqbuf,addr_command,addr_qdrvenv,addr_rdrvenv,addr_rdloenv,addr_qdrvfreq,addr_rdrvfreq,addr_rdlofreq,addr_dacmon,data_accbuf,we_accbuf,data_acqbuf,we_acqbuf,data_dacmon,we_dacmon
+	,input dac,addr_accbuf,addr_acqbuf,addr_command,addr_qdrvenv,addr_rdrvenv,addr_rdloenv,addr_qdrvfreq,addr_rdrvfreq,addr_rdlofreq,addr_dacmon,data_accbuf,we_accbuf,data_acqbuf,we_acqbuf,data_dacmon,we_dacmon,coefused
 	,input lastshotdone,shotcnt,addr_accbuf_mon0,addr_accbuf_mon1,addr_accbuf_mon2,addr_accbuf_mon3,procdone
 	,output test_amp,test_freq
 	);

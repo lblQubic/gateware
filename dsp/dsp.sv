@@ -140,6 +140,7 @@ endgenerate
 //assign dspif.dac[2]=xmaif.sumcplxx[2];
 //assign dspif.dac[3]=xmaif.sumcplxx[3];
 assign xmaif.coef=dspif.coef;
+assign dspif.coefused=xmaif.coefused;
 
 reg [ADC_AXIS_DATAWIDTH-1:0] adc[0:NADC-1];
 reg [ADC_AXIS_DATAWIDTH-1:0] dacundersample[0:NDAC-1];

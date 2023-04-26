@@ -77,6 +77,7 @@ class axi4:
                 self.wdata.value=int(data[i])
                 print(int(data[i]))
         else:
+            print('data',data)
             self.wdata.value=data
             if (self.wready!=1):
                 await RisingEdge(self.wready)

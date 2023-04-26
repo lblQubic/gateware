@@ -317,7 +317,7 @@ class plsv():
                 a.brams[buf].zero()
                 a.cmdbuf(buf,[command_gen.pulse_reset()],0)
                 if 1:
-                    a.cmdbuf(buf,[command_gen.pulse_i(freq_word=0, phase_word=0, amp_word=16300 if i in [0] else 0,
+                    a.cmdbuf(buf,[command_gen.pulse_i(freq_word=0, phase_word=0, amp_word=30000 if i in [1] else 0,
                                                       env_word=(0<<12)+0x0, cfg_word=0, cmd_time=10)])
                     a.cmdbuf(buf,[command_gen.pulse_i(freq_word=0, phase_word=0, amp_word=0,
                                                       env_word=(0<<12)+0x0, cfg_word=1, cmd_time=50)])
@@ -607,7 +607,12 @@ class plsv():
         await Timer(length,units='ns')
         self.dut.aresetn.value= 1;
     async def dspregswrite(self,name,val):
-        await self.dspregsaxi.write(addr=self.dspregs[name].address*4,data=val)
+        if (isinstance(val,list) or isinstance(val,tuple) or isinstance(val,numpy.ndarray)):
+            for i,d in enumerate(val):
+                print('i',i,'d',d)
+                await self.dspregsaxi.write(addr=(self.dspregs[name].address+i)*4,data=int(d))
+        else:
+            await self.dspregsaxi.write(addr=self.dspregs[name].address*4,data=val)
     async def dspregsread(self,name):
         value=await self.dspregsaxi.read(addr=self.dspregs[name].address*4)
         self.dspregs[name].value=value
@@ -764,6 +769,15 @@ async def pulse_i_test(dut):
     await a.delayclk(20,"clk_dac2")
     await a.dspregswrite('coef60',0x7fff0000)
     await a.dspregswrite('coef20',0x7fff0000)
+    coef=numpy.zeros((8,8),dtype=int)
+    for i in range(8):
+        for j in range(8):
+            if (i==j):
+                coef[i][j]=0x7fff0000
+            else:
+                coef[i][j]=(i<<16)+j
+    await a.dspregswrite('coef',coef.reshape((-1)))
+
     await a.dspregswrite('nshot',10)
     await a.dspregswrite('dspreset',0)
     await a.dspregswrite('start',0)
