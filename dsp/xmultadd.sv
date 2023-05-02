@@ -6,12 +6,14 @@ module xmultadd #(`include "plps_para.vh"
 localparam NRATIO=16;
 (* ram_style = "registers" *) 
 reg [31:0] coef [0:NQDRV-1][0:NQDRV-1];
+reg [31:0] coefused [0:NQDRV-1][0:NQDRV-1];
 reg [DAC_AXIS_DATAWIDTH-1:0] daccplxx[0:NQDRV-1];
 reg [DAC_AXIS_DATAWIDTH-1:0] daccplxy[0:NQDRV-1];
 always @(posedge xmaif.clk) begin
 	coef<=xmaif.coef;
 	daccplxx<=xmaif.daccplxx;
 	daccplxy<=xmaif.daccplxy;
+	xmaif.coefused<=coefused;
 end
 generate
 for (genvar r=0;r<NRATIO;r=r+1) begin: ratio
@@ -67,10 +69,11 @@ for (genvar r=0;r<NRATIO;r=r+1) begin: ratio
 					{zr_r5,zi_r5}<={zr_r4,zi_r4};
 					{zr_r6,zi_r6}<={zr_r5,zi_r5};
 					{zr_r7,zi_r7}<={zr_r6,zi_r6};
-					zr_r<=zr_r7<<<16;
-					zi_r<=zi_r7<<<16;
+					zr_r<=zr_r7<<<15;
+					zi_r<=zi_r7<<<15;
 					zr[i][j]<=zr_r[30:15];
 					zi[i][j]<=zi_r[30:15];
+					coefused[i][j]<=32'h7fff0000;
 				end
 			end
 			else begin
@@ -78,8 +81,9 @@ for (genvar r=0;r<NRATIO;r=r+1) begin: ratio
 				cmultiplier #(.XWIDTH(16),.YWIDTH(16))
 				mult1(.clk(xmaif.clk),.xr(xr),.xi(xi),.yr(yr),.yi(yi),.zr(zr_w),.zi(zi_w));
 				always @(posedge xmaif.clk) begin
-					xr<=signed'(coef[i][j][31:16]);
-					xi<=signed'(coef[i][j][15:0]);
+					coefused[i][j]<=coefij;
+					xr<=signed'(coefij[31:16]);
+					xi<=signed'(coefij[15:0]);
 					yr<=signed'(daccplxx[j][r*16+15:r*16]);
 					yi<=signed'(daccplxy[j][r*16+15:r*16]);
 					zr_r<=zr_w;
@@ -136,11 +140,12 @@ endmodule
 interface ifxma #(parameter NQDRV=4,parameter DAC_AXIS_DATAWIDTH=256)
 	(input clk);
 	logic [31:0]coef  [0:NQDRV-1][0:NQDRV-1];
+	logic [31:0]coefused  [0:NQDRV-1][0:NQDRV-1];
 	logic [DAC_AXIS_DATAWIDTH-1:0] sumcplxx[0:NQDRV-1];
 	logic [DAC_AXIS_DATAWIDTH-1:0] sumcplxy[0:NQDRV-1];
 	logic [DAC_AXIS_DATAWIDTH-1:0] daccplxx[0:NQDRV-1];
 	logic [DAC_AXIS_DATAWIDTH-1:0] daccplxy[0:NQDRV-1];
 	modport xma(input clk,coef,daccplxx,daccplxy
-	,output sumcplxx,sumcplxy
+	,output sumcplxx,sumcplxy,coefused
 	);
 endinterface

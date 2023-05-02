@@ -27,7 +27,7 @@ gitrevision.v: gitcommit
 	python $(TOOLS)/gitauto.py -action revisionverilog
 	cat gitrevision.v
 gitpush:
-	python submodules/tools/gitauto.py -action push
+	python $(TOOLS)/gitauto.py -action push
 
 
 $(TGT).bit: $(TGT)

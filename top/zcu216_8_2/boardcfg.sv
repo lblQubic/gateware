@@ -174,15 +174,15 @@ axi4stream_slave_handshake_data #(.DATA_WIDTH (ADC_AXIS_DATAWIDTH))adc30hsda(.ax
 wire adc32datavalid;
 axi4stream_slave_handshake_data #(.DATA_WIDTH (ADC_AXIS_DATAWIDTH))adc32hsda(.axis(adc32axis),.ready(1'b1),.datavalid(adc32datavalid),.data(dspif.adc[0]));
 
-axi4stream_master_handshake_data #(.DATA_WIDTH (DAC_AXIS_DATAWIDTH))dac00hsda(.axis(dac00axis),.datavalid(1'b1),.data(dspif.dac[8])); // 228 0
-axi4stream_master_handshake_data #(.DATA_WIDTH (DAC_AXIS_DATAWIDTH))dac01hsda(.axis(dac01axis),.datavalid(1'b1),.data(dspif.dac[3])); // 228 1
+axi4stream_master_handshake_data #(.DATA_WIDTH (DAC_AXIS_DATAWIDTH))dac00hsda(.axis(dac00axis),.datavalid(1'b1),.data(dspif.dac[0])); // 228 0
+axi4stream_master_handshake_data #(.DATA_WIDTH (DAC_AXIS_DATAWIDTH))dac01hsda(.axis(dac01axis),.datavalid(1'b1),.data(dspif.dac[1])); // 228 1
 axi4stream_master_handshake_data #(.DATA_WIDTH (DAC_AXIS_DATAWIDTH))dac02hsda(.axis(dac02axis),.datavalid(1'b1),.data(dspif.dac[2])); // 228 2
-axi4stream_master_handshake_data #(.DATA_WIDTH (DAC_AXIS_DATAWIDTH))dac03hsda(.axis(dac03axis),.datavalid(1'b1),.data(dspif.dac[4])); // 228 3
-axi4stream_master_handshake_data #(.DATA_WIDTH (DAC_AXIS_DATAWIDTH))dac10hsda(.axis(dac10axis),.datavalid(1'b1),.data(dspif.dac[1])); // 229 0
+axi4stream_master_handshake_data #(.DATA_WIDTH (DAC_AXIS_DATAWIDTH))dac03hsda(.axis(dac03axis),.datavalid(1'b1),.data(dspif.dac[3])); // 228 3
+axi4stream_master_handshake_data #(.DATA_WIDTH (DAC_AXIS_DATAWIDTH))dac10hsda(.axis(dac10axis),.datavalid(1'b1),.data(dspif.dac[4])); // 229 0
 axi4stream_master_handshake_data #(.DATA_WIDTH (DAC_AXIS_DATAWIDTH))dac11hsda(.axis(dac11axis),.datavalid(1'b1),.data(dspif.dac[5])); // 229 1
-axi4stream_master_handshake_data #(.DATA_WIDTH (DAC_AXIS_DATAWIDTH))dac12hsda(.axis(dac12axis),.datavalid(1'b1),.data(dspif.dac[0])); // 229 2
-axi4stream_master_handshake_data #(.DATA_WIDTH (DAC_AXIS_DATAWIDTH))dac13hsda(.axis(dac13axis),.datavalid(1'b1),.data(dspif.dac[6])); // 229 3
-axi4stream_master_handshake_data #(.DATA_WIDTH (DAC_AXIS_DATAWIDTH))dac20hsda(.axis(dac20axis),.datavalid(1'b1),.data(dspif.dac[7])); // 230 0
+axi4stream_master_handshake_data #(.DATA_WIDTH (DAC_AXIS_DATAWIDTH))dac12hsda(.axis(dac12axis),.datavalid(1'b1),.data(dspif.dac[6])); // 229 2
+axi4stream_master_handshake_data #(.DATA_WIDTH (DAC_AXIS_DATAWIDTH))dac13hsda(.axis(dac13axis),.datavalid(1'b1),.data(dspif.dac[7])); // 229 3
+axi4stream_master_handshake_data #(.DATA_WIDTH (DAC_AXIS_DATAWIDTH))dac20hsda(.axis(dac20axis),.datavalid(1'b1),.data(dspif.dac[8])); // 230 0
 //axi4stream_master_handshake_data #(.DATA_WIDTH (DAC_AXIS_DATAWIDTH))dac21hsda(.axis(dac21axis),.datavalid(1'b1),.data(dspif.dac[6]));
 //axi4stream_master_handshake_data #(.DATA_WIDTH (DAC_AXIS_DATAWIDTH))dac22hsda(.axis(dac22axis),.datavalid(1'b1),.data(dspif.dac[0])); // 230 2
 //axi4stream_master_handshake_data #(.DATA_WIDTH (DAC_AXIS_DATAWIDTH))dac23hsda(.axis(dac23axis),.datavalid(1'b1),.data(dspif.dac[4]));
@@ -312,6 +312,7 @@ assign hw.dacio[15:2]=dspclkcnt[25:12];
 
 
 reg [31:0] coef[0:7][0:7];
+/*reg [31:0] coef[0:7][0:7];
 initial begin
 	for (integer i=0;i<8;i=i+1) begin
 		for (integer j=0;j<8;j=j+1) begin
@@ -324,22 +325,44 @@ initial begin
 		end
 	end
 end
+*/
 
+wire [31:0] coefused00=dspif.coefused[0][0];
+wire [31:0] coefused01=dspif.coefused[0][1];
+wire [31:0] coefused02=dspif.coefused[0][2];
+wire [31:0] coefused03=dspif.coefused[0][3];
+wire [31:0] coefused04=dspif.coefused[0][4];
+wire [31:0] coefused05=dspif.coefused[0][5];
+wire [31:0] coefused06=dspif.coefused[0][6];
+wire [31:0] coefused07=dspif.coefused[0][7];
+wire [31:0] coefused10=dspif.coefused[1][0];
+wire [31:0] coefused11=dspif.coefused[1][1];
+wire [31:0] coefused12=dspif.coefused[1][2];
+wire [31:0] coefused13=dspif.coefused[1][3];
+wire [31:0] coefused14=dspif.coefused[1][4];
+wire [31:0] coefused15=dspif.coefused[1][5];
+wire [31:0] coefused16=dspif.coefused[1][6];
+wire [31:0] coefused17=dspif.coefused[1][7];
 generate
 for (genvar i=0;i<8;i=i+1) begin
 	for (genvar j=0;j<8;j=j+1) begin
 		always @(posedge dspclk) begin
 			if (dspregs.wstb_coef) begin
 				if (dspregs.waddr_coef==i*8+j) begin
-					coef[i][j]<=dspregs.wdata_coef;
+					dspif.coef[i][j]<=dspregs.wdata_coef;
+				end
+			end
+			if (dspregs.rstb_coefused) begin
+				if (dspregs.raddr_coefused==i*8+j) begin
+					dspregs.rdata_coefused<=dspif.coefused[i][j];
 				end
 			end
 		end
 	end
 end
-
 endgenerate
-assign dspif.coef[0][0]=dspregs.coef00;
+
+/*assign dspif.coef[0][0]=dspregs.coef00;
 assign dspif.coef[0][1]=dspregs.coef01;
 assign dspif.coef[0][2]=dspregs.coef02;
 assign dspif.coef[0][3]=dspregs.coef03;
@@ -404,7 +427,7 @@ assign dspif.coef[7][5]=dspregs.coef75;
 assign dspif.coef[7][6]=dspregs.coef76;
 assign dspif.coef[7][7]=dspregs.coef77;
 
-
+*/
 
 assign dspregs.procdone=dspif.procdone;
 assign dspregs.cnt00=dac00axis.cnt;
