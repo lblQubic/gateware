@@ -11,7 +11,6 @@
 ../../submodules/board-support/zcu216/fpga_inst.vh
 ../../submodules/board-support/zcu216/fpga_port.vh
 ../../submodules/board-support/zcu216/fpga_via.vh
-../../submodules/board-support/zcu216/addapin_port.vh
 ../../submodules/board-support/zcu216/board.sv
 ../../submodules/board-support/zcu216/hwif.sv
 ../../submodules/common-hdl/areset.v

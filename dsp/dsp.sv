@@ -134,7 +134,8 @@ rdrvelemout2 (.clk(dspif.clk),.xin(rdrvxin2),.yin(rdrvyin2),.valid(),.xout(rdrvx
 generate
 for (genvar i=0;i<NDAC;i=i+1) begin
 	if (i<NQDRV)
-		assign dspif.dac[i]=xmaif.sumcplxx[i];
+		//assign dspif.dac[i]=xmaif.sumcplxx[i];
+		assign dspif.dac[i]=xmaif.daccplxx[i];
 	else
 		assign dspif.dac[i]=rdrvxout[i-NQDRV];
 end
