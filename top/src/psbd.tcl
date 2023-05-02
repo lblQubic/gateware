@@ -4,8 +4,8 @@ set outputdir ./vivado_project/$target/
 set depd ${target}.d
 source ../../submodules/tools/proj.tcl
 source ../../submodules/tools/depsrc.tcl
-source ../../submodules/tools/synimpbit_nonpj.tcl
-#source ../../submodules/tools/synimpbit.tcl
+#source ../../submodules/tools/synimpbit_nonpj.tcl
+source ../../submodules/tools/synimpbit.tcl
 proj ${target} ${part} ${outputdir} ${depd}
 set_param general.maxThreads 11
 #set_property strategy Flow_PerfOptimized_high [get_runs synth_1]

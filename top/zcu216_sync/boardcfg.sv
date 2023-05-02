@@ -102,6 +102,7 @@ enum {CLK100
 ,CLKADC3
 ,CLKADC3_300
 ,CLKADC3_600
+,MGTREFCLK1_X0Y1
 ,NFCNT
 } fcnt;
 
@@ -122,6 +123,7 @@ assign freq_cnt={cfgregs.fclk100
 ,cfgregs.fclk_adc3
 ,cfgregs.fclkadc3_300
 ,cfgregs.fclkadc3_600
+,cfgregs.fmgtrefclk1_x0y1
 };
 
 wire [NFCNT-1:0] freqcnt_clks= {
@@ -141,6 +143,7 @@ wire [NFCNT-1:0] freqcnt_clks= {
 	,clk_adc3
 	,clkadc3_300
 	,clkadc3_600
+	,hw.mgtrefclk1_x0y1
 };
 
 genvar jx;
@@ -172,25 +175,25 @@ axi4stream_master_handshake_data #(.DATA_WIDTH (DAC_AXIS_DATAWIDTH))dac11hsda(.a
 axi4stream_master_handshake_data #(.DATA_WIDTH (DAC_AXIS_DATAWIDTH))dac12hsda(.axis(dac12axis),.datavalid(1'b1),.data(dspif.dac[0])); // 229 2
 axi4stream_master_handshake_data #(.DATA_WIDTH (DAC_AXIS_DATAWIDTH))dac13hsda(.axis(dac13axis),.datavalid(1'b1),.data(dspif.dac[6])); // 229 3
 axi4stream_master_handshake_data #(.DATA_WIDTH (DAC_AXIS_DATAWIDTH))dac20hsda(.axis(dac20axis),.datavalid(1'b1),.data(dspif.dac[7])); // 230 0
-axi4stream_master_handshake_data #(.DATA_WIDTH (DAC_AXIS_DATAWIDTH))dac21hsda(.axis(dac21axis),.datavalid(1'b1),.data(dspif.dac[9]));
-axi4stream_master_handshake_data #(.DATA_WIDTH (DAC_AXIS_DATAWIDTH))dac22hsda(.axis(dac22axis),.datavalid(1'b1),.data(dspif.dac[10]));
-axi4stream_master_handshake_data #(.DATA_WIDTH (DAC_AXIS_DATAWIDTH))dac23hsda(.axis(dac23axis),.datavalid(1'b1),.data(dspif.dac[11]));
-axi4stream_master_handshake_data #(.DATA_WIDTH (DAC_AXIS_DATAWIDTH))dac30hsda(.axis(dac30axis),.datavalid(1'b1),.data(dspif.dac[12]));
-axi4stream_master_handshake_data #(.DATA_WIDTH (DAC_AXIS_DATAWIDTH))dac31hsda(.axis(dac31axis),.datavalid(1'b1),.data(dspif.dac[13]));
-axi4stream_master_handshake_data #(.DATA_WIDTH (DAC_AXIS_DATAWIDTH))dac32hsda(.axis(dac32axis),.datavalid(1'b1),.data(dspif.dac[14]));
-axi4stream_master_handshake_data #(.DATA_WIDTH (DAC_AXIS_DATAWIDTH))dac33hsda(.axis(dac33axis),.datavalid(1'b1),.data(dspif.dac[15]));
+//axi4stream_master_handshake_data #(.DATA_WIDTH (DAC_AXIS_DATAWIDTH))dac21hsda(.axis(dac21axis),.datavalid(1'b1),.data(dspif.dac[9]));
+//axi4stream_master_handshake_data #(.DATA_WIDTH (DAC_AXIS_DATAWIDTH))dac22hsda(.axis(dac22axis),.datavalid(1'b1),.data(dspif.dac[10]));
+//axi4stream_master_handshake_data #(.DATA_WIDTH (DAC_AXIS_DATAWIDTH))dac23hsda(.axis(dac23axis),.datavalid(1'b1),.data(dspif.dac[11]));
+//axi4stream_master_handshake_data #(.DATA_WIDTH (DAC_AXIS_DATAWIDTH))dac30hsda(.axis(dac30axis),.datavalid(1'b1),.data(dspif.dac[12]));
+//axi4stream_master_handshake_data #(.DATA_WIDTH (DAC_AXIS_DATAWIDTH))dac31hsda(.axis(dac31axis),.datavalid(1'b1),.data(dspif.dac[13]));
+//axi4stream_master_handshake_data #(.DATA_WIDTH (DAC_AXIS_DATAWIDTH))dac32hsda(.axis(dac32axis),.datavalid(1'b1),.data(dspif.dac[14]));
+//axi4stream_master_handshake_data #(.DATA_WIDTH (DAC_AXIS_DATAWIDTH))dac33hsda(.axis(dac33axis),.datavalid(1'b1),.data(dspif.dac[15]));
 //assign dspif.clk=dspclk;
 reg dspreset_r=0;
 always @(posedge dspclk) begin
-	dspreset_r<=dspreset|dspregs.stb_dspreset;
+	dspreset_r<=dspreset|dspregs.wstb_dspreset;
 end
 assign dspif.reset=dspreset_r;
 
-assign dspif.stb_start=dspregs.stb_start;
+assign dspif.stb_start=dspregs.wstb_start;
 assign dspif.start=ready_dspclk;
 assign dspif.nshot=dspregs.nshot;
 assign dspif.resetacc=dspregs.resetacc;
-assign dspif.stb_reset_bram_read=dspregs.stb_reset_bram_read;
+assign dspif.stb_reset_bram_read=dspregs.wstb_reset_bram_read;
 assign dspregs.lastshotdone=dspif.lastshotdone;
 assign dspregs.shotcnt=dspif.shotcnt;
 assign dspregs.addr_accbuf_mon0=dspif.addr_accbuf_mon0;
@@ -213,39 +216,6 @@ assign dspif.mixbb1sel=dspregs.mixbb1sel;
 assign dspif.mixbb2sel=dspregs.mixbb2sel;
 assign dspif.shift=dspregs.shift;
 
-assign dspif.coef[0][0]=dspregs.coef00;
-assign dspif.coef[0][1]=dspregs.coef01;
-assign dspif.coef[0][2]=dspregs.coef02;
-assign dspif.coef[0][3]=dspregs.coef03;
-assign dspif.coef[1][0]=dspregs.coef10;
-assign dspif.coef[1][1]=dspregs.coef11;
-assign dspif.coef[1][2]=dspregs.coef12;
-assign dspif.coef[1][3]=dspregs.coef13;
-assign dspif.coef[2][0]=dspregs.coef20;
-assign dspif.coef[2][1]=dspregs.coef21;
-assign dspif.coef[2][2]=dspregs.coef22;
-assign dspif.coef[2][3]=dspregs.coef23;
-assign dspif.coef[3][0]=dspregs.coef30;
-assign dspif.coef[3][1]=dspregs.coef31;
-assign dspif.coef[3][2]=dspregs.coef32;
-assign dspif.coef[3][3]=dspregs.coef33;
-assign dspregs.procdone=dspif.procdone;
-assign dspregs.cnt00=dac00axis.cnt;
-assign dspregs.cnt01=dac01axis.cnt;
-assign dspregs.cnt02=dac02axis.cnt;
-assign dspregs.cnt03=dac03axis.cnt;
-assign dspregs.cnt10=dac10axis.cnt;
-assign dspregs.cnt11=dac11axis.cnt;
-assign dspregs.cnt12=dac12axis.cnt;
-assign dspregs.cnt13=dac13axis.cnt;
-assign dspregs.cnt20=dac20axis.cnt;
-assign dspregs.cnt21=dac21axis.cnt;
-assign dspregs.cnt22=dac22axis.cnt;
-assign dspregs.cnt23=dac23axis.cnt;
-assign dspregs.cnt30=dac30axis.cnt;
-assign dspregs.cnt31=dac31axis.cnt;
-assign dspregs.cnt32=dac32axis.cnt;
-assign dspregs.cnt33=dac33axis.cnt;
 
 reg current_sample=1'b0;
 reg last_sample=1'b0;
@@ -344,5 +314,202 @@ assign	{dspregs.copper_rx_clkcnt_h_slv,dspregs.copper_rx_clkcnt_l_slv}=copper_rx
 //assign hw.pmod1[7:2]=dspclkcnt[25:20];
 assign hw.dacio[15:2]=dspclkcnt[25:12];
 
+
+reg [31:0] coef[0:7][0:7];
+
+wire [31:0] coefused00=dspif.coefused[0][0];
+wire [31:0] coefused01=dspif.coefused[0][1];
+wire [31:0] coefused02=dspif.coefused[0][2];
+wire [31:0] coefused03=dspif.coefused[0][3];
+wire [31:0] coefused04=dspif.coefused[0][4];
+wire [31:0] coefused05=dspif.coefused[0][5];
+wire [31:0] coefused06=dspif.coefused[0][6];
+wire [31:0] coefused07=dspif.coefused[0][7];
+wire [31:0] coefused10=dspif.coefused[1][0];
+wire [31:0] coefused11=dspif.coefused[1][1];
+wire [31:0] coefused12=dspif.coefused[1][2];
+wire [31:0] coefused13=dspif.coefused[1][3];
+wire [31:0] coefused14=dspif.coefused[1][4];
+wire [31:0] coefused15=dspif.coefused[1][5];
+wire [31:0] coefused16=dspif.coefused[1][6];
+wire [31:0] coefused17=dspif.coefused[1][7];
+generate
+for (genvar i=0;i<8;i=i+1) begin
+    for (genvar j=0;j<8;j=j+1) begin
+        always @(posedge dspclk) begin
+            if (dspregs.wstb_coef) begin
+                if (dspregs.waddr_coef==i*8+j) begin
+                    dspif.coef[i][j]<=dspregs.wdata_coef;
+                end
+            end
+            if (dspregs.rstb_coefused) begin
+                if (dspregs.raddr_coefused==i*8+j) begin
+                    dspregs.rdata_coefused<=dspif.coefused[i][j];
+                end
+            end
+        end
+    end
+end
+endgenerate
+
+assign dspregs.procdone=dspif.procdone;
+assign dspregs.cnt00=dac00axis.cnt;
+assign dspregs.cnt01=dac01axis.cnt;
+assign dspregs.cnt02=dac02axis.cnt;
+assign dspregs.cnt03=dac03axis.cnt;
+assign dspregs.cnt10=dac10axis.cnt;
+assign dspregs.cnt11=dac11axis.cnt;
+assign dspregs.cnt12=dac12axis.cnt;
+assign dspregs.cnt13=dac13axis.cnt;
+assign dspregs.cnt20=dac20axis.cnt;
+
 //`include "ilaauto.vh"
+
+
+`include "gty_sfp_portassign.vh"
+
+
+//assign mgtrefclk1_x0y1_p = hw.r8a34001_q11_out_c_p;
+//assign mgtrefclk1_x0y1_n = hw.r8a34001_q11_out_c_n;
+assign ch0_gtyrxp_in = hw.sfp0_rx_p;
+assign ch0_gtyrxn_in = hw.sfp0_rx_n;
+assign ch0_gtytxp_out = hw.sfp0_tx_p;
+assign ch0_gtytxn_out = hw.sfp0_tx_n;
+assign hb_gtwiz_reset_clk_freerun_in = hw.clk125;
+assign hb_gtwiz_reset_all_in = dspregs.hb_gtwiz_reset_all_in;
+//assign dspregs.txdata_in;
+assign dspregs.rxdata_out = hb0_gtwiz_userdata_rx_int;
+assign dspregs.rxctrl0_out = ch0_rxctrl0_int;
+assign dspregs.rxctrl1_out = ch0_rxctrl1_int;
+assign dspregs.rxctrl2_out = ch0_rxctrl2_int;
+assign dspregs.rxctrl3_out = ch0_rxctrl3_int;
+assign dspregs.gtwiz_userclk_rx_active_out = hb0_gtwiz_userclk_tx_active_int;
+assign dspregs.gtwiz_userclk_rx_usrclk2_int = hb0_gtwiz_userclk_rx_usrclk2_int;
+
+
+wire hb_gtwiz_reset_all_buf_int;
+wire hb_gtwiz_reset_all_init_int;
+wire hb_gtwiz_reset_all_int;
+IBUF ibuf_hb_gtwiz_reset_all_inst (
+  .I (hb_gtwiz_reset_all_in),
+  .O (hb_gtwiz_reset_all_buf_int)
+);
+assign hb_gtwiz_reset_all_int = hb_gtwiz_reset_all_buf_int || hb_gtwiz_reset_all_init_int;
+
+
+wire hb_gtwiz_reset_clk_freerun_buf_int;
+BUFG bufg_clk_freerun_inst (
+  .I (hb_gtwiz_reset_clk_freerun_in),
+  .O (hb_gtwiz_reset_clk_freerun_buf_int)
+);
+
+
+/*
+wire mgtrefclk1_x0y1_int;
+IBUFDS_GTE4 #(
+  .REFCLK_EN_TX_PATH  (1'b0),
+  .REFCLK_HROW_CK_SEL (2'b00),
+  .REFCLK_ICNTL_RX    (2'b00)
+) IBUFDS_GTE4_MGTREFCLK1_X0Y1_INST (
+  .I     (mgtrefclk1_x0y1_p),
+  .IB    (mgtrefclk1_x0y1_n),
+  .CEB   (1'b0),
+  .O     (mgtrefclk1_x0y1_int),
+  .ODIV2 ()
+);
+assign cm0_gtrefclk00_int = mgtrefclk1_x0y1_int;
+*/
+assign cm0_gtrefclk00_int = hw.mgtrefclk1_x0y1;
+
+
+assign hb0_gtwiz_userclk_tx_reset_int = ~(&txpmaresetdone_int);
+assign hb0_gtwiz_userclk_rx_reset_int = ~(&rxpmaresetdone_int);
+
+
+gty_sfp_stimulus_8b10b stimulus_inst0 (
+  .gtwiz_reset_all_in          (hb_gtwiz_reset_all_int || ~hb0_gtwiz_reset_rx_done_int ),
+  .gtwiz_userclk_tx_usrclk2_in (hb0_gtwiz_userclk_tx_usrclk2_int),
+  .gtwiz_userclk_tx_active_in  (hb0_gtwiz_userclk_tx_active_int),
+  .txdata_in                   (dspregs.txdata_in),
+  .txctrl0_out                 (ch0_txctrl0_int),
+  .txctrl1_out                 (ch0_txctrl1_int),
+  .txctrl2_out                 (ch0_txctrl2_int),
+  .txdata_out                  (hb0_gtwiz_userdata_tx_int)
+);
+
+
+wire hb_gtwiz_reset_rx_pll_and_datapath_int = 1'b0;
+wire hb_gtwiz_reset_rx_datapath_int;
+
+wire       init_done_int;
+wire [3:0] init_retry_ctr_int;
+
+wire hb_gtwiz_reset_rx_datapath_init_int;
+
+assign hb_gtwiz_reset_rx_datapath_int = hb_gtwiz_reset_rx_datapath_init_int;
+
+reg        sm_link      = 1'b1;
+gty_sfp_init init_inst (
+  .clk_freerun_in  (hb_gtwiz_reset_clk_freerun_buf_int),
+  .reset_all_in    (hb_gtwiz_reset_all_int),
+  .tx_init_done_in (gtwiz_reset_tx_done_int),
+  .rx_init_done_in (gtwiz_reset_rx_done_int),
+  .rx_data_good_in (sm_link),
+  .reset_all_out   (hb_gtwiz_reset_all_init_int),
+  .reset_rx_out    (hb_gtwiz_reset_rx_datapath_init_int),
+  .init_done_out   (init_done_int),
+  .retry_ctr_out   (init_retry_ctr_int)
+);
+
+
+gty_sfp_wrapper wrapper_inst (
+  .gtyrxn_in                               (gtyrxn_int)
+ ,.gtyrxp_in                               (gtyrxp_int)
+ ,.gtytxn_out                              (gtytxn_int)
+ ,.gtytxp_out                              (gtytxp_int)
+ ,.gtwiz_userclk_tx_reset_in               (gtwiz_userclk_tx_reset_int)
+ ,.gtwiz_userclk_tx_srcclk_out             (gtwiz_userclk_tx_srcclk_int)
+ ,.gtwiz_userclk_tx_usrclk_out             (gtwiz_userclk_tx_usrclk_int)
+ ,.gtwiz_userclk_tx_usrclk2_out            (gtwiz_userclk_tx_usrclk2_int)
+ ,.gtwiz_userclk_tx_active_out             (gtwiz_userclk_tx_active_int)
+ ,.gtwiz_userclk_rx_reset_in               (gtwiz_userclk_rx_reset_int)
+ ,.gtwiz_userclk_rx_srcclk_out             (gtwiz_userclk_rx_srcclk_int)
+ ,.gtwiz_userclk_rx_usrclk_out             (gtwiz_userclk_rx_usrclk_int)
+ ,.gtwiz_userclk_rx_usrclk2_out            (gtwiz_userclk_rx_usrclk2_int)
+ ,.gtwiz_userclk_rx_active_out             (gtwiz_userclk_rx_active_int)
+ ,.gtwiz_reset_clk_freerun_in              ({1{hb_gtwiz_reset_clk_freerun_buf_int}})
+ ,.gtwiz_reset_all_in                      ({1{hb_gtwiz_reset_all_int}})
+ ,.gtwiz_reset_tx_pll_and_datapath_in      (gtwiz_reset_tx_pll_and_datapath_int)
+ ,.gtwiz_reset_tx_datapath_in              (gtwiz_reset_tx_datapath_int)
+ ,.gtwiz_reset_rx_pll_and_datapath_in      ({1{hb_gtwiz_reset_rx_pll_and_datapath_int}})
+ ,.gtwiz_reset_rx_datapath_in              ({1{hb_gtwiz_reset_rx_datapath_int}})
+ ,.gtwiz_reset_rx_cdr_stable_out           (gtwiz_reset_rx_cdr_stable_int)
+ ,.gtwiz_reset_tx_done_out                 (gtwiz_reset_tx_done_int)
+ ,.gtwiz_reset_rx_done_out                 (gtwiz_reset_rx_done_int)
+ ,.gtwiz_userdata_tx_in                    (gtwiz_userdata_tx_int)
+ ,.gtwiz_userdata_rx_out                   (gtwiz_userdata_rx_int)
+ ,.gtrefclk00_in                           (gtrefclk00_int)
+ ,.qpll0outclk_out                         (qpll0outclk_int)
+ ,.qpll0outrefclk_out                      (qpll0outrefclk_int)
+ ,.rx8b10ben_in                            (rx8b10ben_int)
+ ,.rxcommadeten_in                         (rxcommadeten_int)
+ ,.rxmcommaalignen_in                      (rxmcommaalignen_int)
+ ,.rxpcommaalignen_in                      (rxpcommaalignen_int)
+ ,.tx8b10ben_in                            (tx8b10ben_int)
+ ,.txctrl0_in                              (txctrl0_int)
+ ,.txctrl1_in                              (txctrl1_int)
+ ,.txctrl2_in                              (txctrl2_int)
+ ,.gtpowergood_out                         (gtpowergood_int)
+ ,.rxbyteisaligned_out                     (rxbyteisaligned_int)
+ ,.rxbyterealign_out                       (rxbyterealign_int)
+ ,.rxcommadet_out                          (rxcommadet_int)
+ ,.rxctrl0_out                             (rxctrl0_int)
+ ,.rxctrl1_out                             (rxctrl1_int)
+ ,.rxctrl2_out                             (rxctrl2_int)
+ ,.rxctrl3_out                             (rxctrl3_int)
+ ,.rxpmaresetdone_out                      (rxpmaresetdone_int)
+ ,.txpmaresetdone_out                      (txpmaresetdone_int)
+);
+
+
 endmodule

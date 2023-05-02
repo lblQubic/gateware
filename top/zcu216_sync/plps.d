@@ -29,6 +29,7 @@
 ../../submodules/common-hdl/sum.sv
 ../../submodules/common-hdl/via.sv
 ../../submodules/common-hdl/viabus.v
+../../submodules/common-hdl/viapairs.v
 ../../submodules/distributed_processor/hdl/alu.v
 ../../submodules/distributed_processor/hdl/cmd_mem.v
 ../../submodules/distributed_processor/hdl/cmd_mem_iface.sv
@@ -79,3 +80,11 @@ rfdc_plsv.vh
 rfdc_port.vh
 rfdc_portinst.vh
 ../../submodules/common-hdl/sync.v
+gty_sfp.tcl
+gty_sfp_bit_sync.v
+gty_sfp_init.v
+gty_sfp_portassign.vh
+gty_sfp_reset_sync.v
+gty_sfp_stimulus_8b10b.v
+gty_sfp_wrapper_functions.v
+gty_sfp_wrapper.v
