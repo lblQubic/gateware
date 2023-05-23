@@ -21,6 +21,8 @@
 ../../submodules/common-hdl/bram_if.sv
 ../../submodules/common-hdl/cmultiplier2.v
 ../../submodules/common-hdl/cordicg3.sv
+../../submodules/common-hdl/data_xdomain.v
+../../submodules/common-hdl/flag_xdomain.v
 ../../submodules/common-hdl/freq_count3.v
 ../../submodules/common-hdl/iflocalbus.sv
 ../../submodules/common-hdl/iflocalbus.tcl
@@ -83,7 +85,6 @@ rfdc_portinst.vh
 gty_sfp.tcl
 gty_sfp_bit_sync.v
 gty_sfp_init.v
-gty_sfp_portassign.vh
 gty_sfp_reset_sync.v
 gty_sfp_stimulus_8b10b.v
 gty_sfp_wrapper_functions.v

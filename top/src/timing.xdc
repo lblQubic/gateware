@@ -22,8 +22,12 @@ set_false_path -from [get_pins {plps_0/inst/plpsboard/plsv/boardcfg/*xdomain/*/C
 #set_property CLOCK_DEDICATED_ROUTE ANY_CMT_COLUMN [get_nets design_1_i/util_ds_buf_0/U0/USE_IBUFDS.GEN_IBUFDS[0].IBUFDS_I/O]
 
 
-#reate_clock -name clk_freerun -period 8.0 [get_ports hb_gtwiz_reset_clk_freerun_in]
-create_clock -name clk_mgtrefclk1_x0y1_p -period 2.0 [get_ports fpga_y34]
+#create_clock -name clk_freerun -period 8.0 [get_ports hb_gtwiz_reset_clk_freerun_in]
+create_clock -name clk_mgtrefclk1_128_p -period 2.0 [get_ports fpga_y34]
+#create_clock -name clk_mgtrefclk0_128_p -period 4.0 [get_ports fpga_aa36]
+#create_generated_clock -name r8a34001_clk5 -source [get_pins {plps_0/inst/plpsboard/board/oddre1_r8a34001_clk5_in_c/C}] -divide_by 1 -multiply_by 1 [get_ports fpga_aa36]
+#create_clock -name clk_rx_srcclk -period 4.0 [get_pins {plps_0/inst/plpsboard/plsv/boardcfg/wrapper_inst/gty_sfp_inst/inst/gen_gtwizard_gtye4_top.gty_sfp_gtwizard_gtye4_inst/gen_gtwizard_gtye4.gen_channel_container[1].gen_enabled_channel.gtye4_channel_wrapper_inst/gtwiz_userclk_rx_srcclk_out[0]}]
+#create_clock -name clk_tx_srcclk -period 4.0 [get_pins {plps_0/inst/plpsboard/plsv/boardcfg/wrapper_inst/gty_sfp_inst/inst/gen_gtwizard_gtye4_top.gty_sfp_gtwizard_gtye4_inst/gtwiz_userclk_tx_usrclk_out[0]}]
 
 set_false_path -to [get_cells -hierarchical -filter {NAME =~ *bit_synchronizer*inst/i_in_meta_reg}] -quiet
 ##set_false_path -to [get_cells -hierarchical -filter {NAME =~ *reset_synchronizer*inst/rst_in_*_reg}] -quiet

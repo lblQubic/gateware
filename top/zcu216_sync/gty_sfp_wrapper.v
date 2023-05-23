@@ -100,6 +100,7 @@ module gty_sfp_wrapper (
  ,output wire [7:0] rxctrl2_out
  ,output wire [7:0] rxctrl3_out
  ,output wire [0:0] rxpmaresetdone_out
+ ,output wire [0:0] rxrecclkout_out
  ,output wire [0:0] txpmaresetdone_out
 );
 
@@ -199,6 +200,7 @@ module gty_sfp_wrapper (
    ,.rxctrl2_out                             (rxctrl2_out)
    ,.rxctrl3_out                             (rxctrl3_out)
    ,.rxpmaresetdone_out                      (rxpmaresetdone_out)
+   ,.rxrecclkout_out                         (rxrecclkout_out)
    ,.txpmaresetdone_out                      (txpmaresetdone_out)
 );
 

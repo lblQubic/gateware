@@ -174,6 +174,10 @@ wire [0:0] rxpmaresetdone_int;
 wire [0:0] ch0_rxpmaresetdone_int;
 assign ch0_rxpmaresetdone_int = rxpmaresetdone_int[0:0];
 
+wire [0:0] rxrecclkout_int;
+wire [0:0] ch0_rxrecclkout_int;
+assign ch0_rxrecclkout_int = rxrecclkout_int[0:0];
+
 wire [0:0] txpmaresetdone_int;
 wire [0:0] ch0_txpmaresetdone_int;
 assign ch0_txpmaresetdone_int = txpmaresetdone_int[0:0];

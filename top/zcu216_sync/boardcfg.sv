@@ -102,7 +102,7 @@ enum {CLK100
 ,CLKADC3
 ,CLKADC3_300
 ,CLKADC3_600
-,MGTREFCLK1_X0Y1
+//,MGTREFCLK1_X0Y1
 ,NFCNT
 } fcnt;
 
@@ -123,7 +123,6 @@ assign freq_cnt={cfgregs.fclk100
 ,cfgregs.fclk_adc3
 ,cfgregs.fclkadc3_300
 ,cfgregs.fclkadc3_600
-,cfgregs.fmgtrefclk1_x0y1
 };
 
 wire [NFCNT-1:0] freqcnt_clks= {
@@ -143,7 +142,6 @@ wire [NFCNT-1:0] freqcnt_clks= {
 	,clk_adc3
 	,clkadc3_300
 	,clkadc3_600
-	,hw.mgtrefclk1_x0y1
 };
 
 genvar jx;
@@ -366,149 +364,175 @@ assign dspregs.cnt20=dac20axis.cnt;
 //`include "ilaauto.vh"
 
 
-`include "gty_sfp_portassign.vh"
+
+wire gtyrxp, gtyrxn;
+assign gtyrxp= hw.sfp0_rx_p;
+assign gtyrxn= hw.sfp0_rx_n;
+wire gtytxp, gtytxn;
+assign hw.sfp0_tx_p = gtytxp;
+assign hw.sfp0_tx_n = gtytxn;
+wire gtwiz_reset_clk_freerun_in;
+assign gtwiz_reset_clk_freerun_in = hw.clk125;
+wire gtwiz_reset;
+assign gtwiz_reset = dspregs.gtwiz_reset;
+//assign dspregs.gtwiz_rxdata = gtwiz_userdata_rx;
+//assign dspregs.gtwiz_rxctrl0 = rxctrl0;
+//assign dspregs.gtwiz_rxctrl1 = rxctrl1;
+//assign dspregs.gtwiz_rxctrl2 = rxctrl2;
+//assign dspregs.gtwiz_rxctrl3 = rxctrl3;
+//assign dspregs.gtwiz_userclk_rx_active = gtwiz_userclk_rx_active;
+//assign dspregs.gtwiz_userclk_rx_usrclk2 = gtwiz_userclk_rx_usrclk2;
+
+data_xdomain #(.DWIDTH(32)) usrrx_x_dsp_rxdata (.clkin(gtwiz_userclk_rx_usrclk2),.clkout(dspclk),.gatein(1'b1),.datain(gtwiz_userdata_rx),.gateout(),.dataout(dspregs.gtwiz_rxdata));
+data_xdomain #(.DWIDTH(1)) usrrx_x_dsp_rxactive (.clkin(gtwiz_userclk_rx_usrclk2),.clkout(dspclk),.gatein(1'b1),.datain(gtwiz_userclk_rx_active),.gateout(),.dataout(dspregs.gtwiz_userclk_rx_active));
+
+wire gtwiz_reset_all_init;
+wire gtwiz_reset_all_buf;
+IBUF ibuf_gtwiz_reset_all (.I(gtwiz_reset),.O(gtwiz_reset_all_buf));
+wire gtwiz_reset_all;
+assign gtwiz_reset_all = gtwiz_reset_all_buf || gtwiz_reset_all_init;
+
+wire gtwiz_reset_clk_freerun_buf;
+BUFG bufg_gtwiz_clk_freerun (.I(gtwiz_reset_clk_freerun_in),.O(gtwiz_reset_clk_freerun_buf));
+
+assign gtrefclk00 = hw.mgtrefclk1_128;
+assign hw.mgtrefclk0_128= rxrecclkout;
+
+wire gtwiz_userclk_tx_reset;
+wire gtwiz_userclk_rx_reset;
+assign gtwiz_userclk_tx_reset = ~(&txpmaresetdone);
+assign gtwiz_userclk_rx_reset = ~(&rxpmaresetdone);
 
 
-//assign mgtrefclk1_x0y1_p = hw.r8a34001_q11_out_c_p;
-//assign mgtrefclk1_x0y1_n = hw.r8a34001_q11_out_c_n;
-assign ch0_gtyrxp_in = hw.sfp0_rx_p;
-assign ch0_gtyrxn_in = hw.sfp0_rx_n;
-assign ch0_gtytxp_out = hw.sfp0_tx_p;
-assign ch0_gtytxn_out = hw.sfp0_tx_n;
-assign hb_gtwiz_reset_clk_freerun_in = hw.clk125;
-assign hb_gtwiz_reset_all_in = dspregs.hb_gtwiz_reset_all_in;
-//assign dspregs.txdata_in;
-assign dspregs.rxdata_out = hb0_gtwiz_userdata_rx_int;
-assign dspregs.rxctrl0_out = ch0_rxctrl0_int;
-assign dspregs.rxctrl1_out = ch0_rxctrl1_int;
-assign dspregs.rxctrl2_out = ch0_rxctrl2_int;
-assign dspregs.rxctrl3_out = ch0_rxctrl3_int;
-assign dspregs.gtwiz_userclk_rx_active_out = hb0_gtwiz_userclk_tx_active_int;
-assign dspregs.gtwiz_userclk_rx_usrclk2_int = hb0_gtwiz_userclk_rx_usrclk2_int;
+wire [31:0] gtwiz_txdata;
+reg [31:0] dspregs_gtwiz_txdata=0;
+always @(posedge dspclk) begin
+	dspregs_gtwiz_txdata <= dspregs.gtwiz_txdata;
+end
+data_xdomain #(.DWIDTH(32)) dsp_x_usrtx_txdata (.clkin(dspclk),.clkout(gtwiz_userclk_tx_usrclk2),.gatein(1'b1),.datain(dspregs_gtwiz_txdata),.gateout(),.dataout(gtwiz_txdata));
+//data_xdomain #(.DWIDTH(32)) dsp_x_usrtx_txdata (.clkin(dspclk),.clkout(gtwiz_userclk_tx_usrclk2),.gatein(1'b1),.datain(dspregs.gtwiz_txdata),.gateout(),.dataout(gtwiz_txdata));
 
-
-wire hb_gtwiz_reset_all_buf_int;
-wire hb_gtwiz_reset_all_init_int;
-wire hb_gtwiz_reset_all_int;
-IBUF ibuf_hb_gtwiz_reset_all_inst (
-  .I (hb_gtwiz_reset_all_in),
-  .O (hb_gtwiz_reset_all_buf_int)
-);
-assign hb_gtwiz_reset_all_int = hb_gtwiz_reset_all_buf_int || hb_gtwiz_reset_all_init_int;
-
-
-wire hb_gtwiz_reset_clk_freerun_buf_int;
-BUFG bufg_clk_freerun_inst (
-  .I (hb_gtwiz_reset_clk_freerun_in),
-  .O (hb_gtwiz_reset_clk_freerun_buf_int)
-);
-
-
-/*
-wire mgtrefclk1_x0y1_int;
-IBUFDS_GTE4 #(
-  .REFCLK_EN_TX_PATH  (1'b0),
-  .REFCLK_HROW_CK_SEL (2'b00),
-  .REFCLK_ICNTL_RX    (2'b00)
-) IBUFDS_GTE4_MGTREFCLK1_X0Y1_INST (
-  .I     (mgtrefclk1_x0y1_p),
-  .IB    (mgtrefclk1_x0y1_n),
-  .CEB   (1'b0),
-  .O     (mgtrefclk1_x0y1_int),
-  .ODIV2 ()
-);
-assign cm0_gtrefclk00_int = mgtrefclk1_x0y1_int;
-*/
-assign cm0_gtrefclk00_int = hw.mgtrefclk1_x0y1;
-
-
-assign hb0_gtwiz_userclk_tx_reset_int = ~(&txpmaresetdone_int);
-assign hb0_gtwiz_userclk_rx_reset_int = ~(&rxpmaresetdone_int);
-
-
-gty_sfp_stimulus_8b10b stimulus_inst0 (
-  .gtwiz_reset_all_in          (hb_gtwiz_reset_all_int || ~hb0_gtwiz_reset_rx_done_int ),
-  .gtwiz_userclk_tx_usrclk2_in (hb0_gtwiz_userclk_tx_usrclk2_int),
-  .gtwiz_userclk_tx_active_in  (hb0_gtwiz_userclk_tx_active_int),
-  .txdata_in                   (dspregs.txdata_in),
-  .txctrl0_out                 (ch0_txctrl0_int),
-  .txctrl1_out                 (ch0_txctrl1_int),
-  .txctrl2_out                 (ch0_txctrl2_int),
-  .txdata_out                  (hb0_gtwiz_userdata_tx_int)
+gty_sfp_stimulus_8b10b stimulus_inst (
+  .gtwiz_reset_all_in          (gtwiz_reset_all || ~gtwiz_reset_rx_done),
+  .gtwiz_userclk_tx_usrclk2_in (gtwiz_userclk_tx_usrclk2),
+  .gtwiz_userclk_tx_active_in  (gtwiz_userclk_tx_active),
+  .txdata_in                   (gtwiz_txdata),
+  .txctrl0_out                 (txctrl0),
+  .txctrl1_out                 (txctrl1),
+  .txctrl2_out                 (txctrl2),
+  .txdata_out                  (gtwiz_userdata_tx)
 );
 
 
-wire hb_gtwiz_reset_rx_pll_and_datapath_int = 1'b0;
-wire hb_gtwiz_reset_rx_datapath_int;
+wire gtwiz_init_done;
+wire [3:0] gtwiz_init_retry_ctr;
 
-wire       init_done_int;
-wire [3:0] init_retry_ctr_int;
+wire gtwiz_reset_rx_datapath_init;
+assign gtwiz_reset_rx_datapath = gtwiz_reset_rx_datapath_init;
 
-wire hb_gtwiz_reset_rx_datapath_init_int;
-
-assign hb_gtwiz_reset_rx_datapath_int = hb_gtwiz_reset_rx_datapath_init_int;
-
-reg        sm_link      = 1'b1;
+reg gtwiz_sm_link = 1'b1;
 gty_sfp_init init_inst (
-  .clk_freerun_in  (hb_gtwiz_reset_clk_freerun_buf_int),
-  .reset_all_in    (hb_gtwiz_reset_all_int),
-  .tx_init_done_in (gtwiz_reset_tx_done_int),
-  .rx_init_done_in (gtwiz_reset_rx_done_int),
-  .rx_data_good_in (sm_link),
-  .reset_all_out   (hb_gtwiz_reset_all_init_int),
-  .reset_rx_out    (hb_gtwiz_reset_rx_datapath_init_int),
-  .init_done_out   (init_done_int),
-  .retry_ctr_out   (init_retry_ctr_int)
+  .clk_freerun_in  (gtwiz_reset_clk_freerun_buf),
+  .reset_all_in    (gtwiz_reset_all),
+  .tx_init_done_in (gtwiz_reset_tx_done),
+  .rx_init_done_in (gtwiz_reset_rx_done),
+  .rx_data_good_in (gtwiz_sm_link),
+  .reset_all_out   (gtwiz_reset_all_init),
+  .reset_rx_out    (gtwiz_reset_rx_datapath_init),
+  .init_done_out   (gtwiz_init_done),
+  .retry_ctr_out   (gtwiz_init_retry_ctr)
 );
+
+
+wire gtwiz_userclk_tx_srcclk;
+wire gtwiz_userclk_tx_usrclk;
+wire gtwiz_userclk_tx_usrclk2;
+wire gtwiz_userclk_tx_active;
+wire gtwiz_userclk_rx_srcclk;
+wire gtwiz_userclk_rx_usrclk;
+wire gtwiz_userclk_rx_usrclk2;
+wire gtwiz_userclk_rx_active;
+wire gtwiz_reset_tx_pll_and_datapath;
+wire gtwiz_reset_tx_datapath;
+wire gtwiz_reset_rx_pll_and_datapath = 1'b0;
+wire gtwiz_reset_rx_datapath;
+wire gtwiz_reset_rx_cdr_stable;
+wire gtwiz_reset_tx_done;
+wire gtwiz_reset_rx_done;
+wire [31:0] gtwiz_userdata_tx;
+wire [31:0] gtwiz_userdata_rx;
+wire gtrefclk00;
+wire qpll0outclk;
+wire qpll0outrefclk;
+wire rx8b10ben = 1'b1;
+wire [0:0] rxcommadeten = 1'b1;
+wire [0:0] rxmcommaalignen = 1'b1;
+wire [0:0] rxpcommaalignen = 1'b1;
+wire [0:0] tx8b10ben = 1'b1;
+wire [15:0] txctrl0;
+wire [15:0] txctrl1;
+wire [7:0] txctrl2;
+wire gtpowergood;
+wire rxbyteisaligned;
+wire rxbyterealign;
+wire rxcommadet;
+wire [15:0] rxctrl0;
+wire [15:0] rxctrl1;
+wire [7:0] rxctrl2;
+wire [7:0] rxctrl3;
+wire rxpmaresetdone;
+wire txpmaresetdone;
+wire rxrecclkout;
 
 
 gty_sfp_wrapper wrapper_inst (
-  .gtyrxn_in                               (gtyrxn_int)
- ,.gtyrxp_in                               (gtyrxp_int)
- ,.gtytxn_out                              (gtytxn_int)
- ,.gtytxp_out                              (gtytxp_int)
- ,.gtwiz_userclk_tx_reset_in               (gtwiz_userclk_tx_reset_int)
- ,.gtwiz_userclk_tx_srcclk_out             (gtwiz_userclk_tx_srcclk_int)
- ,.gtwiz_userclk_tx_usrclk_out             (gtwiz_userclk_tx_usrclk_int)
- ,.gtwiz_userclk_tx_usrclk2_out            (gtwiz_userclk_tx_usrclk2_int)
- ,.gtwiz_userclk_tx_active_out             (gtwiz_userclk_tx_active_int)
- ,.gtwiz_userclk_rx_reset_in               (gtwiz_userclk_rx_reset_int)
- ,.gtwiz_userclk_rx_srcclk_out             (gtwiz_userclk_rx_srcclk_int)
- ,.gtwiz_userclk_rx_usrclk_out             (gtwiz_userclk_rx_usrclk_int)
- ,.gtwiz_userclk_rx_usrclk2_out            (gtwiz_userclk_rx_usrclk2_int)
- ,.gtwiz_userclk_rx_active_out             (gtwiz_userclk_rx_active_int)
- ,.gtwiz_reset_clk_freerun_in              ({1{hb_gtwiz_reset_clk_freerun_buf_int}})
- ,.gtwiz_reset_all_in                      ({1{hb_gtwiz_reset_all_int}})
- ,.gtwiz_reset_tx_pll_and_datapath_in      (gtwiz_reset_tx_pll_and_datapath_int)
- ,.gtwiz_reset_tx_datapath_in              (gtwiz_reset_tx_datapath_int)
- ,.gtwiz_reset_rx_pll_and_datapath_in      ({1{hb_gtwiz_reset_rx_pll_and_datapath_int}})
- ,.gtwiz_reset_rx_datapath_in              ({1{hb_gtwiz_reset_rx_datapath_int}})
- ,.gtwiz_reset_rx_cdr_stable_out           (gtwiz_reset_rx_cdr_stable_int)
- ,.gtwiz_reset_tx_done_out                 (gtwiz_reset_tx_done_int)
- ,.gtwiz_reset_rx_done_out                 (gtwiz_reset_rx_done_int)
- ,.gtwiz_userdata_tx_in                    (gtwiz_userdata_tx_int)
- ,.gtwiz_userdata_rx_out                   (gtwiz_userdata_rx_int)
- ,.gtrefclk00_in                           (gtrefclk00_int)
- ,.qpll0outclk_out                         (qpll0outclk_int)
- ,.qpll0outrefclk_out                      (qpll0outrefclk_int)
- ,.rx8b10ben_in                            (rx8b10ben_int)
- ,.rxcommadeten_in                         (rxcommadeten_int)
- ,.rxmcommaalignen_in                      (rxmcommaalignen_int)
- ,.rxpcommaalignen_in                      (rxpcommaalignen_int)
- ,.tx8b10ben_in                            (tx8b10ben_int)
- ,.txctrl0_in                              (txctrl0_int)
- ,.txctrl1_in                              (txctrl1_int)
- ,.txctrl2_in                              (txctrl2_int)
- ,.gtpowergood_out                         (gtpowergood_int)
- ,.rxbyteisaligned_out                     (rxbyteisaligned_int)
- ,.rxbyterealign_out                       (rxbyterealign_int)
- ,.rxcommadet_out                          (rxcommadet_int)
- ,.rxctrl0_out                             (rxctrl0_int)
- ,.rxctrl1_out                             (rxctrl1_int)
- ,.rxctrl2_out                             (rxctrl2_int)
- ,.rxctrl3_out                             (rxctrl3_int)
- ,.rxpmaresetdone_out                      (rxpmaresetdone_int)
- ,.txpmaresetdone_out                      (txpmaresetdone_int)
+  .gtyrxn_in                               (gtyrxn)
+ ,.gtyrxp_in                               (gtyrxp)
+ ,.gtytxn_out                              (gtytxn)
+ ,.gtytxp_out                              (gtytxp)
+ ,.gtwiz_userclk_tx_reset_in               (gtwiz_userclk_tx_reset)
+ ,.gtwiz_userclk_tx_srcclk_out             (gtwiz_userclk_tx_srcclk)
+ ,.gtwiz_userclk_tx_usrclk_out             (gtwiz_userclk_tx_usrclk)
+ ,.gtwiz_userclk_tx_usrclk2_out            (gtwiz_userclk_tx_usrclk2)
+ ,.gtwiz_userclk_tx_active_out             (gtwiz_userclk_tx_active)
+ ,.gtwiz_userclk_rx_reset_in               (gtwiz_userclk_rx_reset)
+ ,.gtwiz_userclk_rx_srcclk_out             (gtwiz_userclk_rx_srcclk)
+ ,.gtwiz_userclk_rx_usrclk_out             (gtwiz_userclk_rx_usrclk)
+ ,.gtwiz_userclk_rx_usrclk2_out            (gtwiz_userclk_rx_usrclk2)
+ ,.gtwiz_userclk_rx_active_out             (gtwiz_userclk_rx_active)
+ ,.gtwiz_reset_clk_freerun_in              (gtwiz_reset_clk_freerun_buf)
+ ,.gtwiz_reset_all_in                      (gtwiz_reset_all)
+ ,.gtwiz_reset_tx_pll_and_datapath_in      (gtwiz_reset_tx_pll_and_datapath)
+ ,.gtwiz_reset_tx_datapath_in              (gtwiz_reset_tx_datapath)
+ ,.gtwiz_reset_rx_pll_and_datapath_in      (gtwiz_reset_rx_pll_and_datapath)
+ ,.gtwiz_reset_rx_datapath_in              (gtwiz_reset_rx_datapath)
+ ,.gtwiz_reset_rx_cdr_stable_out           (gtwiz_reset_rx_cdr_stable)
+ ,.gtwiz_reset_tx_done_out                 (gtwiz_reset_tx_done)
+ ,.gtwiz_reset_rx_done_out                 (gtwiz_reset_rx_done)
+ ,.gtwiz_userdata_tx_in                    (gtwiz_userdata_tx)
+ ,.gtwiz_userdata_rx_out                   (gtwiz_userdata_rx)
+ ,.gtrefclk00_in                           (gtrefclk00)
+ ,.qpll0outclk_out                         (qpll0outclk)
+ ,.qpll0outrefclk_out                      (qpll0outrefclk)
+ ,.rx8b10ben_in                            (rx8b10ben)
+ ,.rxcommadeten_in                         (rxcommadeten)
+ ,.rxmcommaalignen_in                      (rxmcommaalignen)
+ ,.rxpcommaalignen_in                      (rxpcommaalignen)
+ ,.tx8b10ben_in                            (tx8b10ben)
+ ,.txctrl0_in                              (txctrl0)
+ ,.txctrl1_in                              (txctrl1)
+ ,.txctrl2_in                              (txctrl2)
+ ,.gtpowergood_out                         (gtpowergood)
+ ,.rxbyteisaligned_out                     (rxbyteisaligned)
+ ,.rxbyterealign_out                       (rxbyterealign)
+ ,.rxcommadet_out                          (rxcommadet)
+ ,.rxctrl0_out                             (rxctrl0)
+ ,.rxctrl1_out                             (rxctrl1)
+ ,.rxctrl2_out                             (rxctrl2)
+ ,.rxctrl3_out                             (rxctrl3)
+ ,.rxpmaresetdone_out                      (rxpmaresetdone)
+ ,.rxrecclkout_out                         (rxrecclkout)
+ ,.txpmaresetdone_out                      (txpmaresetdone)
 );
 
 

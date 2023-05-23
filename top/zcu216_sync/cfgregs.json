@@ -25,5 +25,4 @@
 ,"gitrevision":{"access": "r", "addr_width": 0, "data_width": 32, "sign": "unsigned", "init": "0", "base_addr": 24}
 ,"io":{"access": "rw", "addr_width": 0, "data_width": 32, "sign": "unsigned", "init": "0", "base_addr": 25}
 ,"ioval":{"access": "r", "addr_width": 0, "data_width": 32, "sign": "unsigned", "init": "0", "base_addr": 26}
-,"fmgtrefclk1_x0y1":{"access": "r", "addr_width": 0, "data_width": 32, "sign": "unsigned", "init": "0", "base_addr": 27}
 }
