@@ -5,7 +5,7 @@ module dsp_sim_toplevel#(
     input reset,
     input stb_start,
     input[31:0] nshot,
-    input[32:0] mem_write_data,
+    input[31:0] mem_write_data,
     input[15:0] mem_write_addr,
     input[2:0] proc_write_sel, //index proc cores
     input[2:0] mem_write_sel, //0 for cmd, 1 for env, 2 for freq, etc
@@ -56,7 +56,7 @@ module dsp_sim_toplevel#(
 
         aligned_ram #(.DIN_WIDTH(ACCBUF_W_DATAWIDTH), .N_DIN_TO_DOUT(1), .DOUT_ADDR_WIDTH(ACCBUF_W_ADDRWIDTH), .READ_LATENCY(1))
             acc_buf(.clk(clk), .write_data(dspif.data_accbuf[i]), .write_addr(dspif.addr_accbuf[i]),
-                .write_enable(dspif.we_accbuf[i]), .read_addr(buf_read_addr), .read_data(acc_read_data[i]));
+                .write_enable(dspif.we_accbuf[i]), .read_addr(buf_read_addr[ACCBUF_W_ADDRWIDTH-1:0]), .read_data(acc_read_data[i]));
 
     end
     endgenerate
@@ -64,7 +64,7 @@ module dsp_sim_toplevel#(
     generate for(i=0; i<NADC; i=i+1)
         aligned_ram #(.DIN_WIDTH(ACQBUF_W_DATAWIDTH), .N_DIN_TO_DOUT(1), .DOUT_ADDR_WIDTH(ACQBUF_W_ADDRWIDTH), .READ_LATENCY(1))
             acq_buf(.clk(clk), .write_data(dspif.data_acqbuf[i]), .write_addr(dspif.addr_acqbuf[i]),
-                .write_enable(dspif.we_acqbuf[i]), .read_addr(buf_read_addr), .read_data(acq_read_data[i]));
+                .write_enable(dspif.we_acqbuf[i]), .read_addr(buf_read_addr[ACQBUF_W_ADDRWIDTH-1:0]), .read_data(acq_read_data[i]));
     endgenerate
 
 
