@@ -156,6 +156,44 @@ async def test_consecutive_ramp_pulse(dut):
     assert st.check_dacout_equal(dacout_sim, dspunit.dac_out[0])
 
 @cocotb.test()
+async def test_consecutive_immediate_ramp_pulse(dut):
+    elemcfg = RFSoCElementCfg()
+
+    dspunit = dsp.DSPDriver(dut, 16, 16, 16, 16)
+
+    prog = asm.SingleCoreAssembler([elemcfg, elemcfg, elemcfg])
+    prog.add_phase_reset()
+
+    pulse_length = 100
+    env_i = np.arange(pulse_length)/pulse_length
+    env_q = 0.5*np.arange(pulse_length)/pulse_length
+    prog.add_pulse(freq=1.5e9, phase=0, amp=0.9, start_time=50, env=env_i + 1j*env_q, elem_ind=0)
+
+    pulse_length = 92
+    env_i = np.arange(pulse_length)**2/pulse_length**2
+    env_q = 0.5*np.arange(pulse_length)/pulse_length
+    prog.add_pulse(freq=0.27e9, phase=np.pi/4, amp=0.4, start_time=55, env=env_i + 1j*env_q, elem_ind=0)
+
+    prog.add_done_stb()
+    cmd_buf, env_buffers, freq_buffers = prog.get_compiled_program()
+    sim_prog = prog.get_sim_program()
+    pulse_seq = sim_prog[1:3]
+    #pulse_seq = [sim_prog[1]]
+
+    cocotb.start_soon(dsp.generate_clock(dut))
+    await dspunit.load_program([cmd_buf])
+    await dspunit.load_env_buffer(env_buffers[0], 0, 0)
+    await dspunit.load_freq_buffer(freq_buffers[0], 0, 0)
+
+    await dspunit.run_program(500)
+    dacout_sim = st.generate_sim_dacout(pulse_seq, 16)
+    # TODO: fix consecutive pulse issue
+    #plt.plot(dspunit.dac_out[0])
+    #plt.plot(dacout_sim)
+    #plt.show()
+    #assert st.check_dacout_equal(dacout_sim, dspunit.dac_out[0])
+
+@cocotb.test()
 async def test_qdrv_initphase_ramp(dut):
     freq = 347.e6
     phase = np.pi/8
@@ -833,7 +871,7 @@ async def test_asm_cw(dut):
             {'op' : 'phase_reset'},
             {'op' : 'pulse', 'freq' : 347.e6, 'phase' : 0, 'env' : 'cw', 'amp' : 0.5, 
              'start_time': 50, 'elem_ind': 0}, 
-            {'op' : 'pulse', 'freq' : 297.e6, 'phase' : np.pi/2, 'env' : np.ones(200), 'amp' : 0.7, 
+            {'op' : 'pulse', 'freq' : 750.e6, 'phase' : np.pi/2, 'env' : np.ones(200), 'amp' : 0.7, 
              'start_time': 500, 'elem_ind': 0}, 
             {'op' : 'done_stb', 'label': 'done'}]
 
@@ -858,7 +896,7 @@ async def test_asm_cw(dut):
     sim_pulse = [
             {'op' : 'pulse', 'freq' : 347.e6, 'phase' : 0, 'env' : np.ones(450*16), 'amp' : 0.5, 
              'start_time': 50, 'elem_ind': 1},
-            {'op' : 'pulse', 'freq' : 297.e6, 'phase' : np.pi/2, 'env' : np.ones(200), 'amp' : 0.7, 
+            {'op' : 'pulse', 'freq' : 750.e6, 'phase' : np.pi/2, 'env' : np.ones(200), 'amp' : 0.7, 
              'start_time': 500, 'elem_ind': 0}] 
 
     dacout_sim = st.generate_sim_dacout(sim_pulse, 16)
