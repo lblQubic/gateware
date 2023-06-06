@@ -791,6 +791,49 @@ async def test_fproc_noreset_compile(dut):
     plt.show()
     assert np.all(dspunit.dac_out[0][1250:] == 0)
 
+@cocotb.test()
+async def test_asm_cw(dut):
+    progdict = [
+            {'op' : 'phase_reset'},
+            {'op' : 'pulse', 'freq' : 347.e6, 'phase' : 0, 'env' : 'cw', 'amp' : 0.5, 
+             'start_time': 50, 'elem_ind': 0}, 
+            {'op' : 'pulse', 'freq' : 297.e6, 'phase' : np.pi/2, 'env' : np.ones(200), 'amp' : 0.7, 
+             'start_time': 500, 'elem_ind': 0}, 
+            {'op' : 'done_stb', 'label': 'done'}]
+
+    dspunit = dsp.DSPDriver(dut, 16, 16, 4, 16)
+    qdrvelemcfg = RFSoCElementCfg(16)
+    rdrvelemcfg = RFSoCElementCfg(16, interp_ratio=16)
+    rdloelemcfg = RFSoCElementCfg(4, interp_ratio=4)
+    prog = asm.SingleCoreAssembler([qdrvelemcfg, rdrvelemcfg, rdloelemcfg])
+    prog.from_list(progdict)
+    cmd_buf, env_buffers, freq_buffers = prog.get_compiled_program()
+
+    cocotb.start_soon(dsp.generate_clock(dut))
+    await dspunit.load_program([cmd_buf])
+    await dspunit.load_env_buffer(env_buffers[0], 0, 0)
+    await dspunit.load_freq_buffer(freq_buffers[0], 0, 0)
+    await dspunit.load_env_buffer(env_buffers[1], 1, 0)
+    await dspunit.load_freq_buffer(freq_buffers[1], 1, 0)
+    await dspunit.load_env_buffer(env_buffers[2], 2, 0)
+    await dspunit.load_freq_buffer(freq_buffers[2], 2, 0)
+    await dspunit.run_program(1000)
+
+    sim_pulse = [
+            {'op' : 'pulse', 'freq' : 347.e6, 'phase' : 0, 'env' : np.ones(450*16), 'amp' : 0.5, 
+             'start_time': 50, 'elem_ind': 1},
+            {'op' : 'pulse', 'freq' : 297.e6, 'phase' : np.pi/2, 'env' : np.ones(200), 'amp' : 0.7, 
+             'start_time': 500, 'elem_ind': 0}] 
+
+    dacout_sim = st.generate_sim_dacout(sim_pulse, 16)
+    plt.plot(dspunit.dac_out[0])
+    plt.plot(dacout_sim)
+    plt.show()
+
+    #TODO: fix amp issue
+    #assert st.check_dacout_equal(dacout_sim, dspunit.dac_out[0])
+
+
 #@cocotb.test()
 #async def test_long_twidth(dut):
 #    progdict = [

@@ -61,20 +61,20 @@ def generate_sim_dacout(pulse_sequence, samples_per_clk, extra_delay=0, interp_r
     dac_out_sim = np.zeros(ncycles)
     scale_factor = 2**(ENV_BITS - 1)
     for pulse in pulse_sequence:
-        sample_inds = np.arange(0, interp_ratio*pulse['length'])
+        pulse_length = interp_ratio*len(pulse['env']) #length in samples
+        sample_inds = np.arange(0, pulse_length)
         start_time = samples_per_clk*pulse['start_time'] + samples_per_clk*(CSTROBE_DELAY + QCLK_DELAY + PHASEIN_DELAY)
         phases = pulse['phase'] + 2*np.pi*(CLK_CYCLE/samples_per_clk)\
                 *1.e-9*(sample_inds + start_time - samples_per_clk*(PHASE_RST_DELAY))*pulse['freq']
         if interp_ratio>1:
             pulse['env'] = np.vstack([pulse['env'] for i in range(interp_ratio)]).T.flatten()
-        env_i = scale_factor*pulse['amp']*np.real(pulse['env'])[:pulse['length']*interp_ratio]
-        env_q = scale_factor*pulse['amp']*np.imag(pulse['env'])[:pulse['length']*interp_ratio]
+        env_i = scale_factor*pulse['amp']*np.real(pulse['env'])[:pulse_length]
+        env_q = scale_factor*pulse['amp']*np.imag(pulse['env'])[:pulse_length]
         pulse_i = env_i*np.cos(phases) - env_q*np.sin(phases)
         pulse_q = env_q*np.cos(phases) + env_i*np.sin(phases)
 
         dac_out_sim[(CORDIC_DELAY + extra_delay)*samples_per_clk + start_time : \
-                (CORDIC_DELAY + extra_delay)*samples_per_clk + start_time + interp_ratio*pulse['length']] = pulse_i
-        #dac_q_sim[CORDIC_DELAY + start_time : CORDIC_DELAY + start_time + pulse['length']] = pulse_q
+                (CORDIC_DELAY + extra_delay)*samples_per_clk + start_time + pulse_length] = pulse_i
 
     return dac_out_sim.astype(int)
 
