@@ -480,6 +480,42 @@ async def test_compile_chain_linear(dut):
     plt.show()
 
 @cocotb.test()
+async def test_compile_chain_pulse(dut):
+    qchip = qc.QChip('qubitcfg.json')
+    fpga_config = {'alu_instr_clks': 2,
+                   'fpga_clk_period': 2.e-9,
+                   'jump_cond_clks': 3,
+                   'jump_fproc_clks': 4,
+                   'pulse_regwrite_clks': 1}
+    program = [{'name': 'pulse', 'phase': 'np.pi/2', 'freq': 'Q0.freq', 'env': np.ones(24*16//2),
+                'twidth': 24.e-9, 'amp': 0.5, 'dest': 'Q0.qdrv'},
+               {'name': 'read', 'qubit': ['Q0']}]
+    fpga_config = hw.FPGAConfig(**fpga_config)
+    channel_configs = hw.load_channel_configs('../../../submodules/distributed_processor/python/test/channel_config.json')
+    compiler = cm.Compiler(program, 'by_qubit', fpga_config, qchip)
+    compiled_prog = compiler.compile()
+    #compiled_prog = cm.CompiledProgram(compiler.asm_progs, fpga_config)
+
+    globalasm = asm.GlobalAssembler(compiled_prog, channel_configs, RFSoCElementCfg)
+    asmprog = globalasm.get_assembled_program()
+    #ipdb.set_trace()
+
+    dspunit = dsp.DSPDriver(dut, 16, 16, 4, 16)
+    # adc_signal = adc_fullscale*np.cos(2*np.pi*freq*(1.e-9*dsp.CLK_CYCLE/dspunit.adc_samples_per_clk)*np.arange(40000) + phase)
+    # adc_signal[-1] = 0
+
+    cocotb.start_soon(dsp.generate_clock(dut))
+    await dspunit.load_program([asmprog['0']['cmd_buf']])
+    await dspunit.load_env_buffer(asmprog['0']['env_buffers'][0], 0, 0)
+    await dspunit.load_freq_buffer(asmprog['0']['freq_buffers'][0], 0, 0)
+    await dspunit.run_program(1000)
+    sim_prog = globalasm.assemblers['0'].get_sim_program()
+    #dacout_sim = st.generate_sim_dacout(sim_prog[1], 16)
+    plt.plot(dspunit.dac_out[0])
+    #plt.plot(dacout_sim)
+    plt.show()
+
+@cocotb.test()
 async def test_fproc_read(dut):
     progdict = [{'op' : 'declare_reg', 'name' : 'fproc_meas0'},
             {'op' : 'phase_reset'},
