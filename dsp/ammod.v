@@ -23,7 +23,7 @@ reg [NSLICE*16-1:0] multix16x16_r=0;
 reg [NSLICE*16-1:0] multiy16x16_r=0;
 
 wire [NSLICE*32-1:0] freqcossinp32x16_d;
-reg_delay1 #(.DW(NSLICE*32),.LEN(25)) freqcossinpdelay(.clk(clk),.gate(1'b1),.din(freqcossinp32x16),.dout(freqcossinp32x16_d),.reset(1'b0));
+reg_delay1 #(.DW(NSLICE*32),.LEN(26)) freqcossinpdelay(.clk(clk),.gate(1'b1),.din(freqcossinp32x16),.dout(freqcossinp32x16_d),.reset(1'b0));
 generate
 	for (genvar i=0;i<NSLICE;i=i+1) begin
 		if (i==0) begin
@@ -58,8 +58,8 @@ phtime phtime(.clk(clk),.freq(freq),.tcnt(tcnt),.phasetime(phasetime),.gatein(ga
 wire [15:0] ampx_d;
 reg [15:0] ampx_d2=0;
 wire [16:0] pini_d;
-reg_delay1 #(.DW(16),.LEN(7)) ampxdelay(.clk(clk),.gate(1'b1),.din(ampx),.dout(ampx_d),.reset(1'b0));
-reg_delay1 #(.DW(17),.LEN(7)) pinidelay(.clk(clk),.gate(1'b1),.din(pini),.dout(pini_d),.reset(1'b0));
+reg_delay1 #(.DW(16),.LEN(10)) ampxdelay(.clk(clk),.gate(1'b1),.din(ampx),.dout(ampx_d),.reset(1'b0));
+reg_delay1 #(.DW(17),.LEN(10)) pinidelay(.clk(clk),.gate(1'b1),.din(pini),.dout(pini_d),.reset(1'b0));
 
 // LEN clocks of delay.  Xilinx should turn this into
 

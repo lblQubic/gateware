@@ -188,10 +188,10 @@ async def test_consecutive_immediate_ramp_pulse(dut):
     await dspunit.run_program(500)
     dacout_sim = st.generate_sim_dacout(pulse_seq, 16)
     # TODO: fix consecutive pulse issue
-    #plt.plot(dspunit.dac_out[0])
-    #plt.plot(dacout_sim)
-    #plt.show()
-    #assert st.check_dacout_equal(dacout_sim, dspunit.dac_out[0])
+    plt.plot(dspunit.dac_out[0])
+    plt.plot(dacout_sim)
+    plt.show()
+    assert st.check_dacout_equal(dacout_sim, dspunit.dac_out[0])
 
 @cocotb.test()
 async def test_qdrv_initphase_ramp(dut):
@@ -905,7 +905,7 @@ async def test_asm_cw(dut):
     plt.show()
 
     #TODO: fix amp issue
-    #assert st.check_dacout_equal(dacout_sim, dspunit.dac_out[0])
+    assert st.check_dacout_equal(dacout_sim, dspunit.dac_out[0])
 
 
 #@cocotb.test()
