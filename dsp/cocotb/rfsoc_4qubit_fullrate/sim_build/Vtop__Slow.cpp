@@ -1,0 +1,9964 @@
+// Verilated -*- C++ -*-
+// DESCRIPTION: Verilator output: Design implementation internals
+// See Vtop.h for the primary calling header
+
+#include "Vtop.h"
+#include "Vtop__Syms.h"
+
+#include "verilated_dpi.h"
+
+//==========
+
+VL_CTOR_IMP(Vtop) {
+    Vtop__Syms* __restrict vlSymsp = __VlSymsp = new Vtop__Syms(this, name());
+    Vtop* const __restrict vlTOPp VL_ATTR_UNUSED = vlSymsp->TOPp;
+    VL_CELL(__PVT__dsp_sim_toplevel__DOT__dspif, Vtop_ifdsp);
+    VL_CELL(__PVT__dsp_sim_toplevel__DOT__dspmod__DOT__qdrvelem__BRA__2__KET__, Vtop_ifelement__E8_EB200_F9_FB200);
+    VL_CELL(__PVT__dsp_sim_toplevel__DOT__dspmod__DOT__qdrvelem__BRA__1__KET__, Vtop_ifelement__E8_EB200_F9_FB200);
+    VL_CELL(__PVT__dsp_sim_toplevel__DOT__dspmod__DOT__qdrvelem__BRA__0__KET__, Vtop_ifelement__E8_EB200_F9_FB200);
+    VL_CELL(__PVT__dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelem__BRA__2__KET__, Vtop_ifelement__Ec_EB20_F9_FB200);
+    VL_CELL(__PVT__dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelem__BRA__1__KET__, Vtop_ifelement__Ec_EB20_F9_FB200);
+    VL_CELL(__PVT__dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelem__BRA__0__KET__, Vtop_ifelement__Ec_EB20_F9_FB200);
+    VL_CELL(__PVT__dsp_sim_toplevel__DOT__dspmod__DOT__rdloelem__BRA__2__KET__, Vtop_ifelement__Ec_EB20_F9_FB80);
+    VL_CELL(__PVT__dsp_sim_toplevel__DOT__dspmod__DOT__rdloelem__BRA__1__KET__, Vtop_ifelement__Ec_EB20_F9_FB80);
+    VL_CELL(__PVT__dsp_sim_toplevel__DOT__dspmod__DOT__rdloelem__BRA__0__KET__, Vtop_ifelement__Ec_EB20_F9_FB80);
+    VL_CELL(__PVT__dsp_sim_toplevel__DOT__dspmod__DOT__fproc_if__BRA__2__KET__, Vtop_fproc_iface);
+    VL_CELL(__PVT__dsp_sim_toplevel__DOT__dspmod__DOT__fproc_if__BRA__1__KET__, Vtop_fproc_iface);
+    VL_CELL(__PVT__dsp_sim_toplevel__DOT__dspmod__DOT__fproc_if__BRA__0__KET__, Vtop_fproc_iface);
+    VL_CELL(__PVT__dsp_sim_toplevel__DOT__dspmod__DOT__xmaif, Vtop_ifxma__N4_D100);
+    VL_CELL(__PVT__dsp_sim_toplevel__DOT__dspmod__DOT__acqpztif__BRA__1__KET__, Vtop_panzoomtrigif__Na_Ac_D40);
+    VL_CELL(__PVT__dsp_sim_toplevel__DOT__dspmod__DOT__acqpztif__BRA__0__KET__, Vtop_panzoomtrigif__Na_Ac_D40);
+    VL_CELL(__PVT__dsp_sim_toplevel__DOT__dspmod__DOT__dacmonpztif__BRA__4__KET__, Vtop_panzoomtrigif__N4_A9_D100);
+    VL_CELL(__PVT__dsp_sim_toplevel__DOT__dspmod__DOT__dacmonpztif__BRA__3__KET__, Vtop_panzoomtrigif__N4_A9_D100);
+    VL_CELL(__PVT__dsp_sim_toplevel__DOT__dspmod__DOT__dacmonpztif__BRA__2__KET__, Vtop_panzoomtrigif__N4_A9_D100);
+    VL_CELL(__PVT__dsp_sim_toplevel__DOT__dspmod__DOT__dacmonpztif__BRA__1__KET__, Vtop_panzoomtrigif__N4_A9_D100);
+    VL_CELL(__PVT__dsp_sim_toplevel__DOT__dspmod__DOT__dacmonpztif__BRA__0__KET__, Vtop_panzoomtrigif__N4_A9_D100);
+    VL_CELL(__PVT__dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__rdloelemconn, Vtop_elementconn__pi3);
+    VL_CELL(__PVT__dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__rdloelemconn, Vtop_elementconn__pi3);
+    VL_CELL(__PVT__dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__rdloelemconn, Vtop_elementconn__pi3);
+    VL_CELL(__PVT__dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__memif, Vtop_cmd_mem_iface__C10_M80_MB1);
+    VL_CELL(__PVT__dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__sync, Vtop_sync_iface);
+    VL_CELL(__PVT__dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__pulseout, Vtop_pulse_iface);
+    VL_CELL(__PVT__dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__qdrvelemconn__DOT__ammod, Vtop_ammod__N10);
+    VL_CELL(__PVT__dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__rdrvelemconn__DOT__ammod, Vtop_ammod__N10);
+    VL_CELL(__PVT__dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__memif, Vtop_cmd_mem_iface__C10_M80_MB1);
+    VL_CELL(__PVT__dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__sync, Vtop_sync_iface);
+    VL_CELL(__PVT__dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__pulseout, Vtop_pulse_iface);
+    VL_CELL(__PVT__dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__qdrvelemconn__DOT__ammod, Vtop_ammod__N10);
+    VL_CELL(__PVT__dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__rdrvelemconn__DOT__ammod, Vtop_ammod__N10);
+    VL_CELL(__PVT__dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__memif, Vtop_cmd_mem_iface__C10_M80_MB1);
+    VL_CELL(__PVT__dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__sync, Vtop_sync_iface);
+    VL_CELL(__PVT__dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__pulseout, Vtop_pulse_iface);
+    VL_CELL(__PVT__dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__qdrvelemconn__DOT__ammod, Vtop_ammod__N10);
+    VL_CELL(__PVT__dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__rdrvelemconn__DOT__ammod, Vtop_ammod__N10);
+    // Reset internal values
+    
+    // Reset structure values
+    _ctor_var_reset();
+}
+
+void Vtop::__Vconfigure(Vtop__Syms* vlSymsp, bool first) {
+    if (false && first) {}  // Prevent unused
+    this->__VlSymsp = vlSymsp;
+    if (false && this->__VlSymsp) {}  // Prevent unused
+    Verilated::timeunit(-9);
+    Verilated::timeprecision(-12);
+}
+
+Vtop::~Vtop() {
+    VL_DO_CLEAR(delete __VlSymsp, __VlSymsp = nullptr);
+}
+
+void Vtop::_initial__TOP__1(Vtop__Syms* __restrict vlSymsp) {
+    VL_DEBUG_IF(VL_DBG_MSGF("+    Vtop::_initial__TOP__1\n"); );
+    Vtop* const __restrict vlTOPp VL_ATTR_UNUSED = vlSymsp->TOPp;
+    // Body
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__qdrvelemconn__DOT__freqdata_r3[0U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__qdrvelemconn__DOT__freqdata_r3[1U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__qdrvelemconn__DOT__freqdata_r3[2U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__qdrvelemconn__DOT__freqdata_r3[3U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__qdrvelemconn__DOT__freqdata_r3[4U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__qdrvelemconn__DOT__freqdata_r3[5U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__qdrvelemconn__DOT__freqdata_r3[6U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__qdrvelemconn__DOT__freqdata_r3[7U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__qdrvelemconn__DOT__freqdata_r3[8U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__qdrvelemconn__DOT__freqdata_r3[9U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__qdrvelemconn__DOT__freqdata_r3[0xaU] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__qdrvelemconn__DOT__freqdata_r3[0xbU] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__qdrvelemconn__DOT__freqdata_r3[0xcU] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__qdrvelemconn__DOT__freqdata_r3[0xdU] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__qdrvelemconn__DOT__freqdata_r3[0xeU] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__qdrvelemconn__DOT__freqdata_r3[0xfU] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__rdrvelemconn__DOT__freqdata_r3[0U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__rdrvelemconn__DOT__freqdata_r3[1U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__rdrvelemconn__DOT__freqdata_r3[2U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__rdrvelemconn__DOT__freqdata_r3[3U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__rdrvelemconn__DOT__freqdata_r3[4U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__rdrvelemconn__DOT__freqdata_r3[5U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__rdrvelemconn__DOT__freqdata_r3[6U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__rdrvelemconn__DOT__freqdata_r3[7U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__rdrvelemconn__DOT__freqdata_r3[8U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__rdrvelemconn__DOT__freqdata_r3[9U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__rdrvelemconn__DOT__freqdata_r3[0xaU] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__rdrvelemconn__DOT__freqdata_r3[0xbU] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__rdrvelemconn__DOT__freqdata_r3[0xcU] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__rdrvelemconn__DOT__freqdata_r3[0xdU] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__rdrvelemconn__DOT__freqdata_r3[0xeU] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__rdrvelemconn__DOT__freqdata_r3[0xfU] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__qdrvelemconn__DOT__freqdata_r3[0U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__qdrvelemconn__DOT__freqdata_r3[1U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__qdrvelemconn__DOT__freqdata_r3[2U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__qdrvelemconn__DOT__freqdata_r3[3U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__qdrvelemconn__DOT__freqdata_r3[4U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__qdrvelemconn__DOT__freqdata_r3[5U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__qdrvelemconn__DOT__freqdata_r3[6U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__qdrvelemconn__DOT__freqdata_r3[7U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__qdrvelemconn__DOT__freqdata_r3[8U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__qdrvelemconn__DOT__freqdata_r3[9U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__qdrvelemconn__DOT__freqdata_r3[0xaU] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__qdrvelemconn__DOT__freqdata_r3[0xbU] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__qdrvelemconn__DOT__freqdata_r3[0xcU] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__qdrvelemconn__DOT__freqdata_r3[0xdU] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__qdrvelemconn__DOT__freqdata_r3[0xeU] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__qdrvelemconn__DOT__freqdata_r3[0xfU] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__rdrvelemconn__DOT__freqdata_r3[0U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__rdrvelemconn__DOT__freqdata_r3[1U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__rdrvelemconn__DOT__freqdata_r3[2U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__rdrvelemconn__DOT__freqdata_r3[3U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__rdrvelemconn__DOT__freqdata_r3[4U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__rdrvelemconn__DOT__freqdata_r3[5U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__rdrvelemconn__DOT__freqdata_r3[6U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__rdrvelemconn__DOT__freqdata_r3[7U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__rdrvelemconn__DOT__freqdata_r3[8U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__rdrvelemconn__DOT__freqdata_r3[9U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__rdrvelemconn__DOT__freqdata_r3[0xaU] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__rdrvelemconn__DOT__freqdata_r3[0xbU] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__rdrvelemconn__DOT__freqdata_r3[0xcU] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__rdrvelemconn__DOT__freqdata_r3[0xdU] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__rdrvelemconn__DOT__freqdata_r3[0xeU] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__rdrvelemconn__DOT__freqdata_r3[0xfU] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__qdrvelemconn__DOT__freqdata_r3[0U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__qdrvelemconn__DOT__freqdata_r3[1U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__qdrvelemconn__DOT__freqdata_r3[2U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__qdrvelemconn__DOT__freqdata_r3[3U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__qdrvelemconn__DOT__freqdata_r3[4U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__qdrvelemconn__DOT__freqdata_r3[5U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__qdrvelemconn__DOT__freqdata_r3[6U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__qdrvelemconn__DOT__freqdata_r3[7U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__qdrvelemconn__DOT__freqdata_r3[8U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__qdrvelemconn__DOT__freqdata_r3[9U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__qdrvelemconn__DOT__freqdata_r3[0xaU] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__qdrvelemconn__DOT__freqdata_r3[0xbU] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__qdrvelemconn__DOT__freqdata_r3[0xcU] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__qdrvelemconn__DOT__freqdata_r3[0xdU] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__qdrvelemconn__DOT__freqdata_r3[0xeU] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__qdrvelemconn__DOT__freqdata_r3[0xfU] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__rdrvelemconn__DOT__freqdata_r3[0U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__rdrvelemconn__DOT__freqdata_r3[1U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__rdrvelemconn__DOT__freqdata_r3[2U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__rdrvelemconn__DOT__freqdata_r3[3U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__rdrvelemconn__DOT__freqdata_r3[4U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__rdrvelemconn__DOT__freqdata_r3[5U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__rdrvelemconn__DOT__freqdata_r3[6U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__rdrvelemconn__DOT__freqdata_r3[7U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__rdrvelemconn__DOT__freqdata_r3[8U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__rdrvelemconn__DOT__freqdata_r3[9U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__rdrvelemconn__DOT__freqdata_r3[0xaU] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__rdrvelemconn__DOT__freqdata_r3[0xbU] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__rdrvelemconn__DOT__freqdata_r3[0xcU] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__rdrvelemconn__DOT__freqdata_r3[0xdU] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__rdrvelemconn__DOT__freqdata_r3[0xeU] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__rdrvelemconn__DOT__freqdata_r3[0xfU] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__0__KET____DOT__sumx__DOT__gin = 1U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__0__KET____DOT__sumy__DOT__gin = 1U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__1__KET____DOT__sumx__DOT__gin = 1U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__1__KET____DOT__sumy__DOT__gin = 1U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__2__KET____DOT__sumx__DOT__gin = 1U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__2__KET____DOT__sumy__DOT__gin = 1U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__3__KET____DOT__sumx__DOT__gin = 1U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__3__KET____DOT__sumy__DOT__gin = 1U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__4__KET____DOT__sumx__DOT__gin = 1U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__4__KET____DOT__sumy__DOT__gin = 1U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__5__KET____DOT__sumx__DOT__gin = 1U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__5__KET____DOT__sumy__DOT__gin = 1U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__6__KET____DOT__sumx__DOT__gin = 1U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__6__KET____DOT__sumy__DOT__gin = 1U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__7__KET____DOT__sumx__DOT__gin = 1U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__7__KET____DOT__sumy__DOT__gin = 1U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__8__KET____DOT__sumx__DOT__gin = 1U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__8__KET____DOT__sumy__DOT__gin = 1U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__9__KET____DOT__sumx__DOT__gin = 1U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__9__KET____DOT__sumy__DOT__gin = 1U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__10__KET____DOT__sumx__DOT__gin = 1U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__10__KET____DOT__sumy__DOT__gin = 1U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__11__KET____DOT__sumx__DOT__gin = 1U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__11__KET____DOT__sumy__DOT__gin = 1U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__12__KET____DOT__sumx__DOT__gin = 1U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__12__KET____DOT__sumy__DOT__gin = 1U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__13__KET____DOT__sumx__DOT__gin = 1U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__13__KET____DOT__sumy__DOT__gin = 1U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__14__KET____DOT__sumx__DOT__gin = 1U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__14__KET____DOT__sumy__DOT__gin = 1U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__15__KET____DOT__sumx__DOT__gin = 1U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__15__KET____DOT__sumy__DOT__gin = 1U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__0__KET____DOT__sumx__DOT__gin = 1U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__0__KET____DOT__sumy__DOT__gin = 1U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__1__KET____DOT__sumx__DOT__gin = 1U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__1__KET____DOT__sumy__DOT__gin = 1U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__2__KET____DOT__sumx__DOT__gin = 1U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__2__KET____DOT__sumy__DOT__gin = 1U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__3__KET____DOT__sumx__DOT__gin = 1U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__3__KET____DOT__sumy__DOT__gin = 1U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__4__KET____DOT__sumx__DOT__gin = 1U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__4__KET____DOT__sumy__DOT__gin = 1U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__5__KET____DOT__sumx__DOT__gin = 1U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__5__KET____DOT__sumy__DOT__gin = 1U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__6__KET____DOT__sumx__DOT__gin = 1U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__6__KET____DOT__sumy__DOT__gin = 1U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__7__KET____DOT__sumx__DOT__gin = 1U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__7__KET____DOT__sumy__DOT__gin = 1U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__8__KET____DOT__sumx__DOT__gin = 1U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__8__KET____DOT__sumy__DOT__gin = 1U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__9__KET____DOT__sumx__DOT__gin = 1U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__9__KET____DOT__sumy__DOT__gin = 1U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__10__KET____DOT__sumx__DOT__gin = 1U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__10__KET____DOT__sumy__DOT__gin = 1U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__11__KET____DOT__sumx__DOT__gin = 1U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__11__KET____DOT__sumy__DOT__gin = 1U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__12__KET____DOT__sumx__DOT__gin = 1U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__12__KET____DOT__sumy__DOT__gin = 1U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__13__KET____DOT__sumx__DOT__gin = 1U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__13__KET____DOT__sumy__DOT__gin = 1U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__14__KET____DOT__sumx__DOT__gin = 1U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__14__KET____DOT__sumy__DOT__gin = 1U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__15__KET____DOT__sumx__DOT__gin = 1U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__15__KET____DOT__sumy__DOT__gin = 1U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__qdrvelemconn__DOT__envaddrdelay__DOT__gate = 1U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__qdrvelemconn__DOT__envaddrdelay__DOT__reset = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__rdrvelemconn__DOT__envaddrdelay__DOT__gate = 1U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__rdrvelemconn__DOT__envaddrdelay__DOT__reset = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__qdrvelemconn__DOT__envaddrdelay__DOT__gate = 1U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__qdrvelemconn__DOT__envaddrdelay__DOT__reset = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__rdrvelemconn__DOT__envaddrdelay__DOT__gate = 1U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__rdrvelemconn__DOT__envaddrdelay__DOT__reset = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__qdrvelemconn__DOT__envaddrdelay__DOT__gate = 1U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__qdrvelemconn__DOT__envaddrdelay__DOT__reset = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__rdrvelemconn__DOT__envaddrdelay__DOT__gate = 1U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__rdrvelemconn__DOT__envaddrdelay__DOT__reset = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__0__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__adcy = 0ULL;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__1__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__adcy = 0ULL;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__2__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__adcy = 0ULL;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procreset_d = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__mixbb2 = 0ULL;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__command_d2[0U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__command_d2[1U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__command_d2[2U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__command_d2[3U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__noop = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__dummy_resetsr = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__qdrvelemconn__DOT__dummybusy = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__qdrvelemconn__DOT__freqaddr_r4 = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__qdrvelemconn__DOT__envaddr_r3 = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__rdrvelemconn__DOT__dummybusy = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__rdrvelemconn__DOT__freqaddr_r4 = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__rdrvelemconn__DOT__envaddr_r3 = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__command_d2[0U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__command_d2[1U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__command_d2[2U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__command_d2[3U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__noop = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__dummy_resetsr = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__qdrvelemconn__DOT__dummybusy = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__qdrvelemconn__DOT__freqaddr_r4 = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__qdrvelemconn__DOT__envaddr_r3 = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__rdrvelemconn__DOT__dummybusy = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__rdrvelemconn__DOT__freqaddr_r4 = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__rdrvelemconn__DOT__envaddr_r3 = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__command_d2[0U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__command_d2[1U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__command_d2[2U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__command_d2[3U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__noop = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__dummy_resetsr = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__qdrvelemconn__DOT__dummybusy = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__qdrvelemconn__DOT__freqaddr_r4 = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__qdrvelemconn__DOT__envaddr_r3 = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__rdrvelemconn__DOT__dummybusy = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__rdrvelemconn__DOT__freqaddr_r4 = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__rdrvelemconn__DOT__envaddr_r3 = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__0__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__genblk1__BRA__0__KET____DOT__genblk1__BRA__0__KET____DOT__indexi = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__0__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__genblk1__BRA__0__KET____DOT__genblk1__BRA__0__KET____DOT__indexj = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__0__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__genblk1__BRA__1__KET____DOT__genblk1__BRA__0__KET____DOT__indexi = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__0__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__genblk1__BRA__1__KET____DOT__genblk1__BRA__0__KET____DOT__indexj = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__0__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__genblk1__BRA__1__KET____DOT__genblk1__BRA__1__KET____DOT__indexi = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__0__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__genblk1__BRA__1__KET____DOT__genblk1__BRA__1__KET____DOT__indexj = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__0__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__genblk1__BRA__2__KET____DOT__genblk1__BRA__0__KET____DOT__indexi = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__0__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__genblk1__BRA__2__KET____DOT__genblk1__BRA__0__KET____DOT__indexj = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__0__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__genblk1__BRA__2__KET____DOT__genblk1__BRA__1__KET____DOT__indexi = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__0__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__genblk1__BRA__2__KET____DOT__genblk1__BRA__1__KET____DOT__indexj = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__0__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__genblk1__BRA__2__KET____DOT__genblk1__BRA__2__KET____DOT__indexi = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__0__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__genblk1__BRA__2__KET____DOT__genblk1__BRA__2__KET____DOT__indexj = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__0__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__genblk1__BRA__3__KET____DOT__genblk1__BRA__0__KET____DOT__indexi = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__0__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__genblk1__BRA__3__KET____DOT__genblk1__BRA__0__KET____DOT__indexj = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__0__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__genblk1__BRA__3__KET____DOT__genblk1__BRA__1__KET____DOT__indexi = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__0__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__genblk1__BRA__3__KET____DOT__genblk1__BRA__1__KET____DOT__indexj = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__0__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__genblk1__BRA__3__KET____DOT__genblk1__BRA__2__KET____DOT__indexi = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__0__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__genblk1__BRA__3__KET____DOT__genblk1__BRA__2__KET____DOT__indexj = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__0__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__genblk1__BRA__3__KET____DOT__genblk1__BRA__3__KET____DOT__indexi = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__0__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__genblk1__BRA__3__KET____DOT__genblk1__BRA__3__KET____DOT__indexj = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__0__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__gatesrdummy = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__1__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__genblk1__BRA__0__KET____DOT__genblk1__BRA__0__KET____DOT__indexi = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__1__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__genblk1__BRA__0__KET____DOT__genblk1__BRA__0__KET____DOT__indexj = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__1__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__genblk1__BRA__1__KET____DOT__genblk1__BRA__0__KET____DOT__indexi = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__1__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__genblk1__BRA__1__KET____DOT__genblk1__BRA__0__KET____DOT__indexj = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__1__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__genblk1__BRA__1__KET____DOT__genblk1__BRA__1__KET____DOT__indexi = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__1__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__genblk1__BRA__1__KET____DOT__genblk1__BRA__1__KET____DOT__indexj = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__1__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__genblk1__BRA__2__KET____DOT__genblk1__BRA__0__KET____DOT__indexi = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__1__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__genblk1__BRA__2__KET____DOT__genblk1__BRA__0__KET____DOT__indexj = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__1__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__genblk1__BRA__2__KET____DOT__genblk1__BRA__1__KET____DOT__indexi = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__1__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__genblk1__BRA__2__KET____DOT__genblk1__BRA__1__KET____DOT__indexj = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__1__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__genblk1__BRA__2__KET____DOT__genblk1__BRA__2__KET____DOT__indexi = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__1__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__genblk1__BRA__2__KET____DOT__genblk1__BRA__2__KET____DOT__indexj = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__1__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__genblk1__BRA__3__KET____DOT__genblk1__BRA__0__KET____DOT__indexi = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__1__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__genblk1__BRA__3__KET____DOT__genblk1__BRA__0__KET____DOT__indexj = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__1__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__genblk1__BRA__3__KET____DOT__genblk1__BRA__1__KET____DOT__indexi = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__1__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__genblk1__BRA__3__KET____DOT__genblk1__BRA__1__KET____DOT__indexj = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__1__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__genblk1__BRA__3__KET____DOT__genblk1__BRA__2__KET____DOT__indexi = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__1__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__genblk1__BRA__3__KET____DOT__genblk1__BRA__2__KET____DOT__indexj = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__1__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__genblk1__BRA__3__KET____DOT__genblk1__BRA__3__KET____DOT__indexi = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__1__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__genblk1__BRA__3__KET____DOT__genblk1__BRA__3__KET____DOT__indexj = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__1__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__gatesrdummy = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__2__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__genblk1__BRA__0__KET____DOT__genblk1__BRA__0__KET____DOT__indexi = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__2__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__genblk1__BRA__0__KET____DOT__genblk1__BRA__0__KET____DOT__indexj = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__2__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__genblk1__BRA__1__KET____DOT__genblk1__BRA__0__KET____DOT__indexi = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__2__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__genblk1__BRA__1__KET____DOT__genblk1__BRA__0__KET____DOT__indexj = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__2__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__genblk1__BRA__1__KET____DOT__genblk1__BRA__1__KET____DOT__indexi = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__2__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__genblk1__BRA__1__KET____DOT__genblk1__BRA__1__KET____DOT__indexj = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__2__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__genblk1__BRA__2__KET____DOT__genblk1__BRA__0__KET____DOT__indexi = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__2__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__genblk1__BRA__2__KET____DOT__genblk1__BRA__0__KET____DOT__indexj = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__2__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__genblk1__BRA__2__KET____DOT__genblk1__BRA__1__KET____DOT__indexi = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__2__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__genblk1__BRA__2__KET____DOT__genblk1__BRA__1__KET____DOT__indexj = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__2__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__genblk1__BRA__2__KET____DOT__genblk1__BRA__2__KET____DOT__indexi = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__2__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__genblk1__BRA__2__KET____DOT__genblk1__BRA__2__KET____DOT__indexj = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__2__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__genblk1__BRA__3__KET____DOT__genblk1__BRA__0__KET____DOT__indexi = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__2__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__genblk1__BRA__3__KET____DOT__genblk1__BRA__0__KET____DOT__indexj = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__2__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__genblk1__BRA__3__KET____DOT__genblk1__BRA__1__KET____DOT__indexi = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__2__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__genblk1__BRA__3__KET____DOT__genblk1__BRA__1__KET____DOT__indexj = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__2__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__genblk1__BRA__3__KET____DOT__genblk1__BRA__2__KET____DOT__indexi = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__2__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__genblk1__BRA__3__KET____DOT__genblk1__BRA__2__KET____DOT__indexj = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__2__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__genblk1__BRA__3__KET____DOT__genblk1__BRA__3__KET____DOT__indexi = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__2__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__genblk1__BRA__3__KET____DOT__genblk1__BRA__3__KET____DOT__indexj = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__2__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__gatesrdummy = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__done = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__currentshotcnt = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__acqpztifwire__BRA__0__KET____DOT__stb_start_r = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__acqpztifwire__BRA__1__KET____DOT__stb_start_r = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__dacmonpztifwire__BRA__0__KET____DOT__stb_start_r = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__dacmonpztifwire__BRA__1__KET____DOT__stb_start_r = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__dacmonpztifwire__BRA__2__KET____DOT__stb_start_r = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__dacmonpztifwire__BRA__3__KET____DOT__stb_start_r = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__0__KET____DOT__sumx__DOT__gout_r = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__0__KET____DOT__sumy__DOT__gout_r = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__1__KET____DOT__sumx__DOT__gout_r = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__1__KET____DOT__sumy__DOT__gout_r = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__2__KET____DOT__sumx__DOT__gout_r = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__2__KET____DOT__sumy__DOT__gout_r = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__3__KET____DOT__sumx__DOT__gout_r = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__3__KET____DOT__sumy__DOT__gout_r = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__4__KET____DOT__sumx__DOT__gout_r = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__4__KET____DOT__sumy__DOT__gout_r = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__5__KET____DOT__sumx__DOT__gout_r = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__5__KET____DOT__sumy__DOT__gout_r = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__6__KET____DOT__sumx__DOT__gout_r = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__6__KET____DOT__sumy__DOT__gout_r = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__7__KET____DOT__sumx__DOT__gout_r = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__7__KET____DOT__sumy__DOT__gout_r = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__8__KET____DOT__sumx__DOT__gout_r = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__8__KET____DOT__sumy__DOT__gout_r = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__9__KET____DOT__sumx__DOT__gout_r = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__9__KET____DOT__sumy__DOT__gout_r = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__10__KET____DOT__sumx__DOT__gout_r = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__10__KET____DOT__sumy__DOT__gout_r = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__11__KET____DOT__sumx__DOT__gout_r = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__11__KET____DOT__sumy__DOT__gout_r = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__12__KET____DOT__sumx__DOT__gout_r = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__12__KET____DOT__sumy__DOT__gout_r = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__13__KET____DOT__sumx__DOT__gout_r = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__13__KET____DOT__sumy__DOT__gout_r = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__14__KET____DOT__sumx__DOT__gout_r = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__14__KET____DOT__sumy__DOT__gout_r = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__15__KET____DOT__sumx__DOT__gout_r = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__15__KET____DOT__sumy__DOT__gout_r = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__0__KET____DOT__sumx__DOT__gout_r = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__0__KET____DOT__sumy__DOT__gout_r = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__1__KET____DOT__sumx__DOT__gout_r = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__1__KET____DOT__sumy__DOT__gout_r = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__2__KET____DOT__sumx__DOT__gout_r = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__2__KET____DOT__sumy__DOT__gout_r = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__3__KET____DOT__sumx__DOT__gout_r = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__3__KET____DOT__sumy__DOT__gout_r = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__4__KET____DOT__sumx__DOT__gout_r = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__4__KET____DOT__sumy__DOT__gout_r = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__5__KET____DOT__sumx__DOT__gout_r = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__5__KET____DOT__sumy__DOT__gout_r = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__6__KET____DOT__sumx__DOT__gout_r = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__6__KET____DOT__sumy__DOT__gout_r = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__7__KET____DOT__sumx__DOT__gout_r = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__7__KET____DOT__sumy__DOT__gout_r = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__8__KET____DOT__sumx__DOT__gout_r = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__8__KET____DOT__sumy__DOT__gout_r = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__9__KET____DOT__sumx__DOT__gout_r = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__9__KET____DOT__sumy__DOT__gout_r = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__10__KET____DOT__sumx__DOT__gout_r = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__10__KET____DOT__sumy__DOT__gout_r = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__11__KET____DOT__sumx__DOT__gout_r = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__11__KET____DOT__sumy__DOT__gout_r = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__12__KET____DOT__sumx__DOT__gout_r = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__12__KET____DOT__sumy__DOT__gout_r = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__13__KET____DOT__sumx__DOT__gout_r = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__13__KET____DOT__sumy__DOT__gout_r = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__14__KET____DOT__sumx__DOT__gout_r = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__14__KET____DOT__sumy__DOT__gout_r = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__15__KET____DOT__sumx__DOT__gout_r = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__15__KET____DOT__sumy__DOT__gout_r = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procdone_r = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__nobusy_r = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__state = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__shotadd = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__nobusy = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__nobusy = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__nobusy = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__addr_command = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__qdrvelemconn__DOT__freqdata_r2[0U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__qdrvelemconn__DOT__freqdata_r2[1U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__qdrvelemconn__DOT__freqdata_r2[2U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__qdrvelemconn__DOT__freqdata_r2[3U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__qdrvelemconn__DOT__freqdata_r2[4U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__qdrvelemconn__DOT__freqdata_r2[5U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__qdrvelemconn__DOT__freqdata_r2[6U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__qdrvelemconn__DOT__freqdata_r2[7U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__qdrvelemconn__DOT__freqdata_r2[8U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__qdrvelemconn__DOT__freqdata_r2[9U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__qdrvelemconn__DOT__freqdata_r2[0xaU] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__qdrvelemconn__DOT__freqdata_r2[0xbU] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__qdrvelemconn__DOT__freqdata_r2[0xcU] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__qdrvelemconn__DOT__freqdata_r2[0xdU] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__qdrvelemconn__DOT__freqdata_r2[0xeU] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__qdrvelemconn__DOT__freqdata_r2[0xfU] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__rdrvelemconn__DOT__freqdata_r2[0U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__rdrvelemconn__DOT__freqdata_r2[1U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__rdrvelemconn__DOT__freqdata_r2[2U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__rdrvelemconn__DOT__freqdata_r2[3U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__rdrvelemconn__DOT__freqdata_r2[4U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__rdrvelemconn__DOT__freqdata_r2[5U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__rdrvelemconn__DOT__freqdata_r2[6U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__rdrvelemconn__DOT__freqdata_r2[7U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__rdrvelemconn__DOT__freqdata_r2[8U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__rdrvelemconn__DOT__freqdata_r2[9U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__rdrvelemconn__DOT__freqdata_r2[0xaU] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__rdrvelemconn__DOT__freqdata_r2[0xbU] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__rdrvelemconn__DOT__freqdata_r2[0xcU] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__rdrvelemconn__DOT__freqdata_r2[0xdU] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__rdrvelemconn__DOT__freqdata_r2[0xeU] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__rdrvelemconn__DOT__freqdata_r2[0xfU] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__addr_command = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__qdrvelemconn__DOT__freqdata_r2[0U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__qdrvelemconn__DOT__freqdata_r2[1U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__qdrvelemconn__DOT__freqdata_r2[2U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__qdrvelemconn__DOT__freqdata_r2[3U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__qdrvelemconn__DOT__freqdata_r2[4U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__qdrvelemconn__DOT__freqdata_r2[5U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__qdrvelemconn__DOT__freqdata_r2[6U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__qdrvelemconn__DOT__freqdata_r2[7U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__qdrvelemconn__DOT__freqdata_r2[8U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__qdrvelemconn__DOT__freqdata_r2[9U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__qdrvelemconn__DOT__freqdata_r2[0xaU] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__qdrvelemconn__DOT__freqdata_r2[0xbU] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__qdrvelemconn__DOT__freqdata_r2[0xcU] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__qdrvelemconn__DOT__freqdata_r2[0xdU] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__qdrvelemconn__DOT__freqdata_r2[0xeU] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__qdrvelemconn__DOT__freqdata_r2[0xfU] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__rdrvelemconn__DOT__freqdata_r2[0U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__rdrvelemconn__DOT__freqdata_r2[1U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__rdrvelemconn__DOT__freqdata_r2[2U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__rdrvelemconn__DOT__freqdata_r2[3U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__rdrvelemconn__DOT__freqdata_r2[4U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__rdrvelemconn__DOT__freqdata_r2[5U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__rdrvelemconn__DOT__freqdata_r2[6U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__rdrvelemconn__DOT__freqdata_r2[7U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__rdrvelemconn__DOT__freqdata_r2[8U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__rdrvelemconn__DOT__freqdata_r2[9U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__rdrvelemconn__DOT__freqdata_r2[0xaU] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__rdrvelemconn__DOT__freqdata_r2[0xbU] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__rdrvelemconn__DOT__freqdata_r2[0xcU] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__rdrvelemconn__DOT__freqdata_r2[0xdU] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__rdrvelemconn__DOT__freqdata_r2[0xeU] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__rdrvelemconn__DOT__freqdata_r2[0xfU] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__addr_command = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__qdrvelemconn__DOT__freqdata_r2[0U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__qdrvelemconn__DOT__freqdata_r2[1U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__qdrvelemconn__DOT__freqdata_r2[2U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__qdrvelemconn__DOT__freqdata_r2[3U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__qdrvelemconn__DOT__freqdata_r2[4U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__qdrvelemconn__DOT__freqdata_r2[5U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__qdrvelemconn__DOT__freqdata_r2[6U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__qdrvelemconn__DOT__freqdata_r2[7U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__qdrvelemconn__DOT__freqdata_r2[8U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__qdrvelemconn__DOT__freqdata_r2[9U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__qdrvelemconn__DOT__freqdata_r2[0xaU] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__qdrvelemconn__DOT__freqdata_r2[0xbU] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__qdrvelemconn__DOT__freqdata_r2[0xcU] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__qdrvelemconn__DOT__freqdata_r2[0xdU] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__qdrvelemconn__DOT__freqdata_r2[0xeU] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__qdrvelemconn__DOT__freqdata_r2[0xfU] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__rdrvelemconn__DOT__freqdata_r2[0U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__rdrvelemconn__DOT__freqdata_r2[1U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__rdrvelemconn__DOT__freqdata_r2[2U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__rdrvelemconn__DOT__freqdata_r2[3U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__rdrvelemconn__DOT__freqdata_r2[4U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__rdrvelemconn__DOT__freqdata_r2[5U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__rdrvelemconn__DOT__freqdata_r2[6U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__rdrvelemconn__DOT__freqdata_r2[7U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__rdrvelemconn__DOT__freqdata_r2[8U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__rdrvelemconn__DOT__freqdata_r2[9U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__rdrvelemconn__DOT__freqdata_r2[0xaU] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__rdrvelemconn__DOT__freqdata_r2[0xbU] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__rdrvelemconn__DOT__freqdata_r2[0xcU] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__rdrvelemconn__DOT__freqdata_r2[0xdU] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__rdrvelemconn__DOT__freqdata_r2[0xeU] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__rdrvelemconn__DOT__freqdata_r2[0xfU] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__0__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__accx_r = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__0__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__accy_r = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__1__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__accx_r = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__1__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__accy_r = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__2__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__accx_r = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__2__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__accy_r = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__qdrvelemconn__DOT__envdata_r3[0U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__qdrvelemconn__DOT__envdata_r3[1U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__qdrvelemconn__DOT__envdata_r3[2U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__qdrvelemconn__DOT__envdata_r3[3U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__qdrvelemconn__DOT__envdata_r3[4U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__qdrvelemconn__DOT__envdata_r3[5U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__qdrvelemconn__DOT__envdata_r3[6U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__qdrvelemconn__DOT__envdata_r3[7U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__qdrvelemconn__DOT__envdata_r3[8U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__qdrvelemconn__DOT__envdata_r3[9U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__qdrvelemconn__DOT__envdata_r3[0xaU] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__qdrvelemconn__DOT__envdata_r3[0xbU] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__qdrvelemconn__DOT__envdata_r3[0xcU] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__qdrvelemconn__DOT__envdata_r3[0xdU] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__qdrvelemconn__DOT__envdata_r3[0xeU] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__qdrvelemconn__DOT__envdata_r3[0xfU] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__rdrvelemconn__DOT__envdata_r3[0U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__rdrvelemconn__DOT__envdata_r3[1U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__rdrvelemconn__DOT__envdata_r3[2U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__rdrvelemconn__DOT__envdata_r3[3U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__rdrvelemconn__DOT__envdata_r3[4U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__rdrvelemconn__DOT__envdata_r3[5U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__rdrvelemconn__DOT__envdata_r3[6U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__rdrvelemconn__DOT__envdata_r3[7U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__rdrvelemconn__DOT__envdata_r3[8U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__rdrvelemconn__DOT__envdata_r3[9U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__rdrvelemconn__DOT__envdata_r3[0xaU] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__rdrvelemconn__DOT__envdata_r3[0xbU] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__rdrvelemconn__DOT__envdata_r3[0xcU] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__rdrvelemconn__DOT__envdata_r3[0xdU] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__rdrvelemconn__DOT__envdata_r3[0xeU] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__rdrvelemconn__DOT__envdata_r3[0xfU] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__qdrvelemconn__DOT__envdata_r3[0U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__qdrvelemconn__DOT__envdata_r3[1U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__qdrvelemconn__DOT__envdata_r3[2U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__qdrvelemconn__DOT__envdata_r3[3U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__qdrvelemconn__DOT__envdata_r3[4U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__qdrvelemconn__DOT__envdata_r3[5U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__qdrvelemconn__DOT__envdata_r3[6U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__qdrvelemconn__DOT__envdata_r3[7U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__qdrvelemconn__DOT__envdata_r3[8U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__qdrvelemconn__DOT__envdata_r3[9U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__qdrvelemconn__DOT__envdata_r3[0xaU] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__qdrvelemconn__DOT__envdata_r3[0xbU] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__qdrvelemconn__DOT__envdata_r3[0xcU] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__qdrvelemconn__DOT__envdata_r3[0xdU] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__qdrvelemconn__DOT__envdata_r3[0xeU] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__qdrvelemconn__DOT__envdata_r3[0xfU] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__rdrvelemconn__DOT__envdata_r3[0U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__rdrvelemconn__DOT__envdata_r3[1U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__rdrvelemconn__DOT__envdata_r3[2U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__rdrvelemconn__DOT__envdata_r3[3U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__rdrvelemconn__DOT__envdata_r3[4U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__rdrvelemconn__DOT__envdata_r3[5U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__rdrvelemconn__DOT__envdata_r3[6U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__rdrvelemconn__DOT__envdata_r3[7U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__rdrvelemconn__DOT__envdata_r3[8U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__rdrvelemconn__DOT__envdata_r3[9U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__rdrvelemconn__DOT__envdata_r3[0xaU] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__rdrvelemconn__DOT__envdata_r3[0xbU] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__rdrvelemconn__DOT__envdata_r3[0xcU] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__rdrvelemconn__DOT__envdata_r3[0xdU] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__rdrvelemconn__DOT__envdata_r3[0xeU] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__rdrvelemconn__DOT__envdata_r3[0xfU] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__qdrvelemconn__DOT__envdata_r3[0U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__qdrvelemconn__DOT__envdata_r3[1U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__qdrvelemconn__DOT__envdata_r3[2U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__qdrvelemconn__DOT__envdata_r3[3U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__qdrvelemconn__DOT__envdata_r3[4U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__qdrvelemconn__DOT__envdata_r3[5U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__qdrvelemconn__DOT__envdata_r3[6U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__qdrvelemconn__DOT__envdata_r3[7U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__qdrvelemconn__DOT__envdata_r3[8U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__qdrvelemconn__DOT__envdata_r3[9U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__qdrvelemconn__DOT__envdata_r3[0xaU] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__qdrvelemconn__DOT__envdata_r3[0xbU] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__qdrvelemconn__DOT__envdata_r3[0xcU] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__qdrvelemconn__DOT__envdata_r3[0xdU] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__qdrvelemconn__DOT__envdata_r3[0xeU] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__qdrvelemconn__DOT__envdata_r3[0xfU] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__rdrvelemconn__DOT__envdata_r3[0U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__rdrvelemconn__DOT__envdata_r3[1U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__rdrvelemconn__DOT__envdata_r3[2U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__rdrvelemconn__DOT__envdata_r3[3U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__rdrvelemconn__DOT__envdata_r3[4U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__rdrvelemconn__DOT__envdata_r3[5U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__rdrvelemconn__DOT__envdata_r3[6U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__rdrvelemconn__DOT__envdata_r3[7U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__rdrvelemconn__DOT__envdata_r3[8U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__rdrvelemconn__DOT__envdata_r3[9U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__rdrvelemconn__DOT__envdata_r3[0xaU] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__rdrvelemconn__DOT__envdata_r3[0xbU] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__rdrvelemconn__DOT__envdata_r3[0xcU] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__rdrvelemconn__DOT__envdata_r3[0xdU] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__rdrvelemconn__DOT__envdata_r3[0xeU] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__rdrvelemconn__DOT__envdata_r3[0xfU] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__nshot = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__shotcnt = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__nextshotcnt = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__resetacc = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__0__KET____DOT__sumx__DOT__gsr = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__0__KET____DOT__sumy__DOT__gsr = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__1__KET____DOT__sumx__DOT__gsr = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__1__KET____DOT__sumy__DOT__gsr = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__2__KET____DOT__sumx__DOT__gsr = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__2__KET____DOT__sumy__DOT__gsr = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__3__KET____DOT__sumx__DOT__gsr = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__3__KET____DOT__sumy__DOT__gsr = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__4__KET____DOT__sumx__DOT__gsr = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__4__KET____DOT__sumy__DOT__gsr = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__5__KET____DOT__sumx__DOT__gsr = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__5__KET____DOT__sumy__DOT__gsr = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__6__KET____DOT__sumx__DOT__gsr = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__6__KET____DOT__sumy__DOT__gsr = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__7__KET____DOT__sumx__DOT__gsr = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__7__KET____DOT__sumy__DOT__gsr = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__8__KET____DOT__sumx__DOT__gsr = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__8__KET____DOT__sumy__DOT__gsr = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__9__KET____DOT__sumx__DOT__gsr = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__9__KET____DOT__sumy__DOT__gsr = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__10__KET____DOT__sumx__DOT__gsr = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__10__KET____DOT__sumy__DOT__gsr = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__11__KET____DOT__sumx__DOT__gsr = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__11__KET____DOT__sumy__DOT__gsr = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__12__KET____DOT__sumx__DOT__gsr = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__12__KET____DOT__sumy__DOT__gsr = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__13__KET____DOT__sumx__DOT__gsr = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__13__KET____DOT__sumy__DOT__gsr = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__14__KET____DOT__sumx__DOT__gsr = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__14__KET____DOT__sumy__DOT__gsr = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__15__KET____DOT__sumx__DOT__gsr = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__15__KET____DOT__sumy__DOT__gsr = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__0__KET____DOT__sumx__DOT__gsr = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__0__KET____DOT__sumy__DOT__gsr = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__1__KET____DOT__sumx__DOT__gsr = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__1__KET____DOT__sumy__DOT__gsr = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__2__KET____DOT__sumx__DOT__gsr = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__2__KET____DOT__sumy__DOT__gsr = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__3__KET____DOT__sumx__DOT__gsr = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__3__KET____DOT__sumy__DOT__gsr = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__4__KET____DOT__sumx__DOT__gsr = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__4__KET____DOT__sumy__DOT__gsr = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__5__KET____DOT__sumx__DOT__gsr = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__5__KET____DOT__sumy__DOT__gsr = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__6__KET____DOT__sumx__DOT__gsr = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__6__KET____DOT__sumy__DOT__gsr = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__7__KET____DOT__sumx__DOT__gsr = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__7__KET____DOT__sumy__DOT__gsr = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__8__KET____DOT__sumx__DOT__gsr = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__8__KET____DOT__sumy__DOT__gsr = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__9__KET____DOT__sumx__DOT__gsr = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__9__KET____DOT__sumy__DOT__gsr = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__10__KET____DOT__sumx__DOT__gsr = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__10__KET____DOT__sumy__DOT__gsr = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__11__KET____DOT__sumx__DOT__gsr = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__11__KET____DOT__sumy__DOT__gsr = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__12__KET____DOT__sumx__DOT__gsr = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__12__KET____DOT__sumy__DOT__gsr = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__13__KET____DOT__sumx__DOT__gsr = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__13__KET____DOT__sumy__DOT__gsr = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__14__KET____DOT__sumx__DOT__gsr = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__14__KET____DOT__sumy__DOT__gsr = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__15__KET____DOT__sumx__DOT__gsr = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__15__KET____DOT__sumy__DOT__gsr = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__command_d[0U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__command_d[1U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__command_d[2U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__command_d[3U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__command_d[0U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__command_d[1U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__command_d[2U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__command_d[3U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__command_d[0U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__command_d[1U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__command_d[2U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__command_d[3U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__reset_sr = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__reset_sr = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__reset_sr = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__qdrvelemconn__DOT__envaddr_r2 = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__rdrvelemconn__DOT__envaddr_r2 = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__qdrvelemconn__DOT__envaddr_r2 = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__rdrvelemconn__DOT__envaddr_r2 = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__qdrvelemconn__DOT__envaddr_r2 = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__rdrvelemconn__DOT__envaddr_r2 = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__qdrvelemconn__DOT__freqaddr_r3 = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__qdrvelemconn__DOT__freqdata_r[0U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__qdrvelemconn__DOT__freqdata_r[1U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__qdrvelemconn__DOT__freqdata_r[2U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__qdrvelemconn__DOT__freqdata_r[3U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__qdrvelemconn__DOT__freqdata_r[4U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__qdrvelemconn__DOT__freqdata_r[5U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__qdrvelemconn__DOT__freqdata_r[6U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__qdrvelemconn__DOT__freqdata_r[7U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__qdrvelemconn__DOT__freqdata_r[8U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__qdrvelemconn__DOT__freqdata_r[9U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__qdrvelemconn__DOT__freqdata_r[0xaU] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__qdrvelemconn__DOT__freqdata_r[0xbU] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__qdrvelemconn__DOT__freqdata_r[0xcU] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__qdrvelemconn__DOT__freqdata_r[0xdU] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__qdrvelemconn__DOT__freqdata_r[0xeU] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__qdrvelemconn__DOT__freqdata_r[0xfU] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__qdrvelemconn__DOT__envdata_r2[0U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__qdrvelemconn__DOT__envdata_r2[1U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__qdrvelemconn__DOT__envdata_r2[2U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__qdrvelemconn__DOT__envdata_r2[3U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__qdrvelemconn__DOT__envdata_r2[4U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__qdrvelemconn__DOT__envdata_r2[5U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__qdrvelemconn__DOT__envdata_r2[6U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__qdrvelemconn__DOT__envdata_r2[7U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__qdrvelemconn__DOT__envdata_r2[8U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__qdrvelemconn__DOT__envdata_r2[9U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__qdrvelemconn__DOT__envdata_r2[0xaU] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__qdrvelemconn__DOT__envdata_r2[0xbU] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__qdrvelemconn__DOT__envdata_r2[0xcU] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__qdrvelemconn__DOT__envdata_r2[0xdU] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__qdrvelemconn__DOT__envdata_r2[0xeU] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__qdrvelemconn__DOT__envdata_r2[0xfU] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__rdrvelemconn__DOT__freqaddr_r3 = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__rdrvelemconn__DOT__freqdata_r[0U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__rdrvelemconn__DOT__freqdata_r[1U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__rdrvelemconn__DOT__freqdata_r[2U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__rdrvelemconn__DOT__freqdata_r[3U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__rdrvelemconn__DOT__freqdata_r[4U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__rdrvelemconn__DOT__freqdata_r[5U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__rdrvelemconn__DOT__freqdata_r[6U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__rdrvelemconn__DOT__freqdata_r[7U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__rdrvelemconn__DOT__freqdata_r[8U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__rdrvelemconn__DOT__freqdata_r[9U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__rdrvelemconn__DOT__freqdata_r[0xaU] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__rdrvelemconn__DOT__freqdata_r[0xbU] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__rdrvelemconn__DOT__freqdata_r[0xcU] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__rdrvelemconn__DOT__freqdata_r[0xdU] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__rdrvelemconn__DOT__freqdata_r[0xeU] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__rdrvelemconn__DOT__freqdata_r[0xfU] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__rdrvelemconn__DOT__envdata_r2[0U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__rdrvelemconn__DOT__envdata_r2[1U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__rdrvelemconn__DOT__envdata_r2[2U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__rdrvelemconn__DOT__envdata_r2[3U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__rdrvelemconn__DOT__envdata_r2[4U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__rdrvelemconn__DOT__envdata_r2[5U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__rdrvelemconn__DOT__envdata_r2[6U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__rdrvelemconn__DOT__envdata_r2[7U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__rdrvelemconn__DOT__envdata_r2[8U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__rdrvelemconn__DOT__envdata_r2[9U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__rdrvelemconn__DOT__envdata_r2[0xaU] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__rdrvelemconn__DOT__envdata_r2[0xbU] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__rdrvelemconn__DOT__envdata_r2[0xcU] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__rdrvelemconn__DOT__envdata_r2[0xdU] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__rdrvelemconn__DOT__envdata_r2[0xeU] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__rdrvelemconn__DOT__envdata_r2[0xfU] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__qdrvelemconn__DOT__freqaddr_r3 = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__qdrvelemconn__DOT__freqdata_r[0U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__qdrvelemconn__DOT__freqdata_r[1U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__qdrvelemconn__DOT__freqdata_r[2U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__qdrvelemconn__DOT__freqdata_r[3U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__qdrvelemconn__DOT__freqdata_r[4U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__qdrvelemconn__DOT__freqdata_r[5U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__qdrvelemconn__DOT__freqdata_r[6U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__qdrvelemconn__DOT__freqdata_r[7U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__qdrvelemconn__DOT__freqdata_r[8U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__qdrvelemconn__DOT__freqdata_r[9U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__qdrvelemconn__DOT__freqdata_r[0xaU] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__qdrvelemconn__DOT__freqdata_r[0xbU] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__qdrvelemconn__DOT__freqdata_r[0xcU] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__qdrvelemconn__DOT__freqdata_r[0xdU] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__qdrvelemconn__DOT__freqdata_r[0xeU] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__qdrvelemconn__DOT__freqdata_r[0xfU] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__qdrvelemconn__DOT__envdata_r2[0U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__qdrvelemconn__DOT__envdata_r2[1U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__qdrvelemconn__DOT__envdata_r2[2U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__qdrvelemconn__DOT__envdata_r2[3U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__qdrvelemconn__DOT__envdata_r2[4U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__qdrvelemconn__DOT__envdata_r2[5U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__qdrvelemconn__DOT__envdata_r2[6U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__qdrvelemconn__DOT__envdata_r2[7U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__qdrvelemconn__DOT__envdata_r2[8U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__qdrvelemconn__DOT__envdata_r2[9U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__qdrvelemconn__DOT__envdata_r2[0xaU] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__qdrvelemconn__DOT__envdata_r2[0xbU] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__qdrvelemconn__DOT__envdata_r2[0xcU] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__qdrvelemconn__DOT__envdata_r2[0xdU] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__qdrvelemconn__DOT__envdata_r2[0xeU] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__qdrvelemconn__DOT__envdata_r2[0xfU] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__rdrvelemconn__DOT__freqaddr_r3 = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__rdrvelemconn__DOT__freqdata_r[0U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__rdrvelemconn__DOT__freqdata_r[1U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__rdrvelemconn__DOT__freqdata_r[2U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__rdrvelemconn__DOT__freqdata_r[3U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__rdrvelemconn__DOT__freqdata_r[4U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__rdrvelemconn__DOT__freqdata_r[5U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__rdrvelemconn__DOT__freqdata_r[6U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__rdrvelemconn__DOT__freqdata_r[7U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__rdrvelemconn__DOT__freqdata_r[8U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__rdrvelemconn__DOT__freqdata_r[9U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__rdrvelemconn__DOT__freqdata_r[0xaU] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__rdrvelemconn__DOT__freqdata_r[0xbU] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__rdrvelemconn__DOT__freqdata_r[0xcU] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__rdrvelemconn__DOT__freqdata_r[0xdU] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__rdrvelemconn__DOT__freqdata_r[0xeU] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__rdrvelemconn__DOT__freqdata_r[0xfU] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__rdrvelemconn__DOT__envdata_r2[0U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__rdrvelemconn__DOT__envdata_r2[1U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__rdrvelemconn__DOT__envdata_r2[2U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__rdrvelemconn__DOT__envdata_r2[3U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__rdrvelemconn__DOT__envdata_r2[4U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__rdrvelemconn__DOT__envdata_r2[5U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__rdrvelemconn__DOT__envdata_r2[6U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__rdrvelemconn__DOT__envdata_r2[7U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__rdrvelemconn__DOT__envdata_r2[8U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__rdrvelemconn__DOT__envdata_r2[9U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__rdrvelemconn__DOT__envdata_r2[0xaU] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__rdrvelemconn__DOT__envdata_r2[0xbU] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__rdrvelemconn__DOT__envdata_r2[0xcU] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__rdrvelemconn__DOT__envdata_r2[0xdU] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__rdrvelemconn__DOT__envdata_r2[0xeU] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__rdrvelemconn__DOT__envdata_r2[0xfU] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__qdrvelemconn__DOT__freqaddr_r3 = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__qdrvelemconn__DOT__freqdata_r[0U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__qdrvelemconn__DOT__freqdata_r[1U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__qdrvelemconn__DOT__freqdata_r[2U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__qdrvelemconn__DOT__freqdata_r[3U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__qdrvelemconn__DOT__freqdata_r[4U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__qdrvelemconn__DOT__freqdata_r[5U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__qdrvelemconn__DOT__freqdata_r[6U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__qdrvelemconn__DOT__freqdata_r[7U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__qdrvelemconn__DOT__freqdata_r[8U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__qdrvelemconn__DOT__freqdata_r[9U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__qdrvelemconn__DOT__freqdata_r[0xaU] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__qdrvelemconn__DOT__freqdata_r[0xbU] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__qdrvelemconn__DOT__freqdata_r[0xcU] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__qdrvelemconn__DOT__freqdata_r[0xdU] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__qdrvelemconn__DOT__freqdata_r[0xeU] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__qdrvelemconn__DOT__freqdata_r[0xfU] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__qdrvelemconn__DOT__envdata_r2[0U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__qdrvelemconn__DOT__envdata_r2[1U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__qdrvelemconn__DOT__envdata_r2[2U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__qdrvelemconn__DOT__envdata_r2[3U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__qdrvelemconn__DOT__envdata_r2[4U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__qdrvelemconn__DOT__envdata_r2[5U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__qdrvelemconn__DOT__envdata_r2[6U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__qdrvelemconn__DOT__envdata_r2[7U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__qdrvelemconn__DOT__envdata_r2[8U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__qdrvelemconn__DOT__envdata_r2[9U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__qdrvelemconn__DOT__envdata_r2[0xaU] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__qdrvelemconn__DOT__envdata_r2[0xbU] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__qdrvelemconn__DOT__envdata_r2[0xcU] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__qdrvelemconn__DOT__envdata_r2[0xdU] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__qdrvelemconn__DOT__envdata_r2[0xeU] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__qdrvelemconn__DOT__envdata_r2[0xfU] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__rdrvelemconn__DOT__freqaddr_r3 = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__rdrvelemconn__DOT__freqdata_r[0U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__rdrvelemconn__DOT__freqdata_r[1U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__rdrvelemconn__DOT__freqdata_r[2U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__rdrvelemconn__DOT__freqdata_r[3U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__rdrvelemconn__DOT__freqdata_r[4U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__rdrvelemconn__DOT__freqdata_r[5U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__rdrvelemconn__DOT__freqdata_r[6U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__rdrvelemconn__DOT__freqdata_r[7U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__rdrvelemconn__DOT__freqdata_r[8U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__rdrvelemconn__DOT__freqdata_r[9U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__rdrvelemconn__DOT__freqdata_r[0xaU] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__rdrvelemconn__DOT__freqdata_r[0xbU] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__rdrvelemconn__DOT__freqdata_r[0xcU] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__rdrvelemconn__DOT__freqdata_r[0xdU] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__rdrvelemconn__DOT__freqdata_r[0xeU] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__rdrvelemconn__DOT__freqdata_r[0xfU] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__rdrvelemconn__DOT__envdata_r2[0U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__rdrvelemconn__DOT__envdata_r2[1U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__rdrvelemconn__DOT__envdata_r2[2U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__rdrvelemconn__DOT__envdata_r2[3U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__rdrvelemconn__DOT__envdata_r2[4U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__rdrvelemconn__DOT__envdata_r2[5U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__rdrvelemconn__DOT__envdata_r2[6U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__rdrvelemconn__DOT__envdata_r2[7U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__rdrvelemconn__DOT__envdata_r2[8U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__rdrvelemconn__DOT__envdata_r2[9U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__rdrvelemconn__DOT__envdata_r2[0xaU] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__rdrvelemconn__DOT__envdata_r2[0xbU] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__rdrvelemconn__DOT__envdata_r2[0xcU] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__rdrvelemconn__DOT__envdata_r2[0xdU] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__rdrvelemconn__DOT__envdata_r2[0xeU] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__rdrvelemconn__DOT__envdata_r2[0xfU] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__0__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__genblk1__BRA__0__KET____DOT__multixi_r = 0ULL;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__0__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__genblk1__BRA__0__KET____DOT__multiyi_r = 0ULL;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__0__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__genblk1__BRA__1__KET____DOT__multixi_r = 0ULL;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__0__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__genblk1__BRA__1__KET____DOT__multiyi_r = 0ULL;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__0__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__genblk1__BRA__2__KET____DOT__multixi_r = 0ULL;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__0__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__genblk1__BRA__2__KET____DOT__multiyi_r = 0ULL;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__0__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__genblk1__BRA__3__KET____DOT__multixi_r = 0ULL;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__0__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__genblk1__BRA__3__KET____DOT__multiyi_r = 0ULL;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__0__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__accsumx = 0ULL;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__0__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__accsumy = 0ULL;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__0__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__newacc = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__1__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__genblk1__BRA__0__KET____DOT__multixi_r = 0ULL;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__1__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__genblk1__BRA__0__KET____DOT__multiyi_r = 0ULL;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__1__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__genblk1__BRA__1__KET____DOT__multixi_r = 0ULL;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__1__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__genblk1__BRA__1__KET____DOT__multiyi_r = 0ULL;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__1__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__genblk1__BRA__2__KET____DOT__multixi_r = 0ULL;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__1__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__genblk1__BRA__2__KET____DOT__multiyi_r = 0ULL;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__1__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__genblk1__BRA__3__KET____DOT__multixi_r = 0ULL;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__1__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__genblk1__BRA__3__KET____DOT__multiyi_r = 0ULL;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__1__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__accsumx = 0ULL;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__1__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__accsumy = 0ULL;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__1__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__newacc = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__2__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__genblk1__BRA__0__KET____DOT__multixi_r = 0ULL;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__2__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__genblk1__BRA__0__KET____DOT__multiyi_r = 0ULL;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__2__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__genblk1__BRA__1__KET____DOT__multixi_r = 0ULL;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__2__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__genblk1__BRA__1__KET____DOT__multiyi_r = 0ULL;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__2__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__genblk1__BRA__2__KET____DOT__multixi_r = 0ULL;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__2__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__genblk1__BRA__2__KET____DOT__multiyi_r = 0ULL;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__2__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__genblk1__BRA__3__KET____DOT__multixi_r = 0ULL;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__2__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__genblk1__BRA__3__KET____DOT__multiyi_r = 0ULL;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__2__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__accsumx = 0ULL;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__2__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__accsumy = 0ULL;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__2__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__newacc = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__qdrvelemconn__DOT__envaddr_r = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__rdrvelemconn__DOT__envaddr_r = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__qdrvelemconn__DOT__envaddr_r = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__rdrvelemconn__DOT__envaddr_r = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__qdrvelemconn__DOT__envaddr_r = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__rdrvelemconn__DOT__envaddr_r = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__qdrvelemconn__DOT__envaddrdelay__DOT__usual__DOT__shifter[0U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__qdrvelemconn__DOT__envaddrdelay__DOT__usual__DOT__shifter[1U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__qdrvelemconn__DOT__envaddrdelay__DOT__usual__DOT__shifter[2U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__qdrvelemconn__DOT__envaddrdelay__DOT__usual__DOT__shifter[3U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__qdrvelemconn__DOT__envaddrdelay__DOT__usual__DOT__shifter[4U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__qdrvelemconn__DOT__envaddrdelay__DOT__usual__DOT__shifter[5U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__qdrvelemconn__DOT__envaddrdelay__DOT__usual__DOT__shifter[6U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__qdrvelemconn__DOT__envaddrdelay__DOT__usual__DOT__shifter[7U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__rdrvelemconn__DOT__envaddrdelay__DOT__usual__DOT__shifter[0U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__rdrvelemconn__DOT__envaddrdelay__DOT__usual__DOT__shifter[1U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__rdrvelemconn__DOT__envaddrdelay__DOT__usual__DOT__shifter[2U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__rdrvelemconn__DOT__envaddrdelay__DOT__usual__DOT__shifter[3U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__rdrvelemconn__DOT__envaddrdelay__DOT__usual__DOT__shifter[4U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__rdrvelemconn__DOT__envaddrdelay__DOT__usual__DOT__shifter[5U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__rdrvelemconn__DOT__envaddrdelay__DOT__usual__DOT__shifter[6U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__rdrvelemconn__DOT__envaddrdelay__DOT__usual__DOT__shifter[7U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__rdrvelemconn__DOT__envaddrdelay__DOT__usual__DOT__shifter[8U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__rdrvelemconn__DOT__envaddrdelay__DOT__usual__DOT__shifter[9U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__rdrvelemconn__DOT__envaddrdelay__DOT__usual__DOT__shifter[0xaU] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__rdrvelemconn__DOT__envaddrdelay__DOT__usual__DOT__shifter[0xbU] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__qdrvelemconn__DOT__envaddrdelay__DOT__usual__DOT__shifter[0U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__qdrvelemconn__DOT__envaddrdelay__DOT__usual__DOT__shifter[1U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__qdrvelemconn__DOT__envaddrdelay__DOT__usual__DOT__shifter[2U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__qdrvelemconn__DOT__envaddrdelay__DOT__usual__DOT__shifter[3U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__qdrvelemconn__DOT__envaddrdelay__DOT__usual__DOT__shifter[4U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__qdrvelemconn__DOT__envaddrdelay__DOT__usual__DOT__shifter[5U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__qdrvelemconn__DOT__envaddrdelay__DOT__usual__DOT__shifter[6U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__qdrvelemconn__DOT__envaddrdelay__DOT__usual__DOT__shifter[7U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__rdrvelemconn__DOT__envaddrdelay__DOT__usual__DOT__shifter[0U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__rdrvelemconn__DOT__envaddrdelay__DOT__usual__DOT__shifter[1U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__rdrvelemconn__DOT__envaddrdelay__DOT__usual__DOT__shifter[2U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__rdrvelemconn__DOT__envaddrdelay__DOT__usual__DOT__shifter[3U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__rdrvelemconn__DOT__envaddrdelay__DOT__usual__DOT__shifter[4U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__rdrvelemconn__DOT__envaddrdelay__DOT__usual__DOT__shifter[5U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__rdrvelemconn__DOT__envaddrdelay__DOT__usual__DOT__shifter[6U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__rdrvelemconn__DOT__envaddrdelay__DOT__usual__DOT__shifter[7U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__rdrvelemconn__DOT__envaddrdelay__DOT__usual__DOT__shifter[8U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__rdrvelemconn__DOT__envaddrdelay__DOT__usual__DOT__shifter[9U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__rdrvelemconn__DOT__envaddrdelay__DOT__usual__DOT__shifter[0xaU] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__rdrvelemconn__DOT__envaddrdelay__DOT__usual__DOT__shifter[0xbU] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__qdrvelemconn__DOT__envaddrdelay__DOT__usual__DOT__shifter[0U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__qdrvelemconn__DOT__envaddrdelay__DOT__usual__DOT__shifter[1U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__qdrvelemconn__DOT__envaddrdelay__DOT__usual__DOT__shifter[2U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__qdrvelemconn__DOT__envaddrdelay__DOT__usual__DOT__shifter[3U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__qdrvelemconn__DOT__envaddrdelay__DOT__usual__DOT__shifter[4U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__qdrvelemconn__DOT__envaddrdelay__DOT__usual__DOT__shifter[5U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__qdrvelemconn__DOT__envaddrdelay__DOT__usual__DOT__shifter[6U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__qdrvelemconn__DOT__envaddrdelay__DOT__usual__DOT__shifter[7U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__rdrvelemconn__DOT__envaddrdelay__DOT__usual__DOT__shifter[0U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__rdrvelemconn__DOT__envaddrdelay__DOT__usual__DOT__shifter[1U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__rdrvelemconn__DOT__envaddrdelay__DOT__usual__DOT__shifter[2U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__rdrvelemconn__DOT__envaddrdelay__DOT__usual__DOT__shifter[3U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__rdrvelemconn__DOT__envaddrdelay__DOT__usual__DOT__shifter[4U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__rdrvelemconn__DOT__envaddrdelay__DOT__usual__DOT__shifter[5U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__rdrvelemconn__DOT__envaddrdelay__DOT__usual__DOT__shifter[6U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__rdrvelemconn__DOT__envaddrdelay__DOT__usual__DOT__shifter[7U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__rdrvelemconn__DOT__envaddrdelay__DOT__usual__DOT__shifter[8U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__rdrvelemconn__DOT__envaddrdelay__DOT__usual__DOT__shifter[9U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__rdrvelemconn__DOT__envaddrdelay__DOT__usual__DOT__shifter[0xaU] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__rdrvelemconn__DOT__envaddrdelay__DOT__usual__DOT__shifter[0xbU] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procreset = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__qdrvelemconn__DOT__busy = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__qdrvelemconn__DOT__freqaddr_r2 = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__qdrvelemconn__DOT__envdata_r[0U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__qdrvelemconn__DOT__envdata_r[1U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__qdrvelemconn__DOT__envdata_r[2U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__qdrvelemconn__DOT__envdata_r[3U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__qdrvelemconn__DOT__envdata_r[4U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__qdrvelemconn__DOT__envdata_r[5U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__qdrvelemconn__DOT__envdata_r[6U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__qdrvelemconn__DOT__envdata_r[7U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__qdrvelemconn__DOT__envdata_r[8U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__qdrvelemconn__DOT__envdata_r[9U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__qdrvelemconn__DOT__envdata_r[0xaU] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__qdrvelemconn__DOT__envdata_r[0xbU] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__qdrvelemconn__DOT__envdata_r[0xcU] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__qdrvelemconn__DOT__envdata_r[0xdU] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__qdrvelemconn__DOT__envdata_r[0xeU] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__qdrvelemconn__DOT__envdata_r[0xfU] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__rdrvelemconn__DOT__busy = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__rdrvelemconn__DOT__freqaddr_r2 = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__rdrvelemconn__DOT__envdata_r = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__qdrvelemconn__DOT__busy = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__qdrvelemconn__DOT__freqaddr_r2 = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__qdrvelemconn__DOT__envdata_r[0U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__qdrvelemconn__DOT__envdata_r[1U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__qdrvelemconn__DOT__envdata_r[2U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__qdrvelemconn__DOT__envdata_r[3U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__qdrvelemconn__DOT__envdata_r[4U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__qdrvelemconn__DOT__envdata_r[5U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__qdrvelemconn__DOT__envdata_r[6U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__qdrvelemconn__DOT__envdata_r[7U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__qdrvelemconn__DOT__envdata_r[8U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__qdrvelemconn__DOT__envdata_r[9U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__qdrvelemconn__DOT__envdata_r[0xaU] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__qdrvelemconn__DOT__envdata_r[0xbU] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__qdrvelemconn__DOT__envdata_r[0xcU] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__qdrvelemconn__DOT__envdata_r[0xdU] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__qdrvelemconn__DOT__envdata_r[0xeU] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__qdrvelemconn__DOT__envdata_r[0xfU] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__rdrvelemconn__DOT__busy = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__rdrvelemconn__DOT__freqaddr_r2 = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__rdrvelemconn__DOT__envdata_r = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__qdrvelemconn__DOT__busy = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__qdrvelemconn__DOT__freqaddr_r2 = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__qdrvelemconn__DOT__envdata_r[0U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__qdrvelemconn__DOT__envdata_r[1U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__qdrvelemconn__DOT__envdata_r[2U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__qdrvelemconn__DOT__envdata_r[3U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__qdrvelemconn__DOT__envdata_r[4U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__qdrvelemconn__DOT__envdata_r[5U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__qdrvelemconn__DOT__envdata_r[6U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__qdrvelemconn__DOT__envdata_r[7U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__qdrvelemconn__DOT__envdata_r[8U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__qdrvelemconn__DOT__envdata_r[9U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__qdrvelemconn__DOT__envdata_r[0xaU] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__qdrvelemconn__DOT__envdata_r[0xbU] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__qdrvelemconn__DOT__envdata_r[0xcU] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__qdrvelemconn__DOT__envdata_r[0xdU] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__qdrvelemconn__DOT__envdata_r[0xeU] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__qdrvelemconn__DOT__envdata_r[0xfU] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__rdrvelemconn__DOT__busy = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__rdrvelemconn__DOT__freqaddr_r2 = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__rdrvelemconn__DOT__envdata_r = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__qdrvelemconn__DOT__envaddr_cnt = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__rdrvelemconn__DOT__envaddr_cnt = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__qdrvelemconn__DOT__envaddr_cnt = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__rdrvelemconn__DOT__envaddr_cnt = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__qdrvelemconn__DOT__envaddr_cnt = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__rdrvelemconn__DOT__envaddr_cnt = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__qdrvelemconn__DOT__busy_sr = 0ULL;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__rdrvelemconn__DOT__busy_sr = 0ULL;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__qdrvelemconn__DOT__busy_sr = 0ULL;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__rdrvelemconn__DOT__busy_sr = 0ULL;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__qdrvelemconn__DOT__busy_sr = 0ULL;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__rdrvelemconn__DOT__busy_sr = 0ULL;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__0__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__gatesr = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__1__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__gatesr = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__2__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__gatesr = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__nextstate = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__qdrvelemconn__DOT__freqaddr_r = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__rdrvelemconn__DOT__freqaddr_r = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__qdrvelemconn__DOT__freqaddr_r = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__rdrvelemconn__DOT__freqaddr_r = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__qdrvelemconn__DOT__freqaddr_r = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__rdrvelemconn__DOT__freqaddr_r = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__0__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__genblk1__BRA__0__KET____DOT__adcxi = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__0__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__genblk1__BRA__0__KET____DOT__adcyi = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__0__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__genblk1__BRA__0__KET____DOT__dloxi = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__0__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__genblk1__BRA__0__KET____DOT__dloyi = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__0__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__genblk1__BRA__1__KET____DOT__adcxi = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__0__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__genblk1__BRA__1__KET____DOT__adcyi = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__0__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__genblk1__BRA__1__KET____DOT__dloxi = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__0__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__genblk1__BRA__1__KET____DOT__dloyi = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__0__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__genblk1__BRA__2__KET____DOT__adcxi = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__0__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__genblk1__BRA__2__KET____DOT__adcyi = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__0__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__genblk1__BRA__2__KET____DOT__dloxi = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__0__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__genblk1__BRA__2__KET____DOT__dloyi = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__0__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__genblk1__BRA__3__KET____DOT__adcxi = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__0__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__genblk1__BRA__3__KET____DOT__adcyi = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__0__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__genblk1__BRA__3__KET____DOT__dloxi = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__0__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__genblk1__BRA__3__KET____DOT__dloyi = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__1__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__genblk1__BRA__0__KET____DOT__adcxi = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__1__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__genblk1__BRA__0__KET____DOT__adcyi = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__1__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__genblk1__BRA__0__KET____DOT__dloxi = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__1__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__genblk1__BRA__0__KET____DOT__dloyi = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__1__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__genblk1__BRA__1__KET____DOT__adcxi = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__1__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__genblk1__BRA__1__KET____DOT__adcyi = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__1__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__genblk1__BRA__1__KET____DOT__dloxi = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__1__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__genblk1__BRA__1__KET____DOT__dloyi = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__1__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__genblk1__BRA__2__KET____DOT__adcxi = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__1__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__genblk1__BRA__2__KET____DOT__adcyi = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__1__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__genblk1__BRA__2__KET____DOT__dloxi = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__1__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__genblk1__BRA__2__KET____DOT__dloyi = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__1__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__genblk1__BRA__3__KET____DOT__adcxi = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__1__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__genblk1__BRA__3__KET____DOT__adcyi = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__1__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__genblk1__BRA__3__KET____DOT__dloxi = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__1__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__genblk1__BRA__3__KET____DOT__dloyi = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__2__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__genblk1__BRA__0__KET____DOT__adcxi = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__2__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__genblk1__BRA__0__KET____DOT__adcyi = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__2__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__genblk1__BRA__0__KET____DOT__dloxi = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__2__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__genblk1__BRA__0__KET____DOT__dloyi = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__2__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__genblk1__BRA__1__KET____DOT__adcxi = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__2__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__genblk1__BRA__1__KET____DOT__adcyi = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__2__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__genblk1__BRA__1__KET____DOT__dloxi = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__2__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__genblk1__BRA__1__KET____DOT__dloyi = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__2__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__genblk1__BRA__2__KET____DOT__adcxi = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__2__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__genblk1__BRA__2__KET____DOT__adcyi = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__2__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__genblk1__BRA__2__KET____DOT__dloxi = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__2__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__genblk1__BRA__2__KET____DOT__dloyi = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__2__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__genblk1__BRA__3__KET____DOT__adcxi = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__2__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__genblk1__BRA__3__KET____DOT__adcyi = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__2__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__genblk1__BRA__3__KET____DOT__dloxi = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__2__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__genblk1__BRA__3__KET____DOT__dloyi = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__0__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__adcx_r = 0ULL;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__0__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__adcy_r = 0ULL;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__1__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__adcx_r = 0ULL;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__1__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__adcy_r = 0ULL;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__2__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__adcx_r = 0ULL;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__2__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__adcy_r = 0ULL;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__mixbb1 = 0ULL;
+}
+
+void Vtop::_settle__TOP__2(Vtop__Syms* __restrict vlSymsp) {
+    VL_DEBUG_IF(VL_DBG_MSGF("+    Vtop::_settle__TOP__2\n"); );
+    Vtop* const __restrict vlTOPp VL_ATTR_UNUSED = vlSymsp->TOPp;
+    // Body
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.addr_accbuf_mon3 = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__0__KET____DOT__sumx__DOT__vin_w[0U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__0__KET____DOT__sumy__DOT__vin_w[0U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__1__KET____DOT__sumx__DOT__vin_w[0U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__1__KET____DOT__sumy__DOT__vin_w[0U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__2__KET____DOT__sumx__DOT__vin_w[0U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__2__KET____DOT__sumy__DOT__vin_w[0U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__3__KET____DOT__sumx__DOT__vin_w[0U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__3__KET____DOT__sumy__DOT__vin_w[0U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__4__KET____DOT__sumx__DOT__vin_w[0U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__4__KET____DOT__sumy__DOT__vin_w[0U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__5__KET____DOT__sumx__DOT__vin_w[0U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__5__KET____DOT__sumy__DOT__vin_w[0U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__6__KET____DOT__sumx__DOT__vin_w[0U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__6__KET____DOT__sumy__DOT__vin_w[0U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__7__KET____DOT__sumx__DOT__vin_w[0U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__7__KET____DOT__sumy__DOT__vin_w[0U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__8__KET____DOT__sumx__DOT__vin_w[0U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__8__KET____DOT__sumy__DOT__vin_w[0U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__9__KET____DOT__sumx__DOT__vin_w[0U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__9__KET____DOT__sumy__DOT__vin_w[0U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__10__KET____DOT__sumx__DOT__vin_w[0U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__10__KET____DOT__sumy__DOT__vin_w[0U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__11__KET____DOT__sumx__DOT__vin_w[0U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__11__KET____DOT__sumy__DOT__vin_w[0U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__12__KET____DOT__sumx__DOT__vin_w[0U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__12__KET____DOT__sumy__DOT__vin_w[0U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__13__KET____DOT__sumx__DOT__vin_w[0U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__13__KET____DOT__sumy__DOT__vin_w[0U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__14__KET____DOT__sumx__DOT__vin_w[0U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__14__KET____DOT__sumy__DOT__vin_w[0U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__15__KET____DOT__sumx__DOT__vin_w[0U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__15__KET____DOT__sumy__DOT__vin_w[0U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__sync_ready 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__sync.ready;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__sync_ready 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__sync.ready;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__sync_ready 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__sync.ready;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__nextstate_dbg[0U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__nextstate_dbg;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__state_dbg[0U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__state_dbg;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__nextstate_dbg[1U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__nextstate_dbg;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__state_dbg[1U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__state_dbg;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__nextstate_dbg[2U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__nextstate_dbg;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__state_dbg[2U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__state_dbg;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__0__KET____DOT__sumx__DOT__vin_w[3U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__0__KET____DOT__sumy__DOT__vin_w[3U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__1__KET____DOT__sumx__DOT__vin_w[3U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__1__KET____DOT__sumy__DOT__vin_w[3U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__2__KET____DOT__sumx__DOT__vin_w[3U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__2__KET____DOT__sumy__DOT__vin_w[3U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__3__KET____DOT__sumx__DOT__vin_w[3U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__3__KET____DOT__sumy__DOT__vin_w[3U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__4__KET____DOT__sumx__DOT__vin_w[3U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__4__KET____DOT__sumy__DOT__vin_w[3U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__5__KET____DOT__sumx__DOT__vin_w[3U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__5__KET____DOT__sumy__DOT__vin_w[3U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__6__KET____DOT__sumx__DOT__vin_w[3U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__6__KET____DOT__sumy__DOT__vin_w[3U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__7__KET____DOT__sumx__DOT__vin_w[3U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__7__KET____DOT__sumy__DOT__vin_w[3U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__8__KET____DOT__sumx__DOT__vin_w[3U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__8__KET____DOT__sumy__DOT__vin_w[3U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__9__KET____DOT__sumx__DOT__vin_w[3U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__9__KET____DOT__sumy__DOT__vin_w[3U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__10__KET____DOT__sumx__DOT__vin_w[3U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__10__KET____DOT__sumy__DOT__vin_w[3U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__11__KET____DOT__sumx__DOT__vin_w[3U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__11__KET____DOT__sumy__DOT__vin_w[3U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__12__KET____DOT__sumx__DOT__vin_w[3U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__12__KET____DOT__sumy__DOT__vin_w[3U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__13__KET____DOT__sumx__DOT__vin_w[3U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__13__KET____DOT__sumy__DOT__vin_w[3U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__14__KET____DOT__sumx__DOT__vin_w[3U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__14__KET____DOT__sumy__DOT__vin_w[3U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__15__KET____DOT__sumx__DOT__vin_w[3U] = 0U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__15__KET____DOT__sumy__DOT__vin_w[3U] = 0U;
+    vlTOPp->adc[0U] = vlTOPp->dsp_sim_toplevel__DOT__adc
+        [0U];
+    vlTOPp->adc[1U] = vlTOPp->dsp_sim_toplevel__DOT__adc
+        [1U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__0__KET____DOT__sumy__DOT__vout 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__0__KET____DOT__sumy__DOT__vtemp
+        [1U][1U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__1__KET____DOT__sumy__DOT__vout 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__1__KET____DOT__sumy__DOT__vtemp
+        [1U][1U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__2__KET____DOT__sumy__DOT__vout 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__2__KET____DOT__sumy__DOT__vtemp
+        [1U][1U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__3__KET____DOT__sumy__DOT__vout 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__3__KET____DOT__sumy__DOT__vtemp
+        [1U][1U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__4__KET____DOT__sumy__DOT__vout 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__4__KET____DOT__sumy__DOT__vtemp
+        [1U][1U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__5__KET____DOT__sumy__DOT__vout 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__5__KET____DOT__sumy__DOT__vtemp
+        [1U][1U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__6__KET____DOT__sumy__DOT__vout 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__6__KET____DOT__sumy__DOT__vtemp
+        [1U][1U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__7__KET____DOT__sumy__DOT__vout 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__7__KET____DOT__sumy__DOT__vtemp
+        [1U][1U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__8__KET____DOT__sumy__DOT__vout 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__8__KET____DOT__sumy__DOT__vtemp
+        [1U][1U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__9__KET____DOT__sumy__DOT__vout 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__9__KET____DOT__sumy__DOT__vtemp
+        [1U][1U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__10__KET____DOT__sumy__DOT__vout 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__10__KET____DOT__sumy__DOT__vtemp
+        [1U][1U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__11__KET____DOT__sumy__DOT__vout 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__11__KET____DOT__sumy__DOT__vtemp
+        [1U][1U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__12__KET____DOT__sumy__DOT__vout 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__12__KET____DOT__sumy__DOT__vtemp
+        [1U][1U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__13__KET____DOT__sumy__DOT__vout 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__13__KET____DOT__sumy__DOT__vtemp
+        [1U][1U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__14__KET____DOT__sumy__DOT__vout 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__14__KET____DOT__sumy__DOT__vtemp
+        [1U][1U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__15__KET____DOT__sumy__DOT__vout 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__15__KET____DOT__sumy__DOT__vtemp
+        [1U][1U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.coef[0U][0U] = 0x7fff0000U;
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.coef[1U][1U] = 0x7fff0000U;
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.coef[2U][2U] = 0x7fff0000U;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT____Vcellinp__rdrvelemout1__xin[0U][0U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__xin
+        [0U][0U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT____Vcellinp__rdrvelemout1__xin[0U][1U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__xin
+        [0U][1U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT____Vcellinp__rdrvelemout1__xin[0U][2U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__xin
+        [0U][2U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT____Vcellinp__rdrvelemout1__xin[0U][3U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__xin
+        [0U][3U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT____Vcellinp__rdrvelemout1__xin[0U][4U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__xin
+        [0U][4U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT____Vcellinp__rdrvelemout1__xin[0U][5U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__xin
+        [0U][5U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT____Vcellinp__rdrvelemout1__xin[0U][6U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__xin
+        [0U][6U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT____Vcellinp__rdrvelemout1__xin[0U][7U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__xin
+        [0U][7U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT____Vcellinp__rdrvelemout1__xin[1U][0U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__xin
+        [1U][0U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT____Vcellinp__rdrvelemout1__xin[1U][1U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__xin
+        [1U][1U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT____Vcellinp__rdrvelemout1__xin[1U][2U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__xin
+        [1U][2U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT____Vcellinp__rdrvelemout1__xin[1U][3U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__xin
+        [1U][3U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT____Vcellinp__rdrvelemout1__xin[1U][4U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__xin
+        [1U][4U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT____Vcellinp__rdrvelemout1__xin[1U][5U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__xin
+        [1U][5U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT____Vcellinp__rdrvelemout1__xin[1U][6U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__xin
+        [1U][6U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT____Vcellinp__rdrvelemout1__xin[1U][7U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__xin
+        [1U][7U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT____Vcellinp__rdrvelemout1__xin[2U][0U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__xin
+        [2U][0U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT____Vcellinp__rdrvelemout1__xin[2U][1U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__xin
+        [2U][1U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT____Vcellinp__rdrvelemout1__xin[2U][2U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__xin
+        [2U][2U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT____Vcellinp__rdrvelemout1__xin[2U][3U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__xin
+        [2U][3U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT____Vcellinp__rdrvelemout1__xin[2U][4U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__xin
+        [2U][4U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT____Vcellinp__rdrvelemout1__xin[2U][5U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__xin
+        [2U][5U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT____Vcellinp__rdrvelemout1__xin[2U][6U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__xin
+        [2U][6U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT____Vcellinp__rdrvelemout1__xin[2U][7U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__xin
+        [2U][7U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT____Vcellinp__rdrvelemout1__yin[0U][0U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__yin
+        [0U][0U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT____Vcellinp__rdrvelemout1__yin[0U][1U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__yin
+        [0U][1U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT____Vcellinp__rdrvelemout1__yin[0U][2U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__yin
+        [0U][2U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT____Vcellinp__rdrvelemout1__yin[0U][3U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__yin
+        [0U][3U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT____Vcellinp__rdrvelemout1__yin[0U][4U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__yin
+        [0U][4U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT____Vcellinp__rdrvelemout1__yin[0U][5U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__yin
+        [0U][5U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT____Vcellinp__rdrvelemout1__yin[0U][6U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__yin
+        [0U][6U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT____Vcellinp__rdrvelemout1__yin[0U][7U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__yin
+        [0U][7U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT____Vcellinp__rdrvelemout1__yin[1U][0U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__yin
+        [1U][0U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT____Vcellinp__rdrvelemout1__yin[1U][1U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__yin
+        [1U][1U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT____Vcellinp__rdrvelemout1__yin[1U][2U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__yin
+        [1U][2U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT____Vcellinp__rdrvelemout1__yin[1U][3U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__yin
+        [1U][3U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT____Vcellinp__rdrvelemout1__yin[1U][4U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__yin
+        [1U][4U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT____Vcellinp__rdrvelemout1__yin[1U][5U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__yin
+        [1U][5U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT____Vcellinp__rdrvelemout1__yin[1U][6U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__yin
+        [1U][6U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT____Vcellinp__rdrvelemout1__yin[1U][7U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__yin
+        [1U][7U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT____Vcellinp__rdrvelemout1__yin[2U][0U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__yin
+        [2U][0U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT____Vcellinp__rdrvelemout1__yin[2U][1U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__yin
+        [2U][1U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT____Vcellinp__rdrvelemout1__yin[2U][2U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__yin
+        [2U][2U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT____Vcellinp__rdrvelemout1__yin[2U][3U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__yin
+        [2U][3U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT____Vcellinp__rdrvelemout1__yin[2U][4U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__yin
+        [2U][4U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT____Vcellinp__rdrvelemout1__yin[2U][5U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__yin
+        [2U][5U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT____Vcellinp__rdrvelemout1__yin[2U][6U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__yin
+        [2U][6U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT____Vcellinp__rdrvelemout1__yin[2U][7U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__yin
+        [2U][7U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__0__KET____DOT__sumx__DOT__vout 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__0__KET____DOT__sumx__DOT__vtemp
+        [1U][1U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__1__KET____DOT__sumx__DOT__vout 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__1__KET____DOT__sumx__DOT__vtemp
+        [1U][1U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__2__KET____DOT__sumx__DOT__vout 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__2__KET____DOT__sumx__DOT__vtemp
+        [1U][1U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__3__KET____DOT__sumx__DOT__vout 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__3__KET____DOT__sumx__DOT__vtemp
+        [1U][1U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__4__KET____DOT__sumx__DOT__vout 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__4__KET____DOT__sumx__DOT__vtemp
+        [1U][1U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__5__KET____DOT__sumx__DOT__vout 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__5__KET____DOT__sumx__DOT__vtemp
+        [1U][1U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__6__KET____DOT__sumx__DOT__vout 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__6__KET____DOT__sumx__DOT__vtemp
+        [1U][1U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__7__KET____DOT__sumx__DOT__vout 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__7__KET____DOT__sumx__DOT__vtemp
+        [1U][1U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__8__KET____DOT__sumx__DOT__vout 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__8__KET____DOT__sumx__DOT__vtemp
+        [1U][1U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__9__KET____DOT__sumx__DOT__vout 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__9__KET____DOT__sumx__DOT__vtemp
+        [1U][1U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__10__KET____DOT__sumx__DOT__vout 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__10__KET____DOT__sumx__DOT__vtemp
+        [1U][1U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__11__KET____DOT__sumx__DOT__vout 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__11__KET____DOT__sumx__DOT__vtemp
+        [1U][1U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__12__KET____DOT__sumx__DOT__vout 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__12__KET____DOT__sumx__DOT__vtemp
+        [1U][1U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__13__KET____DOT__sumx__DOT__vout 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__13__KET____DOT__sumx__DOT__vtemp
+        [1U][1U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__14__KET____DOT__sumx__DOT__vout 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__14__KET____DOT__sumx__DOT__vtemp
+        [1U][1U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__15__KET____DOT__sumx__DOT__vout 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__15__KET____DOT__sumx__DOT__vtemp
+        [1U][1U];
+    vlTOPp->dsp_sim_toplevel__DOT__reset = vlTOPp->reset;
+    vlTOPp->dsp_sim_toplevel__DOT__stb_start = vlTOPp->stb_start;
+    vlTOPp->dsp_sim_toplevel__DOT__nshot = vlTOPp->nshot;
+    vlTOPp->dsp_sim_toplevel__DOT__mem_write_addr = vlTOPp->mem_write_addr;
+    vlTOPp->dsp_sim_toplevel__DOT__proc_write_sel = vlTOPp->proc_write_sel;
+    vlTOPp->dsp_sim_toplevel__DOT__mem_write_sel = vlTOPp->mem_write_sel;
+    vlTOPp->dsp_sim_toplevel__DOT__mem_write_en = vlTOPp->mem_write_en;
+    vlTOPp->dsp_sim_toplevel__DOT__buf_read_addr = vlTOPp->buf_read_addr;
+    vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__0__KET____DOT__cmd_mem__DOT__write_addr 
+        = (0x1fffU & ((IData)(vlTOPp->mem_write_addr) 
+                      >> 0U));
+    vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__0__KET____DOT__env_mem_qdrv__DOT__write_addr 
+        = (0xfffU & ((IData)(vlTOPp->mem_write_addr) 
+                     >> 0U));
+    vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__0__KET____DOT__freq_mem_qdrv__DOT__write_addr 
+        = (0x1fffU & ((IData)(vlTOPp->mem_write_addr) 
+                      >> 0U));
+    vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__0__KET____DOT__env_mem_rdrv__DOT__write_addr 
+        = (0xfffU & ((IData)(vlTOPp->mem_write_addr) 
+                     >> 0U));
+    vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__0__KET____DOT__freq_mem_rdrv__DOT__write_addr 
+        = (0x1fffU & ((IData)(vlTOPp->mem_write_addr) 
+                      >> 0U));
+    vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__0__KET____DOT__env_mem_rdlo__DOT__write_addr 
+        = (0xfffU & ((IData)(vlTOPp->mem_write_addr) 
+                     >> 0U));
+    vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__0__KET____DOT__freq_mem_rdlo__DOT__write_addr 
+        = (0x7ffU & ((IData)(vlTOPp->mem_write_addr) 
+                     >> 0U));
+    vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__0__KET____DOT__acc_buf__DOT__read_addr 
+        = (0x3ffU & ((IData)(vlTOPp->buf_read_addr) 
+                     >> 0U));
+    vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__1__KET____DOT__cmd_mem__DOT__write_addr 
+        = (0x1fffU & ((IData)(vlTOPp->mem_write_addr) 
+                      >> 0U));
+    vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__1__KET____DOT__env_mem_qdrv__DOT__write_addr 
+        = (0xfffU & ((IData)(vlTOPp->mem_write_addr) 
+                     >> 0U));
+    vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__1__KET____DOT__freq_mem_qdrv__DOT__write_addr 
+        = (0x1fffU & ((IData)(vlTOPp->mem_write_addr) 
+                      >> 0U));
+    vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__1__KET____DOT__env_mem_rdrv__DOT__write_addr 
+        = (0xfffU & ((IData)(vlTOPp->mem_write_addr) 
+                     >> 0U));
+    vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__1__KET____DOT__freq_mem_rdrv__DOT__write_addr 
+        = (0x1fffU & ((IData)(vlTOPp->mem_write_addr) 
+                      >> 0U));
+    vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__1__KET____DOT__env_mem_rdlo__DOT__write_addr 
+        = (0xfffU & ((IData)(vlTOPp->mem_write_addr) 
+                     >> 0U));
+    vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__1__KET____DOT__freq_mem_rdlo__DOT__write_addr 
+        = (0x7ffU & ((IData)(vlTOPp->mem_write_addr) 
+                     >> 0U));
+    vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__1__KET____DOT__acc_buf__DOT__read_addr 
+        = (0x3ffU & ((IData)(vlTOPp->buf_read_addr) 
+                     >> 0U));
+    vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__2__KET____DOT__cmd_mem__DOT__write_addr 
+        = (0x1fffU & ((IData)(vlTOPp->mem_write_addr) 
+                      >> 0U));
+    vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__2__KET____DOT__env_mem_qdrv__DOT__write_addr 
+        = (0xfffU & ((IData)(vlTOPp->mem_write_addr) 
+                     >> 0U));
+    vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__2__KET____DOT__freq_mem_qdrv__DOT__write_addr 
+        = (0x1fffU & ((IData)(vlTOPp->mem_write_addr) 
+                      >> 0U));
+    vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__2__KET____DOT__env_mem_rdrv__DOT__write_addr 
+        = (0xfffU & ((IData)(vlTOPp->mem_write_addr) 
+                     >> 0U));
+    vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__2__KET____DOT__freq_mem_rdrv__DOT__write_addr 
+        = (0x1fffU & ((IData)(vlTOPp->mem_write_addr) 
+                      >> 0U));
+    vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__2__KET____DOT__env_mem_rdlo__DOT__write_addr 
+        = (0xfffU & ((IData)(vlTOPp->mem_write_addr) 
+                     >> 0U));
+    vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__2__KET____DOT__freq_mem_rdlo__DOT__write_addr 
+        = (0x7ffU & ((IData)(vlTOPp->mem_write_addr) 
+                     >> 0U));
+    vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__2__KET____DOT__acc_buf__DOT__read_addr 
+        = (0x3ffU & ((IData)(vlTOPp->buf_read_addr) 
+                     >> 0U));
+    vlTOPp->dsp_sim_toplevel__DOT__genblk2__BRA__0__KET____DOT__acq_buf__DOT__read_addr 
+        = (0xfffU & ((IData)(vlTOPp->buf_read_addr) 
+                     >> 0U));
+    vlTOPp->dsp_sim_toplevel__DOT__genblk2__BRA__1__KET____DOT__acq_buf__DOT__read_addr 
+        = (0xfffU & ((IData)(vlTOPp->buf_read_addr) 
+                     >> 0U));
+    vlTOPp->dsp_sim_toplevel__DOT__mem_write_data = vlTOPp->mem_write_data;
+    vlTOPp->dsp_sim_toplevel__DOT__clk = vlTOPp->clk;
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.clk 
+        = vlTOPp->clk;
+    vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__0__KET____DOT__cmd_wen 
+        = (((0U == (IData)(vlTOPp->proc_write_sel)) 
+            & (0U == (IData)(vlTOPp->mem_write_sel))) 
+           & (IData)(vlTOPp->mem_write_en));
+    vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__0__KET____DOT__env_qdrv_wen 
+        = (((0U == (IData)(vlTOPp->proc_write_sel)) 
+            & (1U == (IData)(vlTOPp->mem_write_sel))) 
+           & (IData)(vlTOPp->mem_write_en));
+    vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__0__KET____DOT__freq_qdrv_wen 
+        = (((0U == (IData)(vlTOPp->proc_write_sel)) 
+            & (2U == (IData)(vlTOPp->mem_write_sel))) 
+           & (IData)(vlTOPp->mem_write_en));
+    vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__0__KET____DOT__env_rdrv_wen 
+        = (((0U == (IData)(vlTOPp->proc_write_sel)) 
+            & (3U == (IData)(vlTOPp->mem_write_sel))) 
+           & (IData)(vlTOPp->mem_write_en));
+    vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__0__KET____DOT__freq_rdrv_wen 
+        = (((0U == (IData)(vlTOPp->proc_write_sel)) 
+            & (4U == (IData)(vlTOPp->mem_write_sel))) 
+           & (IData)(vlTOPp->mem_write_en));
+    vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__0__KET____DOT__env_rdlo_wen 
+        = (((0U == (IData)(vlTOPp->proc_write_sel)) 
+            & (5U == (IData)(vlTOPp->mem_write_sel))) 
+           & (IData)(vlTOPp->mem_write_en));
+    vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__0__KET____DOT__freq_rdlo_wen 
+        = (((0U == (IData)(vlTOPp->proc_write_sel)) 
+            & (6U == (IData)(vlTOPp->mem_write_sel))) 
+           & (IData)(vlTOPp->mem_write_en));
+    vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__1__KET____DOT__cmd_wen 
+        = (((1U == (IData)(vlTOPp->proc_write_sel)) 
+            & (0U == (IData)(vlTOPp->mem_write_sel))) 
+           & (IData)(vlTOPp->mem_write_en));
+    vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__1__KET____DOT__env_qdrv_wen 
+        = (((1U == (IData)(vlTOPp->proc_write_sel)) 
+            & (1U == (IData)(vlTOPp->mem_write_sel))) 
+           & (IData)(vlTOPp->mem_write_en));
+    vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__1__KET____DOT__freq_qdrv_wen 
+        = (((1U == (IData)(vlTOPp->proc_write_sel)) 
+            & (2U == (IData)(vlTOPp->mem_write_sel))) 
+           & (IData)(vlTOPp->mem_write_en));
+    vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__1__KET____DOT__env_rdrv_wen 
+        = (((1U == (IData)(vlTOPp->proc_write_sel)) 
+            & (3U == (IData)(vlTOPp->mem_write_sel))) 
+           & (IData)(vlTOPp->mem_write_en));
+    vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__1__KET____DOT__freq_rdrv_wen 
+        = (((1U == (IData)(vlTOPp->proc_write_sel)) 
+            & (4U == (IData)(vlTOPp->mem_write_sel))) 
+           & (IData)(vlTOPp->mem_write_en));
+    vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__1__KET____DOT__env_rdlo_wen 
+        = (((1U == (IData)(vlTOPp->proc_write_sel)) 
+            & (5U == (IData)(vlTOPp->mem_write_sel))) 
+           & (IData)(vlTOPp->mem_write_en));
+    vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__1__KET____DOT__freq_rdlo_wen 
+        = (((1U == (IData)(vlTOPp->proc_write_sel)) 
+            & (6U == (IData)(vlTOPp->mem_write_sel))) 
+           & (IData)(vlTOPp->mem_write_en));
+    vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__2__KET____DOT__cmd_wen 
+        = (((2U == (IData)(vlTOPp->proc_write_sel)) 
+            & (0U == (IData)(vlTOPp->mem_write_sel))) 
+           & (IData)(vlTOPp->mem_write_en));
+    vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__2__KET____DOT__env_qdrv_wen 
+        = (((2U == (IData)(vlTOPp->proc_write_sel)) 
+            & (1U == (IData)(vlTOPp->mem_write_sel))) 
+           & (IData)(vlTOPp->mem_write_en));
+    vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__2__KET____DOT__freq_qdrv_wen 
+        = (((2U == (IData)(vlTOPp->proc_write_sel)) 
+            & (2U == (IData)(vlTOPp->mem_write_sel))) 
+           & (IData)(vlTOPp->mem_write_en));
+    vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__2__KET____DOT__env_rdrv_wen 
+        = (((2U == (IData)(vlTOPp->proc_write_sel)) 
+            & (3U == (IData)(vlTOPp->mem_write_sel))) 
+           & (IData)(vlTOPp->mem_write_en));
+    vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__2__KET____DOT__freq_rdrv_wen 
+        = (((2U == (IData)(vlTOPp->proc_write_sel)) 
+            & (4U == (IData)(vlTOPp->mem_write_sel))) 
+           & (IData)(vlTOPp->mem_write_en));
+    vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__2__KET____DOT__env_rdlo_wen 
+        = (((2U == (IData)(vlTOPp->proc_write_sel)) 
+            & (5U == (IData)(vlTOPp->mem_write_sel))) 
+           & (IData)(vlTOPp->mem_write_en));
+    vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__2__KET____DOT__freq_rdlo_wen 
+        = (((2U == (IData)(vlTOPp->proc_write_sel)) 
+            & (6U == (IData)(vlTOPp->mem_write_sel))) 
+           & (IData)(vlTOPp->mem_write_en));
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.stb_start 
+        = vlTOPp->stb_start;
+    vlTOPp->dsp_sim_toplevel__DOT__genblk2__BRA__0__KET____DOT__acq_buf__DOT__read_data 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk2__BRA__0__KET____DOT__acq_buf__DOT__data
+        [vlTOPp->dsp_sim_toplevel__DOT__genblk2__BRA__0__KET____DOT__acq_buf__DOT__cur_read_addr
+        [0U]];
+    vlTOPp->dsp_sim_toplevel__DOT__genblk2__BRA__1__KET____DOT__acq_buf__DOT__read_data 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk2__BRA__1__KET____DOT__acq_buf__DOT__data
+        [vlTOPp->dsp_sim_toplevel__DOT__genblk2__BRA__1__KET____DOT__acq_buf__DOT__cur_read_addr
+        [0U]];
+    vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__0__KET____DOT__env_mem_rdrv__DOT__read_data 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__0__KET____DOT__env_mem_rdrv__DOT__data
+        [vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__0__KET____DOT__env_mem_rdrv__DOT__cur_read_addr
+        [1U]];
+    vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__0__KET____DOT__env_mem_rdlo__DOT__read_data 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__0__KET____DOT__env_mem_rdlo__DOT__data
+        [vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__0__KET____DOT__env_mem_rdlo__DOT__cur_read_addr
+        [1U]];
+    vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__1__KET____DOT__env_mem_rdrv__DOT__read_data 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__1__KET____DOT__env_mem_rdrv__DOT__data
+        [vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__1__KET____DOT__env_mem_rdrv__DOT__cur_read_addr
+        [1U]];
+    vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__1__KET____DOT__env_mem_rdlo__DOT__read_data 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__1__KET____DOT__env_mem_rdlo__DOT__data
+        [vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__1__KET____DOT__env_mem_rdlo__DOT__cur_read_addr
+        [1U]];
+    vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__2__KET____DOT__env_mem_rdrv__DOT__read_data 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__2__KET____DOT__env_mem_rdrv__DOT__data
+        [vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__2__KET____DOT__env_mem_rdrv__DOT__cur_read_addr
+        [1U]];
+    vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__2__KET____DOT__env_mem_rdlo__DOT__read_data 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__2__KET____DOT__env_mem_rdlo__DOT__data
+        [vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__2__KET____DOT__env_mem_rdlo__DOT__cur_read_addr
+        [1U]];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT____Vcellinp__stepslice__BRA__0__KET____DOT__sumx__vin[0U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__0__KET____DOT__sumx__DOT__vin
+        [0U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT____Vcellinp__stepslice__BRA__0__KET____DOT__sumx__vin[1U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__0__KET____DOT__sumx__DOT__vin
+        [1U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT____Vcellinp__stepslice__BRA__0__KET____DOT__sumx__vin[2U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__0__KET____DOT__sumx__DOT__vin
+        [2U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT____Vcellinp__stepslice__BRA__0__KET____DOT__sumy__vin[0U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__0__KET____DOT__sumy__DOT__vin
+        [0U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT____Vcellinp__stepslice__BRA__0__KET____DOT__sumy__vin[1U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__0__KET____DOT__sumy__DOT__vin
+        [1U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT____Vcellinp__stepslice__BRA__0__KET____DOT__sumy__vin[2U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__0__KET____DOT__sumy__DOT__vin
+        [2U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT____Vcellinp__stepslice__BRA__1__KET____DOT__sumx__vin[0U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__1__KET____DOT__sumx__DOT__vin
+        [0U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT____Vcellinp__stepslice__BRA__1__KET____DOT__sumx__vin[1U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__1__KET____DOT__sumx__DOT__vin
+        [1U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT____Vcellinp__stepslice__BRA__1__KET____DOT__sumx__vin[2U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__1__KET____DOT__sumx__DOT__vin
+        [2U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT____Vcellinp__stepslice__BRA__1__KET____DOT__sumy__vin[0U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__1__KET____DOT__sumy__DOT__vin
+        [0U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT____Vcellinp__stepslice__BRA__1__KET____DOT__sumy__vin[1U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__1__KET____DOT__sumy__DOT__vin
+        [1U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT____Vcellinp__stepslice__BRA__1__KET____DOT__sumy__vin[2U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__1__KET____DOT__sumy__DOT__vin
+        [2U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT____Vcellinp__stepslice__BRA__2__KET____DOT__sumx__vin[0U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__2__KET____DOT__sumx__DOT__vin
+        [0U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT____Vcellinp__stepslice__BRA__2__KET____DOT__sumx__vin[1U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__2__KET____DOT__sumx__DOT__vin
+        [1U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT____Vcellinp__stepslice__BRA__2__KET____DOT__sumx__vin[2U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__2__KET____DOT__sumx__DOT__vin
+        [2U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT____Vcellinp__stepslice__BRA__2__KET____DOT__sumy__vin[0U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__2__KET____DOT__sumy__DOT__vin
+        [0U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT____Vcellinp__stepslice__BRA__2__KET____DOT__sumy__vin[1U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__2__KET____DOT__sumy__DOT__vin
+        [1U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT____Vcellinp__stepslice__BRA__2__KET____DOT__sumy__vin[2U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__2__KET____DOT__sumy__DOT__vin
+        [2U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT____Vcellinp__stepslice__BRA__3__KET____DOT__sumx__vin[0U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__3__KET____DOT__sumx__DOT__vin
+        [0U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT____Vcellinp__stepslice__BRA__3__KET____DOT__sumx__vin[1U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__3__KET____DOT__sumx__DOT__vin
+        [1U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT____Vcellinp__stepslice__BRA__3__KET____DOT__sumx__vin[2U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__3__KET____DOT__sumx__DOT__vin
+        [2U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT____Vcellinp__stepslice__BRA__3__KET____DOT__sumy__vin[0U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__3__KET____DOT__sumy__DOT__vin
+        [0U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT____Vcellinp__stepslice__BRA__3__KET____DOT__sumy__vin[1U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__3__KET____DOT__sumy__DOT__vin
+        [1U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT____Vcellinp__stepslice__BRA__3__KET____DOT__sumy__vin[2U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__3__KET____DOT__sumy__DOT__vin
+        [2U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT____Vcellinp__stepslice__BRA__4__KET____DOT__sumx__vin[0U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__4__KET____DOT__sumx__DOT__vin
+        [0U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT____Vcellinp__stepslice__BRA__4__KET____DOT__sumx__vin[1U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__4__KET____DOT__sumx__DOT__vin
+        [1U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT____Vcellinp__stepslice__BRA__4__KET____DOT__sumx__vin[2U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__4__KET____DOT__sumx__DOT__vin
+        [2U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT____Vcellinp__stepslice__BRA__4__KET____DOT__sumy__vin[0U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__4__KET____DOT__sumy__DOT__vin
+        [0U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT____Vcellinp__stepslice__BRA__4__KET____DOT__sumy__vin[1U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__4__KET____DOT__sumy__DOT__vin
+        [1U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT____Vcellinp__stepslice__BRA__4__KET____DOT__sumy__vin[2U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__4__KET____DOT__sumy__DOT__vin
+        [2U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT____Vcellinp__stepslice__BRA__5__KET____DOT__sumx__vin[0U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__5__KET____DOT__sumx__DOT__vin
+        [0U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT____Vcellinp__stepslice__BRA__5__KET____DOT__sumx__vin[1U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__5__KET____DOT__sumx__DOT__vin
+        [1U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT____Vcellinp__stepslice__BRA__5__KET____DOT__sumx__vin[2U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__5__KET____DOT__sumx__DOT__vin
+        [2U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT____Vcellinp__stepslice__BRA__5__KET____DOT__sumy__vin[0U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__5__KET____DOT__sumy__DOT__vin
+        [0U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT____Vcellinp__stepslice__BRA__5__KET____DOT__sumy__vin[1U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__5__KET____DOT__sumy__DOT__vin
+        [1U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT____Vcellinp__stepslice__BRA__5__KET____DOT__sumy__vin[2U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__5__KET____DOT__sumy__DOT__vin
+        [2U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT____Vcellinp__stepslice__BRA__6__KET____DOT__sumx__vin[0U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__6__KET____DOT__sumx__DOT__vin
+        [0U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT____Vcellinp__stepslice__BRA__6__KET____DOT__sumx__vin[1U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__6__KET____DOT__sumx__DOT__vin
+        [1U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT____Vcellinp__stepslice__BRA__6__KET____DOT__sumx__vin[2U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__6__KET____DOT__sumx__DOT__vin
+        [2U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT____Vcellinp__stepslice__BRA__6__KET____DOT__sumy__vin[0U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__6__KET____DOT__sumy__DOT__vin
+        [0U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT____Vcellinp__stepslice__BRA__6__KET____DOT__sumy__vin[1U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__6__KET____DOT__sumy__DOT__vin
+        [1U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT____Vcellinp__stepslice__BRA__6__KET____DOT__sumy__vin[2U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__6__KET____DOT__sumy__DOT__vin
+        [2U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT____Vcellinp__stepslice__BRA__7__KET____DOT__sumx__vin[0U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__7__KET____DOT__sumx__DOT__vin
+        [0U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT____Vcellinp__stepslice__BRA__7__KET____DOT__sumx__vin[1U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__7__KET____DOT__sumx__DOT__vin
+        [1U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT____Vcellinp__stepslice__BRA__7__KET____DOT__sumx__vin[2U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__7__KET____DOT__sumx__DOT__vin
+        [2U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT____Vcellinp__stepslice__BRA__7__KET____DOT__sumy__vin[0U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__7__KET____DOT__sumy__DOT__vin
+        [0U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT____Vcellinp__stepslice__BRA__7__KET____DOT__sumy__vin[1U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__7__KET____DOT__sumy__DOT__vin
+        [1U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT____Vcellinp__stepslice__BRA__7__KET____DOT__sumy__vin[2U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__7__KET____DOT__sumy__DOT__vin
+        [2U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT____Vcellinp__stepslice__BRA__8__KET____DOT__sumx__vin[0U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__8__KET____DOT__sumx__DOT__vin
+        [0U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT____Vcellinp__stepslice__BRA__8__KET____DOT__sumx__vin[1U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__8__KET____DOT__sumx__DOT__vin
+        [1U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT____Vcellinp__stepslice__BRA__8__KET____DOT__sumx__vin[2U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__8__KET____DOT__sumx__DOT__vin
+        [2U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT____Vcellinp__stepslice__BRA__8__KET____DOT__sumy__vin[0U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__8__KET____DOT__sumy__DOT__vin
+        [0U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT____Vcellinp__stepslice__BRA__8__KET____DOT__sumy__vin[1U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__8__KET____DOT__sumy__DOT__vin
+        [1U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT____Vcellinp__stepslice__BRA__8__KET____DOT__sumy__vin[2U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__8__KET____DOT__sumy__DOT__vin
+        [2U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT____Vcellinp__stepslice__BRA__9__KET____DOT__sumx__vin[0U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__9__KET____DOT__sumx__DOT__vin
+        [0U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT____Vcellinp__stepslice__BRA__9__KET____DOT__sumx__vin[1U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__9__KET____DOT__sumx__DOT__vin
+        [1U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT____Vcellinp__stepslice__BRA__9__KET____DOT__sumx__vin[2U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__9__KET____DOT__sumx__DOT__vin
+        [2U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT____Vcellinp__stepslice__BRA__9__KET____DOT__sumy__vin[0U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__9__KET____DOT__sumy__DOT__vin
+        [0U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT____Vcellinp__stepslice__BRA__9__KET____DOT__sumy__vin[1U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__9__KET____DOT__sumy__DOT__vin
+        [1U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT____Vcellinp__stepslice__BRA__9__KET____DOT__sumy__vin[2U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__9__KET____DOT__sumy__DOT__vin
+        [2U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT____Vcellinp__stepslice__BRA__10__KET____DOT__sumx__vin[0U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__10__KET____DOT__sumx__DOT__vin
+        [0U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT____Vcellinp__stepslice__BRA__10__KET____DOT__sumx__vin[1U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__10__KET____DOT__sumx__DOT__vin
+        [1U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT____Vcellinp__stepslice__BRA__10__KET____DOT__sumx__vin[2U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__10__KET____DOT__sumx__DOT__vin
+        [2U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT____Vcellinp__stepslice__BRA__10__KET____DOT__sumy__vin[0U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__10__KET____DOT__sumy__DOT__vin
+        [0U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT____Vcellinp__stepslice__BRA__10__KET____DOT__sumy__vin[1U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__10__KET____DOT__sumy__DOT__vin
+        [1U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT____Vcellinp__stepslice__BRA__10__KET____DOT__sumy__vin[2U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__10__KET____DOT__sumy__DOT__vin
+        [2U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT____Vcellinp__stepslice__BRA__11__KET____DOT__sumx__vin[0U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__11__KET____DOT__sumx__DOT__vin
+        [0U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT____Vcellinp__stepslice__BRA__11__KET____DOT__sumx__vin[1U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__11__KET____DOT__sumx__DOT__vin
+        [1U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT____Vcellinp__stepslice__BRA__11__KET____DOT__sumx__vin[2U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__11__KET____DOT__sumx__DOT__vin
+        [2U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT____Vcellinp__stepslice__BRA__11__KET____DOT__sumy__vin[0U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__11__KET____DOT__sumy__DOT__vin
+        [0U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT____Vcellinp__stepslice__BRA__11__KET____DOT__sumy__vin[1U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__11__KET____DOT__sumy__DOT__vin
+        [1U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT____Vcellinp__stepslice__BRA__11__KET____DOT__sumy__vin[2U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__11__KET____DOT__sumy__DOT__vin
+        [2U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT____Vcellinp__stepslice__BRA__12__KET____DOT__sumx__vin[0U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__12__KET____DOT__sumx__DOT__vin
+        [0U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT____Vcellinp__stepslice__BRA__12__KET____DOT__sumx__vin[1U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__12__KET____DOT__sumx__DOT__vin
+        [1U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT____Vcellinp__stepslice__BRA__12__KET____DOT__sumx__vin[2U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__12__KET____DOT__sumx__DOT__vin
+        [2U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT____Vcellinp__stepslice__BRA__12__KET____DOT__sumy__vin[0U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__12__KET____DOT__sumy__DOT__vin
+        [0U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT____Vcellinp__stepslice__BRA__12__KET____DOT__sumy__vin[1U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__12__KET____DOT__sumy__DOT__vin
+        [1U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT____Vcellinp__stepslice__BRA__12__KET____DOT__sumy__vin[2U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__12__KET____DOT__sumy__DOT__vin
+        [2U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT____Vcellinp__stepslice__BRA__13__KET____DOT__sumx__vin[0U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__13__KET____DOT__sumx__DOT__vin
+        [0U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT____Vcellinp__stepslice__BRA__13__KET____DOT__sumx__vin[1U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__13__KET____DOT__sumx__DOT__vin
+        [1U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT____Vcellinp__stepslice__BRA__13__KET____DOT__sumx__vin[2U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__13__KET____DOT__sumx__DOT__vin
+        [2U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT____Vcellinp__stepslice__BRA__13__KET____DOT__sumy__vin[0U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__13__KET____DOT__sumy__DOT__vin
+        [0U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT____Vcellinp__stepslice__BRA__13__KET____DOT__sumy__vin[1U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__13__KET____DOT__sumy__DOT__vin
+        [1U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT____Vcellinp__stepslice__BRA__13__KET____DOT__sumy__vin[2U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__13__KET____DOT__sumy__DOT__vin
+        [2U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT____Vcellinp__stepslice__BRA__14__KET____DOT__sumx__vin[0U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__14__KET____DOT__sumx__DOT__vin
+        [0U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT____Vcellinp__stepslice__BRA__14__KET____DOT__sumx__vin[1U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__14__KET____DOT__sumx__DOT__vin
+        [1U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT____Vcellinp__stepslice__BRA__14__KET____DOT__sumx__vin[2U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__14__KET____DOT__sumx__DOT__vin
+        [2U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT____Vcellinp__stepslice__BRA__14__KET____DOT__sumy__vin[0U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__14__KET____DOT__sumy__DOT__vin
+        [0U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT____Vcellinp__stepslice__BRA__14__KET____DOT__sumy__vin[1U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__14__KET____DOT__sumy__DOT__vin
+        [1U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT____Vcellinp__stepslice__BRA__14__KET____DOT__sumy__vin[2U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__14__KET____DOT__sumy__DOT__vin
+        [2U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT____Vcellinp__stepslice__BRA__15__KET____DOT__sumx__vin[0U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__15__KET____DOT__sumx__DOT__vin
+        [0U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT____Vcellinp__stepslice__BRA__15__KET____DOT__sumx__vin[1U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__15__KET____DOT__sumx__DOT__vin
+        [1U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT____Vcellinp__stepslice__BRA__15__KET____DOT__sumx__vin[2U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__15__KET____DOT__sumx__DOT__vin
+        [2U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT____Vcellinp__stepslice__BRA__15__KET____DOT__sumy__vin[0U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__15__KET____DOT__sumy__DOT__vin
+        [0U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT____Vcellinp__stepslice__BRA__15__KET____DOT__sumy__vin[1U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__15__KET____DOT__sumy__DOT__vin
+        [1U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT____Vcellinp__stepslice__BRA__15__KET____DOT__sumy__vin[2U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__15__KET____DOT__sumy__DOT__vin
+        [2U];
+    vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__0__KET____DOT__freq_mem_rdlo__DOT__read_data[0U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__0__KET____DOT__freq_mem_rdlo__DOT__data
+        [(0x7ffU & (vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__0__KET____DOT__freq_mem_rdlo__DOT__cur_read_addr
+                    [1U] << 2U))];
+    vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__0__KET____DOT__freq_mem_rdlo__DOT__read_data[1U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__0__KET____DOT__freq_mem_rdlo__DOT__data
+        [(0x7ffU & ((IData)(1U) + (vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__0__KET____DOT__freq_mem_rdlo__DOT__cur_read_addr
+                                   [1U] << 2U)))];
+    vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__0__KET____DOT__freq_mem_rdlo__DOT__read_data[2U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__0__KET____DOT__freq_mem_rdlo__DOT__data
+        [(0x7ffU & ((IData)(2U) + (vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__0__KET____DOT__freq_mem_rdlo__DOT__cur_read_addr
+                                   [1U] << 2U)))];
+    vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__0__KET____DOT__freq_mem_rdlo__DOT__read_data[3U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__0__KET____DOT__freq_mem_rdlo__DOT__data
+        [(0x7ffU & ((IData)(3U) + (vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__0__KET____DOT__freq_mem_rdlo__DOT__cur_read_addr
+                                   [1U] << 2U)))];
+    vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__1__KET____DOT__freq_mem_rdlo__DOT__read_data[0U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__1__KET____DOT__freq_mem_rdlo__DOT__data
+        [(0x7ffU & (vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__1__KET____DOT__freq_mem_rdlo__DOT__cur_read_addr
+                    [1U] << 2U))];
+    vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__1__KET____DOT__freq_mem_rdlo__DOT__read_data[1U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__1__KET____DOT__freq_mem_rdlo__DOT__data
+        [(0x7ffU & ((IData)(1U) + (vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__1__KET____DOT__freq_mem_rdlo__DOT__cur_read_addr
+                                   [1U] << 2U)))];
+    vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__1__KET____DOT__freq_mem_rdlo__DOT__read_data[2U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__1__KET____DOT__freq_mem_rdlo__DOT__data
+        [(0x7ffU & ((IData)(2U) + (vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__1__KET____DOT__freq_mem_rdlo__DOT__cur_read_addr
+                                   [1U] << 2U)))];
+    vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__1__KET____DOT__freq_mem_rdlo__DOT__read_data[3U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__1__KET____DOT__freq_mem_rdlo__DOT__data
+        [(0x7ffU & ((IData)(3U) + (vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__1__KET____DOT__freq_mem_rdlo__DOT__cur_read_addr
+                                   [1U] << 2U)))];
+    vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__2__KET____DOT__freq_mem_rdlo__DOT__read_data[0U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__2__KET____DOT__freq_mem_rdlo__DOT__data
+        [(0x7ffU & (vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__2__KET____DOT__freq_mem_rdlo__DOT__cur_read_addr
+                    [1U] << 2U))];
+    vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__2__KET____DOT__freq_mem_rdlo__DOT__read_data[1U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__2__KET____DOT__freq_mem_rdlo__DOT__data
+        [(0x7ffU & ((IData)(1U) + (vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__2__KET____DOT__freq_mem_rdlo__DOT__cur_read_addr
+                                   [1U] << 2U)))];
+    vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__2__KET____DOT__freq_mem_rdlo__DOT__read_data[2U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__2__KET____DOT__freq_mem_rdlo__DOT__data
+        [(0x7ffU & ((IData)(2U) + (vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__2__KET____DOT__freq_mem_rdlo__DOT__cur_read_addr
+                                   [1U] << 2U)))];
+    vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__2__KET____DOT__freq_mem_rdlo__DOT__read_data[3U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__2__KET____DOT__freq_mem_rdlo__DOT__data
+        [(0x7ffU & ((IData)(3U) + (vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__2__KET____DOT__freq_mem_rdlo__DOT__cur_read_addr
+                                   [1U] << 2U)))];
+    vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__0__KET____DOT__env_mem_qdrv__DOT__read_data[0U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__0__KET____DOT__env_mem_qdrv__DOT__data
+        [(0xfffU & (vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__0__KET____DOT__env_mem_qdrv__DOT__cur_read_addr
+                    [1U] << 4U))];
+    vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__0__KET____DOT__env_mem_qdrv__DOT__read_data[1U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__0__KET____DOT__env_mem_qdrv__DOT__data
+        [(0xfffU & ((IData)(1U) + (vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__0__KET____DOT__env_mem_qdrv__DOT__cur_read_addr
+                                   [1U] << 4U)))];
+    vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__0__KET____DOT__env_mem_qdrv__DOT__read_data[2U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__0__KET____DOT__env_mem_qdrv__DOT__data
+        [(0xfffU & ((IData)(2U) + (vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__0__KET____DOT__env_mem_qdrv__DOT__cur_read_addr
+                                   [1U] << 4U)))];
+    vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__0__KET____DOT__env_mem_qdrv__DOT__read_data[3U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__0__KET____DOT__env_mem_qdrv__DOT__data
+        [(0xfffU & ((IData)(3U) + (vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__0__KET____DOT__env_mem_qdrv__DOT__cur_read_addr
+                                   [1U] << 4U)))];
+    vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__0__KET____DOT__env_mem_qdrv__DOT__read_data[4U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__0__KET____DOT__env_mem_qdrv__DOT__data
+        [(0xfffU & ((IData)(4U) + (vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__0__KET____DOT__env_mem_qdrv__DOT__cur_read_addr
+                                   [1U] << 4U)))];
+    vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__0__KET____DOT__env_mem_qdrv__DOT__read_data[5U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__0__KET____DOT__env_mem_qdrv__DOT__data
+        [(0xfffU & ((IData)(5U) + (vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__0__KET____DOT__env_mem_qdrv__DOT__cur_read_addr
+                                   [1U] << 4U)))];
+    vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__0__KET____DOT__env_mem_qdrv__DOT__read_data[6U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__0__KET____DOT__env_mem_qdrv__DOT__data
+        [(0xfffU & ((IData)(6U) + (vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__0__KET____DOT__env_mem_qdrv__DOT__cur_read_addr
+                                   [1U] << 4U)))];
+    vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__0__KET____DOT__env_mem_qdrv__DOT__read_data[7U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__0__KET____DOT__env_mem_qdrv__DOT__data
+        [(0xfffU & ((IData)(7U) + (vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__0__KET____DOT__env_mem_qdrv__DOT__cur_read_addr
+                                   [1U] << 4U)))];
+    vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__0__KET____DOT__env_mem_qdrv__DOT__read_data[8U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__0__KET____DOT__env_mem_qdrv__DOT__data
+        [(0xfffU & ((IData)(8U) + (vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__0__KET____DOT__env_mem_qdrv__DOT__cur_read_addr
+                                   [1U] << 4U)))];
+    vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__0__KET____DOT__env_mem_qdrv__DOT__read_data[9U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__0__KET____DOT__env_mem_qdrv__DOT__data
+        [(0xfffU & ((IData)(9U) + (vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__0__KET____DOT__env_mem_qdrv__DOT__cur_read_addr
+                                   [1U] << 4U)))];
+    vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__0__KET____DOT__env_mem_qdrv__DOT__read_data[0xaU] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__0__KET____DOT__env_mem_qdrv__DOT__data
+        [(0xfffU & ((IData)(0xaU) + (vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__0__KET____DOT__env_mem_qdrv__DOT__cur_read_addr
+                                     [1U] << 4U)))];
+    vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__0__KET____DOT__env_mem_qdrv__DOT__read_data[0xbU] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__0__KET____DOT__env_mem_qdrv__DOT__data
+        [(0xfffU & ((IData)(0xbU) + (vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__0__KET____DOT__env_mem_qdrv__DOT__cur_read_addr
+                                     [1U] << 4U)))];
+    vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__0__KET____DOT__env_mem_qdrv__DOT__read_data[0xcU] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__0__KET____DOT__env_mem_qdrv__DOT__data
+        [(0xfffU & ((IData)(0xcU) + (vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__0__KET____DOT__env_mem_qdrv__DOT__cur_read_addr
+                                     [1U] << 4U)))];
+    vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__0__KET____DOT__env_mem_qdrv__DOT__read_data[0xdU] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__0__KET____DOT__env_mem_qdrv__DOT__data
+        [(0xfffU & ((IData)(0xdU) + (vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__0__KET____DOT__env_mem_qdrv__DOT__cur_read_addr
+                                     [1U] << 4U)))];
+    vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__0__KET____DOT__env_mem_qdrv__DOT__read_data[0xeU] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__0__KET____DOT__env_mem_qdrv__DOT__data
+        [(0xfffU & ((IData)(0xeU) + (vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__0__KET____DOT__env_mem_qdrv__DOT__cur_read_addr
+                                     [1U] << 4U)))];
+    vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__0__KET____DOT__env_mem_qdrv__DOT__read_data[0xfU] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__0__KET____DOT__env_mem_qdrv__DOT__data
+        [(0xfffU & ((IData)(0xfU) + (vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__0__KET____DOT__env_mem_qdrv__DOT__cur_read_addr
+                                     [1U] << 4U)))];
+    vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__0__KET____DOT__freq_mem_qdrv__DOT__read_data[0U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__0__KET____DOT__freq_mem_qdrv__DOT__data
+        [(0x1fffU & (vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__0__KET____DOT__freq_mem_qdrv__DOT__cur_read_addr
+                     [1U] << 4U))];
+    vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__0__KET____DOT__freq_mem_qdrv__DOT__read_data[1U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__0__KET____DOT__freq_mem_qdrv__DOT__data
+        [(0x1fffU & ((IData)(1U) + (vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__0__KET____DOT__freq_mem_qdrv__DOT__cur_read_addr
+                                    [1U] << 4U)))];
+    vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__0__KET____DOT__freq_mem_qdrv__DOT__read_data[2U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__0__KET____DOT__freq_mem_qdrv__DOT__data
+        [(0x1fffU & ((IData)(2U) + (vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__0__KET____DOT__freq_mem_qdrv__DOT__cur_read_addr
+                                    [1U] << 4U)))];
+    vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__0__KET____DOT__freq_mem_qdrv__DOT__read_data[3U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__0__KET____DOT__freq_mem_qdrv__DOT__data
+        [(0x1fffU & ((IData)(3U) + (vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__0__KET____DOT__freq_mem_qdrv__DOT__cur_read_addr
+                                    [1U] << 4U)))];
+    vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__0__KET____DOT__freq_mem_qdrv__DOT__read_data[4U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__0__KET____DOT__freq_mem_qdrv__DOT__data
+        [(0x1fffU & ((IData)(4U) + (vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__0__KET____DOT__freq_mem_qdrv__DOT__cur_read_addr
+                                    [1U] << 4U)))];
+    vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__0__KET____DOT__freq_mem_qdrv__DOT__read_data[5U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__0__KET____DOT__freq_mem_qdrv__DOT__data
+        [(0x1fffU & ((IData)(5U) + (vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__0__KET____DOT__freq_mem_qdrv__DOT__cur_read_addr
+                                    [1U] << 4U)))];
+    vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__0__KET____DOT__freq_mem_qdrv__DOT__read_data[6U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__0__KET____DOT__freq_mem_qdrv__DOT__data
+        [(0x1fffU & ((IData)(6U) + (vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__0__KET____DOT__freq_mem_qdrv__DOT__cur_read_addr
+                                    [1U] << 4U)))];
+    vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__0__KET____DOT__freq_mem_qdrv__DOT__read_data[7U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__0__KET____DOT__freq_mem_qdrv__DOT__data
+        [(0x1fffU & ((IData)(7U) + (vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__0__KET____DOT__freq_mem_qdrv__DOT__cur_read_addr
+                                    [1U] << 4U)))];
+    vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__0__KET____DOT__freq_mem_qdrv__DOT__read_data[8U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__0__KET____DOT__freq_mem_qdrv__DOT__data
+        [(0x1fffU & ((IData)(8U) + (vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__0__KET____DOT__freq_mem_qdrv__DOT__cur_read_addr
+                                    [1U] << 4U)))];
+    vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__0__KET____DOT__freq_mem_qdrv__DOT__read_data[9U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__0__KET____DOT__freq_mem_qdrv__DOT__data
+        [(0x1fffU & ((IData)(9U) + (vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__0__KET____DOT__freq_mem_qdrv__DOT__cur_read_addr
+                                    [1U] << 4U)))];
+    vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__0__KET____DOT__freq_mem_qdrv__DOT__read_data[0xaU] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__0__KET____DOT__freq_mem_qdrv__DOT__data
+        [(0x1fffU & ((IData)(0xaU) + (vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__0__KET____DOT__freq_mem_qdrv__DOT__cur_read_addr
+                                      [1U] << 4U)))];
+    vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__0__KET____DOT__freq_mem_qdrv__DOT__read_data[0xbU] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__0__KET____DOT__freq_mem_qdrv__DOT__data
+        [(0x1fffU & ((IData)(0xbU) + (vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__0__KET____DOT__freq_mem_qdrv__DOT__cur_read_addr
+                                      [1U] << 4U)))];
+    vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__0__KET____DOT__freq_mem_qdrv__DOT__read_data[0xcU] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__0__KET____DOT__freq_mem_qdrv__DOT__data
+        [(0x1fffU & ((IData)(0xcU) + (vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__0__KET____DOT__freq_mem_qdrv__DOT__cur_read_addr
+                                      [1U] << 4U)))];
+    vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__0__KET____DOT__freq_mem_qdrv__DOT__read_data[0xdU] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__0__KET____DOT__freq_mem_qdrv__DOT__data
+        [(0x1fffU & ((IData)(0xdU) + (vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__0__KET____DOT__freq_mem_qdrv__DOT__cur_read_addr
+                                      [1U] << 4U)))];
+    vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__0__KET____DOT__freq_mem_qdrv__DOT__read_data[0xeU] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__0__KET____DOT__freq_mem_qdrv__DOT__data
+        [(0x1fffU & ((IData)(0xeU) + (vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__0__KET____DOT__freq_mem_qdrv__DOT__cur_read_addr
+                                      [1U] << 4U)))];
+    vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__0__KET____DOT__freq_mem_qdrv__DOT__read_data[0xfU] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__0__KET____DOT__freq_mem_qdrv__DOT__data
+        [(0x1fffU & ((IData)(0xfU) + (vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__0__KET____DOT__freq_mem_qdrv__DOT__cur_read_addr
+                                      [1U] << 4U)))];
+    vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__0__KET____DOT__freq_mem_rdrv__DOT__read_data[0U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__0__KET____DOT__freq_mem_rdrv__DOT__data
+        [(0x1fffU & (vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__0__KET____DOT__freq_mem_rdrv__DOT__cur_read_addr
+                     [1U] << 4U))];
+    vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__0__KET____DOT__freq_mem_rdrv__DOT__read_data[1U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__0__KET____DOT__freq_mem_rdrv__DOT__data
+        [(0x1fffU & ((IData)(1U) + (vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__0__KET____DOT__freq_mem_rdrv__DOT__cur_read_addr
+                                    [1U] << 4U)))];
+    vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__0__KET____DOT__freq_mem_rdrv__DOT__read_data[2U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__0__KET____DOT__freq_mem_rdrv__DOT__data
+        [(0x1fffU & ((IData)(2U) + (vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__0__KET____DOT__freq_mem_rdrv__DOT__cur_read_addr
+                                    [1U] << 4U)))];
+    vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__0__KET____DOT__freq_mem_rdrv__DOT__read_data[3U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__0__KET____DOT__freq_mem_rdrv__DOT__data
+        [(0x1fffU & ((IData)(3U) + (vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__0__KET____DOT__freq_mem_rdrv__DOT__cur_read_addr
+                                    [1U] << 4U)))];
+    vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__0__KET____DOT__freq_mem_rdrv__DOT__read_data[4U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__0__KET____DOT__freq_mem_rdrv__DOT__data
+        [(0x1fffU & ((IData)(4U) + (vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__0__KET____DOT__freq_mem_rdrv__DOT__cur_read_addr
+                                    [1U] << 4U)))];
+    vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__0__KET____DOT__freq_mem_rdrv__DOT__read_data[5U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__0__KET____DOT__freq_mem_rdrv__DOT__data
+        [(0x1fffU & ((IData)(5U) + (vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__0__KET____DOT__freq_mem_rdrv__DOT__cur_read_addr
+                                    [1U] << 4U)))];
+    vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__0__KET____DOT__freq_mem_rdrv__DOT__read_data[6U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__0__KET____DOT__freq_mem_rdrv__DOT__data
+        [(0x1fffU & ((IData)(6U) + (vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__0__KET____DOT__freq_mem_rdrv__DOT__cur_read_addr
+                                    [1U] << 4U)))];
+    vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__0__KET____DOT__freq_mem_rdrv__DOT__read_data[7U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__0__KET____DOT__freq_mem_rdrv__DOT__data
+        [(0x1fffU & ((IData)(7U) + (vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__0__KET____DOT__freq_mem_rdrv__DOT__cur_read_addr
+                                    [1U] << 4U)))];
+    vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__0__KET____DOT__freq_mem_rdrv__DOT__read_data[8U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__0__KET____DOT__freq_mem_rdrv__DOT__data
+        [(0x1fffU & ((IData)(8U) + (vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__0__KET____DOT__freq_mem_rdrv__DOT__cur_read_addr
+                                    [1U] << 4U)))];
+    vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__0__KET____DOT__freq_mem_rdrv__DOT__read_data[9U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__0__KET____DOT__freq_mem_rdrv__DOT__data
+        [(0x1fffU & ((IData)(9U) + (vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__0__KET____DOT__freq_mem_rdrv__DOT__cur_read_addr
+                                    [1U] << 4U)))];
+    vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__0__KET____DOT__freq_mem_rdrv__DOT__read_data[0xaU] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__0__KET____DOT__freq_mem_rdrv__DOT__data
+        [(0x1fffU & ((IData)(0xaU) + (vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__0__KET____DOT__freq_mem_rdrv__DOT__cur_read_addr
+                                      [1U] << 4U)))];
+    vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__0__KET____DOT__freq_mem_rdrv__DOT__read_data[0xbU] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__0__KET____DOT__freq_mem_rdrv__DOT__data
+        [(0x1fffU & ((IData)(0xbU) + (vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__0__KET____DOT__freq_mem_rdrv__DOT__cur_read_addr
+                                      [1U] << 4U)))];
+    vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__0__KET____DOT__freq_mem_rdrv__DOT__read_data[0xcU] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__0__KET____DOT__freq_mem_rdrv__DOT__data
+        [(0x1fffU & ((IData)(0xcU) + (vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__0__KET____DOT__freq_mem_rdrv__DOT__cur_read_addr
+                                      [1U] << 4U)))];
+    vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__0__KET____DOT__freq_mem_rdrv__DOT__read_data[0xdU] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__0__KET____DOT__freq_mem_rdrv__DOT__data
+        [(0x1fffU & ((IData)(0xdU) + (vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__0__KET____DOT__freq_mem_rdrv__DOT__cur_read_addr
+                                      [1U] << 4U)))];
+    vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__0__KET____DOT__freq_mem_rdrv__DOT__read_data[0xeU] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__0__KET____DOT__freq_mem_rdrv__DOT__data
+        [(0x1fffU & ((IData)(0xeU) + (vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__0__KET____DOT__freq_mem_rdrv__DOT__cur_read_addr
+                                      [1U] << 4U)))];
+    vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__0__KET____DOT__freq_mem_rdrv__DOT__read_data[0xfU] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__0__KET____DOT__freq_mem_rdrv__DOT__data
+        [(0x1fffU & ((IData)(0xfU) + (vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__0__KET____DOT__freq_mem_rdrv__DOT__cur_read_addr
+                                      [1U] << 4U)))];
+    vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__1__KET____DOT__env_mem_qdrv__DOT__read_data[0U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__1__KET____DOT__env_mem_qdrv__DOT__data
+        [(0xfffU & (vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__1__KET____DOT__env_mem_qdrv__DOT__cur_read_addr
+                    [1U] << 4U))];
+    vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__1__KET____DOT__env_mem_qdrv__DOT__read_data[1U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__1__KET____DOT__env_mem_qdrv__DOT__data
+        [(0xfffU & ((IData)(1U) + (vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__1__KET____DOT__env_mem_qdrv__DOT__cur_read_addr
+                                   [1U] << 4U)))];
+    vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__1__KET____DOT__env_mem_qdrv__DOT__read_data[2U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__1__KET____DOT__env_mem_qdrv__DOT__data
+        [(0xfffU & ((IData)(2U) + (vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__1__KET____DOT__env_mem_qdrv__DOT__cur_read_addr
+                                   [1U] << 4U)))];
+    vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__1__KET____DOT__env_mem_qdrv__DOT__read_data[3U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__1__KET____DOT__env_mem_qdrv__DOT__data
+        [(0xfffU & ((IData)(3U) + (vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__1__KET____DOT__env_mem_qdrv__DOT__cur_read_addr
+                                   [1U] << 4U)))];
+    vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__1__KET____DOT__env_mem_qdrv__DOT__read_data[4U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__1__KET____DOT__env_mem_qdrv__DOT__data
+        [(0xfffU & ((IData)(4U) + (vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__1__KET____DOT__env_mem_qdrv__DOT__cur_read_addr
+                                   [1U] << 4U)))];
+    vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__1__KET____DOT__env_mem_qdrv__DOT__read_data[5U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__1__KET____DOT__env_mem_qdrv__DOT__data
+        [(0xfffU & ((IData)(5U) + (vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__1__KET____DOT__env_mem_qdrv__DOT__cur_read_addr
+                                   [1U] << 4U)))];
+    vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__1__KET____DOT__env_mem_qdrv__DOT__read_data[6U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__1__KET____DOT__env_mem_qdrv__DOT__data
+        [(0xfffU & ((IData)(6U) + (vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__1__KET____DOT__env_mem_qdrv__DOT__cur_read_addr
+                                   [1U] << 4U)))];
+    vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__1__KET____DOT__env_mem_qdrv__DOT__read_data[7U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__1__KET____DOT__env_mem_qdrv__DOT__data
+        [(0xfffU & ((IData)(7U) + (vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__1__KET____DOT__env_mem_qdrv__DOT__cur_read_addr
+                                   [1U] << 4U)))];
+    vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__1__KET____DOT__env_mem_qdrv__DOT__read_data[8U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__1__KET____DOT__env_mem_qdrv__DOT__data
+        [(0xfffU & ((IData)(8U) + (vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__1__KET____DOT__env_mem_qdrv__DOT__cur_read_addr
+                                   [1U] << 4U)))];
+    vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__1__KET____DOT__env_mem_qdrv__DOT__read_data[9U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__1__KET____DOT__env_mem_qdrv__DOT__data
+        [(0xfffU & ((IData)(9U) + (vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__1__KET____DOT__env_mem_qdrv__DOT__cur_read_addr
+                                   [1U] << 4U)))];
+    vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__1__KET____DOT__env_mem_qdrv__DOT__read_data[0xaU] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__1__KET____DOT__env_mem_qdrv__DOT__data
+        [(0xfffU & ((IData)(0xaU) + (vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__1__KET____DOT__env_mem_qdrv__DOT__cur_read_addr
+                                     [1U] << 4U)))];
+    vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__1__KET____DOT__env_mem_qdrv__DOT__read_data[0xbU] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__1__KET____DOT__env_mem_qdrv__DOT__data
+        [(0xfffU & ((IData)(0xbU) + (vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__1__KET____DOT__env_mem_qdrv__DOT__cur_read_addr
+                                     [1U] << 4U)))];
+    vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__1__KET____DOT__env_mem_qdrv__DOT__read_data[0xcU] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__1__KET____DOT__env_mem_qdrv__DOT__data
+        [(0xfffU & ((IData)(0xcU) + (vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__1__KET____DOT__env_mem_qdrv__DOT__cur_read_addr
+                                     [1U] << 4U)))];
+    vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__1__KET____DOT__env_mem_qdrv__DOT__read_data[0xdU] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__1__KET____DOT__env_mem_qdrv__DOT__data
+        [(0xfffU & ((IData)(0xdU) + (vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__1__KET____DOT__env_mem_qdrv__DOT__cur_read_addr
+                                     [1U] << 4U)))];
+    vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__1__KET____DOT__env_mem_qdrv__DOT__read_data[0xeU] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__1__KET____DOT__env_mem_qdrv__DOT__data
+        [(0xfffU & ((IData)(0xeU) + (vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__1__KET____DOT__env_mem_qdrv__DOT__cur_read_addr
+                                     [1U] << 4U)))];
+    vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__1__KET____DOT__env_mem_qdrv__DOT__read_data[0xfU] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__1__KET____DOT__env_mem_qdrv__DOT__data
+        [(0xfffU & ((IData)(0xfU) + (vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__1__KET____DOT__env_mem_qdrv__DOT__cur_read_addr
+                                     [1U] << 4U)))];
+    vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__1__KET____DOT__freq_mem_qdrv__DOT__read_data[0U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__1__KET____DOT__freq_mem_qdrv__DOT__data
+        [(0x1fffU & (vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__1__KET____DOT__freq_mem_qdrv__DOT__cur_read_addr
+                     [1U] << 4U))];
+    vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__1__KET____DOT__freq_mem_qdrv__DOT__read_data[1U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__1__KET____DOT__freq_mem_qdrv__DOT__data
+        [(0x1fffU & ((IData)(1U) + (vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__1__KET____DOT__freq_mem_qdrv__DOT__cur_read_addr
+                                    [1U] << 4U)))];
+    vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__1__KET____DOT__freq_mem_qdrv__DOT__read_data[2U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__1__KET____DOT__freq_mem_qdrv__DOT__data
+        [(0x1fffU & ((IData)(2U) + (vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__1__KET____DOT__freq_mem_qdrv__DOT__cur_read_addr
+                                    [1U] << 4U)))];
+    vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__1__KET____DOT__freq_mem_qdrv__DOT__read_data[3U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__1__KET____DOT__freq_mem_qdrv__DOT__data
+        [(0x1fffU & ((IData)(3U) + (vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__1__KET____DOT__freq_mem_qdrv__DOT__cur_read_addr
+                                    [1U] << 4U)))];
+    vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__1__KET____DOT__freq_mem_qdrv__DOT__read_data[4U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__1__KET____DOT__freq_mem_qdrv__DOT__data
+        [(0x1fffU & ((IData)(4U) + (vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__1__KET____DOT__freq_mem_qdrv__DOT__cur_read_addr
+                                    [1U] << 4U)))];
+    vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__1__KET____DOT__freq_mem_qdrv__DOT__read_data[5U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__1__KET____DOT__freq_mem_qdrv__DOT__data
+        [(0x1fffU & ((IData)(5U) + (vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__1__KET____DOT__freq_mem_qdrv__DOT__cur_read_addr
+                                    [1U] << 4U)))];
+    vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__1__KET____DOT__freq_mem_qdrv__DOT__read_data[6U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__1__KET____DOT__freq_mem_qdrv__DOT__data
+        [(0x1fffU & ((IData)(6U) + (vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__1__KET____DOT__freq_mem_qdrv__DOT__cur_read_addr
+                                    [1U] << 4U)))];
+    vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__1__KET____DOT__freq_mem_qdrv__DOT__read_data[7U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__1__KET____DOT__freq_mem_qdrv__DOT__data
+        [(0x1fffU & ((IData)(7U) + (vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__1__KET____DOT__freq_mem_qdrv__DOT__cur_read_addr
+                                    [1U] << 4U)))];
+    vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__1__KET____DOT__freq_mem_qdrv__DOT__read_data[8U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__1__KET____DOT__freq_mem_qdrv__DOT__data
+        [(0x1fffU & ((IData)(8U) + (vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__1__KET____DOT__freq_mem_qdrv__DOT__cur_read_addr
+                                    [1U] << 4U)))];
+    vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__1__KET____DOT__freq_mem_qdrv__DOT__read_data[9U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__1__KET____DOT__freq_mem_qdrv__DOT__data
+        [(0x1fffU & ((IData)(9U) + (vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__1__KET____DOT__freq_mem_qdrv__DOT__cur_read_addr
+                                    [1U] << 4U)))];
+    vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__1__KET____DOT__freq_mem_qdrv__DOT__read_data[0xaU] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__1__KET____DOT__freq_mem_qdrv__DOT__data
+        [(0x1fffU & ((IData)(0xaU) + (vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__1__KET____DOT__freq_mem_qdrv__DOT__cur_read_addr
+                                      [1U] << 4U)))];
+    vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__1__KET____DOT__freq_mem_qdrv__DOT__read_data[0xbU] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__1__KET____DOT__freq_mem_qdrv__DOT__data
+        [(0x1fffU & ((IData)(0xbU) + (vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__1__KET____DOT__freq_mem_qdrv__DOT__cur_read_addr
+                                      [1U] << 4U)))];
+    vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__1__KET____DOT__freq_mem_qdrv__DOT__read_data[0xcU] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__1__KET____DOT__freq_mem_qdrv__DOT__data
+        [(0x1fffU & ((IData)(0xcU) + (vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__1__KET____DOT__freq_mem_qdrv__DOT__cur_read_addr
+                                      [1U] << 4U)))];
+    vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__1__KET____DOT__freq_mem_qdrv__DOT__read_data[0xdU] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__1__KET____DOT__freq_mem_qdrv__DOT__data
+        [(0x1fffU & ((IData)(0xdU) + (vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__1__KET____DOT__freq_mem_qdrv__DOT__cur_read_addr
+                                      [1U] << 4U)))];
+    vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__1__KET____DOT__freq_mem_qdrv__DOT__read_data[0xeU] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__1__KET____DOT__freq_mem_qdrv__DOT__data
+        [(0x1fffU & ((IData)(0xeU) + (vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__1__KET____DOT__freq_mem_qdrv__DOT__cur_read_addr
+                                      [1U] << 4U)))];
+    vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__1__KET____DOT__freq_mem_qdrv__DOT__read_data[0xfU] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__1__KET____DOT__freq_mem_qdrv__DOT__data
+        [(0x1fffU & ((IData)(0xfU) + (vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__1__KET____DOT__freq_mem_qdrv__DOT__cur_read_addr
+                                      [1U] << 4U)))];
+    vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__1__KET____DOT__freq_mem_rdrv__DOT__read_data[0U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__1__KET____DOT__freq_mem_rdrv__DOT__data
+        [(0x1fffU & (vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__1__KET____DOT__freq_mem_rdrv__DOT__cur_read_addr
+                     [1U] << 4U))];
+    vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__1__KET____DOT__freq_mem_rdrv__DOT__read_data[1U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__1__KET____DOT__freq_mem_rdrv__DOT__data
+        [(0x1fffU & ((IData)(1U) + (vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__1__KET____DOT__freq_mem_rdrv__DOT__cur_read_addr
+                                    [1U] << 4U)))];
+    vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__1__KET____DOT__freq_mem_rdrv__DOT__read_data[2U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__1__KET____DOT__freq_mem_rdrv__DOT__data
+        [(0x1fffU & ((IData)(2U) + (vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__1__KET____DOT__freq_mem_rdrv__DOT__cur_read_addr
+                                    [1U] << 4U)))];
+    vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__1__KET____DOT__freq_mem_rdrv__DOT__read_data[3U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__1__KET____DOT__freq_mem_rdrv__DOT__data
+        [(0x1fffU & ((IData)(3U) + (vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__1__KET____DOT__freq_mem_rdrv__DOT__cur_read_addr
+                                    [1U] << 4U)))];
+    vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__1__KET____DOT__freq_mem_rdrv__DOT__read_data[4U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__1__KET____DOT__freq_mem_rdrv__DOT__data
+        [(0x1fffU & ((IData)(4U) + (vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__1__KET____DOT__freq_mem_rdrv__DOT__cur_read_addr
+                                    [1U] << 4U)))];
+    vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__1__KET____DOT__freq_mem_rdrv__DOT__read_data[5U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__1__KET____DOT__freq_mem_rdrv__DOT__data
+        [(0x1fffU & ((IData)(5U) + (vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__1__KET____DOT__freq_mem_rdrv__DOT__cur_read_addr
+                                    [1U] << 4U)))];
+    vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__1__KET____DOT__freq_mem_rdrv__DOT__read_data[6U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__1__KET____DOT__freq_mem_rdrv__DOT__data
+        [(0x1fffU & ((IData)(6U) + (vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__1__KET____DOT__freq_mem_rdrv__DOT__cur_read_addr
+                                    [1U] << 4U)))];
+    vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__1__KET____DOT__freq_mem_rdrv__DOT__read_data[7U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__1__KET____DOT__freq_mem_rdrv__DOT__data
+        [(0x1fffU & ((IData)(7U) + (vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__1__KET____DOT__freq_mem_rdrv__DOT__cur_read_addr
+                                    [1U] << 4U)))];
+    vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__1__KET____DOT__freq_mem_rdrv__DOT__read_data[8U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__1__KET____DOT__freq_mem_rdrv__DOT__data
+        [(0x1fffU & ((IData)(8U) + (vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__1__KET____DOT__freq_mem_rdrv__DOT__cur_read_addr
+                                    [1U] << 4U)))];
+    vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__1__KET____DOT__freq_mem_rdrv__DOT__read_data[9U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__1__KET____DOT__freq_mem_rdrv__DOT__data
+        [(0x1fffU & ((IData)(9U) + (vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__1__KET____DOT__freq_mem_rdrv__DOT__cur_read_addr
+                                    [1U] << 4U)))];
+    vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__1__KET____DOT__freq_mem_rdrv__DOT__read_data[0xaU] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__1__KET____DOT__freq_mem_rdrv__DOT__data
+        [(0x1fffU & ((IData)(0xaU) + (vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__1__KET____DOT__freq_mem_rdrv__DOT__cur_read_addr
+                                      [1U] << 4U)))];
+    vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__1__KET____DOT__freq_mem_rdrv__DOT__read_data[0xbU] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__1__KET____DOT__freq_mem_rdrv__DOT__data
+        [(0x1fffU & ((IData)(0xbU) + (vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__1__KET____DOT__freq_mem_rdrv__DOT__cur_read_addr
+                                      [1U] << 4U)))];
+    vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__1__KET____DOT__freq_mem_rdrv__DOT__read_data[0xcU] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__1__KET____DOT__freq_mem_rdrv__DOT__data
+        [(0x1fffU & ((IData)(0xcU) + (vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__1__KET____DOT__freq_mem_rdrv__DOT__cur_read_addr
+                                      [1U] << 4U)))];
+    vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__1__KET____DOT__freq_mem_rdrv__DOT__read_data[0xdU] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__1__KET____DOT__freq_mem_rdrv__DOT__data
+        [(0x1fffU & ((IData)(0xdU) + (vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__1__KET____DOT__freq_mem_rdrv__DOT__cur_read_addr
+                                      [1U] << 4U)))];
+    vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__1__KET____DOT__freq_mem_rdrv__DOT__read_data[0xeU] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__1__KET____DOT__freq_mem_rdrv__DOT__data
+        [(0x1fffU & ((IData)(0xeU) + (vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__1__KET____DOT__freq_mem_rdrv__DOT__cur_read_addr
+                                      [1U] << 4U)))];
+    vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__1__KET____DOT__freq_mem_rdrv__DOT__read_data[0xfU] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__1__KET____DOT__freq_mem_rdrv__DOT__data
+        [(0x1fffU & ((IData)(0xfU) + (vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__1__KET____DOT__freq_mem_rdrv__DOT__cur_read_addr
+                                      [1U] << 4U)))];
+    vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__2__KET____DOT__env_mem_qdrv__DOT__read_data[0U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__2__KET____DOT__env_mem_qdrv__DOT__data
+        [(0xfffU & (vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__2__KET____DOT__env_mem_qdrv__DOT__cur_read_addr
+                    [1U] << 4U))];
+    vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__2__KET____DOT__env_mem_qdrv__DOT__read_data[1U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__2__KET____DOT__env_mem_qdrv__DOT__data
+        [(0xfffU & ((IData)(1U) + (vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__2__KET____DOT__env_mem_qdrv__DOT__cur_read_addr
+                                   [1U] << 4U)))];
+    vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__2__KET____DOT__env_mem_qdrv__DOT__read_data[2U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__2__KET____DOT__env_mem_qdrv__DOT__data
+        [(0xfffU & ((IData)(2U) + (vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__2__KET____DOT__env_mem_qdrv__DOT__cur_read_addr
+                                   [1U] << 4U)))];
+    vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__2__KET____DOT__env_mem_qdrv__DOT__read_data[3U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__2__KET____DOT__env_mem_qdrv__DOT__data
+        [(0xfffU & ((IData)(3U) + (vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__2__KET____DOT__env_mem_qdrv__DOT__cur_read_addr
+                                   [1U] << 4U)))];
+    vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__2__KET____DOT__env_mem_qdrv__DOT__read_data[4U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__2__KET____DOT__env_mem_qdrv__DOT__data
+        [(0xfffU & ((IData)(4U) + (vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__2__KET____DOT__env_mem_qdrv__DOT__cur_read_addr
+                                   [1U] << 4U)))];
+    vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__2__KET____DOT__env_mem_qdrv__DOT__read_data[5U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__2__KET____DOT__env_mem_qdrv__DOT__data
+        [(0xfffU & ((IData)(5U) + (vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__2__KET____DOT__env_mem_qdrv__DOT__cur_read_addr
+                                   [1U] << 4U)))];
+    vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__2__KET____DOT__env_mem_qdrv__DOT__read_data[6U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__2__KET____DOT__env_mem_qdrv__DOT__data
+        [(0xfffU & ((IData)(6U) + (vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__2__KET____DOT__env_mem_qdrv__DOT__cur_read_addr
+                                   [1U] << 4U)))];
+    vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__2__KET____DOT__env_mem_qdrv__DOT__read_data[7U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__2__KET____DOT__env_mem_qdrv__DOT__data
+        [(0xfffU & ((IData)(7U) + (vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__2__KET____DOT__env_mem_qdrv__DOT__cur_read_addr
+                                   [1U] << 4U)))];
+    vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__2__KET____DOT__env_mem_qdrv__DOT__read_data[8U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__2__KET____DOT__env_mem_qdrv__DOT__data
+        [(0xfffU & ((IData)(8U) + (vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__2__KET____DOT__env_mem_qdrv__DOT__cur_read_addr
+                                   [1U] << 4U)))];
+    vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__2__KET____DOT__env_mem_qdrv__DOT__read_data[9U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__2__KET____DOT__env_mem_qdrv__DOT__data
+        [(0xfffU & ((IData)(9U) + (vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__2__KET____DOT__env_mem_qdrv__DOT__cur_read_addr
+                                   [1U] << 4U)))];
+    vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__2__KET____DOT__env_mem_qdrv__DOT__read_data[0xaU] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__2__KET____DOT__env_mem_qdrv__DOT__data
+        [(0xfffU & ((IData)(0xaU) + (vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__2__KET____DOT__env_mem_qdrv__DOT__cur_read_addr
+                                     [1U] << 4U)))];
+    vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__2__KET____DOT__env_mem_qdrv__DOT__read_data[0xbU] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__2__KET____DOT__env_mem_qdrv__DOT__data
+        [(0xfffU & ((IData)(0xbU) + (vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__2__KET____DOT__env_mem_qdrv__DOT__cur_read_addr
+                                     [1U] << 4U)))];
+    vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__2__KET____DOT__env_mem_qdrv__DOT__read_data[0xcU] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__2__KET____DOT__env_mem_qdrv__DOT__data
+        [(0xfffU & ((IData)(0xcU) + (vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__2__KET____DOT__env_mem_qdrv__DOT__cur_read_addr
+                                     [1U] << 4U)))];
+    vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__2__KET____DOT__env_mem_qdrv__DOT__read_data[0xdU] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__2__KET____DOT__env_mem_qdrv__DOT__data
+        [(0xfffU & ((IData)(0xdU) + (vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__2__KET____DOT__env_mem_qdrv__DOT__cur_read_addr
+                                     [1U] << 4U)))];
+    vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__2__KET____DOT__env_mem_qdrv__DOT__read_data[0xeU] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__2__KET____DOT__env_mem_qdrv__DOT__data
+        [(0xfffU & ((IData)(0xeU) + (vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__2__KET____DOT__env_mem_qdrv__DOT__cur_read_addr
+                                     [1U] << 4U)))];
+    vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__2__KET____DOT__env_mem_qdrv__DOT__read_data[0xfU] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__2__KET____DOT__env_mem_qdrv__DOT__data
+        [(0xfffU & ((IData)(0xfU) + (vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__2__KET____DOT__env_mem_qdrv__DOT__cur_read_addr
+                                     [1U] << 4U)))];
+    vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__2__KET____DOT__freq_mem_qdrv__DOT__read_data[0U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__2__KET____DOT__freq_mem_qdrv__DOT__data
+        [(0x1fffU & (vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__2__KET____DOT__freq_mem_qdrv__DOT__cur_read_addr
+                     [1U] << 4U))];
+    vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__2__KET____DOT__freq_mem_qdrv__DOT__read_data[1U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__2__KET____DOT__freq_mem_qdrv__DOT__data
+        [(0x1fffU & ((IData)(1U) + (vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__2__KET____DOT__freq_mem_qdrv__DOT__cur_read_addr
+                                    [1U] << 4U)))];
+    vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__2__KET____DOT__freq_mem_qdrv__DOT__read_data[2U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__2__KET____DOT__freq_mem_qdrv__DOT__data
+        [(0x1fffU & ((IData)(2U) + (vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__2__KET____DOT__freq_mem_qdrv__DOT__cur_read_addr
+                                    [1U] << 4U)))];
+    vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__2__KET____DOT__freq_mem_qdrv__DOT__read_data[3U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__2__KET____DOT__freq_mem_qdrv__DOT__data
+        [(0x1fffU & ((IData)(3U) + (vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__2__KET____DOT__freq_mem_qdrv__DOT__cur_read_addr
+                                    [1U] << 4U)))];
+    vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__2__KET____DOT__freq_mem_qdrv__DOT__read_data[4U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__2__KET____DOT__freq_mem_qdrv__DOT__data
+        [(0x1fffU & ((IData)(4U) + (vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__2__KET____DOT__freq_mem_qdrv__DOT__cur_read_addr
+                                    [1U] << 4U)))];
+    vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__2__KET____DOT__freq_mem_qdrv__DOT__read_data[5U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__2__KET____DOT__freq_mem_qdrv__DOT__data
+        [(0x1fffU & ((IData)(5U) + (vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__2__KET____DOT__freq_mem_qdrv__DOT__cur_read_addr
+                                    [1U] << 4U)))];
+    vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__2__KET____DOT__freq_mem_qdrv__DOT__read_data[6U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__2__KET____DOT__freq_mem_qdrv__DOT__data
+        [(0x1fffU & ((IData)(6U) + (vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__2__KET____DOT__freq_mem_qdrv__DOT__cur_read_addr
+                                    [1U] << 4U)))];
+    vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__2__KET____DOT__freq_mem_qdrv__DOT__read_data[7U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__2__KET____DOT__freq_mem_qdrv__DOT__data
+        [(0x1fffU & ((IData)(7U) + (vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__2__KET____DOT__freq_mem_qdrv__DOT__cur_read_addr
+                                    [1U] << 4U)))];
+    vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__2__KET____DOT__freq_mem_qdrv__DOT__read_data[8U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__2__KET____DOT__freq_mem_qdrv__DOT__data
+        [(0x1fffU & ((IData)(8U) + (vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__2__KET____DOT__freq_mem_qdrv__DOT__cur_read_addr
+                                    [1U] << 4U)))];
+    vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__2__KET____DOT__freq_mem_qdrv__DOT__read_data[9U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__2__KET____DOT__freq_mem_qdrv__DOT__data
+        [(0x1fffU & ((IData)(9U) + (vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__2__KET____DOT__freq_mem_qdrv__DOT__cur_read_addr
+                                    [1U] << 4U)))];
+    vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__2__KET____DOT__freq_mem_qdrv__DOT__read_data[0xaU] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__2__KET____DOT__freq_mem_qdrv__DOT__data
+        [(0x1fffU & ((IData)(0xaU) + (vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__2__KET____DOT__freq_mem_qdrv__DOT__cur_read_addr
+                                      [1U] << 4U)))];
+    vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__2__KET____DOT__freq_mem_qdrv__DOT__read_data[0xbU] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__2__KET____DOT__freq_mem_qdrv__DOT__data
+        [(0x1fffU & ((IData)(0xbU) + (vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__2__KET____DOT__freq_mem_qdrv__DOT__cur_read_addr
+                                      [1U] << 4U)))];
+    vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__2__KET____DOT__freq_mem_qdrv__DOT__read_data[0xcU] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__2__KET____DOT__freq_mem_qdrv__DOT__data
+        [(0x1fffU & ((IData)(0xcU) + (vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__2__KET____DOT__freq_mem_qdrv__DOT__cur_read_addr
+                                      [1U] << 4U)))];
+    vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__2__KET____DOT__freq_mem_qdrv__DOT__read_data[0xdU] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__2__KET____DOT__freq_mem_qdrv__DOT__data
+        [(0x1fffU & ((IData)(0xdU) + (vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__2__KET____DOT__freq_mem_qdrv__DOT__cur_read_addr
+                                      [1U] << 4U)))];
+    vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__2__KET____DOT__freq_mem_qdrv__DOT__read_data[0xeU] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__2__KET____DOT__freq_mem_qdrv__DOT__data
+        [(0x1fffU & ((IData)(0xeU) + (vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__2__KET____DOT__freq_mem_qdrv__DOT__cur_read_addr
+                                      [1U] << 4U)))];
+    vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__2__KET____DOT__freq_mem_qdrv__DOT__read_data[0xfU] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__2__KET____DOT__freq_mem_qdrv__DOT__data
+        [(0x1fffU & ((IData)(0xfU) + (vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__2__KET____DOT__freq_mem_qdrv__DOT__cur_read_addr
+                                      [1U] << 4U)))];
+    vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__2__KET____DOT__freq_mem_rdrv__DOT__read_data[0U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__2__KET____DOT__freq_mem_rdrv__DOT__data
+        [(0x1fffU & (vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__2__KET____DOT__freq_mem_rdrv__DOT__cur_read_addr
+                     [1U] << 4U))];
+    vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__2__KET____DOT__freq_mem_rdrv__DOT__read_data[1U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__2__KET____DOT__freq_mem_rdrv__DOT__data
+        [(0x1fffU & ((IData)(1U) + (vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__2__KET____DOT__freq_mem_rdrv__DOT__cur_read_addr
+                                    [1U] << 4U)))];
+    vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__2__KET____DOT__freq_mem_rdrv__DOT__read_data[2U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__2__KET____DOT__freq_mem_rdrv__DOT__data
+        [(0x1fffU & ((IData)(2U) + (vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__2__KET____DOT__freq_mem_rdrv__DOT__cur_read_addr
+                                    [1U] << 4U)))];
+    vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__2__KET____DOT__freq_mem_rdrv__DOT__read_data[3U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__2__KET____DOT__freq_mem_rdrv__DOT__data
+        [(0x1fffU & ((IData)(3U) + (vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__2__KET____DOT__freq_mem_rdrv__DOT__cur_read_addr
+                                    [1U] << 4U)))];
+    vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__2__KET____DOT__freq_mem_rdrv__DOT__read_data[4U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__2__KET____DOT__freq_mem_rdrv__DOT__data
+        [(0x1fffU & ((IData)(4U) + (vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__2__KET____DOT__freq_mem_rdrv__DOT__cur_read_addr
+                                    [1U] << 4U)))];
+    vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__2__KET____DOT__freq_mem_rdrv__DOT__read_data[5U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__2__KET____DOT__freq_mem_rdrv__DOT__data
+        [(0x1fffU & ((IData)(5U) + (vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__2__KET____DOT__freq_mem_rdrv__DOT__cur_read_addr
+                                    [1U] << 4U)))];
+    vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__2__KET____DOT__freq_mem_rdrv__DOT__read_data[6U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__2__KET____DOT__freq_mem_rdrv__DOT__data
+        [(0x1fffU & ((IData)(6U) + (vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__2__KET____DOT__freq_mem_rdrv__DOT__cur_read_addr
+                                    [1U] << 4U)))];
+    vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__2__KET____DOT__freq_mem_rdrv__DOT__read_data[7U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__2__KET____DOT__freq_mem_rdrv__DOT__data
+        [(0x1fffU & ((IData)(7U) + (vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__2__KET____DOT__freq_mem_rdrv__DOT__cur_read_addr
+                                    [1U] << 4U)))];
+    vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__2__KET____DOT__freq_mem_rdrv__DOT__read_data[8U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__2__KET____DOT__freq_mem_rdrv__DOT__data
+        [(0x1fffU & ((IData)(8U) + (vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__2__KET____DOT__freq_mem_rdrv__DOT__cur_read_addr
+                                    [1U] << 4U)))];
+    vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__2__KET____DOT__freq_mem_rdrv__DOT__read_data[9U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__2__KET____DOT__freq_mem_rdrv__DOT__data
+        [(0x1fffU & ((IData)(9U) + (vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__2__KET____DOT__freq_mem_rdrv__DOT__cur_read_addr
+                                    [1U] << 4U)))];
+    vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__2__KET____DOT__freq_mem_rdrv__DOT__read_data[0xaU] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__2__KET____DOT__freq_mem_rdrv__DOT__data
+        [(0x1fffU & ((IData)(0xaU) + (vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__2__KET____DOT__freq_mem_rdrv__DOT__cur_read_addr
+                                      [1U] << 4U)))];
+    vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__2__KET____DOT__freq_mem_rdrv__DOT__read_data[0xbU] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__2__KET____DOT__freq_mem_rdrv__DOT__data
+        [(0x1fffU & ((IData)(0xbU) + (vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__2__KET____DOT__freq_mem_rdrv__DOT__cur_read_addr
+                                      [1U] << 4U)))];
+    vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__2__KET____DOT__freq_mem_rdrv__DOT__read_data[0xcU] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__2__KET____DOT__freq_mem_rdrv__DOT__data
+        [(0x1fffU & ((IData)(0xcU) + (vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__2__KET____DOT__freq_mem_rdrv__DOT__cur_read_addr
+                                      [1U] << 4U)))];
+    vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__2__KET____DOT__freq_mem_rdrv__DOT__read_data[0xdU] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__2__KET____DOT__freq_mem_rdrv__DOT__data
+        [(0x1fffU & ((IData)(0xdU) + (vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__2__KET____DOT__freq_mem_rdrv__DOT__cur_read_addr
+                                      [1U] << 4U)))];
+    vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__2__KET____DOT__freq_mem_rdrv__DOT__read_data[0xeU] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__2__KET____DOT__freq_mem_rdrv__DOT__data
+        [(0x1fffU & ((IData)(0xeU) + (vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__2__KET____DOT__freq_mem_rdrv__DOT__cur_read_addr
+                                      [1U] << 4U)))];
+    vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__2__KET____DOT__freq_mem_rdrv__DOT__read_data[0xfU] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__2__KET____DOT__freq_mem_rdrv__DOT__data
+        [(0x1fffU & ((IData)(0xfU) + (vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__2__KET____DOT__freq_mem_rdrv__DOT__cur_read_addr
+                                      [1U] << 4U)))];
+    vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__0__KET____DOT__acc_buf__DOT__read_data 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__0__KET____DOT__acc_buf__DOT__data
+        [vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__0__KET____DOT__acc_buf__DOT__cur_read_addr
+        [0U]];
+    vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__1__KET____DOT__acc_buf__DOT__read_data 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__1__KET____DOT__acc_buf__DOT__data
+        [vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__1__KET____DOT__acc_buf__DOT__cur_read_addr
+        [0U]];
+    vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__2__KET____DOT__acc_buf__DOT__read_data 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__2__KET____DOT__acc_buf__DOT__data
+        [vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__2__KET____DOT__acc_buf__DOT__cur_read_addr
+        [0U]];
+    vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__0__KET____DOT__cmd_mem__DOT__read_data[0U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__0__KET____DOT__cmd_mem__DOT__data
+        [(0x1fffU & (vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__0__KET____DOT__cmd_mem__DOT__cur_read_addr
+                     [1U] << 2U))];
+    vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__0__KET____DOT__cmd_mem__DOT__read_data[1U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__0__KET____DOT__cmd_mem__DOT__data
+        [(0x1fffU & ((IData)(1U) + (vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__0__KET____DOT__cmd_mem__DOT__cur_read_addr
+                                    [1U] << 2U)))];
+    vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__0__KET____DOT__cmd_mem__DOT__read_data[2U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__0__KET____DOT__cmd_mem__DOT__data
+        [(0x1fffU & ((IData)(2U) + (vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__0__KET____DOT__cmd_mem__DOT__cur_read_addr
+                                    [1U] << 2U)))];
+    vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__0__KET____DOT__cmd_mem__DOT__read_data[3U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__0__KET____DOT__cmd_mem__DOT__data
+        [(0x1fffU & ((IData)(3U) + (vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__0__KET____DOT__cmd_mem__DOT__cur_read_addr
+                                    [1U] << 2U)))];
+    vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__1__KET____DOT__cmd_mem__DOT__read_data[0U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__1__KET____DOT__cmd_mem__DOT__data
+        [(0x1fffU & (vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__1__KET____DOT__cmd_mem__DOT__cur_read_addr
+                     [1U] << 2U))];
+    vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__1__KET____DOT__cmd_mem__DOT__read_data[1U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__1__KET____DOT__cmd_mem__DOT__data
+        [(0x1fffU & ((IData)(1U) + (vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__1__KET____DOT__cmd_mem__DOT__cur_read_addr
+                                    [1U] << 2U)))];
+    vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__1__KET____DOT__cmd_mem__DOT__read_data[2U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__1__KET____DOT__cmd_mem__DOT__data
+        [(0x1fffU & ((IData)(2U) + (vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__1__KET____DOT__cmd_mem__DOT__cur_read_addr
+                                    [1U] << 2U)))];
+    vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__1__KET____DOT__cmd_mem__DOT__read_data[3U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__1__KET____DOT__cmd_mem__DOT__data
+        [(0x1fffU & ((IData)(3U) + (vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__1__KET____DOT__cmd_mem__DOT__cur_read_addr
+                                    [1U] << 2U)))];
+    vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__2__KET____DOT__cmd_mem__DOT__read_data[0U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__2__KET____DOT__cmd_mem__DOT__data
+        [(0x1fffU & (vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__2__KET____DOT__cmd_mem__DOT__cur_read_addr
+                     [1U] << 2U))];
+    vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__2__KET____DOT__cmd_mem__DOT__read_data[1U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__2__KET____DOT__cmd_mem__DOT__data
+        [(0x1fffU & ((IData)(1U) + (vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__2__KET____DOT__cmd_mem__DOT__cur_read_addr
+                                    [1U] << 2U)))];
+    vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__2__KET____DOT__cmd_mem__DOT__read_data[2U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__2__KET____DOT__cmd_mem__DOT__data
+        [(0x1fffU & ((IData)(2U) + (vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__2__KET____DOT__cmd_mem__DOT__cur_read_addr
+                                    [1U] << 2U)))];
+    vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__2__KET____DOT__cmd_mem__DOT__read_data[3U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__2__KET____DOT__cmd_mem__DOT__data
+        [(0x1fffU & ((IData)(3U) + (vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__2__KET____DOT__cmd_mem__DOT__cur_read_addr
+                                    [1U] << 2U)))];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.addr_accbuf_mon0 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__addr_accbuf
+        [0U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.addr_accbuf_mon1 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__addr_accbuf
+        [1U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.addr_accbuf_mon2 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__addr_accbuf
+        [2U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__acqpztif__BRA__0__KET__.reset 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.acqbufreset;
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__acqpztif__BRA__0__KET__.delayaftertrig 
+        = (0xffffU & vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.delayaftertrig);
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__acqpztif__BRA__0__KET__.decimator 
+        = (0xffU & (IData)(vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.decimator));
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__acqpztif__BRA__1__KET__.reset 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.acqbufreset;
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__acqpztif__BRA__1__KET__.delayaftertrig 
+        = (0xffffU & vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.delayaftertrig);
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__acqpztif__BRA__1__KET__.decimator 
+        = (0xffU & (IData)(vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.decimator));
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__dacmonpztif__BRA__0__KET__.reset 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.dacmonreset;
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__dacmonpztif__BRA__0__KET__.delayaftertrig 
+        = (0xffffU & vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.delayaftertrig);
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__dacmonpztif__BRA__0__KET__.decimator 
+        = (0xffU & (IData)(vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.decimator));
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__dacmonpztif__BRA__1__KET__.reset 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.dacmonreset;
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__dacmonpztif__BRA__1__KET__.delayaftertrig 
+        = (0xffffU & vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.delayaftertrig);
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__dacmonpztif__BRA__1__KET__.decimator 
+        = (0xffU & (IData)(vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.decimator));
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__dacmonpztif__BRA__2__KET__.reset 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.dacmonreset;
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__dacmonpztif__BRA__2__KET__.delayaftertrig 
+        = (0xffffU & vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.delayaftertrig);
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__dacmonpztif__BRA__2__KET__.decimator 
+        = (0xffU & (IData)(vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.decimator));
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__dacmonpztif__BRA__3__KET__.reset 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.dacmonreset;
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__dacmonpztif__BRA__3__KET__.delayaftertrig 
+        = (0xffffU & vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.delayaftertrig);
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__dacmonpztif__BRA__3__KET__.decimator 
+        = (0xffU & (IData)(vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.decimator));
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__fproc__DOT__meas 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__fproc_meas_input;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__fproc__DOT__meas_valid 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__fproc_meas_valid;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__opcode 
+        = (0xffU & (((0U == 0x18U) ? 0U : (vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__local_cmd[4U] 
+                                           << ((IData)(0x20U) 
+                                               - (IData)(0x18U)))) 
+                    | (vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__local_cmd[3U] 
+                       >> 0x18U)));
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__opcode 
+        = (0xffU & (((0U == 0x18U) ? 0U : (vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__local_cmd[4U] 
+                                           << ((IData)(0x20U) 
+                                               - (IData)(0x18U)))) 
+                    | (vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__local_cmd[3U] 
+                       >> 0x18U)));
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__opcode 
+        = (0xffU & (((0U == 0x18U) ? 0U : (vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__local_cmd[4U] 
+                                           << ((IData)(0x20U) 
+                                               - (IData)(0x18U)))) 
+                    | (vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__local_cmd[3U] 
+                       >> 0x18U)));
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__0__KET____DOT__sumx__DOT__l1__BRA__0__KET____DOT__vtemp_w[0U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__0__KET____DOT__sumx__DOT__vtemp
+        [0U][0U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__0__KET____DOT__sumx__DOT__l1__BRA__0__KET____DOT__vtemp_w[1U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__0__KET____DOT__sumx__DOT__vtemp
+        [0U][1U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__0__KET____DOT__sumx__DOT__l1__BRA__1__KET____DOT__vtemp_w[0U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__0__KET____DOT__sumx__DOT__vtemp
+        [1U][0U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__0__KET____DOT__sumx__DOT__l1__BRA__1__KET____DOT__vtemp_w[1U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__0__KET____DOT__sumx__DOT__vtemp
+        [1U][1U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__0__KET____DOT__sumy__DOT__l1__BRA__0__KET____DOT__vtemp_w[0U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__0__KET____DOT__sumy__DOT__vtemp
+        [0U][0U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__0__KET____DOT__sumy__DOT__l1__BRA__0__KET____DOT__vtemp_w[1U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__0__KET____DOT__sumy__DOT__vtemp
+        [0U][1U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__0__KET____DOT__sumy__DOT__l1__BRA__1__KET____DOT__vtemp_w[0U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__0__KET____DOT__sumy__DOT__vtemp
+        [1U][0U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__0__KET____DOT__sumy__DOT__l1__BRA__1__KET____DOT__vtemp_w[1U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__0__KET____DOT__sumy__DOT__vtemp
+        [1U][1U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__1__KET____DOT__sumx__DOT__l1__BRA__0__KET____DOT__vtemp_w[0U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__1__KET____DOT__sumx__DOT__vtemp
+        [0U][0U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__1__KET____DOT__sumx__DOT__l1__BRA__0__KET____DOT__vtemp_w[1U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__1__KET____DOT__sumx__DOT__vtemp
+        [0U][1U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__1__KET____DOT__sumx__DOT__l1__BRA__1__KET____DOT__vtemp_w[0U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__1__KET____DOT__sumx__DOT__vtemp
+        [1U][0U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__1__KET____DOT__sumx__DOT__l1__BRA__1__KET____DOT__vtemp_w[1U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__1__KET____DOT__sumx__DOT__vtemp
+        [1U][1U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__1__KET____DOT__sumy__DOT__l1__BRA__0__KET____DOT__vtemp_w[0U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__1__KET____DOT__sumy__DOT__vtemp
+        [0U][0U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__1__KET____DOT__sumy__DOT__l1__BRA__0__KET____DOT__vtemp_w[1U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__1__KET____DOT__sumy__DOT__vtemp
+        [0U][1U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__1__KET____DOT__sumy__DOT__l1__BRA__1__KET____DOT__vtemp_w[0U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__1__KET____DOT__sumy__DOT__vtemp
+        [1U][0U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__1__KET____DOT__sumy__DOT__l1__BRA__1__KET____DOT__vtemp_w[1U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__1__KET____DOT__sumy__DOT__vtemp
+        [1U][1U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__2__KET____DOT__sumx__DOT__l1__BRA__0__KET____DOT__vtemp_w[0U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__2__KET____DOT__sumx__DOT__vtemp
+        [0U][0U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__2__KET____DOT__sumx__DOT__l1__BRA__0__KET____DOT__vtemp_w[1U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__2__KET____DOT__sumx__DOT__vtemp
+        [0U][1U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__2__KET____DOT__sumx__DOT__l1__BRA__1__KET____DOT__vtemp_w[0U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__2__KET____DOT__sumx__DOT__vtemp
+        [1U][0U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__2__KET____DOT__sumx__DOT__l1__BRA__1__KET____DOT__vtemp_w[1U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__2__KET____DOT__sumx__DOT__vtemp
+        [1U][1U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__2__KET____DOT__sumy__DOT__l1__BRA__0__KET____DOT__vtemp_w[0U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__2__KET____DOT__sumy__DOT__vtemp
+        [0U][0U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__2__KET____DOT__sumy__DOT__l1__BRA__0__KET____DOT__vtemp_w[1U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__2__KET____DOT__sumy__DOT__vtemp
+        [0U][1U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__2__KET____DOT__sumy__DOT__l1__BRA__1__KET____DOT__vtemp_w[0U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__2__KET____DOT__sumy__DOT__vtemp
+        [1U][0U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__2__KET____DOT__sumy__DOT__l1__BRA__1__KET____DOT__vtemp_w[1U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__2__KET____DOT__sumy__DOT__vtemp
+        [1U][1U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__3__KET____DOT__sumx__DOT__l1__BRA__0__KET____DOT__vtemp_w[0U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__3__KET____DOT__sumx__DOT__vtemp
+        [0U][0U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__3__KET____DOT__sumx__DOT__l1__BRA__0__KET____DOT__vtemp_w[1U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__3__KET____DOT__sumx__DOT__vtemp
+        [0U][1U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__3__KET____DOT__sumx__DOT__l1__BRA__1__KET____DOT__vtemp_w[0U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__3__KET____DOT__sumx__DOT__vtemp
+        [1U][0U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__3__KET____DOT__sumx__DOT__l1__BRA__1__KET____DOT__vtemp_w[1U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__3__KET____DOT__sumx__DOT__vtemp
+        [1U][1U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__3__KET____DOT__sumy__DOT__l1__BRA__0__KET____DOT__vtemp_w[0U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__3__KET____DOT__sumy__DOT__vtemp
+        [0U][0U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__3__KET____DOT__sumy__DOT__l1__BRA__0__KET____DOT__vtemp_w[1U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__3__KET____DOT__sumy__DOT__vtemp
+        [0U][1U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__3__KET____DOT__sumy__DOT__l1__BRA__1__KET____DOT__vtemp_w[0U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__3__KET____DOT__sumy__DOT__vtemp
+        [1U][0U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__3__KET____DOT__sumy__DOT__l1__BRA__1__KET____DOT__vtemp_w[1U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__3__KET____DOT__sumy__DOT__vtemp
+        [1U][1U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__4__KET____DOT__sumx__DOT__l1__BRA__0__KET____DOT__vtemp_w[0U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__4__KET____DOT__sumx__DOT__vtemp
+        [0U][0U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__4__KET____DOT__sumx__DOT__l1__BRA__0__KET____DOT__vtemp_w[1U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__4__KET____DOT__sumx__DOT__vtemp
+        [0U][1U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__4__KET____DOT__sumx__DOT__l1__BRA__1__KET____DOT__vtemp_w[0U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__4__KET____DOT__sumx__DOT__vtemp
+        [1U][0U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__4__KET____DOT__sumx__DOT__l1__BRA__1__KET____DOT__vtemp_w[1U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__4__KET____DOT__sumx__DOT__vtemp
+        [1U][1U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__4__KET____DOT__sumy__DOT__l1__BRA__0__KET____DOT__vtemp_w[0U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__4__KET____DOT__sumy__DOT__vtemp
+        [0U][0U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__4__KET____DOT__sumy__DOT__l1__BRA__0__KET____DOT__vtemp_w[1U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__4__KET____DOT__sumy__DOT__vtemp
+        [0U][1U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__4__KET____DOT__sumy__DOT__l1__BRA__1__KET____DOT__vtemp_w[0U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__4__KET____DOT__sumy__DOT__vtemp
+        [1U][0U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__4__KET____DOT__sumy__DOT__l1__BRA__1__KET____DOT__vtemp_w[1U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__4__KET____DOT__sumy__DOT__vtemp
+        [1U][1U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__5__KET____DOT__sumx__DOT__l1__BRA__0__KET____DOT__vtemp_w[0U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__5__KET____DOT__sumx__DOT__vtemp
+        [0U][0U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__5__KET____DOT__sumx__DOT__l1__BRA__0__KET____DOT__vtemp_w[1U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__5__KET____DOT__sumx__DOT__vtemp
+        [0U][1U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__5__KET____DOT__sumx__DOT__l1__BRA__1__KET____DOT__vtemp_w[0U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__5__KET____DOT__sumx__DOT__vtemp
+        [1U][0U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__5__KET____DOT__sumx__DOT__l1__BRA__1__KET____DOT__vtemp_w[1U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__5__KET____DOT__sumx__DOT__vtemp
+        [1U][1U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__5__KET____DOT__sumy__DOT__l1__BRA__0__KET____DOT__vtemp_w[0U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__5__KET____DOT__sumy__DOT__vtemp
+        [0U][0U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__5__KET____DOT__sumy__DOT__l1__BRA__0__KET____DOT__vtemp_w[1U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__5__KET____DOT__sumy__DOT__vtemp
+        [0U][1U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__5__KET____DOT__sumy__DOT__l1__BRA__1__KET____DOT__vtemp_w[0U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__5__KET____DOT__sumy__DOT__vtemp
+        [1U][0U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__5__KET____DOT__sumy__DOT__l1__BRA__1__KET____DOT__vtemp_w[1U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__5__KET____DOT__sumy__DOT__vtemp
+        [1U][1U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__6__KET____DOT__sumx__DOT__l1__BRA__0__KET____DOT__vtemp_w[0U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__6__KET____DOT__sumx__DOT__vtemp
+        [0U][0U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__6__KET____DOT__sumx__DOT__l1__BRA__0__KET____DOT__vtemp_w[1U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__6__KET____DOT__sumx__DOT__vtemp
+        [0U][1U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__6__KET____DOT__sumx__DOT__l1__BRA__1__KET____DOT__vtemp_w[0U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__6__KET____DOT__sumx__DOT__vtemp
+        [1U][0U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__6__KET____DOT__sumx__DOT__l1__BRA__1__KET____DOT__vtemp_w[1U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__6__KET____DOT__sumx__DOT__vtemp
+        [1U][1U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__6__KET____DOT__sumy__DOT__l1__BRA__0__KET____DOT__vtemp_w[0U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__6__KET____DOT__sumy__DOT__vtemp
+        [0U][0U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__6__KET____DOT__sumy__DOT__l1__BRA__0__KET____DOT__vtemp_w[1U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__6__KET____DOT__sumy__DOT__vtemp
+        [0U][1U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__6__KET____DOT__sumy__DOT__l1__BRA__1__KET____DOT__vtemp_w[0U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__6__KET____DOT__sumy__DOT__vtemp
+        [1U][0U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__6__KET____DOT__sumy__DOT__l1__BRA__1__KET____DOT__vtemp_w[1U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__6__KET____DOT__sumy__DOT__vtemp
+        [1U][1U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__7__KET____DOT__sumx__DOT__l1__BRA__0__KET____DOT__vtemp_w[0U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__7__KET____DOT__sumx__DOT__vtemp
+        [0U][0U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__7__KET____DOT__sumx__DOT__l1__BRA__0__KET____DOT__vtemp_w[1U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__7__KET____DOT__sumx__DOT__vtemp
+        [0U][1U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__7__KET____DOT__sumx__DOT__l1__BRA__1__KET____DOT__vtemp_w[0U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__7__KET____DOT__sumx__DOT__vtemp
+        [1U][0U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__7__KET____DOT__sumx__DOT__l1__BRA__1__KET____DOT__vtemp_w[1U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__7__KET____DOT__sumx__DOT__vtemp
+        [1U][1U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__7__KET____DOT__sumy__DOT__l1__BRA__0__KET____DOT__vtemp_w[0U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__7__KET____DOT__sumy__DOT__vtemp
+        [0U][0U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__7__KET____DOT__sumy__DOT__l1__BRA__0__KET____DOT__vtemp_w[1U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__7__KET____DOT__sumy__DOT__vtemp
+        [0U][1U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__7__KET____DOT__sumy__DOT__l1__BRA__1__KET____DOT__vtemp_w[0U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__7__KET____DOT__sumy__DOT__vtemp
+        [1U][0U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__7__KET____DOT__sumy__DOT__l1__BRA__1__KET____DOT__vtemp_w[1U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__7__KET____DOT__sumy__DOT__vtemp
+        [1U][1U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__8__KET____DOT__sumx__DOT__l1__BRA__0__KET____DOT__vtemp_w[0U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__8__KET____DOT__sumx__DOT__vtemp
+        [0U][0U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__8__KET____DOT__sumx__DOT__l1__BRA__0__KET____DOT__vtemp_w[1U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__8__KET____DOT__sumx__DOT__vtemp
+        [0U][1U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__8__KET____DOT__sumx__DOT__l1__BRA__1__KET____DOT__vtemp_w[0U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__8__KET____DOT__sumx__DOT__vtemp
+        [1U][0U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__8__KET____DOT__sumx__DOT__l1__BRA__1__KET____DOT__vtemp_w[1U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__8__KET____DOT__sumx__DOT__vtemp
+        [1U][1U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__8__KET____DOT__sumy__DOT__l1__BRA__0__KET____DOT__vtemp_w[0U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__8__KET____DOT__sumy__DOT__vtemp
+        [0U][0U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__8__KET____DOT__sumy__DOT__l1__BRA__0__KET____DOT__vtemp_w[1U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__8__KET____DOT__sumy__DOT__vtemp
+        [0U][1U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__8__KET____DOT__sumy__DOT__l1__BRA__1__KET____DOT__vtemp_w[0U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__8__KET____DOT__sumy__DOT__vtemp
+        [1U][0U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__8__KET____DOT__sumy__DOT__l1__BRA__1__KET____DOT__vtemp_w[1U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__8__KET____DOT__sumy__DOT__vtemp
+        [1U][1U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__9__KET____DOT__sumx__DOT__l1__BRA__0__KET____DOT__vtemp_w[0U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__9__KET____DOT__sumx__DOT__vtemp
+        [0U][0U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__9__KET____DOT__sumx__DOT__l1__BRA__0__KET____DOT__vtemp_w[1U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__9__KET____DOT__sumx__DOT__vtemp
+        [0U][1U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__9__KET____DOT__sumx__DOT__l1__BRA__1__KET____DOT__vtemp_w[0U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__9__KET____DOT__sumx__DOT__vtemp
+        [1U][0U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__9__KET____DOT__sumx__DOT__l1__BRA__1__KET____DOT__vtemp_w[1U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__9__KET____DOT__sumx__DOT__vtemp
+        [1U][1U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__9__KET____DOT__sumy__DOT__l1__BRA__0__KET____DOT__vtemp_w[0U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__9__KET____DOT__sumy__DOT__vtemp
+        [0U][0U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__9__KET____DOT__sumy__DOT__l1__BRA__0__KET____DOT__vtemp_w[1U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__9__KET____DOT__sumy__DOT__vtemp
+        [0U][1U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__9__KET____DOT__sumy__DOT__l1__BRA__1__KET____DOT__vtemp_w[0U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__9__KET____DOT__sumy__DOT__vtemp
+        [1U][0U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__9__KET____DOT__sumy__DOT__l1__BRA__1__KET____DOT__vtemp_w[1U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__9__KET____DOT__sumy__DOT__vtemp
+        [1U][1U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__10__KET____DOT__sumx__DOT__l1__BRA__0__KET____DOT__vtemp_w[0U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__10__KET____DOT__sumx__DOT__vtemp
+        [0U][0U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__10__KET____DOT__sumx__DOT__l1__BRA__0__KET____DOT__vtemp_w[1U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__10__KET____DOT__sumx__DOT__vtemp
+        [0U][1U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__10__KET____DOT__sumx__DOT__l1__BRA__1__KET____DOT__vtemp_w[0U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__10__KET____DOT__sumx__DOT__vtemp
+        [1U][0U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__10__KET____DOT__sumx__DOT__l1__BRA__1__KET____DOT__vtemp_w[1U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__10__KET____DOT__sumx__DOT__vtemp
+        [1U][1U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__10__KET____DOT__sumy__DOT__l1__BRA__0__KET____DOT__vtemp_w[0U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__10__KET____DOT__sumy__DOT__vtemp
+        [0U][0U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__10__KET____DOT__sumy__DOT__l1__BRA__0__KET____DOT__vtemp_w[1U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__10__KET____DOT__sumy__DOT__vtemp
+        [0U][1U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__10__KET____DOT__sumy__DOT__l1__BRA__1__KET____DOT__vtemp_w[0U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__10__KET____DOT__sumy__DOT__vtemp
+        [1U][0U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__10__KET____DOT__sumy__DOT__l1__BRA__1__KET____DOT__vtemp_w[1U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__10__KET____DOT__sumy__DOT__vtemp
+        [1U][1U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__11__KET____DOT__sumx__DOT__l1__BRA__0__KET____DOT__vtemp_w[0U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__11__KET____DOT__sumx__DOT__vtemp
+        [0U][0U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__11__KET____DOT__sumx__DOT__l1__BRA__0__KET____DOT__vtemp_w[1U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__11__KET____DOT__sumx__DOT__vtemp
+        [0U][1U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__11__KET____DOT__sumx__DOT__l1__BRA__1__KET____DOT__vtemp_w[0U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__11__KET____DOT__sumx__DOT__vtemp
+        [1U][0U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__11__KET____DOT__sumx__DOT__l1__BRA__1__KET____DOT__vtemp_w[1U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__11__KET____DOT__sumx__DOT__vtemp
+        [1U][1U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__11__KET____DOT__sumy__DOT__l1__BRA__0__KET____DOT__vtemp_w[0U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__11__KET____DOT__sumy__DOT__vtemp
+        [0U][0U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__11__KET____DOT__sumy__DOT__l1__BRA__0__KET____DOT__vtemp_w[1U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__11__KET____DOT__sumy__DOT__vtemp
+        [0U][1U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__11__KET____DOT__sumy__DOT__l1__BRA__1__KET____DOT__vtemp_w[0U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__11__KET____DOT__sumy__DOT__vtemp
+        [1U][0U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__11__KET____DOT__sumy__DOT__l1__BRA__1__KET____DOT__vtemp_w[1U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__11__KET____DOT__sumy__DOT__vtemp
+        [1U][1U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__12__KET____DOT__sumx__DOT__l1__BRA__0__KET____DOT__vtemp_w[0U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__12__KET____DOT__sumx__DOT__vtemp
+        [0U][0U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__12__KET____DOT__sumx__DOT__l1__BRA__0__KET____DOT__vtemp_w[1U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__12__KET____DOT__sumx__DOT__vtemp
+        [0U][1U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__12__KET____DOT__sumx__DOT__l1__BRA__1__KET____DOT__vtemp_w[0U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__12__KET____DOT__sumx__DOT__vtemp
+        [1U][0U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__12__KET____DOT__sumx__DOT__l1__BRA__1__KET____DOT__vtemp_w[1U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__12__KET____DOT__sumx__DOT__vtemp
+        [1U][1U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__12__KET____DOT__sumy__DOT__l1__BRA__0__KET____DOT__vtemp_w[0U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__12__KET____DOT__sumy__DOT__vtemp
+        [0U][0U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__12__KET____DOT__sumy__DOT__l1__BRA__0__KET____DOT__vtemp_w[1U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__12__KET____DOT__sumy__DOT__vtemp
+        [0U][1U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__12__KET____DOT__sumy__DOT__l1__BRA__1__KET____DOT__vtemp_w[0U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__12__KET____DOT__sumy__DOT__vtemp
+        [1U][0U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__12__KET____DOT__sumy__DOT__l1__BRA__1__KET____DOT__vtemp_w[1U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__12__KET____DOT__sumy__DOT__vtemp
+        [1U][1U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__13__KET____DOT__sumx__DOT__l1__BRA__0__KET____DOT__vtemp_w[0U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__13__KET____DOT__sumx__DOT__vtemp
+        [0U][0U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__13__KET____DOT__sumx__DOT__l1__BRA__0__KET____DOT__vtemp_w[1U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__13__KET____DOT__sumx__DOT__vtemp
+        [0U][1U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__13__KET____DOT__sumx__DOT__l1__BRA__1__KET____DOT__vtemp_w[0U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__13__KET____DOT__sumx__DOT__vtemp
+        [1U][0U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__13__KET____DOT__sumx__DOT__l1__BRA__1__KET____DOT__vtemp_w[1U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__13__KET____DOT__sumx__DOT__vtemp
+        [1U][1U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__13__KET____DOT__sumy__DOT__l1__BRA__0__KET____DOT__vtemp_w[0U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__13__KET____DOT__sumy__DOT__vtemp
+        [0U][0U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__13__KET____DOT__sumy__DOT__l1__BRA__0__KET____DOT__vtemp_w[1U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__13__KET____DOT__sumy__DOT__vtemp
+        [0U][1U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__13__KET____DOT__sumy__DOT__l1__BRA__1__KET____DOT__vtemp_w[0U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__13__KET____DOT__sumy__DOT__vtemp
+        [1U][0U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__13__KET____DOT__sumy__DOT__l1__BRA__1__KET____DOT__vtemp_w[1U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__13__KET____DOT__sumy__DOT__vtemp
+        [1U][1U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__14__KET____DOT__sumx__DOT__l1__BRA__0__KET____DOT__vtemp_w[0U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__14__KET____DOT__sumx__DOT__vtemp
+        [0U][0U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__14__KET____DOT__sumx__DOT__l1__BRA__0__KET____DOT__vtemp_w[1U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__14__KET____DOT__sumx__DOT__vtemp
+        [0U][1U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__14__KET____DOT__sumx__DOT__l1__BRA__1__KET____DOT__vtemp_w[0U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__14__KET____DOT__sumx__DOT__vtemp
+        [1U][0U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__14__KET____DOT__sumx__DOT__l1__BRA__1__KET____DOT__vtemp_w[1U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__14__KET____DOT__sumx__DOT__vtemp
+        [1U][1U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__14__KET____DOT__sumy__DOT__l1__BRA__0__KET____DOT__vtemp_w[0U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__14__KET____DOT__sumy__DOT__vtemp
+        [0U][0U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__14__KET____DOT__sumy__DOT__l1__BRA__0__KET____DOT__vtemp_w[1U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__14__KET____DOT__sumy__DOT__vtemp
+        [0U][1U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__14__KET____DOT__sumy__DOT__l1__BRA__1__KET____DOT__vtemp_w[0U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__14__KET____DOT__sumy__DOT__vtemp
+        [1U][0U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__14__KET____DOT__sumy__DOT__l1__BRA__1__KET____DOT__vtemp_w[1U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__14__KET____DOT__sumy__DOT__vtemp
+        [1U][1U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__15__KET____DOT__sumx__DOT__l1__BRA__0__KET____DOT__vtemp_w[0U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__15__KET____DOT__sumx__DOT__vtemp
+        [0U][0U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__15__KET____DOT__sumx__DOT__l1__BRA__0__KET____DOT__vtemp_w[1U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__15__KET____DOT__sumx__DOT__vtemp
+        [0U][1U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__15__KET____DOT__sumx__DOT__l1__BRA__1__KET____DOT__vtemp_w[0U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__15__KET____DOT__sumx__DOT__vtemp
+        [1U][0U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__15__KET____DOT__sumx__DOT__l1__BRA__1__KET____DOT__vtemp_w[1U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__15__KET____DOT__sumx__DOT__vtemp
+        [1U][1U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__15__KET____DOT__sumy__DOT__l1__BRA__0__KET____DOT__vtemp_w[0U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__15__KET____DOT__sumy__DOT__vtemp
+        [0U][0U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__15__KET____DOT__sumy__DOT__l1__BRA__0__KET____DOT__vtemp_w[1U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__15__KET____DOT__sumy__DOT__vtemp
+        [0U][1U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__15__KET____DOT__sumy__DOT__l1__BRA__1__KET____DOT__vtemp_w[0U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__15__KET____DOT__sumy__DOT__vtemp
+        [1U][0U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__15__KET____DOT__sumy__DOT__l1__BRA__1__KET____DOT__vtemp_w[1U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__15__KET____DOT__sumy__DOT__vtemp
+        [1U][1U];
+    if ((0U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+        vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__mem_wait_rst 
+            = (2U <= (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__mem_wait_cycles));
+    } else {
+        if ((1U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+            vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__mem_wait_rst 
+                = (1U & ((0x80000000U & vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__local_cmd[3U])
+                          ? ((~ (vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__local_cmd[3U] 
+                                 >> 0x1eU)) & ((vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__local_cmd[3U] 
+                                                >> 0x1dU) 
+                                               & (~ 
+                                                  (vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__local_cmd[3U] 
+                                                   >> 0x1cU))))
+                          : ((~ (vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__local_cmd[3U] 
+                                 >> 0x1eU)) & ((0x20000000U 
+                                                & vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__local_cmd[3U])
+                                                ? (~ 
+                                                   (vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__local_cmd[3U] 
+                                                    >> 0x1cU))
+                                                : (~ 
+                                                   (vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__local_cmd[3U] 
+                                                    >> 0x1cU))))));
+        } else {
+            if ((2U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+                vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__mem_wait_rst = 0U;
+            } else {
+                if ((3U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+                    if (((1U == (0xfU & (vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__local_cmd[3U] 
+                                         >> 0x1cU))) 
+                         | (4U == (0xfU & (vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__local_cmd[3U] 
+                                           >> 0x1cU))))) {
+                        vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__mem_wait_rst = 0U;
+                    } else {
+                        if (((3U == (0xfU & (vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__local_cmd[3U] 
+                                             >> 0x1cU))) 
+                             | (5U == (0xfU & (vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__local_cmd[3U] 
+                                               >> 0x1cU))))) {
+                            vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__mem_wait_rst = 1U;
+                        } else {
+                            if ((6U == (0xfU & (vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__local_cmd[3U] 
+                                                >> 0x1cU)))) {
+                                vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__mem_wait_rst = 0U;
+                            }
+                        }
+                    }
+                } else {
+                    if ((4U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+                        vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__mem_wait_rst = 0U;
+                    } else {
+                        if ((6U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+                            vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__mem_wait_rst = 0U;
+                        } else {
+                            if ((7U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+                                vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__mem_wait_rst = 0U;
+                            } else {
+                                if ((9U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+                                    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__mem_wait_rst = 0U;
+                                    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__mem_wait_rst = 0U;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    if ((0U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+        vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__mem_wait_rst 
+            = (2U <= (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__mem_wait_cycles));
+    } else {
+        if ((1U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+            vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__mem_wait_rst 
+                = (1U & ((0x80000000U & vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__local_cmd[3U])
+                          ? ((~ (vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__local_cmd[3U] 
+                                 >> 0x1eU)) & ((vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__local_cmd[3U] 
+                                                >> 0x1dU) 
+                                               & (~ 
+                                                  (vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__local_cmd[3U] 
+                                                   >> 0x1cU))))
+                          : ((~ (vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__local_cmd[3U] 
+                                 >> 0x1eU)) & ((0x20000000U 
+                                                & vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__local_cmd[3U])
+                                                ? (~ 
+                                                   (vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__local_cmd[3U] 
+                                                    >> 0x1cU))
+                                                : (~ 
+                                                   (vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__local_cmd[3U] 
+                                                    >> 0x1cU))))));
+        } else {
+            if ((2U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+                vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__mem_wait_rst = 0U;
+            } else {
+                if ((3U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+                    if (((1U == (0xfU & (vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__local_cmd[3U] 
+                                         >> 0x1cU))) 
+                         | (4U == (0xfU & (vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__local_cmd[3U] 
+                                           >> 0x1cU))))) {
+                        vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__mem_wait_rst = 0U;
+                    } else {
+                        if (((3U == (0xfU & (vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__local_cmd[3U] 
+                                             >> 0x1cU))) 
+                             | (5U == (0xfU & (vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__local_cmd[3U] 
+                                               >> 0x1cU))))) {
+                            vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__mem_wait_rst = 1U;
+                        } else {
+                            if ((6U == (0xfU & (vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__local_cmd[3U] 
+                                                >> 0x1cU)))) {
+                                vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__mem_wait_rst = 0U;
+                            }
+                        }
+                    }
+                } else {
+                    if ((4U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+                        vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__mem_wait_rst = 0U;
+                    } else {
+                        if ((6U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+                            vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__mem_wait_rst = 0U;
+                        } else {
+                            if ((7U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+                                vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__mem_wait_rst = 0U;
+                            } else {
+                                if ((9U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+                                    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__mem_wait_rst = 0U;
+                                    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__mem_wait_rst = 0U;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    if ((0U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+        vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__mem_wait_rst 
+            = (2U <= (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__mem_wait_cycles));
+    } else {
+        if ((1U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+            vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__mem_wait_rst 
+                = (1U & ((0x80000000U & vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__local_cmd[3U])
+                          ? ((~ (vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__local_cmd[3U] 
+                                 >> 0x1eU)) & ((vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__local_cmd[3U] 
+                                                >> 0x1dU) 
+                                               & (~ 
+                                                  (vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__local_cmd[3U] 
+                                                   >> 0x1cU))))
+                          : ((~ (vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__local_cmd[3U] 
+                                 >> 0x1eU)) & ((0x20000000U 
+                                                & vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__local_cmd[3U])
+                                                ? (~ 
+                                                   (vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__local_cmd[3U] 
+                                                    >> 0x1cU))
+                                                : (~ 
+                                                   (vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__local_cmd[3U] 
+                                                    >> 0x1cU))))));
+        } else {
+            if ((2U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+                vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__mem_wait_rst = 0U;
+            } else {
+                if ((3U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+                    if (((1U == (0xfU & (vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__local_cmd[3U] 
+                                         >> 0x1cU))) 
+                         | (4U == (0xfU & (vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__local_cmd[3U] 
+                                           >> 0x1cU))))) {
+                        vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__mem_wait_rst = 0U;
+                    } else {
+                        if (((3U == (0xfU & (vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__local_cmd[3U] 
+                                             >> 0x1cU))) 
+                             | (5U == (0xfU & (vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__local_cmd[3U] 
+                                               >> 0x1cU))))) {
+                            vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__mem_wait_rst = 1U;
+                        } else {
+                            if ((6U == (0xfU & (vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__local_cmd[3U] 
+                                                >> 0x1cU)))) {
+                                vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__mem_wait_rst = 0U;
+                            }
+                        }
+                    }
+                } else {
+                    if ((4U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+                        vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__mem_wait_rst = 0U;
+                    } else {
+                        if ((6U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+                            vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__mem_wait_rst = 0U;
+                        } else {
+                            if ((7U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+                                vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__mem_wait_rst = 0U;
+                            } else {
+                                if ((9U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+                                    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__mem_wait_rst = 0U;
+                                    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__mem_wait_rst = 0U;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__locklast_accbuf[0U] 
+        = (0x3ffU == vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__addr_accbuf
+           [0U]);
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__locklast_accbuf[1U] 
+        = (0x3ffU == vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__addr_accbuf
+           [1U]);
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__locklast_accbuf[2U] 
+        = (0x3ffU == vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__addr_accbuf
+           [2U]);
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__reg_write_addr 
+        = (0xfU & ((vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__local_cmd[3U] 
+                    << 0x10U) | (vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__local_cmd[2U] 
+                                 >> 0x10U)));
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__reg_write_addr 
+        = (0xfU & ((vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__local_cmd[3U] 
+                    << 0x10U) | (vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__local_cmd[2U] 
+                                 >> 0x10U)));
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__reg_write_addr 
+        = (0xfU & ((vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__local_cmd[3U] 
+                    << 0x10U) | (vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__local_cmd[2U] 
+                                 >> 0x10U)));
+    if ((0U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+        vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__pulse_reset = 0U;
+    } else {
+        if ((1U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+            vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__pulse_reset 
+                = (1U & ((vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__local_cmd[3U] 
+                          >> 0x1fU) & ((~ (vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__local_cmd[3U] 
+                                           >> 0x1eU)) 
+                                       & ((vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__local_cmd[3U] 
+                                           >> 0x1dU) 
+                                          & (vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__local_cmd[3U] 
+                                             >> 0x1cU)))));
+        } else {
+            if ((2U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+                vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__pulse_reset = 0U;
+            } else {
+                if ((3U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+                    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__pulse_reset = 0U;
+                } else {
+                    if ((4U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+                        vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__pulse_reset = 0U;
+                    } else {
+                        if ((6U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+                            vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__pulse_reset = 0U;
+                        } else {
+                            if ((7U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+                                vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__pulse_reset = 0U;
+                            } else {
+                                if ((9U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+                                    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__pulse_reset = 0U;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    if ((0U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+        vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__instr_load_en 
+            = (2U <= (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__mem_wait_cycles));
+    } else {
+        if ((1U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+            vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__instr_load_en = 0U;
+        } else {
+            if ((2U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+                vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__instr_load_en = 0U;
+            } else {
+                if ((3U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+                    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__instr_load_en = 0U;
+                } else {
+                    if ((4U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+                        vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__instr_load_en = 0U;
+                    } else {
+                        if ((6U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+                            vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__instr_load_en = 0U;
+                        } else {
+                            if ((7U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+                                vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__instr_load_en = 0U;
+                            } else {
+                                if ((9U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+                                    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__instr_load_en = 0U;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    if ((0U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+        vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__c_strobe_enable = 0U;
+    } else {
+        if ((1U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+            vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__c_strobe_enable 
+                = (1U & ((vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__local_cmd[3U] 
+                          >> 0x1fU) & ((~ (vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__local_cmd[3U] 
+                                           >> 0x1eU)) 
+                                       & ((~ (vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__local_cmd[3U] 
+                                              >> 0x1dU)) 
+                                          & (vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__local_cmd[3U] 
+                                             >> 0x1cU)))));
+        } else {
+            if ((2U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+                vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__c_strobe_enable = 0U;
+            } else {
+                if ((3U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+                    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__c_strobe_enable = 0U;
+                } else {
+                    if ((4U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+                        vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__c_strobe_enable = 0U;
+                    } else {
+                        if ((6U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+                            vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__c_strobe_enable = 0U;
+                        } else {
+                            if ((7U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+                                vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__c_strobe_enable = 0U;
+                            } else {
+                                if ((9U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+                                    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__c_strobe_enable = 0U;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    if ((0U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+        vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__sync_enable = 0U;
+    } else {
+        if ((1U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+            vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__sync_enable 
+                = (1U & ((~ (vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__local_cmd[3U] 
+                             >> 0x1fU)) & ((vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__local_cmd[3U] 
+                                            >> 0x1eU) 
+                                           & ((vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__local_cmd[3U] 
+                                               >> 0x1dU) 
+                                              & (vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__local_cmd[3U] 
+                                                 >> 0x1cU)))));
+        } else {
+            if ((2U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+                vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__sync_enable = 0U;
+            } else {
+                if ((3U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+                    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__sync_enable = 0U;
+                } else {
+                    if ((4U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+                        vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__sync_enable = 0U;
+                    } else {
+                        if ((6U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+                            vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__sync_enable = 0U;
+                        } else {
+                            if ((7U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+                                vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__sync_enable = 0U;
+                            } else {
+                                if ((9U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+                                    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__sync_enable = 0U;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    if ((0U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+        vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__pulse_reset = 0U;
+    } else {
+        if ((1U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+            vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__pulse_reset 
+                = (1U & ((vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__local_cmd[3U] 
+                          >> 0x1fU) & ((~ (vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__local_cmd[3U] 
+                                           >> 0x1eU)) 
+                                       & ((vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__local_cmd[3U] 
+                                           >> 0x1dU) 
+                                          & (vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__local_cmd[3U] 
+                                             >> 0x1cU)))));
+        } else {
+            if ((2U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+                vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__pulse_reset = 0U;
+            } else {
+                if ((3U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+                    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__pulse_reset = 0U;
+                } else {
+                    if ((4U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+                        vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__pulse_reset = 0U;
+                    } else {
+                        if ((6U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+                            vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__pulse_reset = 0U;
+                        } else {
+                            if ((7U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+                                vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__pulse_reset = 0U;
+                            } else {
+                                if ((9U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+                                    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__pulse_reset = 0U;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    if ((0U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+        vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__instr_load_en 
+            = (2U <= (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__mem_wait_cycles));
+    } else {
+        if ((1U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+            vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__instr_load_en = 0U;
+        } else {
+            if ((2U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+                vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__instr_load_en = 0U;
+            } else {
+                if ((3U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+                    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__instr_load_en = 0U;
+                } else {
+                    if ((4U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+                        vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__instr_load_en = 0U;
+                    } else {
+                        if ((6U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+                            vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__instr_load_en = 0U;
+                        } else {
+                            if ((7U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+                                vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__instr_load_en = 0U;
+                            } else {
+                                if ((9U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+                                    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__instr_load_en = 0U;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    if ((0U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+        vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__c_strobe_enable = 0U;
+    } else {
+        if ((1U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+            vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__c_strobe_enable 
+                = (1U & ((vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__local_cmd[3U] 
+                          >> 0x1fU) & ((~ (vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__local_cmd[3U] 
+                                           >> 0x1eU)) 
+                                       & ((~ (vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__local_cmd[3U] 
+                                              >> 0x1dU)) 
+                                          & (vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__local_cmd[3U] 
+                                             >> 0x1cU)))));
+        } else {
+            if ((2U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+                vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__c_strobe_enable = 0U;
+            } else {
+                if ((3U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+                    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__c_strobe_enable = 0U;
+                } else {
+                    if ((4U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+                        vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__c_strobe_enable = 0U;
+                    } else {
+                        if ((6U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+                            vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__c_strobe_enable = 0U;
+                        } else {
+                            if ((7U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+                                vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__c_strobe_enable = 0U;
+                            } else {
+                                if ((9U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+                                    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__c_strobe_enable = 0U;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    if ((0U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+        vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__sync_enable = 0U;
+    } else {
+        if ((1U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+            vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__sync_enable 
+                = (1U & ((~ (vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__local_cmd[3U] 
+                             >> 0x1fU)) & ((vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__local_cmd[3U] 
+                                            >> 0x1eU) 
+                                           & ((vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__local_cmd[3U] 
+                                               >> 0x1dU) 
+                                              & (vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__local_cmd[3U] 
+                                                 >> 0x1cU)))));
+        } else {
+            if ((2U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+                vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__sync_enable = 0U;
+            } else {
+                if ((3U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+                    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__sync_enable = 0U;
+                } else {
+                    if ((4U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+                        vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__sync_enable = 0U;
+                    } else {
+                        if ((6U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+                            vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__sync_enable = 0U;
+                        } else {
+                            if ((7U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+                                vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__sync_enable = 0U;
+                            } else {
+                                if ((9U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+                                    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__sync_enable = 0U;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    if ((0U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+        vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__pulse_reset = 0U;
+    } else {
+        if ((1U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+            vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__pulse_reset 
+                = (1U & ((vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__local_cmd[3U] 
+                          >> 0x1fU) & ((~ (vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__local_cmd[3U] 
+                                           >> 0x1eU)) 
+                                       & ((vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__local_cmd[3U] 
+                                           >> 0x1dU) 
+                                          & (vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__local_cmd[3U] 
+                                             >> 0x1cU)))));
+        } else {
+            if ((2U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+                vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__pulse_reset = 0U;
+            } else {
+                if ((3U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+                    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__pulse_reset = 0U;
+                } else {
+                    if ((4U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+                        vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__pulse_reset = 0U;
+                    } else {
+                        if ((6U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+                            vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__pulse_reset = 0U;
+                        } else {
+                            if ((7U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+                                vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__pulse_reset = 0U;
+                            } else {
+                                if ((9U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+                                    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__pulse_reset = 0U;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    if ((0U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+        vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__instr_load_en 
+            = (2U <= (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__mem_wait_cycles));
+    } else {
+        if ((1U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+            vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__instr_load_en = 0U;
+        } else {
+            if ((2U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+                vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__instr_load_en = 0U;
+            } else {
+                if ((3U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+                    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__instr_load_en = 0U;
+                } else {
+                    if ((4U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+                        vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__instr_load_en = 0U;
+                    } else {
+                        if ((6U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+                            vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__instr_load_en = 0U;
+                        } else {
+                            if ((7U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+                                vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__instr_load_en = 0U;
+                            } else {
+                                if ((9U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+                                    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__instr_load_en = 0U;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    if ((0U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+        vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__c_strobe_enable = 0U;
+    } else {
+        if ((1U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+            vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__c_strobe_enable 
+                = (1U & ((vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__local_cmd[3U] 
+                          >> 0x1fU) & ((~ (vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__local_cmd[3U] 
+                                           >> 0x1eU)) 
+                                       & ((~ (vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__local_cmd[3U] 
+                                              >> 0x1dU)) 
+                                          & (vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__local_cmd[3U] 
+                                             >> 0x1cU)))));
+        } else {
+            if ((2U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+                vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__c_strobe_enable = 0U;
+            } else {
+                if ((3U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+                    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__c_strobe_enable = 0U;
+                } else {
+                    if ((4U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+                        vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__c_strobe_enable = 0U;
+                    } else {
+                        if ((6U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+                            vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__c_strobe_enable = 0U;
+                        } else {
+                            if ((7U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+                                vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__c_strobe_enable = 0U;
+                            } else {
+                                if ((9U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+                                    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__c_strobe_enable = 0U;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    if ((0U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+        vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__sync_enable = 0U;
+    } else {
+        if ((1U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+            vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__sync_enable 
+                = (1U & ((~ (vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__local_cmd[3U] 
+                             >> 0x1fU)) & ((vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__local_cmd[3U] 
+                                            >> 0x1eU) 
+                                           & ((vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__local_cmd[3U] 
+                                               >> 0x1dU) 
+                                              & (vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__local_cmd[3U] 
+                                                 >> 0x1cU)))));
+        } else {
+            if ((2U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+                vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__sync_enable = 0U;
+            } else {
+                if ((3U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+                    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__sync_enable = 0U;
+                } else {
+                    if ((4U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+                        vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__sync_enable = 0U;
+                    } else {
+                        if ((6U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+                            vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__sync_enable = 0U;
+                        } else {
+                            if ((7U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+                                vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__sync_enable = 0U;
+                            } else {
+                                if ((9U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+                                    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__sync_enable = 0U;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__myalu__DOT__id0 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__myalu__DOT__in0_reg;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__myalu__DOT__id1 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__myalu__DOT__in1_reg;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__myalu__DOT__id0 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__myalu__DOT__in0_reg;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__myalu__DOT__id1 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__myalu__DOT__in1_reg;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__myalu__DOT__id0 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__myalu__DOT__in0_reg;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__myalu__DOT__id1 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__myalu__DOT__in1_reg;
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.shift = 0xfU;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__myalu__DOT__add 
+        = (vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__myalu__DOT__in0_reg 
+           + vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__myalu__DOT__in1_reg);
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__myalu__DOT__add 
+        = (vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__myalu__DOT__in0_reg 
+           + vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__myalu__DOT__in1_reg);
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__myalu__DOT__add 
+        = (vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__myalu__DOT__in0_reg 
+           + vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__myalu__DOT__in1_reg);
+    if ((0U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+        vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__qclk_load_en = 0U;
+    } else {
+        if ((1U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+            vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__qclk_load_en = 0U;
+        } else {
+            if ((2U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+                vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__qclk_load_en = 0U;
+            } else {
+                if ((3U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+                    if (((1U == (0xfU & (vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__local_cmd[3U] 
+                                         >> 0x1cU))) 
+                         | (4U == (0xfU & (vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__local_cmd[3U] 
+                                           >> 0x1cU))))) {
+                        vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__qclk_load_en = 0U;
+                    } else {
+                        if (((3U == (0xfU & (vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__local_cmd[3U] 
+                                             >> 0x1cU))) 
+                             | (5U == (0xfU & (vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__local_cmd[3U] 
+                                               >> 0x1cU))))) {
+                            vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__qclk_load_en = 0U;
+                        } else {
+                            if ((6U == (0xfU & (vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__local_cmd[3U] 
+                                                >> 0x1cU)))) {
+                                vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__qclk_load_en = 1U;
+                            }
+                        }
+                    }
+                } else {
+                    if ((4U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+                        vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__qclk_load_en = 0U;
+                    } else {
+                        if ((6U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+                            vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__qclk_load_en = 0U;
+                        } else {
+                            if ((7U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+                                vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__qclk_load_en = 0U;
+                            } else {
+                                if ((9U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+                                    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__qclk_load_en = 0U;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    if ((0U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+        vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__reg_write_en = 0U;
+    } else {
+        if ((1U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+            vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__reg_write_en = 0U;
+        } else {
+            if ((2U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+                vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__reg_write_en = 0U;
+            } else {
+                if ((3U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+                    if (((1U == (0xfU & (vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__local_cmd[3U] 
+                                         >> 0x1cU))) 
+                         | (4U == (0xfU & (vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__local_cmd[3U] 
+                                           >> 0x1cU))))) {
+                        vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__reg_write_en = 1U;
+                    } else {
+                        if (((3U == (0xfU & (vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__local_cmd[3U] 
+                                             >> 0x1cU))) 
+                             | (5U == (0xfU & (vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__local_cmd[3U] 
+                                               >> 0x1cU))))) {
+                            vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__reg_write_en = 0U;
+                        } else {
+                            if ((6U == (0xfU & (vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__local_cmd[3U] 
+                                                >> 0x1cU)))) {
+                                vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__reg_write_en = 0U;
+                            }
+                        }
+                    }
+                } else {
+                    if ((4U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+                        vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__reg_write_en = 0U;
+                    } else {
+                        if ((6U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+                            vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__reg_write_en = 0U;
+                        } else {
+                            if ((7U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+                                vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__reg_write_en = 0U;
+                            } else {
+                                if ((9U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+                                    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__reg_write_en = 0U;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    if ((0U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+        vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__qclk_load_en = 0U;
+    } else {
+        if ((1U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+            vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__qclk_load_en = 0U;
+        } else {
+            if ((2U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+                vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__qclk_load_en = 0U;
+            } else {
+                if ((3U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+                    if (((1U == (0xfU & (vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__local_cmd[3U] 
+                                         >> 0x1cU))) 
+                         | (4U == (0xfU & (vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__local_cmd[3U] 
+                                           >> 0x1cU))))) {
+                        vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__qclk_load_en = 0U;
+                    } else {
+                        if (((3U == (0xfU & (vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__local_cmd[3U] 
+                                             >> 0x1cU))) 
+                             | (5U == (0xfU & (vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__local_cmd[3U] 
+                                               >> 0x1cU))))) {
+                            vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__qclk_load_en = 0U;
+                        } else {
+                            if ((6U == (0xfU & (vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__local_cmd[3U] 
+                                                >> 0x1cU)))) {
+                                vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__qclk_load_en = 1U;
+                            }
+                        }
+                    }
+                } else {
+                    if ((4U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+                        vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__qclk_load_en = 0U;
+                    } else {
+                        if ((6U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+                            vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__qclk_load_en = 0U;
+                        } else {
+                            if ((7U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+                                vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__qclk_load_en = 0U;
+                            } else {
+                                if ((9U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+                                    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__qclk_load_en = 0U;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    if ((0U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+        vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__reg_write_en = 0U;
+    } else {
+        if ((1U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+            vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__reg_write_en = 0U;
+        } else {
+            if ((2U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+                vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__reg_write_en = 0U;
+            } else {
+                if ((3U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+                    if (((1U == (0xfU & (vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__local_cmd[3U] 
+                                         >> 0x1cU))) 
+                         | (4U == (0xfU & (vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__local_cmd[3U] 
+                                           >> 0x1cU))))) {
+                        vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__reg_write_en = 1U;
+                    } else {
+                        if (((3U == (0xfU & (vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__local_cmd[3U] 
+                                             >> 0x1cU))) 
+                             | (5U == (0xfU & (vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__local_cmd[3U] 
+                                               >> 0x1cU))))) {
+                            vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__reg_write_en = 0U;
+                        } else {
+                            if ((6U == (0xfU & (vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__local_cmd[3U] 
+                                                >> 0x1cU)))) {
+                                vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__reg_write_en = 0U;
+                            }
+                        }
+                    }
+                } else {
+                    if ((4U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+                        vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__reg_write_en = 0U;
+                    } else {
+                        if ((6U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+                            vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__reg_write_en = 0U;
+                        } else {
+                            if ((7U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+                                vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__reg_write_en = 0U;
+                            } else {
+                                if ((9U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+                                    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__reg_write_en = 0U;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    if ((0U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+        vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__qclk_load_en = 0U;
+    } else {
+        if ((1U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+            vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__qclk_load_en = 0U;
+        } else {
+            if ((2U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+                vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__qclk_load_en = 0U;
+            } else {
+                if ((3U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+                    if (((1U == (0xfU & (vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__local_cmd[3U] 
+                                         >> 0x1cU))) 
+                         | (4U == (0xfU & (vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__local_cmd[3U] 
+                                           >> 0x1cU))))) {
+                        vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__qclk_load_en = 0U;
+                    } else {
+                        if (((3U == (0xfU & (vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__local_cmd[3U] 
+                                             >> 0x1cU))) 
+                             | (5U == (0xfU & (vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__local_cmd[3U] 
+                                               >> 0x1cU))))) {
+                            vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__qclk_load_en = 0U;
+                        } else {
+                            if ((6U == (0xfU & (vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__local_cmd[3U] 
+                                                >> 0x1cU)))) {
+                                vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__qclk_load_en = 1U;
+                            }
+                        }
+                    }
+                } else {
+                    if ((4U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+                        vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__qclk_load_en = 0U;
+                    } else {
+                        if ((6U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+                            vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__qclk_load_en = 0U;
+                        } else {
+                            if ((7U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+                                vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__qclk_load_en = 0U;
+                            } else {
+                                if ((9U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+                                    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__qclk_load_en = 0U;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    if ((0U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+        vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__reg_write_en = 0U;
+    } else {
+        if ((1U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+            vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__reg_write_en = 0U;
+        } else {
+            if ((2U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+                vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__reg_write_en = 0U;
+            } else {
+                if ((3U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+                    if (((1U == (0xfU & (vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__local_cmd[3U] 
+                                         >> 0x1cU))) 
+                         | (4U == (0xfU & (vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__local_cmd[3U] 
+                                           >> 0x1cU))))) {
+                        vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__reg_write_en = 1U;
+                    } else {
+                        if (((3U == (0xfU & (vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__local_cmd[3U] 
+                                             >> 0x1cU))) 
+                             | (5U == (0xfU & (vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__local_cmd[3U] 
+                                               >> 0x1cU))))) {
+                            vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__reg_write_en = 0U;
+                        } else {
+                            if ((6U == (0xfU & (vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__local_cmd[3U] 
+                                                >> 0x1cU)))) {
+                                vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__reg_write_en = 0U;
+                            }
+                        }
+                    }
+                } else {
+                    if ((4U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+                        vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__reg_write_en = 0U;
+                    } else {
+                        if ((6U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+                            vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__reg_write_en = 0U;
+                        } else {
+                            if ((7U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+                                vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__reg_write_en = 0U;
+                            } else {
+                                if ((9U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+                                    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__reg_write_en = 0U;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.addr_accbuf[0U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__addr_accbuf
+        [0U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.addr_accbuf[1U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__addr_accbuf
+        [1U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.addr_accbuf[2U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__addr_accbuf
+        [2U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.we_accbuf[0U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__we_accbuf
+        [0U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.we_accbuf[1U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__we_accbuf
+        [1U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.we_accbuf[2U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__we_accbuf
+        [2U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__alu_cmd_data_in0 
+        = ((vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__local_cmd[3U] 
+            << 8U) | (vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__local_cmd[2U] 
+                      >> 0x18U));
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__alu_cmd_data_in0 
+        = ((vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__local_cmd[3U] 
+            << 8U) | (vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__local_cmd[2U] 
+                      >> 0x18U));
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__alu_cmd_data_in0 
+        = ((vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__local_cmd[3U] 
+            << 8U) | (vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__local_cmd[2U] 
+                      >> 0x18U));
+    if ((0U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+        vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__qclk_reset = 0U;
+    } else {
+        if ((1U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+            vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__qclk_reset = 0U;
+        } else {
+            if ((2U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+                vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__qclk_reset = 0U;
+            } else {
+                if ((3U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+                    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__qclk_reset = 0U;
+                } else {
+                    if ((4U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+                        vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__qclk_reset = 0U;
+                    } else {
+                        if ((6U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+                            vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__qclk_reset = 0U;
+                        } else {
+                            if ((7U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+                                vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__qclk_reset = 1U;
+                            } else {
+                                if ((9U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+                                    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__qclk_reset = 0U;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    if ((0U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+        vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__qclk_reset = 0U;
+    } else {
+        if ((1U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+            vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__qclk_reset = 0U;
+        } else {
+            if ((2U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+                vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__qclk_reset = 0U;
+            } else {
+                if ((3U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+                    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__qclk_reset = 0U;
+                } else {
+                    if ((4U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+                        vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__qclk_reset = 0U;
+                    } else {
+                        if ((6U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+                            vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__qclk_reset = 0U;
+                        } else {
+                            if ((7U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+                                vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__qclk_reset = 1U;
+                            } else {
+                                if ((9U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+                                    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__qclk_reset = 0U;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    if ((0U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+        vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__qclk_reset = 0U;
+    } else {
+        if ((1U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+            vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__qclk_reset = 0U;
+        } else {
+            if ((2U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+                vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__qclk_reset = 0U;
+            } else {
+                if ((3U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+                    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__qclk_reset = 0U;
+                } else {
+                    if ((4U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+                        vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__qclk_reset = 0U;
+                    } else {
+                        if ((6U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+                            vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__qclk_reset = 0U;
+                        } else {
+                            if ((7U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+                                vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__qclk_reset = 1U;
+                            } else {
+                                if ((9U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+                                    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__qclk_reset = 0U;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__alu_in0_sel 
+        = (1U & (vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__local_cmd[3U] 
+                 >> 0x1bU));
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__alu_in0_sel 
+        = (1U & (vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__local_cmd[3U] 
+                 >> 0x1bU));
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__alu_in0_sel 
+        = (1U & (vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__local_cmd[3U] 
+                 >> 0x1bU));
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__alu_opcode 
+        = (7U & (vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__local_cmd[3U] 
+                 >> 0x18U));
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__myclk__DOT__out 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__myclk__DOT__value;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__alu_opcode 
+        = (7U & (vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__local_cmd[3U] 
+                 >> 0x18U));
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__myclk__DOT__out 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__myclk__DOT__value;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__alu_opcode 
+        = (7U & (vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__local_cmd[3U] 
+                 >> 0x18U));
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__myclk__DOT__out 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__myclk__DOT__value;
+    if ((0U != (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+        if ((1U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+            if ((1U & (~ (vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__local_cmd[3U] 
+                          >> 0x1fU)))) {
+                if ((0x40000000U & vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__local_cmd[3U])) {
+                    if ((0x20000000U & vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__local_cmd[3U])) {
+                        if ((1U & (~ (vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__local_cmd[3U] 
+                                      >> 0x1cU)))) {
+                            vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__alu_in1_sel = 0U;
+                        }
+                    }
+                } else {
+                    if ((0x20000000U & vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__local_cmd[3U])) {
+                        if ((0x10000000U & vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__local_cmd[3U])) {
+                            vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__alu_in1_sel = 1U;
+                        }
+                    } else {
+                        if ((0x10000000U & vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__local_cmd[3U])) {
+                            vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__alu_in1_sel = 1U;
+                        }
+                    }
+                }
+            }
+        } else {
+            if ((2U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+                vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__alu_in1_sel = 1U;
+            } else {
+                if ((3U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+                    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__alu_in1_sel = 1U;
+                } else {
+                    if ((4U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+                        vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__alu_in1_sel = 2U;
+                    } else {
+                        if ((6U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+                            vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__alu_in1_sel = 2U;
+                        } else {
+                            if ((7U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+                                vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__alu_in1_sel = 0U;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    if ((0U != (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+        if ((1U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+            if ((1U & (~ (vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__local_cmd[3U] 
+                          >> 0x1fU)))) {
+                if ((0x40000000U & vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__local_cmd[3U])) {
+                    if ((0x20000000U & vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__local_cmd[3U])) {
+                        if ((1U & (~ (vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__local_cmd[3U] 
+                                      >> 0x1cU)))) {
+                            vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__alu_in1_sel = 0U;
+                        }
+                    }
+                } else {
+                    if ((0x20000000U & vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__local_cmd[3U])) {
+                        if ((0x10000000U & vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__local_cmd[3U])) {
+                            vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__alu_in1_sel = 1U;
+                        }
+                    } else {
+                        if ((0x10000000U & vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__local_cmd[3U])) {
+                            vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__alu_in1_sel = 1U;
+                        }
+                    }
+                }
+            }
+        } else {
+            if ((2U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+                vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__alu_in1_sel = 1U;
+            } else {
+                if ((3U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+                    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__alu_in1_sel = 1U;
+                } else {
+                    if ((4U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+                        vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__alu_in1_sel = 2U;
+                    } else {
+                        if ((6U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+                            vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__alu_in1_sel = 2U;
+                        } else {
+                            if ((7U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+                                vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__alu_in1_sel = 0U;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    if ((0U != (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+        if ((1U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+            if ((1U & (~ (vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__local_cmd[3U] 
+                          >> 0x1fU)))) {
+                if ((0x40000000U & vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__local_cmd[3U])) {
+                    if ((0x20000000U & vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__local_cmd[3U])) {
+                        if ((1U & (~ (vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__local_cmd[3U] 
+                                      >> 0x1cU)))) {
+                            vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__alu_in1_sel = 0U;
+                        }
+                    }
+                } else {
+                    if ((0x20000000U & vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__local_cmd[3U])) {
+                        if ((0x10000000U & vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__local_cmd[3U])) {
+                            vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__alu_in1_sel = 1U;
+                        }
+                    } else {
+                        if ((0x10000000U & vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__local_cmd[3U])) {
+                            vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__alu_in1_sel = 1U;
+                        }
+                    }
+                }
+            }
+        } else {
+            if ((2U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+                vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__alu_in1_sel = 1U;
+            } else {
+                if ((3U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+                    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__alu_in1_sel = 1U;
+                } else {
+                    if ((4U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+                        vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__alu_in1_sel = 2U;
+                    } else {
+                        if ((6U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+                            vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__alu_in1_sel = 2U;
+                        } else {
+                            if ((7U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+                                vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__alu_in1_sel = 0U;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__instr_ptr_load_val 
+        = (0xffffU & ((vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__local_cmd[3U] 
+                       << 0x1cU) | (vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__local_cmd[2U] 
+                                    >> 4U)));
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__instr_ptr_load_val 
+        = (0xffffU & ((vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__local_cmd[3U] 
+                       << 0x1cU) | (vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__local_cmd[2U] 
+                                    >> 4U)));
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__instr_ptr_load_val 
+        = (0xffffU & ((vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__local_cmd[3U] 
+                       << 0x1cU) | (vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__local_cmd[2U] 
+                                    >> 4U)));
+    if ((0U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+        vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__write_pulse_en = 0U;
+    } else {
+        if ((1U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+            vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__write_pulse_en 
+                = (1U & ((vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__local_cmd[3U] 
+                          >> 0x1fU) & ((~ (vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__local_cmd[3U] 
+                                           >> 0x1eU)) 
+                                       & (~ (vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__local_cmd[3U] 
+                                             >> 0x1dU)))));
+        } else {
+            if ((2U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+                vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__write_pulse_en = 0U;
+            } else {
+                if ((3U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+                    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__write_pulse_en = 0U;
+                } else {
+                    if ((4U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+                        vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__write_pulse_en = 0U;
+                    } else {
+                        if ((6U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+                            vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__write_pulse_en = 0U;
+                        } else {
+                            if ((7U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+                                vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__write_pulse_en = 0U;
+                            } else {
+                                if ((9U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+                                    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__write_pulse_en = 0U;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    if ((0U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+        vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__write_pulse_en = 0U;
+    } else {
+        if ((1U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+            vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__write_pulse_en 
+                = (1U & ((vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__local_cmd[3U] 
+                          >> 0x1fU) & ((~ (vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__local_cmd[3U] 
+                                           >> 0x1eU)) 
+                                       & (~ (vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__local_cmd[3U] 
+                                             >> 0x1dU)))));
+        } else {
+            if ((2U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+                vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__write_pulse_en = 0U;
+            } else {
+                if ((3U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+                    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__write_pulse_en = 0U;
+                } else {
+                    if ((4U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+                        vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__write_pulse_en = 0U;
+                    } else {
+                        if ((6U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+                            vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__write_pulse_en = 0U;
+                        } else {
+                            if ((7U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+                                vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__write_pulse_en = 0U;
+                            } else {
+                                if ((9U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+                                    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__write_pulse_en = 0U;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    if ((0U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+        vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__write_pulse_en = 0U;
+    } else {
+        if ((1U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+            vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__write_pulse_en 
+                = (1U & ((vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__local_cmd[3U] 
+                          >> 0x1fU) & ((~ (vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__local_cmd[3U] 
+                                           >> 0x1eU)) 
+                                       & (~ (vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__local_cmd[3U] 
+                                             >> 0x1dU)))));
+        } else {
+            if ((2U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+                vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__write_pulse_en = 0U;
+            } else {
+                if ((3U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+                    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__write_pulse_en = 0U;
+                } else {
+                    if ((4U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+                        vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__write_pulse_en = 0U;
+                    } else {
+                        if ((6U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+                            vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__write_pulse_en = 0U;
+                        } else {
+                            if ((7U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+                                vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__write_pulse_en = 0U;
+                            } else {
+                                if ((9U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+                                    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__write_pulse_en = 0U;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    if ((0U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+        vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__instr_ptr_en 
+            = (2U <= (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__mem_wait_cycles));
+    } else {
+        if ((1U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+            vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__instr_ptr_en = 0U;
+        } else {
+            if ((2U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+                vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__instr_ptr_en = 0U;
+            } else {
+                if ((3U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+                    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__instr_ptr_en = 0U;
+                } else {
+                    if ((4U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+                        vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__instr_ptr_en = 0U;
+                    } else {
+                        if ((6U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+                            vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__instr_ptr_en = 0U;
+                        } else {
+                            if ((7U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+                                vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__instr_ptr_en = 0U;
+                            } else {
+                                if ((9U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+                                    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__instr_ptr_en = 0U;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    if ((0U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+        vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__instr_ptr_en 
+            = (2U <= (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__mem_wait_cycles));
+    } else {
+        if ((1U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+            vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__instr_ptr_en = 0U;
+        } else {
+            if ((2U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+                vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__instr_ptr_en = 0U;
+            } else {
+                if ((3U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+                    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__instr_ptr_en = 0U;
+                } else {
+                    if ((4U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+                        vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__instr_ptr_en = 0U;
+                    } else {
+                        if ((6U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+                            vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__instr_ptr_en = 0U;
+                        } else {
+                            if ((7U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+                                vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__instr_ptr_en = 0U;
+                            } else {
+                                if ((9U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+                                    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__instr_ptr_en = 0U;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    if ((0U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+        vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__instr_ptr_en 
+            = (2U <= (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__mem_wait_cycles));
+    } else {
+        if ((1U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+            vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__instr_ptr_en = 0U;
+        } else {
+            if ((2U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+                vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__instr_ptr_en = 0U;
+            } else {
+                if ((3U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+                    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__instr_ptr_en = 0U;
+                } else {
+                    if ((4U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+                        vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__instr_ptr_en = 0U;
+                    } else {
+                        if ((6U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+                            vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__instr_ptr_en = 0U;
+                        } else {
+                            if ((7U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+                                vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__instr_ptr_en = 0U;
+                            } else {
+                                if ((9U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+                                    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__instr_ptr_en = 0U;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__reg_addr_in1 
+        = (0xfU & ((vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__local_cmd[3U] 
+                    << 0xcU) | (vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__local_cmd[2U] 
+                                >> 0x14U)));
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__reg_addr_in1 
+        = (0xfU & ((vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__local_cmd[3U] 
+                    << 0xcU) | (vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__local_cmd[2U] 
+                                >> 0x14U)));
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__reg_addr_in1 
+        = (0xfU & ((vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__local_cmd[3U] 
+                    << 0xcU) | (vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__local_cmd[2U] 
+                                >> 0x14U)));
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__fproc_if__BRA__0__KET__.id 
+        = (0xffU & ((vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__local_cmd[2U] 
+                     << 0xcU) | (vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__local_cmd[1U] 
+                                 >> 0x14U)));
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__fproc_if__BRA__1__KET__.id 
+        = (0xffU & ((vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__local_cmd[2U] 
+                     << 0xcU) | (vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__local_cmd[1U] 
+                                 >> 0x14U)));
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__fproc_if__BRA__2__KET__.id 
+        = (0xffU & ((vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__local_cmd[2U] 
+                     << 0xcU) | (vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__local_cmd[1U] 
+                                 >> 0x14U)));
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__alu_out 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__myalu__DOT__out;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__alu_out 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__myalu__DOT__out;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__alu_out 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__myalu__DOT__out;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__0__KET____DOT__sumy__DOT__vout 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__0__KET____DOT__sumy__DOT__vtemp
+        [0U][0U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__1__KET____DOT__sumy__DOT__vout 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__1__KET____DOT__sumy__DOT__vtemp
+        [0U][0U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__2__KET____DOT__sumy__DOT__vout 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__2__KET____DOT__sumy__DOT__vtemp
+        [0U][0U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__3__KET____DOT__sumy__DOT__vout 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__3__KET____DOT__sumy__DOT__vtemp
+        [0U][0U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__4__KET____DOT__sumy__DOT__vout 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__4__KET____DOT__sumy__DOT__vtemp
+        [0U][0U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__5__KET____DOT__sumy__DOT__vout 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__5__KET____DOT__sumy__DOT__vtemp
+        [0U][0U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__6__KET____DOT__sumy__DOT__vout 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__6__KET____DOT__sumy__DOT__vtemp
+        [0U][0U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__7__KET____DOT__sumy__DOT__vout 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__7__KET____DOT__sumy__DOT__vtemp
+        [0U][0U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__8__KET____DOT__sumy__DOT__vout 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__8__KET____DOT__sumy__DOT__vtemp
+        [0U][0U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__9__KET____DOT__sumy__DOT__vout 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__9__KET____DOT__sumy__DOT__vtemp
+        [0U][0U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__10__KET____DOT__sumy__DOT__vout 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__10__KET____DOT__sumy__DOT__vtemp
+        [0U][0U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__11__KET____DOT__sumy__DOT__vout 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__11__KET____DOT__sumy__DOT__vtemp
+        [0U][0U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__12__KET____DOT__sumy__DOT__vout 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__12__KET____DOT__sumy__DOT__vtemp
+        [0U][0U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__13__KET____DOT__sumy__DOT__vout 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__13__KET____DOT__sumy__DOT__vtemp
+        [0U][0U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__14__KET____DOT__sumy__DOT__vout 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__14__KET____DOT__sumy__DOT__vtemp
+        [0U][0U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__15__KET____DOT__sumy__DOT__vout 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__15__KET____DOT__sumy__DOT__vtemp
+        [0U][0U];
+    if ((0U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+        vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__instr_ptr_load_en = 0U;
+    } else {
+        if ((1U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+            vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__instr_ptr_load_en 
+                = ((0x80000000U & vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__local_cmd[3U])
+                    ? 0U : ((0x40000000U & vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__local_cmd[3U])
+                             ? 0U : ((0x20000000U & 
+                                      vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__local_cmd[3U])
+                                      ? ((0x10000000U 
+                                          & vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__local_cmd[3U])
+                                          ? 0U : 1U)
+                                      : 0U)));
+        } else {
+            if ((2U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+                vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__instr_ptr_load_en = 0U;
+            } else {
+                if ((3U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+                    if (((1U == (0xfU & (vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__local_cmd[3U] 
+                                         >> 0x1cU))) 
+                         | (4U == (0xfU & (vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__local_cmd[3U] 
+                                           >> 0x1cU))))) {
+                        vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__instr_ptr_load_en = 0U;
+                    } else {
+                        if (((3U == (0xfU & (vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__local_cmd[3U] 
+                                             >> 0x1cU))) 
+                             | (5U == (0xfU & (vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__local_cmd[3U] 
+                                               >> 0x1cU))))) {
+                            vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__instr_ptr_load_en = 2U;
+                        } else {
+                            if ((6U == (0xfU & (vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__local_cmd[3U] 
+                                                >> 0x1cU)))) {
+                                vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__instr_ptr_load_en = 0U;
+                            }
+                        }
+                    }
+                } else {
+                    if ((4U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+                        vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__instr_ptr_load_en = 0U;
+                    } else {
+                        if ((6U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+                            vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__instr_ptr_load_en = 0U;
+                        } else {
+                            if ((7U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+                                vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__instr_ptr_load_en = 0U;
+                            } else {
+                                if ((9U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+                                    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__instr_ptr_load_en = 0U;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    if ((0U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+        vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__instr_ptr_load_en = 0U;
+    } else {
+        if ((1U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+            vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__instr_ptr_load_en 
+                = ((0x80000000U & vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__local_cmd[3U])
+                    ? 0U : ((0x40000000U & vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__local_cmd[3U])
+                             ? 0U : ((0x20000000U & 
+                                      vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__local_cmd[3U])
+                                      ? ((0x10000000U 
+                                          & vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__local_cmd[3U])
+                                          ? 0U : 1U)
+                                      : 0U)));
+        } else {
+            if ((2U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+                vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__instr_ptr_load_en = 0U;
+            } else {
+                if ((3U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+                    if (((1U == (0xfU & (vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__local_cmd[3U] 
+                                         >> 0x1cU))) 
+                         | (4U == (0xfU & (vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__local_cmd[3U] 
+                                           >> 0x1cU))))) {
+                        vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__instr_ptr_load_en = 0U;
+                    } else {
+                        if (((3U == (0xfU & (vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__local_cmd[3U] 
+                                             >> 0x1cU))) 
+                             | (5U == (0xfU & (vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__local_cmd[3U] 
+                                               >> 0x1cU))))) {
+                            vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__instr_ptr_load_en = 2U;
+                        } else {
+                            if ((6U == (0xfU & (vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__local_cmd[3U] 
+                                                >> 0x1cU)))) {
+                                vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__instr_ptr_load_en = 0U;
+                            }
+                        }
+                    }
+                } else {
+                    if ((4U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+                        vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__instr_ptr_load_en = 0U;
+                    } else {
+                        if ((6U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+                            vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__instr_ptr_load_en = 0U;
+                        } else {
+                            if ((7U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+                                vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__instr_ptr_load_en = 0U;
+                            } else {
+                                if ((9U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+                                    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__instr_ptr_load_en = 0U;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    if ((0U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+        vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__instr_ptr_load_en = 0U;
+    } else {
+        if ((1U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+            vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__instr_ptr_load_en 
+                = ((0x80000000U & vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__local_cmd[3U])
+                    ? 0U : ((0x40000000U & vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__local_cmd[3U])
+                             ? 0U : ((0x20000000U & 
+                                      vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__local_cmd[3U])
+                                      ? ((0x10000000U 
+                                          & vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__local_cmd[3U])
+                                          ? 0U : 1U)
+                                      : 0U)));
+        } else {
+            if ((2U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+                vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__instr_ptr_load_en = 0U;
+            } else {
+                if ((3U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+                    if (((1U == (0xfU & (vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__local_cmd[3U] 
+                                         >> 0x1cU))) 
+                         | (4U == (0xfU & (vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__local_cmd[3U] 
+                                           >> 0x1cU))))) {
+                        vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__instr_ptr_load_en = 0U;
+                    } else {
+                        if (((3U == (0xfU & (vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__local_cmd[3U] 
+                                             >> 0x1cU))) 
+                             | (5U == (0xfU & (vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__local_cmd[3U] 
+                                               >> 0x1cU))))) {
+                            vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__instr_ptr_load_en = 2U;
+                        } else {
+                            if ((6U == (0xfU & (vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__local_cmd[3U] 
+                                                >> 0x1cU)))) {
+                                vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__instr_ptr_load_en = 0U;
+                            }
+                        }
+                    }
+                } else {
+                    if ((4U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+                        vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__instr_ptr_load_en = 0U;
+                    } else {
+                        if ((6U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+                            vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__instr_ptr_load_en = 0U;
+                        } else {
+                            if ((7U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+                                vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__instr_ptr_load_en = 0U;
+                            } else {
+                                if ((9U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+                                    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__instr_ptr_load_en = 0U;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    if ((0U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+        vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__fproc_enable = 0U;
+    } else {
+        if ((1U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+            vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__fproc_enable 
+                = (1U & ((~ (vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__local_cmd[3U] 
+                             >> 0x1fU)) & ((vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__local_cmd[3U] 
+                                            >> 0x1eU) 
+                                           & (~ (vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__local_cmd[3U] 
+                                                 >> 0x1dU)))));
+        } else {
+            if ((2U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+                vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__fproc_enable = 0U;
+            } else {
+                if ((3U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+                    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__fproc_enable = 0U;
+                } else {
+                    if ((4U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+                        vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__fproc_enable = 0U;
+                    } else {
+                        if ((6U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+                            vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__fproc_enable = 0U;
+                        } else {
+                            if ((7U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+                                vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__fproc_enable = 0U;
+                            } else {
+                                if ((9U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+                                    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__fproc_enable = 0U;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    if ((0U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+        vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__fproc_enable = 0U;
+    } else {
+        if ((1U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+            vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__fproc_enable 
+                = (1U & ((~ (vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__local_cmd[3U] 
+                             >> 0x1fU)) & ((vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__local_cmd[3U] 
+                                            >> 0x1eU) 
+                                           & (~ (vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__local_cmd[3U] 
+                                                 >> 0x1dU)))));
+        } else {
+            if ((2U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+                vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__fproc_enable = 0U;
+            } else {
+                if ((3U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+                    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__fproc_enable = 0U;
+                } else {
+                    if ((4U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+                        vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__fproc_enable = 0U;
+                    } else {
+                        if ((6U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+                            vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__fproc_enable = 0U;
+                        } else {
+                            if ((7U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+                                vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__fproc_enable = 0U;
+                            } else {
+                                if ((9U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+                                    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__fproc_enable = 0U;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    if ((0U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+        vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__fproc_enable = 0U;
+    } else {
+        if ((1U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+            vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__fproc_enable 
+                = (1U & ((~ (vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__local_cmd[3U] 
+                             >> 0x1fU)) & ((vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__local_cmd[3U] 
+                                            >> 0x1eU) 
+                                           & (~ (vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__local_cmd[3U] 
+                                                 >> 0x1dU)))));
+        } else {
+            if ((2U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+                vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__fproc_enable = 0U;
+            } else {
+                if ((3U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+                    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__fproc_enable = 0U;
+                } else {
+                    if ((4U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+                        vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__fproc_enable = 0U;
+                    } else {
+                        if ((6U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+                            vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__fproc_enable = 0U;
+                        } else {
+                            if ((7U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+                                vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__fproc_enable = 0U;
+                            } else {
+                                if ((9U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+                                    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__fproc_enable = 0U;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__pulse_cmd_i[0U] 
+        = ((vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__local_cmd[2U] 
+            << 0x1bU) | (vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__local_cmd[1U] 
+                         >> 5U));
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__pulse_cmd_i[1U] 
+        = ((vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__local_cmd[3U] 
+            << 0x1bU) | (vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__local_cmd[2U] 
+                         >> 5U));
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__pulse_cmd_i[2U] 
+        = (0x7fffU & (vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__local_cmd[3U] 
+                      >> 5U));
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__pulse_cmd_i[0U] 
+        = ((vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__local_cmd[2U] 
+            << 0x1bU) | (vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__local_cmd[1U] 
+                         >> 5U));
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__pulse_cmd_i[1U] 
+        = ((vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__local_cmd[3U] 
+            << 0x1bU) | (vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__local_cmd[2U] 
+                         >> 5U));
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__pulse_cmd_i[2U] 
+        = (0x7fffU & (vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__local_cmd[3U] 
+                      >> 5U));
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__pulse_cmd_i[0U] 
+        = ((vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__local_cmd[2U] 
+            << 0x1bU) | (vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__local_cmd[1U] 
+                         >> 5U));
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__pulse_cmd_i[1U] 
+        = ((vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__local_cmd[3U] 
+            << 0x1bU) | (vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__local_cmd[2U] 
+                         >> 5U));
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__pulse_cmd_i[2U] 
+        = (0x7fffU & (vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__local_cmd[3U] 
+                      >> 5U));
+    if ((0U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+        vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__done_gate = 0U;
+    } else {
+        if ((1U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+            vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__done_gate = 0U;
+        } else {
+            if ((2U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+                vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__done_gate = 0U;
+            } else {
+                if ((3U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+                    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__done_gate = 0U;
+                } else {
+                    if ((4U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+                        vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__done_gate = 0U;
+                    } else {
+                        if ((6U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+                            vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__done_gate = 0U;
+                        } else {
+                            if ((7U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+                                vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__done_gate = 0U;
+                            } else {
+                                if ((9U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+                                    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__done_gate = 1U;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    if ((0U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+        vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__done_gate = 0U;
+    } else {
+        if ((1U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+            vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__done_gate = 0U;
+        } else {
+            if ((2U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+                vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__done_gate = 0U;
+            } else {
+                if ((3U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+                    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__done_gate = 0U;
+                } else {
+                    if ((4U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+                        vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__done_gate = 0U;
+                    } else {
+                        if ((6U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+                            vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__done_gate = 0U;
+                        } else {
+                            if ((7U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+                                vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__done_gate = 0U;
+                            } else {
+                                if ((9U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+                                    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__done_gate = 1U;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    if ((0U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+        vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__done_gate = 0U;
+    } else {
+        if ((1U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+            vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__done_gate = 0U;
+        } else {
+            if ((2U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+                vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__done_gate = 0U;
+            } else {
+                if ((3U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+                    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__done_gate = 0U;
+                } else {
+                    if ((4U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+                        vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__done_gate = 0U;
+                    } else {
+                        if ((6U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+                            vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__done_gate = 0U;
+                        } else {
+                            if ((7U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+                                vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__done_gate = 0U;
+                            } else {
+                                if ((9U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+                                    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__done_gate = 1U;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__reg_addr_in0 
+        = (0xfU & (vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__local_cmd[3U] 
+                   >> 0x14U));
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__reg_addr_in0 
+        = (0xfU & (vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__local_cmd[3U] 
+                   >> 0x14U));
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__reg_addr_in0 
+        = (0xfU & (vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__local_cmd[3U] 
+                   >> 0x14U));
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__myalu__DOT__sub 
+        = (vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__myalu__DOT__in0_reg 
+           - vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__myalu__DOT__in1_reg);
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__myalu__DOT__sub 
+        = (vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__myalu__DOT__in0_reg 
+           - vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__myalu__DOT__in1_reg);
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__myalu__DOT__sub 
+        = (vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__myalu__DOT__in0_reg 
+           - vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__myalu__DOT__in1_reg);
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__0__KET____DOT__sumx__DOT__vout 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__0__KET____DOT__sumx__DOT__vtemp
+        [0U][0U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__1__KET____DOT__sumx__DOT__vout 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__1__KET____DOT__sumx__DOT__vtemp
+        [0U][0U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__2__KET____DOT__sumx__DOT__vout 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__2__KET____DOT__sumx__DOT__vtemp
+        [0U][0U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__3__KET____DOT__sumx__DOT__vout 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__3__KET____DOT__sumx__DOT__vtemp
+        [0U][0U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__4__KET____DOT__sumx__DOT__vout 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__4__KET____DOT__sumx__DOT__vtemp
+        [0U][0U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__5__KET____DOT__sumx__DOT__vout 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__5__KET____DOT__sumx__DOT__vtemp
+        [0U][0U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__6__KET____DOT__sumx__DOT__vout 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__6__KET____DOT__sumx__DOT__vtemp
+        [0U][0U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__7__KET____DOT__sumx__DOT__vout 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__7__KET____DOT__sumx__DOT__vtemp
+        [0U][0U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__8__KET____DOT__sumx__DOT__vout 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__8__KET____DOT__sumx__DOT__vtemp
+        [0U][0U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__9__KET____DOT__sumx__DOT__vout 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__9__KET____DOT__sumx__DOT__vtemp
+        [0U][0U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__10__KET____DOT__sumx__DOT__vout 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__10__KET____DOT__sumx__DOT__vtemp
+        [0U][0U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__11__KET____DOT__sumx__DOT__vout 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__11__KET____DOT__sumx__DOT__vtemp
+        [0U][0U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__12__KET____DOT__sumx__DOT__vout 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__12__KET____DOT__sumx__DOT__vtemp
+        [0U][0U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__13__KET____DOT__sumx__DOT__vout 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__13__KET____DOT__sumx__DOT__vtemp
+        [0U][0U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__14__KET____DOT__sumx__DOT__vout 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__14__KET____DOT__sumx__DOT__vtemp
+        [0U][0U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__15__KET____DOT__sumx__DOT__vout 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__15__KET____DOT__sumx__DOT__vtemp
+        [0U][0U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.resetacc 
+        = vlTOPp->reset;
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.nshot 
+        = vlTOPp->nshot;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__pulse_cmd_time 
+        = ((vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__local_cmd[1U] 
+            << 0x1bU) | (vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__local_cmd[0U] 
+                         >> 5U));
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__pulse_cmd_time 
+        = ((vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__local_cmd[1U] 
+            << 0x1bU) | (vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__local_cmd[0U] 
+                         >> 5U));
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__pulse_cmd_time 
+        = ((vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__local_cmd[1U] 
+            << 0x1bU) | (vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__local_cmd[0U] 
+                         >> 5U));
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__0__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__sumxslicelast 
+        = (0x3ffffffffffffULL & VL_EXTENDS_QQ(50,34, 
+                                              vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__0__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__sumxslice
+                                              [3U]));
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__0__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__sumyslicelast 
+        = (0x3ffffffffffffULL & VL_EXTENDS_QQ(50,34, 
+                                              vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__0__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__sumyslice
+                                              [3U]));
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__1__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__sumxslicelast 
+        = (0x3ffffffffffffULL & VL_EXTENDS_QQ(50,34, 
+                                              vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__1__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__sumxslice
+                                              [3U]));
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__1__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__sumyslicelast 
+        = (0x3ffffffffffffULL & VL_EXTENDS_QQ(50,34, 
+                                              vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__1__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__sumyslice
+                                              [3U]));
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__2__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__sumxslicelast 
+        = (0x3ffffffffffffULL & VL_EXTENDS_QQ(50,34, 
+                                              vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__2__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__sumxslice
+                                              [3U]));
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__2__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__sumyslicelast 
+        = (0x3ffffffffffffULL & VL_EXTENDS_QQ(50,34, 
+                                              vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__2__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__sumyslice
+                                              [3U]));
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__0__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__genblk1__BRA__0__KET____DOT__mult1__DOT__zr 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__0__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__genblk1__BRA__0__KET____DOT__mult1__DOT__zr_int;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__0__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__genblk1__BRA__0__KET____DOT__mult1__DOT__zi 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__0__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__genblk1__BRA__0__KET____DOT__mult1__DOT__zi_int;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__0__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__genblk1__BRA__1__KET____DOT__mult1__DOT__zr 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__0__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__genblk1__BRA__1__KET____DOT__mult1__DOT__zr_int;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__0__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__genblk1__BRA__1__KET____DOT__mult1__DOT__zi 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__0__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__genblk1__BRA__1__KET____DOT__mult1__DOT__zi_int;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__0__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__genblk1__BRA__2__KET____DOT__mult1__DOT__zr 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__0__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__genblk1__BRA__2__KET____DOT__mult1__DOT__zr_int;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__0__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__genblk1__BRA__2__KET____DOT__mult1__DOT__zi 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__0__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__genblk1__BRA__2__KET____DOT__mult1__DOT__zi_int;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__0__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__genblk1__BRA__3__KET____DOT__mult1__DOT__zr 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__0__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__genblk1__BRA__3__KET____DOT__mult1__DOT__zr_int;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__0__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__genblk1__BRA__3__KET____DOT__mult1__DOT__zi 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__0__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__genblk1__BRA__3__KET____DOT__mult1__DOT__zi_int;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__1__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__genblk1__BRA__0__KET____DOT__mult1__DOT__zr 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__1__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__genblk1__BRA__0__KET____DOT__mult1__DOT__zr_int;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__1__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__genblk1__BRA__0__KET____DOT__mult1__DOT__zi 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__1__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__genblk1__BRA__0__KET____DOT__mult1__DOT__zi_int;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__1__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__genblk1__BRA__1__KET____DOT__mult1__DOT__zr 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__1__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__genblk1__BRA__1__KET____DOT__mult1__DOT__zr_int;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__1__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__genblk1__BRA__1__KET____DOT__mult1__DOT__zi 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__1__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__genblk1__BRA__1__KET____DOT__mult1__DOT__zi_int;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__1__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__genblk1__BRA__2__KET____DOT__mult1__DOT__zr 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__1__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__genblk1__BRA__2__KET____DOT__mult1__DOT__zr_int;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__1__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__genblk1__BRA__2__KET____DOT__mult1__DOT__zi 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__1__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__genblk1__BRA__2__KET____DOT__mult1__DOT__zi_int;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__1__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__genblk1__BRA__3__KET____DOT__mult1__DOT__zr 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__1__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__genblk1__BRA__3__KET____DOT__mult1__DOT__zr_int;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__1__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__genblk1__BRA__3__KET____DOT__mult1__DOT__zi 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__1__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__genblk1__BRA__3__KET____DOT__mult1__DOT__zi_int;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__2__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__genblk1__BRA__0__KET____DOT__mult1__DOT__zr 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__2__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__genblk1__BRA__0__KET____DOT__mult1__DOT__zr_int;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__2__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__genblk1__BRA__0__KET____DOT__mult1__DOT__zi 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__2__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__genblk1__BRA__0__KET____DOT__mult1__DOT__zi_int;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__2__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__genblk1__BRA__1__KET____DOT__mult1__DOT__zr 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__2__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__genblk1__BRA__1__KET____DOT__mult1__DOT__zr_int;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__2__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__genblk1__BRA__1__KET____DOT__mult1__DOT__zi 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__2__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__genblk1__BRA__1__KET____DOT__mult1__DOT__zi_int;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__2__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__genblk1__BRA__2__KET____DOT__mult1__DOT__zr 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__2__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__genblk1__BRA__2__KET____DOT__mult1__DOT__zr_int;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__2__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__genblk1__BRA__2__KET____DOT__mult1__DOT__zi 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__2__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__genblk1__BRA__2__KET____DOT__mult1__DOT__zi_int;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__2__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__genblk1__BRA__3__KET____DOT__mult1__DOT__zr 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__2__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__genblk1__BRA__3__KET____DOT__mult1__DOT__zr_int;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__2__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__genblk1__BRA__3__KET____DOT__mult1__DOT__zi 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__2__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__genblk1__BRA__3__KET____DOT__mult1__DOT__zi_int;
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__acqpztif__BRA__0__KET__.chansel 
+        = (0x1fU & vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.acqchansel
+           [0U]);
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__acqpztif__BRA__1__KET__.chansel 
+        = (0x1fU & vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.acqchansel
+           [1U]);
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__dacmonpztif__BRA__0__KET__.chansel 
+        = (0x1fU & vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.dacmonchansel
+           [0U]);
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__dacmonpztif__BRA__1__KET__.chansel 
+        = (0x1fU & vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.dacmonchansel
+           [1U]);
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__dacmonpztif__BRA__2__KET__.chansel 
+        = (0x1fU & vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.dacmonchansel
+           [0U]);
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__dacmonpztif__BRA__3__KET__.chansel 
+        = (0x1fU & vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.dacmonchansel
+           [1U]);
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__cstrobe_in 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__cstrobe;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__pulsereg__DOT__cstrobe_in 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__cstrobe;
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__pulseout.phase 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__pulsereg__DOT__phase;
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__pulseout.amp 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__pulsereg__DOT__amp;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__cstrobe_in 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__cstrobe;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__pulsereg__DOT__cstrobe_in 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__cstrobe;
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__pulseout.phase 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__pulsereg__DOT__phase;
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__pulseout.amp 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__pulsereg__DOT__amp;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__cstrobe_in 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__cstrobe;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__pulsereg__DOT__cstrobe_in 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__cstrobe;
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__pulseout.phase 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__pulsereg__DOT__phase;
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__pulseout.amp 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__pulsereg__DOT__amp;
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__dacmonpztif__BRA__0__KET__.chan[0U][0U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__dac
+        [0U][0U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__dacmonpztif__BRA__0__KET__.chan[0U][1U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__dac
+        [0U][1U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__dacmonpztif__BRA__0__KET__.chan[0U][2U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__dac
+        [0U][2U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__dacmonpztif__BRA__0__KET__.chan[0U][3U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__dac
+        [0U][3U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__dacmonpztif__BRA__0__KET__.chan[0U][4U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__dac
+        [0U][4U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__dacmonpztif__BRA__0__KET__.chan[0U][5U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__dac
+        [0U][5U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__dacmonpztif__BRA__0__KET__.chan[0U][6U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__dac
+        [0U][6U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__dacmonpztif__BRA__0__KET__.chan[0U][7U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__dac
+        [0U][7U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__dacmonpztif__BRA__0__KET__.chan[1U][0U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__dac
+        [1U][0U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__dacmonpztif__BRA__0__KET__.chan[1U][1U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__dac
+        [1U][1U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__dacmonpztif__BRA__0__KET__.chan[1U][2U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__dac
+        [1U][2U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__dacmonpztif__BRA__0__KET__.chan[1U][3U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__dac
+        [1U][3U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__dacmonpztif__BRA__0__KET__.chan[1U][4U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__dac
+        [1U][4U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__dacmonpztif__BRA__0__KET__.chan[1U][5U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__dac
+        [1U][5U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__dacmonpztif__BRA__0__KET__.chan[1U][6U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__dac
+        [1U][6U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__dacmonpztif__BRA__0__KET__.chan[1U][7U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__dac
+        [1U][7U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__dacmonpztif__BRA__0__KET__.chan[2U][0U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__dac
+        [2U][0U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__dacmonpztif__BRA__0__KET__.chan[2U][1U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__dac
+        [2U][1U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__dacmonpztif__BRA__0__KET__.chan[2U][2U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__dac
+        [2U][2U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__dacmonpztif__BRA__0__KET__.chan[2U][3U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__dac
+        [2U][3U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__dacmonpztif__BRA__0__KET__.chan[2U][4U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__dac
+        [2U][4U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__dacmonpztif__BRA__0__KET__.chan[2U][5U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__dac
+        [2U][5U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__dacmonpztif__BRA__0__KET__.chan[2U][6U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__dac
+        [2U][6U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__dacmonpztif__BRA__0__KET__.chan[2U][7U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__dac
+        [2U][7U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__dacmonpztif__BRA__0__KET__.chan[3U][0U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__dac
+        [3U][0U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__dacmonpztif__BRA__0__KET__.chan[3U][1U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__dac
+        [3U][1U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__dacmonpztif__BRA__0__KET__.chan[3U][2U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__dac
+        [3U][2U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__dacmonpztif__BRA__0__KET__.chan[3U][3U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__dac
+        [3U][3U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__dacmonpztif__BRA__0__KET__.chan[3U][4U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__dac
+        [3U][4U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__dacmonpztif__BRA__0__KET__.chan[3U][5U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__dac
+        [3U][5U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__dacmonpztif__BRA__0__KET__.chan[3U][6U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__dac
+        [3U][6U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__dacmonpztif__BRA__0__KET__.chan[3U][7U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__dac
+        [3U][7U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__dacmonpztif__BRA__1__KET__.chan[0U][0U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__dac
+        [0U][0U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__dacmonpztif__BRA__1__KET__.chan[0U][1U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__dac
+        [0U][1U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__dacmonpztif__BRA__1__KET__.chan[0U][2U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__dac
+        [0U][2U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__dacmonpztif__BRA__1__KET__.chan[0U][3U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__dac
+        [0U][3U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__dacmonpztif__BRA__1__KET__.chan[0U][4U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__dac
+        [0U][4U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__dacmonpztif__BRA__1__KET__.chan[0U][5U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__dac
+        [0U][5U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__dacmonpztif__BRA__1__KET__.chan[0U][6U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__dac
+        [0U][6U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__dacmonpztif__BRA__1__KET__.chan[0U][7U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__dac
+        [0U][7U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__dacmonpztif__BRA__1__KET__.chan[1U][0U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__dac
+        [1U][0U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__dacmonpztif__BRA__1__KET__.chan[1U][1U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__dac
+        [1U][1U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__dacmonpztif__BRA__1__KET__.chan[1U][2U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__dac
+        [1U][2U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__dacmonpztif__BRA__1__KET__.chan[1U][3U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__dac
+        [1U][3U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__dacmonpztif__BRA__1__KET__.chan[1U][4U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__dac
+        [1U][4U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__dacmonpztif__BRA__1__KET__.chan[1U][5U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__dac
+        [1U][5U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__dacmonpztif__BRA__1__KET__.chan[1U][6U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__dac
+        [1U][6U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__dacmonpztif__BRA__1__KET__.chan[1U][7U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__dac
+        [1U][7U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__dacmonpztif__BRA__1__KET__.chan[2U][0U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__dac
+        [2U][0U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__dacmonpztif__BRA__1__KET__.chan[2U][1U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__dac
+        [2U][1U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__dacmonpztif__BRA__1__KET__.chan[2U][2U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__dac
+        [2U][2U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__dacmonpztif__BRA__1__KET__.chan[2U][3U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__dac
+        [2U][3U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__dacmonpztif__BRA__1__KET__.chan[2U][4U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__dac
+        [2U][4U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__dacmonpztif__BRA__1__KET__.chan[2U][5U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__dac
+        [2U][5U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__dacmonpztif__BRA__1__KET__.chan[2U][6U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__dac
+        [2U][6U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__dacmonpztif__BRA__1__KET__.chan[2U][7U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__dac
+        [2U][7U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__dacmonpztif__BRA__1__KET__.chan[3U][0U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__dac
+        [3U][0U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__dacmonpztif__BRA__1__KET__.chan[3U][1U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__dac
+        [3U][1U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__dacmonpztif__BRA__1__KET__.chan[3U][2U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__dac
+        [3U][2U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__dacmonpztif__BRA__1__KET__.chan[3U][3U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__dac
+        [3U][3U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__dacmonpztif__BRA__1__KET__.chan[3U][4U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__dac
+        [3U][4U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__dacmonpztif__BRA__1__KET__.chan[3U][5U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__dac
+        [3U][5U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__dacmonpztif__BRA__1__KET__.chan[3U][6U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__dac
+        [3U][6U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__dacmonpztif__BRA__1__KET__.chan[3U][7U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__dac
+        [3U][7U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__dacmonpztif__BRA__2__KET__.chan[0U][0U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__dac
+        [0U][0U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__dacmonpztif__BRA__2__KET__.chan[0U][1U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__dac
+        [0U][1U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__dacmonpztif__BRA__2__KET__.chan[0U][2U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__dac
+        [0U][2U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__dacmonpztif__BRA__2__KET__.chan[0U][3U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__dac
+        [0U][3U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__dacmonpztif__BRA__2__KET__.chan[0U][4U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__dac
+        [0U][4U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__dacmonpztif__BRA__2__KET__.chan[0U][5U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__dac
+        [0U][5U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__dacmonpztif__BRA__2__KET__.chan[0U][6U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__dac
+        [0U][6U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__dacmonpztif__BRA__2__KET__.chan[0U][7U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__dac
+        [0U][7U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__dacmonpztif__BRA__2__KET__.chan[1U][0U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__dac
+        [1U][0U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__dacmonpztif__BRA__2__KET__.chan[1U][1U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__dac
+        [1U][1U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__dacmonpztif__BRA__2__KET__.chan[1U][2U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__dac
+        [1U][2U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__dacmonpztif__BRA__2__KET__.chan[1U][3U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__dac
+        [1U][3U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__dacmonpztif__BRA__2__KET__.chan[1U][4U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__dac
+        [1U][4U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__dacmonpztif__BRA__2__KET__.chan[1U][5U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__dac
+        [1U][5U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__dacmonpztif__BRA__2__KET__.chan[1U][6U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__dac
+        [1U][6U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__dacmonpztif__BRA__2__KET__.chan[1U][7U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__dac
+        [1U][7U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__dacmonpztif__BRA__2__KET__.chan[2U][0U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__dac
+        [2U][0U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__dacmonpztif__BRA__2__KET__.chan[2U][1U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__dac
+        [2U][1U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__dacmonpztif__BRA__2__KET__.chan[2U][2U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__dac
+        [2U][2U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__dacmonpztif__BRA__2__KET__.chan[2U][3U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__dac
+        [2U][3U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__dacmonpztif__BRA__2__KET__.chan[2U][4U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__dac
+        [2U][4U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__dacmonpztif__BRA__2__KET__.chan[2U][5U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__dac
+        [2U][5U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__dacmonpztif__BRA__2__KET__.chan[2U][6U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__dac
+        [2U][6U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__dacmonpztif__BRA__2__KET__.chan[2U][7U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__dac
+        [2U][7U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__dacmonpztif__BRA__2__KET__.chan[3U][0U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__dac
+        [3U][0U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__dacmonpztif__BRA__2__KET__.chan[3U][1U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__dac
+        [3U][1U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__dacmonpztif__BRA__2__KET__.chan[3U][2U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__dac
+        [3U][2U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__dacmonpztif__BRA__2__KET__.chan[3U][3U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__dac
+        [3U][3U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__dacmonpztif__BRA__2__KET__.chan[3U][4U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__dac
+        [3U][4U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__dacmonpztif__BRA__2__KET__.chan[3U][5U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__dac
+        [3U][5U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__dacmonpztif__BRA__2__KET__.chan[3U][6U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__dac
+        [3U][6U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__dacmonpztif__BRA__2__KET__.chan[3U][7U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__dac
+        [3U][7U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__dacmonpztif__BRA__3__KET__.chan[0U][0U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__dac
+        [0U][0U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__dacmonpztif__BRA__3__KET__.chan[0U][1U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__dac
+        [0U][1U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__dacmonpztif__BRA__3__KET__.chan[0U][2U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__dac
+        [0U][2U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__dacmonpztif__BRA__3__KET__.chan[0U][3U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__dac
+        [0U][3U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__dacmonpztif__BRA__3__KET__.chan[0U][4U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__dac
+        [0U][4U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__dacmonpztif__BRA__3__KET__.chan[0U][5U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__dac
+        [0U][5U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__dacmonpztif__BRA__3__KET__.chan[0U][6U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__dac
+        [0U][6U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__dacmonpztif__BRA__3__KET__.chan[0U][7U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__dac
+        [0U][7U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__dacmonpztif__BRA__3__KET__.chan[1U][0U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__dac
+        [1U][0U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__dacmonpztif__BRA__3__KET__.chan[1U][1U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__dac
+        [1U][1U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__dacmonpztif__BRA__3__KET__.chan[1U][2U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__dac
+        [1U][2U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__dacmonpztif__BRA__3__KET__.chan[1U][3U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__dac
+        [1U][3U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__dacmonpztif__BRA__3__KET__.chan[1U][4U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__dac
+        [1U][4U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__dacmonpztif__BRA__3__KET__.chan[1U][5U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__dac
+        [1U][5U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__dacmonpztif__BRA__3__KET__.chan[1U][6U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__dac
+        [1U][6U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__dacmonpztif__BRA__3__KET__.chan[1U][7U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__dac
+        [1U][7U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__dacmonpztif__BRA__3__KET__.chan[2U][0U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__dac
+        [2U][0U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__dacmonpztif__BRA__3__KET__.chan[2U][1U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__dac
+        [2U][1U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__dacmonpztif__BRA__3__KET__.chan[2U][2U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__dac
+        [2U][2U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__dacmonpztif__BRA__3__KET__.chan[2U][3U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__dac
+        [2U][3U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__dacmonpztif__BRA__3__KET__.chan[2U][4U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__dac
+        [2U][4U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__dacmonpztif__BRA__3__KET__.chan[2U][5U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__dac
+        [2U][5U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__dacmonpztif__BRA__3__KET__.chan[2U][6U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__dac
+        [2U][6U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__dacmonpztif__BRA__3__KET__.chan[2U][7U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__dac
+        [2U][7U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__dacmonpztif__BRA__3__KET__.chan[3U][0U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__dac
+        [3U][0U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__dacmonpztif__BRA__3__KET__.chan[3U][1U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__dac
+        [3U][1U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__dacmonpztif__BRA__3__KET__.chan[3U][2U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__dac
+        [3U][2U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__dacmonpztif__BRA__3__KET__.chan[3U][3U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__dac
+        [3U][3U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__dacmonpztif__BRA__3__KET__.chan[3U][4U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__dac
+        [3U][4U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__dacmonpztif__BRA__3__KET__.chan[3U][5U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__dac
+        [3U][5U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__dacmonpztif__BRA__3__KET__.chan[3U][6U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__dac
+        [3U][6U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__dacmonpztif__BRA__3__KET__.chan[3U][7U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__dac
+        [3U][7U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__reset 
+        = (1U & ((IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__proccorereset) 
+                 >> 0U));
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__reset 
+        = (1U & ((IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__proccorereset) 
+                 >> 1U));
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__reset 
+        = (1U & ((IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__proccorereset) 
+                 >> 2U));
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.reset 
+        = vlTOPp->reset;
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__pulseout.freq 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__pulsereg__DOT__freq;
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__pulseout.freq 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__pulsereg__DOT__freq;
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__pulseout.freq 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__pulsereg__DOT__freq;
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__pulseout.env_word 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__pulsereg__DOT__env_word;
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__pulseout.cfg 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__pulsereg__DOT__cfg;
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__pulseout.cstrobe 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__pulsereg__DOT__cstrobe;
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__pulseout.env_word 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__pulsereg__DOT__env_word;
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__pulseout.cfg 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__pulsereg__DOT__cfg;
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__pulseout.cstrobe 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__pulsereg__DOT__cstrobe;
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__pulseout.env_word 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__pulsereg__DOT__env_word;
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__pulseout.cfg 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__pulsereg__DOT__cfg;
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__pulseout.cstrobe 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__pulsereg__DOT__cstrobe;
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__acqpztif__BRA__0__KET__.chan[0U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__adc
+        [0U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__acqpztif__BRA__0__KET__.chan[1U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__adc
+        [1U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__acqpztif__BRA__1__KET__.chan[0U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__adc
+        [0U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__acqpztif__BRA__1__KET__.chan[1U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__adc
+        [1U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.lastshotdone 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__done;
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.shotcnt 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__currentshotcnt;
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__acqpztif__BRA__0__KET__.stb_start 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__acqpztifwire__BRA__0__KET____DOT__stb_start_r;
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__acqpztif__BRA__1__KET__.stb_start 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__acqpztifwire__BRA__1__KET____DOT__stb_start_r;
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__dacmonpztif__BRA__0__KET__.stb_start 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__dacmonpztifwire__BRA__0__KET____DOT__stb_start_r;
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__dacmonpztif__BRA__1__KET__.stb_start 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__dacmonpztifwire__BRA__1__KET____DOT__stb_start_r;
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__dacmonpztif__BRA__2__KET__.stb_start 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__dacmonpztifwire__BRA__2__KET____DOT__stb_start_r;
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__dacmonpztif__BRA__3__KET__.stb_start 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__dacmonpztifwire__BRA__3__KET____DOT__stb_start_r;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__0__KET____DOT__sumx__DOT__gout 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__0__KET____DOT__sumx__DOT__gout_r;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__0__KET____DOT__sumy__DOT__gout 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__0__KET____DOT__sumy__DOT__gout_r;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__1__KET____DOT__sumx__DOT__gout 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__1__KET____DOT__sumx__DOT__gout_r;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__1__KET____DOT__sumy__DOT__gout 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__1__KET____DOT__sumy__DOT__gout_r;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__2__KET____DOT__sumx__DOT__gout 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__2__KET____DOT__sumx__DOT__gout_r;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__2__KET____DOT__sumy__DOT__gout 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__2__KET____DOT__sumy__DOT__gout_r;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__3__KET____DOT__sumx__DOT__gout 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__3__KET____DOT__sumx__DOT__gout_r;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__3__KET____DOT__sumy__DOT__gout 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__3__KET____DOT__sumy__DOT__gout_r;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__4__KET____DOT__sumx__DOT__gout 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__4__KET____DOT__sumx__DOT__gout_r;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__4__KET____DOT__sumy__DOT__gout 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__4__KET____DOT__sumy__DOT__gout_r;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__5__KET____DOT__sumx__DOT__gout 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__5__KET____DOT__sumx__DOT__gout_r;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__5__KET____DOT__sumy__DOT__gout 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__5__KET____DOT__sumy__DOT__gout_r;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__6__KET____DOT__sumx__DOT__gout 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__6__KET____DOT__sumx__DOT__gout_r;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__6__KET____DOT__sumy__DOT__gout 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__6__KET____DOT__sumy__DOT__gout_r;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__7__KET____DOT__sumx__DOT__gout 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__7__KET____DOT__sumx__DOT__gout_r;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__7__KET____DOT__sumy__DOT__gout 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__7__KET____DOT__sumy__DOT__gout_r;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__8__KET____DOT__sumx__DOT__gout 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__8__KET____DOT__sumx__DOT__gout_r;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__8__KET____DOT__sumy__DOT__gout 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__8__KET____DOT__sumy__DOT__gout_r;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__9__KET____DOT__sumx__DOT__gout 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__9__KET____DOT__sumx__DOT__gout_r;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__9__KET____DOT__sumy__DOT__gout 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__9__KET____DOT__sumy__DOT__gout_r;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__10__KET____DOT__sumx__DOT__gout 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__10__KET____DOT__sumx__DOT__gout_r;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__10__KET____DOT__sumy__DOT__gout 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__10__KET____DOT__sumy__DOT__gout_r;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__11__KET____DOT__sumx__DOT__gout 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__11__KET____DOT__sumx__DOT__gout_r;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__11__KET____DOT__sumy__DOT__gout 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__11__KET____DOT__sumy__DOT__gout_r;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__12__KET____DOT__sumx__DOT__gout 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__12__KET____DOT__sumx__DOT__gout_r;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__12__KET____DOT__sumy__DOT__gout 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__12__KET____DOT__sumy__DOT__gout_r;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__13__KET____DOT__sumx__DOT__gout 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__13__KET____DOT__sumx__DOT__gout_r;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__13__KET____DOT__sumy__DOT__gout 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__13__KET____DOT__sumy__DOT__gout_r;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__14__KET____DOT__sumx__DOT__gout 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__14__KET____DOT__sumx__DOT__gout_r;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__14__KET____DOT__sumy__DOT__gout 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__14__KET____DOT__sumy__DOT__gout_r;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__15__KET____DOT__sumx__DOT__gout 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__15__KET____DOT__sumx__DOT__gout_r;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__15__KET____DOT__sumy__DOT__gout 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__15__KET____DOT__sumy__DOT__gout_r;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__0__KET____DOT__sumx__DOT__gout 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__0__KET____DOT__sumx__DOT__gout_r;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__0__KET____DOT__sumy__DOT__gout 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__0__KET____DOT__sumy__DOT__gout_r;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__1__KET____DOT__sumx__DOT__gout 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__1__KET____DOT__sumx__DOT__gout_r;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__1__KET____DOT__sumy__DOT__gout 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__1__KET____DOT__sumy__DOT__gout_r;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__2__KET____DOT__sumx__DOT__gout 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__2__KET____DOT__sumx__DOT__gout_r;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__2__KET____DOT__sumy__DOT__gout 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__2__KET____DOT__sumy__DOT__gout_r;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__3__KET____DOT__sumx__DOT__gout 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__3__KET____DOT__sumx__DOT__gout_r;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__3__KET____DOT__sumy__DOT__gout 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__3__KET____DOT__sumy__DOT__gout_r;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__4__KET____DOT__sumx__DOT__gout 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__4__KET____DOT__sumx__DOT__gout_r;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__4__KET____DOT__sumy__DOT__gout 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__4__KET____DOT__sumy__DOT__gout_r;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__5__KET____DOT__sumx__DOT__gout 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__5__KET____DOT__sumx__DOT__gout_r;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__5__KET____DOT__sumy__DOT__gout 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__5__KET____DOT__sumy__DOT__gout_r;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__6__KET____DOT__sumx__DOT__gout 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__6__KET____DOT__sumx__DOT__gout_r;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__6__KET____DOT__sumy__DOT__gout 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__6__KET____DOT__sumy__DOT__gout_r;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__7__KET____DOT__sumx__DOT__gout 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__7__KET____DOT__sumx__DOT__gout_r;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__7__KET____DOT__sumy__DOT__gout 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__7__KET____DOT__sumy__DOT__gout_r;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__8__KET____DOT__sumx__DOT__gout 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__8__KET____DOT__sumx__DOT__gout_r;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__8__KET____DOT__sumy__DOT__gout 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__8__KET____DOT__sumy__DOT__gout_r;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__9__KET____DOT__sumx__DOT__gout 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__9__KET____DOT__sumx__DOT__gout_r;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__9__KET____DOT__sumy__DOT__gout 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__9__KET____DOT__sumy__DOT__gout_r;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__10__KET____DOT__sumx__DOT__gout 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__10__KET____DOT__sumx__DOT__gout_r;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__10__KET____DOT__sumy__DOT__gout 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__10__KET____DOT__sumy__DOT__gout_r;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__11__KET____DOT__sumx__DOT__gout 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__11__KET____DOT__sumx__DOT__gout_r;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__11__KET____DOT__sumy__DOT__gout 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__11__KET____DOT__sumy__DOT__gout_r;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__12__KET____DOT__sumx__DOT__gout 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__12__KET____DOT__sumx__DOT__gout_r;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__12__KET____DOT__sumy__DOT__gout 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__12__KET____DOT__sumy__DOT__gout_r;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__13__KET____DOT__sumx__DOT__gout 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__13__KET____DOT__sumx__DOT__gout_r;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__13__KET____DOT__sumy__DOT__gout 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__13__KET____DOT__sumy__DOT__gout_r;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__14__KET____DOT__sumx__DOT__gout 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__14__KET____DOT__sumx__DOT__gout_r;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__14__KET____DOT__sumy__DOT__gout 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__14__KET____DOT__sumy__DOT__gout_r;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__15__KET____DOT__sumx__DOT__gout 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__15__KET____DOT__sumx__DOT__gout_r;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__15__KET____DOT__sumy__DOT__gout 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__15__KET____DOT__sumy__DOT__gout_r;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__nobusy_mon 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__nobusy;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__nobusy_mon 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__nobusy;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__nobusy_mon 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__nobusy;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__cmd_read_addr 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__addr_command;
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__qdrvelemconn__DOT__ammod.freqcossinp32x16[0U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__qdrvelemconn__DOT__freqdata_r2[0U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__qdrvelemconn__DOT__ammod.freqcossinp32x16[1U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__qdrvelemconn__DOT__freqdata_r2[1U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__qdrvelemconn__DOT__ammod.freqcossinp32x16[2U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__qdrvelemconn__DOT__freqdata_r2[2U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__qdrvelemconn__DOT__ammod.freqcossinp32x16[3U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__qdrvelemconn__DOT__freqdata_r2[3U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__qdrvelemconn__DOT__ammod.freqcossinp32x16[4U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__qdrvelemconn__DOT__freqdata_r2[4U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__qdrvelemconn__DOT__ammod.freqcossinp32x16[5U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__qdrvelemconn__DOT__freqdata_r2[5U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__qdrvelemconn__DOT__ammod.freqcossinp32x16[6U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__qdrvelemconn__DOT__freqdata_r2[6U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__qdrvelemconn__DOT__ammod.freqcossinp32x16[7U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__qdrvelemconn__DOT__freqdata_r2[7U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__qdrvelemconn__DOT__ammod.freqcossinp32x16[8U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__qdrvelemconn__DOT__freqdata_r2[8U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__qdrvelemconn__DOT__ammod.freqcossinp32x16[9U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__qdrvelemconn__DOT__freqdata_r2[9U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__qdrvelemconn__DOT__ammod.freqcossinp32x16[0xaU] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__qdrvelemconn__DOT__freqdata_r2[0xaU];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__qdrvelemconn__DOT__ammod.freqcossinp32x16[0xbU] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__qdrvelemconn__DOT__freqdata_r2[0xbU];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__qdrvelemconn__DOT__ammod.freqcossinp32x16[0xcU] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__qdrvelemconn__DOT__freqdata_r2[0xcU];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__qdrvelemconn__DOT__ammod.freqcossinp32x16[0xdU] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__qdrvelemconn__DOT__freqdata_r2[0xdU];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__qdrvelemconn__DOT__ammod.freqcossinp32x16[0xeU] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__qdrvelemconn__DOT__freqdata_r2[0xeU];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__qdrvelemconn__DOT__ammod.freqcossinp32x16[0xfU] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__qdrvelemconn__DOT__freqdata_r2[0xfU];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__rdrvelemconn__DOT__ammod.freqcossinp32x16[0U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__rdrvelemconn__DOT__freqdata_r2[0U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__rdrvelemconn__DOT__ammod.freqcossinp32x16[1U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__rdrvelemconn__DOT__freqdata_r2[1U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__rdrvelemconn__DOT__ammod.freqcossinp32x16[2U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__rdrvelemconn__DOT__freqdata_r2[2U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__rdrvelemconn__DOT__ammod.freqcossinp32x16[3U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__rdrvelemconn__DOT__freqdata_r2[3U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__rdrvelemconn__DOT__ammod.freqcossinp32x16[4U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__rdrvelemconn__DOT__freqdata_r2[4U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__rdrvelemconn__DOT__ammod.freqcossinp32x16[5U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__rdrvelemconn__DOT__freqdata_r2[5U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__rdrvelemconn__DOT__ammod.freqcossinp32x16[6U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__rdrvelemconn__DOT__freqdata_r2[6U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__rdrvelemconn__DOT__ammod.freqcossinp32x16[7U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__rdrvelemconn__DOT__freqdata_r2[7U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__rdrvelemconn__DOT__ammod.freqcossinp32x16[8U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__rdrvelemconn__DOT__freqdata_r2[8U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__rdrvelemconn__DOT__ammod.freqcossinp32x16[9U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__rdrvelemconn__DOT__freqdata_r2[9U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__rdrvelemconn__DOT__ammod.freqcossinp32x16[0xaU] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__rdrvelemconn__DOT__freqdata_r2[0xaU];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__rdrvelemconn__DOT__ammod.freqcossinp32x16[0xbU] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__rdrvelemconn__DOT__freqdata_r2[0xbU];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__rdrvelemconn__DOT__ammod.freqcossinp32x16[0xcU] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__rdrvelemconn__DOT__freqdata_r2[0xcU];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__rdrvelemconn__DOT__ammod.freqcossinp32x16[0xdU] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__rdrvelemconn__DOT__freqdata_r2[0xdU];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__rdrvelemconn__DOT__ammod.freqcossinp32x16[0xeU] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__rdrvelemconn__DOT__freqdata_r2[0xeU];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__rdrvelemconn__DOT__ammod.freqcossinp32x16[0xfU] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__rdrvelemconn__DOT__freqdata_r2[0xfU];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__cmd_read_addr 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__addr_command;
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__qdrvelemconn__DOT__ammod.freqcossinp32x16[0U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__qdrvelemconn__DOT__freqdata_r2[0U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__qdrvelemconn__DOT__ammod.freqcossinp32x16[1U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__qdrvelemconn__DOT__freqdata_r2[1U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__qdrvelemconn__DOT__ammod.freqcossinp32x16[2U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__qdrvelemconn__DOT__freqdata_r2[2U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__qdrvelemconn__DOT__ammod.freqcossinp32x16[3U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__qdrvelemconn__DOT__freqdata_r2[3U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__qdrvelemconn__DOT__ammod.freqcossinp32x16[4U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__qdrvelemconn__DOT__freqdata_r2[4U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__qdrvelemconn__DOT__ammod.freqcossinp32x16[5U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__qdrvelemconn__DOT__freqdata_r2[5U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__qdrvelemconn__DOT__ammod.freqcossinp32x16[6U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__qdrvelemconn__DOT__freqdata_r2[6U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__qdrvelemconn__DOT__ammod.freqcossinp32x16[7U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__qdrvelemconn__DOT__freqdata_r2[7U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__qdrvelemconn__DOT__ammod.freqcossinp32x16[8U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__qdrvelemconn__DOT__freqdata_r2[8U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__qdrvelemconn__DOT__ammod.freqcossinp32x16[9U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__qdrvelemconn__DOT__freqdata_r2[9U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__qdrvelemconn__DOT__ammod.freqcossinp32x16[0xaU] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__qdrvelemconn__DOT__freqdata_r2[0xaU];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__qdrvelemconn__DOT__ammod.freqcossinp32x16[0xbU] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__qdrvelemconn__DOT__freqdata_r2[0xbU];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__qdrvelemconn__DOT__ammod.freqcossinp32x16[0xcU] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__qdrvelemconn__DOT__freqdata_r2[0xcU];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__qdrvelemconn__DOT__ammod.freqcossinp32x16[0xdU] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__qdrvelemconn__DOT__freqdata_r2[0xdU];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__qdrvelemconn__DOT__ammod.freqcossinp32x16[0xeU] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__qdrvelemconn__DOT__freqdata_r2[0xeU];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__qdrvelemconn__DOT__ammod.freqcossinp32x16[0xfU] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__qdrvelemconn__DOT__freqdata_r2[0xfU];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__rdrvelemconn__DOT__ammod.freqcossinp32x16[0U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__rdrvelemconn__DOT__freqdata_r2[0U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__rdrvelemconn__DOT__ammod.freqcossinp32x16[1U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__rdrvelemconn__DOT__freqdata_r2[1U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__rdrvelemconn__DOT__ammod.freqcossinp32x16[2U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__rdrvelemconn__DOT__freqdata_r2[2U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__rdrvelemconn__DOT__ammod.freqcossinp32x16[3U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__rdrvelemconn__DOT__freqdata_r2[3U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__rdrvelemconn__DOT__ammod.freqcossinp32x16[4U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__rdrvelemconn__DOT__freqdata_r2[4U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__rdrvelemconn__DOT__ammod.freqcossinp32x16[5U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__rdrvelemconn__DOT__freqdata_r2[5U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__rdrvelemconn__DOT__ammod.freqcossinp32x16[6U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__rdrvelemconn__DOT__freqdata_r2[6U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__rdrvelemconn__DOT__ammod.freqcossinp32x16[7U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__rdrvelemconn__DOT__freqdata_r2[7U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__rdrvelemconn__DOT__ammod.freqcossinp32x16[8U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__rdrvelemconn__DOT__freqdata_r2[8U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__rdrvelemconn__DOT__ammod.freqcossinp32x16[9U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__rdrvelemconn__DOT__freqdata_r2[9U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__rdrvelemconn__DOT__ammod.freqcossinp32x16[0xaU] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__rdrvelemconn__DOT__freqdata_r2[0xaU];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__rdrvelemconn__DOT__ammod.freqcossinp32x16[0xbU] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__rdrvelemconn__DOT__freqdata_r2[0xbU];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__rdrvelemconn__DOT__ammod.freqcossinp32x16[0xcU] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__rdrvelemconn__DOT__freqdata_r2[0xcU];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__rdrvelemconn__DOT__ammod.freqcossinp32x16[0xdU] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__rdrvelemconn__DOT__freqdata_r2[0xdU];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__rdrvelemconn__DOT__ammod.freqcossinp32x16[0xeU] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__rdrvelemconn__DOT__freqdata_r2[0xeU];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__rdrvelemconn__DOT__ammod.freqcossinp32x16[0xfU] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__rdrvelemconn__DOT__freqdata_r2[0xfU];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__cmd_read_addr 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__addr_command;
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__qdrvelemconn__DOT__ammod.freqcossinp32x16[0U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__qdrvelemconn__DOT__freqdata_r2[0U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__qdrvelemconn__DOT__ammod.freqcossinp32x16[1U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__qdrvelemconn__DOT__freqdata_r2[1U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__qdrvelemconn__DOT__ammod.freqcossinp32x16[2U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__qdrvelemconn__DOT__freqdata_r2[2U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__qdrvelemconn__DOT__ammod.freqcossinp32x16[3U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__qdrvelemconn__DOT__freqdata_r2[3U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__qdrvelemconn__DOT__ammod.freqcossinp32x16[4U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__qdrvelemconn__DOT__freqdata_r2[4U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__qdrvelemconn__DOT__ammod.freqcossinp32x16[5U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__qdrvelemconn__DOT__freqdata_r2[5U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__qdrvelemconn__DOT__ammod.freqcossinp32x16[6U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__qdrvelemconn__DOT__freqdata_r2[6U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__qdrvelemconn__DOT__ammod.freqcossinp32x16[7U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__qdrvelemconn__DOT__freqdata_r2[7U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__qdrvelemconn__DOT__ammod.freqcossinp32x16[8U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__qdrvelemconn__DOT__freqdata_r2[8U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__qdrvelemconn__DOT__ammod.freqcossinp32x16[9U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__qdrvelemconn__DOT__freqdata_r2[9U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__qdrvelemconn__DOT__ammod.freqcossinp32x16[0xaU] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__qdrvelemconn__DOT__freqdata_r2[0xaU];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__qdrvelemconn__DOT__ammod.freqcossinp32x16[0xbU] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__qdrvelemconn__DOT__freqdata_r2[0xbU];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__qdrvelemconn__DOT__ammod.freqcossinp32x16[0xcU] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__qdrvelemconn__DOT__freqdata_r2[0xcU];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__qdrvelemconn__DOT__ammod.freqcossinp32x16[0xdU] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__qdrvelemconn__DOT__freqdata_r2[0xdU];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__qdrvelemconn__DOT__ammod.freqcossinp32x16[0xeU] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__qdrvelemconn__DOT__freqdata_r2[0xeU];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__qdrvelemconn__DOT__ammod.freqcossinp32x16[0xfU] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__qdrvelemconn__DOT__freqdata_r2[0xfU];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__rdrvelemconn__DOT__ammod.freqcossinp32x16[0U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__rdrvelemconn__DOT__freqdata_r2[0U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__rdrvelemconn__DOT__ammod.freqcossinp32x16[1U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__rdrvelemconn__DOT__freqdata_r2[1U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__rdrvelemconn__DOT__ammod.freqcossinp32x16[2U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__rdrvelemconn__DOT__freqdata_r2[2U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__rdrvelemconn__DOT__ammod.freqcossinp32x16[3U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__rdrvelemconn__DOT__freqdata_r2[3U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__rdrvelemconn__DOT__ammod.freqcossinp32x16[4U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__rdrvelemconn__DOT__freqdata_r2[4U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__rdrvelemconn__DOT__ammod.freqcossinp32x16[5U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__rdrvelemconn__DOT__freqdata_r2[5U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__rdrvelemconn__DOT__ammod.freqcossinp32x16[6U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__rdrvelemconn__DOT__freqdata_r2[6U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__rdrvelemconn__DOT__ammod.freqcossinp32x16[7U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__rdrvelemconn__DOT__freqdata_r2[7U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__rdrvelemconn__DOT__ammod.freqcossinp32x16[8U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__rdrvelemconn__DOT__freqdata_r2[8U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__rdrvelemconn__DOT__ammod.freqcossinp32x16[9U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__rdrvelemconn__DOT__freqdata_r2[9U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__rdrvelemconn__DOT__ammod.freqcossinp32x16[0xaU] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__rdrvelemconn__DOT__freqdata_r2[0xaU];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__rdrvelemconn__DOT__ammod.freqcossinp32x16[0xbU] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__rdrvelemconn__DOT__freqdata_r2[0xbU];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__rdrvelemconn__DOT__ammod.freqcossinp32x16[0xcU] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__rdrvelemconn__DOT__freqdata_r2[0xcU];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__rdrvelemconn__DOT__ammod.freqcossinp32x16[0xdU] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__rdrvelemconn__DOT__freqdata_r2[0xdU];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__rdrvelemconn__DOT__ammod.freqcossinp32x16[0xeU] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__rdrvelemconn__DOT__freqdata_r2[0xeU];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__rdrvelemconn__DOT__ammod.freqcossinp32x16[0xfU] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__rdrvelemconn__DOT__freqdata_r2[0xfU];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__0__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__accx 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__0__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__accx_r;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__0__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__accy 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__0__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__accy_r;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__1__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__accx 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__1__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__accx_r;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__1__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__accy 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__1__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__accy_r;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__2__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__accx 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__2__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__accx_r;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__2__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__accy 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__2__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__accy_r;
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__qdrvelemconn__DOT__ammod.envxy32x16[0U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__qdrvelemconn__DOT__envdata_r3[0U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__qdrvelemconn__DOT__ammod.envxy32x16[1U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__qdrvelemconn__DOT__envdata_r3[1U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__qdrvelemconn__DOT__ammod.envxy32x16[2U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__qdrvelemconn__DOT__envdata_r3[2U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__qdrvelemconn__DOT__ammod.envxy32x16[3U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__qdrvelemconn__DOT__envdata_r3[3U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__qdrvelemconn__DOT__ammod.envxy32x16[4U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__qdrvelemconn__DOT__envdata_r3[4U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__qdrvelemconn__DOT__ammod.envxy32x16[5U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__qdrvelemconn__DOT__envdata_r3[5U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__qdrvelemconn__DOT__ammod.envxy32x16[6U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__qdrvelemconn__DOT__envdata_r3[6U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__qdrvelemconn__DOT__ammod.envxy32x16[7U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__qdrvelemconn__DOT__envdata_r3[7U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__qdrvelemconn__DOT__ammod.envxy32x16[8U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__qdrvelemconn__DOT__envdata_r3[8U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__qdrvelemconn__DOT__ammod.envxy32x16[9U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__qdrvelemconn__DOT__envdata_r3[9U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__qdrvelemconn__DOT__ammod.envxy32x16[0xaU] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__qdrvelemconn__DOT__envdata_r3[0xaU];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__qdrvelemconn__DOT__ammod.envxy32x16[0xbU] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__qdrvelemconn__DOT__envdata_r3[0xbU];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__qdrvelemconn__DOT__ammod.envxy32x16[0xcU] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__qdrvelemconn__DOT__envdata_r3[0xcU];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__qdrvelemconn__DOT__ammod.envxy32x16[0xdU] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__qdrvelemconn__DOT__envdata_r3[0xdU];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__qdrvelemconn__DOT__ammod.envxy32x16[0xeU] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__qdrvelemconn__DOT__envdata_r3[0xeU];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__qdrvelemconn__DOT__ammod.envxy32x16[0xfU] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__qdrvelemconn__DOT__envdata_r3[0xfU];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__rdrvelemconn__DOT__ammod.envxy32x16[0U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__rdrvelemconn__DOT__envdata_r3[0U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__rdrvelemconn__DOT__ammod.envxy32x16[1U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__rdrvelemconn__DOT__envdata_r3[1U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__rdrvelemconn__DOT__ammod.envxy32x16[2U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__rdrvelemconn__DOT__envdata_r3[2U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__rdrvelemconn__DOT__ammod.envxy32x16[3U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__rdrvelemconn__DOT__envdata_r3[3U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__rdrvelemconn__DOT__ammod.envxy32x16[4U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__rdrvelemconn__DOT__envdata_r3[4U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__rdrvelemconn__DOT__ammod.envxy32x16[5U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__rdrvelemconn__DOT__envdata_r3[5U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__rdrvelemconn__DOT__ammod.envxy32x16[6U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__rdrvelemconn__DOT__envdata_r3[6U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__rdrvelemconn__DOT__ammod.envxy32x16[7U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__rdrvelemconn__DOT__envdata_r3[7U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__rdrvelemconn__DOT__ammod.envxy32x16[8U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__rdrvelemconn__DOT__envdata_r3[8U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__rdrvelemconn__DOT__ammod.envxy32x16[9U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__rdrvelemconn__DOT__envdata_r3[9U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__rdrvelemconn__DOT__ammod.envxy32x16[0xaU] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__rdrvelemconn__DOT__envdata_r3[0xaU];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__rdrvelemconn__DOT__ammod.envxy32x16[0xbU] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__rdrvelemconn__DOT__envdata_r3[0xbU];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__rdrvelemconn__DOT__ammod.envxy32x16[0xcU] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__rdrvelemconn__DOT__envdata_r3[0xcU];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__rdrvelemconn__DOT__ammod.envxy32x16[0xdU] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__rdrvelemconn__DOT__envdata_r3[0xdU];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__rdrvelemconn__DOT__ammod.envxy32x16[0xeU] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__rdrvelemconn__DOT__envdata_r3[0xeU];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__rdrvelemconn__DOT__ammod.envxy32x16[0xfU] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__rdrvelemconn__DOT__envdata_r3[0xfU];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__qdrvelemconn__DOT__ammod.envxy32x16[0U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__qdrvelemconn__DOT__envdata_r3[0U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__qdrvelemconn__DOT__ammod.envxy32x16[1U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__qdrvelemconn__DOT__envdata_r3[1U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__qdrvelemconn__DOT__ammod.envxy32x16[2U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__qdrvelemconn__DOT__envdata_r3[2U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__qdrvelemconn__DOT__ammod.envxy32x16[3U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__qdrvelemconn__DOT__envdata_r3[3U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__qdrvelemconn__DOT__ammod.envxy32x16[4U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__qdrvelemconn__DOT__envdata_r3[4U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__qdrvelemconn__DOT__ammod.envxy32x16[5U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__qdrvelemconn__DOT__envdata_r3[5U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__qdrvelemconn__DOT__ammod.envxy32x16[6U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__qdrvelemconn__DOT__envdata_r3[6U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__qdrvelemconn__DOT__ammod.envxy32x16[7U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__qdrvelemconn__DOT__envdata_r3[7U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__qdrvelemconn__DOT__ammod.envxy32x16[8U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__qdrvelemconn__DOT__envdata_r3[8U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__qdrvelemconn__DOT__ammod.envxy32x16[9U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__qdrvelemconn__DOT__envdata_r3[9U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__qdrvelemconn__DOT__ammod.envxy32x16[0xaU] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__qdrvelemconn__DOT__envdata_r3[0xaU];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__qdrvelemconn__DOT__ammod.envxy32x16[0xbU] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__qdrvelemconn__DOT__envdata_r3[0xbU];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__qdrvelemconn__DOT__ammod.envxy32x16[0xcU] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__qdrvelemconn__DOT__envdata_r3[0xcU];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__qdrvelemconn__DOT__ammod.envxy32x16[0xdU] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__qdrvelemconn__DOT__envdata_r3[0xdU];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__qdrvelemconn__DOT__ammod.envxy32x16[0xeU] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__qdrvelemconn__DOT__envdata_r3[0xeU];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__qdrvelemconn__DOT__ammod.envxy32x16[0xfU] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__qdrvelemconn__DOT__envdata_r3[0xfU];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__rdrvelemconn__DOT__ammod.envxy32x16[0U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__rdrvelemconn__DOT__envdata_r3[0U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__rdrvelemconn__DOT__ammod.envxy32x16[1U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__rdrvelemconn__DOT__envdata_r3[1U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__rdrvelemconn__DOT__ammod.envxy32x16[2U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__rdrvelemconn__DOT__envdata_r3[2U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__rdrvelemconn__DOT__ammod.envxy32x16[3U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__rdrvelemconn__DOT__envdata_r3[3U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__rdrvelemconn__DOT__ammod.envxy32x16[4U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__rdrvelemconn__DOT__envdata_r3[4U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__rdrvelemconn__DOT__ammod.envxy32x16[5U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__rdrvelemconn__DOT__envdata_r3[5U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__rdrvelemconn__DOT__ammod.envxy32x16[6U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__rdrvelemconn__DOT__envdata_r3[6U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__rdrvelemconn__DOT__ammod.envxy32x16[7U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__rdrvelemconn__DOT__envdata_r3[7U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__rdrvelemconn__DOT__ammod.envxy32x16[8U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__rdrvelemconn__DOT__envdata_r3[8U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__rdrvelemconn__DOT__ammod.envxy32x16[9U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__rdrvelemconn__DOT__envdata_r3[9U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__rdrvelemconn__DOT__ammod.envxy32x16[0xaU] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__rdrvelemconn__DOT__envdata_r3[0xaU];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__rdrvelemconn__DOT__ammod.envxy32x16[0xbU] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__rdrvelemconn__DOT__envdata_r3[0xbU];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__rdrvelemconn__DOT__ammod.envxy32x16[0xcU] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__rdrvelemconn__DOT__envdata_r3[0xcU];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__rdrvelemconn__DOT__ammod.envxy32x16[0xdU] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__rdrvelemconn__DOT__envdata_r3[0xdU];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__rdrvelemconn__DOT__ammod.envxy32x16[0xeU] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__rdrvelemconn__DOT__envdata_r3[0xeU];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__rdrvelemconn__DOT__ammod.envxy32x16[0xfU] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__rdrvelemconn__DOT__envdata_r3[0xfU];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__qdrvelemconn__DOT__ammod.envxy32x16[0U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__qdrvelemconn__DOT__envdata_r3[0U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__qdrvelemconn__DOT__ammod.envxy32x16[1U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__qdrvelemconn__DOT__envdata_r3[1U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__qdrvelemconn__DOT__ammod.envxy32x16[2U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__qdrvelemconn__DOT__envdata_r3[2U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__qdrvelemconn__DOT__ammod.envxy32x16[3U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__qdrvelemconn__DOT__envdata_r3[3U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__qdrvelemconn__DOT__ammod.envxy32x16[4U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__qdrvelemconn__DOT__envdata_r3[4U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__qdrvelemconn__DOT__ammod.envxy32x16[5U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__qdrvelemconn__DOT__envdata_r3[5U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__qdrvelemconn__DOT__ammod.envxy32x16[6U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__qdrvelemconn__DOT__envdata_r3[6U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__qdrvelemconn__DOT__ammod.envxy32x16[7U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__qdrvelemconn__DOT__envdata_r3[7U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__qdrvelemconn__DOT__ammod.envxy32x16[8U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__qdrvelemconn__DOT__envdata_r3[8U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__qdrvelemconn__DOT__ammod.envxy32x16[9U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__qdrvelemconn__DOT__envdata_r3[9U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__qdrvelemconn__DOT__ammod.envxy32x16[0xaU] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__qdrvelemconn__DOT__envdata_r3[0xaU];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__qdrvelemconn__DOT__ammod.envxy32x16[0xbU] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__qdrvelemconn__DOT__envdata_r3[0xbU];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__qdrvelemconn__DOT__ammod.envxy32x16[0xcU] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__qdrvelemconn__DOT__envdata_r3[0xcU];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__qdrvelemconn__DOT__ammod.envxy32x16[0xdU] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__qdrvelemconn__DOT__envdata_r3[0xdU];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__qdrvelemconn__DOT__ammod.envxy32x16[0xeU] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__qdrvelemconn__DOT__envdata_r3[0xeU];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__qdrvelemconn__DOT__ammod.envxy32x16[0xfU] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__qdrvelemconn__DOT__envdata_r3[0xfU];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__rdrvelemconn__DOT__ammod.envxy32x16[0U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__rdrvelemconn__DOT__envdata_r3[0U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__rdrvelemconn__DOT__ammod.envxy32x16[1U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__rdrvelemconn__DOT__envdata_r3[1U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__rdrvelemconn__DOT__ammod.envxy32x16[2U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__rdrvelemconn__DOT__envdata_r3[2U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__rdrvelemconn__DOT__ammod.envxy32x16[3U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__rdrvelemconn__DOT__envdata_r3[3U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__rdrvelemconn__DOT__ammod.envxy32x16[4U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__rdrvelemconn__DOT__envdata_r3[4U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__rdrvelemconn__DOT__ammod.envxy32x16[5U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__rdrvelemconn__DOT__envdata_r3[5U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__rdrvelemconn__DOT__ammod.envxy32x16[6U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__rdrvelemconn__DOT__envdata_r3[6U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__rdrvelemconn__DOT__ammod.envxy32x16[7U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__rdrvelemconn__DOT__envdata_r3[7U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__rdrvelemconn__DOT__ammod.envxy32x16[8U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__rdrvelemconn__DOT__envdata_r3[8U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__rdrvelemconn__DOT__ammod.envxy32x16[9U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__rdrvelemconn__DOT__envdata_r3[9U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__rdrvelemconn__DOT__ammod.envxy32x16[0xaU] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__rdrvelemconn__DOT__envdata_r3[0xaU];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__rdrvelemconn__DOT__ammod.envxy32x16[0xbU] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__rdrvelemconn__DOT__envdata_r3[0xbU];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__rdrvelemconn__DOT__ammod.envxy32x16[0xcU] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__rdrvelemconn__DOT__envdata_r3[0xcU];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__rdrvelemconn__DOT__ammod.envxy32x16[0xdU] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__rdrvelemconn__DOT__envdata_r3[0xdU];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__rdrvelemconn__DOT__ammod.envxy32x16[0xeU] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__rdrvelemconn__DOT__envdata_r3[0xeU];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__rdrvelemconn__DOT__ammod.envxy32x16[0xfU] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__rdrvelemconn__DOT__envdata_r3[0xfU];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__qdrvelemconn__DOT__envaddrdelay__DOT__din 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__qdrvelemconn__DOT__envaddr_r;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__rdrvelemconn__DOT__envaddrdelay__DOT__din 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__rdrvelemconn__DOT__envaddr_r;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__qdrvelemconn__DOT__envaddrdelay__DOT__din 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__qdrvelemconn__DOT__envaddr_r;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__rdrvelemconn__DOT__envaddrdelay__DOT__din 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__rdrvelemconn__DOT__envaddr_r;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__qdrvelemconn__DOT__envaddrdelay__DOT__din 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__qdrvelemconn__DOT__envaddr_r;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__rdrvelemconn__DOT__envaddrdelay__DOT__din 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__rdrvelemconn__DOT__envaddr_r;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__qdrvelemconn__DOT__envaddrdelay__DOT__dout 
+        = (0xffU & (vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__qdrvelemconn__DOT__envaddrdelay__DOT__usual__DOT__shifter[7U] 
+                    >> 8U));
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__rdrvelemconn__DOT__envaddrdelay__DOT__dout 
+        = (0xfffU & ((vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__rdrvelemconn__DOT__envaddrdelay__DOT__usual__DOT__shifter[0xbU] 
+                      << 4U) | (vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__rdrvelemconn__DOT__envaddrdelay__DOT__usual__DOT__shifter[0xaU] 
+                                >> 0x1cU)));
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__qdrvelemconn__DOT__envaddrdelay__DOT__dout 
+        = (0xffU & (vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__qdrvelemconn__DOT__envaddrdelay__DOT__usual__DOT__shifter[7U] 
+                    >> 8U));
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__rdrvelemconn__DOT__envaddrdelay__DOT__dout 
+        = (0xfffU & ((vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__rdrvelemconn__DOT__envaddrdelay__DOT__usual__DOT__shifter[0xbU] 
+                      << 4U) | (vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__rdrvelemconn__DOT__envaddrdelay__DOT__usual__DOT__shifter[0xaU] 
+                                >> 0x1cU)));
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__qdrvelemconn__DOT__envaddrdelay__DOT__dout 
+        = (0xffU & (vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__qdrvelemconn__DOT__envaddrdelay__DOT__usual__DOT__shifter[7U] 
+                    >> 8U));
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__rdrvelemconn__DOT__envaddrdelay__DOT__dout 
+        = (0xfffU & ((vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__rdrvelemconn__DOT__envaddrdelay__DOT__usual__DOT__shifter[0xbU] 
+                      << 4U) | (vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__rdrvelemconn__DOT__envaddrdelay__DOT__usual__DOT__shifter[0xaU] 
+                                >> 0x1cU)));
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__fproc__DOT__reset 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procreset;
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__qdrvelem__BRA__0__KET__.prepbusy 
+        = (0U != vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__qdrvelemconn__DOT__busy_sr);
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__qdrvelemconn__DOT__ammod.gatein 
+        = (1U & (IData)((vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__qdrvelemconn__DOT__busy_sr 
+                         >> 3U)));
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelem__BRA__0__KET__.prepbusy 
+        = (0U != vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__rdrvelemconn__DOT__busy_sr);
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__rdrvelemconn__DOT__ammod.gatein 
+        = (1U & (IData)((vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__rdrvelemconn__DOT__busy_sr 
+                         >> 3U)));
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__qdrvelem__BRA__1__KET__.prepbusy 
+        = (0U != vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__qdrvelemconn__DOT__busy_sr);
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__qdrvelemconn__DOT__ammod.gatein 
+        = (1U & (IData)((vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__qdrvelemconn__DOT__busy_sr 
+                         >> 3U)));
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelem__BRA__1__KET__.prepbusy 
+        = (0U != vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__rdrvelemconn__DOT__busy_sr);
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__rdrvelemconn__DOT__ammod.gatein 
+        = (1U & (IData)((vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__rdrvelemconn__DOT__busy_sr 
+                         >> 3U)));
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__qdrvelem__BRA__2__KET__.prepbusy 
+        = (0U != vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__qdrvelemconn__DOT__busy_sr);
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__qdrvelemconn__DOT__ammod.gatein 
+        = (1U & (IData)((vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__qdrvelemconn__DOT__busy_sr 
+                         >> 3U)));
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelem__BRA__2__KET__.prepbusy 
+        = (0U != vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__rdrvelemconn__DOT__busy_sr);
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__rdrvelemconn__DOT__ammod.gatein 
+        = (1U & (IData)((vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__rdrvelemconn__DOT__busy_sr 
+                         >> 3U)));
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__0__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__gateout 
+        = (1U & ((IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__0__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__gatesr) 
+                 >> 0xeU));
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__rdloelem__BRA__0__KET__.postprobusy 
+        = (0U != (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__0__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__gatesr));
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__0__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__stbout 
+        = (2U == (3U & ((IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__0__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__gatesr) 
+                        >> 0xeU)));
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__1__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__gateout 
+        = (1U & ((IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__1__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__gatesr) 
+                 >> 0xeU));
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__rdloelem__BRA__1__KET__.postprobusy 
+        = (0U != (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__1__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__gatesr));
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__1__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__stbout 
+        = (2U == (3U & ((IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__1__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__gatesr) 
+                        >> 0xeU)));
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__2__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__gateout 
+        = (1U & ((IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__2__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__gatesr) 
+                 >> 0xeU));
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__rdloelem__BRA__2__KET__.postprobusy 
+        = (0U != (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__2__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__gatesr));
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__2__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__stbout 
+        = (2U == (3U & ((IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__2__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__gatesr) 
+                        >> 0xeU)));
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__qdrvelemconn__DOT__freqaddr 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__qdrvelemconn__DOT__freqaddr_r;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__rdrvelemconn__DOT__freqaddr 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__rdrvelemconn__DOT__freqaddr_r;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__qdrvelemconn__DOT__freqaddr 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__qdrvelemconn__DOT__freqaddr_r;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__rdrvelemconn__DOT__freqaddr 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__rdrvelemconn__DOT__freqaddr_r;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__qdrvelemconn__DOT__freqaddr 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__qdrvelemconn__DOT__freqaddr_r;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__rdrvelemconn__DOT__freqaddr 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__rdrvelemconn__DOT__freqaddr_r;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__0__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__genblk1__BRA__0__KET____DOT__mult1__DOT__xr 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__0__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__genblk1__BRA__0__KET____DOT__adcxi;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__0__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__genblk1__BRA__0__KET____DOT__mult1__DOT__xi 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__0__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__genblk1__BRA__0__KET____DOT__adcyi;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__0__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__genblk1__BRA__0__KET____DOT__mult1__DOT__yr 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__0__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__genblk1__BRA__0__KET____DOT__dloxi;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__0__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__genblk1__BRA__0__KET____DOT__mult1__DOT__yi 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__0__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__genblk1__BRA__0__KET____DOT__dloyi;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__0__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__genblk1__BRA__1__KET____DOT__mult1__DOT__xr 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__0__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__genblk1__BRA__1__KET____DOT__adcxi;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__0__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__genblk1__BRA__1__KET____DOT__mult1__DOT__xi 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__0__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__genblk1__BRA__1__KET____DOT__adcyi;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__0__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__genblk1__BRA__1__KET____DOT__mult1__DOT__yr 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__0__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__genblk1__BRA__1__KET____DOT__dloxi;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__0__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__genblk1__BRA__1__KET____DOT__mult1__DOT__yi 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__0__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__genblk1__BRA__1__KET____DOT__dloyi;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__0__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__genblk1__BRA__2__KET____DOT__mult1__DOT__xr 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__0__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__genblk1__BRA__2__KET____DOT__adcxi;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__0__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__genblk1__BRA__2__KET____DOT__mult1__DOT__xi 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__0__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__genblk1__BRA__2__KET____DOT__adcyi;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__0__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__genblk1__BRA__2__KET____DOT__mult1__DOT__yr 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__0__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__genblk1__BRA__2__KET____DOT__dloxi;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__0__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__genblk1__BRA__2__KET____DOT__mult1__DOT__yi 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__0__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__genblk1__BRA__2__KET____DOT__dloyi;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__0__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__genblk1__BRA__3__KET____DOT__mult1__DOT__xr 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__0__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__genblk1__BRA__3__KET____DOT__adcxi;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__0__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__genblk1__BRA__3__KET____DOT__mult1__DOT__xi 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__0__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__genblk1__BRA__3__KET____DOT__adcyi;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__0__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__genblk1__BRA__3__KET____DOT__mult1__DOT__yr 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__0__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__genblk1__BRA__3__KET____DOT__dloxi;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__0__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__genblk1__BRA__3__KET____DOT__mult1__DOT__yi 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__0__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__genblk1__BRA__3__KET____DOT__dloyi;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__1__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__genblk1__BRA__0__KET____DOT__mult1__DOT__xr 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__1__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__genblk1__BRA__0__KET____DOT__adcxi;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__1__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__genblk1__BRA__0__KET____DOT__mult1__DOT__xi 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__1__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__genblk1__BRA__0__KET____DOT__adcyi;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__1__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__genblk1__BRA__0__KET____DOT__mult1__DOT__yr 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__1__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__genblk1__BRA__0__KET____DOT__dloxi;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__1__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__genblk1__BRA__0__KET____DOT__mult1__DOT__yi 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__1__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__genblk1__BRA__0__KET____DOT__dloyi;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__1__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__genblk1__BRA__1__KET____DOT__mult1__DOT__xr 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__1__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__genblk1__BRA__1__KET____DOT__adcxi;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__1__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__genblk1__BRA__1__KET____DOT__mult1__DOT__xi 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__1__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__genblk1__BRA__1__KET____DOT__adcyi;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__1__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__genblk1__BRA__1__KET____DOT__mult1__DOT__yr 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__1__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__genblk1__BRA__1__KET____DOT__dloxi;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__1__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__genblk1__BRA__1__KET____DOT__mult1__DOT__yi 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__1__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__genblk1__BRA__1__KET____DOT__dloyi;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__1__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__genblk1__BRA__2__KET____DOT__mult1__DOT__xr 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__1__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__genblk1__BRA__2__KET____DOT__adcxi;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__1__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__genblk1__BRA__2__KET____DOT__mult1__DOT__xi 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__1__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__genblk1__BRA__2__KET____DOT__adcyi;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__1__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__genblk1__BRA__2__KET____DOT__mult1__DOT__yr 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__1__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__genblk1__BRA__2__KET____DOT__dloxi;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__1__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__genblk1__BRA__2__KET____DOT__mult1__DOT__yi 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__1__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__genblk1__BRA__2__KET____DOT__dloyi;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__1__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__genblk1__BRA__3__KET____DOT__mult1__DOT__xr 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__1__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__genblk1__BRA__3__KET____DOT__adcxi;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__1__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__genblk1__BRA__3__KET____DOT__mult1__DOT__xi 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__1__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__genblk1__BRA__3__KET____DOT__adcyi;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__1__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__genblk1__BRA__3__KET____DOT__mult1__DOT__yr 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__1__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__genblk1__BRA__3__KET____DOT__dloxi;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__1__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__genblk1__BRA__3__KET____DOT__mult1__DOT__yi 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__1__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__genblk1__BRA__3__KET____DOT__dloyi;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__2__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__genblk1__BRA__0__KET____DOT__mult1__DOT__xr 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__2__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__genblk1__BRA__0__KET____DOT__adcxi;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__2__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__genblk1__BRA__0__KET____DOT__mult1__DOT__xi 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__2__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__genblk1__BRA__0__KET____DOT__adcyi;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__2__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__genblk1__BRA__0__KET____DOT__mult1__DOT__yr 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__2__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__genblk1__BRA__0__KET____DOT__dloxi;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__2__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__genblk1__BRA__0__KET____DOT__mult1__DOT__yi 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__2__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__genblk1__BRA__0__KET____DOT__dloyi;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__2__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__genblk1__BRA__1__KET____DOT__mult1__DOT__xr 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__2__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__genblk1__BRA__1__KET____DOT__adcxi;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__2__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__genblk1__BRA__1__KET____DOT__mult1__DOT__xi 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__2__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__genblk1__BRA__1__KET____DOT__adcyi;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__2__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__genblk1__BRA__1__KET____DOT__mult1__DOT__yr 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__2__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__genblk1__BRA__1__KET____DOT__dloxi;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__2__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__genblk1__BRA__1__KET____DOT__mult1__DOT__yi 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__2__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__genblk1__BRA__1__KET____DOT__dloyi;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__2__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__genblk1__BRA__2__KET____DOT__mult1__DOT__xr 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__2__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__genblk1__BRA__2__KET____DOT__adcxi;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__2__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__genblk1__BRA__2__KET____DOT__mult1__DOT__xi 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__2__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__genblk1__BRA__2__KET____DOT__adcyi;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__2__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__genblk1__BRA__2__KET____DOT__mult1__DOT__yr 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__2__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__genblk1__BRA__2__KET____DOT__dloxi;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__2__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__genblk1__BRA__2__KET____DOT__mult1__DOT__yi 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__2__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__genblk1__BRA__2__KET____DOT__dloyi;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__2__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__genblk1__BRA__3__KET____DOT__mult1__DOT__xr 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__2__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__genblk1__BRA__3__KET____DOT__adcxi;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__2__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__genblk1__BRA__3__KET____DOT__mult1__DOT__xi 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__2__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__genblk1__BRA__3__KET____DOT__adcyi;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__2__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__genblk1__BRA__3__KET____DOT__mult1__DOT__yr 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__2__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__genblk1__BRA__3__KET____DOT__dloxi;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__2__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__genblk1__BRA__3__KET____DOT__mult1__DOT__yi 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__2__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__genblk1__BRA__3__KET____DOT__dloyi;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__0__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__adcx 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__mixbb1;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__1__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__adcx 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__mixbb1;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__2__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__adcx 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__mixbb1;
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__rdrvelemconn__DOT__ammod.ampx 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelem__BRA__2__KET__.ampx;
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__rdrvelemconn__DOT__ammod.pini 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelem__BRA__2__KET__.pini;
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__rdrvelemconn__DOT__ammod.tcnt 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelem__BRA__2__KET__.tcnt;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__rdrvelemconn__DOT__lastenv 
+        = ((IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__rdrvelemconn__DOT__envaddr_cnt) 
+           == (((IData)(vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelem__BRA__2__KET__.envstart) 
+                + (IData)(vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelem__BRA__2__KET__.envlength)) 
+               - (IData)(1U)));
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__rdrvelemconn__DOT__ammod.ampx 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelem__BRA__1__KET__.ampx;
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__rdrvelemconn__DOT__ammod.pini 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelem__BRA__1__KET__.pini;
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__rdrvelemconn__DOT__ammod.tcnt 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelem__BRA__1__KET__.tcnt;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__rdrvelemconn__DOT__lastenv 
+        = ((IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__rdrvelemconn__DOT__envaddr_cnt) 
+           == (((IData)(vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelem__BRA__1__KET__.envstart) 
+                + (IData)(vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelem__BRA__1__KET__.envlength)) 
+               - (IData)(1U)));
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__rdrvelemconn__DOT__ammod.ampx 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelem__BRA__0__KET__.ampx;
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__rdrvelemconn__DOT__ammod.pini 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelem__BRA__0__KET__.pini;
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__rdrvelemconn__DOT__ammod.tcnt 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelem__BRA__0__KET__.tcnt;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__rdrvelemconn__DOT__lastenv 
+        = ((IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__rdrvelemconn__DOT__envaddr_cnt) 
+           == (((IData)(vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelem__BRA__0__KET__.envstart) 
+                + (IData)(vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelem__BRA__0__KET__.envlength)) 
+               - (IData)(1U)));
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__qdrvelemconn__DOT__ammod.ampx 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__qdrvelem__BRA__2__KET__.ampx;
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__qdrvelemconn__DOT__ammod.pini 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__qdrvelem__BRA__2__KET__.pini;
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__qdrvelemconn__DOT__ammod.tcnt 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__qdrvelem__BRA__2__KET__.tcnt;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__qdrvelemconn__DOT__lastenv 
+        = ((IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__qdrvelemconn__DOT__envaddr_cnt) 
+           == (((IData)(vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__qdrvelem__BRA__2__KET__.envstart) 
+                + (IData)(vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__qdrvelem__BRA__2__KET__.envlength)) 
+               - (IData)(1U)));
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__qdrvelemconn__DOT__ammod.ampx 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__qdrvelem__BRA__1__KET__.ampx;
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__qdrvelemconn__DOT__ammod.pini 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__qdrvelem__BRA__1__KET__.pini;
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__qdrvelemconn__DOT__ammod.tcnt 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__qdrvelem__BRA__1__KET__.tcnt;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__qdrvelemconn__DOT__lastenv 
+        = ((IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__qdrvelemconn__DOT__envaddr_cnt) 
+           == (((IData)(vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__qdrvelem__BRA__1__KET__.envstart) 
+                + (IData)(vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__qdrvelem__BRA__1__KET__.envlength)) 
+               - (IData)(1U)));
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__qdrvelemconn__DOT__ammod.ampx 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__qdrvelem__BRA__0__KET__.ampx;
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__qdrvelemconn__DOT__ammod.pini 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__qdrvelem__BRA__0__KET__.pini;
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__qdrvelemconn__DOT__ammod.tcnt 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__qdrvelem__BRA__0__KET__.tcnt;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__qdrvelemconn__DOT__lastenv 
+        = ((IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__qdrvelemconn__DOT__envaddr_cnt) 
+           == (((IData)(vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__qdrvelem__BRA__0__KET__.envstart) 
+                + (IData)(vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__qdrvelem__BRA__0__KET__.envlength)) 
+               - (IData)(1U)));
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_dacmon[3U][0U] 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__dacmonpztif__BRA__3__KET__.data[0U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_dacmon[3U][1U] 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__dacmonpztif__BRA__3__KET__.data[1U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_dacmon[3U][2U] 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__dacmonpztif__BRA__3__KET__.data[2U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_dacmon[3U][3U] 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__dacmonpztif__BRA__3__KET__.data[3U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_dacmon[3U][4U] 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__dacmonpztif__BRA__3__KET__.data[4U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_dacmon[3U][5U] 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__dacmonpztif__BRA__3__KET__.data[5U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_dacmon[3U][6U] 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__dacmonpztif__BRA__3__KET__.data[6U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_dacmon[3U][7U] 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__dacmonpztif__BRA__3__KET__.data[7U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.we_dacmon[3U] 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__dacmonpztif__BRA__3__KET__.we;
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.addr_dacmon[3U] 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__dacmonpztif__BRA__3__KET__.addr;
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_dacmon[2U][0U] 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__dacmonpztif__BRA__2__KET__.data[0U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_dacmon[2U][1U] 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__dacmonpztif__BRA__2__KET__.data[1U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_dacmon[2U][2U] 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__dacmonpztif__BRA__2__KET__.data[2U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_dacmon[2U][3U] 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__dacmonpztif__BRA__2__KET__.data[3U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_dacmon[2U][4U] 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__dacmonpztif__BRA__2__KET__.data[4U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_dacmon[2U][5U] 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__dacmonpztif__BRA__2__KET__.data[5U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_dacmon[2U][6U] 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__dacmonpztif__BRA__2__KET__.data[6U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_dacmon[2U][7U] 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__dacmonpztif__BRA__2__KET__.data[7U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.we_dacmon[2U] 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__dacmonpztif__BRA__2__KET__.we;
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.addr_dacmon[2U] 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__dacmonpztif__BRA__2__KET__.addr;
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_dacmon[1U][0U] 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__dacmonpztif__BRA__1__KET__.data[0U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_dacmon[1U][1U] 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__dacmonpztif__BRA__1__KET__.data[1U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_dacmon[1U][2U] 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__dacmonpztif__BRA__1__KET__.data[2U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_dacmon[1U][3U] 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__dacmonpztif__BRA__1__KET__.data[3U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_dacmon[1U][4U] 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__dacmonpztif__BRA__1__KET__.data[4U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_dacmon[1U][5U] 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__dacmonpztif__BRA__1__KET__.data[5U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_dacmon[1U][6U] 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__dacmonpztif__BRA__1__KET__.data[6U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_dacmon[1U][7U] 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__dacmonpztif__BRA__1__KET__.data[7U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.we_dacmon[1U] 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__dacmonpztif__BRA__1__KET__.we;
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.addr_dacmon[1U] 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__dacmonpztif__BRA__1__KET__.addr;
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_dacmon[0U][0U] 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__dacmonpztif__BRA__0__KET__.data[0U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_dacmon[0U][1U] 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__dacmonpztif__BRA__0__KET__.data[1U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_dacmon[0U][2U] 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__dacmonpztif__BRA__0__KET__.data[2U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_dacmon[0U][3U] 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__dacmonpztif__BRA__0__KET__.data[3U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_dacmon[0U][4U] 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__dacmonpztif__BRA__0__KET__.data[4U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_dacmon[0U][5U] 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__dacmonpztif__BRA__0__KET__.data[5U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_dacmon[0U][6U] 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__dacmonpztif__BRA__0__KET__.data[6U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_dacmon[0U][7U] 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__dacmonpztif__BRA__0__KET__.data[7U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.we_dacmon[0U] 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__dacmonpztif__BRA__0__KET__.we;
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.addr_dacmon[0U] 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__dacmonpztif__BRA__0__KET__.addr;
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_acqbuf[1U] 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__acqpztif__BRA__1__KET__.data;
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.we_acqbuf[1U] 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__acqpztif__BRA__1__KET__.we;
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.addr_acqbuf[1U] 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__acqpztif__BRA__1__KET__.addr;
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_acqbuf[0U] 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__acqpztif__BRA__0__KET__.data;
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.we_acqbuf[0U] 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__acqpztif__BRA__0__KET__.we;
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.addr_acqbuf[0U] 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__acqpztif__BRA__0__KET__.addr;
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.adc[0U] 
+        = vlTOPp->adc[0U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.adc[1U] 
+        = vlTOPp->adc[1U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__0__KET____DOT__youtslice 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__0__KET____DOT__sumy__DOT__vout;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__0__KET____DOT__youtslice 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__0__KET____DOT__sumy__DOT__vout;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__1__KET____DOT__youtslice 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__1__KET____DOT__sumy__DOT__vout;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__1__KET____DOT__youtslice 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__1__KET____DOT__sumy__DOT__vout;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__2__KET____DOT__youtslice 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__2__KET____DOT__sumy__DOT__vout;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__2__KET____DOT__youtslice 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__2__KET____DOT__sumy__DOT__vout;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__3__KET____DOT__youtslice 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__3__KET____DOT__sumy__DOT__vout;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__3__KET____DOT__youtslice 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__3__KET____DOT__sumy__DOT__vout;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__4__KET____DOT__youtslice 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__4__KET____DOT__sumy__DOT__vout;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__4__KET____DOT__youtslice 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__4__KET____DOT__sumy__DOT__vout;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__5__KET____DOT__youtslice 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__5__KET____DOT__sumy__DOT__vout;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__5__KET____DOT__youtslice 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__5__KET____DOT__sumy__DOT__vout;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__6__KET____DOT__youtslice 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__6__KET____DOT__sumy__DOT__vout;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__6__KET____DOT__youtslice 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__6__KET____DOT__sumy__DOT__vout;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__7__KET____DOT__youtslice 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__7__KET____DOT__sumy__DOT__vout;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__7__KET____DOT__youtslice 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__7__KET____DOT__sumy__DOT__vout;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__8__KET____DOT__youtslice 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__8__KET____DOT__sumy__DOT__vout;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__8__KET____DOT__youtslice 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__8__KET____DOT__sumy__DOT__vout;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__9__KET____DOT__youtslice 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__9__KET____DOT__sumy__DOT__vout;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__9__KET____DOT__youtslice 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__9__KET____DOT__sumy__DOT__vout;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__10__KET____DOT__youtslice 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__10__KET____DOT__sumy__DOT__vout;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__10__KET____DOT__youtslice 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__10__KET____DOT__sumy__DOT__vout;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__11__KET____DOT__youtslice 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__11__KET____DOT__sumy__DOT__vout;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__11__KET____DOT__youtslice 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__11__KET____DOT__sumy__DOT__vout;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__12__KET____DOT__youtslice 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__12__KET____DOT__sumy__DOT__vout;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__12__KET____DOT__youtslice 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__12__KET____DOT__sumy__DOT__vout;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__13__KET____DOT__youtslice 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__13__KET____DOT__sumy__DOT__vout;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__13__KET____DOT__youtslice 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__13__KET____DOT__sumy__DOT__vout;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__14__KET____DOT__youtslice 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__14__KET____DOT__sumy__DOT__vout;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__14__KET____DOT__youtslice 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__14__KET____DOT__sumy__DOT__vout;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__15__KET____DOT__youtslice 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__15__KET____DOT__sumy__DOT__vout;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__15__KET____DOT__youtslice 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__15__KET____DOT__sumy__DOT__vout;
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__xmaif.coef[0U][0U] 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.coef
+        [0U][0U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__xmaif.coef[0U][1U] 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.coef
+        [0U][1U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__xmaif.coef[0U][2U] 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.coef
+        [0U][2U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__xmaif.coef[0U][3U] 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.coef
+        [0U][3U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__xmaif.coef[1U][0U] 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.coef
+        [1U][0U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__xmaif.coef[1U][1U] 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.coef
+        [1U][1U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__xmaif.coef[1U][2U] 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.coef
+        [1U][2U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__xmaif.coef[1U][3U] 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.coef
+        [1U][3U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__xmaif.coef[2U][0U] 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.coef
+        [2U][0U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__xmaif.coef[2U][1U] 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.coef
+        [2U][1U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__xmaif.coef[2U][2U] 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.coef
+        [2U][2U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__xmaif.coef[2U][3U] 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.coef
+        [2U][3U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__xmaif.coef[3U][0U] 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.coef
+        [3U][0U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__xmaif.coef[3U][1U] 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.coef
+        [3U][1U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__xmaif.coef[3U][2U] 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.coef
+        [3U][2U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__xmaif.coef[3U][3U] 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.coef
+        [3U][3U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__xmaif.coef[0U][0U] 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.coef
+        [0U][0U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__xmaif.coef[0U][1U] 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.coef
+        [0U][1U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__xmaif.coef[0U][2U] 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.coef
+        [0U][2U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__xmaif.coef[0U][3U] 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.coef
+        [0U][3U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__xmaif.coef[1U][0U] 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.coef
+        [1U][0U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__xmaif.coef[1U][1U] 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.coef
+        [1U][1U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__xmaif.coef[1U][2U] 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.coef
+        [1U][2U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__xmaif.coef[1U][3U] 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.coef
+        [1U][3U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__xmaif.coef[2U][0U] 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.coef
+        [2U][0U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__xmaif.coef[2U][1U] 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.coef
+        [2U][1U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__xmaif.coef[2U][2U] 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.coef
+        [2U][2U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__xmaif.coef[2U][3U] 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.coef
+        [2U][3U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__xmaif.coef[3U][0U] 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.coef
+        [3U][0U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__xmaif.coef[3U][1U] 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.coef
+        [3U][1U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__xmaif.coef[3U][2U] 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.coef
+        [3U][2U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__xmaif.coef[3U][3U] 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.coef
+        [3U][3U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__0__KET____DOT__xoutslice 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__0__KET____DOT__sumx__DOT__vout;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__0__KET____DOT__xoutslice 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__0__KET____DOT__sumx__DOT__vout;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__1__KET____DOT__xoutslice 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__1__KET____DOT__sumx__DOT__vout;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__1__KET____DOT__xoutslice 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__1__KET____DOT__sumx__DOT__vout;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__2__KET____DOT__xoutslice 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__2__KET____DOT__sumx__DOT__vout;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__2__KET____DOT__xoutslice 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__2__KET____DOT__sumx__DOT__vout;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__3__KET____DOT__xoutslice 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__3__KET____DOT__sumx__DOT__vout;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__3__KET____DOT__xoutslice 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__3__KET____DOT__sumx__DOT__vout;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__4__KET____DOT__xoutslice 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__4__KET____DOT__sumx__DOT__vout;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__4__KET____DOT__xoutslice 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__4__KET____DOT__sumx__DOT__vout;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__5__KET____DOT__xoutslice 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__5__KET____DOT__sumx__DOT__vout;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__5__KET____DOT__xoutslice 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__5__KET____DOT__sumx__DOT__vout;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__6__KET____DOT__xoutslice 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__6__KET____DOT__sumx__DOT__vout;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__6__KET____DOT__xoutslice 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__6__KET____DOT__sumx__DOT__vout;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__7__KET____DOT__xoutslice 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__7__KET____DOT__sumx__DOT__vout;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__7__KET____DOT__xoutslice 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__7__KET____DOT__sumx__DOT__vout;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__8__KET____DOT__xoutslice 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__8__KET____DOT__sumx__DOT__vout;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__8__KET____DOT__xoutslice 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__8__KET____DOT__sumx__DOT__vout;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__9__KET____DOT__xoutslice 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__9__KET____DOT__sumx__DOT__vout;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__9__KET____DOT__xoutslice 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__9__KET____DOT__sumx__DOT__vout;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__10__KET____DOT__xoutslice 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__10__KET____DOT__sumx__DOT__vout;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__10__KET____DOT__xoutslice 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__10__KET____DOT__sumx__DOT__vout;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__11__KET____DOT__xoutslice 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__11__KET____DOT__sumx__DOT__vout;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__11__KET____DOT__xoutslice 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__11__KET____DOT__sumx__DOT__vout;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__12__KET____DOT__xoutslice 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__12__KET____DOT__sumx__DOT__vout;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__12__KET____DOT__xoutslice 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__12__KET____DOT__sumx__DOT__vout;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__13__KET____DOT__xoutslice 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__13__KET____DOT__sumx__DOT__vout;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__13__KET____DOT__xoutslice 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__13__KET____DOT__sumx__DOT__vout;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__14__KET____DOT__xoutslice 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__14__KET____DOT__sumx__DOT__vout;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__14__KET____DOT__xoutslice 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__14__KET____DOT__sumx__DOT__vout;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__15__KET____DOT__xoutslice 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__15__KET____DOT__sumx__DOT__vout;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__15__KET____DOT__xoutslice 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__15__KET____DOT__sumx__DOT__vout;
+    vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__0__KET____DOT__cmd_mem__DOT__write_data 
+        = vlTOPp->dsp_sim_toplevel__DOT__mem_write_data;
+    vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__0__KET____DOT__env_mem_qdrv__DOT__write_data 
+        = vlTOPp->dsp_sim_toplevel__DOT__mem_write_data;
+    vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__0__KET____DOT__freq_mem_qdrv__DOT__write_data 
+        = vlTOPp->dsp_sim_toplevel__DOT__mem_write_data;
+    vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__0__KET____DOT__env_mem_rdrv__DOT__write_data 
+        = vlTOPp->dsp_sim_toplevel__DOT__mem_write_data;
+    vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__0__KET____DOT__freq_mem_rdrv__DOT__write_data 
+        = vlTOPp->dsp_sim_toplevel__DOT__mem_write_data;
+    vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__0__KET____DOT__env_mem_rdlo__DOT__write_data 
+        = vlTOPp->dsp_sim_toplevel__DOT__mem_write_data;
+    vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__0__KET____DOT__freq_mem_rdlo__DOT__write_data 
+        = vlTOPp->dsp_sim_toplevel__DOT__mem_write_data;
+    vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__1__KET____DOT__cmd_mem__DOT__write_data 
+        = vlTOPp->dsp_sim_toplevel__DOT__mem_write_data;
+    vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__1__KET____DOT__env_mem_qdrv__DOT__write_data 
+        = vlTOPp->dsp_sim_toplevel__DOT__mem_write_data;
+    vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__1__KET____DOT__freq_mem_qdrv__DOT__write_data 
+        = vlTOPp->dsp_sim_toplevel__DOT__mem_write_data;
+    vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__1__KET____DOT__env_mem_rdrv__DOT__write_data 
+        = vlTOPp->dsp_sim_toplevel__DOT__mem_write_data;
+    vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__1__KET____DOT__freq_mem_rdrv__DOT__write_data 
+        = vlTOPp->dsp_sim_toplevel__DOT__mem_write_data;
+    vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__1__KET____DOT__env_mem_rdlo__DOT__write_data 
+        = vlTOPp->dsp_sim_toplevel__DOT__mem_write_data;
+    vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__1__KET____DOT__freq_mem_rdlo__DOT__write_data 
+        = vlTOPp->dsp_sim_toplevel__DOT__mem_write_data;
+    vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__2__KET____DOT__cmd_mem__DOT__write_data 
+        = vlTOPp->dsp_sim_toplevel__DOT__mem_write_data;
+    vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__2__KET____DOT__env_mem_qdrv__DOT__write_data 
+        = vlTOPp->dsp_sim_toplevel__DOT__mem_write_data;
+    vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__2__KET____DOT__freq_mem_qdrv__DOT__write_data 
+        = vlTOPp->dsp_sim_toplevel__DOT__mem_write_data;
+    vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__2__KET____DOT__env_mem_rdrv__DOT__write_data 
+        = vlTOPp->dsp_sim_toplevel__DOT__mem_write_data;
+    vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__2__KET____DOT__freq_mem_rdrv__DOT__write_data 
+        = vlTOPp->dsp_sim_toplevel__DOT__mem_write_data;
+    vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__2__KET____DOT__env_mem_rdlo__DOT__write_data 
+        = vlTOPp->dsp_sim_toplevel__DOT__mem_write_data;
+    vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__2__KET____DOT__freq_mem_rdlo__DOT__write_data 
+        = vlTOPp->dsp_sim_toplevel__DOT__mem_write_data;
+    vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__0__KET____DOT__cmd_mem__DOT__clk 
+        = vlTOPp->dsp_sim_toplevel__DOT__clk;
+    vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__0__KET____DOT__env_mem_qdrv__DOT__clk 
+        = vlTOPp->dsp_sim_toplevel__DOT__clk;
+    vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__0__KET____DOT__freq_mem_qdrv__DOT__clk 
+        = vlTOPp->dsp_sim_toplevel__DOT__clk;
+    vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__0__KET____DOT__env_mem_rdrv__DOT__clk 
+        = vlTOPp->dsp_sim_toplevel__DOT__clk;
+    vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__0__KET____DOT__freq_mem_rdrv__DOT__clk 
+        = vlTOPp->dsp_sim_toplevel__DOT__clk;
+    vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__0__KET____DOT__env_mem_rdlo__DOT__clk 
+        = vlTOPp->dsp_sim_toplevel__DOT__clk;
+    vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__0__KET____DOT__freq_mem_rdlo__DOT__clk 
+        = vlTOPp->dsp_sim_toplevel__DOT__clk;
+    vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__0__KET____DOT__acc_buf__DOT__clk 
+        = vlTOPp->dsp_sim_toplevel__DOT__clk;
+    vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__1__KET____DOT__cmd_mem__DOT__clk 
+        = vlTOPp->dsp_sim_toplevel__DOT__clk;
+    vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__1__KET____DOT__env_mem_qdrv__DOT__clk 
+        = vlTOPp->dsp_sim_toplevel__DOT__clk;
+    vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__1__KET____DOT__freq_mem_qdrv__DOT__clk 
+        = vlTOPp->dsp_sim_toplevel__DOT__clk;
+    vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__1__KET____DOT__env_mem_rdrv__DOT__clk 
+        = vlTOPp->dsp_sim_toplevel__DOT__clk;
+    vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__1__KET____DOT__freq_mem_rdrv__DOT__clk 
+        = vlTOPp->dsp_sim_toplevel__DOT__clk;
+    vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__1__KET____DOT__env_mem_rdlo__DOT__clk 
+        = vlTOPp->dsp_sim_toplevel__DOT__clk;
+    vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__1__KET____DOT__freq_mem_rdlo__DOT__clk 
+        = vlTOPp->dsp_sim_toplevel__DOT__clk;
+    vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__1__KET____DOT__acc_buf__DOT__clk 
+        = vlTOPp->dsp_sim_toplevel__DOT__clk;
+    vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__2__KET____DOT__cmd_mem__DOT__clk 
+        = vlTOPp->dsp_sim_toplevel__DOT__clk;
+    vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__2__KET____DOT__env_mem_qdrv__DOT__clk 
+        = vlTOPp->dsp_sim_toplevel__DOT__clk;
+    vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__2__KET____DOT__freq_mem_qdrv__DOT__clk 
+        = vlTOPp->dsp_sim_toplevel__DOT__clk;
+    vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__2__KET____DOT__env_mem_rdrv__DOT__clk 
+        = vlTOPp->dsp_sim_toplevel__DOT__clk;
+    vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__2__KET____DOT__freq_mem_rdrv__DOT__clk 
+        = vlTOPp->dsp_sim_toplevel__DOT__clk;
+    vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__2__KET____DOT__env_mem_rdlo__DOT__clk 
+        = vlTOPp->dsp_sim_toplevel__DOT__clk;
+    vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__2__KET____DOT__freq_mem_rdlo__DOT__clk 
+        = vlTOPp->dsp_sim_toplevel__DOT__clk;
+    vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__2__KET____DOT__acc_buf__DOT__clk 
+        = vlTOPp->dsp_sim_toplevel__DOT__clk;
+    vlTOPp->dsp_sim_toplevel__DOT__genblk2__BRA__0__KET____DOT__acq_buf__DOT__clk 
+        = vlTOPp->dsp_sim_toplevel__DOT__clk;
+    vlTOPp->dsp_sim_toplevel__DOT__genblk2__BRA__1__KET____DOT__acq_buf__DOT__clk 
+        = vlTOPp->dsp_sim_toplevel__DOT__clk;
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__xmaif.clk 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.clk;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__fproc__DOT__clk 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.clk;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__clk 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.clk;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__clk 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.clk;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__clk 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.clk;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__clk 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.clk;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__clk 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.clk;
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__dacmonpztif__BRA__0__KET__.clk 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.clk;
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__dacmonpztif__BRA__1__KET__.clk 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.clk;
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__dacmonpztif__BRA__2__KET__.clk 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.clk;
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__dacmonpztif__BRA__3__KET__.clk 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.clk;
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__acqpztif__BRA__0__KET__.clk 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.clk;
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__acqpztif__BRA__1__KET__.clk 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.clk;
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__rdloelem__BRA__2__KET__.clk 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.clk;
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__rdloelem__BRA__1__KET__.clk 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.clk;
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__rdloelem__BRA__0__KET__.clk 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.clk;
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__qdrvelem__BRA__2__KET__.clk 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.clk;
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__qdrvelem__BRA__1__KET__.clk 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.clk;
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__qdrvelem__BRA__0__KET__.clk 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.clk;
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelem__BRA__2__KET__.clk 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.clk;
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelem__BRA__1__KET__.clk 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.clk;
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelem__BRA__0__KET__.clk 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.clk;
+    vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__0__KET____DOT__cmd_mem__DOT__write_enable 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__0__KET____DOT__cmd_wen;
+    vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__0__KET____DOT__env_mem_qdrv__DOT__write_enable 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__0__KET____DOT__env_qdrv_wen;
+    vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__0__KET____DOT__freq_mem_qdrv__DOT__write_enable 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__0__KET____DOT__freq_qdrv_wen;
+    vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__0__KET____DOT__env_mem_rdrv__DOT__write_enable 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__0__KET____DOT__env_rdrv_wen;
+    vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__0__KET____DOT__freq_mem_rdrv__DOT__write_enable 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__0__KET____DOT__freq_rdrv_wen;
+    vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__0__KET____DOT__env_mem_rdlo__DOT__write_enable 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__0__KET____DOT__env_rdlo_wen;
+    vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__0__KET____DOT__freq_mem_rdlo__DOT__write_enable 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__0__KET____DOT__freq_rdlo_wen;
+    vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__1__KET____DOT__cmd_mem__DOT__write_enable 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__1__KET____DOT__cmd_wen;
+    vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__1__KET____DOT__env_mem_qdrv__DOT__write_enable 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__1__KET____DOT__env_qdrv_wen;
+    vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__1__KET____DOT__freq_mem_qdrv__DOT__write_enable 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__1__KET____DOT__freq_qdrv_wen;
+    vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__1__KET____DOT__env_mem_rdrv__DOT__write_enable 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__1__KET____DOT__env_rdrv_wen;
+    vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__1__KET____DOT__freq_mem_rdrv__DOT__write_enable 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__1__KET____DOT__freq_rdrv_wen;
+    vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__1__KET____DOT__env_mem_rdlo__DOT__write_enable 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__1__KET____DOT__env_rdlo_wen;
+    vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__1__KET____DOT__freq_mem_rdlo__DOT__write_enable 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__1__KET____DOT__freq_rdlo_wen;
+    vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__2__KET____DOT__cmd_mem__DOT__write_enable 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__2__KET____DOT__cmd_wen;
+    vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__2__KET____DOT__env_mem_qdrv__DOT__write_enable 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__2__KET____DOT__env_qdrv_wen;
+    vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__2__KET____DOT__freq_mem_qdrv__DOT__write_enable 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__2__KET____DOT__freq_qdrv_wen;
+    vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__2__KET____DOT__env_mem_rdrv__DOT__write_enable 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__2__KET____DOT__env_rdrv_wen;
+    vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__2__KET____DOT__freq_mem_rdrv__DOT__write_enable 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__2__KET____DOT__freq_rdrv_wen;
+    vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__2__KET____DOT__env_mem_rdlo__DOT__write_enable 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__2__KET____DOT__env_rdlo_wen;
+    vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__2__KET____DOT__freq_mem_rdlo__DOT__write_enable 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__2__KET____DOT__freq_rdlo_wen;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__nextstate = 0U;
+    if ((0U == vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__state)) {
+        vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__nextstate 
+            = ((IData)(vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.stb_start)
+                ? 1U : 0U);
+    } else {
+        if ((1U == vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__state)) {
+            vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__nextstate = 3U;
+        } else {
+            if ((3U == vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__state)) {
+                vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__nextstate 
+                    = ((IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procdone_r)
+                        ? 2U : 3U);
+            } else {
+                if ((2U == vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__state)) {
+                    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__nextstate 
+                        = ((IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__nobusy_r)
+                            ? 6U : 2U);
+                } else {
+                    if ((6U == vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__state)) {
+                        vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__nextstate 
+                            = ((IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__shotadd)
+                                ? 7U : 5U);
+                    } else {
+                        if ((7U == vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__state)) {
+                            vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__nextstate = 1U;
+                        } else {
+                            if ((5U == vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__state)) {
+                                vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__nextstate = 0U;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    vlTOPp->dsp_sim_toplevel__DOT__acq_read_data[0U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk2__BRA__0__KET____DOT__acq_buf__DOT__read_data;
+    vlTOPp->dsp_sim_toplevel__DOT__acq_read_data[1U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk2__BRA__1__KET____DOT__acq_buf__DOT__read_data;
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_rdrvenv[0U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__0__KET____DOT__env_mem_rdrv__DOT__read_data;
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_rdloenv[0U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__0__KET____DOT__env_mem_rdlo__DOT__read_data;
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_rdrvenv[1U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__1__KET____DOT__env_mem_rdrv__DOT__read_data;
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_rdloenv[1U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__1__KET____DOT__env_mem_rdlo__DOT__read_data;
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_rdrvenv[2U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__2__KET____DOT__env_mem_rdrv__DOT__read_data;
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_rdloenv[2U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__2__KET____DOT__env_mem_rdlo__DOT__read_data;
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_rdlofreq[0U][0U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__0__KET____DOT__freq_mem_rdlo__DOT__read_data[0U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_rdlofreq[0U][1U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__0__KET____DOT__freq_mem_rdlo__DOT__read_data[1U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_rdlofreq[0U][2U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__0__KET____DOT__freq_mem_rdlo__DOT__read_data[2U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_rdlofreq[0U][3U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__0__KET____DOT__freq_mem_rdlo__DOT__read_data[3U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_rdlofreq[1U][0U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__1__KET____DOT__freq_mem_rdlo__DOT__read_data[0U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_rdlofreq[1U][1U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__1__KET____DOT__freq_mem_rdlo__DOT__read_data[1U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_rdlofreq[1U][2U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__1__KET____DOT__freq_mem_rdlo__DOT__read_data[2U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_rdlofreq[1U][3U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__1__KET____DOT__freq_mem_rdlo__DOT__read_data[3U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_rdlofreq[2U][0U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__2__KET____DOT__freq_mem_rdlo__DOT__read_data[0U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_rdlofreq[2U][1U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__2__KET____DOT__freq_mem_rdlo__DOT__read_data[1U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_rdlofreq[2U][2U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__2__KET____DOT__freq_mem_rdlo__DOT__read_data[2U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_rdlofreq[2U][3U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__2__KET____DOT__freq_mem_rdlo__DOT__read_data[3U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_qdrvenv[0U][0U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__0__KET____DOT__env_mem_qdrv__DOT__read_data[0U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_qdrvenv[0U][1U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__0__KET____DOT__env_mem_qdrv__DOT__read_data[1U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_qdrvenv[0U][2U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__0__KET____DOT__env_mem_qdrv__DOT__read_data[2U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_qdrvenv[0U][3U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__0__KET____DOT__env_mem_qdrv__DOT__read_data[3U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_qdrvenv[0U][4U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__0__KET____DOT__env_mem_qdrv__DOT__read_data[4U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_qdrvenv[0U][5U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__0__KET____DOT__env_mem_qdrv__DOT__read_data[5U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_qdrvenv[0U][6U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__0__KET____DOT__env_mem_qdrv__DOT__read_data[6U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_qdrvenv[0U][7U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__0__KET____DOT__env_mem_qdrv__DOT__read_data[7U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_qdrvenv[0U][8U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__0__KET____DOT__env_mem_qdrv__DOT__read_data[8U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_qdrvenv[0U][9U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__0__KET____DOT__env_mem_qdrv__DOT__read_data[9U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_qdrvenv[0U][0xaU] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__0__KET____DOT__env_mem_qdrv__DOT__read_data[0xaU];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_qdrvenv[0U][0xbU] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__0__KET____DOT__env_mem_qdrv__DOT__read_data[0xbU];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_qdrvenv[0U][0xcU] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__0__KET____DOT__env_mem_qdrv__DOT__read_data[0xcU];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_qdrvenv[0U][0xdU] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__0__KET____DOT__env_mem_qdrv__DOT__read_data[0xdU];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_qdrvenv[0U][0xeU] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__0__KET____DOT__env_mem_qdrv__DOT__read_data[0xeU];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_qdrvenv[0U][0xfU] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__0__KET____DOT__env_mem_qdrv__DOT__read_data[0xfU];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_qdrvfreq[0U][0U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__0__KET____DOT__freq_mem_qdrv__DOT__read_data[0U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_qdrvfreq[0U][1U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__0__KET____DOT__freq_mem_qdrv__DOT__read_data[1U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_qdrvfreq[0U][2U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__0__KET____DOT__freq_mem_qdrv__DOT__read_data[2U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_qdrvfreq[0U][3U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__0__KET____DOT__freq_mem_qdrv__DOT__read_data[3U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_qdrvfreq[0U][4U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__0__KET____DOT__freq_mem_qdrv__DOT__read_data[4U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_qdrvfreq[0U][5U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__0__KET____DOT__freq_mem_qdrv__DOT__read_data[5U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_qdrvfreq[0U][6U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__0__KET____DOT__freq_mem_qdrv__DOT__read_data[6U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_qdrvfreq[0U][7U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__0__KET____DOT__freq_mem_qdrv__DOT__read_data[7U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_qdrvfreq[0U][8U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__0__KET____DOT__freq_mem_qdrv__DOT__read_data[8U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_qdrvfreq[0U][9U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__0__KET____DOT__freq_mem_qdrv__DOT__read_data[9U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_qdrvfreq[0U][0xaU] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__0__KET____DOT__freq_mem_qdrv__DOT__read_data[0xaU];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_qdrvfreq[0U][0xbU] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__0__KET____DOT__freq_mem_qdrv__DOT__read_data[0xbU];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_qdrvfreq[0U][0xcU] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__0__KET____DOT__freq_mem_qdrv__DOT__read_data[0xcU];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_qdrvfreq[0U][0xdU] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__0__KET____DOT__freq_mem_qdrv__DOT__read_data[0xdU];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_qdrvfreq[0U][0xeU] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__0__KET____DOT__freq_mem_qdrv__DOT__read_data[0xeU];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_qdrvfreq[0U][0xfU] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__0__KET____DOT__freq_mem_qdrv__DOT__read_data[0xfU];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_rdrvfreq[0U][0U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__0__KET____DOT__freq_mem_rdrv__DOT__read_data[0U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_rdrvfreq[0U][1U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__0__KET____DOT__freq_mem_rdrv__DOT__read_data[1U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_rdrvfreq[0U][2U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__0__KET____DOT__freq_mem_rdrv__DOT__read_data[2U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_rdrvfreq[0U][3U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__0__KET____DOT__freq_mem_rdrv__DOT__read_data[3U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_rdrvfreq[0U][4U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__0__KET____DOT__freq_mem_rdrv__DOT__read_data[4U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_rdrvfreq[0U][5U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__0__KET____DOT__freq_mem_rdrv__DOT__read_data[5U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_rdrvfreq[0U][6U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__0__KET____DOT__freq_mem_rdrv__DOT__read_data[6U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_rdrvfreq[0U][7U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__0__KET____DOT__freq_mem_rdrv__DOT__read_data[7U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_rdrvfreq[0U][8U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__0__KET____DOT__freq_mem_rdrv__DOT__read_data[8U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_rdrvfreq[0U][9U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__0__KET____DOT__freq_mem_rdrv__DOT__read_data[9U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_rdrvfreq[0U][0xaU] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__0__KET____DOT__freq_mem_rdrv__DOT__read_data[0xaU];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_rdrvfreq[0U][0xbU] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__0__KET____DOT__freq_mem_rdrv__DOT__read_data[0xbU];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_rdrvfreq[0U][0xcU] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__0__KET____DOT__freq_mem_rdrv__DOT__read_data[0xcU];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_rdrvfreq[0U][0xdU] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__0__KET____DOT__freq_mem_rdrv__DOT__read_data[0xdU];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_rdrvfreq[0U][0xeU] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__0__KET____DOT__freq_mem_rdrv__DOT__read_data[0xeU];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_rdrvfreq[0U][0xfU] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__0__KET____DOT__freq_mem_rdrv__DOT__read_data[0xfU];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_qdrvenv[1U][0U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__1__KET____DOT__env_mem_qdrv__DOT__read_data[0U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_qdrvenv[1U][1U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__1__KET____DOT__env_mem_qdrv__DOT__read_data[1U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_qdrvenv[1U][2U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__1__KET____DOT__env_mem_qdrv__DOT__read_data[2U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_qdrvenv[1U][3U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__1__KET____DOT__env_mem_qdrv__DOT__read_data[3U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_qdrvenv[1U][4U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__1__KET____DOT__env_mem_qdrv__DOT__read_data[4U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_qdrvenv[1U][5U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__1__KET____DOT__env_mem_qdrv__DOT__read_data[5U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_qdrvenv[1U][6U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__1__KET____DOT__env_mem_qdrv__DOT__read_data[6U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_qdrvenv[1U][7U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__1__KET____DOT__env_mem_qdrv__DOT__read_data[7U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_qdrvenv[1U][8U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__1__KET____DOT__env_mem_qdrv__DOT__read_data[8U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_qdrvenv[1U][9U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__1__KET____DOT__env_mem_qdrv__DOT__read_data[9U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_qdrvenv[1U][0xaU] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__1__KET____DOT__env_mem_qdrv__DOT__read_data[0xaU];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_qdrvenv[1U][0xbU] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__1__KET____DOT__env_mem_qdrv__DOT__read_data[0xbU];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_qdrvenv[1U][0xcU] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__1__KET____DOT__env_mem_qdrv__DOT__read_data[0xcU];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_qdrvenv[1U][0xdU] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__1__KET____DOT__env_mem_qdrv__DOT__read_data[0xdU];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_qdrvenv[1U][0xeU] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__1__KET____DOT__env_mem_qdrv__DOT__read_data[0xeU];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_qdrvenv[1U][0xfU] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__1__KET____DOT__env_mem_qdrv__DOT__read_data[0xfU];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_qdrvfreq[1U][0U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__1__KET____DOT__freq_mem_qdrv__DOT__read_data[0U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_qdrvfreq[1U][1U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__1__KET____DOT__freq_mem_qdrv__DOT__read_data[1U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_qdrvfreq[1U][2U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__1__KET____DOT__freq_mem_qdrv__DOT__read_data[2U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_qdrvfreq[1U][3U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__1__KET____DOT__freq_mem_qdrv__DOT__read_data[3U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_qdrvfreq[1U][4U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__1__KET____DOT__freq_mem_qdrv__DOT__read_data[4U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_qdrvfreq[1U][5U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__1__KET____DOT__freq_mem_qdrv__DOT__read_data[5U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_qdrvfreq[1U][6U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__1__KET____DOT__freq_mem_qdrv__DOT__read_data[6U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_qdrvfreq[1U][7U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__1__KET____DOT__freq_mem_qdrv__DOT__read_data[7U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_qdrvfreq[1U][8U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__1__KET____DOT__freq_mem_qdrv__DOT__read_data[8U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_qdrvfreq[1U][9U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__1__KET____DOT__freq_mem_qdrv__DOT__read_data[9U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_qdrvfreq[1U][0xaU] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__1__KET____DOT__freq_mem_qdrv__DOT__read_data[0xaU];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_qdrvfreq[1U][0xbU] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__1__KET____DOT__freq_mem_qdrv__DOT__read_data[0xbU];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_qdrvfreq[1U][0xcU] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__1__KET____DOT__freq_mem_qdrv__DOT__read_data[0xcU];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_qdrvfreq[1U][0xdU] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__1__KET____DOT__freq_mem_qdrv__DOT__read_data[0xdU];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_qdrvfreq[1U][0xeU] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__1__KET____DOT__freq_mem_qdrv__DOT__read_data[0xeU];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_qdrvfreq[1U][0xfU] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__1__KET____DOT__freq_mem_qdrv__DOT__read_data[0xfU];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_rdrvfreq[1U][0U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__1__KET____DOT__freq_mem_rdrv__DOT__read_data[0U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_rdrvfreq[1U][1U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__1__KET____DOT__freq_mem_rdrv__DOT__read_data[1U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_rdrvfreq[1U][2U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__1__KET____DOT__freq_mem_rdrv__DOT__read_data[2U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_rdrvfreq[1U][3U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__1__KET____DOT__freq_mem_rdrv__DOT__read_data[3U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_rdrvfreq[1U][4U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__1__KET____DOT__freq_mem_rdrv__DOT__read_data[4U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_rdrvfreq[1U][5U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__1__KET____DOT__freq_mem_rdrv__DOT__read_data[5U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_rdrvfreq[1U][6U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__1__KET____DOT__freq_mem_rdrv__DOT__read_data[6U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_rdrvfreq[1U][7U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__1__KET____DOT__freq_mem_rdrv__DOT__read_data[7U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_rdrvfreq[1U][8U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__1__KET____DOT__freq_mem_rdrv__DOT__read_data[8U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_rdrvfreq[1U][9U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__1__KET____DOT__freq_mem_rdrv__DOT__read_data[9U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_rdrvfreq[1U][0xaU] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__1__KET____DOT__freq_mem_rdrv__DOT__read_data[0xaU];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_rdrvfreq[1U][0xbU] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__1__KET____DOT__freq_mem_rdrv__DOT__read_data[0xbU];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_rdrvfreq[1U][0xcU] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__1__KET____DOT__freq_mem_rdrv__DOT__read_data[0xcU];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_rdrvfreq[1U][0xdU] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__1__KET____DOT__freq_mem_rdrv__DOT__read_data[0xdU];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_rdrvfreq[1U][0xeU] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__1__KET____DOT__freq_mem_rdrv__DOT__read_data[0xeU];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_rdrvfreq[1U][0xfU] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__1__KET____DOT__freq_mem_rdrv__DOT__read_data[0xfU];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_qdrvenv[2U][0U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__2__KET____DOT__env_mem_qdrv__DOT__read_data[0U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_qdrvenv[2U][1U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__2__KET____DOT__env_mem_qdrv__DOT__read_data[1U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_qdrvenv[2U][2U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__2__KET____DOT__env_mem_qdrv__DOT__read_data[2U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_qdrvenv[2U][3U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__2__KET____DOT__env_mem_qdrv__DOT__read_data[3U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_qdrvenv[2U][4U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__2__KET____DOT__env_mem_qdrv__DOT__read_data[4U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_qdrvenv[2U][5U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__2__KET____DOT__env_mem_qdrv__DOT__read_data[5U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_qdrvenv[2U][6U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__2__KET____DOT__env_mem_qdrv__DOT__read_data[6U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_qdrvenv[2U][7U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__2__KET____DOT__env_mem_qdrv__DOT__read_data[7U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_qdrvenv[2U][8U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__2__KET____DOT__env_mem_qdrv__DOT__read_data[8U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_qdrvenv[2U][9U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__2__KET____DOT__env_mem_qdrv__DOT__read_data[9U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_qdrvenv[2U][0xaU] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__2__KET____DOT__env_mem_qdrv__DOT__read_data[0xaU];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_qdrvenv[2U][0xbU] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__2__KET____DOT__env_mem_qdrv__DOT__read_data[0xbU];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_qdrvenv[2U][0xcU] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__2__KET____DOT__env_mem_qdrv__DOT__read_data[0xcU];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_qdrvenv[2U][0xdU] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__2__KET____DOT__env_mem_qdrv__DOT__read_data[0xdU];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_qdrvenv[2U][0xeU] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__2__KET____DOT__env_mem_qdrv__DOT__read_data[0xeU];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_qdrvenv[2U][0xfU] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__2__KET____DOT__env_mem_qdrv__DOT__read_data[0xfU];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_qdrvfreq[2U][0U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__2__KET____DOT__freq_mem_qdrv__DOT__read_data[0U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_qdrvfreq[2U][1U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__2__KET____DOT__freq_mem_qdrv__DOT__read_data[1U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_qdrvfreq[2U][2U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__2__KET____DOT__freq_mem_qdrv__DOT__read_data[2U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_qdrvfreq[2U][3U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__2__KET____DOT__freq_mem_qdrv__DOT__read_data[3U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_qdrvfreq[2U][4U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__2__KET____DOT__freq_mem_qdrv__DOT__read_data[4U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_qdrvfreq[2U][5U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__2__KET____DOT__freq_mem_qdrv__DOT__read_data[5U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_qdrvfreq[2U][6U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__2__KET____DOT__freq_mem_qdrv__DOT__read_data[6U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_qdrvfreq[2U][7U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__2__KET____DOT__freq_mem_qdrv__DOT__read_data[7U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_qdrvfreq[2U][8U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__2__KET____DOT__freq_mem_qdrv__DOT__read_data[8U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_qdrvfreq[2U][9U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__2__KET____DOT__freq_mem_qdrv__DOT__read_data[9U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_qdrvfreq[2U][0xaU] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__2__KET____DOT__freq_mem_qdrv__DOT__read_data[0xaU];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_qdrvfreq[2U][0xbU] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__2__KET____DOT__freq_mem_qdrv__DOT__read_data[0xbU];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_qdrvfreq[2U][0xcU] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__2__KET____DOT__freq_mem_qdrv__DOT__read_data[0xcU];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_qdrvfreq[2U][0xdU] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__2__KET____DOT__freq_mem_qdrv__DOT__read_data[0xdU];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_qdrvfreq[2U][0xeU] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__2__KET____DOT__freq_mem_qdrv__DOT__read_data[0xeU];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_qdrvfreq[2U][0xfU] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__2__KET____DOT__freq_mem_qdrv__DOT__read_data[0xfU];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_rdrvfreq[2U][0U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__2__KET____DOT__freq_mem_rdrv__DOT__read_data[0U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_rdrvfreq[2U][1U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__2__KET____DOT__freq_mem_rdrv__DOT__read_data[1U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_rdrvfreq[2U][2U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__2__KET____DOT__freq_mem_rdrv__DOT__read_data[2U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_rdrvfreq[2U][3U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__2__KET____DOT__freq_mem_rdrv__DOT__read_data[3U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_rdrvfreq[2U][4U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__2__KET____DOT__freq_mem_rdrv__DOT__read_data[4U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_rdrvfreq[2U][5U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__2__KET____DOT__freq_mem_rdrv__DOT__read_data[5U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_rdrvfreq[2U][6U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__2__KET____DOT__freq_mem_rdrv__DOT__read_data[6U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_rdrvfreq[2U][7U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__2__KET____DOT__freq_mem_rdrv__DOT__read_data[7U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_rdrvfreq[2U][8U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__2__KET____DOT__freq_mem_rdrv__DOT__read_data[8U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_rdrvfreq[2U][9U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__2__KET____DOT__freq_mem_rdrv__DOT__read_data[9U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_rdrvfreq[2U][0xaU] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__2__KET____DOT__freq_mem_rdrv__DOT__read_data[0xaU];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_rdrvfreq[2U][0xbU] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__2__KET____DOT__freq_mem_rdrv__DOT__read_data[0xbU];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_rdrvfreq[2U][0xcU] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__2__KET____DOT__freq_mem_rdrv__DOT__read_data[0xcU];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_rdrvfreq[2U][0xdU] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__2__KET____DOT__freq_mem_rdrv__DOT__read_data[0xdU];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_rdrvfreq[2U][0xeU] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__2__KET____DOT__freq_mem_rdrv__DOT__read_data[0xeU];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_rdrvfreq[2U][0xfU] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__2__KET____DOT__freq_mem_rdrv__DOT__read_data[0xfU];
+    vlTOPp->dsp_sim_toplevel__DOT__acc_read_data[0U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__0__KET____DOT__acc_buf__DOT__read_data;
+    vlTOPp->dsp_sim_toplevel__DOT__acc_read_data[1U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__1__KET____DOT__acc_buf__DOT__read_data;
+    vlTOPp->dsp_sim_toplevel__DOT__acc_read_data[2U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__2__KET____DOT__acc_buf__DOT__read_data;
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_command[0U][0U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__0__KET____DOT__cmd_mem__DOT__read_data[0U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_command[0U][1U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__0__KET____DOT__cmd_mem__DOT__read_data[1U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_command[0U][2U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__0__KET____DOT__cmd_mem__DOT__read_data[2U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_command[0U][3U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__0__KET____DOT__cmd_mem__DOT__read_data[3U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_command[1U][0U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__1__KET____DOT__cmd_mem__DOT__read_data[0U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_command[1U][1U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__1__KET____DOT__cmd_mem__DOT__read_data[1U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_command[1U][2U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__1__KET____DOT__cmd_mem__DOT__read_data[2U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_command[1U][3U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__1__KET____DOT__cmd_mem__DOT__read_data[3U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_command[2U][0U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__2__KET____DOT__cmd_mem__DOT__read_data[0U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_command[2U][1U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__2__KET____DOT__cmd_mem__DOT__read_data[1U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_command[2U][2U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__2__KET____DOT__cmd_mem__DOT__read_data[2U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_command[2U][3U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__2__KET____DOT__cmd_mem__DOT__read_data[3U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__regs__DOT__write_addr 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__reg_write_addr;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__regs__DOT__write_addr 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__reg_write_addr;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__regs__DOT__write_addr 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__reg_write_addr;
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__pulseout.reset 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__pulse_reset;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__instr_load_en 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__instr_load_en;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__c_strobe_enable 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__c_strobe_enable;
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__sync.enable 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__sync_enable;
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__pulseout.reset 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__pulse_reset;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__instr_load_en 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__instr_load_en;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__c_strobe_enable 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__c_strobe_enable;
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__sync.enable 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__sync_enable;
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__pulseout.reset 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__pulse_reset;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__instr_load_en 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__instr_load_en;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__c_strobe_enable 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__c_strobe_enable;
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__sync.enable 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__sync_enable;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__0__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__shift 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.shift;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__1__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__shift 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.shift;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__2__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__shift 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.shift;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__0__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__shift 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.shift;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__1__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__shift 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.shift;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__2__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__shift 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.shift;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__qclk_load_en 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__qclk_load_en;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__reg_write_en 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__reg_write_en;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__qclk_load_en 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__qclk_load_en;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__reg_write_en 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__reg_write_en;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__qclk_load_en 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__qclk_load_en;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__reg_write_en 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__reg_write_en;
+    vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__0__KET____DOT__acc_buf__DOT__write_addr 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.addr_accbuf
+        [0U];
+    vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__1__KET____DOT__acc_buf__DOT__write_addr 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.addr_accbuf
+        [1U];
+    vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__2__KET____DOT__acc_buf__DOT__write_addr 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.addr_accbuf
+        [2U];
+    vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__0__KET____DOT__acc_buf__DOT__write_enable 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.we_accbuf
+        [0U];
+    vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__1__KET____DOT__acc_buf__DOT__write_enable 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.we_accbuf
+        [1U];
+    vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__2__KET____DOT__acc_buf__DOT__write_enable 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.we_accbuf
+        [2U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__qclk_reset_ctrl 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__qclk_reset;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__qclk_reset_ctrl 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__qclk_reset;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__qclk_reset_ctrl 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__qclk_reset;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__alu_in0_sel 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__alu_in0_sel;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__alu_in0_sel 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__alu_in0_sel;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__alu_in0_sel 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__alu_in0_sel;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__alu_opcode 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__alu_opcode;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__qclk_out 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__myclk__DOT__out;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__alu_opcode 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__alu_opcode;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__qclk_out 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__myclk__DOT__out;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__alu_opcode 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__alu_opcode;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__qclk_out 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__myclk__DOT__out;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__alu_in1_sel 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__alu_in1_sel;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__alu_in1_sel 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__alu_in1_sel;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__alu_in1_sel 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__alu_in1_sel;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__instr__DOT__load_val 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__instr_ptr_load_val;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__instr__DOT__load_val 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__instr_ptr_load_val;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__instr__DOT__load_val 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__instr_ptr_load_val;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__write_pulse_en 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__write_pulse_en;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__write_pulse_en 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__write_pulse_en;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__write_pulse_en 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__write_pulse_en;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__inst_ptr_enable 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__instr_ptr_en;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__inst_ptr_enable 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__instr_ptr_en;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__inst_ptr_enable 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__instr_ptr_en;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__regs__DOT__read_addr_1 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__reg_addr_in1;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__regs__DOT__reg_1_out 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__regs__DOT__data
+        [vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__reg_addr_in1];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__regs__DOT__read_addr_1 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__reg_addr_in1;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__regs__DOT__reg_1_out 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__regs__DOT__data
+        [vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__reg_addr_in1];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__regs__DOT__read_addr_1 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__reg_addr_in1;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__regs__DOT__reg_1_out 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__regs__DOT__data
+        [vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__reg_addr_in1];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__regs__DOT__write_data 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__alu_out;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__qclk_in 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__alu_out;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__regs__DOT__write_data 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__alu_out;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__qclk_in 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__alu_out;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__regs__DOT__write_data 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__alu_out;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__qclk_in 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__alu_out;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__0__KET____DOT__youtslice 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__0__KET____DOT__sumy__DOT__vout;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__1__KET____DOT__youtslice 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__1__KET____DOT__sumy__DOT__vout;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__2__KET____DOT__youtslice 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__2__KET____DOT__sumy__DOT__vout;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__3__KET____DOT__youtslice 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__3__KET____DOT__sumy__DOT__vout;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__4__KET____DOT__youtslice 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__4__KET____DOT__sumy__DOT__vout;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__5__KET____DOT__youtslice 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__5__KET____DOT__sumy__DOT__vout;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__6__KET____DOT__youtslice 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__6__KET____DOT__sumy__DOT__vout;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__7__KET____DOT__youtslice 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__7__KET____DOT__sumy__DOT__vout;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__8__KET____DOT__youtslice 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__8__KET____DOT__sumy__DOT__vout;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__9__KET____DOT__youtslice 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__9__KET____DOT__sumy__DOT__vout;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__10__KET____DOT__youtslice 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__10__KET____DOT__sumy__DOT__vout;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__11__KET____DOT__youtslice 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__11__KET____DOT__sumy__DOT__vout;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__12__KET____DOT__youtslice 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__12__KET____DOT__sumy__DOT__vout;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__13__KET____DOT__youtslice 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__13__KET____DOT__sumy__DOT__vout;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__14__KET____DOT__youtslice 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__14__KET____DOT__sumy__DOT__vout;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__15__KET____DOT__youtslice 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__15__KET____DOT__sumy__DOT__vout;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__inst_ptr_load_en_sel 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__instr_ptr_load_en;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__inst_ptr_load_en_sel 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__instr_ptr_load_en;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__inst_ptr_load_en_sel 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__instr_ptr_load_en;
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__fproc_if__BRA__0__KET__.enable 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__fproc_enable;
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__fproc_if__BRA__1__KET__.enable 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__fproc_enable;
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__fproc_if__BRA__2__KET__.enable 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__fproc_enable;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__pulsereg__DOT__pulse_cmd_in[0U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__pulse_cmd_i[0U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__pulsereg__DOT__pulse_cmd_in[1U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__pulse_cmd_i[1U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__pulsereg__DOT__pulse_cmd_in[2U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__pulse_cmd_i[2U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__pulsereg__DOT__cfg_i_in 
+        = (0xfU & vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__pulse_cmd_i[0U]);
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__pulsereg__DOT__env_i_in 
+        = (0xffffffU & ((vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__pulse_cmd_i[2U] 
+                         << 0xbU) | (vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__pulse_cmd_i[1U] 
+                                     >> 0x15U)));
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__pulsereg__DOT__phase_i_in 
+        = (0x1ffffU & ((vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__pulse_cmd_i[2U] 
+                        << 0x1eU) | (vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__pulse_cmd_i[1U] 
+                                     >> 2U)));
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__pulsereg__DOT__freq_i_in 
+        = (0x1ffU & ((vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__pulse_cmd_i[1U] 
+                      << 9U) | (vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__pulse_cmd_i[0U] 
+                                >> 0x17U)));
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__pulsereg__DOT__amp_i_in 
+        = (0xffffU & ((vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__pulse_cmd_i[1U] 
+                       << 0x1bU) | (vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__pulse_cmd_i[0U] 
+                                    >> 5U)));
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__pulsereg__DOT__env_write_sel 
+        = (1U & (vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__pulse_cmd_i[2U] 
+                 >> 0xdU));
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__pulsereg__DOT__phase_write_sel 
+        = (1U & (vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__pulse_cmd_i[1U] 
+                 >> 0x13U));
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__pulsereg__DOT__freq_write_sel 
+        = (1U & vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__pulse_cmd_i[1U]);
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__pulsereg__DOT__amp_write_sel 
+        = (1U & (vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__pulse_cmd_i[0U] 
+                 >> 0x15U));
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__pulsereg__DOT__pulse_cmd_in[0U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__pulse_cmd_i[0U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__pulsereg__DOT__pulse_cmd_in[1U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__pulse_cmd_i[1U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__pulsereg__DOT__pulse_cmd_in[2U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__pulse_cmd_i[2U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__pulsereg__DOT__cfg_i_in 
+        = (0xfU & vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__pulse_cmd_i[0U]);
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__pulsereg__DOT__env_i_in 
+        = (0xffffffU & ((vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__pulse_cmd_i[2U] 
+                         << 0xbU) | (vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__pulse_cmd_i[1U] 
+                                     >> 0x15U)));
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__pulsereg__DOT__phase_i_in 
+        = (0x1ffffU & ((vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__pulse_cmd_i[2U] 
+                        << 0x1eU) | (vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__pulse_cmd_i[1U] 
+                                     >> 2U)));
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__pulsereg__DOT__freq_i_in 
+        = (0x1ffU & ((vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__pulse_cmd_i[1U] 
+                      << 9U) | (vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__pulse_cmd_i[0U] 
+                                >> 0x17U)));
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__pulsereg__DOT__amp_i_in 
+        = (0xffffU & ((vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__pulse_cmd_i[1U] 
+                       << 0x1bU) | (vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__pulse_cmd_i[0U] 
+                                    >> 5U)));
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__pulsereg__DOT__env_write_sel 
+        = (1U & (vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__pulse_cmd_i[2U] 
+                 >> 0xdU));
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__pulsereg__DOT__phase_write_sel 
+        = (1U & (vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__pulse_cmd_i[1U] 
+                 >> 0x13U));
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__pulsereg__DOT__freq_write_sel 
+        = (1U & vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__pulse_cmd_i[1U]);
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__pulsereg__DOT__amp_write_sel 
+        = (1U & (vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__pulse_cmd_i[0U] 
+                 >> 0x15U));
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__pulsereg__DOT__pulse_cmd_in[0U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__pulse_cmd_i[0U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__pulsereg__DOT__pulse_cmd_in[1U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__pulse_cmd_i[1U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__pulsereg__DOT__pulse_cmd_in[2U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__pulse_cmd_i[2U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__pulsereg__DOT__cfg_i_in 
+        = (0xfU & vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__pulse_cmd_i[0U]);
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__pulsereg__DOT__env_i_in 
+        = (0xffffffU & ((vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__pulse_cmd_i[2U] 
+                         << 0xbU) | (vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__pulse_cmd_i[1U] 
+                                     >> 0x15U)));
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__pulsereg__DOT__phase_i_in 
+        = (0x1ffffU & ((vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__pulse_cmd_i[2U] 
+                        << 0x1eU) | (vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__pulse_cmd_i[1U] 
+                                     >> 2U)));
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__pulsereg__DOT__freq_i_in 
+        = (0x1ffU & ((vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__pulse_cmd_i[1U] 
+                      << 9U) | (vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__pulse_cmd_i[0U] 
+                                >> 0x17U)));
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__pulsereg__DOT__amp_i_in 
+        = (0xffffU & ((vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__pulse_cmd_i[1U] 
+                       << 0x1bU) | (vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__pulse_cmd_i[0U] 
+                                    >> 5U)));
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__pulsereg__DOT__env_write_sel 
+        = (1U & (vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__pulse_cmd_i[2U] 
+                 >> 0xdU));
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__pulsereg__DOT__phase_write_sel 
+        = (1U & (vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__pulse_cmd_i[1U] 
+                 >> 0x13U));
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__pulsereg__DOT__freq_write_sel 
+        = (1U & vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__pulse_cmd_i[1U]);
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__pulsereg__DOT__amp_write_sel 
+        = (1U & (vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__pulse_cmd_i[0U] 
+                 >> 0x15U));
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__done_gate 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__done_gate;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__done_gate 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__done_gate;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__done_gate 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__done_gate;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__regs__DOT__read_addr_0 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__reg_addr_in0;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__regs__DOT__reg_0_out 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__regs__DOT__data
+        [vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__reg_addr_in0];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__regs__DOT__read_addr_0 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__reg_addr_in0;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__regs__DOT__reg_0_out 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__regs__DOT__data
+        [vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__reg_addr_in0];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__regs__DOT__read_addr_0 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__reg_addr_in0;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__regs__DOT__reg_0_out 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__regs__DOT__data
+        [vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__reg_addr_in0];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__myalu__DOT__eq 
+        = (0U == vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__myalu__DOT__sub);
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__myalu__DOT__sub_oflow 
+        = (1U & ((((~ (vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__myalu__DOT__in0_reg 
+                       >> 0x1fU)) & (vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__myalu__DOT__in1_reg 
+                                     >> 0x1fU)) & (vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__myalu__DOT__sub 
+                                                   >> 0x1fU)) 
+                 | (((vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__myalu__DOT__in0_reg 
+                      >> 0x1fU) & (~ (vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__myalu__DOT__in1_reg 
+                                      >> 0x1fU))) & 
+                    (~ (vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__myalu__DOT__sub 
+                        >> 0x1fU)))));
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__myalu__DOT__eq 
+        = (0U == vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__myalu__DOT__sub);
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__myalu__DOT__sub_oflow 
+        = (1U & ((((~ (vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__myalu__DOT__in0_reg 
+                       >> 0x1fU)) & (vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__myalu__DOT__in1_reg 
+                                     >> 0x1fU)) & (vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__myalu__DOT__sub 
+                                                   >> 0x1fU)) 
+                 | (((vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__myalu__DOT__in0_reg 
+                      >> 0x1fU) & (~ (vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__myalu__DOT__in1_reg 
+                                      >> 0x1fU))) & 
+                    (~ (vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__myalu__DOT__sub 
+                        >> 0x1fU)))));
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__myalu__DOT__eq 
+        = (0U == vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__myalu__DOT__sub);
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__myalu__DOT__sub_oflow 
+        = (1U & ((((~ (vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__myalu__DOT__in0_reg 
+                       >> 0x1fU)) & (vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__myalu__DOT__in1_reg 
+                                     >> 0x1fU)) & (vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__myalu__DOT__sub 
+                                                   >> 0x1fU)) 
+                 | (((vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__myalu__DOT__in0_reg 
+                      >> 0x1fU) & (~ (vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__myalu__DOT__in1_reg 
+                                      >> 0x1fU))) & 
+                    (~ (vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__myalu__DOT__sub 
+                        >> 0x1fU)))));
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__0__KET____DOT__xoutslice 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__0__KET____DOT__sumx__DOT__vout;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__1__KET____DOT__xoutslice 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__1__KET____DOT__sumx__DOT__vout;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__2__KET____DOT__xoutslice 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__2__KET____DOT__sumx__DOT__vout;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__3__KET____DOT__xoutslice 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__3__KET____DOT__sumx__DOT__vout;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__4__KET____DOT__xoutslice 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__4__KET____DOT__sumx__DOT__vout;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__5__KET____DOT__xoutslice 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__5__KET____DOT__sumx__DOT__vout;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__6__KET____DOT__xoutslice 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__6__KET____DOT__sumx__DOT__vout;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__7__KET____DOT__xoutslice 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__7__KET____DOT__sumx__DOT__vout;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__8__KET____DOT__xoutslice 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__8__KET____DOT__sumx__DOT__vout;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__9__KET____DOT__xoutslice 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__9__KET____DOT__sumx__DOT__vout;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__10__KET____DOT__xoutslice 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__10__KET____DOT__sumx__DOT__vout;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__11__KET____DOT__xoutslice 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__11__KET____DOT__sumx__DOT__vout;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__12__KET____DOT__xoutslice 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__12__KET____DOT__sumx__DOT__vout;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__13__KET____DOT__xoutslice 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__13__KET____DOT__sumx__DOT__vout;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__14__KET____DOT__xoutslice 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__14__KET____DOT__sumx__DOT__vout;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__15__KET____DOT__xoutslice 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__15__KET____DOT__sumx__DOT__vout;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__0__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__genblk1__BRA__0__KET____DOT__multixi_w 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__0__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__genblk1__BRA__0__KET____DOT__mult1__DOT__zr;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__0__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__genblk1__BRA__0__KET____DOT__multiyi_w 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__0__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__genblk1__BRA__0__KET____DOT__mult1__DOT__zi;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__0__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__genblk1__BRA__1__KET____DOT__multixi_w 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__0__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__genblk1__BRA__1__KET____DOT__mult1__DOT__zr;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__0__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__genblk1__BRA__1__KET____DOT__multiyi_w 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__0__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__genblk1__BRA__1__KET____DOT__mult1__DOT__zi;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__0__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__genblk1__BRA__2__KET____DOT__multixi_w 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__0__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__genblk1__BRA__2__KET____DOT__mult1__DOT__zr;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__0__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__genblk1__BRA__2__KET____DOT__multiyi_w 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__0__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__genblk1__BRA__2__KET____DOT__mult1__DOT__zi;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__0__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__genblk1__BRA__3__KET____DOT__multixi_w 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__0__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__genblk1__BRA__3__KET____DOT__mult1__DOT__zr;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__0__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__genblk1__BRA__3__KET____DOT__multiyi_w 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__0__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__genblk1__BRA__3__KET____DOT__mult1__DOT__zi;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__1__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__genblk1__BRA__0__KET____DOT__multixi_w 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__1__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__genblk1__BRA__0__KET____DOT__mult1__DOT__zr;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__1__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__genblk1__BRA__0__KET____DOT__multiyi_w 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__1__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__genblk1__BRA__0__KET____DOT__mult1__DOT__zi;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__1__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__genblk1__BRA__1__KET____DOT__multixi_w 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__1__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__genblk1__BRA__1__KET____DOT__mult1__DOT__zr;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__1__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__genblk1__BRA__1__KET____DOT__multiyi_w 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__1__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__genblk1__BRA__1__KET____DOT__mult1__DOT__zi;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__1__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__genblk1__BRA__2__KET____DOT__multixi_w 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__1__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__genblk1__BRA__2__KET____DOT__mult1__DOT__zr;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__1__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__genblk1__BRA__2__KET____DOT__multiyi_w 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__1__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__genblk1__BRA__2__KET____DOT__mult1__DOT__zi;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__1__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__genblk1__BRA__3__KET____DOT__multixi_w 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__1__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__genblk1__BRA__3__KET____DOT__mult1__DOT__zr;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__1__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__genblk1__BRA__3__KET____DOT__multiyi_w 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__1__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__genblk1__BRA__3__KET____DOT__mult1__DOT__zi;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__2__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__genblk1__BRA__0__KET____DOT__multixi_w 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__2__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__genblk1__BRA__0__KET____DOT__mult1__DOT__zr;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__2__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__genblk1__BRA__0__KET____DOT__multiyi_w 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__2__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__genblk1__BRA__0__KET____DOT__mult1__DOT__zi;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__2__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__genblk1__BRA__1__KET____DOT__multixi_w 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__2__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__genblk1__BRA__1__KET____DOT__mult1__DOT__zr;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__2__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__genblk1__BRA__1__KET____DOT__multiyi_w 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__2__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__genblk1__BRA__1__KET____DOT__mult1__DOT__zi;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__2__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__genblk1__BRA__2__KET____DOT__multixi_w 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__2__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__genblk1__BRA__2__KET____DOT__mult1__DOT__zr;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__2__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__genblk1__BRA__2__KET____DOT__multiyi_w 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__2__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__genblk1__BRA__2__KET____DOT__mult1__DOT__zi;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__2__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__genblk1__BRA__3__KET____DOT__multixi_w 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__2__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__genblk1__BRA__3__KET____DOT__mult1__DOT__zr;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__2__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__genblk1__BRA__3__KET____DOT__multiyi_w 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__2__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__genblk1__BRA__3__KET____DOT__mult1__DOT__zi;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__reset 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__reset;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__reset 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__reset;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__reset 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__reset;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__nobusy 
+        = ((6U & (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__nobusy)) 
+           | (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__nobusy_mon));
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__nobusy 
+        = ((5U & (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__nobusy)) 
+           | ((IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__nobusy_mon) 
+              << 1U));
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__nobusy 
+        = ((3U & (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__nobusy)) 
+           | ((IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__nobusy_mon) 
+              << 2U));
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.addr_command[0U] 
+        = (0x7ffU & (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__cmd_read_addr));
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.addr_command[1U] 
+        = (0x7ffU & (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__cmd_read_addr));
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.addr_command[2U] 
+        = (0x7ffU & (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__cmd_read_addr));
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__data_accbuf[0U] 
+        = ((0xffffffffULL & vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__data_accbuf
+            [0U]) | ((QData)((IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__0__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__accx)) 
+                     << 0x20U));
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__data_accbuf[0U] 
+        = ((0xffffffff00000000ULL & vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__data_accbuf
+            [0U]) | (IData)((IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__0__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__accy)));
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__data_accbuf[1U] 
+        = ((0xffffffffULL & vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__data_accbuf
+            [1U]) | ((QData)((IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__1__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__accx)) 
+                     << 0x20U));
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__data_accbuf[1U] 
+        = ((0xffffffff00000000ULL & vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__data_accbuf
+            [1U]) | (IData)((IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__1__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__accy)));
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__data_accbuf[2U] 
+        = ((0xffffffffULL & vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__data_accbuf
+            [2U]) | ((QData)((IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__2__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__accx)) 
+                     << 0x20U));
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__data_accbuf[2U] 
+        = ((0xffffffff00000000ULL & vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__data_accbuf
+            [2U]) | (IData)((IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__2__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__accy)));
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__qdrvelemconn__DOT__envaddr 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__qdrvelemconn__DOT__envaddrdelay__DOT__dout;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__rdrvelemconn__DOT__envaddr 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__rdrvelemconn__DOT__envaddrdelay__DOT__dout;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__qdrvelemconn__DOT__envaddr 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__qdrvelemconn__DOT__envaddrdelay__DOT__dout;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__rdrvelemconn__DOT__envaddr 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__rdrvelemconn__DOT__envaddrdelay__DOT__dout;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__qdrvelemconn__DOT__envaddr 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__qdrvelemconn__DOT__envaddrdelay__DOT__dout;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__rdrvelemconn__DOT__envaddr 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__rdrvelemconn__DOT__envaddrdelay__DOT__dout;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__0__KET____DOT__accvalid 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__0__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__stbout;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__1__KET____DOT__accvalid 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__1__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__stbout;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__2__KET____DOT__accvalid 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__2__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__stbout;
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.addr_qdrvfreq[0U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__qdrvelemconn__DOT__freqaddr;
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.addr_rdrvfreq[0U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__rdrvelemconn__DOT__freqaddr;
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.addr_qdrvfreq[1U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__qdrvelemconn__DOT__freqaddr;
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.addr_rdrvfreq[1U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__rdrvelemconn__DOT__freqaddr;
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.addr_qdrvfreq[2U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__qdrvelemconn__DOT__freqaddr;
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.addr_rdrvfreq[2U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__rdrvelemconn__DOT__freqaddr;
+    vlTOPp->dsp_sim_toplevel__DOT__genblk2__BRA__0__KET____DOT__acq_buf__DOT__write_data 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_acqbuf
+        [0U];
+    vlTOPp->dsp_sim_toplevel__DOT__genblk2__BRA__1__KET____DOT__acq_buf__DOT__write_data 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_acqbuf
+        [1U];
+    vlTOPp->dsp_sim_toplevel__DOT__genblk2__BRA__0__KET____DOT__acq_buf__DOT__write_enable 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.we_acqbuf
+        [0U];
+    vlTOPp->dsp_sim_toplevel__DOT__genblk2__BRA__1__KET____DOT__acq_buf__DOT__write_enable 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.we_acqbuf
+        [1U];
+    vlTOPp->dsp_sim_toplevel__DOT__genblk2__BRA__0__KET____DOT__acq_buf__DOT__write_addr 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.addr_acqbuf
+        [0U];
+    vlTOPp->dsp_sim_toplevel__DOT__genblk2__BRA__1__KET____DOT__acq_buf__DOT__write_addr 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.addr_acqbuf
+        [1U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__yout[0U] 
+        = ((0xffff0000U & vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__yout[0U]) 
+           | (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__0__KET____DOT__youtslice));
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__yout[0U] 
+        = ((0xffff0000U & vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__yout[0U]) 
+           | (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__0__KET____DOT__youtslice));
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__yout[0U] 
+        = ((0xffffU & vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__yout[0U]) 
+           | (0xffff0000U & ((IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__1__KET____DOT__youtslice) 
+                             << 0x10U)));
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__yout[0U] 
+        = ((0xffffU & vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__yout[0U]) 
+           | (0xffff0000U & ((IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__1__KET____DOT__youtslice) 
+                             << 0x10U)));
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__yout[1U] 
+        = ((0xffff0000U & vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__yout[1U]) 
+           | (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__2__KET____DOT__youtslice));
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__yout[1U] 
+        = ((0xffff0000U & vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__yout[1U]) 
+           | (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__2__KET____DOT__youtslice));
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__yout[1U] 
+        = ((0xffffU & vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__yout[1U]) 
+           | (0xffff0000U & ((IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__3__KET____DOT__youtslice) 
+                             << 0x10U)));
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__yout[1U] 
+        = ((0xffffU & vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__yout[1U]) 
+           | (0xffff0000U & ((IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__3__KET____DOT__youtslice) 
+                             << 0x10U)));
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__yout[2U] 
+        = ((0xffff0000U & vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__yout[2U]) 
+           | (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__4__KET____DOT__youtslice));
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__yout[2U] 
+        = ((0xffff0000U & vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__yout[2U]) 
+           | (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__4__KET____DOT__youtslice));
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__yout[2U] 
+        = ((0xffffU & vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__yout[2U]) 
+           | (0xffff0000U & ((IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__5__KET____DOT__youtslice) 
+                             << 0x10U)));
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__yout[2U] 
+        = ((0xffffU & vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__yout[2U]) 
+           | (0xffff0000U & ((IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__5__KET____DOT__youtslice) 
+                             << 0x10U)));
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__yout[3U] 
+        = ((0xffff0000U & vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__yout[3U]) 
+           | (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__6__KET____DOT__youtslice));
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__yout[3U] 
+        = ((0xffff0000U & vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__yout[3U]) 
+           | (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__6__KET____DOT__youtslice));
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__yout[3U] 
+        = ((0xffffU & vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__yout[3U]) 
+           | (0xffff0000U & ((IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__7__KET____DOT__youtslice) 
+                             << 0x10U)));
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__yout[3U] 
+        = ((0xffffU & vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__yout[3U]) 
+           | (0xffff0000U & ((IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__7__KET____DOT__youtslice) 
+                             << 0x10U)));
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__yout[4U] 
+        = ((0xffff0000U & vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__yout[4U]) 
+           | (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__8__KET____DOT__youtslice));
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__yout[4U] 
+        = ((0xffff0000U & vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__yout[4U]) 
+           | (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__8__KET____DOT__youtslice));
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__yout[4U] 
+        = ((0xffffU & vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__yout[4U]) 
+           | (0xffff0000U & ((IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__9__KET____DOT__youtslice) 
+                             << 0x10U)));
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__yout[4U] 
+        = ((0xffffU & vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__yout[4U]) 
+           | (0xffff0000U & ((IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__9__KET____DOT__youtslice) 
+                             << 0x10U)));
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__yout[5U] 
+        = ((0xffff0000U & vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__yout[5U]) 
+           | (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__10__KET____DOT__youtslice));
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__yout[5U] 
+        = ((0xffff0000U & vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__yout[5U]) 
+           | (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__10__KET____DOT__youtslice));
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__yout[5U] 
+        = ((0xffffU & vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__yout[5U]) 
+           | (0xffff0000U & ((IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__11__KET____DOT__youtslice) 
+                             << 0x10U)));
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__yout[5U] 
+        = ((0xffffU & vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__yout[5U]) 
+           | (0xffff0000U & ((IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__11__KET____DOT__youtslice) 
+                             << 0x10U)));
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__yout[6U] 
+        = ((0xffff0000U & vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__yout[6U]) 
+           | (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__12__KET____DOT__youtslice));
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__yout[6U] 
+        = ((0xffff0000U & vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__yout[6U]) 
+           | (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__12__KET____DOT__youtslice));
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__yout[6U] 
+        = ((0xffffU & vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__yout[6U]) 
+           | (0xffff0000U & ((IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__13__KET____DOT__youtslice) 
+                             << 0x10U)));
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__yout[6U] 
+        = ((0xffffU & vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__yout[6U]) 
+           | (0xffff0000U & ((IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__13__KET____DOT__youtslice) 
+                             << 0x10U)));
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__yout[7U] 
+        = ((0xffff0000U & vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__yout[7U]) 
+           | (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__14__KET____DOT__youtslice));
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__yout[7U] 
+        = ((0xffff0000U & vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__yout[7U]) 
+           | (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__14__KET____DOT__youtslice));
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__yout[7U] 
+        = ((0xffffU & vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__yout[7U]) 
+           | (0xffff0000U & ((IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__15__KET____DOT__youtslice) 
+                             << 0x10U)));
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__yout[7U] 
+        = ((0xffffU & vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__yout[7U]) 
+           | (0xffff0000U & ((IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__15__KET____DOT__youtslice) 
+                             << 0x10U)));
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__xout[0U] 
+        = ((0xffff0000U & vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__xout[0U]) 
+           | (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__0__KET____DOT__xoutslice));
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__xout[0U] 
+        = ((0xffff0000U & vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__xout[0U]) 
+           | (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__0__KET____DOT__xoutslice));
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__xout[0U] 
+        = ((0xffffU & vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__xout[0U]) 
+           | (0xffff0000U & ((IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__1__KET____DOT__xoutslice) 
+                             << 0x10U)));
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__xout[0U] 
+        = ((0xffffU & vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__xout[0U]) 
+           | (0xffff0000U & ((IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__1__KET____DOT__xoutslice) 
+                             << 0x10U)));
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__xout[1U] 
+        = ((0xffff0000U & vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__xout[1U]) 
+           | (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__2__KET____DOT__xoutslice));
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__xout[1U] 
+        = ((0xffff0000U & vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__xout[1U]) 
+           | (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__2__KET____DOT__xoutslice));
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__xout[1U] 
+        = ((0xffffU & vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__xout[1U]) 
+           | (0xffff0000U & ((IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__3__KET____DOT__xoutslice) 
+                             << 0x10U)));
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__xout[1U] 
+        = ((0xffffU & vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__xout[1U]) 
+           | (0xffff0000U & ((IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__3__KET____DOT__xoutslice) 
+                             << 0x10U)));
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__xout[2U] 
+        = ((0xffff0000U & vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__xout[2U]) 
+           | (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__4__KET____DOT__xoutslice));
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__xout[2U] 
+        = ((0xffff0000U & vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__xout[2U]) 
+           | (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__4__KET____DOT__xoutslice));
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__xout[2U] 
+        = ((0xffffU & vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__xout[2U]) 
+           | (0xffff0000U & ((IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__5__KET____DOT__xoutslice) 
+                             << 0x10U)));
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__xout[2U] 
+        = ((0xffffU & vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__xout[2U]) 
+           | (0xffff0000U & ((IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__5__KET____DOT__xoutslice) 
+                             << 0x10U)));
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__xout[3U] 
+        = ((0xffff0000U & vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__xout[3U]) 
+           | (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__6__KET____DOT__xoutslice));
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__xout[3U] 
+        = ((0xffff0000U & vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__xout[3U]) 
+           | (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__6__KET____DOT__xoutslice));
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__xout[3U] 
+        = ((0xffffU & vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__xout[3U]) 
+           | (0xffff0000U & ((IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__7__KET____DOT__xoutslice) 
+                             << 0x10U)));
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__xout[3U] 
+        = ((0xffffU & vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__xout[3U]) 
+           | (0xffff0000U & ((IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__7__KET____DOT__xoutslice) 
+                             << 0x10U)));
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__xout[4U] 
+        = ((0xffff0000U & vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__xout[4U]) 
+           | (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__8__KET____DOT__xoutslice));
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__xout[4U] 
+        = ((0xffff0000U & vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__xout[4U]) 
+           | (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__8__KET____DOT__xoutslice));
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__xout[4U] 
+        = ((0xffffU & vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__xout[4U]) 
+           | (0xffff0000U & ((IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__9__KET____DOT__xoutslice) 
+                             << 0x10U)));
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__xout[4U] 
+        = ((0xffffU & vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__xout[4U]) 
+           | (0xffff0000U & ((IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__9__KET____DOT__xoutslice) 
+                             << 0x10U)));
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__xout[5U] 
+        = ((0xffff0000U & vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__xout[5U]) 
+           | (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__10__KET____DOT__xoutslice));
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__xout[5U] 
+        = ((0xffff0000U & vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__xout[5U]) 
+           | (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__10__KET____DOT__xoutslice));
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__xout[5U] 
+        = ((0xffffU & vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__xout[5U]) 
+           | (0xffff0000U & ((IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__11__KET____DOT__xoutslice) 
+                             << 0x10U)));
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__xout[5U] 
+        = ((0xffffU & vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__xout[5U]) 
+           | (0xffff0000U & ((IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__11__KET____DOT__xoutslice) 
+                             << 0x10U)));
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__xout[6U] 
+        = ((0xffff0000U & vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__xout[6U]) 
+           | (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__12__KET____DOT__xoutslice));
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__xout[6U] 
+        = ((0xffff0000U & vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__xout[6U]) 
+           | (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__12__KET____DOT__xoutslice));
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__xout[6U] 
+        = ((0xffffU & vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__xout[6U]) 
+           | (0xffff0000U & ((IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__13__KET____DOT__xoutslice) 
+                             << 0x10U)));
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__xout[6U] 
+        = ((0xffffU & vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__xout[6U]) 
+           | (0xffff0000U & ((IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__13__KET____DOT__xoutslice) 
+                             << 0x10U)));
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__xout[7U] 
+        = ((0xffff0000U & vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__xout[7U]) 
+           | (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__14__KET____DOT__xoutslice));
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__xout[7U] 
+        = ((0xffff0000U & vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__xout[7U]) 
+           | (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__14__KET____DOT__xoutslice));
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__xout[7U] 
+        = ((0xffffU & vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__xout[7U]) 
+           | (0xffff0000U & ((IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__15__KET____DOT__xoutslice) 
+                             << 0x10U)));
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__xout[7U] 
+        = ((0xffffU & vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__xout[7U]) 
+           | (0xffff0000U & ((IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__15__KET____DOT__xoutslice) 
+                             << 0x10U)));
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__clk 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__clk;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__clk 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__clk;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__clk 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__clk;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__0__KET____DOT__sumx__DOT__clk 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__clk;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__0__KET____DOT__sumy__DOT__clk 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__clk;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__1__KET____DOT__sumx__DOT__clk 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__clk;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__1__KET____DOT__sumy__DOT__clk 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__clk;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__2__KET____DOT__sumx__DOT__clk 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__clk;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__2__KET____DOT__sumy__DOT__clk 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__clk;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__3__KET____DOT__sumx__DOT__clk 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__clk;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__3__KET____DOT__sumy__DOT__clk 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__clk;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__4__KET____DOT__sumx__DOT__clk 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__clk;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__4__KET____DOT__sumy__DOT__clk 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__clk;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__5__KET____DOT__sumx__DOT__clk 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__clk;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__5__KET____DOT__sumy__DOT__clk 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__clk;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__6__KET____DOT__sumx__DOT__clk 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__clk;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__6__KET____DOT__sumy__DOT__clk 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__clk;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__7__KET____DOT__sumx__DOT__clk 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__clk;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__7__KET____DOT__sumy__DOT__clk 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__clk;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__8__KET____DOT__sumx__DOT__clk 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__clk;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__8__KET____DOT__sumy__DOT__clk 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__clk;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__9__KET____DOT__sumx__DOT__clk 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__clk;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__9__KET____DOT__sumy__DOT__clk 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__clk;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__10__KET____DOT__sumx__DOT__clk 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__clk;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__10__KET____DOT__sumy__DOT__clk 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__clk;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__11__KET____DOT__sumx__DOT__clk 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__clk;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__11__KET____DOT__sumy__DOT__clk 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__clk;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__12__KET____DOT__sumx__DOT__clk 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__clk;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__12__KET____DOT__sumy__DOT__clk 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__clk;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__13__KET____DOT__sumx__DOT__clk 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__clk;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__13__KET____DOT__sumy__DOT__clk 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__clk;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__14__KET____DOT__sumx__DOT__clk 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__clk;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__14__KET____DOT__sumy__DOT__clk 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__clk;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__15__KET____DOT__sumx__DOT__clk 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__clk;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__15__KET____DOT__sumy__DOT__clk 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__clk;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__0__KET____DOT__sumx__DOT__clk 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__clk;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__0__KET____DOT__sumy__DOT__clk 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__clk;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__1__KET____DOT__sumx__DOT__clk 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__clk;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__1__KET____DOT__sumy__DOT__clk 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__clk;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__2__KET____DOT__sumx__DOT__clk 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__clk;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__2__KET____DOT__sumy__DOT__clk 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__clk;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__3__KET____DOT__sumx__DOT__clk 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__clk;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__3__KET____DOT__sumy__DOT__clk 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__clk;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__4__KET____DOT__sumx__DOT__clk 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__clk;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__4__KET____DOT__sumy__DOT__clk 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__clk;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__5__KET____DOT__sumx__DOT__clk 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__clk;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__5__KET____DOT__sumy__DOT__clk 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__clk;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__6__KET____DOT__sumx__DOT__clk 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__clk;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__6__KET____DOT__sumy__DOT__clk 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__clk;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__7__KET____DOT__sumx__DOT__clk 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__clk;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__7__KET____DOT__sumy__DOT__clk 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__clk;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__8__KET____DOT__sumx__DOT__clk 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__clk;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__8__KET____DOT__sumy__DOT__clk 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__clk;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__9__KET____DOT__sumx__DOT__clk 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__clk;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__9__KET____DOT__sumy__DOT__clk 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__clk;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__10__KET____DOT__sumx__DOT__clk 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__clk;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__10__KET____DOT__sumy__DOT__clk 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__clk;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__11__KET____DOT__sumx__DOT__clk 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__clk;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__11__KET____DOT__sumy__DOT__clk 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__clk;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__12__KET____DOT__sumx__DOT__clk 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__clk;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__12__KET____DOT__sumy__DOT__clk 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__clk;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__13__KET____DOT__sumx__DOT__clk 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__clk;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__13__KET____DOT__sumy__DOT__clk 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__clk;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__14__KET____DOT__sumx__DOT__clk 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__clk;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__14__KET____DOT__sumy__DOT__clk 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__clk;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__15__KET____DOT__sumx__DOT__clk 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__clk;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__stepslice__BRA__15__KET____DOT__sumy__DOT__clk 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__clk;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__2__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__genblk1__BRA__0__KET____DOT__mult1__DOT__clk 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__rdloelem__BRA__2__KET__.clk;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__2__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__genblk1__BRA__1__KET____DOT__mult1__DOT__clk 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__rdloelem__BRA__2__KET__.clk;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__2__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__genblk1__BRA__2__KET____DOT__mult1__DOT__clk 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__rdloelem__BRA__2__KET__.clk;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__2__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__genblk1__BRA__3__KET____DOT__mult1__DOT__clk 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__rdloelem__BRA__2__KET__.clk;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__1__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__genblk1__BRA__0__KET____DOT__mult1__DOT__clk 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__rdloelem__BRA__1__KET__.clk;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__1__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__genblk1__BRA__1__KET____DOT__mult1__DOT__clk 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__rdloelem__BRA__1__KET__.clk;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__1__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__genblk1__BRA__2__KET____DOT__mult1__DOT__clk 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__rdloelem__BRA__1__KET__.clk;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__1__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__genblk1__BRA__3__KET____DOT__mult1__DOT__clk 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__rdloelem__BRA__1__KET__.clk;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__0__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__genblk1__BRA__0__KET____DOT__mult1__DOT__clk 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__rdloelem__BRA__0__KET__.clk;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__0__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__genblk1__BRA__1__KET____DOT__mult1__DOT__clk 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__rdloelem__BRA__0__KET__.clk;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__0__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__genblk1__BRA__2__KET____DOT__mult1__DOT__clk 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__rdloelem__BRA__0__KET__.clk;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdlomixacc__BRA__0__KET____DOT__genblk1__DOT__rdlo0mixacc1__DOT__genblk1__BRA__3__KET____DOT__mult1__DOT__clk 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__rdloelem__BRA__0__KET__.clk;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__qdrvelemconn__DOT__envaddrdelay__DOT__clk 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__qdrvelem__BRA__2__KET__.clk;
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__qdrvelemconn__DOT__ammod.clk 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__qdrvelem__BRA__2__KET__.clk;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__qdrvelemconn__DOT__envaddrdelay__DOT__clk 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__qdrvelem__BRA__1__KET__.clk;
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__qdrvelemconn__DOT__ammod.clk 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__qdrvelem__BRA__1__KET__.clk;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__qdrvelemconn__DOT__envaddrdelay__DOT__clk 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__qdrvelem__BRA__0__KET__.clk;
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__qdrvelemconn__DOT__ammod.clk 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__qdrvelem__BRA__0__KET__.clk;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__rdrvelemconn__DOT__envaddrdelay__DOT__clk 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelem__BRA__2__KET__.clk;
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__rdrvelemconn__DOT__ammod.clk 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelem__BRA__2__KET__.clk;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__rdrvelemconn__DOT__envaddrdelay__DOT__clk 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelem__BRA__1__KET__.clk;
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__rdrvelemconn__DOT__ammod.clk 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelem__BRA__1__KET__.clk;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__rdrvelemconn__DOT__envaddrdelay__DOT__clk 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelem__BRA__0__KET__.clk;
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__rdrvelemconn__DOT__ammod.clk 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelem__BRA__0__KET__.clk;
+    vlTOPp->acq_read_data[0U] = vlTOPp->dsp_sim_toplevel__DOT__acq_read_data
+        [0U];
+    vlTOPp->acq_read_data[1U] = vlTOPp->dsp_sim_toplevel__DOT__acq_read_data
+        [1U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__rdrvelemconn__DOT__envdata 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_rdrvenv
+        [0U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__rdrvelemconn__DOT__envdata 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_rdrvenv
+        [1U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__rdrvelemconn__DOT__envdata 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_rdrvenv
+        [2U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__rdloelemconn.envdata 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_rdloenv
+        [0U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__rdloelemconn.envdata 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_rdloenv
+        [1U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__rdloelemconn.envdata 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_rdloenv
+        [2U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__rdloelemconn.freqdata[0U] 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_rdlofreq
+        [0U][0U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__rdloelemconn.freqdata[1U] 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_rdlofreq
+        [0U][1U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__rdloelemconn.freqdata[2U] 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_rdlofreq
+        [0U][2U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__rdloelemconn.freqdata[3U] 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_rdlofreq
+        [0U][3U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__rdloelemconn.freqdata[0U] 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_rdlofreq
+        [1U][0U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__rdloelemconn.freqdata[1U] 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_rdlofreq
+        [1U][1U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__rdloelemconn.freqdata[2U] 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_rdlofreq
+        [1U][2U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__rdloelemconn.freqdata[3U] 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_rdlofreq
+        [1U][3U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__rdloelemconn.freqdata[0U] 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_rdlofreq
+        [2U][0U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__rdloelemconn.freqdata[1U] 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_rdlofreq
+        [2U][1U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__rdloelemconn.freqdata[2U] 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_rdlofreq
+        [2U][2U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__rdloelemconn.freqdata[3U] 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_rdlofreq
+        [2U][3U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__qdrvelemconn__DOT__envdata[0U] 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_qdrvenv
+        [0U][0U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__qdrvelemconn__DOT__envdata[1U] 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_qdrvenv
+        [0U][1U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__qdrvelemconn__DOT__envdata[2U] 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_qdrvenv
+        [0U][2U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__qdrvelemconn__DOT__envdata[3U] 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_qdrvenv
+        [0U][3U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__qdrvelemconn__DOT__envdata[4U] 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_qdrvenv
+        [0U][4U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__qdrvelemconn__DOT__envdata[5U] 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_qdrvenv
+        [0U][5U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__qdrvelemconn__DOT__envdata[6U] 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_qdrvenv
+        [0U][6U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__qdrvelemconn__DOT__envdata[7U] 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_qdrvenv
+        [0U][7U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__qdrvelemconn__DOT__envdata[8U] 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_qdrvenv
+        [0U][8U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__qdrvelemconn__DOT__envdata[9U] 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_qdrvenv
+        [0U][9U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__qdrvelemconn__DOT__envdata[0xaU] 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_qdrvenv
+        [0U][0xaU];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__qdrvelemconn__DOT__envdata[0xbU] 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_qdrvenv
+        [0U][0xbU];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__qdrvelemconn__DOT__envdata[0xcU] 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_qdrvenv
+        [0U][0xcU];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__qdrvelemconn__DOT__envdata[0xdU] 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_qdrvenv
+        [0U][0xdU];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__qdrvelemconn__DOT__envdata[0xeU] 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_qdrvenv
+        [0U][0xeU];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__qdrvelemconn__DOT__envdata[0xfU] 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_qdrvenv
+        [0U][0xfU];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__qdrvelemconn__DOT__envdata[0U] 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_qdrvenv
+        [1U][0U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__qdrvelemconn__DOT__envdata[1U] 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_qdrvenv
+        [1U][1U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__qdrvelemconn__DOT__envdata[2U] 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_qdrvenv
+        [1U][2U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__qdrvelemconn__DOT__envdata[3U] 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_qdrvenv
+        [1U][3U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__qdrvelemconn__DOT__envdata[4U] 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_qdrvenv
+        [1U][4U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__qdrvelemconn__DOT__envdata[5U] 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_qdrvenv
+        [1U][5U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__qdrvelemconn__DOT__envdata[6U] 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_qdrvenv
+        [1U][6U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__qdrvelemconn__DOT__envdata[7U] 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_qdrvenv
+        [1U][7U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__qdrvelemconn__DOT__envdata[8U] 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_qdrvenv
+        [1U][8U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__qdrvelemconn__DOT__envdata[9U] 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_qdrvenv
+        [1U][9U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__qdrvelemconn__DOT__envdata[0xaU] 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_qdrvenv
+        [1U][0xaU];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__qdrvelemconn__DOT__envdata[0xbU] 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_qdrvenv
+        [1U][0xbU];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__qdrvelemconn__DOT__envdata[0xcU] 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_qdrvenv
+        [1U][0xcU];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__qdrvelemconn__DOT__envdata[0xdU] 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_qdrvenv
+        [1U][0xdU];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__qdrvelemconn__DOT__envdata[0xeU] 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_qdrvenv
+        [1U][0xeU];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__qdrvelemconn__DOT__envdata[0xfU] 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_qdrvenv
+        [1U][0xfU];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__qdrvelemconn__DOT__envdata[0U] 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_qdrvenv
+        [2U][0U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__qdrvelemconn__DOT__envdata[1U] 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_qdrvenv
+        [2U][1U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__qdrvelemconn__DOT__envdata[2U] 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_qdrvenv
+        [2U][2U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__qdrvelemconn__DOT__envdata[3U] 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_qdrvenv
+        [2U][3U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__qdrvelemconn__DOT__envdata[4U] 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_qdrvenv
+        [2U][4U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__qdrvelemconn__DOT__envdata[5U] 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_qdrvenv
+        [2U][5U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__qdrvelemconn__DOT__envdata[6U] 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_qdrvenv
+        [2U][6U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__qdrvelemconn__DOT__envdata[7U] 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_qdrvenv
+        [2U][7U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__qdrvelemconn__DOT__envdata[8U] 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_qdrvenv
+        [2U][8U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__qdrvelemconn__DOT__envdata[9U] 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_qdrvenv
+        [2U][9U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__qdrvelemconn__DOT__envdata[0xaU] 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_qdrvenv
+        [2U][0xaU];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__qdrvelemconn__DOT__envdata[0xbU] 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_qdrvenv
+        [2U][0xbU];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__qdrvelemconn__DOT__envdata[0xcU] 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_qdrvenv
+        [2U][0xcU];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__qdrvelemconn__DOT__envdata[0xdU] 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_qdrvenv
+        [2U][0xdU];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__qdrvelemconn__DOT__envdata[0xeU] 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_qdrvenv
+        [2U][0xeU];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__qdrvelemconn__DOT__envdata[0xfU] 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_qdrvenv
+        [2U][0xfU];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__qdrvelemconn__DOT__freqdata[0U] 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_qdrvfreq
+        [0U][0U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__qdrvelemconn__DOT__freqdata[1U] 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_qdrvfreq
+        [0U][1U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__qdrvelemconn__DOT__freqdata[2U] 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_qdrvfreq
+        [0U][2U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__qdrvelemconn__DOT__freqdata[3U] 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_qdrvfreq
+        [0U][3U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__qdrvelemconn__DOT__freqdata[4U] 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_qdrvfreq
+        [0U][4U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__qdrvelemconn__DOT__freqdata[5U] 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_qdrvfreq
+        [0U][5U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__qdrvelemconn__DOT__freqdata[6U] 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_qdrvfreq
+        [0U][6U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__qdrvelemconn__DOT__freqdata[7U] 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_qdrvfreq
+        [0U][7U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__qdrvelemconn__DOT__freqdata[8U] 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_qdrvfreq
+        [0U][8U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__qdrvelemconn__DOT__freqdata[9U] 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_qdrvfreq
+        [0U][9U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__qdrvelemconn__DOT__freqdata[0xaU] 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_qdrvfreq
+        [0U][0xaU];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__qdrvelemconn__DOT__freqdata[0xbU] 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_qdrvfreq
+        [0U][0xbU];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__qdrvelemconn__DOT__freqdata[0xcU] 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_qdrvfreq
+        [0U][0xcU];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__qdrvelemconn__DOT__freqdata[0xdU] 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_qdrvfreq
+        [0U][0xdU];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__qdrvelemconn__DOT__freqdata[0xeU] 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_qdrvfreq
+        [0U][0xeU];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__qdrvelemconn__DOT__freqdata[0xfU] 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_qdrvfreq
+        [0U][0xfU];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__qdrvelemconn__DOT__freqdata[0U] 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_qdrvfreq
+        [1U][0U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__qdrvelemconn__DOT__freqdata[1U] 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_qdrvfreq
+        [1U][1U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__qdrvelemconn__DOT__freqdata[2U] 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_qdrvfreq
+        [1U][2U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__qdrvelemconn__DOT__freqdata[3U] 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_qdrvfreq
+        [1U][3U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__qdrvelemconn__DOT__freqdata[4U] 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_qdrvfreq
+        [1U][4U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__qdrvelemconn__DOT__freqdata[5U] 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_qdrvfreq
+        [1U][5U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__qdrvelemconn__DOT__freqdata[6U] 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_qdrvfreq
+        [1U][6U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__qdrvelemconn__DOT__freqdata[7U] 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_qdrvfreq
+        [1U][7U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__qdrvelemconn__DOT__freqdata[8U] 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_qdrvfreq
+        [1U][8U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__qdrvelemconn__DOT__freqdata[9U] 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_qdrvfreq
+        [1U][9U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__qdrvelemconn__DOT__freqdata[0xaU] 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_qdrvfreq
+        [1U][0xaU];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__qdrvelemconn__DOT__freqdata[0xbU] 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_qdrvfreq
+        [1U][0xbU];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__qdrvelemconn__DOT__freqdata[0xcU] 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_qdrvfreq
+        [1U][0xcU];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__qdrvelemconn__DOT__freqdata[0xdU] 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_qdrvfreq
+        [1U][0xdU];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__qdrvelemconn__DOT__freqdata[0xeU] 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_qdrvfreq
+        [1U][0xeU];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__qdrvelemconn__DOT__freqdata[0xfU] 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_qdrvfreq
+        [1U][0xfU];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__qdrvelemconn__DOT__freqdata[0U] 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_qdrvfreq
+        [2U][0U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__qdrvelemconn__DOT__freqdata[1U] 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_qdrvfreq
+        [2U][1U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__qdrvelemconn__DOT__freqdata[2U] 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_qdrvfreq
+        [2U][2U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__qdrvelemconn__DOT__freqdata[3U] 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_qdrvfreq
+        [2U][3U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__qdrvelemconn__DOT__freqdata[4U] 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_qdrvfreq
+        [2U][4U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__qdrvelemconn__DOT__freqdata[5U] 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_qdrvfreq
+        [2U][5U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__qdrvelemconn__DOT__freqdata[6U] 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_qdrvfreq
+        [2U][6U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__qdrvelemconn__DOT__freqdata[7U] 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_qdrvfreq
+        [2U][7U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__qdrvelemconn__DOT__freqdata[8U] 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_qdrvfreq
+        [2U][8U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__qdrvelemconn__DOT__freqdata[9U] 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_qdrvfreq
+        [2U][9U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__qdrvelemconn__DOT__freqdata[0xaU] 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_qdrvfreq
+        [2U][0xaU];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__qdrvelemconn__DOT__freqdata[0xbU] 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_qdrvfreq
+        [2U][0xbU];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__qdrvelemconn__DOT__freqdata[0xcU] 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_qdrvfreq
+        [2U][0xcU];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__qdrvelemconn__DOT__freqdata[0xdU] 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_qdrvfreq
+        [2U][0xdU];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__qdrvelemconn__DOT__freqdata[0xeU] 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_qdrvfreq
+        [2U][0xeU];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__qdrvelemconn__DOT__freqdata[0xfU] 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_qdrvfreq
+        [2U][0xfU];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__rdrvelemconn__DOT__freqdata[0U] 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_rdrvfreq
+        [0U][0U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__rdrvelemconn__DOT__freqdata[1U] 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_rdrvfreq
+        [0U][1U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__rdrvelemconn__DOT__freqdata[2U] 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_rdrvfreq
+        [0U][2U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__rdrvelemconn__DOT__freqdata[3U] 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_rdrvfreq
+        [0U][3U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__rdrvelemconn__DOT__freqdata[4U] 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_rdrvfreq
+        [0U][4U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__rdrvelemconn__DOT__freqdata[5U] 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_rdrvfreq
+        [0U][5U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__rdrvelemconn__DOT__freqdata[6U] 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_rdrvfreq
+        [0U][6U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__rdrvelemconn__DOT__freqdata[7U] 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_rdrvfreq
+        [0U][7U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__rdrvelemconn__DOT__freqdata[8U] 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_rdrvfreq
+        [0U][8U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__rdrvelemconn__DOT__freqdata[9U] 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_rdrvfreq
+        [0U][9U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__rdrvelemconn__DOT__freqdata[0xaU] 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_rdrvfreq
+        [0U][0xaU];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__rdrvelemconn__DOT__freqdata[0xbU] 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_rdrvfreq
+        [0U][0xbU];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__rdrvelemconn__DOT__freqdata[0xcU] 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_rdrvfreq
+        [0U][0xcU];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__rdrvelemconn__DOT__freqdata[0xdU] 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_rdrvfreq
+        [0U][0xdU];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__rdrvelemconn__DOT__freqdata[0xeU] 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_rdrvfreq
+        [0U][0xeU];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__rdrvelemconn__DOT__freqdata[0xfU] 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_rdrvfreq
+        [0U][0xfU];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__rdrvelemconn__DOT__freqdata[0U] 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_rdrvfreq
+        [1U][0U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__rdrvelemconn__DOT__freqdata[1U] 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_rdrvfreq
+        [1U][1U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__rdrvelemconn__DOT__freqdata[2U] 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_rdrvfreq
+        [1U][2U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__rdrvelemconn__DOT__freqdata[3U] 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_rdrvfreq
+        [1U][3U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__rdrvelemconn__DOT__freqdata[4U] 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_rdrvfreq
+        [1U][4U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__rdrvelemconn__DOT__freqdata[5U] 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_rdrvfreq
+        [1U][5U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__rdrvelemconn__DOT__freqdata[6U] 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_rdrvfreq
+        [1U][6U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__rdrvelemconn__DOT__freqdata[7U] 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_rdrvfreq
+        [1U][7U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__rdrvelemconn__DOT__freqdata[8U] 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_rdrvfreq
+        [1U][8U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__rdrvelemconn__DOT__freqdata[9U] 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_rdrvfreq
+        [1U][9U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__rdrvelemconn__DOT__freqdata[0xaU] 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_rdrvfreq
+        [1U][0xaU];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__rdrvelemconn__DOT__freqdata[0xbU] 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_rdrvfreq
+        [1U][0xbU];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__rdrvelemconn__DOT__freqdata[0xcU] 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_rdrvfreq
+        [1U][0xcU];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__rdrvelemconn__DOT__freqdata[0xdU] 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_rdrvfreq
+        [1U][0xdU];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__rdrvelemconn__DOT__freqdata[0xeU] 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_rdrvfreq
+        [1U][0xeU];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__rdrvelemconn__DOT__freqdata[0xfU] 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_rdrvfreq
+        [1U][0xfU];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__rdrvelemconn__DOT__freqdata[0U] 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_rdrvfreq
+        [2U][0U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__rdrvelemconn__DOT__freqdata[1U] 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_rdrvfreq
+        [2U][1U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__rdrvelemconn__DOT__freqdata[2U] 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_rdrvfreq
+        [2U][2U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__rdrvelemconn__DOT__freqdata[3U] 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_rdrvfreq
+        [2U][3U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__rdrvelemconn__DOT__freqdata[4U] 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_rdrvfreq
+        [2U][4U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__rdrvelemconn__DOT__freqdata[5U] 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_rdrvfreq
+        [2U][5U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__rdrvelemconn__DOT__freqdata[6U] 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_rdrvfreq
+        [2U][6U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__rdrvelemconn__DOT__freqdata[7U] 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_rdrvfreq
+        [2U][7U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__rdrvelemconn__DOT__freqdata[8U] 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_rdrvfreq
+        [2U][8U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__rdrvelemconn__DOT__freqdata[9U] 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_rdrvfreq
+        [2U][9U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__rdrvelemconn__DOT__freqdata[0xaU] 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_rdrvfreq
+        [2U][0xaU];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__rdrvelemconn__DOT__freqdata[0xbU] 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_rdrvfreq
+        [2U][0xbU];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__rdrvelemconn__DOT__freqdata[0xcU] 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_rdrvfreq
+        [2U][0xcU];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__rdrvelemconn__DOT__freqdata[0xdU] 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_rdrvfreq
+        [2U][0xdU];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__rdrvelemconn__DOT__freqdata[0xeU] 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_rdrvfreq
+        [2U][0xeU];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__rdrvelemconn__DOT__freqdata[0xfU] 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_rdrvfreq
+        [2U][0xfU];
+    vlTOPp->acc_read_data[0U] = vlTOPp->dsp_sim_toplevel__DOT__acc_read_data
+        [0U];
+    vlTOPp->acc_read_data[1U] = vlTOPp->dsp_sim_toplevel__DOT__acc_read_data
+        [1U];
+    vlTOPp->acc_read_data[2U] = vlTOPp->dsp_sim_toplevel__DOT__acc_read_data
+        [2U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__command[0U] 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_command
+        [0U][0U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__command[1U] 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_command
+        [0U][1U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__command[2U] 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_command
+        [0U][2U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__command[3U] 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_command
+        [0U][3U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__command[0U] 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_command
+        [1U][0U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__command[1U] 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_command
+        [1U][1U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__command[2U] 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_command
+        [1U][2U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__command[3U] 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_command
+        [1U][3U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__command[0U] 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_command
+        [2U][0U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__command[1U] 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_command
+        [2U][1U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__command[2U] 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_command
+        [2U][2U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__command[3U] 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_command
+        [2U][3U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__memif.mem_bus[0U][0U] 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_command
+        [0U][0U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__memif.mem_bus[0U][1U] 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_command
+        [0U][1U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__memif.mem_bus[0U][2U] 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_command
+        [0U][2U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__memif.mem_bus[0U][3U] 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_command
+        [0U][3U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__memif.mem_bus[0U][0U] 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_command
+        [1U][0U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__memif.mem_bus[0U][1U] 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_command
+        [1U][1U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__memif.mem_bus[0U][2U] 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_command
+        [1U][2U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__memif.mem_bus[0U][3U] 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_command
+        [1U][3U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__memif.mem_bus[0U][0U] 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_command
+        [2U][0U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__memif.mem_bus[0U][1U] 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_command
+        [2U][1U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__memif.mem_bus[0U][2U] 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_command
+        [2U][2U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__memif.mem_bus[0U][3U] 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_command
+        [2U][3U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__myclk__DOT__load_enable 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__qclk_load_en;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__regs__DOT__write_enable 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__reg_write_en;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__myclk__DOT__load_enable 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__qclk_load_en;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__regs__DOT__write_enable 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__reg_write_en;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__myclk__DOT__load_enable 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__qclk_load_en;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__regs__DOT__write_enable 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__reg_write_en;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__qclk_reset 
+        = ((IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__qclk_reset_ctrl) 
+           | (0U != (0xfU & (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__reset_sr))));
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__qclk_reset 
+        = ((IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__qclk_reset_ctrl) 
+           | (0U != (0xfU & (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__reset_sr))));
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__qclk_reset 
+        = ((IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__qclk_reset_ctrl) 
+           | (0U != (0xfU & (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__reset_sr))));
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__myalu__DOT__ctrl 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__alu_opcode;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__myalu__DOT__ctrl 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__alu_opcode;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__myalu__DOT__ctrl 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__alu_opcode;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__pulsereg__DOT__pulse_write_en 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__write_pulse_en;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__pulsereg__DOT__env_write_en 
+        = ((vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__pulse_cmd_i[2U] 
+            >> 0xeU) & (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__write_pulse_en));
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__pulsereg__DOT__phase_write_en 
+        = ((vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__pulse_cmd_i[1U] 
+            >> 0x14U) & (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__write_pulse_en));
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__pulsereg__DOT__freq_write_en 
+        = ((vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__pulse_cmd_i[1U] 
+            >> 1U) & (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__write_pulse_en));
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__pulsereg__DOT__amp_write_en 
+        = ((vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__pulse_cmd_i[0U] 
+            >> 0x16U) & (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__write_pulse_en));
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__pulsereg__DOT__cfg_write_en 
+        = ((vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__pulse_cmd_i[0U] 
+            >> 4U) & (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__write_pulse_en));
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__pulsereg__DOT__pulse_write_en 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__write_pulse_en;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__pulsereg__DOT__env_write_en 
+        = ((vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__pulse_cmd_i[2U] 
+            >> 0xeU) & (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__write_pulse_en));
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__pulsereg__DOT__phase_write_en 
+        = ((vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__pulse_cmd_i[1U] 
+            >> 0x14U) & (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__write_pulse_en));
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__pulsereg__DOT__freq_write_en 
+        = ((vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__pulse_cmd_i[1U] 
+            >> 1U) & (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__write_pulse_en));
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__pulsereg__DOT__amp_write_en 
+        = ((vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__pulse_cmd_i[0U] 
+            >> 0x16U) & (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__write_pulse_en));
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__pulsereg__DOT__cfg_write_en 
+        = ((vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__pulse_cmd_i[0U] 
+            >> 4U) & (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__write_pulse_en));
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__pulsereg__DOT__pulse_write_en 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__write_pulse_en;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__pulsereg__DOT__env_write_en 
+        = ((vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__pulse_cmd_i[2U] 
+            >> 0xeU) & (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__write_pulse_en));
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__pulsereg__DOT__phase_write_en 
+        = ((vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__pulse_cmd_i[1U] 
+            >> 0x14U) & (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__write_pulse_en));
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__pulsereg__DOT__freq_write_en 
+        = ((vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__pulse_cmd_i[1U] 
+            >> 1U) & (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__write_pulse_en));
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__pulsereg__DOT__amp_write_en 
+        = ((vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__pulse_cmd_i[0U] 
+            >> 0x16U) & (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__write_pulse_en));
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__pulsereg__DOT__cfg_write_en 
+        = ((vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__pulse_cmd_i[0U] 
+            >> 4U) & (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__write_pulse_en));
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__instr__DOT__enable 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__inst_ptr_enable;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__instr__DOT__enable 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__inst_ptr_enable;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__instr__DOT__enable 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__inst_ptr_enable;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__reg_file_out1 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__regs__DOT__reg_1_out;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__reg_file_out1 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__regs__DOT__reg_1_out;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__reg_file_out1 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__regs__DOT__reg_1_out;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__myclk__DOT__in_val 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__qclk_in;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__myclk__DOT__in_val 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__qclk_in;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__myclk__DOT__in_val 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__qclk_in;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__yout[0U] 
+        = ((0xffff0000U & vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__yout[0U]) 
+           | (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__0__KET____DOT__youtslice));
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__yout[0U] 
+        = ((0xffffU & vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__yout[0U]) 
+           | (0xffff0000U & ((IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__1__KET____DOT__youtslice) 
+                             << 0x10U)));
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__yout[1U] 
+        = ((0xffff0000U & vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__yout[1U]) 
+           | (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__2__KET____DOT__youtslice));
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__yout[1U] 
+        = ((0xffffU & vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__yout[1U]) 
+           | (0xffff0000U & ((IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__3__KET____DOT__youtslice) 
+                             << 0x10U)));
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__yout[2U] 
+        = ((0xffff0000U & vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__yout[2U]) 
+           | (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__4__KET____DOT__youtslice));
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__yout[2U] 
+        = ((0xffffU & vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__yout[2U]) 
+           | (0xffff0000U & ((IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__5__KET____DOT__youtslice) 
+                             << 0x10U)));
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__yout[3U] 
+        = ((0xffff0000U & vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__yout[3U]) 
+           | (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__6__KET____DOT__youtslice));
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__yout[3U] 
+        = ((0xffffU & vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__yout[3U]) 
+           | (0xffff0000U & ((IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__7__KET____DOT__youtslice) 
+                             << 0x10U)));
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__yout[4U] 
+        = ((0xffff0000U & vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__yout[4U]) 
+           | (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__8__KET____DOT__youtslice));
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__yout[4U] 
+        = ((0xffffU & vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__yout[4U]) 
+           | (0xffff0000U & ((IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__9__KET____DOT__youtslice) 
+                             << 0x10U)));
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__yout[5U] 
+        = ((0xffff0000U & vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__yout[5U]) 
+           | (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__10__KET____DOT__youtslice));
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__yout[5U] 
+        = ((0xffffU & vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__yout[5U]) 
+           | (0xffff0000U & ((IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__11__KET____DOT__youtslice) 
+                             << 0x10U)));
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__yout[6U] 
+        = ((0xffff0000U & vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__yout[6U]) 
+           | (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__12__KET____DOT__youtslice));
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__yout[6U] 
+        = ((0xffffU & vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__yout[6U]) 
+           | (0xffff0000U & ((IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__13__KET____DOT__youtslice) 
+                             << 0x10U)));
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__yout[7U] 
+        = ((0xffff0000U & vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__yout[7U]) 
+           | (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__14__KET____DOT__youtslice));
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__yout[7U] 
+        = ((0xffffU & vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__yout[7U]) 
+           | (0xffff0000U & ((IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__15__KET____DOT__youtslice) 
+                             << 0x10U)));
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__inst_ptr_load_en 
+        = (1U & ((2U & (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__inst_ptr_load_en_sel))
+                  ? vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__alu_out
+                  : (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__inst_ptr_load_en_sel)));
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__inst_ptr_load_en 
+        = (1U & ((2U & (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__inst_ptr_load_en_sel))
+                  ? vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__alu_out
+                  : (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__inst_ptr_load_en_sel)));
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__inst_ptr_load_en 
+        = (1U & ((2U & (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__inst_ptr_load_en_sel))
+                  ? vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__alu_out
+                  : (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__inst_ptr_load_en_sel)));
+    if ((0U == vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__fproc__DOT__core_state
+         [0U])) {
+        vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__fproc_if__BRA__0__KET__.ready = 0U;
+        vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__fproc_if__BRA__0__KET__.data = 0U;
+        if (vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__fproc_if__BRA__0__KET__.enable) {
+            vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__fproc__DOT__core_next_state[0U] = 1U;
+            vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__fproc__DOT__meas_addr[0U] 
+                = (3U & (IData)(vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__fproc_if__BRA__0__KET__.id));
+        } else {
+            vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__fproc__DOT__core_next_state[0U] = 0U;
+        }
+    } else {
+        if ((1U == vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__fproc__DOT__core_state
+             [0U])) {
+            if (((2U >= vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__fproc__DOT__meas_addr
+                  [0U]) & ((IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__fproc_meas_valid) 
+                           >> vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__fproc__DOT__meas_addr
+                           [0U]))) {
+                vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__fproc_if__BRA__0__KET__.ready = 1U;
+                vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__fproc_if__BRA__0__KET__.data 
+                    = ((0xfffffffeU & vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__fproc_if__BRA__0__KET__.data) 
+                       | ((2U >= vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__fproc__DOT__meas_addr
+                           [0U]) & ((IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__fproc_meas_input) 
+                                    >> vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__fproc__DOT__meas_addr
+                                    [0U])));
+                vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__fproc__DOT__core_next_state[0U] = 0U;
+            } else {
+                vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__fproc_if__BRA__0__KET__.ready = 0U;
+                vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__fproc_if__BRA__0__KET__.data 
+                    = (0xfffffffeU & vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__fproc_if__BRA__0__KET__.data);
+                vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__fproc__DOT__core_next_state[0U] = 1U;
+            }
+        } else {
+            vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__fproc__DOT__core_next_state[0U] = 0U;
+        }
+    }
+    if ((0U == vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__fproc__DOT__core_state
+         [1U])) {
+        vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__fproc_if__BRA__1__KET__.ready = 0U;
+        vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__fproc_if__BRA__1__KET__.data = 0U;
+        if (vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__fproc_if__BRA__1__KET__.enable) {
+            vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__fproc__DOT__core_next_state[1U] = 1U;
+            vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__fproc__DOT__meas_addr[1U] 
+                = (3U & (IData)(vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__fproc_if__BRA__1__KET__.id));
+        } else {
+            vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__fproc__DOT__core_next_state[1U] = 0U;
+        }
+    } else {
+        if ((1U == vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__fproc__DOT__core_state
+             [1U])) {
+            if (((2U >= vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__fproc__DOT__meas_addr
+                  [1U]) & ((IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__fproc_meas_valid) 
+                           >> vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__fproc__DOT__meas_addr
+                           [1U]))) {
+                vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__fproc_if__BRA__1__KET__.ready = 1U;
+                vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__fproc_if__BRA__1__KET__.data 
+                    = ((0xfffffffeU & vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__fproc_if__BRA__1__KET__.data) 
+                       | ((2U >= vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__fproc__DOT__meas_addr
+                           [1U]) & ((IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__fproc_meas_input) 
+                                    >> vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__fproc__DOT__meas_addr
+                                    [1U])));
+                vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__fproc__DOT__core_next_state[1U] = 0U;
+            } else {
+                vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__fproc_if__BRA__1__KET__.ready = 0U;
+                vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__fproc_if__BRA__1__KET__.data 
+                    = (0xfffffffeU & vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__fproc_if__BRA__1__KET__.data);
+                vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__fproc__DOT__core_next_state[1U] = 1U;
+            }
+        } else {
+            vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__fproc__DOT__core_next_state[1U] = 0U;
+        }
+    }
+    if ((0U == vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__fproc__DOT__core_state
+         [2U])) {
+        vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__fproc_if__BRA__2__KET__.ready = 0U;
+        vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__fproc_if__BRA__2__KET__.data = 0U;
+        if (vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__fproc_if__BRA__2__KET__.enable) {
+            vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__fproc__DOT__core_next_state[2U] = 1U;
+            vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__fproc__DOT__meas_addr[2U] 
+                = (3U & (IData)(vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__fproc_if__BRA__2__KET__.id));
+        } else {
+            vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__fproc__DOT__core_next_state[2U] = 0U;
+        }
+    } else {
+        if ((1U == vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__fproc__DOT__core_state
+             [2U])) {
+            if (((2U >= vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__fproc__DOT__meas_addr
+                  [2U]) & ((IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__fproc_meas_valid) 
+                           >> vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__fproc__DOT__meas_addr
+                           [2U]))) {
+                vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__fproc_if__BRA__2__KET__.ready = 1U;
+                vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__fproc_if__BRA__2__KET__.data 
+                    = ((0xfffffffeU & vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__fproc_if__BRA__2__KET__.data) 
+                       | ((2U >= vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__fproc__DOT__meas_addr
+                           [2U]) & ((IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__fproc_meas_input) 
+                                    >> vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__fproc__DOT__meas_addr
+                                    [2U])));
+                vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__fproc__DOT__core_next_state[2U] = 0U;
+            } else {
+                vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__fproc_if__BRA__2__KET__.ready = 0U;
+                vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__fproc_if__BRA__2__KET__.data 
+                    = (0xfffffffeU & vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__fproc_if__BRA__2__KET__.data);
+                vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__fproc__DOT__core_next_state[2U] = 1U;
+            }
+        } else {
+            vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__fproc__DOT__core_next_state[2U] = 0U;
+        }
+    }
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__pulsereg__DOT__cfg_in 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__pulsereg__DOT__cfg_i_in;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__pulsereg__DOT__cfg_in 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__pulsereg__DOT__cfg_i_in;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__pulsereg__DOT__cfg_in 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__pulsereg__DOT__cfg_i_in;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__procdone 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__done_gate;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__procdone 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__done_gate;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__procdone 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__done_gate;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__reg_file_out0 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__regs__DOT__reg_0_out;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__reg_file_out0 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__regs__DOT__reg_0_out;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__reg_file_out0 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__regs__DOT__reg_0_out;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__myalu__DOT__le 
+        = (1U & ((vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__myalu__DOT__sub 
+                  >> 0x1fU) ^ (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__myalu__DOT__sub_oflow)));
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__myalu__DOT__le 
+        = (1U & ((vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__myalu__DOT__sub 
+                  >> 0x1fU) ^ (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__myalu__DOT__sub_oflow)));
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__myalu__DOT__le 
+        = (1U & ((vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__myalu__DOT__sub 
+                  >> 0x1fU) ^ (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__myalu__DOT__sub_oflow)));
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__xout[0U] 
+        = ((0xffff0000U & vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__xout[0U]) 
+           | (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__0__KET____DOT__xoutslice));
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__xout[0U] 
+        = ((0xffffU & vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__xout[0U]) 
+           | (0xffff0000U & ((IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__1__KET____DOT__xoutslice) 
+                             << 0x10U)));
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__xout[1U] 
+        = ((0xffff0000U & vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__xout[1U]) 
+           | (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__2__KET____DOT__xoutslice));
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__xout[1U] 
+        = ((0xffffU & vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__xout[1U]) 
+           | (0xffff0000U & ((IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__3__KET____DOT__xoutslice) 
+                             << 0x10U)));
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__xout[2U] 
+        = ((0xffff0000U & vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__xout[2U]) 
+           | (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__4__KET____DOT__xoutslice));
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__xout[2U] 
+        = ((0xffffU & vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__xout[2U]) 
+           | (0xffff0000U & ((IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__5__KET____DOT__xoutslice) 
+                             << 0x10U)));
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__xout[3U] 
+        = ((0xffff0000U & vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__xout[3U]) 
+           | (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__6__KET____DOT__xoutslice));
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__xout[3U] 
+        = ((0xffffU & vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__xout[3U]) 
+           | (0xffff0000U & ((IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__7__KET____DOT__xoutslice) 
+                             << 0x10U)));
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__xout[4U] 
+        = ((0xffff0000U & vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__xout[4U]) 
+           | (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__8__KET____DOT__xoutslice));
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__xout[4U] 
+        = ((0xffffU & vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__xout[4U]) 
+           | (0xffff0000U & ((IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__9__KET____DOT__xoutslice) 
+                             << 0x10U)));
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__xout[5U] 
+        = ((0xffff0000U & vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__xout[5U]) 
+           | (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__10__KET____DOT__xoutslice));
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__xout[5U] 
+        = ((0xffffU & vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__xout[5U]) 
+           | (0xffff0000U & ((IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__11__KET____DOT__xoutslice) 
+                             << 0x10U)));
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__xout[6U] 
+        = ((0xffff0000U & vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__xout[6U]) 
+           | (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__12__KET____DOT__xoutslice));
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__xout[6U] 
+        = ((0xffffU & vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__xout[6U]) 
+           | (0xffff0000U & ((IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__13__KET____DOT__xoutslice) 
+                             << 0x10U)));
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__xout[7U] 
+        = ((0xffff0000U & vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__xout[7U]) 
+           | (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__14__KET____DOT__xoutslice));
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__xout[7U] 
+        = ((0xffffU & vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__xout[7U]) 
+           | (0xffff0000U & ((IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__stepslice__BRA__15__KET____DOT__xoutslice) 
+                             << 0x10U)));
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__instr__DOT__reset 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__reset;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__reset 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__reset;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__instr__DOT__reset 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__reset;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__reset 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__reset;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__instr__DOT__reset 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__reset;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__reset 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__reset;
+    vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__0__KET____DOT__cmd_mem__DOT__read_addr 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.addr_command
+        [0U];
+    vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__1__KET____DOT__cmd_mem__DOT__read_addr 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.addr_command
+        [1U];
+    vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__2__KET____DOT__cmd_mem__DOT__read_addr 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.addr_command
+        [2U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_accbuf[0U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__data_accbuf
+        [0U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_accbuf[1U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__data_accbuf
+        [1U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_accbuf[2U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__data_accbuf
+        [2U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.addr_qdrvenv[0U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__qdrvelemconn__DOT__envaddr;
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.addr_rdrvenv[0U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__rdrvelemconn__DOT__envaddr;
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.addr_qdrvenv[1U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__qdrvelemconn__DOT__envaddr;
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.addr_rdrvenv[1U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__rdrvelemconn__DOT__envaddr;
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.addr_qdrvenv[2U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__qdrvelemconn__DOT__envaddr;
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.addr_rdrvenv[2U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__rdrvelemconn__DOT__envaddr;
+    vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__0__KET____DOT__freq_mem_qdrv__DOT__read_addr 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.addr_qdrvfreq
+        [0U];
+    vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__1__KET____DOT__freq_mem_qdrv__DOT__read_addr 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.addr_qdrvfreq
+        [1U];
+    vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__2__KET____DOT__freq_mem_qdrv__DOT__read_addr 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.addr_qdrvfreq
+        [2U];
+    vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__0__KET____DOT__freq_mem_rdrv__DOT__read_addr 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.addr_rdrvfreq
+        [0U];
+    vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__1__KET____DOT__freq_mem_rdrv__DOT__read_addr 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.addr_rdrvfreq
+        [1U];
+    vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__2__KET____DOT__freq_mem_rdrv__DOT__read_addr 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.addr_rdrvfreq
+        [2U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__xmaif.daccplxy[0U][0U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__yout[0U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__xmaif.daccplxy[0U][1U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__yout[1U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__xmaif.daccplxy[0U][2U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__yout[2U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__xmaif.daccplxy[0U][3U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__yout[3U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__xmaif.daccplxy[0U][4U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__yout[4U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__xmaif.daccplxy[0U][5U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__yout[5U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__xmaif.daccplxy[0U][6U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__yout[6U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__xmaif.daccplxy[0U][7U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__yout[7U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__xmaif.daccplxy[0U][0U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__yout[0U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__xmaif.daccplxy[0U][1U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__yout[1U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__xmaif.daccplxy[0U][2U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__yout[2U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__xmaif.daccplxy[0U][3U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__yout[3U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__xmaif.daccplxy[0U][4U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__yout[4U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__xmaif.daccplxy[0U][5U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__yout[5U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__xmaif.daccplxy[0U][6U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__yout[6U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__xmaif.daccplxy[0U][7U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__yout[7U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__xmaif.daccplxx[0U][0U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__xout[0U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__xmaif.daccplxx[0U][1U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__xout[1U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__xmaif.daccplxx[0U][2U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__xout[2U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__xmaif.daccplxx[0U][3U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__xout[3U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__xmaif.daccplxx[0U][4U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__xout[4U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__xmaif.daccplxx[0U][5U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__xout[5U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__xmaif.daccplxx[0U][6U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__xout[6U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__xmaif.daccplxx[0U][7U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__xout[7U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__xmaif.daccplxx[0U][0U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__xout[0U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__xmaif.daccplxx[0U][1U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__xout[1U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__xmaif.daccplxx[0U][2U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__xout[2U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__xmaif.daccplxx[0U][3U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__xout[3U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__xmaif.daccplxx[0U][4U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__xout[4U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__xmaif.daccplxx[0U][5U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__xout[5U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__xmaif.daccplxx[0U][6U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__xout[6U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__xmaif.daccplxx[0U][7U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout2__DOT__xout[7U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__instr__DOT__clk 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__clk;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__regs__DOT__clk 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__clk;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__clk 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__clk;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__myalu__DOT__clk 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__clk;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__myclk__DOT__clk 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__clk;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__pulsereg__DOT__clk 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__clk;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__instr__DOT__clk 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__clk;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__regs__DOT__clk 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__clk;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__clk 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__clk;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__myalu__DOT__clk 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__clk;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__myclk__DOT__clk 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__clk;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__pulsereg__DOT__clk 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__clk;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__instr__DOT__clk 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__clk;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__regs__DOT__clk 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__clk;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__clk 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__clk;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__myalu__DOT__clk 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__clk;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__myclk__DOT__clk 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__clk;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__pulsereg__DOT__clk 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__clk;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__myclk__DOT__rst 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__qclk_reset;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__myclk__DOT__rst 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__qclk_reset;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__myclk__DOT__rst 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__qclk_reset;
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__xmaif.daccplxy[3U][0U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__yout[0U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__xmaif.daccplxy[3U][1U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__yout[1U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__xmaif.daccplxy[3U][2U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__yout[2U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__xmaif.daccplxy[3U][3U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__yout[3U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__xmaif.daccplxy[3U][4U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__yout[4U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__xmaif.daccplxy[3U][5U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__yout[5U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__xmaif.daccplxy[3U][6U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__yout[6U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__xmaif.daccplxy[3U][7U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__yout[7U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__instr__DOT__load_enable 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__inst_ptr_load_en;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__instr__DOT__cur_val 
+        = ((IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__inst_ptr_load_en)
+            ? (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__instr_ptr_load_val)
+            : ((IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__inst_ptr_enable)
+                ? (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__instr__DOT__prev_val_inc)
+                : (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__instr__DOT__prev_val)));
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__instr__DOT__load_enable 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__inst_ptr_load_en;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__instr__DOT__cur_val 
+        = ((IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__inst_ptr_load_en)
+            ? (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__instr_ptr_load_val)
+            : ((IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__inst_ptr_enable)
+                ? (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__instr__DOT__prev_val_inc)
+                : (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__instr__DOT__prev_val)));
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__instr__DOT__load_enable 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__inst_ptr_load_en;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__instr__DOT__cur_val 
+        = ((IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__inst_ptr_load_en)
+            ? (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__instr_ptr_load_val)
+            : ((IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__inst_ptr_enable)
+                ? (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__instr__DOT__prev_val_inc)
+                : (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__instr__DOT__prev_val)));
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__fproc_ready 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__fproc_if__BRA__0__KET__.ready;
+    if ((0U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+        vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__next_state 
+            = ((2U > (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__mem_wait_cycles))
+                ? 0U : 1U);
+    } else {
+        if ((1U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+            vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__next_state 
+                = ((0x80000000U & vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__local_cmd[3U])
+                    ? ((0x40000000U & vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__local_cmd[3U])
+                        ? 1U : ((0x20000000U & vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__local_cmd[3U])
+                                 ? ((0x10000000U & 
+                                     vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__local_cmd[3U])
+                                     ? 0U : 9U) : (
+                                                   (0x10000000U 
+                                                    & vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__local_cmd[3U])
+                                                    ? 
+                                                   ((IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__cstrobe)
+                                                     ? 0U
+                                                     : 1U)
+                                                    : 0U)))
+                    : ((0x40000000U & vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__local_cmd[3U])
+                        ? ((0x20000000U & vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__local_cmd[3U])
+                            ? ((0x10000000U & vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__local_cmd[3U])
+                                ? 6U : 2U) : 4U) : 
+                       ((0x20000000U & vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__local_cmd[3U])
+                         ? ((0x10000000U & vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__local_cmd[3U])
+                             ? 2U : 0U) : ((0x10000000U 
+                                            & vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__local_cmd[3U])
+                                            ? 2U : 9U))));
+        } else {
+            if ((2U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+                vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__next_state = 3U;
+            } else {
+                if ((3U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+                    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__next_state = 0U;
+                } else {
+                    if ((4U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+                        vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__next_state 
+                            = ((IData)(vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__fproc_if__BRA__0__KET__.ready)
+                                ? 2U : 4U);
+                    } else {
+                        if ((6U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+                            vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__next_state 
+                                = ((IData)(vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__sync.ready)
+                                    ? 7U : 6U);
+                        } else {
+                            if ((7U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+                                vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__next_state = 0U;
+                            } else {
+                                if ((9U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+                                    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__next_state = 9U;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__alu_in1 
+        = ((2U & (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__alu_in1_sel))
+            ? vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__fproc_if__BRA__0__KET__.data
+            : ((1U & (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__alu_in1_sel))
+                ? vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__reg_file_out1
+                : vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__qclk_out));
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__fproc_ready 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__fproc_if__BRA__1__KET__.ready;
+    if ((0U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+        vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__next_state 
+            = ((2U > (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__mem_wait_cycles))
+                ? 0U : 1U);
+    } else {
+        if ((1U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+            vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__next_state 
+                = ((0x80000000U & vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__local_cmd[3U])
+                    ? ((0x40000000U & vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__local_cmd[3U])
+                        ? 1U : ((0x20000000U & vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__local_cmd[3U])
+                                 ? ((0x10000000U & 
+                                     vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__local_cmd[3U])
+                                     ? 0U : 9U) : (
+                                                   (0x10000000U 
+                                                    & vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__local_cmd[3U])
+                                                    ? 
+                                                   ((IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__cstrobe)
+                                                     ? 0U
+                                                     : 1U)
+                                                    : 0U)))
+                    : ((0x40000000U & vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__local_cmd[3U])
+                        ? ((0x20000000U & vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__local_cmd[3U])
+                            ? ((0x10000000U & vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__local_cmd[3U])
+                                ? 6U : 2U) : 4U) : 
+                       ((0x20000000U & vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__local_cmd[3U])
+                         ? ((0x10000000U & vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__local_cmd[3U])
+                             ? 2U : 0U) : ((0x10000000U 
+                                            & vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__local_cmd[3U])
+                                            ? 2U : 9U))));
+        } else {
+            if ((2U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+                vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__next_state = 3U;
+            } else {
+                if ((3U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+                    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__next_state = 0U;
+                } else {
+                    if ((4U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+                        vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__next_state 
+                            = ((IData)(vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__fproc_if__BRA__1__KET__.ready)
+                                ? 2U : 4U);
+                    } else {
+                        if ((6U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+                            vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__next_state 
+                                = ((IData)(vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__sync.ready)
+                                    ? 7U : 6U);
+                        } else {
+                            if ((7U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+                                vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__next_state = 0U;
+                            } else {
+                                if ((9U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+                                    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__next_state = 9U;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__alu_in1 
+        = ((2U & (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__alu_in1_sel))
+            ? vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__fproc_if__BRA__1__KET__.data
+            : ((1U & (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__alu_in1_sel))
+                ? vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__reg_file_out1
+                : vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__qclk_out));
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__fproc_ready 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__fproc_if__BRA__2__KET__.ready;
+    if ((0U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+        vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__next_state 
+            = ((2U > (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__mem_wait_cycles))
+                ? 0U : 1U);
+    } else {
+        if ((1U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+            vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__next_state 
+                = ((0x80000000U & vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__local_cmd[3U])
+                    ? ((0x40000000U & vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__local_cmd[3U])
+                        ? 1U : ((0x20000000U & vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__local_cmd[3U])
+                                 ? ((0x10000000U & 
+                                     vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__local_cmd[3U])
+                                     ? 0U : 9U) : (
+                                                   (0x10000000U 
+                                                    & vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__local_cmd[3U])
+                                                    ? 
+                                                   ((IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__cstrobe)
+                                                     ? 0U
+                                                     : 1U)
+                                                    : 0U)))
+                    : ((0x40000000U & vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__local_cmd[3U])
+                        ? ((0x20000000U & vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__local_cmd[3U])
+                            ? ((0x10000000U & vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__local_cmd[3U])
+                                ? 6U : 2U) : 4U) : 
+                       ((0x20000000U & vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__local_cmd[3U])
+                         ? ((0x10000000U & vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__local_cmd[3U])
+                             ? 2U : 0U) : ((0x10000000U 
+                                            & vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__local_cmd[3U])
+                                            ? 2U : 9U))));
+        } else {
+            if ((2U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+                vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__next_state = 3U;
+            } else {
+                if ((3U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+                    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__next_state = 0U;
+                } else {
+                    if ((4U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+                        vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__next_state 
+                            = ((IData)(vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__fproc_if__BRA__2__KET__.ready)
+                                ? 2U : 4U);
+                    } else {
+                        if ((6U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+                            vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__next_state 
+                                = ((IData)(vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__sync.ready)
+                                    ? 7U : 6U);
+                        } else {
+                            if ((7U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+                                vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__next_state = 0U;
+                            } else {
+                                if ((9U == (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__state))) {
+                                    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__ctu__DOT__next_state = 9U;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__alu_in1 
+        = ((2U & (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__alu_in1_sel))
+            ? vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__fproc_if__BRA__2__KET__.data
+            : ((1U & (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__alu_in1_sel))
+                ? vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__reg_file_out1
+                : vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__qclk_out));
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__stbend 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__procdone;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__procdone_mon 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__procdone;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__stbend 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__procdone;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__procdone_mon 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__procdone;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__stbend 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__procdone;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__procdone_mon 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__procdone;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__pulsereg__DOT__reg_in 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__reg_file_out0;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__pulsereg__DOT__env_in 
+        = (0xffffffU & ((IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__pulsereg__DOT__env_write_sel)
+                         ? vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__reg_file_out0
+                         : vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__pulsereg__DOT__env_i_in));
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__pulsereg__DOT__phase_in 
+        = (0x1ffffU & ((IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__pulsereg__DOT__phase_write_sel)
+                        ? vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__reg_file_out0
+                        : vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__pulsereg__DOT__phase_i_in));
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__pulsereg__DOT__freq_in 
+        = (0x1ffU & ((IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__pulsereg__DOT__freq_write_sel)
+                      ? vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__reg_file_out0
+                      : (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__pulsereg__DOT__freq_i_in)));
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__pulsereg__DOT__amp_in 
+        = (0xffffU & ((IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__pulsereg__DOT__amp_write_sel)
+                       ? vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__reg_file_out0
+                       : (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__pulsereg__DOT__amp_i_in)));
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__alu_in0 
+        = ((IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__alu_in0_sel)
+            ? vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__reg_file_out0
+            : vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__alu_cmd_data_in0);
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__pulsereg__DOT__reg_in 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__reg_file_out0;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__pulsereg__DOT__env_in 
+        = (0xffffffU & ((IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__pulsereg__DOT__env_write_sel)
+                         ? vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__reg_file_out0
+                         : vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__pulsereg__DOT__env_i_in));
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__pulsereg__DOT__phase_in 
+        = (0x1ffffU & ((IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__pulsereg__DOT__phase_write_sel)
+                        ? vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__reg_file_out0
+                        : vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__pulsereg__DOT__phase_i_in));
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__pulsereg__DOT__freq_in 
+        = (0x1ffU & ((IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__pulsereg__DOT__freq_write_sel)
+                      ? vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__reg_file_out0
+                      : (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__pulsereg__DOT__freq_i_in)));
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__pulsereg__DOT__amp_in 
+        = (0xffffU & ((IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__pulsereg__DOT__amp_write_sel)
+                       ? vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__reg_file_out0
+                       : (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__pulsereg__DOT__amp_i_in)));
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__alu_in0 
+        = ((IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__alu_in0_sel)
+            ? vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__reg_file_out0
+            : vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__alu_cmd_data_in0);
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__pulsereg__DOT__reg_in 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__reg_file_out0;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__pulsereg__DOT__env_in 
+        = (0xffffffU & ((IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__pulsereg__DOT__env_write_sel)
+                         ? vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__reg_file_out0
+                         : vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__pulsereg__DOT__env_i_in));
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__pulsereg__DOT__phase_in 
+        = (0x1ffffU & ((IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__pulsereg__DOT__phase_write_sel)
+                        ? vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__reg_file_out0
+                        : vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__pulsereg__DOT__phase_i_in));
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__pulsereg__DOT__freq_in 
+        = (0x1ffU & ((IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__pulsereg__DOT__freq_write_sel)
+                      ? vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__reg_file_out0
+                      : (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__pulsereg__DOT__freq_i_in)));
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__pulsereg__DOT__amp_in 
+        = (0xffffU & ((IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__pulsereg__DOT__amp_write_sel)
+                       ? vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__reg_file_out0
+                       : (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__pulsereg__DOT__amp_i_in)));
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__alu_in0 
+        = ((IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__alu_in0_sel)
+            ? vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__reg_file_out0
+            : vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__alu_cmd_data_in0);
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__myalu__DOT__ge 
+        = (1U & (~ (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__myalu__DOT__le)));
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__myalu__DOT__ge 
+        = (1U & (~ (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__myalu__DOT__le)));
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__myalu__DOT__ge 
+        = (1U & (~ (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__myalu__DOT__le)));
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__xmaif.daccplxx[3U][0U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__xout[0U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__xmaif.daccplxx[3U][1U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__xout[1U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__xmaif.daccplxx[3U][2U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__xout[2U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__xmaif.daccplxx[3U][3U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__xout[3U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__xmaif.daccplxx[3U][4U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__xout[4U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__xmaif.daccplxx[3U][5U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__xout[5U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__xmaif.daccplxx[3U][6U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__xout[6U];
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__xmaif.daccplxx[3U][7U] 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__rdrvelemout1__DOT__xout[7U];
+    vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__0__KET____DOT__acc_buf__DOT__write_data 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_accbuf
+        [0U];
+    vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__1__KET____DOT__acc_buf__DOT__write_data 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_accbuf
+        [1U];
+    vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__2__KET____DOT__acc_buf__DOT__write_data 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.data_accbuf
+        [2U];
+    vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__0__KET____DOT__env_mem_qdrv__DOT__read_addr 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.addr_qdrvenv
+        [0U];
+    vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__1__KET____DOT__env_mem_qdrv__DOT__read_addr 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.addr_qdrvenv
+        [1U];
+    vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__2__KET____DOT__env_mem_qdrv__DOT__read_addr 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.addr_qdrvenv
+        [2U];
+    vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__0__KET____DOT__env_mem_rdrv__DOT__read_addr 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.addr_rdrvenv
+        [0U];
+    vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__1__KET____DOT__env_mem_rdrv__DOT__read_addr 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.addr_rdrvenv
+        [1U];
+    vlTOPp->dsp_sim_toplevel__DOT__genblk1__BRA__2__KET____DOT__env_mem_rdrv__DOT__read_addr 
+        = vlSymsp->TOP__dsp_sim_toplevel__DOT__dspif.addr_rdrvenv
+        [2U];
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__instr__DOT__ptr_out 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__instr__DOT__cur_val;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__instr__DOT__ptr_out 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__instr__DOT__cur_val;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__instr__DOT__ptr_out 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__instr__DOT__cur_val;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__myalu__DOT__in1 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__alu_in1;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__myalu__DOT__in1 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__alu_in1;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__myalu__DOT__in1 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__alu_in1;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__stbprocend 
+        = ((6U & (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__stbprocend)) 
+           | (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__stbend));
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procdone 
+        = ((6U & (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procdone)) 
+           | (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__procdone_mon));
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__stbprocend 
+        = ((5U & (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__stbprocend)) 
+           | ((IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__stbend) 
+              << 1U));
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procdone 
+        = ((5U & (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procdone)) 
+           | ((IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__procdone_mon) 
+              << 1U));
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__stbprocend 
+        = ((3U & (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__stbprocend)) 
+           | ((IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__stbend) 
+              << 2U));
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procdone 
+        = ((3U & (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procdone)) 
+           | ((IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__procdone_mon) 
+              << 2U));
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__myalu__DOT__in0 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__alu_in0;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__myalu__DOT__in0 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__alu_in0;
+    vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__myalu__DOT__in0 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__alu_in0;
+    if ((4U & (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__alu_opcode))) {
+        if ((2U & (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__alu_opcode))) {
+            vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__myalu__DOT__local_out 
+                = ((1U & (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__alu_opcode))
+                    ? 0U : vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__myalu__DOT__id1);
+        } else {
+            if ((1U & (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__alu_opcode))) {
+                vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__myalu__DOT__local_out 
+                    = ((0xfffffffeU & vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__myalu__DOT__local_out) 
+                       | (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__myalu__DOT__ge));
+                vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__myalu__DOT__local_out 
+                    = (1U & vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__myalu__DOT__local_out);
+            } else {
+                vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__myalu__DOT__local_out 
+                    = ((0xfffffffeU & vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__myalu__DOT__local_out) 
+                       | (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__myalu__DOT__le));
+                vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__myalu__DOT__local_out 
+                    = (1U & vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__myalu__DOT__local_out);
+            }
+        }
+    } else {
+        if ((2U & (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__alu_opcode))) {
+            if ((1U & (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__alu_opcode))) {
+                vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__myalu__DOT__local_out 
+                    = ((0xfffffffeU & vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__myalu__DOT__local_out) 
+                       | (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__myalu__DOT__eq));
+                vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__myalu__DOT__local_out 
+                    = (1U & vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__myalu__DOT__local_out);
+            } else {
+                vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__myalu__DOT__local_out 
+                    = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__myalu__DOT__sub;
+            }
+        } else {
+            vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__myalu__DOT__local_out 
+                = ((1U & (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__alu_opcode))
+                    ? vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__myalu__DOT__add
+                    : vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__myalu__DOT__id0);
+        }
+    }
+    if ((4U & (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__alu_opcode))) {
+        if ((2U & (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__alu_opcode))) {
+            vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__myalu__DOT__local_out 
+                = ((1U & (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__alu_opcode))
+                    ? 0U : vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__myalu__DOT__id1);
+        } else {
+            if ((1U & (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__alu_opcode))) {
+                vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__myalu__DOT__local_out 
+                    = ((0xfffffffeU & vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__myalu__DOT__local_out) 
+                       | (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__myalu__DOT__ge));
+                vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__myalu__DOT__local_out 
+                    = (1U & vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__myalu__DOT__local_out);
+            } else {
+                vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__myalu__DOT__local_out 
+                    = ((0xfffffffeU & vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__myalu__DOT__local_out) 
+                       | (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__myalu__DOT__le));
+                vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__myalu__DOT__local_out 
+                    = (1U & vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__myalu__DOT__local_out);
+            }
+        }
+    } else {
+        if ((2U & (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__alu_opcode))) {
+            if ((1U & (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__alu_opcode))) {
+                vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__myalu__DOT__local_out 
+                    = ((0xfffffffeU & vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__myalu__DOT__local_out) 
+                       | (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__myalu__DOT__eq));
+                vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__myalu__DOT__local_out 
+                    = (1U & vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__myalu__DOT__local_out);
+            } else {
+                vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__myalu__DOT__local_out 
+                    = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__myalu__DOT__sub;
+            }
+        } else {
+            vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__myalu__DOT__local_out 
+                = ((1U & (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__alu_opcode))
+                    ? vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__myalu__DOT__add
+                    : vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__myalu__DOT__id0);
+        }
+    }
+    if ((4U & (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__alu_opcode))) {
+        if ((2U & (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__alu_opcode))) {
+            vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__myalu__DOT__local_out 
+                = ((1U & (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__alu_opcode))
+                    ? 0U : vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__myalu__DOT__id1);
+        } else {
+            if ((1U & (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__alu_opcode))) {
+                vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__myalu__DOT__local_out 
+                    = ((0xfffffffeU & vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__myalu__DOT__local_out) 
+                       | (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__myalu__DOT__ge));
+                vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__myalu__DOT__local_out 
+                    = (1U & vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__myalu__DOT__local_out);
+            } else {
+                vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__myalu__DOT__local_out 
+                    = ((0xfffffffeU & vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__myalu__DOT__local_out) 
+                       | (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__myalu__DOT__le));
+                vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__myalu__DOT__local_out 
+                    = (1U & vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__myalu__DOT__local_out);
+            }
+        }
+    } else {
+        if ((2U & (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__alu_opcode))) {
+            if ((1U & (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__alu_opcode))) {
+                vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__myalu__DOT__local_out 
+                    = ((0xfffffffeU & vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__myalu__DOT__local_out) 
+                       | (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__myalu__DOT__eq));
+                vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__myalu__DOT__local_out 
+                    = (1U & vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__myalu__DOT__local_out);
+            } else {
+                vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__myalu__DOT__local_out 
+                    = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__myalu__DOT__sub;
+            }
+        } else {
+            vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__myalu__DOT__local_out 
+                = ((1U & (IData)(vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__alu_opcode))
+                    ? vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__myalu__DOT__add
+                    : vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__myalu__DOT__id0);
+        }
+    }
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__memif.instr_ptr 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__0__KET____DOT__proc_core__DOT__dproc__DOT__instr__DOT__ptr_out;
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__memif.instr_ptr 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__1__KET____DOT__proc_core__DOT__dproc__DOT__instr__DOT__ptr_out;
+    vlSymsp->TOP__dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__memif.instr_ptr 
+        = vlTOPp->dsp_sim_toplevel__DOT__dspmod__DOT__procinst__BRA__2__KET____DOT__proc_core__DOT__dproc__DOT__instr__DOT__ptr_out;
+}
