@@ -461,6 +461,6 @@ always @(posedge dspif.clk) begin
 	end
 end
 
-/*`include "iladsp.vh"*/
+`include "iladsp.vh"
 endmodule
 
