@@ -80,3 +80,12 @@ apply_bd_automation -rule xilinx.com:bd_rule:debug -dict [list \
                                                           [get_bd_intf_nets plps_0_DAC20_M_AXIS] {AXIS_SIGNALS "Data and Trigger" CLK_SRC "/plps_0/dspclk" SYSTEM_ILA "Auto" APC_EN "0" } \
                                                          ]
 												 }
+# open_bd_design {/home/neelay/gateware/rfsoc_gateware_synth5/top/zcu216_8_2/vivado_project/psbd/psbd.srcs/sources_1/bd/psbd/psbd.bd}
+if {1} {
+set_property HDL_ATTRIBUTE.DEBUG true [get_bd_intf_nets {rf_data_converter_m32_axis}]
+set_property HDL_ATTRIBUTE.DEBUG true [get_bd_intf_nets {rf_data_converter_m30_axis}]
+apply_bd_automation -rule xilinx.com:bd_rule:debug -dict [list \
+                                                          [get_bd_intf_nets rf_data_converter_m30_axis] {AXIS_SIGNALS "Data and Trigger" CLK_SRC "/plps_0/dspclk" SYSTEM_ILA "Auto" APC_EN "0" } \
+                                                          [get_bd_intf_nets rf_data_converter_m32_axis] {AXIS_SIGNALS "Data and Trigger" CLK_SRC "/plps_0/dspclk" SYSTEM_ILA "Auto" APC_EN "0" } \
+                                                         ]
+                                                 }
