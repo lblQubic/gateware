@@ -248,5 +248,5 @@ assign dspregs.cnt20=dac20axis.cnt;
 //assign dspregs.cnt31=dac31axis.cnt;
 //assign dspregs.cnt32=dac32axis.cnt;
 //assign dspregs.cnt33=dac33axis.cnt;
-`include "ilaauto.vh"
+//`include "ilaauto.vh"
 endmodule
