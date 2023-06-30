@@ -23,6 +23,7 @@ module dsp #(`include "plps_para.vh"
 localparam TCNTWIDTH=27;
 reg procreset=0;
 reg procreset_d=0;
+reg lastshotdone=0;
 reg done=0;
 reg [31:0] nshot=0;
 wire [NPROC-1:0] stbprocend;
@@ -39,10 +40,27 @@ always @(posedge dspif.clk) begin
 	//	proccorereset<={NPROC{procreset|procreset_d}};
 	proccorereset<={NPROC{procreset}};
 	dspif.procdone<=procdone;
+
+end
+
+//update logic for handshaking
+wire update_lastshotdone;
+wire lastshotdone_true;
+assign update_lastshotdone = done | dspif.stb_start;
+assign lastshotdone_true = done & (~dspif.stb_start);
+
+always @(posedge dspif.clk) begin
+    if(update_lastshotdone) begin
+        lastshotdone <= lastshotdone_true;
+    end
+
+    else begin
+        lastshotdone <= lastshotdone;
+    end
 end
 
 assign dspif.shotcnt=currentshotcnt;
-assign dspif.lastshotdone=done;
+assign dspif.lastshotdone=lastshotdone;
 //wire proccorereset=~shotbusy|moreshot|moreshot_d;
 ifelement #(.ENV_ADDRWIDTH(QDRVENV_R_ADDRWIDTH),.ENV_DATAWIDTH(QDRVENV_R_DATAWIDTH),.FREQ_ADDRWIDTH(QDRVFREQ_R_ADDRWIDTH),.FREQ_DATAWIDTH(QDRVFREQ_R_DATAWIDTH),.TCNTWIDTH(TCNTWIDTH))
 qdrvelem[0:NPROC-1](.clk(dspif.clk));
