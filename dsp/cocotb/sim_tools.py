@@ -6,7 +6,7 @@ from distproc.command_gen import twos_complement
 CORDIC_DELAY = 47 #in clks
 PHASEIN_DELAY = 1
 QCLK_DELAY = 4
-CSTROBE_DELAY = 1 #in clks
+CSTROBE_DELAY = 2 #in clks
 PHASE_RST_DELAY = 8
 CLK_CYCLE = 2 # in ns
 N_CLKS = 50000
