@@ -27,7 +27,7 @@
 ../../submodules/common-hdl/reg_delay1.v
 ../../submodules/common-hdl/samefreqxdomain_1.v
 ../../submodules/common-hdl/sum.sv
-../../submodules/common-hdl/via.v
+../../submodules/common-hdl/via.sv
 ../../submodules/common-hdl/viabus.v
 ../../submodules/distributed_processor/hdl/alu.v
 ../../submodules/distributed_processor/hdl/cmd_mem.v
@@ -36,6 +36,7 @@
 ../../submodules/distributed_processor/hdl/ctrl.v
 ../../submodules/distributed_processor/hdl/fproc_iface.sv
 ../../submodules/distributed_processor/hdl/fproc_lut.sv
+../../submodules/distributed_processor/hdl/fproc_meas.sv
 ../../submodules/distributed_processor/hdl/instr_ptr.v
 ../../submodules/distributed_processor/hdl/meas_lut.sv
 ../../submodules/distributed_processor/hdl/proc.sv

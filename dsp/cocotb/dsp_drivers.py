@@ -82,22 +82,20 @@ class DSPDriver:
             Each element n is a list of commands for the nth
             DSP unit
         """
-        if not (isinstance(cmd_lists[0], list) or isinstance(cmd_lists[0], np.ndarray)):
-            raise Exception('cmd_lists must be list of lists')
+        if not (isinstance(cmd_lists[0], bytes)):
+            raise Exception('cmd_lists must be byte array')
         self._dut.reset.value = 1
         self._dut.mem_write_en.value = 1
         self._dut.mem_write_sel.value = 0
         for i, cmd_list in enumerate(cmd_lists):
-            cmd_addr = 0
+            dt = np.dtype(np.uint32)
+            dt = dt.newbyteorder('little')
+            cmd_list = np.frombuffer(cmd_list, dtype=dt)
             self._dut.proc_write_sel.value = i
-            for cmd in cmd_list:
-                for j in range(CMD_WRITE_WORDS):
-                    mem_val = (cmd >> (32*j)) & (2**32-1)
-                    mem_addr = CMD_WRITE_WORDS*cmd_addr + j
-                    self._dut.mem_write_data.value = int(mem_val)
-                    self._dut.mem_write_addr.value = int(mem_addr)
-                    await RisingEdge(self._dut.clk)
-                cmd_addr += 1
+            for i, cmd in enumerate(cmd_list):
+                self._dut.mem_write_data.value = int(cmd)
+                self._dut.mem_write_addr.value = i
+                await RisingEdge(self._dut.clk)
 
         self._dut.mem_write_en.value = 0
 
@@ -121,6 +119,7 @@ class DSPDriver:
         self._dut.mem_write_sel.value = 1 + elem_ind*2 
         self._dut.proc_write_sel.value = core_ind
         wave_addr = wave_start_addr
+        env_buffer = np.frombuffer(env_buffer, dtype=np.uint32)
         for sample in env_buffer:
             self._dut.mem_write_data.value = int(sample)
             self._dut.mem_write_addr.value = wave_addr
@@ -133,6 +132,7 @@ class DSPDriver:
         self._dut.mem_write_en.value = 1
         self._dut.mem_write_sel.value = 2 + elem_ind*2 
         self._dut.proc_write_sel.value = core_ind
+        freq_buffer = np.frombuffer(freq_buffer, dtype=np.uint32)
         addr = 0
         for sample in freq_buffer:
             self._dut.mem_write_data.value = int(sample)
