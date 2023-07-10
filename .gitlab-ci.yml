@@ -19,7 +19,7 @@ image: nfruitwala/cocotb-verilator:0.3
 
 variables:
   GIT_SUBMODULE_STRATEGY: recursive
-  PROC_DRIVER_PATH: submodules/distributed_processor/python
+#PROC_DRIVER_PATH: submodules/distributed_processor/python
 
 stages:          # List of stages for jobs, and their order of execution
   - test
@@ -34,7 +34,7 @@ test-dsp-zcu216-fullsample:
   stage: test
   script:
     - pip install git+https://gitlab.com/LBL-QubiC/experiments/qubitconfig.git
-    - pip install -e $PROC_DRIVER_PATH
+    - pip install git+https://gitlab.com/LBL-QubiC/distributed_processor.git
     - cd top/zcu216
     - make pre
     - cd ../../dsp/cocotb/rfsoc_4qubit_fullrate
