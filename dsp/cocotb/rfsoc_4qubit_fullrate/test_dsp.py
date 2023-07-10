@@ -494,7 +494,8 @@ async def test_compile_chain_linear(dut):
                {'name': 'read', 'qubit': ['Q0']}]
     fpga_config = hw.FPGAConfig(**fpga_config)
     channel_configs = hw.load_channel_configs('../../../submodules/distributed_processor/python/test/channel_config.json')
-    compiler = cm.Compiler(program, 'by_qubit', fpga_config, qchip)
+    compiler = cm.Compiler(program)
+    compiler.run_ir_passes(cm.get_default_passes(fpga_config, qchip))
     compiled_prog = compiler.compile()
     #compiled_prog = cm.CompiledProgram(compiler.asm_progs, fpga_config)
 
@@ -525,18 +526,18 @@ async def test_compile_chain_pulse(dut):
                    'jump_cond_clks': 3,
                    'jump_fproc_clks': 4,
                    'pulse_regwrite_clks': 1}
-    program = [{'name': 'pulse', 'phase': 'np.pi/2', 'freq': 'Q0.freq', 'env': np.ones(24*16//2),
+    program = [{'name': 'pulse', 'phase': np.pi/2, 'freq': 'Q0.freq', 'env': np.ones(24*16//2),
                 'twidth': 24.e-9, 'amp': 0.5, 'dest': 'Q0.qdrv'},
                {'name': 'read', 'qubit': ['Q0']}]
     fpga_config = hw.FPGAConfig(**fpga_config)
     channel_configs = hw.load_channel_configs('../../../submodules/distributed_processor/python/test/channel_config.json')
-    compiler = cm.Compiler(program, 'by_qubit', fpga_config, qchip)
+    compiler = cm.Compiler(program)
+    compiler.run_ir_passes(cm.get_default_passes(fpga_config, qchip))
     compiled_prog = compiler.compile()
     #compiled_prog = cm.CompiledProgram(compiler.asm_progs, fpga_config)
 
     globalasm = asm.GlobalAssembler(compiled_prog, channel_configs, RFSoCElementCfg)
     asmprog = globalasm.get_assembled_program()
-    #ipdb.set_trace()
 
     dspunit = dsp.DSPDriver(dut, 16, 16, 4, 16)
     # adc_signal = adc_fullscale*np.cos(2*np.pi*freq*(1.e-9*dsp.CLK_CYCLE/dspunit.adc_samples_per_clk)*np.arange(40000) + phase)
@@ -590,7 +591,7 @@ async def test_fproc_jump(dut):
              'start_time': 5, 'elem_ind': 1}, 
             {'op' : 'pulse', 'freq' : 347.e6, 'phase' : 0, 'env' : np.ones(200), 'amp' : 0.5, 
              'start_time': 25, 'elem_ind': 2}, 
-            {'op' : 'jump_fproc', 'in0': 1, 'alu_op': 'eq', 'jump_label': 'done'},
+            {'op' : 'jump_fproc', 'in0': 0, 'alu_op': 'eq', 'jump_label': 'done'},
             {'op' : 'pulse', 'freq' : 347.e6, 'phase' : 0, 'env' : np.ones(200), 'amp' : 0.5, 
              'start_time': 300, 'elem_ind': 0}, 
             {'op' : 'done_stb', 'label': 'done'}]
@@ -622,7 +623,7 @@ async def test_fproc_notjump(dut):
              'start_time': 5, 'elem_ind': 1}, 
             {'op' : 'pulse', 'freq' : 347.e6, 'phase' : 0, 'env' : np.ones(200), 'amp' : 0.5, 
              'start_time': 25, 'elem_ind': 2}, 
-            {'op' : 'jump_fproc', 'in0': 0, 'alu_op': 'eq', 'jump_label': 'done'},
+            {'op' : 'jump_fproc', 'in0': 1, 'alu_op': 'eq', 'jump_label': 'done'},
             {'op' : 'pulse', 'freq' : 347.e6, 'phase' : 0, 'env' : np.ones(200), 'amp' : 0.5, 
              'start_time': 300, 'elem_ind': 0}, 
             {'op' : 'done_stb', 'label': 'done'}]
@@ -654,7 +655,7 @@ async def test_fproc_jump_ph_adj(dut):
              'start_time': 5, 'elem_ind': 1}, 
             {'op' : 'pulse', 'freq' : 347.e6, 'phase' : np.pi, 'env' : np.ones(200), 'amp' : 0.5, 
              'start_time': 25, 'elem_ind': 2}, 
-            {'op' : 'jump_fproc', 'in0': 0, 'alu_op': 'eq', 'jump_label': 'done'},
+            {'op' : 'jump_fproc', 'in0': 1, 'alu_op': 'eq', 'jump_label': 'done'},
             {'op' : 'pulse', 'freq' : 347.e6, 'phase' : 0, 'env' : np.ones(200), 'amp' : 0.5, 
              'start_time': 300, 'elem_ind': 0}, 
             {'op' : 'done_stb', 'label': 'done'}]
@@ -694,7 +695,7 @@ async def test_fproc_jump_diffcore(dut):
 
     progdict2 = [{'op' : 'declare_reg', 'name' : 'fproc_meas0'},
             {'op' : 'phase_reset'},
-            {'op' : 'jump_fproc', 'in0': 0, 'alu_op': 'eq', 'jump_label': 'done', 'func_id': 1},
+            {'op' : 'jump_fproc', 'in0': 1, 'alu_op': 'eq', 'jump_label': 'done', 'func_id': 1},
             {'op' : 'pulse', 'freq' : 347.e6, 'phase' : 0, 'env' : np.ones(200), 'amp' : 0.5, 
              'start_time': 300, 'elem_ind': 0}, 
             {'op' : 'done_stb', 'label': 'done'}]
@@ -747,7 +748,7 @@ async def test_fproc_nojump_diffcore(dut):
 
     progdict2 = [{'op' : 'declare_reg', 'name' : 'fproc_meas0'},
             {'op' : 'phase_reset'},
-            {'op' : 'jump_fproc', 'in0': 0, 'alu_op': 'eq', 'jump_label': 'done', 'func_id': 1},
+            {'op' : 'jump_fproc', 'in0': 1, 'alu_op': 'eq', 'jump_label': 'done', 'func_id': 1},
             {'op' : 'pulse', 'freq' : 347.e6, 'phase' : 0, 'env' : np.ones(200), 'amp' : 0.5, 
              'start_time': 300, 'elem_ind': 0}, 
             {'op' : 'done_stb', 'label': 'done'}]
@@ -790,22 +791,23 @@ async def test_fproc_nojump_diffcore(dut):
 @cocotb.test()
 async def test_fproc_reset_compile(dut):
     qchip = qc.QChip('qubitcfg.json')
-    fpga_config = {'alu_instr_clks': 2,
+    fpga_config = {'alu_instr_clks': 4,
                    'fpga_clk_period': 2.e-9,
-                   'jump_cond_clks': 3,
-                   'jump_fproc_clks': 4,
-                   'pulse_regwrite_clks': 1}
+                   'jump_cond_clks': 5,
+                   'jump_fproc_clks': 5,
+                   'pulse_regwrite_clks': 4}
     program = [{'name': 'X90', 'qubit': ['Q0']},
                {'name': 'read_test', 'qubit': ['Q0']},
-               {'name': 'branch_fproc', 'alu_cond': 'eq', 'cond_lhs': 1, 'func_id': 0, 'scope': ['Q0'],
-                'true': [{'name': 'delay', 't': 140.e-9, 'qubit': ['Q0']},
+               {'name': 'branch_fproc', 'alu_cond': 'eq', 'cond_lhs': 0, 'func_id': 0, 'scope': ['Q0'],
+                'true': [{'name': 'delay', 't': 146.e-9, 'qubit': ['Q0']},
                              {'name': 'X90', 'qubit': ['Q0']}, 
                              {'name': 'X90', 'qubit': ['Q0']}], 
                     'false': []},
                {'name': 'read_test', 'qubit': ['Q0']}]
     fpga_config = hw.FPGAConfig(**fpga_config)
     channel_configs = hw.load_channel_configs('../../../submodules/distributed_processor/python/test/channel_config.json')
-    compiler = cm.Compiler(program, 'by_qubit', fpga_config, qchip)
+    compiler = cm.Compiler(program)
+    compiler.run_ir_passes(cm.get_default_passes(fpga_config, qchip))
     compiled_prog = compiler.compile()
     #compiled_prog = cm.CompiledProgram(compiler.asm_progs, fpga_config)
     for statement in compiled_prog.program[('Q0.qdrv', 'Q0.rdrv', 'Q0.rdlo')]:
@@ -830,22 +832,23 @@ async def test_fproc_reset_compile(dut):
 @cocotb.test()
 async def test_fproc_noreset_compile(dut):
     qchip = qc.QChip('qubitcfg.json')
-    fpga_config = {'alu_instr_clks': 2,
+    fpga_config = {'alu_instr_clks': 4,
                    'fpga_clk_period': 2.e-9,
-                   'jump_cond_clks': 3,
-                   'jump_fproc_clks': 4,
-                   'pulse_regwrite_clks': 1}
+                   'jump_cond_clks': 5,
+                   'jump_fproc_clks': 5,
+                   'pulse_regwrite_clks': 4}
     program = [{'name': 'X90', 'qubit': ['Q0']},
                {'name': 'read_test', 'qubit': ['Q0']},
-               {'name': 'branch_fproc', 'alu_cond': 'eq', 'cond_lhs': 0, 'func_id': 0, 'scope': ['Q0'],
-                'true': [{'name': 'delay', 't': 140.e-9, 'qubit': ['Q0']},
+               {'name': 'branch_fproc', 'alu_cond': 'eq', 'cond_lhs': 1, 'func_id': 0, 'scope': ['Q0'],
+                'true': [{'name': 'delay', 't': 146.e-9, 'qubit': ['Q0']},
                              {'name': 'X90', 'qubit': ['Q0']}, 
                              {'name': 'X90', 'qubit': ['Q0']}], 
                     'false': []},
                {'name': 'read_test', 'qubit': ['Q0']}]
     fpga_config = hw.FPGAConfig(**fpga_config)
     channel_configs = hw.load_channel_configs('../../../submodules/distributed_processor/python/test/channel_config.json')
-    compiler = cm.Compiler(program, 'by_qubit', fpga_config, qchip)
+    compiler = cm.Compiler(program)
+    compiler.run_ir_passes(cm.get_default_passes(fpga_config, qchip))
     compiled_prog = compiler.compile()
     #compiled_prog = cm.CompiledProgram(compiler.asm_progs, fpga_config)
     for statement in compiled_prog.program[('Q0.qdrv', 'Q0.rdrv', 'Q0.rdlo')]:
