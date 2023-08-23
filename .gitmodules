@@ -1,15 +1,15 @@
 [submodule "submodules/board-support"]
 	path = submodules/board-support
-	url = ../../lbl-bids/board-support.git
+	url = https://gitlab.com/lbl-bids/board-support.git
 [submodule "submodules/common-hdl"]
 	path = submodules/common-hdl
-	url = ../../lbl-bids/common-hdl.git
+	url = https://gitlab.com/lbl-bids/common-hdl.git
 [submodule "submodules/fpga-family"]
 	path = submodules/fpga-family
-	url = ../../lbl-bids/fpga-family.git
+	url = https://gitlab.com/lbl-bids/fpga-family.git
 [submodule "submodules/tools"]
 	path = submodules/tools
-	url = ../../lbl-bids/tools.git
+	url = https://gitlab.com/lbl-bids/tools.git
 [submodule "submodules/distributed_processor"]
 	path = submodules/distributed_processor
-	url = ../../LBL-QubiC/distributed_processor.git
+	url = https://gitlab.com/lbl-qubic/distributed_processor.git
