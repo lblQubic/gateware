@@ -4,7 +4,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import ipdb
 import dsp_drivers as dsp
-from hwconfig import RFSoCElementCfg
+from qubic.rfsoc.hwconfig import RFSoCElementCfg
 import distproc.assembler as asm
 import distproc.compiler as cm
 import sim_tools as st
@@ -909,6 +909,46 @@ async def test_asm_cw(dut):
 
     #TODO: fix amp issue
     assert st.check_dacout_equal(dacout_sim, dspunit.dac_out[0])
+
+@cocotb.test()
+async def test_compile_cw(dut):
+    qchip = qc.QChip('qubitcfg.json')
+    fpga_config = {'alu_instr_clks': 4,
+                   'fpga_clk_period': 2.e-9,
+                   'jump_cond_clks': 5,
+                   'jump_fproc_clks': 5,
+                   'pulse_regwrite_clks': 4}
+    program = [
+            {'name' : 'pulse', 'freq' : 347.e6, 'phase' : 0, 'env' : 'cw', 'amp' : 0.99, 
+             'start_time': 50, 'twidth': 100.e-9, 'dest': 'Q0.qdrv'}]
+
+    fpga_config = hw.FPGAConfig(**fpga_config)
+    channel_configs = hw.load_channel_configs('../../../submodules/distributed_processor/python/test/channel_config.json')
+    compiler = cm.Compiler(program)
+    compiler.run_ir_passes(cm.get_default_passes(fpga_config, qchip))
+    compiled_prog = compiler.compile()
+    #compiled_prog = cm.CompiledProgram(compiler.asm_progs, fpga_config)
+    for statement in compiled_prog.program[('Q0.qdrv', 'Q0.rdrv', 'Q0.rdlo')]:
+        print(statement)
+
+    globalasm = asm.GlobalAssembler(compiled_prog, channel_configs, RFSoCElementCfg)
+    asmprog = globalasm.get_assembled_program()
+
+
+    dspunit = dsp.DSPDriver(dut, 16, 16, 4, 16)
+    qdrvelemcfg = RFSoCElementCfg(16)
+    rdrvelemcfg = RFSoCElementCfg(16, interp_ratio=16)
+    rdloelemcfg = RFSoCElementCfg(4, interp_ratio=4)
+
+    cocotb.start_soon(dsp.generate_clock(dut))
+    await dspunit.load_program([asmprog['0']['cmd_buf']])
+    await dspunit.load_env_buffer(asmprog['0']['env_buffers'][0], 0, 0)
+    await dspunit.load_freq_buffer(asmprog['0']['freq_buffers'][0], 0, 0)
+    await dspunit.run_program(1000)
+
+
+    plt.plot(dspunit.dac_out[0])
+    plt.show()
 
 
 #@cocotb.test()
