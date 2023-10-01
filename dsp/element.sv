@@ -66,7 +66,7 @@ ammod #(.NSLICE(NSLICE))
 ammod(.clk(elem.clk),.gatein(busy_sr[3]),.tcnt(elem.tcnt),.freqcossinp32x16(freqdata_r2),.envxy32x16(envdata_r3),.pini(elem.pini),.multix16x16(elem.multix),.multiy16x16(elem.multiy),.ampx(elem.ampx),.gateout(elem.valid));
 //ammod(.clk(elem.clk),.gatein(busy_sr[1]|elem.cw),.tcnt(elem.tcnt),.freqcossinp32x16(freqdata_r2),.envxy32x16(envdata_r2),.pini(elem.pini),.multix16x16(elem.multix),.multiy16x16(elem.multiy),.ampx(elem.ampx),.gateout(elem.valid));
 assign elem.prepbusy=|busy_sr;
-assign elem.pulsebusy=elem.valid;
+assign elem.pulsebusy=elem.valid; //TODO: change to low when CW
 endmodule
 
 module elementout#(parameter ENV_ADDRWIDTH=32,parameter ENV_DATAWIDTH=32,parameter FREQ_ADDRWIDTH=32,parameter FREQ_DATAWIDTH=32)(ifelement.out elem

@@ -276,7 +276,7 @@ async def test_adc_lb(dut):
     adc_fullscale = 2**15-1
 
     dspunit = dsp.DSPDriver(dut, 16, 16, 4, 16)
-    adc_signal = adc_fullscale*np.cos(2*np.pi*freq*(1.e-9*dsp.CLK_CYCLE/dspunit.adc_samples_per_clk)*np.arange(pulse_length) + phase)
+    adc_signal = adc_fullscale*np.cos(2*np.pi*freq*(1.e-9*2*dsp.CLK_CYCLE/dspunit.adc_samples_per_clk)*np.arange(pulse_length) + phase)
     adc_signal[-1] = 0
 
     prog = asm.SingleCoreAssembler([dacelemcfg, dacelemcfg, adcelemcfg])
@@ -322,7 +322,7 @@ async def test_accbuf(dut):
     adc_fullscale = 2**15-1
 
     dspunit = dsp.DSPDriver(dut, 16, 16, 4, 16)
-    adc_signal = adc_fullscale*np.cos(2*np.pi*freq*(1.e-9*dsp.CLK_CYCLE/dspunit.adc_samples_per_clk)*np.arange(pulse_length) + phase)
+    adc_signal = adc_fullscale*np.cos(2*np.pi*freq*(1.e-9*2*dsp.CLK_CYCLE/dspunit.adc_samples_per_clk)*np.arange(pulse_length) + phase)
     adc_signal[-1] = 0
 
     prog = asm.SingleCoreAssembler([qdrvelemcfg, rdrvelemcfg, rdloelemcfg])
@@ -388,7 +388,7 @@ async def test_acc_sweep(dut):
     adc_fullscale = 2**15-1
 
     dspunit = dsp.DSPDriver(dut, 16, 16, 4, 16)
-    adc_signal = adc_fullscale*np.cos(2*np.pi*freq*(1.e-9*dsp.CLK_CYCLE/dspunit.adc_samples_per_clk)*np.arange(40000) + phase)
+    adc_signal = adc_fullscale*np.cos(2*np.pi*freq*(1.e-9*2*dsp.CLK_CYCLE/dspunit.adc_samples_per_clk)*np.arange(40000) + phase)
     adc_signal[-1] = 0
 
     prog = asm.SingleCoreAssembler([qdrvelemcfg, rdrvelemcfg, rdloelemcfg])
