@@ -591,7 +591,7 @@ async def test_fproc_jump(dut):
              'start_time': 5, 'elem_ind': 1}, 
             {'op' : 'pulse', 'freq' : 347.e6, 'phase' : 0, 'env' : np.ones(200), 'amp' : 0.5, 
              'start_time': 25, 'elem_ind': 2}, 
-            {'op' : 'jump_fproc', 'in0': 0, 'alu_op': 'eq', 'jump_label': 'done'},
+            {'op' : 'jump_fproc', 'in0': 1, 'alu_op': 'eq', 'jump_label': 'done'},
             {'op' : 'pulse', 'freq' : 347.e6, 'phase' : 0, 'env' : np.ones(200), 'amp' : 0.5, 
              'start_time': 300, 'elem_ind': 0}, 
             {'op' : 'done_stb', 'label': 'done'}]
@@ -623,7 +623,7 @@ async def test_fproc_notjump(dut):
              'start_time': 5, 'elem_ind': 1}, 
             {'op' : 'pulse', 'freq' : 347.e6, 'phase' : 0, 'env' : np.ones(200), 'amp' : 0.5, 
              'start_time': 25, 'elem_ind': 2}, 
-            {'op' : 'jump_fproc', 'in0': 1, 'alu_op': 'eq', 'jump_label': 'done'},
+            {'op' : 'jump_fproc', 'in0': 0, 'alu_op': 'eq', 'jump_label': 'done'},
             {'op' : 'pulse', 'freq' : 347.e6, 'phase' : 0, 'env' : np.ones(200), 'amp' : 0.5, 
              'start_time': 300, 'elem_ind': 0}, 
             {'op' : 'done_stb', 'label': 'done'}]
@@ -655,7 +655,7 @@ async def test_fproc_jump_ph_adj(dut):
              'start_time': 5, 'elem_ind': 1}, 
             {'op' : 'pulse', 'freq' : 347.e6, 'phase' : np.pi, 'env' : np.ones(200), 'amp' : 0.5, 
              'start_time': 25, 'elem_ind': 2}, 
-            {'op' : 'jump_fproc', 'in0': 1, 'alu_op': 'eq', 'jump_label': 'done'},
+            {'op' : 'jump_fproc', 'in0': 0, 'alu_op': 'eq', 'jump_label': 'done'},
             {'op' : 'pulse', 'freq' : 347.e6, 'phase' : 0, 'env' : np.ones(200), 'amp' : 0.5, 
              'start_time': 300, 'elem_ind': 0}, 
             {'op' : 'done_stb', 'label': 'done'}]
@@ -695,7 +695,7 @@ async def test_fproc_jump_diffcore(dut):
 
     progdict2 = [{'op' : 'declare_reg', 'name' : 'fproc_meas0'},
             {'op' : 'phase_reset'},
-            {'op' : 'jump_fproc', 'in0': 1, 'alu_op': 'eq', 'jump_label': 'done', 'func_id': 1},
+            {'op' : 'jump_fproc', 'in0': 0, 'alu_op': 'eq', 'jump_label': 'done', 'func_id': 1},
             {'op' : 'pulse', 'freq' : 347.e6, 'phase' : 0, 'env' : np.ones(200), 'amp' : 0.5, 
              'start_time': 300, 'elem_ind': 0}, 
             {'op' : 'done_stb', 'label': 'done'}]
@@ -748,7 +748,7 @@ async def test_fproc_nojump_diffcore(dut):
 
     progdict2 = [{'op' : 'declare_reg', 'name' : 'fproc_meas0'},
             {'op' : 'phase_reset'},
-            {'op' : 'jump_fproc', 'in0': 1, 'alu_op': 'eq', 'jump_label': 'done', 'func_id': 1},
+            {'op' : 'jump_fproc', 'in0': 0, 'alu_op': 'eq', 'jump_label': 'done', 'func_id': 1},
             {'op' : 'pulse', 'freq' : 347.e6, 'phase' : 0, 'env' : np.ones(200), 'amp' : 0.5, 
              'start_time': 300, 'elem_ind': 0}, 
             {'op' : 'done_stb', 'label': 'done'}]
@@ -798,7 +798,7 @@ async def test_fproc_reset_compile(dut):
                    'pulse_regwrite_clks': 4}
     program = [{'name': 'X90', 'qubit': ['Q0']},
                {'name': 'read_test', 'qubit': ['Q0']},
-               {'name': 'branch_fproc', 'alu_cond': 'eq', 'cond_lhs': 0, 'func_id': 0, 'scope': ['Q0'],
+               {'name': 'branch_fproc', 'alu_cond': 'eq', 'cond_lhs': 1, 'func_id': 0, 'scope': ['Q0'],
                 'true': [{'name': 'delay', 't': 146.e-9, 'qubit': ['Q0']},
                              {'name': 'X90', 'qubit': ['Q0']}, 
                              {'name': 'X90', 'qubit': ['Q0']}], 
@@ -839,7 +839,7 @@ async def test_fproc_noreset_compile(dut):
                    'pulse_regwrite_clks': 4}
     program = [{'name': 'X90', 'qubit': ['Q0']},
                {'name': 'read_test', 'qubit': ['Q0']},
-               {'name': 'branch_fproc', 'alu_cond': 'eq', 'cond_lhs': 1, 'func_id': 0, 'scope': ['Q0'],
+               {'name': 'branch_fproc', 'alu_cond': 'eq', 'cond_lhs': 0, 'func_id': 0, 'scope': ['Q0'],
                 'true': [{'name': 'delay', 't': 146.e-9, 'qubit': ['Q0']},
                              {'name': 'X90', 'qubit': ['Q0']}, 
                              {'name': 'X90', 'qubit': ['Q0']}], 
