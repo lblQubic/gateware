@@ -950,6 +950,57 @@ async def test_compile_cw(dut):
     plt.plot(dspunit.dac_out[0])
     plt.show()
 
+@cocotb.test()
+async def test_cond_bitflip(dut):
+    qchip = qc.QChip('qubitcfg.json')
+    program = [
+        {'name': 'X90', 'qubit': ['Q1']},
+        {'name': 'read', 'qubit': ['Q1']},
+        {'name': 'branch_fproc', 'alu_cond': 'eq', 'cond_lhs': 1, 'func_id': 'Q1.meas', 'scope': ['Q0', 'Q1'],
+                    'true': [
+                                 {'name': 'X90', 'qubit': ['Q0']}, 
+                                 {'name': 'X90', 'qubit': ['Q0']}], 
+                    'false': []},
+        {'name': 'barrier', 'qubit':['Q0', 'Q1']},
+        {'name': 'read', 'qubit': ['Q0']},
+        {'name': 'read', 'qubit': ['Q1']},
+    
+    ]
+
+    fpga_config = hw.FPGAConfig()
+    channel_configs = hw.load_channel_configs('../../../submodules/distributed_processor/python/test/channel_config.json')
+    compiler = cm.Compiler(program)
+    compiler.run_ir_passes(cm.get_default_passes(fpga_config, qchip))
+    compiled_prog = compiler.compile()
+    #compiled_prog = cm.CompiledProgram(compiler.asm_progs, fpga_config)
+    for statement in compiled_prog.program[('Q0.qdrv', 'Q0.rdrv', 'Q0.rdlo')]:
+        print(statement)
+    for statement in compiled_prog.program[('Q1.qdrv', 'Q1.rdrv', 'Q1.rdlo')]:
+        print(statement)
+
+    globalasm = asm.GlobalAssembler(compiled_prog, channel_configs, RFSoCElementCfg)
+    asmprog = globalasm.get_assembled_program()
+
+    dspunit = dsp.DSPDriver(dut, 16, 16, 4, 16)
+
+    cocotb.start_soon(dsp.generate_clock(dut))
+    await dspunit.load_program([asmprog['0']['cmd_buf'], asmprog['1']['cmd_buf']])
+    await dspunit.load_env_buffer(asmprog['0']['env_buffers'][0], 0, 0)
+    await dspunit.load_freq_buffer(asmprog['0']['freq_buffers'][0], 0, 0)
+    await dspunit.load_env_buffer(asmprog['0']['env_buffers'][1], 1, 0)
+    await dspunit.load_freq_buffer(asmprog['0']['freq_buffers'][1], 1, 0)
+    await dspunit.load_env_buffer(asmprog['0']['env_buffers'][2], 2, 0)
+    await dspunit.load_freq_buffer(asmprog['0']['freq_buffers'][2], 2, 0)
+
+    await dspunit.load_env_buffer(asmprog['1']['env_buffers'][0], 0, 1)
+    await dspunit.load_freq_buffer(asmprog['1']['freq_buffers'][0], 0, 1)
+    await dspunit.load_env_buffer(asmprog['1']['env_buffers'][1], 1, 1)
+    await dspunit.load_freq_buffer(asmprog['1']['freq_buffers'][1], 1, 1)
+    await dspunit.load_env_buffer(asmprog['1']['env_buffers'][2], 2, 1)
+    await dspunit.load_freq_buffer(asmprog['1']['freq_buffers'][2], 2, 1)
+    await dspunit.run_program(1500)
+    #assert np.all(dspunit.dac_out[0][1250:] == 0)
+
 
 #@cocotb.test()
 #async def test_long_twidth(dut):
