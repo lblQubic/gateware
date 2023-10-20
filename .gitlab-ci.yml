@@ -34,8 +34,10 @@ test-dsp-zcu216-fullsample:
   stage: test
   script:
     - pip install git+https://gitlab.com/LBL-QubiC/experiments/qubitconfig.git
-    - git clone https://gitlab.com/LBL-QubiC/distributed_processor.git
-    - pip install -e distributed_processor/python
+      #- git clone https://gitlab.com/LBL-QubiC/distributed_processor.git
+    - pip install -e submodules/distributed_processor/python
+    - git clone https://gitlab.com/LBL-QubiC/software.git -b rfsoc
+    - pip install -e software
     - cd top/zcu216
     - make pre
     - cd ../../dsp/cocotb/rfsoc_4qubit_fullrate

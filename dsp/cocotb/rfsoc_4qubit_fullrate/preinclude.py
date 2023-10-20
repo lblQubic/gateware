@@ -38,13 +38,9 @@ def svinclude(sorig,vhlist,oneline=False):
 #        for s in match:
 #            re.sub(s,vhdict[
 #            print(orig,match,[vhdict[m] for m in match])
-if __name__=="__main__":
-    import argparse
-    parser = argparse.ArgumentParser()
-    parser.add_argument(type=str, help='dependent', dest="dep")
-    parser.add_argument( "-oneline","--oneline", dest='oneline',action='store_true', default=False,help="remove all \\n in vh")
-    clargs = parser.parse_args()
-    with open(clargs.dep,'r') as fd:
+
+def preinclude(dep, oneline):
+    with open(dep,'r') as fd:
         sd=fd.read().split('\n')
     files=dict(v=[],sv=[],vh=[])
     for p in [l for l in sd if l]:
@@ -61,10 +57,19 @@ if __name__=="__main__":
     for index,f in enumerate(vsv):
         with open(f) as fread:
             orig=fread.read()
-        cnt,srep=svinclude(orig,files['vh'],oneline=clargs.oneline)
+        cnt,srep=svinclude(orig,files['vh'],oneline=oneline)
         if cnt>0:
             fnew='./gensrc/'+os.path.basename(f)
             vsv[index]=fnew
             with open(fnew,'w') as fw:
                 fw.write(srep)
+    return vsv
+
+if __name__=="__main__":
+    import argparse
+    parser = argparse.ArgumentParser()
+    parser.add_argument(type=str, help='dependent', dest="dep")
+    parser.add_argument( "-oneline","--oneline", dest='oneline',action='store_true', default=False,help="remove all \\n in vh")
+    clargs = parser.parse_args()
+    vsv = preinclude(clargs.dep, clargs.oneline)
     print('\n'.join(vsv))
