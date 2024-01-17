@@ -398,7 +398,7 @@ always @(posedge dspif.clk) begin
 		state <= nextstate;
 	end
 end
-always @(state) begin
+always @(*) begin
 	nextstate=IDLE;
 	case (state)
 		IDLE: begin

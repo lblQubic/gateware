@@ -166,7 +166,7 @@ class DSPDriver:
             await RisingEdge(self._dut.clk)
             for name, sig in self.mon_signals:
                 self.mon_data[name].append(sig.value)
-            dac_out.append([int(val) for val in self._dac_out_signal.value[::-1]])
+            dac_out.append([int(val) for val in self._dac_out_signal.value])
 
         dac_out = np.transpose(np.asarray(dac_out))
         self.dac_out = np.empty((self.n_dac, ncycles*self.dac_samples_per_clk))
