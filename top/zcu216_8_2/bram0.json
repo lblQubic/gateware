@@ -8,4 +8,5 @@
 ,"rdlofreq":{"cnt":8,"cfg":{"Awidth":32,"Adepth":2048,"Bwidth":128,"latency":2,"prefix":"RDLOFREQ","access":"r","address":null,"ram_style":"block"}}
 ,"rdrvenv":{"cnt":8,"cfg":{"Awidth":32,"Adepth":4096,"Bwidth":32,"latency":2,"prefix":"RDRVENV","access":"r","address":null,"ram_style":"block"}}
 ,"rdrvfreq":{"cnt":8,"cfg":{"Awidth":32,"Adepth":8192,"Bwidth":512,"latency":2,"prefix":"RDRVFREQ","access":"r","address":null,"ram_style":"block"}}
+,"sdbuf":{"cnt":8,"cfg":{"Awidth":32,"Adepth":1024,"Bwidth":32,"latency":2,"prefix":"SDBUF","access":"w","address":null,"ram_style":"block"}}
 }

@@ -79,3 +79,15 @@ reset_portinst.vh
 rfdc_plsv.vh
 rfdc_port.vh
 rfdc_portinst.vh
+../../dsp/statediscML/state_disc.sv
+../../dsp/statediscML/normalizer.sv
+../../dsp/statediscML/nn_model.sv
+../../dsp/statediscML/dense_latency_ap_fixed_16_6_5_3_0_ap_fixed_16_6_5_3_0_config6_0_0.sv
+../../dsp/statediscML/dense_latency_ap_fixed_ap_fixed_16_6_5_3_0_config2_0_0_0_0_0_0_0_0_0.sv
+../../dsp/statediscML/dense_latency_ap_fixed_ap_fixed_16_6_5_3_0_config4_0_0_0_0_0.sv
+../../dsp/statediscML/relu_ap_fixed_16_6_5_3_0_ap_fixed_16_6_5_3_0_relu_config3_s.v
+../../dsp/statediscML/relu_ap_fixed_16_6_5_3_0_ap_fixed_16_6_5_3_0_relu_config5_s.v
+../../dsp/statediscML/sigmoid_ap_fixed_16_6_5_3_0_ap_fixed_16_6_5_3_0_sigmoid_config7_s_sigmoid_tabbkb_rom.vh
+../../dsp/statediscML/sigmoid_ap_fixed_16_6_5_3_0_ap_fixed_16_6_5_3_0_sigmoid_config7_s_sigmoid_tabbkb.sv
+../../dsp/statediscML/sigmoid_ap_fixed_16_6_5_3_0_ap_fixed_16_6_5_3_0_sigmoid_config7_s.v
+ml_para.vh

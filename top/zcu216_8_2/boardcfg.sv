@@ -198,6 +198,8 @@ assign dspregs.addr_accbuf_mon0=dspif.addr_accbuf_mon0;
 assign dspregs.addr_accbuf_mon1=dspif.addr_accbuf_mon1;
 assign dspregs.addr_accbuf_mon2=dspif.addr_accbuf_mon2;
 assign dspregs.addr_accbuf_mon3=dspif.addr_accbuf_mon3;
+assign dspregs.addr_sdbuf_mon0=dspif.addr_sdbuf_mon0;
+assign dspregs.addr_sdbuf_mon1=dspif.addr_sdbuf_mon1;
 
 assign dspif.acqbufreset=dspregs.acqbufreset;
 assign dspif.dacmonreset=dspregs.dacmonreset;
@@ -231,6 +233,13 @@ assign dspif.coef[3][0]=dspregs.coef30;
 assign dspif.coef[3][1]=dspregs.coef31;
 assign dspif.coef[3][2]=dspregs.coef32;
 assign dspif.coef[3][3]=dspregs.coef33;
+
+
+
+`include "ml_para.vh";
+
+
+
 assign dspregs.procdone=dspif.procdone;
 assign dspregs.cnt00=dac00axis.cnt;
 assign dspregs.cnt01=dac01axis.cnt;

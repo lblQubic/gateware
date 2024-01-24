@@ -92,6 +92,10 @@ endgenerate
 
 ifxma #(.NDAC(NDAC),.DAC_AXIS_DATAWIDTH(DAC_AXIS_DATAWIDTH)) xmaif(.clk(dspif.clk));
 
+// ifsd #(.NDLO(NDLO)) sdif(.clk(dspif.clk));
+ifsd sdif[0:NDLO-1](.clk(dspif.clk));
+
+
 generate
 for (genvar i=0;i<NPROC;i=i+1) begin: qdrvouts
 	elementout #(.ENV_ADDRWIDTH(QDRVENV_R_ADDRWIDTH),.ENV_DATAWIDTH(QDRVENV_R_DATAWIDTH),.FREQ_ADDRWIDTH(QDRVFREQ_R_ADDRWIDTH),.FREQ_DATAWIDTH(QDRVFREQ_R_DATAWIDTH))
@@ -150,6 +154,34 @@ endgenerate
 //assign dspif.dac[2]=xmaif.sumcplxx[2];
 //assign dspif.dac[3]=xmaif.sumcplxx[3];
 assign xmaif.coef=dspif.coef;
+// generate
+// 	for (genvar i=0;i<NDLO;i=i+1) begin: weight_bias_interface
+// 		assign sdif[i].weight_bias = dspif.weight_bias[i];
+// 		assign sdif[i].normalizer_min = dspif.normalizer_min[i];
+// 	end
+// endgenerate
+
+reg [17:0] weight_bias_r [0:NDLO-1][0:64];
+reg [31:0] normalizer_min_r [0:NDLO-1][0:1];
+generate
+	for (genvar i=0;i<NDLO;i=i+1) begin: weight_bias_reg
+		always@(posedge dspif.clk) begin
+			weight_bias_r[i] <= dspif.weight_bias[i];
+			normalizer_min_r[i] <= dspif.normalizer_min[i];
+		end
+	end
+endgenerate
+generate
+	for (genvar i=0;i<NDLO;i=i+1) begin: weight_bias_interface
+		assign sdif[i].weight_bias = weight_bias_r[i];
+		assign sdif[i].normalizer_min = normalizer_min_r[i];
+	end
+endgenerate
+
+
+// assign sdif.weight_bias=dspif.weight_bias;
+// assign sdif.normalizer_min=dspif.normalizer_min;
+
 
 reg [ADC_AXIS_DATAWIDTH-1:0] adc[0:NADC-1];
 reg [ADC_AXIS_DATAWIDTH-1:0] dacundersample[0:NDAC-1];
@@ -203,8 +235,12 @@ end
 localparam NDLO=NDLO1+NDLO2;
 reg [ACCBUF_W_DATAWIDTH-1:0] data_accbuf[0:NDLO-1];
 reg [ACCBUF_W_ADDRWIDTH-1:0] addr_accbuf[0:NDLO-1];
+reg [SDBUF_W_ADDRWIDTH-1:0] addr_sdbuf[0:NDLO-1];
 wire locklast_accbuf[0:NDLO-1];
+wire locklast_sdbuf [0:NDLO-1];
 reg we_accbuf[0:NDLO-1];
+reg we_sdbuf[0:NDLO-1];
+
 /*
 generate 
 for (genvar i=0;i<NDLO;i=i+1) begin: rdlomixacc
@@ -240,6 +276,46 @@ for (genvar i=0;i<NDLO;i=i+1) begin: rdlomixacc
 	end
 end
 endgenerate
+
+//reg defination for ML 
+reg nn_idle [0:NDLO-1];
+reg nn_ready [0:NDLO-1];
+reg nn_done [0:NDLO-1];
+reg [17:0] inference_prob [0:NDLO-1];
+reg inference_state [0:NDLO-1];
+
+localparam STATEDISC_IN_DATAWIDTH=32;
+localparam STATEDISC_OUT_DATAWIDTH=18;
+generate 
+	for (genvar i =0; i<NDLO;i=i+1) begin: statedisc
+		state_disc #(.STATEDISC_IN_DATAWIDTH(STATEDISC_IN_DATAWIDTH), .STATEDISC_OUT_DATAWIDTH(STATEDISC_OUT_DATAWIDTH)) state_disc (
+			.sdif(sdif[i]),
+			.rst(1'b0),
+			.start_trigger(we_accbuf[i]),
+			.accumulated_data(data_accbuf[i]),
+			.idle(nn_idle[i]),
+			.ready(nn_ready[i]),
+			.inference_prob(inference_prob[i]), 
+			.inference_state(inference_state[i]),
+			.done_trigger(nn_done[i])
+		);
+
+		/* Used reset of accbuf, since it was from software side, so enough time 
+		for ML to complete the computation and perform write operation in mem block */
+
+		assign locklast_sdbuf[i]=&addr_sdbuf[i];
+		always @(posedge dspif.clk) begin
+			we_sdbuf[i] <= nn_done[i];
+			addr_sdbuf[i] <= resetacc[i] ? 0 : addr_sdbuf[i]+ (~locklast_sdbuf[i] & we_sdbuf[i]);
+		end
+	end
+endgenerate
+
+generate
+	for (genvar i =0 ;i<NDLO ;i=i+1 ) begin: concat	
+		assign dspif.data_sdbuf[i] = {inference_state[i],13'd0,inference_prob[i]};
+	end
+endgenerate
 assign dspif.data_accbuf=data_accbuf;
 assign dspif.addr_accbuf=addr_accbuf;
 assign dspif.we_accbuf=we_accbuf;
@@ -247,6 +323,11 @@ assign dspif.addr_accbuf_mon0=addr_accbuf[0];
 assign dspif.addr_accbuf_mon1=addr_accbuf[1];
 assign dspif.addr_accbuf_mon2=addr_accbuf[2];
 assign dspif.addr_accbuf_mon3=addr_accbuf[3];
+
+assign dspif.we_sdbuf=we_sdbuf;
+assign dspif.addr_sdbuf=addr_sdbuf;
+assign dspif.addr_sdbuf_mon0=addr_sdbuf[0];
+assign dspif.addr_sdbuf_mon1=addr_sdbuf[1];
 
 reg [DAC_AXIS_DATAWIDTH-1:0] dac[0:3];
 
@@ -398,7 +479,7 @@ always @(posedge dspif.clk) begin
 		state <= nextstate;
 	end
 end
-always @(state) begin
+always @(*) begin
 	nextstate=IDLE;
 	case (state)
 		IDLE: begin
