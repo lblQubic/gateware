@@ -1,0 +1,6 @@
+<testsuites name="results">
+  <testsuite name="all" package="all">
+    <property name="random_seed" value="1706218637" />
+    <testcase name="inference_test" classname="interface_test" file="/home/neelvora/Projects/readout/gateware/dsp/statediscML/interface_test.py" lineno="26" time="0.21047043800354004" sim_time_ns="298.001" ratio_time="1415.8805522844386" />
+  </testsuite>
+</testsuites>

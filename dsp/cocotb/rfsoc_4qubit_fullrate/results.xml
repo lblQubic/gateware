@@ -1,0 +1,58 @@
+<testsuites name="results">
+  <testsuite name="all" package="all">
+    <property name="random_seed" value="1706318577" />
+    <testcase name="test_const_pulse" classname="test_dsp" file="/home/neelvora/Projects/readout/gateware/dsp/cocotb/rfsoc_4qubit_fullrate/test_dsp.py" lineno="15" time="0.7883267402648926" sim_time_ns="1289.001" ratio_time="1635.1100808363692">
+      <failure />
+    </testcase>
+    <testcase name="test_ramp_pulse" classname="test_dsp" file="/home/neelvora/Projects/readout/gateware/dsp/cocotb/rfsoc_4qubit_fullrate/test_dsp.py" lineno="48" time="1.242321252822876" sim_time_ns="3081.001" ratio_time="2480.0356534182824">
+      <failure />
+    </testcase>
+    <testcase name="test_consecutive_id_ramp_pulse" classname="test_dsp" file="/home/neelvora/Projects/readout/gateware/dsp/cocotb/rfsoc_4qubit_fullrate/test_dsp.py" lineno="85" time="0.5709426403045654" sim_time_ns="1265.0009999999993" ratio_time="2215.6358812597937">
+      <failure />
+    </testcase>
+    <testcase name="test_consecutive_ramp_pulse" classname="test_dsp" file="/home/neelvora/Projects/readout/gateware/dsp/cocotb/rfsoc_4qubit_fullrate/test_dsp.py" lineno="121" time="0.6594827175140381" sim_time_ns="1521.0010000000002" ratio_time="2306.3546012752386">
+      <failure />
+    </testcase>
+    <testcase name="test_consecutive_immediate_ramp_pulse" classname="test_dsp" file="/home/neelvora/Projects/readout/gateware/dsp/cocotb/rfsoc_4qubit_fullrate/test_dsp.py" lineno="158" time="0.704064130783081" sim_time_ns="1521.0009999999993" ratio_time="2160.315990403171">
+      <failure />
+    </testcase>
+    <testcase name="test_qdrv_initphase_ramp" classname="test_dsp" file="/home/neelvora/Projects/readout/gateware/dsp/cocotb/rfsoc_4qubit_fullrate/test_dsp.py" lineno="196" time="1.5363590717315674" sim_time_ns="3081.001" ratio_time="2005.3912244144399">
+      <failure />
+    </testcase>
+    <testcase name="test_rdrv_pulse" classname="test_dsp" file="/home/neelvora/Projects/readout/gateware/dsp/cocotb/rfsoc_4qubit_fullrate/test_dsp.py" lineno="231" time="6.531311750411987" sim_time_ns="12065.001000000002" ratio_time="1847.2554153059616">
+      <failure />
+    </testcase>
+    <testcase name="test_adc_lb" classname="test_dsp" file="/home/neelvora/Projects/readout/gateware/dsp/cocotb/rfsoc_4qubit_fullrate/test_dsp.py" lineno="263" time="1.917919397354126" sim_time_ns="4461.001" ratio_time="2325.9585393182806" />
+    <testcase name="test_accbuf" classname="test_dsp" file="/home/neelvora/Projects/readout/gateware/dsp/cocotb/rfsoc_4qubit_fullrate/test_dsp.py" lineno="308" time="3.1192119121551514" sim_time_ns="6507.000999999997" ratio_time="2086.1041773542493" />
+    <testcase name="test_acc_sweep" classname="test_dsp" file="/home/neelvora/Projects/readout/gateware/dsp/cocotb/rfsoc_4qubit_fullrate/test_dsp.py" lineno="373" time="14.128131628036499" sim_time_ns="20897.001000000004" ratio_time="1479.105769267541" />
+    <testcase name="test_compile_chain_linear" classname="test_dsp" file="/home/neelvora/Projects/readout/gateware/dsp/cocotb/rfsoc_4qubit_fullrate/test_dsp.py" lineno="484" time="1.221904993057251" sim_time_ns="2593.0009999999966" ratio_time="2122.0970654291323" />
+    <testcase name="test_compile_chain_pulse" classname="test_dsp" file="/home/neelvora/Projects/readout/gateware/dsp/cocotb/rfsoc_4qubit_fullrate/test_dsp.py" lineno="521" time="1.4847140312194824" sim_time_ns="2465.001000000004" ratio_time="1660.2530508688965" />
+    <testcase name="test_fproc_read" classname="test_dsp" file="/home/neelvora/Projects/readout/gateware/dsp/cocotb/rfsoc_4qubit_fullrate/test_dsp.py" lineno="557" time="0.0006814002990722656" sim_time_ns="0.000999999996565748" ratio_time="1.4675661251209597">
+      <failure />
+    </testcase>
+    <testcase name="test_fproc_jump" classname="test_dsp" file="/home/neelvora/Projects/readout/gateware/dsp/cocotb/rfsoc_4qubit_fullrate/test_dsp.py" lineno="592" time="0.0004169940948486328" sim_time_ns="0.0010000000038417056" ratio_time="2.3981155037811783">
+      <failure />
+    </testcase>
+    <testcase name="test_fproc_notjump" classname="test_dsp" file="/home/neelvora/Projects/readout/gateware/dsp/cocotb/rfsoc_4qubit_fullrate/test_dsp.py" lineno="625" time="0.0003402233123779297" sim_time_ns="0.000999999996565748" ratio_time="2.939245960473513">
+      <failure />
+    </testcase>
+    <testcase name="test_fproc_jump_ph_adj" classname="test_dsp" file="/home/neelvora/Projects/readout/gateware/dsp/cocotb/rfsoc_4qubit_fullrate/test_dsp.py" lineno="658" time="0.00039768218994140625" sim_time_ns="0.0010000000038417056" ratio_time="2.514570753065516">
+      <failure />
+    </testcase>
+    <testcase name="test_fproc_jump_diffcore" classname="test_dsp" file="/home/neelvora/Projects/readout/gateware/dsp/cocotb/rfsoc_4qubit_fullrate/test_dsp.py" lineno="692" time="0.0003707408905029297" sim_time_ns="0.000999999996565748" ratio_time="2.697301598453828">
+      <failure />
+    </testcase>
+    <testcase name="test_fproc_nojump_diffcore" classname="test_dsp" file="/home/neelvora/Projects/readout/gateware/dsp/cocotb/rfsoc_4qubit_fullrate/test_dsp.py" lineno="749" time="0.00042557716369628906" sim_time_ns="0.000999999996565748" ratio_time="2.3497501319863883">
+      <failure />
+    </testcase>
+    <testcase name="test_fproc_reset_compile" classname="test_dsp" file="/home/neelvora/Projects/readout/gateware/dsp/cocotb/rfsoc_4qubit_fullrate/test_dsp.py" lineno="802" time="1.8665826320648193" sim_time_ns="3641.001000000004" ratio_time="1950.6240642410337">
+      <failure />
+    </testcase>
+    <testcase name="test_fproc_noreset_compile" classname="test_dsp" file="/home/neelvora/Projects/readout/gateware/dsp/cocotb/rfsoc_4qubit_fullrate/test_dsp.py" lineno="837" time="2.151336193084717" sim_time_ns="3641.001000000004" ratio_time="1692.4370127289658" />
+    <testcase name="test_asm_cw" classname="test_dsp" file="/home/neelvora/Projects/readout/gateware/dsp/cocotb/rfsoc_4qubit_fullrate/test_dsp.py" lineno="871" time="1.2893712520599365" sim_time_ns="2553.0009999999893" ratio_time="1980.0356149722136">
+      <failure />
+    </testcase>
+    <testcase name="test_compile_cw" classname="test_dsp" file="/home/neelvora/Projects/readout/gateware/dsp/cocotb/rfsoc_4qubit_fullrate/test_dsp.py" lineno="913" time="1.1038188934326172" sim_time_ns="2097.001000000004" ratio_time="1899.7690766814326" />
+    <testcase name="test_cond_bitflip" classname="test_dsp" file="/home/neelvora/Projects/readout/gateware/dsp/cocotb/rfsoc_4qubit_fullrate/test_dsp.py" lineno="953" time="6.140254497528076" sim_time_ns="12057.001000000004" ratio_time="1963.5995551737917" />
+  </testsuite>
+</testsuites>
