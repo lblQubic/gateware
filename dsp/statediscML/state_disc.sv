@@ -67,7 +67,8 @@ endmodule
 
 interface ifsd 
     (input clk);
-    logic [17:0]weight_bias [0:64];
-	logic [31:0]normalizer_min [0:1];
-    modport sd(input clk, weight_bias,normalizer_min);
+    logic [31:0] sdpara [0:66];
+    //logic [17:0] weight_bias [0:64];
+	//logic [31:0] normalizer_min [0:1];
+    modport sd(input clk, sdpara);//weight_bias,normalizer_min);
 endinterface //ifsd
