@@ -83,21 +83,6 @@ module dsp_sim_toplevel#(
     end
     endgenerate
 
-    generate for (genvar i=0;i<8;i=i+1) begin
-         for(genvar j=0;j<65;j=j+1) begin
-            assign dspif.weight_bias[i][j] = 18'h3FFFF;
-        end
-
-    end
-    endgenerate
-
-     generate for (genvar i=0;i<8;i=i+1) begin
-         for(genvar j=0;j<2;j=j+1) begin
-            assign dspif.normalizer_min[i][j] = 32'h3FF;
-        end
-    end
-    endgenerate
-
     dsp dspmod(.dspif(dspif));
 
 endmodule

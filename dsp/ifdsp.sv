@@ -76,6 +76,7 @@ interface ifdsp #(
 	logic stb_paraload_start;
 	//logic [17:0]weight_bias [0:NDLO-1][0:64];
 	//logic [31:0]normalizer_min [0:NDLO-1][0:1];
+	logic paraload_start;
 
 
 	logic acqbufreset;
@@ -95,7 +96,7 @@ interface ifdsp #(
 	modport dsp(input clk,reset,data_command,data_qdrvenv,data_rdrvenv,data_rdloenv,data_qdrvfreq,data_rdrvfreq,data_rdlofreq,acqbufreset,dacmonreset,acqchansel,dacmonchansel,delayaftertrig,decimator,data_sdpara
 	,input adc
 	,input stb_start,start,nshot,resetacc,stb_reset_bram_read,stb_paraload_start
-	,input coef,mixbb1sel,mixbb2sel,shift//,weight_bias,normalizer_min
+	,input coef,mixbb1sel,mixbb2sel,shift,paraload_start//,weight_bias,normalizer_min
 	,output lastshotdone,shotcnt,addr_accbuf_mon0,addr_accbuf_mon1,addr_accbuf_mon2,addr_accbuf_mon3,procdone,addr_sdbuf_mon0,addr_sdbuf_mon1
 	,output dac,addr_accbuf,addr_acqbuf,addr_command,addr_qdrvenv,addr_rdrvenv,addr_rdloenv,addr_qdrvfreq,addr_rdrvfreq,addr_rdlofreq,addr_dacmon,data_accbuf,we_accbuf,data_acqbuf,we_acqbuf,data_dacmon,we_dacmon,addr_sdbuf,data_sdbuf,we_sdbuf,addr_sdpara
 	,input test_amp,test_freq
@@ -103,7 +104,7 @@ interface ifdsp #(
 	modport cfg(output adc
 	,output clk,reset,data_command,data_qdrvenv,data_rdrvenv,data_rdloenv,data_qdrvfreq,data_rdrvfreq,data_rdlofreq,data_sdpara
 	,output stb_start,start,nshot,resetacc,stb_reset_bram_read,acqbufreset,dacmonreset,acqchansel,dacmonchansel,delayaftertrig,decimator,stb_paraload_start
-	,output coef,mixbb1sel,mixbb2sel,shift//,weight_bias,normalizer_min
+	,output coef,mixbb1sel,mixbb2sel,shift,paraload_start//,weight_bias,normalizer_min
 	,input dac,addr_accbuf,addr_acqbuf,addr_command,addr_qdrvenv,addr_rdrvenv,addr_rdloenv,addr_qdrvfreq,addr_rdrvfreq,addr_rdlofreq,addr_dacmon,data_accbuf,we_accbuf,data_acqbuf,we_acqbuf,data_dacmon,we_dacmon,addr_sdbuf,data_sdbuf,we_sdbuf,addr_sdpara
 	,input lastshotdone,shotcnt,addr_accbuf_mon0,addr_accbuf_mon1,addr_accbuf_mon2,addr_accbuf_mon3,procdone,addr_sdbuf_mon0,addr_sdbuf_mon1
 	,output test_amp,test_freq

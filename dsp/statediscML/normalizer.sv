@@ -36,8 +36,8 @@ always @(posedge sdif.clk) begin
     startNN <= delay4;
 end
 
-assign minimumI = sdif.normalizer_min[0];
-assign minimumQ = sdif.normalizer_min[1];
+assign minimumI = sdif.sdpara[65];
+assign minimumQ = sdif.sdpara[66];
 assign NN_startTrigger = startNN;
 
 assign normalized_output = {normalizedQ[35:18],normalizedI[35:18]};

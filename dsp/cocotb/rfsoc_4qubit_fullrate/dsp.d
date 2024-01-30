@@ -52,12 +52,12 @@ dsp_sim_toplevel.sv
 ../../statediscML/state_disc.sv
 ../../statediscML/normalizer.sv
 ../../statediscML/nn_model.sv
-../../statediscML/dense_latency_ap_fixed_16_6_5_3_0_ap_fixed_16_6_5_3_0_config6_0_0.v
-../../statediscML/dense_latency_ap_fixed_ap_fixed_16_6_5_3_0_config2_0_0_0_0_0_0_0_0_0.v
-../../statediscML/dense_latency_ap_fixed_ap_fixed_16_6_5_3_0_config4_0_0_0_0_0.v
+../../statediscML/dense_latency_ap_fixed_16_6_5_3_0_ap_fixed_16_6_5_3_0_config6_0_0.sv
+../../statediscML/dense_latency_ap_fixed_ap_fixed_16_6_5_3_0_config2_0_0_0_0_0_0_0_0_0.sv
+../../statediscML/dense_latency_ap_fixed_ap_fixed_16_6_5_3_0_config4_0_0_0_0_0.sv
 ../../statediscML/relu_ap_fixed_16_6_5_3_0_ap_fixed_16_6_5_3_0_relu_config3_s.v
 ../../statediscML/relu_ap_fixed_16_6_5_3_0_ap_fixed_16_6_5_3_0_relu_config5_s.v
 ../../statediscML/sigmoid_ap_fixed_16_6_5_3_0_ap_fixed_16_6_5_3_0_sigmoid_config7_s_sigmoid_tabbkb_rom.vh
 ../../statediscML/sigmoid_ap_fixed_16_6_5_3_0_ap_fixed_16_6_5_3_0_sigmoid_config7_s_sigmoid_tabbkb.sv
 ../../statediscML/sigmoid_ap_fixed_16_6_5_3_0_ap_fixed_16_6_5_3_0_sigmoid_config7_s.v
-../../../top/zcu216_8_2/ml_para.vh
+
