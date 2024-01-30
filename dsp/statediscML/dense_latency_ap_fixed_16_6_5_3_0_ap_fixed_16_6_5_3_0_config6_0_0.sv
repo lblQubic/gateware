@@ -76,11 +76,11 @@ reg signed [DS:0] node2;
 reg signed [DS:0] node3;
 
 
-assign w0 = sdif.weight_bias[48];
-assign w1 = sdif.weight_bias[49];
-assign w2 = sdif.weight_bias[50];
-assign w3 = sdif.weight_bias[51];
-assign b = sdif.weight_bias[64];
+assign w0 = sdif.sdpara[48];
+assign w1 = sdif.sdpara[49];
+assign w2 = sdif.sdpara[50];
+assign w3 = sdif.sdpara[51];
+assign b = sdif.sdpara[64];
 
 
 always @ (posedge sdif.clk) begin
