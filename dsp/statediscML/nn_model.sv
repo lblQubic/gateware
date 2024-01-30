@@ -421,7 +421,7 @@ always @ (posedge sdif.clk) begin
         ap_enable_reg_pp0_iter16 <= 1'b0;
     end else begin
         if ((1'b0 == ap_block_pp0_stage0_subdone)) begin
-            ap_enable_reg_pp0_iter16 <= ap_enable_reg_pp0_iter14;
+            ap_enable_reg_pp0_iter16 <= ap_enable_reg_pp0_iter15;
         end
     end
 end
@@ -438,10 +438,10 @@ end
 
 always @ (posedge sdif.clk) begin
     if (rst == 1'b1) begin
-        ap_enable_reg_pp0_iter17 <= 1'b0;
+        ap_enable_reg_pp0_iter18 <= 1'b0;
     end else begin
         if ((1'b0 == ap_block_pp0_stage0_subdone)) begin
-            ap_enable_reg_pp0_iter17 <= ap_enable_reg_pp0_iter18;
+            ap_enable_reg_pp0_iter18 <= ap_enable_reg_pp0_iter17;
         end
     end
 end
