@@ -41,8 +41,7 @@ always @(posedge dspif.clk) begin
 	proccorereset<={NPROC{procreset}};
 	dspif.procdone<=procdone;
 end
-reg paraload_done_r=0;
-wire paraload_done;
+//reg paraload_done_r=0;
 
 //update logic for handshaking
 wire update_lastshotdone;
@@ -82,7 +81,7 @@ end
 generate
 	for (genvar i=0;i<NDLO;i=i+1) begin: sd_para_load
         assign dspif.addr_sdpara[i] = paraaddr;
-        assign sdif[i].weight_bias[paraaddr] = dspif.data_sdpara[i];
+        assign sdif[i].sdpara[paraaddr] = dspif.data_sdpara[i];
 		//assign sdif[i].weight_bias = dspif.weight_bias[i];
 		//assign sdif[i].normalizer_min = dspif.normalizer_min[i];
 	end
@@ -490,7 +489,7 @@ always @(*) begin
             nextstate= dspif.stb_paraload_start? PARALOAD : (dspif.stb_start ? START : IDLE);
 		end
         PARALOAD: begin
-            nextstate= paraload_done_r ? IDLE : PARALOAD;
+            nextstate= (~parabusy) ? IDLE : PARALOAD;
         end
 		START: begin
 			nextstate=PROCRUN;
