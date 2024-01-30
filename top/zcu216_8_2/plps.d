@@ -90,4 +90,3 @@ rfdc_portinst.vh
 ../../dsp/statediscML/sigmoid_ap_fixed_16_6_5_3_0_ap_fixed_16_6_5_3_0_sigmoid_config7_s_sigmoid_tabbkb_rom.vh
 ../../dsp/statediscML/sigmoid_ap_fixed_16_6_5_3_0_ap_fixed_16_6_5_3_0_sigmoid_config7_s_sigmoid_tabbkb.sv
 ../../dsp/statediscML/sigmoid_ap_fixed_16_6_5_3_0_ap_fixed_16_6_5_3_0_sigmoid_config7_s.v
-ml_para.vh
