@@ -11,7 +11,6 @@ import sim_tools as st
 import qubitconfig.qchip as qc
 import distproc.hwconfig as hw
 
-
 @cocotb.test()
 async def test_const_pulse(dut):
     freq = 100.e6
@@ -39,6 +38,7 @@ async def test_const_pulse(dut):
     await dspunit.load_freq_buffer(freq_buffers[0], 0, 0)
     await dspunit.run_program(500)
     dacout_sim = st.generate_sim_dacout(pulse_seq, 16)
+    ipdb.set_trace()
     plt.plot(dspunit.dac_out[0])
     plt.plot(dacout_sim)
     plt.show()
