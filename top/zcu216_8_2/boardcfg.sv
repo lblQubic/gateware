@@ -235,11 +235,6 @@ assign dspif.coef[3][2]=dspregs.coef32;
 assign dspif.coef[3][3]=dspregs.coef33;
 
 
-
-`include "ml_para.vh";
-
-
-
 assign dspregs.procdone=dspif.procdone;
 assign dspregs.cnt00=dac00axis.cnt;
 assign dspregs.cnt01=dac01axis.cnt;
