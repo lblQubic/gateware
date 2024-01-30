@@ -40,8 +40,8 @@ always @(posedge dspif.clk) begin
 	//	proccorereset<={NPROC{procreset|procreset_d}};
 	proccorereset<={NPROC{procreset}};
 	dspif.procdone<=procdone;
-
 end
+reg paraload_done_r=0;
 
 //update logic for handshaking
 wire update_lastshotdone;
@@ -154,29 +154,30 @@ endgenerate
 //assign dspif.dac[2]=xmaif.sumcplxx[2];
 //assign dspif.dac[3]=xmaif.sumcplxx[3];
 assign xmaif.coef=dspif.coef;
-// generate
-// 	for (genvar i=0;i<NDLO;i=i+1) begin: weight_bias_interface
-// 		assign sdif[i].weight_bias = dspif.weight_bias[i];
-// 		assign sdif[i].normalizer_min = dspif.normalizer_min[i];
-// 	end
-// endgenerate
 
-reg [17:0] weight_bias_r [0:NDLO-1][0:64];
-reg [31:0] normalizer_min_r [0:NDLO-1][0:1];
-generate
-	for (genvar i=0;i<NDLO;i=i+1) begin: weight_bias_reg
-		always@(posedge dspif.clk) begin
-			weight_bias_r[i] <= dspif.weight_bias[i];
-			normalizer_min_r[i] <= dspif.normalizer_min[i];
-		end
-	end
-endgenerate
 generate
 	for (genvar i=0;i<NDLO;i=i+1) begin: weight_bias_interface
-		assign sdif[i].weight_bias = weight_bias_r[i];
-		assign sdif[i].normalizer_min = normalizer_min_r[i];
+		assign sdif[i].weight_bias = dspif.weight_bias[i];
+		assign sdif[i].normalizer_min = dspif.normalizer_min[i];
 	end
 endgenerate
+
+//reg [17:0] weight_bias_r [0:NDLO-1][0:64];
+//reg [31:0] normalizer_min_r [0:NDLO-1][0:1];
+//generate
+//	for (genvar i=0;i<NDLO;i=i+1) begin: weight_bias_reg
+//		always@(posedge dspif.clk) begin
+//			weight_bias_r[i] <= dspif.weight_bias[i];
+//			normalizer_min_r[i] <= dspif.normalizer_min[i];
+//		end
+//	end
+//endgenerate
+//generate
+//	for (genvar i=0;i<NDLO;i=i+1) begin: weight_bias_interface
+//		assign sdif[i].weight_bias = weight_bias_r[i];
+//		assign sdif[i].normalizer_min = normalizer_min_r[i];
+//	end
+//endgenerate
 
 
 // assign sdif.weight_bias=dspif.weight_bias;
@@ -468,6 +469,7 @@ enum {IDLE	=4'b0000
 ,MORESHOT	=4'b0110
 ,SHOTADD	=4'b0111
 ,DONE		=4'b0101
+,PARALOAD   =4'b1000
 } state=IDLE,nextstate=IDLE;
 reg shotadd=0;
 
@@ -483,8 +485,12 @@ always @(*) begin
 	nextstate=IDLE;
 	case (state)
 		IDLE: begin
-			nextstate= dspif.stb_start ? START : IDLE;
+			//nextstate= dspif.stb_start ? START : IDLE;
+            nextstate= dspif.paraload_start? PARALOAD : (dspif.stb_start ? START : IDLE);
 		end
+        PARALOAD: begin
+            nextstate= paraload_done_r ? IDLE : PARALOAD;
+        end
 		START: begin
 			nextstate=PROCRUN;
 		end
@@ -525,6 +531,9 @@ always @(posedge dspif.clk) begin
 				shotcnt<=0;
 				nshot<=dspif.nshot;
 			end
+            PARALOAD: begin
+                done<=1'b0;
+            end
 			START: begin
 				done<=1'b0;
 				procreset<=1'b0;
