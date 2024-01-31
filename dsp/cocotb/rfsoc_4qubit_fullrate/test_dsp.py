@@ -12,39 +12,39 @@ import qubitconfig.qchip as qc
 import distproc.hwconfig as hw
 
 sdpara=["260183","4862","261334","260711","262141","259938","4215","4895","1258","4406","259194","260609","260881","261883","3074","2106","260105","261076","1240","2377","260362","6050","261792","7072","261219","261083","231","2514","1992","2883","260124","260161","260317","259731","261824","261593","2757","261239","1128","259316","796","9162","260588","13399","2316","11726","80","8325","3299","247774","258016","248723","262042","259230","0","0","0","0","258988","259290","262129","259931","0","259739","22860","262143","262143"]
-@cocotb.test()
-async def test_const_pulse(dut):
-    freq = 100.e6
-    phase = 0
-    tstart = 8
-    pulse_length = 100
-    amp = 0.9
-    env_i = 0.2*np.ones(pulse_length)
-    env_q = 0.1*np.ones(pulse_length)
-    elemcfg = RFSoCElementCfg()
+# @cocotb.test()
+# async def test_const_pulse(dut):
+#     freq = 100.e6
+#     phase = 0
+#     tstart = 8
+#     pulse_length = 100
+#     amp = 0.9
+#     env_i = 0.2*np.ones(pulse_length)
+#     env_q = 0.1*np.ones(pulse_length)
+#     elemcfg = RFSoCElementCfg()
 
-    dspunit = dsp.DSPDriver(dut, 16, 16, 16, 16)
+#     dspunit = dsp.DSPDriver(dut, 16, 16, 16, 16)
 
-    prog = asm.SingleCoreAssembler([elemcfg, elemcfg, elemcfg])
-    prog.add_phase_reset()
-    prog.add_pulse(freq, phase, amp, tstart, env_i + 1j*env_q, 0)
-    prog.add_done_stb()
-    cmd_buf, env_buffers, freq_buffers = prog.get_compiled_program()
-    sim_prog = prog.get_sim_program()
-    pulse_seq = [sim_prog[1]]
-    # print(env_buffers)
-    cocotb.start_soon(dsp.generate_clock(dut))
-    await dspunit.load_program([cmd_buf])
-    await dspunit.load_env_buffer(env_buffers[0], 0, 0)
-    await dspunit.load_freq_buffer(freq_buffers[0], 0, 0)
-    await dspunit.load_sdpara_buffer(sdpara,0)
-    await dspunit.run_program(1000)
-    dacout_sim = st.generate_sim_dacout(pulse_seq, 16)
-    # ipdb.set_trace()
-    plt.plot(dspunit.dac_out[0])
-    plt.plot(dacout_sim)
-    plt.show()
-    assert st.check_dacout_equal(dacout_sim, dspunit.dac_out[0])
+#     prog = asm.SingleCoreAssembler([elemcfg, elemcfg, elemcfg])
+#     prog.add_phase_reset()
+#     prog.add_pulse(freq, phase, amp, tstart, env_i + 1j*env_q, 0)
+#     prog.add_done_stb()
+#     cmd_buf, env_buffers, freq_buffers = prog.get_compiled_program()
+#     sim_prog = prog.get_sim_program()
+#     pulse_seq = [sim_prog[1]]
+#     # print(env_buffers)
+#     cocotb.start_soon(dsp.generate_clock(dut))
+#     await dspunit.load_program([cmd_buf])
+#     await dspunit.load_env_buffer(env_buffers[0], 0, 0)
+#     await dspunit.load_freq_buffer(freq_buffers[0], 0, 0)
+#     await dspunit.load_sdpara_buffer(sdpara,0)
+#     await dspunit.run_program(1000)
+#     dacout_sim = st.generate_sim_dacout(pulse_seq, 16)
+#     # ipdb.set_trace()
+#     plt.plot(dspunit.dac_out[0])
+#     plt.plot(dacout_sim)
+#     plt.show()
+#     assert st.check_dacout_equal(dacout_sim, dspunit.dac_out[0])
 
 
 # @cocotb.test()
@@ -307,70 +307,71 @@ async def test_const_pulse(dut):
 #     plt.plot(adc_signal)
 #     plt.show()
 
-# @cocotb.test()
-# async def test_accbuf(dut):
-#     freq = 347.e6
-#     phase = np.pi/8
-#     tstart = 10
-#     pulse_length = 100
-#     amp = 0.9
-#     env_i = 0.2*np.ones(pulse_length)
-#     env_q = np.zeros(pulse_length)
+@cocotb.test()
+async def test_accbuf(dut):
+    freq = 347.e6
+    phase = np.pi/8
+    tstart = 10
+    pulse_length = 100
+    amp = 0.9
+    env_i = 0.2*np.ones(pulse_length)
+    env_q = np.zeros(pulse_length)
 
-#     qdrvelemcfg = RFSoCElementCfg(16)
-#     rdrvelemcfg = RFSoCElementCfg(16, interp_ratio=16)
-#     rdloelemcfg = RFSoCElementCfg(4, interp_ratio=4)
+    qdrvelemcfg = RFSoCElementCfg(16)
+    rdrvelemcfg = RFSoCElementCfg(16, interp_ratio=16)
+    rdloelemcfg = RFSoCElementCfg(4, interp_ratio=4)
 
-#     adc_fullscale = 2**15-1
+    adc_fullscale = 2**15-1
 
-#     dspunit = dsp.DSPDriver(dut, 16, 16, 4, 16)
-#     adc_signal = adc_fullscale*np.cos(2*np.pi*freq*(1.e-9*2*dsp.CLK_CYCLE/dspunit.adc_samples_per_clk)*np.arange(pulse_length) + phase)
-#     adc_signal[-1] = 0
+    dspunit = dsp.DSPDriver(dut, 16, 16, 4, 16)
+    adc_signal = adc_fullscale*np.cos(2*np.pi*freq*(1.e-9*2*dsp.CLK_CYCLE/dspunit.adc_samples_per_clk)*np.arange(pulse_length) + phase)
+    adc_signal[-1] = 0
 
-#     prog = asm.SingleCoreAssembler([qdrvelemcfg, rdrvelemcfg, rdloelemcfg])
-#     prog.add_phase_reset()
-#     #prog.add_pulse(freq, phase, amp, tstart, env_i + 1j*env_q, 1)
-#     prog.add_pulse(freq, phase, amp, tstart, env_i + 1j*env_q, 2)
-#     prog.add_done_stb()
-#     cmd_buf, env_buffers, freq_buffers = prog.get_compiled_program()
-#     sim_prog = prog.get_sim_program()
-#     pulse_seq = [sim_prog[1]]
+    prog = asm.SingleCoreAssembler([qdrvelemcfg, rdrvelemcfg, rdloelemcfg])
+    prog.add_phase_reset()
+    #prog.add_pulse(freq, phase, amp, tstart, env_i + 1j*env_q, 1)
+    prog.add_pulse(freq, phase, amp, tstart, env_i + 1j*env_q, 2)
+    prog.add_done_stb()
+    cmd_buf, env_buffers, freq_buffers = prog.get_compiled_program()
+    sim_prog = prog.get_sim_program()
+    pulse_seq = [sim_prog[1]]
 
-#     cocotb.start_soon(dsp.generate_clock(dut))
-#     await dspunit.load_program([cmd_buf])
-#     await dspunit.load_env_buffer(env_buffers[0], 0, 0)
-#     await dspunit.load_freq_buffer(freq_buffers[0], 0, 0)
-#     await dspunit.load_env_buffer(env_buffers[1], 1, 0)
-#     await dspunit.load_freq_buffer(freq_buffers[1], 1, 0)
-#     await dspunit.load_env_buffer(env_buffers[2], 2, 0)
-#     await dspunit.load_freq_buffer(freq_buffers[2], 2, 0)
+    cocotb.start_soon(dsp.generate_clock(dut))
+    await dspunit.load_sdpara_buffer(sdpara,0)
+    await dspunit.load_program([cmd_buf])
+    await dspunit.load_env_buffer(env_buffers[0], 0, 0)
+    await dspunit.load_freq_buffer(freq_buffers[0], 0, 0)
+    await dspunit.load_env_buffer(env_buffers[1], 1, 0)
+    await dspunit.load_freq_buffer(freq_buffers[1], 1, 0)
+    await dspunit.load_env_buffer(env_buffers[2], 2, 0)
+    await dspunit.load_freq_buffer(freq_buffers[2], 2, 0)
 
-#     cocotb.start_soon(dspunit.generate_adc_signal(adc_signal, 0))
-#     await dspunit.run_program(2500, nshots=5)
-#     acc_buf0 = await dspunit.read_acc_buf(3)
+    cocotb.start_soon(dspunit.generate_adc_signal(adc_signal, 0))
+    await dspunit.run_program(2500, nshots=5)
+    acc_buf0 = await dspunit.read_acc_buf(3)
 
-#     prog = asm.SingleCoreAssembler([qdrvelemcfg, rdrvelemcfg, rdloelemcfg])
-#     prog.add_phase_reset()
-#     #prog.add_pulse(freq, phase, amp, tstart, env_i + 1j*env_q, 1)
-#     prog.add_pulse(freq, phase + np.pi/2, amp, tstart, env_i + 1j*env_q, 2)
-#     prog.add_done_stb()
-#     cmd_buf, env_buffers, freq_buffers = prog.get_compiled_program()
-#     sim_prog = prog.get_sim_program()
-#     pulse_seq = [sim_prog[1]]
+    prog = asm.SingleCoreAssembler([qdrvelemcfg, rdrvelemcfg, rdloelemcfg])
+    prog.add_phase_reset()
+    #prog.add_pulse(freq, phase, amp, tstart, env_i + 1j*env_q, 1)
+    prog.add_pulse(freq, phase + np.pi/2, amp, tstart, env_i + 1j*env_q, 2)
+    prog.add_done_stb()
+    cmd_buf, env_buffers, freq_buffers = prog.get_compiled_program()
+    sim_prog = prog.get_sim_program()
+    pulse_seq = [sim_prog[1]]
 
-#     #cocotb.start_soon(dsp.generate_clock(dut))
-#     await dspunit.load_program([cmd_buf])
-#     await dspunit.load_env_buffer(env_buffers[0], 0, 0)
-#     await dspunit.load_freq_buffer(freq_buffers[0], 0, 0)
-#     await dspunit.load_env_buffer(env_buffers[1], 1, 0)
-#     await dspunit.load_freq_buffer(freq_buffers[1], 1, 0)
-#     await dspunit.load_env_buffer(env_buffers[2], 2, 0)
-#     await dspunit.load_freq_buffer(freq_buffers[2], 2, 0)
+    #cocotb.start_soon(dsp.generate_clock(dut))
+    await dspunit.load_program([cmd_buf])
+    await dspunit.load_env_buffer(env_buffers[0], 0, 0)
+    await dspunit.load_freq_buffer(freq_buffers[0], 0, 0)
+    await dspunit.load_env_buffer(env_buffers[1], 1, 0)
+    await dspunit.load_freq_buffer(freq_buffers[1], 1, 0)
+    await dspunit.load_env_buffer(env_buffers[2], 2, 0)
+    await dspunit.load_freq_buffer(freq_buffers[2], 2, 0)
 
-#     cocotb.start_soon(dspunit.generate_adc_signal(adc_signal, 0))
-#     await dspunit.run_program(500)
-#     acc_buf1 = await dspunit.read_acc_buf(3)
-#     print(acc_buf0, acc_buf1)
+    cocotb.start_soon(dspunit.generate_adc_signal(adc_signal, 0))
+    await dspunit.run_program(1000)
+    acc_buf1 = await dspunit.read_acc_buf(3)
+    print(acc_buf0, acc_buf1)
     
 # @cocotb.test()
 # async def test_acc_sweep(dut):

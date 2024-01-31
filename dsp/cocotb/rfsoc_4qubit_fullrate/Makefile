@@ -1,10 +1,10 @@
 export PYTHONPATH := ..:$(PYTHONPATH)
 
-SIM ?= verilator
+SIM ?= verilator 
 TOPLEVEL_LANG ?= verilog
 VERILOG_SOURCES= $(shell python preinclude.py dsp.d -oneline)
 
-EXTRA_ARGS += --trace-fst
+EXTRA_ARGS += --trace-max-array 70 --trace-fst
 COMPILE_ARGS += -Wno-fatal
 
 TOPLEVEL = dsp_sim_toplevel
