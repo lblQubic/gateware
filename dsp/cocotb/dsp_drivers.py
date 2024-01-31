@@ -12,7 +12,6 @@ N_CLKS = 100000
 CLK_CYCLE = 1
 N_PROC = 4
 CMD_WRITE_WORDS = 4
-
 async def generate_clock(dut):
     for i in range(N_CLKS):
         dut.clk.value = 0
@@ -128,6 +127,28 @@ class DSPDriver:
         
         self._dut.mem_write_en.value = 0
 
+
+    async def load_sdpara_buffer(self, sdpara_buffer,core_ind): #elem_ind,  wave_start_addr=0):
+        """
+        Load envelope for a single DSP unit
+        env_buffer is packed 32-bit I and Q values, one dt sample per element
+
+        elem_ind indexes the process element: 
+            currently 0 is qdrv, 1 is rdrv, and 2 is rdlo
+        """
+        self._dut.mem_write_en.value = 1
+        self._dut.mem_write_sel.value = 7 
+        self._dut.proc_write_sel.value = core_ind
+        wave_addr = 0
+        # sdpara_buffer = np.frombuffer(sdpara_buffer, dtype=np.uint32)
+        for sample in sdpara_buffer:
+            self._dut.mem_write_data.value = int(sample)
+            self._dut.mem_write_addr.value = wave_addr
+            await RisingEdge(self._dut.clk)
+            wave_addr += 1
+        
+        self._dut.mem_write_en.value = 0
+
     async def load_freq_buffer(self, freq_buffer, elem_ind, core_ind):
         self._dut.mem_write_en.value = 1
         self._dut.mem_write_sel.value = 2 + elem_ind*2 
@@ -208,6 +229,11 @@ class DSPDriver:
         """
         self._dut.nshot.value = nshots
         await self.reset()
+        self._dut.stb_paraload_start=1
+        await RisingEdge(self._dut.clk)
+        self._dut.stb_paraload_start=0
+        for _ in range(70):
+            await RisingEdge(self._dut.clk)
         self._dut.stb_start.value = 1
         await RisingEdge(self._dut.clk)
         self._dut.stb_start.value = 0

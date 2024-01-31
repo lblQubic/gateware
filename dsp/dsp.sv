@@ -60,28 +60,38 @@ always @(posedge dspif.clk) begin
 end
 
 wire [SDPARA_R_ADDRWIDTH-1:0] paralen = 67;
-reg [SDPARA_R_ADDRWIDTH-1:0] paraaddr_cnt = 0;
 reg [SDPARA_R_ADDRWIDTH-1:0] paraaddr = 0;
+reg [SDPARA_R_ADDRWIDTH-1:0] paraaddr_r1 = 0;
+reg [SDPARA_R_ADDRWIDTH-1:0] paraaddr_r2 = 0;
+reg [SDPARA_R_ADDRWIDTH-1:0] paraaddr_r3 = 0;
+
 reg parabusy = 0;
-wire lastpara = paraaddr_cnt==paralen-1;
+wire lastpara = paraaddr==paralen-1;
 always @(posedge dspif.clk) begin
-    if (dspif.paraload_start) begin
-        paraaddr_cnt <= 0;
+    if (dspif.stb_paraload_start) begin
+        paraaddr <= 0;
     end 
     else if (parabusy) begin
-        paraaddr_cnt <= paraaddr_cnt + (|paralen);
+        paraaddr <= paraaddr + (|paralen);
     end
-    if (dspif.paraload_start)
+    if (dspif.stb_paraload_start)
         parabusy <= 1'b1;
     else if (lastpara)
         parabusy <= 1'b0;
-    paraaddr <= paraaddr_cnt;
+    paraaddr_r1 <= paraaddr;
+    paraaddr_r2 <= paraaddr_r1;
+    paraaddr_r3 <= paraaddr_r2;
+	
 end
 
 generate
 	for (genvar i=0;i<NDLO;i=i+1) begin: sd_para_load
-        assign dspif.addr_sdpara[i] = paraaddr;
-        assign sdif[i].sdpara[paraaddr] = dspif.data_sdpara[i];
+		always @(posedge dspif.clk) begin
+			dspif.addr_sdpara[i] <= paraaddr;
+			// sdif[i].sdpara[paraaddr] <= dspif.data_sdpara[i];
+			sdif[i].sdpara[paraaddr_r3] <= dspif.data_sdpara[i];
+
+		end
 		//assign sdif[i].weight_bias = dspif.weight_bias[i];
 		//assign sdif[i].normalizer_min = dspif.normalizer_min[i];
 	end

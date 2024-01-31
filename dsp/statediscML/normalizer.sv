@@ -13,8 +13,8 @@ module normalizer #(parameter STATEDISC_IN_DATAWIDTH=32,parameter STATEDISC_OUT_
     output [(STATEDISC_OUT_DATAWIDTH*2)-1:0] normalized_output,
     output NN_startTrigger
 );
-wire signed [STATEDISC_IN_DATAWIDTH:0] minimumI;
-wire signed [STATEDISC_IN_DATAWIDTH:0] minimumQ;
+wire signed [STATEDISC_IN_DATAWIDTH-1:0] minimumI;
+wire signed [STATEDISC_IN_DATAWIDTH-1:0] minimumQ;
 reg signed [STATEDISC_IN_DATAWIDTH-1:0] sumI = 0;
 reg signed [STATEDISC_IN_DATAWIDTH-1:0] sumQ = 0;
 reg signed [(STATEDISC_OUT_DATAWIDTH*2)-1:0] normalizedI = 0;

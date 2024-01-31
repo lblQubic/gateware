@@ -4,6 +4,7 @@ module dsp_sim_toplevel#(
     input clk,
     input reset,
     input stb_start,
+    input stb_paraload_start,
     input[31:0] nshot,
     input[31:0] mem_write_data,
     input[15:0] mem_write_addr,
@@ -22,6 +23,7 @@ module dsp_sim_toplevel#(
     genvar i;
     generate for(i=0; i<3; i=i+1) begin
         wire cmd_wen, env_qdrv_wen, freq_qdrv_wen, env_rdrv_wen, freq_rdrv_wen, env_rdlo_wen, freq_rdlo_wen;
+
         assign cmd_wen = (proc_write_sel == i) & (mem_write_sel == 0) & mem_write_en;
         aligned_ram #(.DIN_WIDTH(32), .N_DIN_TO_DOUT(4), .DOUT_ADDR_WIDTH(COMMAND_R_ADDRWIDTH), .READ_LATENCY(2))
             cmd_mem(.clk(clk), .write_data(mem_write_data), .write_addr(mem_write_addr[COMMAND_W_ADDRWIDTH-1:0]),
@@ -31,6 +33,7 @@ module dsp_sim_toplevel#(
         aligned_ram #(.DIN_WIDTH(32), .N_DIN_TO_DOUT(QDRVENV_R_DATAWIDTH/32), .DOUT_ADDR_WIDTH(QDRVENV_R_ADDRWIDTH), .READ_LATENCY(2))
             env_mem_qdrv(.clk(clk), .write_data(mem_write_data), .write_addr(mem_write_addr[QDRVENV_W_ADDRWIDTH-1:0]),
                 .write_enable(env_qdrv_wen), .read_addr(dspif.addr_qdrvenv[i]), .read_data(dspif.data_qdrvenv[i]));
+
         assign freq_qdrv_wen = (proc_write_sel == i) & (mem_write_sel == 2) & mem_write_en;
         aligned_ram #(.DIN_WIDTH(32), .N_DIN_TO_DOUT(QDRVFREQ_R_DATAWIDTH/32), .DOUT_ADDR_WIDTH(QDRVFREQ_R_ADDRWIDTH), .READ_LATENCY(2))
             freq_mem_qdrv(.clk(clk), .write_data(mem_write_data), .write_addr(mem_write_addr[QDRVFREQ_W_ADDRWIDTH-1:0]),
@@ -49,6 +52,7 @@ module dsp_sim_toplevel#(
         aligned_ram #(.DIN_WIDTH(32), .N_DIN_TO_DOUT(RDLOENV_R_DATAWIDTH/32), .DOUT_ADDR_WIDTH(RDLOENV_R_ADDRWIDTH), .READ_LATENCY(2))
             env_mem_rdlo(.clk(clk), .write_data(mem_write_data), .write_addr(mem_write_addr[RDLOENV_W_ADDRWIDTH-1:0]),
                 .write_enable(env_rdlo_wen), .read_addr(dspif.addr_rdloenv[i]), .read_data(dspif.data_rdloenv[i]));
+         
         assign freq_rdlo_wen = (proc_write_sel == i) & (mem_write_sel == 6) & mem_write_en;
         aligned_ram #(.DIN_WIDTH(32), .N_DIN_TO_DOUT(RDLOFREQ_R_DATAWIDTH/32), .DOUT_ADDR_WIDTH(RDLOFREQ_R_ADDRWIDTH), .READ_LATENCY(2))
             freq_mem_rdlo(.clk(clk), .write_data(mem_write_data), .write_addr(mem_write_addr[RDLOFREQ_W_ADDRWIDTH-1:0]),
@@ -58,6 +62,10 @@ module dsp_sim_toplevel#(
             acc_buf(.clk(clk), .write_data(dspif.data_accbuf[i]), .write_addr(dspif.addr_accbuf[i]),
                 .write_enable(dspif.we_accbuf[i]), .read_addr(buf_read_addr[ACCBUF_W_ADDRWIDTH-1:0]), .read_data(acc_read_data[i]));
 
+         assign sdpara_wen = (proc_write_sel == i) & (mem_write_sel == 7) & mem_write_en;
+        aligned_ram #(.DIN_WIDTH(32), .N_DIN_TO_DOUT(SDBUF_R_DATAWIDTH/32), .DOUT_ADDR_WIDTH(SDBUF_R_ADDRWIDTH), .READ_LATENCY(2))
+            sdpara_mem(.clk(clk), .write_data(mem_write_data), .write_addr(mem_write_addr[SDBUF_W_ADDRWIDTH-1:0]),
+                .write_enable(sdpara_wen), .read_addr(dspif.addr_sdpara[i]), .read_data(dspif.data_sdpara[i]));
     end
     endgenerate
 
@@ -75,6 +83,7 @@ module dsp_sim_toplevel#(
     assign dspif.reset = reset;
     assign dspif.resetacc = reset;
     assign dspif.stb_start = stb_start;
+    assign dspif.stb_paraload_start=stb_paraload_start;
     assign dspif.nshot = nshot;
     assign dspif.shift = 15;
 

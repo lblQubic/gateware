@@ -29,6 +29,12 @@ module state_disc #(parameter STATEDISC_IN_DATAWIDTH = 32, parameter STATEDISC_O
 
 wire [(STATEDISC_OUT_DATAWIDTH*2)-1:0] normalized_data;
 wire NN_startTrigger;
+// reg [31:0] sdpara[0:31];
+// reg neel;
+// always @(posedge sdif.clk) begin
+//     sdpara<=sdif.sdpara;
+// end
+
 
 normalizer #(.STATEDISC_IN_DATAWIDTH(STATEDISC_IN_DATAWIDTH), .STATEDISC_OUT_DATAWIDTH(STATEDISC_OUT_DATAWIDTH)) normalizer (
     .sdif(sdif), 
@@ -67,7 +73,7 @@ endmodule
 
 interface ifsd 
     (input clk);
-    logic [31:0] sdpara [0:66];
+    logic [31:0] sdpara[0:66];
     //logic [17:0] weight_bias [0:64];
 	//logic [31:0] normalizer_min [0:1];
     modport sd(input clk, sdpara);//weight_bias,normalizer_min);
