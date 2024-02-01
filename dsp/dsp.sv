@@ -94,10 +94,10 @@ generate
 	for (genvar i=0;i<NDLO;i=i+1) begin: sd_para_load
 		always @(posedge dspif.clk) begin
 			dspif.addr_sdpara[i] <= paraaddr;
-			//sdif[i].sdpara[paraaddr_r3] <= dspif.data_sdpara[i];
-			if (parabusy_r3) begin
-				sdif[i].sdpara[paraaddr_r3] <= dspif.data_sdpara[i];
-			end
+			sdif[i].sdpara[paraaddr_r3] <= dspif.data_sdpara[i];
+			// if (parabusy_r3) begin
+				// sdif[i].sdpara[paraaddr_r3] <= dspif.data_sdpara[i];
+			// end
 		end
 		//assign sdif[i].weight_bias = dspif.weight_bias[i];
 		//assign sdif[i].normalizer_min = dspif.normalizer_min[i];

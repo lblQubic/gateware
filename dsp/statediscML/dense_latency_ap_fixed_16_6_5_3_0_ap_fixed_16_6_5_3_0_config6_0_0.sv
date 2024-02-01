@@ -22,7 +22,7 @@ module dense_latency_ap_fixed_16_6_5_3_0_ap_fixed_16_6_5_3_0_config6_0_0 #(param
         input  [DS:0] data_1_V_read,
         input  [DS:0] data_2_V_read,
         input  [DS:0] data_3_V_read,
-        output  [DS:0] ap_return,
+        output [DS:0] ap_return,
         input   ap_ce
 );
 
@@ -66,7 +66,6 @@ wire   [DS:0] tmp1_fu_236_p2;
 wire   [DS:0] tmp_fu_227_p2;
 wire   [DS:0] res_V_write_assign_fu_241_p2;
 reg    ap_ce_reg;
-reg   [DS:0] ap_return_int_reg;
 
 
 reg signed [DS:0] w0;
@@ -110,17 +109,8 @@ always @ (posedge sdif.clk) begin
 end
 
 always @ (posedge sdif.clk) begin
-    if ((1'b1 == ap_ce)) begin
-        data_0_V_read_int_reg <= data_0_V_read;
-        data_1_V_read_int_reg <= data_1_V_read;
-        data_2_V_read_int_reg <= data_2_V_read;
-        data_3_V_read_int_reg <= data_3_V_read;
-    end
-end
-
-always @ (posedge sdif.clk) begin
     if ((1'b1 == ap_ce_reg)) begin
-        ap_return_int_reg <= res_V_write_assign_fu_241_p2;
+        return0 <= res_V_write_assign_fu_241_p2;
     end
 end
 
@@ -139,14 +129,6 @@ always @ (posedge sdif.clk) begin
     end
 end
 
-always @ (*) begin
-    if ((1'b0 == ap_ce_reg)) begin
-        return0 = res_V_write_assign_fu_241_p2;
-    end else if ((1'b1 == ap_ce_reg)) begin
-        return0 = res_V_write_assign_fu_241_p2;
-    end
-end
-
 assign ap_block_pp0_stage0 = ~(1'b1 == 1'b1);
 
 assign ap_block_pp0_stage0_11001 = ~(1'b1 == 1'b1);
@@ -155,19 +137,19 @@ assign ap_block_state1_pp0_stage0_iter0 = ~(1'b1 == 1'b1);
 
 assign ap_block_state2_pp0_stage0_iter1 = ~(1'b1 == 1'b1);
 
-assign r_V_6_1_fu_73_p0 = data_1_V_read_int_reg;
+assign r_V_6_1_fu_73_p0 = data_1_V_read;
 
 assign r_V_6_1_fu_73_p2 = ($signed(r_V_6_1_fu_73_p0) * $signed(w1));
 
-assign r_V_6_2_fu_70_p0 = data_2_V_read_int_reg;
+assign r_V_6_2_fu_70_p0 = data_2_V_read;
 
 assign r_V_6_2_fu_70_p2 = ($signed(r_V_6_2_fu_70_p0) * $signed(w2));
 
-assign r_V_6_3_fu_72_p0 = data_3_V_read_int_reg;
+assign r_V_6_3_fu_72_p0 = data_3_V_read;
 
 assign r_V_6_3_fu_72_p2 = ($signed(r_V_6_3_fu_72_p0) * $signed(w3));
 
-assign r_V_6_fu_71_p0 = data_0_V_read_int_reg;
+assign r_V_6_fu_71_p0 = data_0_V_read;
 
 assign r_V_6_fu_71_p2 = ($signed(r_V_6_fu_71_p0) * $signed(w0));
 
