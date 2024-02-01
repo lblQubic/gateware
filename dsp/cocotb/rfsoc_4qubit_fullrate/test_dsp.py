@@ -11,7 +11,8 @@ import sim_tools as st
 import qubitconfig.qchip as qc
 import distproc.hwconfig as hw
 
-sdpara=["260183","4862","261334","260711","262141","259938","4215","4895","1258","4406","259194","260609","260881","261883","3074","2106","260105","261076","1240","2377","260362","6050","261792","7072","261219","261083","231","2514","1992","2883","260124","260161","260317","259731","261824","261593","2757","261239","1128","259316","796","9162","260588","13399","2316","11726","80","8325","3299","247774","258016","248723","262042","259230","0","0","0","0","258988","259290","262129","259931","0","259739","22860","262143","262143"]
+sdpara2=["260183","4862","261334","260711","262141","259938","4215","4895","1258","4406","259194","260609","260881","261883","3074","2106","260105","261076","1240","2377","260362","6050","261792","7072","261219","261083","231","2514","1992","2883","260124","260161","260317","259731","261824","261593","2757","261239","1128","259316","796","9162","260588","13399","2316","11726","80","8325","3299","247774","258016","248723","262042","259230","0","0","0","0","258988","259290","262129","259931","0","259739","22860","262143","262143"]
+sdpara=["65248","65288","65031","346","405","509","869","581","304","65043","65242","319","64877","124","65192","65348","394","65201","943","65470","642","44","64664","718","172","65162","700","828","202","65060","1179","64947","10""704","65402","65316","330","64795","432","37","64817","65506","70","65507","302","65497","200","145","64822","65139","911","64698","157","111","240","325","65370","65487","38","65448","65260","159","358","65423","333"]
 # @cocotb.test()
 # async def test_const_pulse(dut):
 #     freq = 100.e6
@@ -314,8 +315,10 @@ async def test_accbuf(dut):
     tstart = 10
     pulse_length = 100
     amp = 0.1
-    env_q = 0.04762021264666606*np.ones(pulse_length)
-    env_i = 10.6648137845436353*0.001952833165389274*np.ones(pulse_length) #np.zeros(pulse_length)
+    env_q2 = 1/(982471/-61535)*np.ones(pulse_length)   #(1*base==982170)
+    env_i2 = 1/(982471/ -646) *np.ones(pulse_length) ##(1*base==-982471)
+    env_q = 1*np.ones(pulse_length)   #(1*base==982170)
+    env_i= 1 *np.ones(pulse_length)
 
     qdrvelemcfg = RFSoCElementCfg(16)
     rdrvelemcfg = RFSoCElementCfg(16, interp_ratio=16)
@@ -345,20 +348,40 @@ async def test_accbuf(dut):
     await dspunit.load_freq_buffer(freq_buffers[1], 1, 0)
     await dspunit.load_env_buffer(env_buffers[2], 2, 0)
     await dspunit.load_freq_buffer(freq_buffers[2], 2, 0)
-
     cocotb.start_soon(dspunit.generate_adc_signal(adc_signal, 0))
     cocotb.start_soon(dspunit.generate_acc_signal())
-    await dspunit.run_program(2500, nshots=5)
-    acc_buf0 = await dspunit.read_acc_buf(3)
+    await dspunit.run_program(1200, nshots=3)
 
     prog = asm.SingleCoreAssembler([qdrvelemcfg, rdrvelemcfg, rdloelemcfg])
     prog.add_phase_reset()
     #prog.add_pulse(freq, phase, amp, tstart, env_i + 1j*env_q, 1)
-    prog.add_pulse(freq, phase + np.pi/2, amp, tstart, env_i + 1j*env_q, 2)
+    prog.add_pulse(freq, phase, amp, tstart, env_i2 + 1j*env_q2, 2)
     prog.add_done_stb()
     cmd_buf, env_buffers, freq_buffers = prog.get_compiled_program()
     sim_prog = prog.get_sim_program()
     pulse_seq = [sim_prog[1]]
+
+    await dspunit.load_sdpara_buffer(sdpara2,0)
+    await dspunit.load_program([cmd_buf])
+    await dspunit.load_env_buffer(env_buffers[0], 0, 0)
+    await dspunit.load_freq_buffer(freq_buffers[0], 0, 0)
+    await dspunit.load_env_buffer(env_buffers[1], 1, 0)
+    await dspunit.load_freq_buffer(freq_buffers[1], 1, 0)
+    await dspunit.load_env_buffer(env_buffers[2], 2, 0)
+    await dspunit.load_freq_buffer(freq_buffers[2], 2, 0)
+    cocotb.start_soon(dspunit.generate_adc_signal(adc_signal, 0))
+    cocotb.start_soon(dspunit.generate_acc_signal())
+    await dspunit.run_program(1200, nshots=3)
+    acc_buf0 = await dspunit.read_acc_buf(3)
+
+    # prog = asm.SingleCoreAssembler([qdrvelemcfg, rdrvelemcfg, rdloelemcfg])
+    # prog.add_phase_reset()
+    # #prog.add_pulse(freq, phase, amp, tstart, env_i + 1j*env_q, 1)
+    # prog.add_pulse(freq, phase + np.pi/2, amp, tstart, env_i + 1j*env_q, 2)
+    # prog.add_done_stb()
+    # cmd_buf, env_buffers, freq_buffers = prog.get_compiled_program()
+    # sim_prog = prog.get_sim_program()
+    # pulse_seq = [sim_prog[1]]
 
     # #cocotb.start_soon(dsp.generate_clock(dut))
     # await dspunit.load_program([cmd_buf])
