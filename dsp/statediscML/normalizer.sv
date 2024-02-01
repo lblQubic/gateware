@@ -13,8 +13,10 @@ module normalizer #(parameter STATEDISC_IN_DATAWIDTH=32,parameter STATEDISC_OUT_
     output [(STATEDISC_OUT_DATAWIDTH*2)-1:0] normalized_output,
     output NN_startTrigger
 );
-wire signed [STATEDISC_IN_DATAWIDTH-1:0] minimumI;
-wire signed [STATEDISC_IN_DATAWIDTH-1:0] minimumQ;
+wire signed [STATEDISC_IN_DATAWIDTH-1:0] minimumI_w;
+wire signed [STATEDISC_IN_DATAWIDTH-1:0] minimumQ_w;
+reg signed [STATEDISC_IN_DATAWIDTH-1:0] minimumI;
+reg signed [STATEDISC_IN_DATAWIDTH-1:0] minimumQ;
 reg signed [STATEDISC_IN_DATAWIDTH-1:0] sumI = 0;
 reg signed [STATEDISC_IN_DATAWIDTH-1:0] sumQ = 0;
 reg signed [(STATEDISC_OUT_DATAWIDTH*2)-1:0] normalizedI = 0;
@@ -36,8 +38,8 @@ always @(posedge sdif.clk) begin
     startNN <= delay4;
 end
 
-assign minimumI = sdif.sdpara[65];
-assign minimumQ = sdif.sdpara[66];
+assign minimumI_w = sdif.sdpara[65];
+assign minimumQ_w = sdif.sdpara[66];
 assign NN_startTrigger = startNN;
 
 assign normalized_output = {normalizedQ[35:18],normalizedI[35:18]};
@@ -46,14 +48,15 @@ reg signed [STATEDISC_IN_DATAWIDTH-1:0] sumI_r = 0;
 reg signed [STATEDISC_IN_DATAWIDTH-1:0] sumQ_r = 0;
 
 always @(posedge sdif.clk) begin  
-
     dataI <= accumulated_input[31:0];
+    minimumI <= minimumI_w;
     sumI_r <= dataI + minimumI;
     // sumI_r <= $signed(accumulated_input[31:0]) + $signed(minimumI);
     sumI <= sumI_r; 
     normalizedI <= sumI << 11;
     
     dataQ <= accumulated_input[63:32];
+    minimumQ <= minimumQ_w;
     sumQ_r <= dataQ + minimumQ;
     // sumQ_r <= $signed(accumulated_input[63:32]) + $signed(minimumQ);
     sumQ <= sumQ_r;
