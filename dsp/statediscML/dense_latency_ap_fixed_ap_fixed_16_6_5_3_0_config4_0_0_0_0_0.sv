@@ -60,10 +60,10 @@ module dense_latency_ap_fixed_ap_fixed_16_6_5_3_0_config4_0_0_0_0_0 #(parameter 
 // output  [DS:0] ap_return_3;
 // input   ap_ce;
 
-reg[DS:0] return_0;
-reg[DS:0] return_1;
-reg[DS:0] return_2;
-reg[DS:0] return_3;
+reg signed [DS:0] return_0;
+reg signed [DS:0] return_1;
+reg signed [DS:0] return_2;
+reg signed [DS:0] return_3;
 reg  signed [DS:0] data_7_V_read11_reg_3987;
 wire    ap_block_state1_pp0_stage0_iter0;
 wire    ap_block_state2_pp0_stage0_iter1;
@@ -72,51 +72,51 @@ wire    ap_block_pp0_stage0_11001;
 reg  signed [DS:0] data_6_V_read_2_reg_3995;
 reg  signed [DS:0] data_5_V_read_2_reg_4003;
 reg  signed [DS:0] data_4_V_read_2_reg_4009;
-reg   [DS:0] tmp_1_reg_4017;
-reg   [DS:0] tmp_17_0_1_reg_4022;
-reg   [DS:0] tmp_17_0_2_reg_4027;
-reg   [DS:0] tmp_4_reg_4032;
-reg   [DS:0] tmp_17_1_reg_4037;
-reg   [DS:0] tmp_7_reg_4042;
-reg   [DS:0] tmp_17_1_2_reg_4047;
-reg   [DS:0] tmp_17_1_3_reg_4052;
-reg   [DS:0] tmp_s_reg_4057;
-reg   [DS:0] tmp_17_2_1_reg_4062;
-reg   [DS:0] tmp_17_2_2_reg_4067;
-reg   [DS:0] tmp_17_2_3_reg_4072;
-reg   [DS:0] tmp_3_reg_4077;
-reg   [DS:0] tmp_17_3_1_reg_4082;
-reg   [DS:0] tmp_17_3_2_reg_4087;
-reg   [DS:0] tmp_17_3_3_reg_4092;
-reg   [DS:0] tmp_9_reg_4097;
-reg   [DS:0] tmp_17_4_1_reg_4102;
-reg   [DS:0] tmp_11_reg_4107;
-reg   [DS:0] tmp_13_reg_4112;
-reg   [DS:0] tmp_17_5_reg_4117;
-reg   [DS:0] tmp_17_5_1_reg_4122;
-reg   [DS:0] tmp_17_5_2_reg_4127;
-reg   [DS:0] tmp_15_reg_4132;
-reg   [DS:0] tmp_17_6_reg_4137;
-reg   [DS:0] tmp_18_reg_4142;
-reg   [DS:0] tmp_19_reg_4147;
-reg   [DS:0] tmp_21_reg_4152;
-reg   [DS:0] tmp_17_7_reg_4157;
-reg   [DS:0] tmp_24_reg_4162;
-reg   [DS:0] tmp_26_reg_4167;
-wire  [DS:0] tmp_fu_3769_p2;
-reg   [DS:0] tmp_reg_4172;
-reg   [DS:0] tmp11_reg_3867_p2;
-wire  [DS:0] tmp15_fu_3784_p2;
-reg   [DS:0] tmp15_reg_4177;
-reg   [DS:0] tmp18_reg_3895;
-wire  [DS:0] tmp21_fu_3790_p2;
-reg   [DS:0] tmp21_reg_4182;
-wire  [DS:0] tmp22_fu_3804_p2;
-reg   [DS:0] tmp22_reg_4187;
-reg   [DS:0] tmp25_reg_3923;
-wire  [DS:0] tmp29_fu_3819_p2;
-reg   [DS:0] tmp29_reg_4192;
-reg   [DS:0] tmp32_reg_3952;
+reg  signed [DS:0] tmp_1_reg_4017;
+reg  signed [DS:0] tmp_17_0_1_reg_4022;
+reg  signed [DS:0] tmp_17_0_2_reg_4027;
+reg  signed [DS:0] tmp_4_reg_4032;
+reg  signed [DS:0] tmp_17_1_reg_4037;
+reg  signed [DS:0] tmp_7_reg_4042;
+reg  signed [DS:0] tmp_17_1_2_reg_4047;
+reg  signed [DS:0] tmp_17_1_3_reg_4052;
+reg  signed [DS:0] tmp_s_reg_4057;
+reg  signed [DS:0] tmp_17_2_1_reg_4062;
+reg  signed [DS:0] tmp_17_2_2_reg_4067;
+reg  signed [DS:0] tmp_17_2_3_reg_4072;
+reg  signed [DS:0] tmp_3_reg_4077;
+reg  signed [DS:0] tmp_17_3_1_reg_4082;
+reg  signed [DS:0] tmp_17_3_2_reg_4087;
+reg  signed [DS:0] tmp_17_3_3_reg_4092;
+reg  signed [DS:0] tmp_9_reg_4097;
+reg  signed [DS:0] tmp_17_4_1_reg_4102;
+reg  signed [DS:0] tmp_11_reg_4107;
+reg  signed [DS:0] tmp_13_reg_4112;
+reg  signed [DS:0] tmp_17_5_reg_4117;
+reg  signed [DS:0] tmp_17_5_1_reg_4122;
+reg  signed [DS:0] tmp_17_5_2_reg_4127;
+reg  signed [DS:0] tmp_15_reg_4132;
+reg  signed [DS:0] tmp_17_6_reg_4137;
+reg  signed [DS:0] tmp_18_reg_4142;
+reg  signed [DS:0] tmp_19_reg_4147;
+reg  signed [DS:0] tmp_21_reg_4152;
+reg  signed [DS:0] tmp_17_7_reg_4157;
+reg  signed [DS:0] tmp_24_reg_4162;
+reg  signed [DS:0] tmp_26_reg_4167;
+wire signed [DS:0] tmp_fu_3769_p2;
+reg  signed [DS:0] tmp_reg_4172;
+reg  signed [DS:0] tmp11_reg_3867_p2;
+wire signed [DS:0] tmp15_fu_3784_p2;
+reg  signed [DS:0] tmp15_reg_4177;
+reg  signed [DS:0] tmp18_reg_3895;
+wire signed [DS:0] tmp21_fu_3790_p2;
+reg  signed [DS:0] tmp21_reg_4182;
+wire signed [DS:0] tmp22_fu_3804_p2;
+reg  signed [DS:0] tmp22_reg_4187;
+reg  signed [DS:0] tmp25_reg_3923;
+wire signed [DS:0] tmp29_fu_3819_p2;
+reg  signed [DS:0] tmp29_reg_4192;
+reg  signed [DS:0] tmp32_reg_3952;
 wire  signed [DS:0] r_V_8_3_fu_192_p0;
 wire    ap_block_pp0_stage0;
 wire  signed [DS:0] r_V_8_6_2_fu_193_p0;
@@ -155,143 +155,167 @@ wire  signed [DS:0] r_V_8_fu_221_p0;
 wire  signed [DS:0] r_V_8_7_3_fu_222_p0;
 wire  signed [DS:0] r_V_8_1_fu_223_p0;
 wire  signed [DS:0] r_V_cast_fu_3225_p0;
-wire   [MS:0] r_V_8_fu_221_p2;
-wire   [MS:0] r_V_8_0_1_fu_215_p2;
-wire   [MS:0] r_V_8_0_2_fu_197_p2;
+wire  signed [MS:0] r_V_8_fu_221_p2;
+wire  signed [MS:0] r_V_8_0_1_fu_215_p2;
+wire  signed [MS:0] r_V_8_0_2_fu_197_p2;
 wire  signed [DS:0] r_V_neel_D4_1;
-wire signed [DS:0] r_V_neel_D6_2;
-wire signed [DS:0] r_V_neel_D7_2;
-wire signed [DS:0] r_V_neel_D0_3;
-wire  [MS:0] r_V_8_0_3_fu_3292_p2;
+wire  signed [DS:0] r_V_neel_D6_2;
+wire  signed [DS:0] r_V_neel_D7_2;
+wire  signed [DS:0] r_V_neel_D0_3;
+wire  signed [MS:0] r_V_8_0_3_fu_3292_p2;
 wire  signed [DS:0] r_V_1_cast1_fu_3308_p0;
 wire  signed [DS:0] r_V_1_cast_fu_3313_p0;
-wire   [MS:0] r_V_8_1_fu_223_p2;
-wire   [MS:0] r_V_8_1_1_fu_203_p2;
-wire   [MS:0] r_V_8_1_2_fu_210_p2;
-wire   [MS:0] r_V_8_1_3_fu_219_p2;
+wire  signed [MS:0] r_V_8_1_fu_223_p2;
+wire  signed [MS:0] r_V_8_1_1_fu_203_p2;
+wire  signed [MS:0] r_V_8_1_2_fu_210_p2;
+wire  signed [MS:0] r_V_8_1_3_fu_219_p2;
 wire  signed [DS:0] r_V_2_cast1_fu_3360_p0;
 wire  signed [DS:0] r_V_2_cast_fu_3367_p0;
-wire   [MS:0] r_V_8_2_fu_213_p2;
-wire   [MS:0] r_V_8_2_1_fu_204_p2;
-wire   [MS:0] r_V_8_2_2_fu_212_p2;
-wire   [MS:0] r_V_8_2_3_fu_217_p2;
+wire  signed [MS:0] r_V_8_2_fu_213_p2;
+wire  signed [MS:0] r_V_8_2_1_fu_204_p2;
+wire  signed [MS:0] r_V_8_2_2_fu_212_p2;
+wire  signed [MS:0] r_V_8_2_3_fu_217_p2;
 wire  signed [DS:0] r_V_3_cast1_fu_3412_p0;
 wire  signed [DS:0] r_V_3_cast_fu_3419_p0;
-wire   [MS:0] r_V_8_3_fu_192_p2;
-wire   [MS:0] r_V_8_3_1_fu_202_p2;
-wire   [MS:0] r_V_8_3_2_fu_214_p2;
-wire   [MS:0] r_V_8_3_3_fu_198_p2;
-wire   [MS:0] r_V_8_4_fu_3507_p2;
-wire   [MS:0] r_V_8_4_1_fu_216_p2;
-wire   [MS:0] r_V_8_4_2_fu_196_p2;
-wire   [MS:0] r_V_8_4_3_fu_207_p2;
-wire   [MS:0] r_V_8_5_fu_195_p2;
-wire   [MS:0] r_V_8_5_1_fu_208_p2;
-wire   [MS:0] r_V_8_5_2_fu_206_p2;
-wire   [MS:0] r_V_8_5_3_fu_194_p2;
-wire   [MS:0] r_V_8_6_fu_211_p2;
-wire   [MS:0] r_V_8_6_1_fu_3636_p2;
-wire   [MS:0] r_V_8_6_2_fu_193_p2;
-wire   [MS:0] r_V_8_6_3_fu_200_p2;
-wire   [MS:0] r_V_8_7_fu_205_p2;
-wire   [MS:0] r_V_8_7_1_fu_3719_p2;
-reg   [DS:0] tmp_23_fu_3725_p4;
-wire   [MS:0] r_V_8_7_2_fu_218_p2;
-wire   [MS:0] r_V_8_7_3_fu_222_p2;
-wire  signed [DS:0] tmp_6_fu_3473_p1;
+wire  signed [MS:0] r_V_8_3_fu_192_p2;
+wire  signed [MS:0] r_V_8_3_1_fu_202_p2;
+wire  signed [MS:0] r_V_8_3_2_fu_214_p2;
+wire  signed [MS:0] r_V_8_3_3_fu_198_p2;
+wire  signed [MS:0] r_V_8_4_fu_3507_p2;
+wire  signed [MS:0] r_V_8_4_1_fu_216_p2;
+wire  signed [MS:0] r_V_8_4_2_fu_196_p2;
+wire  signed [MS:0] r_V_8_4_3_fu_207_p2;
+wire  signed [MS:0] r_V_8_5_fu_195_p2;
+wire  signed [MS:0] r_V_8_5_1_fu_208_p2;
+wire  signed [MS:0] r_V_8_5_2_fu_206_p2;
+wire  signed [MS:0] r_V_8_5_3_fu_194_p2;
+wire  signed [MS:0] r_V_8_6_fu_211_p2;
+wire  signed [MS:0] r_V_8_6_1_fu_3636_p2;
+wire  signed [MS:0] r_V_8_6_2_fu_193_p2;
+wire  signed [MS:0] r_V_8_6_3_fu_200_p2;
+wire  signed [MS:0] r_V_8_7_fu_205_p2;
+wire  signed [MS:0] r_V_8_7_1_fu_3719_p2;
+reg   signed [DS:0] tmp_23_fu_3725_p4;
+wire  signed [MS:0] r_V_8_7_2_fu_218_p2;
+wire  signed [MS:0] r_V_8_7_3_fu_222_p2;
 wire  signed [DS:0] tmp_2_fu_3470_p1;
-wire   [DS:0] tmp9_fu_3759_p2;
-wire   [DS:0] tmp10_fu_3763_p2;
-wire  signed [DS:0] tmp_8_fu_3467_p1;
-wire   [DS:0] tmp16_fu_3775_p2;
-wire   [DS:0] tmp17_fu_3780_p2;
-wire  signed [DS:0] tmp_25_cast_fu_3735_p1;
-wire   [DS:0] tmp23_fu_3796_p2;
-wire   [DS:0] tmp24_fu_3800_p2;
-wire  signed [DS:0] tmp_5_fu_3464_p1;
-wire   [DS:0] tmp30_fu_3810_p2;
-wire   [DS:0] tmp31_fu_3815_p2;
-wire  signed [DS:0] tmp_10_fu_3825_p1;
-wire   [DS:0] tmp14_fu_3857_p2;
-wire   [DS:0] tmp12_fu_3852_p2;
-wire   [DS:0] tmp13_fu_3862_p2;
-wire   [DS:0] tmp11_fu_3867_p2;
-wire  signed [DS:0] tmp_19_cast_fu_3837_p1;
+wire  signed [DS:0] tmp9_fu_3759_p2;
+wire  signed [DS:0] tmp10_fu_3763_p2;
+wire  signed [DS:0] tmp16_fu_3775_p2;
+wire  signed [DS:0] tmp17_fu_3780_p2;
+wire  signed [DS:0] tmp23_fu_3796_p2;
+wire  signed [DS:0] tmp24_fu_3800_p2;
+wire  signed [DS:0] tmp30_fu_3810_p2;
+wire  signed [DS:0] tmp31_fu_3815_p2;
+wire  signed [DS:0] tmp14_fu_3857_p2;
+wire  signed [DS:0] tmp12_fu_3852_p2;
+wire  signed [DS:0] tmp13_fu_3862_p2;
+wire  signed [DS:0] tmp11_fu_3867_p2;
 wire  signed [DS:0] tmp21_cast_fu_3882_p1;
-wire   [DS:0] tmp20_fu_3885_p2;
-wire   [DS:0] tmp19_fu_3878_p2;
-wire  signed [DS:0] tmp20_cast_fu_3891_p1;
-wire   [DS:0] tmp18_fu_3895_p2;
-wire  signed [DS:0] tmp_12_fu_3828_p1;
-wire  signed [DS:0] tmp_25_fu_3846_p1;
-wire  signed [DS:0] tmp_20_fu_3840_p1;
-wire   [DS:0] tmp28_fu_3911_p2;
-wire   [DS:0] tmp26_fu_3906_p2;
-wire   [DS:0] tmp27_fu_3917_p2;
-wire   [DS:0] tmp25_fu_3923_p2;
-wire  signed [DS:0] tmp_16_fu_3834_p1;
-wire  signed [DS:0] tmp_14_fu_3831_p1;
-wire  signed [DS:0] tmp_27_fu_3849_p1;
-wire  signed [DS:0] tmp_22_fu_3843_p1;
-wire   [DS:0] tmp35_fu_3940_p2;
-wire   [DS:0] tmp33_fu_3934_p2;
-wire   [DS:0] tmp34_fu_3946_p2;
-wire   [DS:0] tmp32_fu_3952_p2;
-wire   [DS:0] res_0_V_write_assign_fu_3873_p2;
-wire   [DS:0] acc_1_V_fu_3901_p2;
-wire   [DS:0] acc_2_V_fu_3929_p2;
-wire   [DS:0] acc_3_V_fu_3958_p2;
+wire  signed [DS:0] tmp20_fu_3885_p2;
+wire  signed [DS:0] tmp19_fu_3878_p2;
+wire  signed [DS:0] tmp18_fu_3895_p2;
+wire  signed [DS:0] tmp28_fu_3911_p2;
+wire  signed [DS:0] tmp26_fu_3906_p2;
+wire  signed [DS:0] tmp27_fu_3917_p2;
+wire  signed [DS:0] tmp25_fu_3923_p2;
+wire  signed [DS:0] tmp35_fu_3940_p2;
+wire  signed [DS:0] tmp33_fu_3934_p2;
+wire  signed [DS:0] tmp34_fu_3946_p2;
+wire  signed [DS:0] tmp32_fu_3952_p2;
+wire  signed [DS:0] res_0_V_write_assign_fu_3873_p2;
+wire  signed [DS:0] acc_1_V_fu_3901_p2;
+wire  signed [DS:0] acc_2_V_fu_3929_p2;
+wire  signed [DS:0] acc_3_V_fu_3958_p2;
+reg  signed [DS:0] data_0_V_read_int_reg;
+reg  signed [DS:0] data_1_V_read_int_reg;
+reg  signed [DS:0] data_2_V_read_int_reg;
+reg  signed [DS:0] data_3_V_read_int_reg;
+reg  signed [DS:0] data_4_V_read_int_reg;
+reg  signed [DS:0] data_5_V_read_int_reg;
+reg  signed [DS:0] data_6_V_read_int_reg;
+reg  signed [DS:0] data_7_V_read_int_reg;
+reg  signed [DS:0] ap_return_0_int_reg;
+reg  signed [DS:0] ap_return_1_int_reg;
+reg  signed [DS:0] ap_return_2_int_reg;
+reg  signed [DS:0] ap_return_3_int_reg;
 reg    ap_ce_reg;
-reg   [DS:0] data_0_V_read_int_reg;
-reg   [DS:0] data_1_V_read_int_reg;
-reg   [DS:0] data_2_V_read_int_reg;
-reg   [DS:0] data_3_V_read_int_reg;
-reg   [DS:0] data_4_V_read_int_reg;
-reg   [DS:0] data_5_V_read_int_reg;
-reg   [DS:0] data_6_V_read_int_reg;
-reg   [DS:0] data_7_V_read_int_reg;
-reg   [DS:0] ap_return_0_int_reg;
-reg   [DS:0] ap_return_1_int_reg;
-reg   [DS:0] ap_return_2_int_reg;
-reg   [DS:0] ap_return_3_int_reg;
 
 
-wire signed [DS:0] w0_0;
-wire signed [DS:0] w0_1;
-wire signed [DS:0] w0_2;
-wire signed [DS:0] w0_3;
-wire signed [DS:0] w1_0;
-wire signed [DS:0] w1_1;
-wire signed [DS:0] w1_2;
-wire signed [DS:0] w1_3;
-wire signed [DS:0] w2_0;
-wire signed [DS:0] w2_1;
-wire signed [DS:0] w2_2;
-wire signed [DS:0] w2_3;
-wire signed [DS:0] w3_0;
-wire signed [DS:0] w3_1;
-wire signed [DS:0] w3_2;
-wire signed [DS:0] w3_3;
-wire signed [DS:0] w4_0;
-wire signed [DS:0] w4_1;
-wire signed [DS:0] w4_2;
-wire signed [DS:0] w4_3;
-wire signed [DS:0] w5_0;
-wire signed [DS:0] w5_1;
-wire signed [DS:0] w5_2;
-wire signed [DS:0] w5_3;
-wire signed [DS:0] w6_0;
-wire signed [DS:0] w6_1;
-wire signed [DS:0] w6_2;
-wire signed [DS:0] w6_3;
-wire signed [DS:0] w7_0;
-wire signed [DS:0] w7_1;
-wire signed [DS:0] w7_2;
-wire signed [DS:0] w7_3;
-wire signed [DS:0] b0;
-wire signed [DS:0] b1;
-wire signed [DS:0] b2;
-wire signed [DS:0] b3;
+wire signed [DS:0] w0_0_w;
+wire signed [DS:0] w0_1_w;
+wire signed [DS:0] w0_2_w;
+wire signed [DS:0] w0_3_w;
+wire signed [DS:0] w1_0_w;
+wire signed [DS:0] w1_1_w;
+wire signed [DS:0] w1_2_w;
+wire signed [DS:0] w1_3_w;
+wire signed [DS:0] w2_0_w;
+wire signed [DS:0] w2_1_w;
+wire signed [DS:0] w2_2_w;
+wire signed [DS:0] w2_3_w;
+wire signed [DS:0] w3_0_w;
+wire signed [DS:0] w3_1_w;
+wire signed [DS:0] w3_2_w;
+wire signed [DS:0] w3_3_w;
+wire signed [DS:0] w4_0_w;
+wire signed [DS:0] w4_1_w;
+wire signed [DS:0] w4_2_w;
+wire signed [DS:0] w4_3_w;
+wire signed [DS:0] w5_0_w;
+wire signed [DS:0] w5_1_w;
+wire signed [DS:0] w5_2_w;
+wire signed [DS:0] w5_3_w;
+wire signed [DS:0] w6_0_w;
+wire signed [DS:0] w6_1_w;
+wire signed [DS:0] w6_2_w;
+wire signed [DS:0] w6_3_w;
+wire signed [DS:0] w7_0_w;
+wire signed [DS:0] w7_1_w;
+wire signed [DS:0] w7_2_w;
+wire signed [DS:0] w7_3_w;
+wire signed [DS:0] b0_w;
+wire signed [DS:0] b1_w;
+wire signed [DS:0] b2_w;
+wire signed [DS:0] b3_w;
+
+reg signed [DS:0] w0_0;
+reg signed [DS:0] w0_1;
+reg signed [DS:0] w0_2;
+reg signed [DS:0] w0_3;
+reg signed [DS:0] w1_0;
+reg signed [DS:0] w1_1;
+reg signed [DS:0] w1_2;
+reg signed [DS:0] w1_3;
+reg signed [DS:0] w2_0;
+reg signed [DS:0] w2_1;
+reg signed [DS:0] w2_2;
+reg signed [DS:0] w2_3;
+reg signed [DS:0] w3_0;
+reg signed [DS:0] w3_1;
+reg signed [DS:0] w3_2;
+reg signed [DS:0] w3_3;
+reg signed [DS:0] w4_0;
+reg signed [DS:0] w4_1;
+reg signed [DS:0] w4_2;
+reg signed [DS:0] w4_3;
+reg signed [DS:0] w5_0;
+reg signed [DS:0] w5_1;
+reg signed [DS:0] w5_2;
+reg signed [DS:0] w5_3;
+reg signed [DS:0] w6_0;
+reg signed [DS:0] w6_1;
+reg signed [DS:0] w6_2;
+reg signed [DS:0] w6_3;
+reg signed [DS:0] w7_0;
+reg signed [DS:0] w7_1;
+reg signed [DS:0] w7_2;
+reg signed [DS:0] w7_3;
+reg signed [DS:0] b0;
+reg signed [DS:0] b1;
+reg signed [DS:0] b2;
+reg signed [DS:0] b3;
+
 // delay buffers
 reg signed [DS:0] node0_0;
 reg signed [DS:0] node0_1;
@@ -335,44 +359,42 @@ reg signed [DS:0] sum_1_2;
 reg signed [DS:0] sum_0_3;
 reg signed [DS:0] sum_1_3;
 
-
-assign w0_0 = sdif.sdpara[16][17:0];
-assign w0_1 = sdif.sdpara[17][17:0];
-assign w0_2 = sdif.sdpara[18][17:0];
-assign w0_3 = sdif.sdpara[19][17:0];
-assign w1_0 = sdif.sdpara[20][17:0];
-assign w1_1 = sdif.sdpara[21][17:0];
-assign w1_2 = sdif.sdpara[22][17:0];
-assign w1_3 = sdif.sdpara[23][17:0];
-assign w2_0 = sdif.sdpara[24][17:0];
-assign w2_1 = sdif.sdpara[25][17:0];
-assign w2_2 = sdif.sdpara[26][17:0];
-assign w2_3 = sdif.sdpara[27][17:0];
-assign w3_0 = sdif.sdpara[28][17:0];
-assign w3_1 = sdif.sdpara[29][17:0];
-assign w3_2 = sdif.sdpara[30][17:0];
-assign w3_3 = sdif.sdpara[31][17:0];
-assign w4_0 = sdif.sdpara[32][17:0];
-assign w4_1 = sdif.sdpara[33][17:0];
-assign w4_2 = sdif.sdpara[34][17:0];
-assign w4_3 = sdif.sdpara[35][17:0];
-assign w5_0 = sdif.sdpara[36][17:0];
-assign w5_1 = sdif.sdpara[37][17:0];
-assign w5_2 = sdif.sdpara[38][17:0];
-assign w5_3 = sdif.sdpara[39][17:0];
-assign w6_0 = sdif.sdpara[40][17:0];
-assign w6_1 = sdif.sdpara[41][17:0];
-assign w6_2 = sdif.sdpara[42][17:0];
-assign w6_3 = sdif.sdpara[43][17:0];
-assign w7_0 = sdif.sdpara[44][17:0];
-assign w7_1 = sdif.sdpara[45][17:0];
-assign w7_2 = sdif.sdpara[46][17:0];
-assign w7_3 = sdif.sdpara[47][17:0];
-assign b0 = sdif.sdpara[60][17:0];
-assign b1 = sdif.sdpara[61][17:0];
-assign b2 = sdif.sdpara[62][17:0];
-assign b3 = sdif.sdpara[63][17:0];
-
+assign w0_0_w = sdif.sdpara[16][17:0];
+assign w0_1_w = sdif.sdpara[17][17:0];
+assign w0_2_w = sdif.sdpara[18][17:0];
+assign w0_3_w = sdif.sdpara[19][17:0];
+assign w1_0_w = sdif.sdpara[20][17:0];
+assign w1_1_w = sdif.sdpara[21][17:0];
+assign w1_2_w = sdif.sdpara[22][17:0];
+assign w1_3_w = sdif.sdpara[23][17:0];
+assign w2_0_w = sdif.sdpara[24][17:0];
+assign w2_1_w = sdif.sdpara[25][17:0];
+assign w2_2_w = sdif.sdpara[26][17:0];
+assign w2_3_w = sdif.sdpara[27][17:0];
+assign w3_0_w = sdif.sdpara[28][17:0];
+assign w3_1_w = sdif.sdpara[29][17:0];
+assign w3_2_w = sdif.sdpara[30][17:0];
+assign w3_3_w = sdif.sdpara[31][17:0];
+assign w4_0_w = sdif.sdpara[32][17:0];
+assign w4_1_w = sdif.sdpara[33][17:0];
+assign w4_2_w = sdif.sdpara[34][17:0];
+assign w4_3_w = sdif.sdpara[35][17:0];
+assign w5_0_w = sdif.sdpara[36][17:0];
+assign w5_1_w = sdif.sdpara[37][17:0];
+assign w5_2_w = sdif.sdpara[38][17:0];
+assign w5_3_w = sdif.sdpara[39][17:0];
+assign w6_0_w = sdif.sdpara[40][17:0];
+assign w6_1_w = sdif.sdpara[41][17:0];
+assign w6_2_w = sdif.sdpara[42][17:0];
+assign w6_3_w = sdif.sdpara[43][17:0];
+assign w7_0_w = sdif.sdpara[44][17:0];
+assign w7_1_w = sdif.sdpara[45][17:0];
+assign w7_2_w = sdif.sdpara[46][17:0];
+assign w7_3_w = sdif.sdpara[47][17:0];
+assign b0_w = sdif.sdpara[60][17:0];
+assign b1_w = sdif.sdpara[61][17:0];
+assign b2_w = sdif.sdpara[62][17:0];
+assign b3_w = sdif.sdpara[63][17:0];
 
 always @ (posedge sdif.clk) begin
     ap_ce_reg <= ap_ce;
@@ -397,6 +419,47 @@ always @ (posedge sdif.clk) begin
         data_5_V_read_int_reg <= data_5_V_read;
         data_6_V_read_int_reg <= data_6_V_read;
         data_7_V_read_int_reg <= data_7_V_read;
+    end
+end
+
+always @(posedge sdif.clk) begin
+    if((1'b1 == ap_ce)) begin
+        w0_0 <= w0_0_w;
+        w0_1 <= w0_1_w;
+        w0_2 <= w0_2_w;
+        w0_3 <= w0_3_w;
+        w1_0 <= w1_0_w;
+        w1_1 <= w1_1_w;
+        w1_2 <= w1_2_w;
+        w1_3 <= w1_3_w;
+        w2_0 <= w2_0_w;
+        w2_1 <= w2_1_w;
+        w2_2 <= w2_2_w;
+        w2_3 <= w2_3_w;
+        w3_0 <= w3_0_w;
+        w3_1 <= w3_1_w;
+        w3_2 <= w3_2_w;
+        w3_3 <= w3_3_w;
+        w4_0 <= w4_0_w;
+        w4_1 <= w4_1_w;
+        w4_2 <= w4_2_w;
+        w4_3 <= w4_3_w;
+        w5_0 <= w5_0_w;
+        w5_1 <= w5_1_w;
+        w5_2 <= w5_2_w;
+        w5_3 <= w5_3_w;
+        w6_0 <= w6_0_w;
+        w6_1 <= w6_1_w;
+        w6_2 <= w6_2_w;
+        w6_3 <= w6_3_w;
+        w7_0 <= w7_0_w;
+        w7_1 <= w7_1_w;
+        w7_2 <= w7_2_w;
+        w7_3 <= w7_3_w;
+        b0 <= b0_w;
+        b1 <= b1_w;
+        b2 <= b2_w;
+        b3 <= b3_w;
     end
 end
 
@@ -678,95 +741,79 @@ assign r_V_cast_fu_3225_p0 = data_0_V_read_int_reg;
 
 assign r_V_cast_fu_3225_p1 = r_V_cast_fu_3225_p0;
 
-assign res_0_V_write_assign_fu_3873_p2 = (sum_0_0 + sum_1_0);
 
-assign tmp10_fu_3763_p2 = ($signed(tmp_6_fu_3473_p1) + $signed(tmp_2_fu_3470_p1));
 
-assign tmp11_fu_3867_p2 = (tmp12_fu_3852_p2 + tmp13_fu_3862_p2);
+//Summation 3
+assign acc_3_V_fu_3958_p2 = (sum_0_3 + sum_1_3);
 
-assign tmp12_fu_3852_p2 = ($signed(node5_0) + $signed(tmp_10_fu_3825_p1));
+assign tmp29_fu_3819_p2 = (tmp30_fu_3810_p2 + tmp31_fu_3815_p2);
 
-assign tmp13_fu_3862_p2 = (node6_0 + tmp14_fu_3857_p2);
+assign tmp32_fu_3952_p2 = (tmp33_fu_3934_p2 + tmp34_fu_3946_p2);
 
-assign tmp14_fu_3857_p2 = ($signed(node7_0) + $signed(b0));
+assign tmp30_fu_3810_p2 = (node1_3 + node0_3);
 
-assign tmp15_fu_3784_p2 = (tmp16_fu_3775_p2 + tmp17_fu_3780_p2);
+assign tmp31_fu_3815_p2 = (node3_3 + node2_3);
 
-assign tmp16_fu_3775_p2 = ($signed(tmp_8_fu_3467_p1) + $signed(node0_1));
+assign tmp33_fu_3934_p2 = (node5_3 + node4_3);
 
-assign tmp17_fu_3780_p2 = (node3_1 + node2_1);
+assign tmp34_fu_3946_p2 = (node6_3 + tmp35_fu_3940_p2);
 
-assign tmp18_fu_3895_p2 = ($signed(tmp19_fu_3878_p2) + $signed(tmp20_cast_fu_3891_p1));
+assign tmp35_fu_3940_p2 = (node7_3 + b3);
 
-assign tmp19_fu_3878_p2 = (node5_1 + node4_1);
 
-assign tmp20_cast_fu_3891_p1 = $signed(tmp20_fu_3885_p2);
-
-assign tmp20_fu_3885_p2 = ($signed(tmp_19_cast_fu_3837_p1) + $signed(tmp21_fu_3790_p2));
-
-// assign tmp21_cast_fu_3882_p1 = $signed(tmp21_reg_4182);
-
-assign tmp21_fu_3790_p2 = ($signed(tmp_25_cast_fu_3735_p1) + $signed(b1));
+//Summation 2
+assign acc_2_V_fu_3929_p2 = (sum_0_2 + sum_1_2);
 
 assign tmp22_fu_3804_p2 = (tmp23_fu_3796_p2 + tmp24_fu_3800_p2);
+
+assign tmp25_fu_3923_p2 = (tmp26_fu_3906_p2 + tmp27_fu_3917_p2);
 
 assign tmp23_fu_3796_p2 = (node1_2 + node0_2);
 
 assign tmp24_fu_3800_p2 = (node3_2 + node2_2);
 
-assign tmp25_fu_3923_p2 = (tmp26_fu_3906_p2 + tmp27_fu_3917_p2);
+assign tmp26_fu_3906_p2 = (node5_2 + node4_2);
 
-assign tmp26_fu_3906_p2 = ($signed(node5_2) + $signed(tmp_12_fu_3828_p1));
+assign tmp27_fu_3917_p2 = (node6_2 + tmp28_fu_3911_p2);
 
-assign tmp27_fu_3917_p2 = ($signed(tmp_20_fu_3840_p1) + $signed(tmp28_fu_3911_p2));
+assign tmp28_fu_3911_p2 = (node7_2 + b2);
 
-assign tmp28_fu_3911_p2 = ($signed(tmp_25_fu_3846_p1) + $signed(b2));
 
-assign tmp29_fu_3819_p2 = (tmp30_fu_3810_p2 + tmp31_fu_3815_p2);
+//Summation 1
+assign acc_1_V_fu_3901_p2 = (sum_0_1 + sum_1_1);
 
-assign tmp30_fu_3810_p2 = ($signed(node1_3) + $signed(tmp_5_fu_3464_p1));
+assign tmp15_fu_3784_p2 = (tmp16_fu_3775_p2 + tmp17_fu_3780_p2);
 
-assign tmp31_fu_3815_p2 = (node3_3 + node2_3);
+assign tmp18_fu_3895_p2 = (tmp19_fu_3878_p2 + tmp20_fu_3885_p2);
 
-assign tmp32_fu_3952_p2 = (tmp33_fu_3934_p2 + tmp34_fu_3946_p2);
+assign tmp16_fu_3775_p2 = (node1_1 + node0_1);
 
-assign tmp33_fu_3934_p2 = ($signed(tmp_16_fu_3834_p1) + $signed(tmp_14_fu_3831_p1));
+assign tmp17_fu_3780_p2 = (node3_1 + node2_1);
 
-assign tmp34_fu_3946_p2 = ($signed(tmp_22_fu_3843_p1) + $signed(tmp35_fu_3940_p2));
+assign tmp19_fu_3878_p2 = (node5_1 + node4_1);
 
-assign tmp35_fu_3940_p2 = ($signed(tmp_27_fu_3849_p1) + $signed(b3));
+assign tmp20_fu_3885_p2 = (node6_1 + tmp21_fu_3790_p2);
+
+assign tmp21_fu_3790_p2 = (node7_1 + b1);
+
+
+// Summation 0
+assign res_0_V_write_assign_fu_3873_p2 = (sum_0_0 + sum_1_0);
+
+assign tmp_fu_3769_p2 = (tmp9_fu_3759_p2 + tmp10_fu_3763_p2);
+
+assign tmp11_fu_3867_p2 = (tmp12_fu_3852_p2 + tmp13_fu_3862_p2);
 
 assign tmp9_fu_3759_p2 = (node1_0 + node0_0);
 
-assign tmp_10_fu_3825_p1 = $signed(node4_0);
+assign tmp10_fu_3763_p2 = (node3_0 + node2_0);
 
-assign tmp_12_fu_3828_p1 = $signed(node4_2);
+assign tmp12_fu_3852_p2 = (node5_0 + node4_0);
 
-assign tmp_14_fu_3831_p1 = $signed(node4_3);
+assign tmp13_fu_3862_p2 = (node6_0 + tmp14_fu_3857_p2);
 
-assign tmp_16_fu_3834_p1 = $signed(node5_3);
+assign tmp14_fu_3857_p2 = (node7_0 + b0);
 
-assign tmp_19_cast_fu_3837_p1 = $signed(node6_1);
-
-assign tmp_20_fu_3840_p1 = $signed(node6_2);
-
-assign tmp_22_fu_3843_p1 = $signed(node6_3);
-
-assign tmp_25_cast_fu_3735_p1 = $signed(node7_1);
-
-assign tmp_25_fu_3846_p1 = $signed(node7_2);
-
-assign tmp_27_fu_3849_p1 = $signed(node7_3);
-
-assign tmp_2_fu_3470_p1 = $signed(node2_0);
-
-assign tmp_5_fu_3464_p1 = $signed(node0_3);
-
-assign tmp_6_fu_3473_p1 = $signed(node3_0);
-
-assign tmp_8_fu_3467_p1 = $signed(node1_1);
-
-assign tmp_fu_3769_p2 = (tmp9_fu_3759_p2 + tmp10_fu_3763_p2);
 
 assign ap_return_0 = return_0;
 

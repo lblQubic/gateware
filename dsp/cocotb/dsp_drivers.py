@@ -200,6 +200,12 @@ class DSPDriver:
             self._dut.adc[adc_ind].value = int(adc_signal[i])
             await(RisingEdge(self._dut.clk))
 
+    async def generate_acc_signal(self):
+        for i in range(8):
+            self._dut.dspmod.data_accbuf[i].value = 125421
+            # self._dut.dspmod.we_accbuf[i].value = 1
+            await(RisingEdge(self._dut.clk))
+
     async def read_acq_buf(self, nvalues, adc_ind, start_addr=0):
         acq_buf = np.zeros(nvalues)
         for i in range(nvalues):

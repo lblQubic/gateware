@@ -60,10 +60,10 @@ always @(posedge dspif.clk) begin
 end
 
 wire [SDPARA_R_ADDRWIDTH-1:0] paralen = 67;
-reg [SDPARA_R_ADDRWIDTH-1:0] paraaddr = 0;
-reg [SDPARA_R_ADDRWIDTH-1:0] paraaddr_r1 = 0;
-reg [SDPARA_R_ADDRWIDTH-1:0] paraaddr_r2 = 0;
-reg [SDPARA_R_ADDRWIDTH-1:0] paraaddr_r3 = 0;
+reg [SDPARA_R_ADDRWIDTH-1:0] paraaddr = 67;
+reg [SDPARA_R_ADDRWIDTH-1:0] paraaddr_r1 = 67;
+reg [SDPARA_R_ADDRWIDTH-1:0] paraaddr_r2 = 67;
+reg [SDPARA_R_ADDRWIDTH-1:0] paraaddr_r3 = 67;
 
 reg parabusy = 0;
 reg parabusy_r1 = 0;
@@ -94,10 +94,10 @@ generate
 	for (genvar i=0;i<NDLO;i=i+1) begin: sd_para_load
 		always @(posedge dspif.clk) begin
 			dspif.addr_sdpara[i] <= paraaddr;
-			if (parabusy_r3) begin
-			// sdif[i].sdpara[paraaddr] <= dspif.data_sdpara[i];
-				sdif[i].sdpara[paraaddr_r3] <= dspif.data_sdpara[i];
-			end
+			sdif[i].sdpara[paraaddr_r3] <= dspif.data_sdpara[i];
+			// if (parabusy_r3) begin
+			// 	sdif[i].sdpara[paraaddr_r3] <= dspif.data_sdpara[i];
+			// end
 		end
 		//assign sdif[i].weight_bias = dspif.weight_bias[i];
 		//assign sdif[i].normalizer_min = dspif.normalizer_min[i];

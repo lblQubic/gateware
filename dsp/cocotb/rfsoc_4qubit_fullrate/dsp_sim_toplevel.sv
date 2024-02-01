@@ -87,10 +87,6 @@ module dsp_sim_toplevel#(
     assign dspif.nshot = nshot;
     assign dspif.shift = 15;
 
-    generate for(i=0; i<3; i=i+1) begin
-        assign dspif.coef[i][i] = 32'h7fff0000;
-    end
-    endgenerate
 
     dsp dspmod(.dspif(dspif));
 

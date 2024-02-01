@@ -309,13 +309,13 @@ sdpara=["260183","4862","261334","260711","262141","259938","4215","4895","1258"
 
 @cocotb.test()
 async def test_accbuf(dut):
-    freq = 347.e6
-    phase = np.pi/8
+    freq = 0 #347.e6
+    phase = 0 #np.pi/8
     tstart = 10
     pulse_length = 100
-    amp = 0.9
-    env_i = 0.2*np.ones(pulse_length)
-    env_q = np.zeros(pulse_length)
+    amp = 0.1
+    env_q = 0.04762021264666606*np.ones(pulse_length)
+    env_i = 10.6648137845436353*0.001952833165389274*np.ones(pulse_length) #np.zeros(pulse_length)
 
     qdrvelemcfg = RFSoCElementCfg(16)
     rdrvelemcfg = RFSoCElementCfg(16, interp_ratio=16)
@@ -347,6 +347,7 @@ async def test_accbuf(dut):
     await dspunit.load_freq_buffer(freq_buffers[2], 2, 0)
 
     cocotb.start_soon(dspunit.generate_adc_signal(adc_signal, 0))
+    cocotb.start_soon(dspunit.generate_acc_signal())
     await dspunit.run_program(2500, nshots=5)
     acc_buf0 = await dspunit.read_acc_buf(3)
 
@@ -359,19 +360,19 @@ async def test_accbuf(dut):
     sim_prog = prog.get_sim_program()
     pulse_seq = [sim_prog[1]]
 
-    #cocotb.start_soon(dsp.generate_clock(dut))
-    await dspunit.load_program([cmd_buf])
-    await dspunit.load_env_buffer(env_buffers[0], 0, 0)
-    await dspunit.load_freq_buffer(freq_buffers[0], 0, 0)
-    await dspunit.load_env_buffer(env_buffers[1], 1, 0)
-    await dspunit.load_freq_buffer(freq_buffers[1], 1, 0)
-    await dspunit.load_env_buffer(env_buffers[2], 2, 0)
-    await dspunit.load_freq_buffer(freq_buffers[2], 2, 0)
+    # #cocotb.start_soon(dsp.generate_clock(dut))
+    # await dspunit.load_program([cmd_buf])
+    # await dspunit.load_env_buffer(env_buffers[0], 0, 0)
+    # await dspunit.load_freq_buffer(freq_buffers[0], 0, 0)
+    # await dspunit.load_env_buffer(env_buffers[1], 1, 0)
+    # await dspunit.load_freq_buffer(freq_buffers[1], 1, 0)
+    # await dspunit.load_env_buffer(env_buffers[2], 2, 0)
+    # await dspunit.load_freq_buffer(freq_buffers[2], 2, 0)
 
-    cocotb.start_soon(dspunit.generate_adc_signal(adc_signal, 0))
-    await dspunit.run_program(1000)
-    acc_buf1 = await dspunit.read_acc_buf(3)
-    print(acc_buf0, acc_buf1)
+    # cocotb.start_soon(dspunit.generate_adc_signal(adc_signal, 0))
+    # await dspunit.run_program(2500, nshots=5)
+    # acc_buf1 = await dspunit.read_acc_buf(3)
+    # print(acc_buf0, acc_buf1)
     
 # @cocotb.test()
 # async def test_acc_sweep(dut):

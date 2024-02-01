@@ -64,11 +64,17 @@ reg    ap_ce_reg;
 reg   [DS:0] ap_return_int_reg;
 
 
-wire signed [DS:0] w0;
-wire signed [DS:0] w1;
-wire signed [DS:0] w2;
-wire signed [DS:0] w3;
-wire signed [DS:0] b;
+reg signed [DS:0] w0;
+reg signed [DS:0] w1;
+reg signed [DS:0] w2;
+reg signed [DS:0] w3;
+reg signed [DS:0] b;
+
+wire signed [DS:0] w0_w;
+wire signed [DS:0] w1_w;
+wire signed [DS:0] w2_w;
+wire signed [DS:0] w3_w;
+wire signed [DS:0] b_w;
 // Buffer for delays
 reg signed [DS:0] node0;
 reg signed [DS:0] node1;
@@ -76,15 +82,25 @@ reg signed [DS:0] node2;
 reg signed [DS:0] node3;
 
 
-assign w0 = sdif.sdpara[48][17:0];
-assign w1 = sdif.sdpara[49][17:0];
-assign w2 = sdif.sdpara[50][17:0];
-assign w3 = sdif.sdpara[51][17:0];
-assign b = sdif.sdpara[64][17:0];
+assign w0_w = sdif.sdpara[48][17:0];
+assign w1_w = sdif.sdpara[49][17:0];
+assign w2_w = sdif.sdpara[50][17:0];
+assign w3_w = sdif.sdpara[51][17:0];
+assign b_w = sdif.sdpara[64][17:0];
 
 
 always @ (posedge sdif.clk) begin
     ap_ce_reg <= ap_ce;
+end
+
+always @ (posedge sdif.clk) begin
+    if ((1'b1 == ap_ce_reg)) begin
+        w0 <= w0_w;
+        w1 <= w1_w;
+        w2 <= w2_w;
+        w3 <= w3_w;
+        b <= b_w;
+    end
 end
 
 always @ (posedge sdif.clk) begin

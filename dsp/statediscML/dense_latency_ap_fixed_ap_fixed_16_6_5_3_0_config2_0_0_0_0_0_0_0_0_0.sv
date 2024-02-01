@@ -153,30 +153,55 @@ reg   [DS:0] ap_return_5_int_reg;
 reg   [DS:0] ap_return_6_int_reg;
 reg   [DS:0] ap_return_7_int_reg;
 
-wire signed [DS:0] w0_0;
-wire signed [DS:0] w0_1;
-wire signed [DS:0] w0_2;
-wire signed [DS:0] w0_3;
-wire signed [DS:0] w0_4;
-wire signed [DS:0] w0_5;
-wire signed [DS:0] w0_6;
-wire signed [DS:0] w0_7;
-wire signed [DS:0] w1_0;
-wire signed [DS:0] w1_1;
-wire signed [DS:0] w1_2;
-wire signed [DS:0] w1_3;
-wire signed [DS:0] w1_4;
-wire signed [DS:0] w1_5;
-wire signed [DS:0] w1_6;
-wire signed [DS:0] w1_7;
-wire signed [DS:0] b0;
-wire signed [DS:0] b1;
-wire signed [DS:0] b2;
-wire signed [DS:0] b3;
-wire signed [DS:0] b4;
-wire signed [DS:0] b5;
-wire signed [DS:0] b6;
-wire signed [DS:0] b7;
+wire signed [DS:0] w0_0_w;
+wire signed [DS:0] w0_1_w;
+wire signed [DS:0] w0_2_w;
+wire signed [DS:0] w0_3_w;
+wire signed [DS:0] w0_4_w;
+wire signed [DS:0] w0_5_w;
+wire signed [DS:0] w0_6_w;
+wire signed [DS:0] w0_7_w;
+wire signed [DS:0] w1_0_w;
+wire signed [DS:0] w1_1_w;
+wire signed [DS:0] w1_2_w;
+wire signed [DS:0] w1_3_w;
+wire signed [DS:0] w1_4_w;
+wire signed [DS:0] w1_5_w;
+wire signed [DS:0] w1_6_w;
+wire signed [DS:0] w1_7_w;
+wire signed [DS:0] b0_w;
+wire signed [DS:0] b1_w;
+wire signed [DS:0] b2_w;
+wire signed [DS:0] b3_w;
+wire signed [DS:0] b4_w;
+wire signed [DS:0] b5_w;
+wire signed [DS:0] b6_w;
+wire signed [DS:0] b7_w;
+
+reg signed [DS:0] w0_0;
+reg signed [DS:0] w0_1;
+reg signed [DS:0] w0_2;
+reg signed [DS:0] w0_3;
+reg signed [DS:0] w0_4;
+reg signed [DS:0] w0_5;
+reg signed [DS:0] w0_6;
+reg signed [DS:0] w0_7;
+reg signed [DS:0] w1_0;
+reg signed [DS:0] w1_1;
+reg signed [DS:0] w1_2;
+reg signed [DS:0] w1_3;
+reg signed [DS:0] w1_4;
+reg signed [DS:0] w1_5;
+reg signed [DS:0] w1_6;
+reg signed [DS:0] w1_7;
+reg signed [DS:0] b0;
+reg signed [DS:0] b1;
+reg signed [DS:0] b2;
+reg signed [DS:0] b3;
+reg signed [DS:0] b4;
+reg signed [DS:0] b5;
+reg signed [DS:0] b6;
+reg signed [DS:0] b7;
 
 reg signed [DS:0] node0_0;
 reg signed [DS:0] node0_1;
@@ -196,30 +221,30 @@ reg signed [DS:0] node1_6;
 reg signed [DS:0] node1_7;
 
 
-assign w0_0 = sdif.sdpara[0][17:0];
-assign w0_1 = sdif.sdpara[1][17:0];
-assign w0_2 = sdif.sdpara[2][17:0];
-assign w0_3 = sdif.sdpara[3][17:0];
-assign w0_4 = sdif.sdpara[4][17:0];
-assign w0_5 = sdif.sdpara[5][17:0];
-assign w0_6 = sdif.sdpara[6][17:0];
-assign w0_7 = sdif.sdpara[7][17:0];
-assign w1_0 = sdif.sdpara[8][17:0];
-assign w1_1 = sdif.sdpara[9][17:0];
-assign w1_2 = sdif.sdpara[10][17:0];
-assign w1_3 = sdif.sdpara[11][17:0];
-assign w1_4 = sdif.sdpara[12][17:0];
-assign w1_5 = sdif.sdpara[13][17:0];
-assign w1_6 = sdif.sdpara[14][17:0];
-assign w1_7 = sdif.sdpara[15][17:0];
-assign b0 = sdif.sdpara[52][17:0];
-assign b1 = sdif.sdpara[53][17:0];
-assign b2 = sdif.sdpara[54][17:0];
-assign b3 = sdif.sdpara[55][17:0];
-assign b4 = sdif.sdpara[56][17:0];
-assign b5 = sdif.sdpara[57][17:0];
-assign b6 = sdif.sdpara[58][17:0];
-assign b7 = sdif.sdpara[59][17:0];
+assign w0_0_w = sdif.sdpara[0][17:0];
+assign w0_1_w = sdif.sdpara[1][17:0];
+assign w0_2_w = sdif.sdpara[2][17:0];
+assign w0_3_w = sdif.sdpara[3][17:0];
+assign w0_4_w = sdif.sdpara[4][17:0];
+assign w0_5_w = sdif.sdpara[5][17:0];
+assign w0_6_w = sdif.sdpara[6][17:0];
+assign w0_7_w = sdif.sdpara[7][17:0];
+assign w1_0_w = sdif.sdpara[8][17:0];
+assign w1_1_w = sdif.sdpara[9][17:0];
+assign w1_2_w = sdif.sdpara[10][17:0];
+assign w1_3_w = sdif.sdpara[11][17:0];
+assign w1_4_w = sdif.sdpara[12][17:0];
+assign w1_5_w = sdif.sdpara[13][17:0];
+assign w1_6_w = sdif.sdpara[14][17:0];
+assign w1_7_w = sdif.sdpara[15][17:0];
+assign b0_w = sdif.sdpara[52][17:0];
+assign b1_w = sdif.sdpara[53][17:0];
+assign b2_w = sdif.sdpara[54][17:0];
+assign b3_w = sdif.sdpara[55][17:0];
+assign b4_w = sdif.sdpara[56][17:0];
+assign b5_w = sdif.sdpara[57][17:0];
+assign b6_w = sdif.sdpara[58][17:0];
+assign b7_w = sdif.sdpara[59][17:0];
 
 always @ (posedge sdif.clk) begin
     ap_ce_reg <= ap_ce;
@@ -237,6 +262,36 @@ always @ (posedge sdif.clk) begin
         ap_return_7_int_reg <= acc_7_V_fu_1509_p2;
     end
 end
+
+always @ (posedge sdif.clk) begin
+    if ((1'b1 == ap_ce_reg)) begin
+        w0_0 <= w0_0_w;
+        w0_1 <= w0_1_w;
+        w0_2 <= w0_2_w;
+        w0_3 <= w0_3_w;
+        w0_4 <= w0_4_w;
+        w0_5 <= w0_5_w;
+        w0_6 <= w0_6_w;
+        w0_7 <= w0_7_w;
+        w1_0 <= w1_0_w;
+        w1_1 <= w1_1_w;
+        w1_2 <= w1_2_w ;
+        w1_3 <= w1_3_w ;
+        w1_4 <= w1_4_w ;
+        w1_5 <= w1_5_w ;
+        w1_6 <= w1_6_w ;
+        w1_7 <= w1_7_w ;
+        b0 <= b0_w ;
+        b1 <= b1_w ;
+        b2 <= b2_w ;
+        b3 <= b3_w ;
+        b4 <= b4_w ;
+        b5 <= b5_w ;
+        b6 <= b6_w ;
+        b7 <= b7_w ;
+    end
+end
+
 
 always @ (posedge sdif.clk) begin
     if (((1'b1 == 1'b1) & (1'b0 == ap_block_pp0_stage0_11001))) begin
