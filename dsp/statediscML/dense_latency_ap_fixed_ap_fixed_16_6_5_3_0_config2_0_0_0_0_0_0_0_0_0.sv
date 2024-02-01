@@ -323,7 +323,6 @@ always @ (posedge sdif.clk) begin
         node1_5 <= tmp_36_reg_1628;
         tmp_3_reg_1568 <= {{r_V_s_fu_110_p2[MS:MS-DS]}};
         node0_0 <= tmp_3_reg_1568;
-        // tmp_reg_1562 <= tmp_fu_1180_p1;
         tmp_s_reg_1573 <= {{r_V_10_0_1_fu_104_p2[MS:MS-DS]}};
         node0_1 <= tmp_s_reg_1573;
         tmp_33_0_5_fu_1410_p4 <= {{r_V_10_0_5_fu_1404_p2[MS:MS-DS]}};
@@ -482,8 +481,6 @@ assign ap_return_5 = return_5;
 assign ap_return_6 = return_6;
 
 assign ap_return_7 = return_7;
-
-
 
 
 endmodule //dense_latency_ap_fixed_ap_fixed_16_6_5_3_0_config2_0_0_0_0_0_0_0_0_0

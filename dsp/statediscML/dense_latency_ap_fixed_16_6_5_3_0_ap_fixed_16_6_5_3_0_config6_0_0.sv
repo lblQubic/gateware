@@ -69,7 +69,8 @@ reg signed [DS:0] w1;
 reg signed [DS:0] w2;
 reg signed [DS:0] w3;
 reg signed [DS:0] b;
-
+reg signed [DS:0] sum_01;
+reg signed [DS:0] sum_23;
 wire signed [DS:0] w0_w;
 wire signed [DS:0] w1_w;
 wire signed [DS:0] w2_w;
@@ -111,6 +112,8 @@ end
 
 always @ (posedge sdif.clk) begin
     if (((1'b0 == ap_block_pp0_stage0_11001) & (1'b1 == 1'b1))) begin
+        sum_01 <= tmp_fu_227_p2;
+        sum_23 <= tmp1_fu_236_p2;
         tmp_5_1_reg_252 <= {{r_V_6_1_fu_73_p2[MS:MS-DS]}};
         node1 <= tmp_5_1_reg_252;
         tmp_5_2_reg_257 <= {{r_V_6_2_fu_70_p2[MS:MS-DS]}};
@@ -124,7 +127,7 @@ end
 
 always @ (*) begin
     if ((1'b0 == ap_ce_reg)) begin
-        return0 = ap_return_int_reg;
+        return0 = res_V_write_assign_fu_241_p2;
     end else if ((1'b1 == ap_ce_reg)) begin
         return0 = res_V_write_assign_fu_241_p2;
     end
@@ -154,7 +157,7 @@ assign r_V_6_fu_71_p0 = data_0_V_read;
 
 assign r_V_6_fu_71_p2 = ($signed(r_V_6_fu_71_p0) * $signed(w0));
 
-assign res_V_write_assign_fu_241_p2 = (tmp1_fu_236_p2 + tmp_fu_227_p2);
+assign res_V_write_assign_fu_241_p2 = (sum_23 + sum_01);
 
 assign tmp1_fu_236_p2 = (tmp2_fu_231_p2 + node2);
 
