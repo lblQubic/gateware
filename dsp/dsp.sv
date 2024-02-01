@@ -331,7 +331,7 @@ endgenerate
 
 generate
 	for (genvar i =0 ;i<NDLO ;i=i+1 ) begin: concat	
-		assign dspif.data_sdbuf[i] = {inference_state[i],13'd0,inference_prob[i]};
+		assign dspif.data_sdbuf[i] = {inference_state[i],13'd0,inference_prob[i]}; //BlockRam SD_result
 	end
 endgenerate
 assign dspif.data_accbuf=data_accbuf;
@@ -343,7 +343,7 @@ assign dspif.addr_accbuf_mon2=addr_accbuf[2];
 assign dspif.addr_accbuf_mon3=addr_accbuf[3];
 
 assign dspif.we_sdbuf=we_sdbuf;
-assign dspif.addr_sdbuf=addr_sdbuf;
+assign dspif.addr_sdbuf=addr_sdbuf;  //BlockRam SD_result address 
 assign dspif.addr_sdbuf_mon0=addr_sdbuf[0];
 assign dspif.addr_sdbuf_mon1=addr_sdbuf[1];
 
