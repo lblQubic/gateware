@@ -95,9 +95,15 @@ generate
 		always @(posedge dspif.clk) begin
 			dspif.addr_sdpara[i] <= paraaddr;
 			sdif[i].sdpara[paraaddr_r3] <= dspif.data_sdpara[i];
+<<<<<<< HEAD
 			// if (parabusy_r3) begin
 			// 	sdif[i].sdpara[paraaddr_r3] <= dspif.data_sdpara[i];
 			// end
+=======
+            //if (parabusy_r3) begin
+            //    sdif[i].sdpara[paraaddr_r3] <= dspif.data_sdpara[i];
+			//end
+>>>>>>> eafcd9455acb35495d5743d5a651398c4a551ec3
 		end
 		//assign sdif[i].weight_bias = dspif.weight_bias[i];
 		//assign sdif[i].normalizer_min = dspif.normalizer_min[i];
