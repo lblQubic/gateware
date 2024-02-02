@@ -15,6 +15,7 @@ module dsp_sim_toplevel#(
     input[ADC_AXIS_DATAWIDTH-1:0] adc[0:NADC-1],
     output[DAC_AXIS_DATAWIDTH-1:0] dac[0:NDAC-1],
     output[ACCBUF_W_DATAWIDTH-1:0] acc_read_data[0:NPROC-1],
+    output[SDBUF_W_DATAWIDTH-1:0] sd_read_data [0:NPROC-1],
     output[ACQBUF_W_DATAWIDTH-1:0] acq_read_data[0:NADC-1]);
 
     ifdsp dspif();
@@ -61,6 +62,10 @@ module dsp_sim_toplevel#(
         aligned_ram #(.DIN_WIDTH(ACCBUF_W_DATAWIDTH), .N_DIN_TO_DOUT(1), .DOUT_ADDR_WIDTH(ACCBUF_W_ADDRWIDTH), .READ_LATENCY(1))
             acc_buf(.clk(clk), .write_data(dspif.data_accbuf[i]), .write_addr(dspif.addr_accbuf[i]),
                 .write_enable(dspif.we_accbuf[i]), .read_addr(buf_read_addr[ACCBUF_W_ADDRWIDTH-1:0]), .read_data(acc_read_data[i]));
+
+        aligned_ram #(.DIN_WIDTH(SDBUF_W_DATAWIDTH), .N_DIN_TO_DOUT(1), .DOUT_ADDR_WIDTH(SDBUF_W_ADDRWIDTH), .READ_LATENCY(1))
+            sd_buf(.clk(clk), .write_data(dspif.data_sdbuf[i]), .write_addr(dspif.addr_sdbuf[i]),
+                .write_enable(dspif.we_sdbuf[i]), .read_addr(buf_read_addr[SDBUF_W_ADDRWIDTH-1:0]), .read_data(sd_read_data[i]));
 
          assign sdpara_wen = (proc_write_sel == i) & (mem_write_sel == 7) & mem_write_en;
         aligned_ram #(.DIN_WIDTH(32), .N_DIN_TO_DOUT(SDBUF_R_DATAWIDTH/32), .DOUT_ADDR_WIDTH(SDBUF_R_ADDRWIDTH), .READ_LATENCY(2))

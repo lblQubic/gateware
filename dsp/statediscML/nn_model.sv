@@ -70,9 +70,7 @@ reg    ap_enable_reg_pp0_iter15;
 reg    ap_enable_reg_pp0_iter16;
 reg    ap_enable_reg_pp0_iter17;
 reg    ap_enable_reg_pp0_iter18;
-//reg    ap_enable_reg_pp0_iter19;
-
-
+reg    ap_enable_reg_pp0_iter19;
 
 reg    ap_idle_pp0;
 reg    input_2_V_ap_vld_in_sig;
@@ -216,7 +214,7 @@ wire   [DS:0] call_ret3_relu_ap_fixed_16_6_5_3_0_ap_fixed_16_6_5_3_0_relu_config
 reg    grp_sigmoid_ap_fixed_16_6_5_3_0_ap_fixed_16_6_5_3_0_sigmoid_config7_s_fu_85_ap_start_reg;
 reg    ap_block_pp0_stage0_01001;
 reg   [0:0] ap_NS_fsm;
-reg    ap_idle_pp0_0to17;
+reg    ap_idle_pp0_0to18;
 reg    ap_reset_idle_pp0;
 wire    ap_enable_pp0;
 
@@ -241,7 +239,7 @@ ap_enable_reg_pp0_iter15 = 1'b0;
 ap_enable_reg_pp0_iter16 = 1'b0;
 ap_enable_reg_pp0_iter17 = 1'b0;
 ap_enable_reg_pp0_iter18 = 1'b0;
-//ap_enable_reg_pp0_iter19 = 1'b0;
+ap_enable_reg_pp0_iter19 = 1'b0;
 
 
 input_2_V_preg = 0;
@@ -449,15 +447,15 @@ always @ (posedge sdif.clk) begin
     end
 end
 
-//always @ (posedge sdif.clk) begin
-//    if (rst == 1'b1) begin
-//        ap_enable_reg_pp0_iter19 <= 1'b0;
-//    end else begin
-//        if ((1'b0 == ap_block_pp0_stage0_subdone)) begin
-//            ap_enable_reg_pp0_iter19 <= ap_enable_reg_pp0_iter18;
-//        end
-//    end
-//end
+always @ (posedge sdif.clk) begin
+   if (rst == 1'b1) begin
+       ap_enable_reg_pp0_iter19 <= 1'b0;
+   end else begin
+       if ((1'b0 == ap_block_pp0_stage0_subdone)) begin
+           ap_enable_reg_pp0_iter19 <= ap_enable_reg_pp0_iter18;
+       end
+   end
+end
 
 always @ (posedge sdif.clk) begin
     if (rst == 1'b1) begin
@@ -609,7 +607,7 @@ always @ (posedge sdif.clk) begin
 end
 
 always @ (*) begin
-    if (((1'b0 == ap_block_pp0_stage0_11001) & (ap_enable_reg_pp0_iter18 == 1'b1))) begin
+    if (((1'b0 == ap_block_pp0_stage0_11001) & (ap_enable_reg_pp0_iter19 == 1'b1))) begin
         done = 1'b1;
     end else begin
         done = 1'b0;
@@ -625,7 +623,7 @@ always @ (*) begin
 end
 
 always @ (*) begin
-    if (((ap_enable_reg_pp0_iter18 == 1'b0) & (ap_enable_reg_pp0_iter17 == 1'b0) & (ap_enable_reg_pp0_iter16 == 1'b0) & (ap_enable_reg_pp0_iter15 == 1'b0) & (ap_enable_reg_pp0_iter14 == 1'b0) & (ap_enable_reg_pp0_iter13 == 1'b0) & (ap_enable_reg_pp0_iter12 == 1'b0) & (ap_enable_reg_pp0_iter11 == 1'b0) & (ap_enable_reg_pp0_iter10 == 1'b0) & (ap_enable_reg_pp0_iter9 == 1'b0) & (ap_enable_reg_pp0_iter8 == 1'b0) & (ap_enable_reg_pp0_iter7 == 1'b0) & (ap_enable_reg_pp0_iter6 == 1'b0) & (ap_enable_reg_pp0_iter5 == 1'b0) & (ap_enable_reg_pp0_iter4 == 1'b0) & (ap_enable_reg_pp0_iter3 == 1'b0) & (ap_enable_reg_pp0_iter2 == 1'b0) & (ap_enable_reg_pp0_iter1 == 1'b0) & (ap_enable_reg_pp0_iter0 == 1'b0))) begin
+    if (((ap_enable_reg_pp0_iter19 == 1'b0) & (ap_enable_reg_pp0_iter18 == 1'b0) & (ap_enable_reg_pp0_iter17 == 1'b0) & (ap_enable_reg_pp0_iter16 == 1'b0) & (ap_enable_reg_pp0_iter15 == 1'b0) & (ap_enable_reg_pp0_iter14 == 1'b0) & (ap_enable_reg_pp0_iter13 == 1'b0) & (ap_enable_reg_pp0_iter12 == 1'b0) & (ap_enable_reg_pp0_iter11 == 1'b0) & (ap_enable_reg_pp0_iter10 == 1'b0) & (ap_enable_reg_pp0_iter9 == 1'b0) & (ap_enable_reg_pp0_iter8 == 1'b0) & (ap_enable_reg_pp0_iter7 == 1'b0) & (ap_enable_reg_pp0_iter6 == 1'b0) & (ap_enable_reg_pp0_iter5 == 1'b0) & (ap_enable_reg_pp0_iter4 == 1'b0) & (ap_enable_reg_pp0_iter3 == 1'b0) & (ap_enable_reg_pp0_iter2 == 1'b0) & (ap_enable_reg_pp0_iter1 == 1'b0) & (ap_enable_reg_pp0_iter0 == 1'b0))) begin
         ap_idle_pp0 = 1'b1;
     end else begin
         ap_idle_pp0 = 1'b0;
@@ -633,10 +631,10 @@ always @ (*) begin
 end
 
 always @ (*) begin
-    if (((ap_enable_reg_pp0_iter17 == 1'b0) & (ap_enable_reg_pp0_iter16 == 1'b0) & (ap_enable_reg_pp0_iter15 == 1'b0) & (ap_enable_reg_pp0_iter14 == 1'b0) & (ap_enable_reg_pp0_iter13 == 1'b0) & (ap_enable_reg_pp0_iter12 == 1'b0) & (ap_enable_reg_pp0_iter11 == 1'b0) & (ap_enable_reg_pp0_iter10 == 1'b0) & (ap_enable_reg_pp0_iter9 == 1'b0) & (ap_enable_reg_pp0_iter8 == 1'b0) & (ap_enable_reg_pp0_iter7 == 1'b0) & (ap_enable_reg_pp0_iter6 == 1'b0) & (ap_enable_reg_pp0_iter5 == 1'b0) & (ap_enable_reg_pp0_iter4 == 1'b0) & (ap_enable_reg_pp0_iter3 == 1'b0) & (ap_enable_reg_pp0_iter2 == 1'b0) & (ap_enable_reg_pp0_iter1 == 1'b0) & (ap_enable_reg_pp0_iter0 == 1'b0))) begin
-        ap_idle_pp0_0to17 = 1'b1;
+    if (((ap_enable_reg_pp0_iter18 == 1'b0) & (ap_enable_reg_pp0_iter17 == 1'b0) & (ap_enable_reg_pp0_iter16 == 1'b0) & (ap_enable_reg_pp0_iter15 == 1'b0) & (ap_enable_reg_pp0_iter14 == 1'b0) & (ap_enable_reg_pp0_iter13 == 1'b0) & (ap_enable_reg_pp0_iter12 == 1'b0) & (ap_enable_reg_pp0_iter11 == 1'b0) & (ap_enable_reg_pp0_iter10 == 1'b0) & (ap_enable_reg_pp0_iter9 == 1'b0) & (ap_enable_reg_pp0_iter8 == 1'b0) & (ap_enable_reg_pp0_iter7 == 1'b0) & (ap_enable_reg_pp0_iter6 == 1'b0) & (ap_enable_reg_pp0_iter5 == 1'b0) & (ap_enable_reg_pp0_iter4 == 1'b0) & (ap_enable_reg_pp0_iter3 == 1'b0) & (ap_enable_reg_pp0_iter2 == 1'b0) & (ap_enable_reg_pp0_iter1 == 1'b0) & (ap_enable_reg_pp0_iter0 == 1'b0))) begin
+        ap_idle_pp0_0to18 = 1'b1;
     end else begin
-        ap_idle_pp0_0to17 = 1'b0;
+        ap_idle_pp0_0to18 = 1'b0;
     end
 end
 
@@ -649,7 +647,7 @@ always @ (*) begin
 end
 
 always @ (*) begin
-    if (((nn_start == 1'b0) & (ap_idle_pp0_0to17 == 1'b1))) begin
+    if (((nn_start == 1'b0) & (ap_idle_pp0_0to18 == 1'b1))) begin
         ap_reset_idle_pp0 = 1'b1;
     end else begin
         ap_reset_idle_pp0 = 1'b0;

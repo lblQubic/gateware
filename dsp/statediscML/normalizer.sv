@@ -42,23 +42,21 @@ assign minimumI_w = sdif.sdpara[65];
 assign minimumQ_w = sdif.sdpara[66];
 assign NN_startTrigger = startNN;
 
-assign normalized_output = {normalizedQ[35:18],normalizedI[35:18]};
+assign normalized_output = {normalizedI[35:18],normalizedQ[35:18]};
 
 reg signed [STATEDISC_IN_DATAWIDTH-1:0] sumI_r = 0;
 reg signed [STATEDISC_IN_DATAWIDTH-1:0] sumQ_r = 0;
 
 always @(posedge sdif.clk) begin  
-    dataI <= accumulated_input[31:0];
+    dataI <= accumulated_input[63:32];
     minimumI <= minimumI_w;
     sumI_r <= dataI + minimumI;
-    // sumI_r <= $signed(accumulated_input[31:0]) + $signed(minimumI);
     sumI <= sumI_r; 
     normalizedI <= sumI << 11;
     
-    dataQ <= accumulated_input[63:32];
+    dataQ <= accumulated_input[31:0];
     minimumQ <= minimumQ_w;
     sumQ_r <= dataQ + minimumQ;
-    // sumQ_r <= $signed(accumulated_input[63:32]) + $signed(minimumQ);
     sumQ <= sumQ_r;
     normalizedQ <= sumQ << 11;
 end
