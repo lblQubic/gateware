@@ -99,10 +99,11 @@ generate
             //    sdif[i].sdpara[paraaddr_r3] <= dspif.data_sdpara[i];
 			//end
 		end
-		//assign sdif[i].weight_bias = dspif.weight_bias[i];
-		//assign sdif[i].normalizer_min = dspif.normalizer_min[i];
 	end
 endgenerate
+//assign sdif[i].weight_bias = dspif.weight_bias[i];
+//assign sdif[i].normalizer_min = dspif.normalizer_min[i];
+
 
 assign dspif.shotcnt=currentshotcnt;
 assign dspif.lastshotdone=lastshotdone;
