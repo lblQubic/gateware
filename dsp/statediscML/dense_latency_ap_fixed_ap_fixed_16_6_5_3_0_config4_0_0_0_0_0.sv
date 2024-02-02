@@ -68,14 +68,14 @@ wire    ap_block_state1_pp0_stage0_iter0;
 wire    ap_block_state2_pp0_stage0_iter1;
 wire    ap_block_state3_pp0_stage0_iter2;
 wire    ap_block_pp0_stage0_11001;
-wire  signed [DS:0] data_0_V_read_2_reg_4000; 
-wire  signed [DS:0] data_1_V_read_2_reg_4001; 
-wire  signed [DS:0] data_2_V_read_2_reg_4002; 
-wire  signed [DS:0] data_3_V_read_2_reg_4003; 
-wire  signed [DS:0] data_4_V_read_2_reg_4009;
-wire  signed [DS:0] data_5_V_read_2_reg_4003;
-wire  signed [DS:0] data_6_V_read_2_reg_3995;
-wire  signed [DS:0] data_7_V_read11_reg_3987;
+reg  signed [DS:0] data_0_V_read_2_reg_4000; 
+reg  signed [DS:0] data_1_V_read_2_reg_4001; 
+reg  signed [DS:0] data_2_V_read_2_reg_4002; 
+reg  signed [DS:0] data_3_V_read_2_reg_4003; 
+reg  signed [DS:0] data_4_V_read_2_reg_4009;
+reg  signed [DS:0] data_5_V_read_2_reg_4003;
+reg  signed [DS:0] data_6_V_read_2_reg_3995;
+reg  signed [DS:0] data_7_V_read11_reg_3987;
 reg  signed [DS:0] tmp_1_reg_4017;
 reg  signed [DS:0] tmp_17_0_1_reg_4022;
 reg  signed [DS:0] tmp_17_0_2_reg_4027;
@@ -378,16 +378,6 @@ always @ (posedge sdif.clk) begin
     end
 end
 
-assign data_0_V_read_2_reg_4000 = data_0_V_read;
-assign data_1_V_read_2_reg_4001 = data_1_V_read;
-assign data_2_V_read_2_reg_4002 = data_2_V_read;
-assign data_3_V_read_2_reg_4003 = data_3_V_read;
-assign data_4_V_read_2_reg_4009 = data_4_V_read;
-assign data_5_V_read_2_reg_4003 = data_5_V_read;
-assign data_6_V_read_2_reg_3995 = data_6_V_read;
-assign data_7_V_read11_reg_3987 = data_7_V_read;
-
-
 always @(posedge sdif.clk) begin
     if((1'b1 == ap_ce)) begin
         w0_0 <= w0_0_w;
@@ -427,6 +417,16 @@ always @(posedge sdif.clk) begin
         b2 <= b2_w;
         b3 <= b3_w;
     end
+end
+always @ (posedge sdif.clk) begin
+        data_0_V_read_2_reg_4000 <= data_0_V_read;
+        data_1_V_read_2_reg_4001 <= data_1_V_read;
+        data_2_V_read_2_reg_4002 <= data_2_V_read;
+        data_3_V_read_2_reg_4003 <= data_3_V_read;
+        data_4_V_read_2_reg_4009 <= data_4_V_read;
+        data_5_V_read_2_reg_4003 <= data_5_V_read;
+        data_6_V_read_2_reg_3995 <= data_6_V_read;
+        data_7_V_read11_reg_3987 <= data_7_V_read;
 end
 
 always @ (posedge sdif.clk) begin

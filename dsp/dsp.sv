@@ -96,7 +96,7 @@ generate
 			dspif.addr_sdpara[i] <= paraaddr;
 			sdif[i].sdpara[paraaddr_r3] <= dspif.data_sdpara[i];
 			// if (parabusy_r3) begin
-				// sdif[i].sdpara[paraaddr_r3] <= dspif.data_sdpara[i];
+			// 	sdif[i].sdpara[paraaddr_r3] <= dspif.data_sdpara[i];
 			// end
 		end
 		//assign sdif[i].weight_bias = dspif.weight_bias[i];
